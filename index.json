@@ -249,6 +249,35 @@
         "en": "Installing the package is not enough; something else must be set up first: the game itself or a mod loader (BepInEx), NapCat, VTube Studio, a Python environment, model weights, a game server."
       }
     },
+    "requires-key": {
+      "label": {
+        "zh": "需要密钥",
+        "en": "Needs a key"
+      },
+      "hint": {
+        "zh": "要先申请第三方账号或 API Key 才能用。",
+        "en": "Needs a third-party account or API key first."
+      },
+      "when": {
+        "zh": "要用户自己去申请第三方服务的账号或 API Key(比如搜索、生图接口)。只填模型端点的密钥不算,那是供应商的事。",
+        "en": "The user must sign up for a third-party account or API key (such as a search or image API). The model endpoint key does not count; that belongs to the provider."
+      }
+    },
+    "experimental": {
+      "style": "notice",
+      "label": {
+        "zh": "实验性",
+        "en": "Experimental"
+      },
+      "hint": {
+        "zh": "作者标明还在测试，功能和兼容性可能变化。",
+        "en": "Marked as still in testing; features and compatibility may change."
+      },
+      "when": {
+        "zh": "作者自己标明还在测试:功能没定型、只在少数场景验证过,或兼容性有待确认。",
+        "en": "The author marks it as still in testing: features not settled, verified only in a few setups, or compatibility unconfirmed."
+      }
+    },
     "internal-state": {
       "label": {
         "zh": "内部状态",
@@ -373,8 +402,10 @@
       "addTags": [
         "im",
         "qq",
-        "external-setup"
-      ]
+        "external-setup",
+        "experimental"
+      ],
+      "supersededBy": "cortico-world-qq-final"
     },
     "cortico-world-life-alont1": {
       "addTags": [
@@ -395,7 +426,8 @@
     },
     "cortico-world-websearch": {
       "addTags": [
-        "internet"
+        "internet",
+        "requires-key"
       ]
     },
     "cortico-world-affinity-alont1": {
@@ -486,7 +518,8 @@
     },
     "cortico-world-image": {
       "addTags": [
-        "creative"
+        "creative",
+        "requires-key"
       ]
     },
     "cortico-world-sisterdrive": {
@@ -509,7 +542,8 @@
     "cortico-world-buckshot": {
       "addTags": [
         "game",
-        "external-setup"
+        "external-setup",
+        "experimental"
       ]
     },
     "cortico-world-pvz": {
