@@ -153,7 +153,7 @@
 
 ## 进度与分期
 
-1. **本仓库**:本地已有 `index.json`(22 个标签、60 个公开包的覆盖)、TAGS.md、本文档、生成脚本。待做:在 GitHub 建仓;Action(扫 npm 生成 `catalog.json` 与 `assets/`、粘住名单、冒名排查、开帖与统计);两张 issue 表单。
+1. **本仓库**:本地已有 `index.json`(22 个标签、58 个公开包的覆盖;deepseek 与 coo 两个供应商没有贴切的标签)、TAGS.md、本文档、生成脚本。待做:在 GitHub 建仓;Action(扫 npm 生成 `catalog.json` 与 `assets/`、粘住名单、冒名排查、开帖与统计);两张 issue 表单。
 2. **控制台前端**:已在分支上实现,本文「控制台」一节都已做,另有预览页。待做:「反馈标签」链接。
 3. **控制台服务端**:已做历史版本兼容性。待做:读 `index.json` / `catalog.json` 并合进搜索结果(标签、作者声明、官方、推荐、评分、图标、截图、author、维护者、说明)、过滤拉黑、缓存索引、投票接口与设备码登录、`check:extension` 的标签检查、模板与文档。
 4. **GitHub App 与投票**:建 App、开 Discussions 与分类、评论区方案。
