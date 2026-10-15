@@ -1,38 +1,40 @@
-# Cortico 扩展市场升级:设计草案
+# Cortico 扩展市场升级:设计
 
-状态:控制台前端已在 Cortico 分支 `feat/extension-market-index` 上实现(本地,未推);服务端读索引、Action 与 GitHub 仓库未做。本仓库尚未推到 GitHub。
+状态:控制台前端已在 Cortico 分支 `feat/extension-market-index` 上实现(本地,未推);服务端只做了历史版本兼容性,其余未做;本仓库在本地,尚未推到 GitHub。
 
 ## 目标与约束
 
-- 给控制台扩展市场加上标签分类、官方推荐、拉黑、官方风险标注、评论与评分。
-- 扩展本身照旧发布在 npm、从 npm 安装。
+- 控制台扩展市场加上:标签分类、官方与推荐、拉黑、提示与警示标注、喜欢 / 不喜欢与评论。
+- 扩展照旧发布在 npm、从 npm 安装。
 - 不自建服务。市场数据放 GitHub,假定下游开发者连得上 GitHub。
 - 市场新增的文字只做中文和英文;控制台其他界面语言下显示英文。
-- GitHub 连不上时,市场退回现在的样子(npm 搜索 + 下载量),安装不受影响。
+- GitHub 连不上时,市场退回纯 npm(搜索结果 + 下载量),安装不受影响。
 
 ## 组成
 
 | 部分 | 位置 | 谁写 | 内容 |
 |---|---|---|---|
 | 扩展包 | npm | 作者 | 代码、package.json(含 `cortico` 块)、README |
-| `index.json` | 本仓库 | 官方,走 PR | 标签词表、官方推荐、拉黑、对单个包的覆盖 |
-| `catalog.json` | 本仓库 | Action 定时生成 | 每个包整理好的信息、图标截图地址、下载量、讨论帖统计 |
+| `index.json` | 本仓库 | 官方,走 PR | 标签词表、官方账号与名字、推荐、拉黑、对单个包的覆盖 |
+| `catalog.json` | 本仓库 | Action 定时生成 | 每个包的汇总信息、作者声明的标签、粘住名单、下载量、讨论帖统计 |
 | `assets/` | 本仓库 | Action 定时生成 | 从 npm 包里解压出的图标和截图 |
-| `TAGS.md` | 本仓库 | `scripts/render-tags.mjs` 生成 | 给作者和 coding agent 看的标签说明 |
-| 讨论区 | 本仓库 Discussions | 用户 | 每个包一个帖,回复是评论,首楼 👍/👎 是评分 |
-| 控制台 | Cortico | | 读 raw 上的 `index.json` 与 `catalog.json`,详情里嵌 giscus |
+| `TAGS.md` | 本仓库 | `scripts/render-tags.mjs` 按 `index.json` 生成 | 给作者和 coding agent 看的标签说明 |
+| Discussions | 本仓库 | 用户 | 每个包一帖:回复是评论,首楼 reaction 是喜欢 / 不喜欢 |
+| Issues | 本仓库 | 任何人 | 标签申请、新增标签提案(issue 表单) |
+| GitHub App「Cortico 扩展市场」 | GitHub | 官方建 | 只有 Discussions 读写权限,只装在本仓库;控制台用它代用户投票 |
+| 控制台 | Cortico | | 服务端读索引并合进搜索结果;页面见「控制台」 |
 
-控制台读 `raw.githubusercontent.com`,不调 GitHub API(匿名每 IP 每小时 60 次)。raw 文件有 5 分钟 CDN 缓存。
+控制台读 `raw.githubusercontent.com` 上的 `index.json` 与 `catalog.json`,不调 GitHub API(匿名每 IP 每小时 60 次)。raw 文件有 5 分钟 CDN 缓存。
 
 ## 每个扩展的信息
 
 | 来源 | 信息 |
 |---|---|
-| 作者(package.json) | 包名、版本、简介、作者、许可证、主页 / 仓库 / 问题链接、`engines`、依赖、`os`、`funding`、README |
+| 作者(package.json) | 包名、版本、简介、author、许可证、主页 / 仓库 / 问题链接、`engines`、依赖、`os`、`funding`、README |
 | 作者(`cortico` 块) | `kind`、`api`、`displayName`、`icon`、面板产物;新增 `tags`、`locales`、`screenshots` |
-| 官方(`index.json`) | 是否官方发布(按 npm 维护者)、是否推荐及推荐语、是否拉黑、增删标签及理由、「已被 X 取代」 |
-| Action(`catalog.json`) | 上面作者字段的汇总、图标与截图地址、下载量(累计 / 30 天 / 7 天)、讨论帖编号、👍 / 👎 数、评论数 |
-| 控制台现场算 | 已装、待重启、有更新、契约兼容 |
+| 官方(`index.json`) | 是否推荐及推荐语、是否拉黑、增删标签及理由(`note`)、「已被 X 取代」 |
+| Action(`catalog.json`) | 上面作者字段的汇总、npm 维护者、是否官方、作者声明的标签、粘住名单、图标与截图地址、下载量(累计 / 30 天 / 7 天)、讨论帖编号、喜欢 / 不喜欢 / 评论数 |
+| 控制台现场算 | 已装、待重启、有更新、契约兼容(当前版本与每个历史版本) |
 
 作者侧新增字段,全部可选,不改契约版本:
 
@@ -47,27 +49,33 @@
 }
 ```
 
-`locales` 只认 `zh` 与 `en`,写了的语言覆盖顶层的 `displayName` 与 `description`。
-只能在某些系统上跑用 npm 标准字段 `os`。
+`locales` 只认 `zh` 与 `en`,写了的语言覆盖顶层的 `displayName` 与 `description`。只能在某些系统上跑用 npm 标准字段 `os`。
 
 ## 标签
 
-词表与每个标签的用法见 [TAGS.md](TAGS.md)。要点:
+词表与每个标签的用法见 [TAGS.md](TAGS.md)。每个标签有两段文字:`when` 给作者与 agent 判断该不该贴,`hint` 是用户悬停看到的说明。
 
-- 16 个作者标签:im、qq、streaming、game、browser、video、voice、computer-use、real-world、apps、memory、companion、creative、diagnostics、local、external-setup。apps 只在其他标签都不适用时用。
-- 标签分三级。普通(灰色)作者可加可去。提示(黄色:internal-state、requires-extension、high-cost)作者可加,自己加的可去,官方加的去不掉。警示(红色:unsafe、sensitive-data、unofficial-api)作者可加,任一版本声明过就记入粘住名单,作者去不掉。官方三级都能加能去。requires-extension 不打给 Bot 扩展。
-- 不设数量上限。作者贴错,官方在 `overrides` 里改。
-- 每个标签两段文字:`when` 给作者与 agent 判断该不该贴,`hint` 是用户悬停看到的说明。
+**三级,级别只看词表里的 `style`:**
+
+| 级别 | 标签 | 作者 | 官方 |
+|---|---|---|---|
+| 普通(灰色) | 即时通讯、QQ、直播、游戏、浏览器、视频、语音、电脑操作、现实环境、应用程序、记忆、陪伴、创作、诊断、本地模型、需额外安装 | 可加可去 | 可加可去 |
+| 提示(黄色) | 内部状态、依赖其他扩展、高消耗 | 可加;自己加的可去,官方加的去不掉 | 可加可去 |
+| 警示(红色) | 不安全、读取隐私、非官方接口 | 可加;任一版本声明过就记入粘住名单,作者去不掉 | 可加可去 |
+
 - 一个包的标签 = 作者当前版本 `cortico.tags` 中词表内的标签 ∪ `keywords` 中属于词表的词 ∪ 粘住名单里的警示标签 ∪ 官方 `addTags` − 官方 `removeTags`。官方的去优先。
 - 粘住名单由 Action 写在 `catalog.json`,扫描时只增不减;只有官方 `removeTags` 能撤销。
-- 详情里「标注」一块每行写明来源:作者声明或官方标注。
-- 现有 60 个公开包里 58 个已在 `overrides` 里打好标签;`cortico-provider-deepseek` 与 `cortico-provider-coo` 是普通云端模型供应商,没有贴切的标签。
+- 不设数量上限。应用程序只在其他标签都不适用时用;依赖其他扩展不打给 Bot 扩展。
+- 记忆、陪伴的说明带一句:不推荐通过 World 管理记忆和任何内部状态,请写 Bot 扩展。诊断的说明带一句:如无必要不推荐通过 World 做,请发布单独的工具。
+- 新增词表标签:至少 3 个已发布的扩展会用到时,提 PR 改 `index.json`,名称与说明给中英两种。
+- 黄色与红色是扩展页自己的固定色,只分明暗两档,不跟控制台配色方案走:各配色方案的 `--warn` 不全是黄色。
+- 排序各处一致:普通、黄色、红色,组内按词表顺序(标签条里按出现次数)。
 
 ## 官方管理(`index.json`)
 
 ```jsonc
 {
-  "official": { "maintainers": ["phantivia"] },
+  "official": { "maintainers": ["phantivia"], "names": ["Pal AI Lab", "Cortico", "Coopanion"] },
   "tags": { "...": "见 TAGS.md" },
   "featured": [
     { "name": "cortico-world-bilibili", "note": { "zh": "...", "en": "..." } }
@@ -87,52 +95,77 @@
 }
 ```
 
-- **官方发布**:npm 维护者里有 `official.maintainers` 列出的账号就算官方发布,卡片标题旁是实心的「官方」徽标,标签条最前面有「官方」筛选。按维护者判断,不按发布者:用 GitHub Actions 发布的包发布者都显示为 GitHub Actions。
-- **推荐**:按 `featured` 的顺序显示在市场顶部,卡片加角标。
-- **拉黑**:被拉黑的包,或被拉黑的 npm 发布者发的所有包,不在市场里出现。手动按包名安装时提示拉黑原因,但不拦。已装的包不隐藏,在已安装列表里标红并显示原因。控制台把最近一次读到的 `index.json` 缓存在扩展目录里,连不上 GitHub 时继续按缓存拦。
-- **标注的 `note`**:写这个包为什么被标,显示在详情和安装确认里。
+- **官方**:npm 维护者里有 `official.maintainers` 列出的账号就算官方(现在 phantivia,14 个包)。按维护者判断,不按发布者:用 GitHub Actions 发布的包,发布者都显示为 GitHub Actions。
+- **推荐**:`featured` 里的包;排序「按推荐」把它们排在前面。
+- **冒名排查**:author 谁都能写,npm 账号只有本人能用。Action 把 author 或 displayName 里带 `official.names`、但维护者不在 `official.maintainers` 里的包列出来,官方人工看,确认冒名就拉黑。
+- **拉黑**:被拉黑的包,或被拉黑的 npm 发布者发的所有包,不在市场里出现。手动按包名安装时提示拉黑原因,但不拦。已装的不隐藏,在已安装卡片上标红写出原因。控制台把最近一次读到的 `index.json` 缓存在扩展目录里,连不上 GitHub 时继续按缓存拦。
+- **`note`**:官方说明这个包为什么带某个标注,显示在详情「标注」里(前缀「官方说明」)和安装确认里。
 
-## 评论与评分
+## 标签申请
+
+- 作者改自己的普通标签与自己声明的提示标签,发新版本即可,不用申请。
+- 要去掉官方加的标签,或撤销声明过的警示标签,在本仓库用「标签申请」issue 表单:包名、要加的、要去的、理由、证据。谁都能提(用户也可以报),官方审核后改 `index.json`,PR 关联 issue,结论回在 issue。
+- Action 给新 issue 贴出这个包现在的标签与来源。
+- 新增词表标签用另一张「新增标签提案」表单。
+- 入口:TAGS.md 一节;`check:extension` 发现官方改过这个包的标签时附申请链接;控制台详情的标签行加「反馈标签」链接,打开预填包名的表单(待做)。
+
+## 喜欢 / 不喜欢与评论
 
 - 本仓库开 Discussions,建一个 Announcement 格式的分类:只有维护者能开帖,任何人能回复。Action 发现 npm 上有新包就开帖,标题是包名。
-- 评分是首楼的喜欢 / 不喜欢两种 reaction;评论是帖子回复。
-- 直接投票(已定):建 GitHub App「Cortico 扩展市场」,只有 Discussions 读写权限,只装在本仓库。用户第一次投票时控制台走设备码登录(github.com/login/device),由本机 Cortico 服务端完成,不需要服务器和 client secret。令牌只能动装了这个 App 的仓库,存在本机扩展目录;服务端代用户调 GraphQL 加 / 撤 reaction。接口 `POST /api/extensions/vote { name, vote: "up" | "down" | null }`,回应带最新的 up / down / comments 与本机账号的 `mine`。
-- 一人一票:同一账号对同一帖的同种 reaction,GitHub 只记一次;喜欢和不喜欢二选一由控制台保证(改票先撤旧的)。绕过控制台两种都点了的账号,Action 统计时算作不投票。
+- 喜欢 / 不喜欢是首楼的两种 reaction,评论是帖子回复。
+- **直接投票用 GitHub App**:用户第一次投票时,控制台走设备码登录(github.com/login/device),由本机 Cortico 服务端完成,不需要服务器和 client secret。令牌只能动装了这个 App 的仓库,存在本机扩展目录;服务端代用户调 GraphQL 加 / 撤 reaction。接口 `POST /api/extensions/vote { name, vote: "up" | "down" | null }`,回应带最新的 up / down / comments 与本机账号的 `mine`。
+- **一人一票**:同一账号对同一帖的同种 reaction,GitHub 只记一次;喜欢和不喜欢二选一由控制台保证(改票先撤旧的)。绕过控制台两种都点的账号,Action 统计时算作不投票。
 - 卡片上的数字和「按评分排序」用 `catalog.json` 里 Action 取好的数;投票后用服务端回的实时数。
-- 评论区(待定):继续嵌 giscus,或用同一个 App 的令牌自己渲染(样式一致,也去掉对 giscus.app 的依赖)。用 giscus 时投票和评论要分别授权两个 App。
-- 审核用 GitHub 自带的隐藏、删除、锁帖、组织级屏蔽。
-- 卡片署名是 package.json 的 author,悬停显示 `npm: @账号`(维护者;发布者是 GitHub Actions 时改用维护者)。
-- 冒名排查:author 谁都能写,npm 账号只有本人能用。Action 把 author 或 displayName 里带官方名字(`index.json` 的 `official.names`)、但维护者不在 `official.maintainers` 里的包列出来,官方人工看,确认冒名就拉黑。
+- 评论区(待定):继续嵌 giscus,或用同一个 App 的令牌在控制台里自己渲染(样式一致,只授权一次,不依赖 giscus.app)。
+- 审核用 GitHub 自带的隐藏、删除、锁帖与组织级屏蔽。
 
 ## 控制台
 
-- **卡片**:见预案页「控制台」一节。
-- **标签颜色**:作者标签中性色;警示标签(unsafe、sensitive-data、unofficial-api)红色,提示标签(internal-state)黄色。这两种颜色不跟配色方案走,只分明暗两档,因为各配色方案的 `--warn` 不全是黄色。选中的筛选标签用实心填充并排到最前。
-- **市场顶部**:「推荐」一行,下面是标签筛选条;排序加「推荐」「评分」。
-- **详情抽屉**:两栏。左栏是简介、标签、官方标注与理由、截图、紧凑的信息表与历史版本;右栏是 giscus 评论区。窄屏叠成一栏。
-- **安装确认**:有官方警示标签时列出标签、悬停说明与 `note`。
-- 列表仍以 npm 搜索结果为底,用 `catalog.json` 补全;刚发布、Action 还没扫到的包也能出现。
+列表以 npm 搜索结果为底,用 `catalog.json` 补全;刚发布、Action 还没扫到的包也能出现。
+
+- **分页标签**:World 扩展、供应商扩展、Bot 模板,带与左栏对应页面同一个图标,下面一行说明;窄屏只留图标和名称。
+- **已安装**:标题后一行小字「安装位置」;卡片比市场卡片紧凑;World 分页提示「在左侧的 World 总览页面加载或停用 World」;被拉黑的标红。
+- **搜索区**:
+  - 工具条:搜索、排序(推荐 / 名字 / 最近发布 / 下载量 / 评分)、每页显示、清除筛选、刷新。
+  - 高级搜索展开时是工具条下面一行:作者(author、发布者或维护者)、关键字、许可证、发布时间、近 30 天下载下限。
+  - 开关行:高级搜索、npm 源(下拉,内含输入框、保存与说明);右边隐藏已安装、隐藏带警示标签的扩展。
+  - 标签条:「官方」开关在最前,然后是选中的标签,其余按普通、黄色、红色分组,组内按出现次数;选中的实心填充。
+  - 清除筛选清搜索词、标签、官方与高级搜索,不动两个隐藏开关。
+- **卡片**:
+  - 页头固定两行:标题一行(过长截断);第二行 author 与版本,后跟「官方」「推荐」徽标。没填 author 时显示 `npm@账号`。
+  - 右上角近 30 天下载量。
+  - 简介两行、标签。
+  - 底部一排:喜欢、不喜欢(主题色上下三角,点了直接投,再点撤回,投过的常亮)、评论数(点开详情并滚到评论区)、最近更新(最新版本发布日期,今年只写月-日,靠右)。
+  - 许可证不上卡片。
+- **悬停**:标签、「官方」「推荐」、author(显示 `npm: @账号`)、下载量(累计 / 30 天 / 7 天)、日期(完整日期)有悬停;标题、喜欢、不喜欢、评论数没有。浮层宽 200–360px,多行排版。
+- **详情**:
+  - 页头:64px 头像、名称、`包名@版本`、徽标;右边安装按钮,当前版本不兼容时原因写在按钮下;按钮下面是「历史版本」下拉,每个版本按自己的 manifest 判断兼容,不兼容的显示「不兼容」并禁用,原因写在那一行下。
+  - 下面一排外链:npm 包页面、源代码仓库、项目主页、问题反馈。
+  - 两栏:左栏简介、标签、「标注」(提示与警示标签逐行写明来源:作者声明或官方标注,再加官方说明)、截图、信息表;右栏评论区与喜欢 / 不喜欢 / 评论数。窄屏叠成一栏;内置扩展没有评论区。
+- **安装确认**:带红色警示标签时列出标签、说明与官方说明,确认才装。
 
 ## 给作者的指引
 
-- `TAGS.md`:词表、怎么选、每个标签的现有例子。
+- `TAGS.md`:三级规则、词表、怎么选、每个标签的现有例子、申请渠道。
 - Cortico `templates/extension/*/package.json` 的 `cortico` 块预留 `"tags": []`;模板 README「发布前」一节链到 TAGS.md。
 - Cortico `docs/extensions.md` 的 manifest 字段说明加 `tags`、`locales`、`screenshots`,链到 TAGS.md,不复制词表。
-- `pnpm check:extension` 从 raw 读词表:标签为空时列出整张词表与 `when`;不认识的标签给出接近的几个;列出提示与警示标签和各自的 `when`,请作者对照声明;连不上时跳过并说明。
+- `pnpm check:extension` 从 raw 读词表:标签为空时列出整张词表与 `when`;不认识的标签给出接近的几个;列出提示与警示标签,请作者对照声明;官方改过这个包的标签时附申请链接;连不上时跳过并说明。
 
-## 历史版本的兼容性
+## 进度与分期
 
-包文档里每个版本都带完整 manifest,`packageInfo` 对每个历史版本跑同一套 `parseExtensionManifest`,装不了的版本带 `problems`。控制台把这一行的按钮换成「不兼容」并禁用,原因写在这一行下面;当前版本装不了时原因写在安装按钮下方。
+1. **本仓库**:本地已有 `index.json`(22 个标签、60 个公开包的覆盖)、TAGS.md、本文档、生成脚本。待做:在 GitHub 建仓;Action(扫 npm 生成 `catalog.json` 与 `assets/`、粘住名单、冒名排查、开帖与统计);两张 issue 表单。
+2. **控制台前端**:已在分支上实现,本文「控制台」一节都已做,另有预览页。待做:「反馈标签」链接。
+3. **控制台服务端**:已做历史版本兼容性。待做:读 `index.json` / `catalog.json` 并合进搜索结果(标签、作者声明、官方、推荐、评分、图标、截图、author、维护者、说明)、过滤拉黑、缓存索引、投票接口与设备码登录、`check:extension` 的标签检查、模板与文档。
+4. **GitHub App 与投票**:建 App、开 Discussions 与分类、评论区方案。
 
-## 分期
+## 待定 / 未实测
 
-1. **本仓库上线**:`index.json`、`TAGS.md`、扫 npm 生成 `catalog.json` 与 `assets/` 的 Action。
-2. **Cortico 控制台**:读索引、标签与推荐、拉黑、提示与警示标签、截图与 README、`check:extension`、模板与文档链接。
-3. **评论评分**:开 Discussions 与分类、Action 开帖并统计、详情嵌 giscus、按评分排序。
-
-## 未实测 / 待定
-
+- GitHub 上建仓:仓库名 `Pal-AI-Lab/cortico-extension-index`,待操作员确认。
+- 评论区:giscus 还是自己渲染。
+- websearch 现在没有标签(调用搜索接口,不算浏览器)。
+- gemini-web 的供应商包描述里没写依赖,按「必须与 World 一起装」打了依赖其他扩展,待确认。
+- 高消耗目前只打给 Minecraft,其他包没有实测数据。
 - Action 自带的 `GITHUB_TOKEN` 能否在 Announcement 分类开帖;不行就用 bot 账号的令牌。
-- giscus 在控制台的 hash 路由下,GitHub 授权后能否正确跳回;授权会话是否按端口分开存。
+- GitHub App 的设备码登录要在 App 设置里打开 Device Flow,未实测。
+- 若保留 giscus:控制台 hash 路由下 GitHub 授权后能否正确跳回。
 - Action 的运行周期(Joplin 是 30 分钟)。
-- 仓库名与 GitHub 上建仓:待操作员确认。
