@@ -202,11 +202,13 @@
   - `POST /api/extensions/github/login`:向 GitHub 要设备码,回 `{ userCode, verificationUri, expiresIn, interval }`,服务端在后台等授权;控制台按 `interval` 问 `GET /api/extensions/github` 直到登上或过期。
   - `POST /api/extensions/github/logout`:删掉本机令牌。
   - `POST /api/extensions/vote { name, vote: "up" | "down" | null }`:回应带最新的 up / down / comments 与本机账号的 `mine`。
-  - `GET /api/extensions/comments?name=&cursor=`:一页评论(新的在前),`{ comments: [{ id, author, avatar?, body, createdAt }], total, next?, discussion? }`。读也走服务端:登录了用本机令牌实时读;没登录读 Action 定时写进本仓库的 `comments/<包名>.json` 快照(走 raw,不占 API 额度,晚一个扫描周期)。App 私钥不随 Cortico 分发。
-  - `POST /api/extensions/comments { name, body }`:发一条回复,回应是这条评论。帖子只由 Action 开(分类是 Announcement 格式,用户令牌开不了帖);Action 还没扫到的新包回 409,控制台把原因写在输入框下。
+  - `GET /api/extensions/comments?name=&cursor=`:一页评论(新的在前),`{ comments: [{ id, author, avatar?, body, createdAt, replies? }], total, next?, discussion? }`,`replies` 是这条评论下的回复(GitHub 只有一层)。读也走服务端:登录了用本机令牌实时读;没登录读 Action 定时写进本仓库的 `comments/<包名>.json` 快照(走 raw,不占 API 额度,晚一个扫描周期)。App 私钥不随 Cortico 分发。
+  - `POST /api/extensions/comments { name, body, replyTo? }`:发一条评论,带 `replyTo`(顶层评论的 id)时是回复那条评论,回应是新发的这条。帖子只由 Action 开(分类是 Announcement 格式,用户令牌开不了帖);Action 还没扫到的新包回 409,控制台把原因写在输入框下。
 - **一人一票**:同一账号对同一帖的同种 reaction,GitHub 只记一次;喜欢和不喜欢二选一由控制台保证(改票先撤旧的)。绕过控制台两种都点的账号,Action 统计时算作不投票。
 - 卡片上的数字和「按评分排序」用 `catalog.json` 里 Action 取好的数;投票后用服务端回的实时数。
 - **评论区在控制台里自己渲染**,不用 giscus:输入框(支持 Markdown)、账号位(登录了显示头像、账号与退出,没登录是「登录 GitHub」按钮)、发表;列表新的在前,一次 5 条,「加载更多」;底下「在 GitHub 上查看讨论」。评论正文用和简介同一个 Markdown 子集渲染。
+- **评论区的附加功能**:输入框旁一个「插入代码块」按钮,在光标处插入 ``` 包起来的一段(选中了文字就包进去),用来贴提示词等长文本;评论里的代码块右上角带复制按钮,拿去用靠自己粘贴,不做一键导入。每条评论可以「回复」,回复显示在原评论下面,只有一层;回复一条回复时挂到同一条顶层评论下并带上 `@对方`。
+- **内建扩展的评论区**:内建 World 也以 `cortico-world-<id>` 发布在 npm 上,从「已安装」打开内建 World 时,评论区、标签与徽标都跟那个包;没有对应 npm 包的内建供应商没有评论区。
 - **登录弹窗**:显示登录码与复制按钮、「打开 GitHub」,下面一行等待状态;登上自动关闭,过期提示重新登录。
 - 审核用 GitHub 自带的隐藏、删除、锁帖与组织级屏蔽。
 
@@ -234,7 +236,7 @@
   - 信息表有「平台」一行:没写 `os` 是「不限」。
   - 下面一排外链:npm 包页面、源代码仓库、项目主页、问题反馈、更新日志,各带图标,悬停显示地址。
   - 「历史版本」里写了更新说明的版本号是可点开的链接色,点开在那一行下显示说明。
-  - 两栏:左栏顶部是「扩展信息 / 工具与事件」选项卡,默认扩展信息(简介按 Markdown 渲染、标签、截图、信息表),没有自描述的包不出选项卡;右栏评论区与喜欢 / 不喜欢 / 评论数。窄屏叠成一栏;内置扩展没有评论区。
+  - 两栏:左栏顶部是「扩展信息 / 工具与事件」选项卡,默认扩展信息(简介按 Markdown 渲染、标签、截图、信息表),没有自描述的包不出选项卡;右栏评论区与喜欢 / 不喜欢 / 评论数。窄屏叠成一栏;没有对应 npm 包的内建扩展没有评论区。
   - 简介的 Markdown 只渲染段落、标题、列表、代码块、粗体、斜体、行内代码与 http(s) 链接,原始 HTML 当文字显示。
 - **安装确认**:带红色警示标签时列出标签、说明与官方说明,确认才装。
 
