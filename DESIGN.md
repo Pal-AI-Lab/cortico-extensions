@@ -119,7 +119,7 @@
 - 高消耗靠作者自己声明;用户在「扩展申请」里反馈、或官方自己发现时,官方用 `addTags` 加。
 - 记忆、陪伴的说明带一句:不推荐通过 World 管理记忆和任何内部状态,请写 Bot 扩展。诊断的说明带一句:如无必要不推荐通过 World 做,请发布单独的工具。
 - 新增词表标签:至少 3 个已发布的扩展会用到时,提 PR 改 `index.json`,`label` 与 `hint` 给中英两种,`when` 写英文。
-- 官方标注表示这个包被 Cortico 官方下游产品使用,只由官方在 `addTags` 里给:Pal AI World 计划(为 AI Bot 设计的虚拟世界,现在是 dungeon);可缇Corti(可缇直播用的 World,现在是 Minecraft、B站直播、语音识别、画画、陪看 B 站视频与几个游戏 World,都带直播);Coopanion(可爱桌宠 Coopanion 中使用的扩展,现在是 coo 供应商)。
+- 官方标注表示这个包被 Cortico 官方下游产品使用,只由官方在 `addTags` 里给:Pal AI World 计划(为 AI Bot 设计的虚拟世界,现在是 dungeon);可缇Corti(可缇直播用的 World,现在是 Minecraft、B站直播、语音识别、画画、陪看 B 站视频与几个游戏 World,都带直播);Coopanion(萌萌的 AI 桌宠 Coo 使用的扩展,现在是 coo 供应商)。
 - 蓝色、黄色与红色是扩展页自己的固定色,只分明暗两档,不跟控制台配色方案走:各配色方案的 `--warn` 不全是黄色。
 - 排序各处一致:蓝色、普通、黄色、红色,组内按词表顺序(标签条里按出现次数)。
 
