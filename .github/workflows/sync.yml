@@ -1,5 +1,4 @@
-# Scans npm for Cortico extensions, opens a discussion thread for each new package with the
-# GitHub App, and commits catalog.json, packages/, assets/ and the comments/ snapshots.
+# 扫 npm 上的 Cortico 扩展,用 GitHub App 给新包开讨论帖,提交 catalog.json、packages/、assets/ 与 comments/ 快照。
 name: Sync catalog and discussions
 
 on:
@@ -21,7 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
+      # 检出分支最新提交而不是触发时的提交,重跑旧的运行也从上一次生成的数据接着算。
       - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.ref_name }}
       - uses: actions/setup-node@v5
         with:
           node-version: 22
@@ -49,5 +51,5 @@ jobs:
           git add -A
           if git diff --cached --quiet; then echo 'No changes'; exit 0; fi
           git commit -q -m 'Sync catalog and comment snapshots'
-          git pull -q --rebase origin "$GITHUB_REF_NAME"
+          git pull -q --rebase -X theirs origin "$GITHUB_REF_NAME"
           git push -q origin "HEAD:$GITHUB_REF_NAME"
