@@ -54,7 +54,7 @@
 
 词表与每个标签的用法见 [TAGS.md](TAGS.md)。要点:
 
-- 13 个作者标签:im、qq、streaming、game、web、voice、desktop、memory、companion、creative、utility、local、external-setup。
+- 16 个作者标签:im、qq、streaming、game、browser、video、voice、desktop、real-world、apps、memory、companion、creative、diagnostics、local、external-setup。apps 只在其他标签都不适用时用。
 - 4 个官方标签,作者写了无效、也去不掉:unsafe、sensitive-data、unofficial-api 显示为警示色;internal-state 显示为提示色。
 - 不设数量上限。作者贴错,官方在 `overrides` 里改。
 - 每个标签两段文字:`when` 给作者与 agent 判断该不该贴,`hint` 是用户悬停看到的说明。
@@ -76,7 +76,7 @@
   },
   "overrides": {
     "cortico-world-python": {
-      "addTags": ["utility", "unsafe"],
+      "addTags": ["unsafe"],
       "removeTags": [],
       "note": { "zh": "运行任意 Python 插件代码", "en": "Runs arbitrary Python plugin code" },
       "supersededBy": "另一个包名"

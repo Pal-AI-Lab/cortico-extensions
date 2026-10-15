@@ -11,12 +11,12 @@ Pick every tag below that fits for `cortico.tags` in package.json; the console m
 
 ## 怎么选 / How to choose
 
-- 按扩展**接入什么、给 bot 什么能力**选,不按实现手段选。用了浏览器不等于 `web`,接了 QQ 就是 `qq`。
+- 按扩展**接入什么、给 bot 什么能力**选,不按实现手段选。只调 HTTP 接口不算 `browser`,接了 QQ 就是 `qq`。
   Choose by **what the extension connects to and what it lets the bot do**, not by how it is built.
 - 依附于另一个扩展的功能包,带上宿主所在的平台标签(QQ 功能包带 `qq`)。
   An add-on pack for another extension carries its host's platform tag (QQ add-ons carry `qq`).
-- 只贴确实贴切的,不为多出现在几个筛选里多贴。一个都不贴切就留空,不要硬选 `utility`;官方会修正。
-  Tag only what truly fits, not to appear in more filters. If nothing fits, leave it empty rather than forcing `utility`; maintainers will correct tags.
+- 只贴确实贴切的,不为多出现在几个筛选里多贴。`apps` 只在其他标签都不适用时用;一个都不贴切就留空,官方会修正。
+  Tag only what truly fits, not to appear in more filters. Use `apps` only when no other tag fits; if nothing fits, leave it empty and maintainers will correct tags.
 - 只能在某些系统上跑,写 npm 标准字段 `"os": ["win32"]`,不用标签表达。
   Platform limits go in the standard npm `"os"` field, not in tags.
 - 写完跑 `pnpm check:extension <包目录>`,不在词表里的标签会被指出。
