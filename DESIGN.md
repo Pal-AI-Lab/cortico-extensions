@@ -32,7 +32,7 @@
 控制台读 `raw.githubusercontent.com` 上的 `index.json` 与 `catalog.json`,不调 GitHub API(匿名每 IP 每小时 60 次)。raw 文件有 5 分钟 CDN 缓存。
 
 - **格式版本**:`index.json`、`catalog.json` 与 `packages/` 里的文件都带 `"schema": 1`。控制台只认自己知道的版本,不认识的当作索引读不到,退回纯 npm。格式不兼容地改时换路径(`v2/catalog.json`),旧路径留着给已发出的控制台。
-- **文件名**:包名直接当文件名,作用域包的 `/` 换成 `__`(`@scope/name` → `@scope__name.json`),`packages/`、`comments/`、`assets/` 同一规则。npm 包名里不会出现 `__` 开头的作用域分隔,换回来不会撞。
+- **文件名**:包名直接当文件名,作用域包的 `/` 换成 `__`(`@scope/name` → `@scope__name.json`),`packages/`、`comments/`、`assets/` 同一规则。非作用域包名不能以 `@` 开头,所以只有 `@` 开头的文件名要换回 `/`,不会撞。
 
 ## 每个扩展的信息
 
@@ -210,7 +210,7 @@
 
 1. **本仓库**:本地已有 `index.json`(25 个标签、58 个公开包的覆盖;deepseek 与 coo 两个供应商没有贴切的标签)、TAGS.md、本文档、生成脚本。待做:在 GitHub 建仓 `Pal-AI-Lab/cortico-extensions`;Action(扫 npm 生成 `catalog.json`、`packages/` 与 `assets/`、粘住名单、冒名排查、开帖与统计、评论快照 `comments/`、按版本切更新日志);两张 issue 表单。
 2. **控制台前端**:已在分支上实现,本文「控制台」一节与评论区、登录弹窗、平台标记、取代提示、更新日志都已做,另有预览页。待做:「反馈标签」链接;自描述与更新日志正文改从包详情取(现在从搜索结果取,跟服务端一起改)。
-3. **控制台服务端**:已做历史版本兼容性;`/api/extensions` 已回 `platform`。待做:读 `index.json` / `catalog.json`(认 `schema`)并合进搜索结果,打开详情时取 `packages/<包名>.json` 合进包详情(标签、作者声明、官方、推荐、评分、图标、截图、author、维护者、说明、`os`、取代、更新日志)、过滤拉黑、缓存索引、投票与评论接口、设备码登录与令牌文件、`check:extension` 的标签检查、模板与文档。
+3. **控制台服务端**:已做历史版本兼容性;`/api/extensions` 已回 `platform`。待做:读 `index.json` / `catalog.json`(认 `schema`)并合进搜索结果(标签、作者声明、官方、推荐、评分、图标、截图、author、维护者、说明、`os`、取代、能力摘要、写了更新说明的版本号),打开详情时取 `packages/<包名>.json`(完整自描述、更新日志正文)合进包详情、过滤拉黑、缓存索引、投票与评论接口、设备码登录与令牌文件、`check:extension` 的标签检查、模板与文档。
 4. **GitHub App**:建 App(打开 Device Flow,关掉用户令牌过期)、开 Discussions 与分类。
 5. **0.2.0 发版**:见「0.2.0 发版」。
 
