@@ -19,7 +19,7 @@
 |---|---|---|---|
 | 扩展包 | npm | 作者 | 代码、package.json(含 `cortico` 块)、README |
 | `index.json` | 本仓库 | 官方,走 PR | 标签词表、官方账号与名字、推荐、拉黑、对单个包的覆盖 |
-| `catalog.json` | 本仓库 | Action 定时生成 | 每个包的汇总信息、作者声明的标签、粘住名单、下载量、讨论帖统计 |
+| `catalog.json` | 本仓库 | Action 定时生成 | 每个包的汇总信息、作者声明的标签、粘住名单、下载量、讨论帖统计、按版本切好的更新日志 |
 | `assets/` | 本仓库 | Action 定时生成 | 从 npm 包里解压出的图标和截图 |
 | `comments/` | 本仓库 | Action 定时生成 | 每个包讨论帖的评论快照,没登录 GitHub 的控制台读它 |
 | `TAGS.md` | 本仓库 | `scripts/render-tags.mjs` 按 `index.json` 生成 | 给作者和 coding agent 看的标签说明 |
@@ -34,7 +34,7 @@
 
 | 来源 | 信息 |
 |---|---|
-| 作者(package.json) | 包名、版本、简介、author、许可证、主页 / 仓库 / 问题链接、`engines`、依赖、`os`、`funding`、README |
+| 作者(package.json 与包内文件) | 包名、版本、简介、author、许可证、主页 / 仓库 / 问题链接、`engines`、依赖、`os`、`funding`、README、`CHANGELOG.md` |
 | 作者(`cortico` 块) | `kind`、`api`、`displayName`、`icon`、面板产物;新增 `tags`、`locales`、`screenshots` |
 | 官方(`index.json`) | 是否推荐、是否拉黑、增删标签及理由(`note`)、「已被 X 取代」 |
 | Action(`catalog.json`) | 上面作者字段的汇总、npm 维护者、是否官方、作者声明的标签、粘住名单、图标与截图地址、下载量(累计 / 30 天 / 7 天)、讨论帖编号、喜欢 / 不喜欢 / 评论数 |
@@ -52,6 +52,15 @@
   "screenshots": ["assets/shot-1.png"]
 }
 ```
+
+## 更新日志
+
+不加字段,读包根目录的 `CHANGELOG.md`,可选。
+
+- **格式**:每个版本一个二级标题,标题里第一个版本号就是这一段的版本,如 `## 0.1.2` 或 `## [0.1.2] - 2026-10-15`(Keep a Changelog 与 changesets 默认的写法)。
+- **抽取**:Action 解包时按版本切段写进 `catalog.json` 的 `changelog: { versions: { "0.1.2": "..." }, url }`;每段截到 2000 字;`url` 指向完整文件(有仓库地址用仓库里的,没有用 unpkg)。控制台不执行包里的代码。
+- **显示**:不上卡片。详情「历史版本」下拉里写了说明的版本号可点开,说明用简介同一个 Markdown 子集渲染;外链一排末尾「更新日志」;已安装卡片有更新时多一个「更新说明」,打开后列出已装版本到最新版之间各版,新的在前。没写的版本那一行照旧,不写「作者未提供」。
+- **指引**:作者说明与模板 README「发布前」各一句;`check:extension` 发现当前版本在 CHANGELOG.md 里没有对应标题时提示,不拦发布。
 
 `locales` 只认 `zh` 与 `en`,写了的语言覆盖顶层的 `displayName` 与 `description`。只能在某些系统上跑用 npm 标准字段 `os`(如 `["win32"]`,排除用 `"!darwin"`),控制台按它标出平台、在不支持的系统上禁用安装。
 
@@ -167,7 +176,8 @@
 - **详情**:
   - 页头:64px 头像、名称、`包名@版本`、徽标;右边安装按钮,当前版本不兼容或本机系统不在 `os` 里时禁用,原因写在按钮下;官方标了取代的写「已被 X 取代」;再下面是「历史版本」下拉,每个版本按自己的 manifest 判断兼容,不兼容的显示「不兼容」并禁用,原因写在那一行下。
   - 信息表有「平台」一行:没写 `os` 是「不限」。
-  - 下面一排外链:npm 包页面、源代码仓库、项目主页、问题反馈,各带图标,悬停显示地址。
+  - 下面一排外链:npm 包页面、源代码仓库、项目主页、问题反馈、更新日志,各带图标,悬停显示地址。
+  - 「历史版本」里写了更新说明的版本号是可点开的链接色,点开在那一行下显示说明。
   - 两栏:左栏顶部是「扩展信息 / 工具与事件」选项卡,默认扩展信息(简介按 Markdown 渲染、标签、截图、信息表),没有自描述的包不出选项卡;右栏评论区与喜欢 / 不喜欢 / 评论数。窄屏叠成一栏;内置扩展没有评论区。
   - 简介的 Markdown 只渲染段落、标题、列表、代码块、粗体、斜体、行内代码与 http(s) 链接,原始 HTML 当文字显示。
 - **安装确认**:带红色警示标签时列出标签、说明与官方说明,确认才装。
@@ -177,13 +187,14 @@
 - `TAGS.md`:三级规则、词表、怎么选、每个标签的现有例子、申请渠道。
 - Cortico `templates/extension/*/package.json` 的 `cortico` 块预留 `"tags": []`;模板 README「发布前」一节链到 TAGS.md。
 - Cortico `docs/extensions.md` 的 manifest 字段说明加 `tags`、`locales`、`screenshots`,链到 TAGS.md,不复制词表。
+- 更新日志见「更新日志」一节:模板带一份只有当前版本标题的 `CHANGELOG.md`。
 - `pnpm check:extension` 从 raw 读词表:标签为空时列出整张词表与 `when`;不认识的标签给出接近的几个;列出提示与警示标签,请作者对照声明;官方改过这个包的标签时附申请链接;连不上时跳过并说明。
 
 ## 进度与分期
 
-1. **本仓库**:本地已有 `index.json`(25 个标签、58 个公开包的覆盖;deepseek 与 coo 两个供应商没有贴切的标签)、TAGS.md、本文档、生成脚本。待做:在 GitHub 建仓 `Pal-AI-Lab/cortico-extensions`;Action(扫 npm 生成 `catalog.json` 与 `assets/`、粘住名单、冒名排查、开帖与统计、评论快照 `comments/`);两张 issue 表单。
-2. **控制台前端**:已在分支上实现,本文「控制台」一节与评论区、登录弹窗、平台标记、取代提示都已做,另有预览页。待做:「反馈标签」链接。
-3. **控制台服务端**:已做历史版本兼容性;`/api/extensions` 已回 `platform`。待做:读 `index.json` / `catalog.json` 并合进搜索结果(标签、作者声明、官方、推荐、评分、图标、截图、author、维护者、说明、`os`、取代)、过滤拉黑、缓存索引、投票与评论接口、设备码登录与令牌文件、`check:extension` 的标签检查、模板与文档。
+1. **本仓库**:本地已有 `index.json`(25 个标签、58 个公开包的覆盖;deepseek 与 coo 两个供应商没有贴切的标签)、TAGS.md、本文档、生成脚本。待做:在 GitHub 建仓 `Pal-AI-Lab/cortico-extensions`;Action(扫 npm 生成 `catalog.json` 与 `assets/`、粘住名单、冒名排查、开帖与统计、评论快照 `comments/`、按版本切更新日志);两张 issue 表单。
+2. **控制台前端**:已在分支上实现,本文「控制台」一节与评论区、登录弹窗、平台标记、取代提示、更新日志都已做,另有预览页。待做:「反馈标签」链接。
+3. **控制台服务端**:已做历史版本兼容性;`/api/extensions` 已回 `platform`。待做:读 `index.json` / `catalog.json` 并合进搜索结果(标签、作者声明、官方、推荐、评分、图标、截图、author、维护者、说明、`os`、取代、更新日志)、过滤拉黑、缓存索引、投票与评论接口、设备码登录与令牌文件、`check:extension` 的标签检查、模板与文档。
 4. **GitHub App**:建 App(打开 Device Flow)、开 Discussions 与分类。
 
 ## 待定 / 未实测
