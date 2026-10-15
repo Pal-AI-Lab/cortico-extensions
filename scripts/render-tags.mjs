@@ -14,7 +14,7 @@ const examples = (id) => Object.entries(index.overrides)
 const row = (id, t) => {
   const ex = examples(id);
   const shown = ex.slice(0, EXAMPLES).join(' ') + (ex.length > EXAMPLES ? ` and ${ex.length - EXAMPLES} more` : '');
-  return `| \`${id}\` | ${t.label.en} | ${t.when} | ${t.hint.en} | ${shown || '—'} |`;
+  return `| \`${id}\` | ${t.label.en} | ${t.when} | ${t.hint.en.replace(/\n/g, '<br>')} | ${shown || '—'} |`;
 };
 
 const entries = Object.entries(index.tags);

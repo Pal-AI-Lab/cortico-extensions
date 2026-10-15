@@ -165,8 +165,8 @@
         "en": "Memory"
       },
       "hint": {
-        "zh": "帮 bot 记住、检索或整理过去的事。注意：我们不推荐通过 World 管理记忆和任何内部状态，请编写 Bot 扩展来处理内部状态管理。",
-        "en": "Helps the bot remember, search or tidy the past. Note: we do not recommend managing memory or any internal state in a World; write a bot extension for internal state."
+        "zh": "帮 bot 记住、检索或整理过去的事。\n注意：我们不推荐通过 World 管理记忆和任何内部状态，请编写 Bot 扩展来处理内部状态管理。",
+        "en": "Helps the bot remember, search or tidy the past.\nNote: we do not recommend managing memory or any internal state in a World; write a bot extension for internal state."
       },
       "when": "Helps the bot remember, search or tidy the past: memory stores, chat history search, notes, albums, memory health checks. Note: we do not recommend managing memory or any internal state in a World; write a bot extension for internal state."
     },
@@ -176,8 +176,8 @@
         "en": "Companion"
       },
       "hint": {
-        "zh": "情绪、好感、作息、时间感、节日、主动开口这类功能。注意：我们不推荐通过 World 管理记忆和任何内部状态，请编写 Bot 扩展来处理内部状态管理。",
-        "en": "Mood, affinity, daily routine, sense of time, festivals, speaking first. Note: we do not recommend managing memory or any internal state in a World; write a bot extension for internal state."
+        "zh": "情绪、好感、作息、时间感、节日、主动开口这类功能。\n注意：我们不推荐通过 World 管理记忆和任何内部状态，请编写 Bot 扩展来处理内部状态管理。",
+        "en": "Mood, affinity, daily routine, sense of time, festivals, speaking first.\nNote: we do not recommend managing memory or any internal state in a World; write a bot extension for internal state."
       },
       "when": "Makes the bot feel like a companion with a life of its own: mood, affinity, daily routine, sense of time, festivals, speaking first. Note: we do not recommend managing memory or any internal state in a World; write a bot extension for internal state."
     },
@@ -198,8 +198,8 @@
         "en": "Diagnostics"
       },
       "hint": {
-        "zh": "涉及 Cortico 框架内部诊断和自我管理的功能。注意：如无必要，我们不推荐通过 World 做这类功能，请发布单独的工具。",
-        "en": "Diagnoses or manages the Cortico framework itself. Note: unless necessary, we do not recommend building this as a World; publish a separate tool instead."
+        "zh": "涉及 Cortico 框架内部诊断和自我管理的功能。\n注意：如无必要，我们不推荐通过 World 做这类功能，请发布单独的工具。",
+        "en": "Diagnoses or manages the Cortico framework itself.\nNote: unless necessary, we do not recommend building this as a World; publish a separate tool instead."
       },
       "when": "Diagnoses or manages the Cortico framework itself: usage and cost checks, memory health checks, tightening configuration. Note: unless necessary, we do not recommend building this as a World; publish a separate tool instead."
     },
@@ -267,8 +267,8 @@
         "en": "Requires other extensions"
       },
       "hint": {
-        "zh": "这个扩展依赖其他扩展才能正常运行，具体请查看说明。注意：我们强烈不建议引入任何 World 扩展之间的互相依赖，请将单个外部环境整合为单一 World，确为必要时优先通过订阅事件流等方式间接传递信号。",
-        "en": "This extension needs other extensions to work; see its README. Note: we strongly advise against dependencies between World extensions. Integrate one outside environment into a single World; where truly necessary, pass signals indirectly, for example by subscribing to the event stream."
+        "zh": "这个扩展依赖其他扩展才能正常运行，具体请查看说明。\n注意：我们强烈不建议引入任何 World 扩展之间的互相依赖，请将单个外部环境整合为单一 World，确为必要时优先通过订阅事件流等方式间接传递信号。",
+        "en": "This extension needs other extensions to work; see its README.\nNote: we strongly advise against dependencies between World extensions. Integrate one outside environment into a single World; where truly necessary, pass signals indirectly, for example by subscribing to the event stream."
       },
       "when": "This extension needs other extensions to work; see its README. Note: we strongly advise against dependencies between World extensions. Integrate one outside environment into a single World; where truly necessary, pass signals indirectly, for example by subscribing to the event stream. Bot extensions do not get this tag."
     },
