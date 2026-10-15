@@ -51,6 +51,19 @@
 
 `locales` 只认 `zh` 与 `en`,写了的语言覆盖顶层的 `displayName` 与 `description`。只能在某些系统上跑用 npm 标准字段 `os`。
 
+## 扩展自描述(Cortico 0.2.0)
+
+0.2.0 起三类扩展都要导出自描述,三类契约版本随 0.2.0 各加一。
+
+- **数据源**:声明写在 Definition 的静态字段里,运行时用的是同一份。发布前跑 `pnpm describe:extension`,用干装载把声明导出成包里的 `describe.json`,manifest 写它的路径;`check:extension` 检查文件与代码当前的声明一致。Action 与控制台只读这个文件,不执行扩展代码。
+- **World**:
+  - `tools`:全部工具,每个有 `name`、`description`(给模型)、`parameters`、`tags`,可选 `summary`(给人看的一句话)。实例的 `tools()` 只能返回其中的子集,可以按配置改描述;Core 挂载时检查工具名都在声明里。
+  - `events`:会推出的事件,每个有 `type`、`description`(给人看)、默认投递方式与标签。推出没声明的事件照常投递,记进运行日志并在 World 页标出。
+  - 声明只给人和市场看,不进提示词;环境说明仍走 envPrompt 模板。
+- **Provider**:接入的协议、登录方式(API Key / OAuth / 设备码 / 网页登录态)、是否在本机跑模型、支持的输入(文本 / 图片 / 音频 / 视频);现有的 `title`、`description`、档位表一起导出。
+- **Bot**:默认启用的 World(`declares`)、Persona 提供的工具(同 World 工具的写法)、Memory 的名字与形式。
+- **市场展示**:卡片上一行能力摘要(World 是工具与事件数;供应商是协议、登录方式与输入;Bot 是 World 数与 Memory),没有自描述的包这一行留空占位;详情左栏「工具与事件」「接入方式」「组成」。工具先显示 `summary`,没有就取 `description` 的第一句,点开看完整的给模型描述;事件超过 8 种先列 8 种。
+
 ## 标签
 
 词表与每个标签的用法见 [TAGS.md](TAGS.md)。每个标签有两段文字:`when` 给作者与 agent 判断该不该贴,`hint` 是用户悬停看到的说明。
