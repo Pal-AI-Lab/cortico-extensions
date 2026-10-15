@@ -235,51 +235,6 @@
         "en": "Installing the package is not enough; something else must be set up first: the game itself or a mod loader (BepInEx), NapCat, VTube Studio, a Python environment, model weights, a game server."
       }
     },
-    "unsafe": {
-      "label": {
-        "zh": "不安全",
-        "en": "Unsafe"
-      },
-      "hint": {
-        "zh": "模型能借它执行任意代码或命令、读写任意文件，或操控鼠标键盘。",
-        "en": "The model can use it to run arbitrary code or commands, read and write any file, or control the mouse and keyboard."
-      },
-      "style": "warning",
-      "when": {
-        "zh": "模型能借它执行任意代码或命令、读写任意文件，或任意操控鼠标键盘。",
-        "en": "The model can use it to run arbitrary code or commands, read and write arbitrary files, or freely control the mouse and keyboard."
-      }
-    },
-    "sensitive-data": {
-      "label": {
-        "zh": "读取隐私",
-        "en": "Reads private data"
-      },
-      "hint": {
-        "zh": "会持续读取屏幕、麦克风、窗口等个人数据，并发给你配置的模型端点。",
-        "en": "Continuously reads personal data such as the screen, microphone or windows, and sends it to your configured model endpoint."
-      },
-      "style": "warning",
-      "when": {
-        "zh": "会持续读取屏幕、麦克风、前台窗口或消费记录这类个人数据，并随模型调用发给模型端点。",
-        "en": "Continuously reads personal data such as the screen, microphone, foreground window or spending records, and sends it to the model endpoint with model calls."
-      }
-    },
-    "unofficial-api": {
-      "label": {
-        "zh": "非官方接口",
-        "en": "Unofficial API"
-      },
-      "hint": {
-        "zh": "借用登录态或未公开接口调用服务，可能违反服务条款，账号有被限制的风险。",
-        "en": "Uses a login session or undocumented endpoint; may break the service's terms and put the account at risk."
-      },
-      "style": "warning",
-      "when": {
-        "zh": "借用网页登录态、CLI 额度或未公开接口调用服务，可能违反该服务的条款，账号有被限制的风险。",
-        "en": "Calls a service through a web login session, a CLI quota or an undocumented endpoint; this may break the service's terms and put the account at risk."
-      }
-    },
     "internal-state": {
       "label": {
         "zh": "内部状态",
@@ -323,6 +278,51 @@
       "when": {
         "zh": "会让 bot 频繁调用模型或每次带很多上下文，比如高频事件、持续截屏或视频帧、长文本注入。",
         "en": "Makes the bot call the model often or with large context, such as high-frequency events, continuous screenshots or video frames, or long injected text."
+      }
+    },
+    "unsafe": {
+      "label": {
+        "zh": "不安全",
+        "en": "Unsafe"
+      },
+      "hint": {
+        "zh": "模型能借它执行任意代码或命令、读写任意文件，或操控鼠标键盘。",
+        "en": "The model can use it to run arbitrary code or commands, read and write any file, or control the mouse and keyboard."
+      },
+      "style": "warning",
+      "when": {
+        "zh": "模型能借它执行任意代码或命令、读写任意文件，或任意操控鼠标键盘。",
+        "en": "The model can use it to run arbitrary code or commands, read and write arbitrary files, or freely control the mouse and keyboard."
+      }
+    },
+    "sensitive-data": {
+      "label": {
+        "zh": "读取隐私",
+        "en": "Reads private data"
+      },
+      "hint": {
+        "zh": "会持续读取屏幕、麦克风、窗口等个人数据，并发给你配置的模型端点。",
+        "en": "Continuously reads personal data such as the screen, microphone or windows, and sends it to your configured model endpoint."
+      },
+      "style": "warning",
+      "when": {
+        "zh": "会持续读取屏幕、麦克风、前台窗口或消费记录这类个人数据，并随模型调用发给模型端点。",
+        "en": "Continuously reads personal data such as the screen, microphone, foreground window or spending records, and sends it to the model endpoint with model calls."
+      }
+    },
+    "unofficial-api": {
+      "label": {
+        "zh": "非官方接口",
+        "en": "Unofficial API"
+      },
+      "hint": {
+        "zh": "借用登录态或未公开接口调用服务，可能违反服务条款，账号有被限制的风险。",
+        "en": "Uses a login session or undocumented endpoint; may break the service's terms and put the account at risk."
+      },
+      "style": "warning",
+      "when": {
+        "zh": "借用网页登录态、CLI 额度或未公开接口调用服务，可能违反该服务的条款，账号有被限制的风险。",
+        "en": "Calls a service through a web login session, a CLI quota or an undocumented endpoint; this may break the service's terms and put the account at risk."
       }
     }
   },
