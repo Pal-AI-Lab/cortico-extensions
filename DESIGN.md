@@ -31,7 +31,7 @@
 | `TAGS.md` | 本仓库 | `scripts/render-tags.mjs` 按 `index.json` 生成 | 给作者和 coding agent 看的标签说明 |
 | Discussions | 本仓库 | 用户 | 每个包一帖:回复是评论,首楼 reaction 是喜欢 / 不喜欢 |
 | Issues | 本仓库 | 任何人 | 扩展申请:标签、推荐自荐、取代、拉黑申诉、举报、新增标签、其他 |
-| GitHub App「Cortico 扩展市场」 | GitHub | 官方建 | 只有 Discussions 读写权限,只装在本仓库;控制台用它代用户投票、读写评论 |
+| GitHub App「Cortico 扩展市场」 | GitHub | 官方建 | 只有 Discussions 读写权限,只装在本仓库;控制台用它代用户投票、读写评论;安装 ID 与 Client ID 存为仓库变量 `APP_INSTALLATION_ID` / `APP_CLIENT_ID`,私钥存为 Actions secret `APP_PRIVATE_KEY`(Action 用安装令牌开帖) |
 | 控制台 | Cortico | | 服务端读索引并合进搜索结果;页面见「控制台」 |
 
 控制台读 `raw.githubusercontent.com` 上的 `index.json` 与 `catalog.json`,不调 GitHub API(匿名每 IP 每小时 60 次)。raw 文件有 5 分钟 CDN 缓存。
@@ -86,6 +86,13 @@
 - **Bot**:默认启用的 World(`declares`)、Persona 提供的工具(同 World 工具的写法)、Memory 的名字与形式。
 - **存放**:完整自描述在 `packages/<包名>.json`;`catalog.json` 只放卡片要的能力摘要(World 工具与事件数;供应商的协议、登录方式、输入、是否本机;Bot 的 World 数与 Memory 名)。
 - **市场展示**:卡片上一行能力摘要(World 是工具与事件数;供应商是协议、登录方式与输入;Bot 是 World 数与 Memory),没有自描述的包这一行留空占位;详情左栏的第二个选项卡「工具与事件」(供应商是「接入方式」,Bot 是「组成」)。工具先显示 `summary`,没有就取 `description` 的第一句,点开看完整的给模型描述;事件超过 8 种先列 8 种。
+
+## 徽标与标签
+
+市场里给包的标注分两层:
+
+- **徽标**(badge):官方、推荐。说的是谁发的、谁推荐的,显示在卡片作者那一行与标签条最前。不在标签词表里,作者既不能声明也不能申请;官方按维护者与仓库算,推荐来自 `featured`。固定薄荷绿(默认 mint 方案的主题色,亮 `#00a870` / 暗 `#2fd59b`),官方带 Cortico 小标志,推荐带星星;点亮与实心时白字,实心底在暗色下加深到 `#148a63`。标签条里可以按徽标筛选,推荐在官方前。
+- **标签**(tag):说的是这个包做什么、有什么需要注意的,见下面四级。
 
 ## 标签
 
@@ -247,7 +254,7 @@
 1. **本仓库**:已公开在 GitHub,有 `index.json`(27 个标签、59 个公开包的覆盖;deepseek 与 coo 两个供应商没有贴切的标签)、TAGS.md、本文档、生成脚本。Discussions 的 Extensions 分类(Announcement 格式)已建。待做:Action(扫 npm 生成 `catalog.json`、`packages/` 与 `assets/`、粘住名单、冒名排查、开帖与统计、评论快照 `comments/`、按版本切更新日志);「扩展申请」的网页表单与 Action 解析(纯文本与表单两种)、README「我要…」。
 2. **控制台前端**:已在分支上实现,本文「控制台」一节与评论区、登录弹窗、平台标记、取代提示、更新日志都已做,另有预览页。待做:「反馈标签」链接(预填包名的扩展申请);自描述与更新日志正文改从包详情取(现在从搜索结果取,跟服务端一起改)。
 3. **控制台服务端**:已做历史版本兼容性;`/api/extensions` 已回 `platform`。待做:读 `index.json` / `catalog.json`(认 `schema`)并合进搜索结果(标签、作者声明、官方、推荐、评分、图标、截图、author、维护者、说明、`os`、取代、能力摘要、写了更新说明的版本号),打开详情时取 `packages/<包名>.json`(完整自描述、更新日志正文)合进包详情、过滤拉黑、缓存索引、投票与评论接口、设备码登录与令牌文件、`check:extension` 的标签检查与「发布前」一段、模板 `AGENTS.md` / `CLAUDE.md`、根目录 AGENTS.md 一行、迁移说明、文档。
-4. **GitHub App**:建 App(打开 Device Flow,关掉用户令牌过期)、开 Discussions 与分类。
+4. **GitHub App**:已建并只装在本仓库(Device Flow 开、用户令牌不过期、只有 Discussions 读写),私钥已存为 Actions secret;Discussions 的 Extensions 分类已建。
 5. **0.2.0 发版**:见「0.2.0 发版」。
 
 ## 待定 / 未实测
