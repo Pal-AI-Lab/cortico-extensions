@@ -62,8 +62,8 @@ ${official.map(([id, t]) => row(id, t)).join('\n')}
 
 ## 新增标签 / Proposing a tag
 
-至少 3 个已发布的扩展会用到时,给本仓库提 PR 改 \`index.json\`,11 种语言的名称都要给。
-Open a PR against \`index.json\` once at least 3 published extensions would use the tag; include labels for all 11 languages.
+至少 3 个已发布的扩展会用到时,给本仓库提 PR 改 \`index.json\`,名称与说明给中英两种。
+Open a PR against \`index.json\` once at least 3 published extensions would use the tag; give labels and texts in Chinese and English.
 `;
 
 writeFileSync(`${root}TAGS.md`, md);
