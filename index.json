@@ -289,14 +289,14 @@
         "en": "Internal state"
       },
       "hint": {
-        "zh": "这个 World 在 bot 的 Memory 之外自己管理 bot 的内部状态（情绪、好感、记忆等），装上或卸下前后 bot 对自己的认知可能不一致。这类功能推荐在 bot 扩展的 Persona 里实现。",
-        "en": "This World manages the bot's internal state (mood, affinity, memories) outside the bot's Memory, so the bot's sense of itself may differ before and after it is installed or removed. We recommend building this into a bot extension's Persona instead."
+        "zh": "这个 World 在 bot 的 Memory 之外自己管理 bot 的内部状态（情绪、好感、记忆等），装上或卸下前后 bot 对自己的认知可能不一致。",
+        "en": "This World manages the bot's internal state (mood, affinity, memories) outside the bot's Memory, so the bot's sense of itself may differ before and after it is installed or removed."
       },
       "officialOnly": true,
       "style": "notice",
       "when": {
-        "zh": "官方审查后添加。World 自己保存并注入 bot 的情绪、好感、记忆、经历这类内部状态。",
-        "en": "Added after official review. The World keeps and injects the bot's own internal state: mood, affinity, memories, experiences."
+        "zh": "官方审查后添加。World 自己保存并注入 bot 的情绪、好感、记忆、经历这类内部状态。这类功能推荐在 bot 扩展的 Persona 里实现。",
+        "en": "Added after official review. The World keeps and injects the bot's own internal state: mood, affinity, memories, experiences. We recommend building this into a bot extension's Persona instead."
       }
     },
     "requires-extension": {
@@ -307,12 +307,12 @@
         "en": "Requires other extensions"
       },
       "hint": {
-        "zh": "这个扩展依赖其他扩展才能正常运行，具体请查看说明。注意：我们强烈反对引入任何 World 扩展之间的互相依赖，请将单个外部环境整合为单一 World，确为必要时优先通过订阅事件流等方式间接传递信号。",
-        "en": "This extension needs other extensions to work; see its README. Note: we strongly oppose dependencies between World extensions. Integrate one outside environment into a single World; where truly necessary, pass signals indirectly, for example by subscribing to the event stream."
+        "zh": "这个扩展依赖其他扩展才能正常运行，具体请查看说明。注意：我们强烈不建议引入任何 World 扩展之间的互相依赖，请将单个外部环境整合为单一 World，确为必要时优先通过订阅事件流等方式间接传递信号。",
+        "en": "This extension needs other extensions to work; see its README. Note: we strongly advise against dependencies between World extensions. Integrate one outside environment into a single World; where truly necessary, pass signals indirectly, for example by subscribing to the event stream."
       },
       "when": {
-        "zh": "官方审查后添加。这个扩展依赖其他扩展才能正常运行，具体请查看说明。注意：我们强烈反对引入任何 World 扩展之间的互相依赖，请将单个外部环境整合为单一 World，确为必要时优先通过订阅事件流等方式间接传递信号。Bot 扩展不打这个标签。",
-        "en": "Added after official review. This extension needs other extensions to work; see its README. Note: we strongly oppose dependencies between World extensions. Integrate one outside environment into a single World; where truly necessary, pass signals indirectly, for example by subscribing to the event stream. Bot extensions do not get this tag."
+        "zh": "官方审查后添加。这个扩展依赖其他扩展才能正常运行，具体请查看说明。注意：我们强烈不建议引入任何 World 扩展之间的互相依赖，请将单个外部环境整合为单一 World，确为必要时优先通过订阅事件流等方式间接传递信号。Bot 扩展不打这个标签。",
+        "en": "Added after official review. This extension needs other extensions to work; see its README. Note: we strongly advise against dependencies between World extensions. Integrate one outside environment into a single World; where truly necessary, pass signals indirectly, for example by subscribing to the event stream. Bot extensions do not get this tag."
       }
     }
   },
