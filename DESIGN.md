@@ -25,7 +25,7 @@
 | `comments/` | 本仓库 | Action 定时生成 | 每个包讨论帖的评论快照,没登录 GitHub 的控制台读它 |
 | `TAGS.md` | 本仓库 | `scripts/render-tags.mjs` 按 `index.json` 生成 | 给作者和 coding agent 看的标签说明 |
 | Discussions | 本仓库 | 用户 | 每个包一帖:回复是评论,首楼 reaction 是喜欢 / 不喜欢 |
-| Issues | 本仓库 | 任何人 | 标签申请、新增标签提案(issue 表单) |
+| Issues | 本仓库 | 任何人 | 扩展申请:标签、推荐自荐、取代、拉黑申诉、举报、新增标签 |
 | GitHub App「Cortico 扩展市场」 | GitHub | 官方建 | 只有 Discussions 读写权限,只装在本仓库;控制台用它代用户投票、读写评论 |
 | 控制台 | Cortico | | 服务端读索引并合进搜索结果;页面见「控制台」 |
 
@@ -99,7 +99,7 @@
 - 粘住名单由 Action 写在 `catalog.json`,扫描时只增不减;只有官方 `removeTags` 能撤销。
 - 不设数量上限。应用程序只在其他标签都不适用时用;依赖其他扩展不打给 Bot 扩展。
 - 需要密钥:用户要自己申请第三方账号或 API Key(搜索、生图接口等);模型端点的密钥不算。实验性:作者自己标明还在测试,不按版本号自动判断。
-- 高消耗靠作者自己声明;用户在「标签申请」里反馈、或官方自己发现时,官方用 `addTags` 加。
+- 高消耗靠作者自己声明;用户在「扩展申请」里反馈、或官方自己发现时,官方用 `addTags` 加。
 - 记忆、陪伴的说明带一句:不推荐通过 World 管理记忆和任何内部状态,请写 Bot 扩展。诊断的说明带一句:如无必要不推荐通过 World 做,请发布单独的工具。
 - 新增词表标签:至少 3 个已发布的扩展会用到时,提 PR 改 `index.json`,名称与说明给中英两种。
 - 黄色与红色是扩展页自己的固定色,只分明暗两档,不跟控制台配色方案走:各配色方案的 `--warn` 不全是黄色。
@@ -134,13 +134,33 @@
 - **`note`**:官方说明这个包为什么带某个标签,显示在安装确认里。
 - **`supersededBy`**:这个包已被另一个包取代(如 `cortico-world-qq-final-beta` → `cortico-world-qq-final`)。详情里安装按钮下写「已被 X 取代」,X 点开新包的详情。
 
-## 标签申请
+## 扩展申请
 
-- 作者改自己的普通标签与自己声明的提示标签,发新版本即可,不用申请。
-- 要去掉官方加的标签,或撤销声明过的警示标签,在本仓库用「标签申请」issue 表单:包名、要加的、要去的、理由、证据。谁都能提(用户也可以报),官方审核后改 `index.json`,PR 关联 issue,结论回在 issue。
-- Action 给新 issue 贴出这个包现在的标签与来源。
-- 新增词表标签用另一张「新增标签提案」表单。
-- 入口:TAGS.md 一节;`check:extension` 发现官方改过这个包的标签时附申请链接;控制台详情的标签行加「反馈标签」链接,打开预填包名的表单(待做)。
+开发者和用户向官方提的事都走本仓库的 issue,一个入口,按类型分。谁都能提,官方审核后改 `index.json`,PR 关联 issue,结论回在 issue。
+
+| 类型 | 标题前缀 | 用途 | 官方怎么处理 |
+|---|---|---|---|
+| 标签 | `[标签]` / `[tags]` | 去掉官方加的标签、撤销声明过的警示标签、请官方加标签(用户反馈高消耗等) | 改 `addTags` / `removeTags` |
+| 推荐 | `[推荐]` / `[feature]` | 自荐或推荐别人的第三方包;官方的包不收 | 收不收由官方定,收了加进 `featured` |
+| 取代 | `[取代]` / `[supersede]` | 旧包已被新包取代 | 先请作者在 npm 上 `npm deprecate 旧包 "改用 新包"`(只有 npm 账号本人做得到,算身份证明),官方看到后写 `supersededBy` |
+| 申诉 | `[申诉]` / `[appeal]` | 包或发布者被拉黑 | 复核,撤销或维持 `blocked` |
+| 举报 | `[举报]` / `[report]` | 恶意代码、冒名、标签严重不符 | 核实后拉黑或加标签 |
+| 新标签 | `[新标签]` / `[new-tag]` | 提议新增词表标签(至少 3 个已发布的扩展会用到) | 收了改词表;也可以直接提 PR |
+
+- 作者改自己的普通标签与自己声明的提示标签,发新版本即可,不用申请。npm 上弃用旧包、在详情里显示弃用说明,作者自己用 `npm deprecate` 就行。
+- **纯文本格式**:coding agent 填不了网页表单,只会用 `gh issue create --title --body` 或 API 发 issue,所以格式以纯文本为准,网页表单只是它的界面。标题 `[类型] 包名`(新标签写标签 id);正文一行一项 `键: 值`,键中英都认:
+
+  ```text
+  包名 / package: cortico-world-xxx
+  加 / add: internet, requires-key
+  去 / remove: unsafe
+  新包 / by: cortico-world-yyy
+  理由 / reason: 一两句
+  证据 / evidence: 链接(源码行、npm 页、截图)
+  ```
+
+  用不到的键不写。Action 两种都解析(网页表单的输出是 `### 包名` 加一段),按类型贴 label,并回帖贴出这个包现在的标签与来源、是否已在 npm 上弃用。格式不对时回帖说明缺了哪项,不关 issue。
+- 入口:索引仓 README 开头「我要…」;TAGS.md;`check:extension` 的「发布前」一段;控制台详情的标签行加「反馈标签」链接,打开预填包名的 issue(待做)。
 
 ## 喜欢 / 不喜欢与评论
 
@@ -200,17 +220,25 @@
 
 ## 给作者的指引
 
-- `TAGS.md`:三级规则、词表、怎么选、每个标签的现有例子、申请渠道。
+**发现路径**:很多作者是让 coding agent 写扩展,agent 只读得到它经过的地方。按能保证被读到的程度:
+
+1. **`pnpm check:extension` 的输出**:发布前必跑,agent 一定看得到。除了标签检查,末尾加一段「发布前」:这个包声明了哪些标签、有没有 `CHANGELOG.md` 与当前版本的标题、有没有 `os`;向官方提申请的格式(上面「扩展申请」的纯文本格式,一行 `gh issue create` 示例)与索引仓链接。
+2. **模板自带 `AGENTS.md`**:`templates/extension/<kind>/` 各放一份,再放一个只写「Read AGENTS.md」的 `CLAUDE.md`;复制出去的包里 agent 打开项目就会读。内容只有发布清单(契约版本、自描述、标签、CHANGELOG、`os`、跑 `check:extension`、怎么提申请)和链接,不复制文档。
+3. **0.2.0 迁移说明**:硬切,所有还在更新的作者都得读;不用模板的作者(hth768、alont1 这类)也经过这里。单列一节「发布与申请」,内容同上。
+4. **Cortico 根目录 `AGENTS.md`**:加一行,写扩展先读 `docs/extensions.md` 与 `templates/extension/README.md`。
+5. **索引仓 README**:开头「我要…」对照表,链到 TAGS.md 与「扩展申请」格式,给从 GitHub 找过来的人。
+
+- `TAGS.md`:三级规则、词表、怎么选、每个标签的现有例子、申请格式。
 - Cortico `templates/extension/*/package.json` 的 `cortico` 块预留 `"tags": []`;模板 README「发布前」一节链到 TAGS.md。
 - Cortico `docs/extensions.md` 的 manifest 字段说明加 `tags`、`locales`、`screenshots`,链到 TAGS.md,不复制词表。
 - 更新日志见「更新日志」一节:模板带一份只有当前版本标题的 `CHANGELOG.md`。
-- `pnpm check:extension` 从 raw 读词表:标签为空时列出整张词表与 `when`;不认识的标签给出接近的几个;列出提示与警示标签,请作者对照声明;官方改过这个包的标签时附申请链接;连不上时跳过并说明。
+- `pnpm check:extension` 从 raw 读词表:标签为空时列出整张词表与 `when`;不认识的标签给出接近的几个;列出提示与警示标签,请作者对照声明;官方改过这个包的标签时附申请链接与格式;连不上时跳过并说明。末尾的「发布前」一段见上面发现路径第 1 条。
 
 ## 进度与分期
 
-1. **本仓库**:本地已有 `index.json`(25 个标签、58 个公开包的覆盖;deepseek 与 coo 两个供应商没有贴切的标签)、TAGS.md、本文档、生成脚本。待做:在 GitHub 建仓 `Pal-AI-Lab/cortico-extensions`;Action(扫 npm 生成 `catalog.json`、`packages/` 与 `assets/`、粘住名单、冒名排查、开帖与统计、评论快照 `comments/`、按版本切更新日志);两张 issue 表单。
-2. **控制台前端**:已在分支上实现,本文「控制台」一节与评论区、登录弹窗、平台标记、取代提示、更新日志都已做,另有预览页。待做:「反馈标签」链接;自描述与更新日志正文改从包详情取(现在从搜索结果取,跟服务端一起改)。
-3. **控制台服务端**:已做历史版本兼容性;`/api/extensions` 已回 `platform`。待做:读 `index.json` / `catalog.json`(认 `schema`)并合进搜索结果(标签、作者声明、官方、推荐、评分、图标、截图、author、维护者、说明、`os`、取代、能力摘要、写了更新说明的版本号),打开详情时取 `packages/<包名>.json`(完整自描述、更新日志正文)合进包详情、过滤拉黑、缓存索引、投票与评论接口、设备码登录与令牌文件、`check:extension` 的标签检查、模板与文档。
+1. **本仓库**:本地已有 `index.json`(25 个标签、58 个公开包的覆盖;deepseek 与 coo 两个供应商没有贴切的标签)、TAGS.md、本文档、生成脚本。待做:在 GitHub 建仓 `Pal-AI-Lab/cortico-extensions`;Action(扫 npm 生成 `catalog.json`、`packages/` 与 `assets/`、粘住名单、冒名排查、开帖与统计、评论快照 `comments/`、按版本切更新日志);「扩展申请」的网页表单与 Action 解析(纯文本与表单两种)、README「我要…」。
+2. **控制台前端**:已在分支上实现,本文「控制台」一节与评论区、登录弹窗、平台标记、取代提示、更新日志都已做,另有预览页。待做:「反馈标签」链接(预填包名的扩展申请);自描述与更新日志正文改从包详情取(现在从搜索结果取,跟服务端一起改)。
+3. **控制台服务端**:已做历史版本兼容性;`/api/extensions` 已回 `platform`。待做:读 `index.json` / `catalog.json`(认 `schema`)并合进搜索结果(标签、作者声明、官方、推荐、评分、图标、截图、author、维护者、说明、`os`、取代、能力摘要、写了更新说明的版本号),打开详情时取 `packages/<包名>.json`(完整自描述、更新日志正文)合进包详情、过滤拉黑、缓存索引、投票与评论接口、设备码登录与令牌文件、`check:extension` 的标签检查与「发布前」一段、模板 `AGENTS.md` / `CLAUDE.md`、根目录 AGENTS.md 一行、迁移说明、文档。
 4. **GitHub App**:建 App(打开 Device Flow,关掉用户令牌过期)、开 Discussions 与分类。
 5. **0.2.0 发版**:见「0.2.0 发版」。
 

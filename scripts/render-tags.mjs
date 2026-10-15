@@ -60,9 +60,9 @@ Pick every tag below that fits for \`cortico.tags\` in package.json; the console
 | Notice (yellow) | add; remove only what the author added | add and remove |
 | Warning (red) | add; once any version declares it, it stays | add and remove |
 
-提示与警示标签请作者对照下表主动声明。要去掉官方加的标签,或撤销声明过的警示标签,到本仓库提标签申请。
+提示与警示标签请作者对照下表主动声明。要去掉官方加的标签,或撤销声明过的警示标签,到本仓库提 issue,标题 \`[标签] 包名\`,格式见 [README](README.md)。
 没有这些标签只表示作者没声明、官方也还没审查到,不代表安全。
-Declare notice and warning tags yourself where they apply. To remove a tag added by maintainers, or withdraw a declared warning tag, open a tag request in this repository.
+Declare notice and warning tags yourself where they apply. To remove a tag added by maintainers, or withdraw a declared warning tag, open an issue titled \`[tags] package-name\` in this repository; see the [README](README.md) for the format.
 Their absence means "not declared and not reviewed yet", not "safe".
 
 ## 普通 / Plain tags
@@ -82,8 +82,8 @@ ${warning.map(([id, t]) => row(id, t)).join('\n')}
 
 ## 新增标签 / Proposing a tag
 
-至少 3 个已发布的扩展会用到时,给本仓库提 PR 改 \`index.json\`,名称与说明给中英两种。
-Open a PR against \`index.json\` once at least 3 published extensions would use the tag; give labels and texts in Chinese and English.
+至少 3 个已发布的扩展会用到时,提 issue(标题 \`[新标签] 标签 id\`)或直接提 PR 改 \`index.json\`,名称与说明给中英两种。
+Once at least 3 published extensions would use the tag, open an issue titled \`[new-tag] id\` or a PR against \`index.json\`; give labels and texts in Chinese and English.
 `;
 
 writeFileSync(`${root}TAGS.md`, md);
