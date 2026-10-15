@@ -52,9 +52,9 @@ ${author.map(([id, t]) => row(id, t)).join('\n')}
 
 ## 官方标签 / Official tags
 
-下面这些标签由官方审查后添加:\`internal-state\` 显示为提示色,其余显示为警示色。作者写进 \`cortico.tags\` 也会被忽略,作者也去不掉。
+下面这些标签由官方审查后添加:\`internal-state\`、\`requires-extension\` 显示为黄色提示色,其余显示为红色警示色。作者写进 \`cortico.tags\` 也会被忽略,作者也去不掉。
 没有这些标签只表示还没审查到,不代表安全。
-These are added by maintainers after review; \`internal-state\` is shown as a notice, the rest as warnings. Authors cannot add or remove them.
+These are added by maintainers after review; \`internal-state\` and \`requires-extension\` are shown as yellow notices, the rest as red warnings. Authors cannot add or remove them.
 Their absence means "not reviewed yet", not "safe".
 
 ${head}

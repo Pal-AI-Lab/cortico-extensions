@@ -109,18 +109,18 @@
         "en": "Lets the bot listen (speech recognition), speak (speech synthesis) or take calls."
       }
     },
-    "desktop": {
+    "computer-use": {
       "label": {
-        "zh": "桌面",
-        "en": "Desktop"
+        "zh": "电脑操作",
+        "en": "Computer use"
       },
       "hint": {
-        "zh": "桌宠、读前台窗口、判断在不在电脑前、操控鼠标键盘。",
-        "en": "Desktop pets, reading the foreground window, presence detection, mouse and keyboard control."
+        "zh": "让 bot 操作电脑：鼠标、键盘和窗口。",
+        "en": "Lets the bot operate the computer: mouse, keyboard and windows."
       },
       "when": {
-        "zh": "在用户的电脑桌面上出现或起作用：桌宠、读前台窗口、在不在电脑前、操控鼠标键盘。",
-        "en": "Lives on or acts on the user's desktop: desktop pets, reading the foreground window, presence detection, mouse and keyboard control."
+        "zh": "让 bot 操作用户的电脑：鼠标、键盘、窗口。只读屏幕或前台窗口不算，那类由官方标「读取隐私」。",
+        "en": "Lets the bot operate the user's computer: mouse, keyboard, windows. Only reading the screen or foreground window does not count; maintainers mark that as sensitive-data."
       }
     },
     "real-world": {
@@ -298,6 +298,22 @@
         "zh": "官方审查后添加。World 自己保存并注入 bot 的情绪、好感、记忆、经历这类内部状态。",
         "en": "Added after official review. The World keeps and injects the bot's own internal state: mood, affinity, memories, experiences."
       }
+    },
+    "requires-extension": {
+      "officialOnly": true,
+      "style": "notice",
+      "label": {
+        "zh": "依赖其他扩展",
+        "en": "Requires other extensions"
+      },
+      "hint": {
+        "zh": "这个扩展依赖其他扩展才能正常运行，具体请查看说明。注意：我们强烈反对引入任何 World 扩展之间的互相依赖，请将单个外部环境整合为单一 World，确为必要时优先通过订阅事件流等方式间接传递信号。",
+        "en": "This extension needs other extensions to work; see its README. Note: we strongly oppose dependencies between World extensions. Integrate one outside environment into a single World; where truly necessary, pass signals indirectly, for example by subscribing to the event stream."
+      },
+      "when": {
+        "zh": "官方审查后添加。这个扩展依赖其他扩展才能正常运行，具体请查看说明。注意：我们强烈反对引入任何 World 扩展之间的互相依赖，请将单个外部环境整合为单一 World，确为必要时优先通过订阅事件流等方式间接传递信号。Bot 扩展不打这个标签。",
+        "en": "Added after official review. This extension needs other extensions to work; see its README. Note: we strongly oppose dependencies between World extensions. Integrate one outside environment into a single World; where truly necessary, pass signals indirectly, for example by subscribing to the event stream. Bot extensions do not get this tag."
+      }
     }
   },
   "featured": [],
@@ -344,7 +360,6 @@
     "cortico-world-humanlike-alont1": {
       "addTags": [
         "companion",
-        "desktop",
         "sensitive-data",
         "internal-state"
       ],
@@ -365,7 +380,6 @@
     "cortico-world-gaming-alont1": {
       "addTags": [
         "companion",
-        "desktop",
         "sensitive-data"
       ],
       "note": {
@@ -403,7 +417,6 @@
     "cortico-world-alive-alont1": {
       "addTags": [
         "companion",
-        "desktop",
         "sensitive-data",
         "internal-state"
       ],
@@ -519,7 +532,8 @@
     "cortico-world-gemini-web": {
       "addTags": [
         "browser",
-        "unofficial-api"
+        "unofficial-api",
+        "requires-extension"
       ],
       "note": {
         "zh": "借用 Gemini 网页登录态",
@@ -569,13 +583,15 @@
         "im",
         "qq",
         "companion",
-        "internal-state"
+        "internal-state",
+        "requires-extension"
       ]
     },
     "cortico-world-qq-admin": {
       "addTags": [
         "im",
-        "qq"
+        "qq",
+        "requires-extension"
       ]
     },
     "cortico-world-tts": {
@@ -592,39 +608,43 @@
       "addTags": [
         "im",
         "qq",
-        "companion"
+        "companion",
+        "requires-extension"
       ]
     },
     "cortico-world-qq-history": {
       "addTags": [
         "im",
         "qq",
-        "memory"
+        "memory",
+        "requires-extension"
       ]
     },
     "cortico-world-qq-proactive": {
       "addTags": [
         "im",
         "qq",
-        "companion"
+        "companion",
+        "requires-extension"
       ]
     },
     "cortico-world-qq-routine": {
       "addTags": [
         "im",
         "qq",
-        "companion"
+        "companion",
+        "requires-extension"
       ]
     },
     "cortico-world-qq-reminder": {
       "addTags": [
         "im",
-        "qq"
+        "qq",
+        "requires-extension"
       ]
     },
     "cortico-world-presence": {
       "addTags": [
-        "desktop",
         "companion",
         "sensitive-data"
       ],
@@ -636,7 +656,8 @@
     "cortico-world-qq-groupspeak": {
       "addTags": [
         "im",
-        "qq"
+        "qq",
+        "requires-extension"
       ]
     },
     "cortico-world-qq-notebook": {
@@ -644,20 +665,23 @@
         "im",
         "qq",
         "memory",
-        "internal-state"
+        "internal-state",
+        "requires-extension"
       ]
     },
     "cortico-world-qq-qzone": {
       "addTags": [
         "im",
-        "qq"
+        "qq",
+        "requires-extension"
       ]
     },
     "cortico-world-qq-voice": {
       "addTags": [
         "im",
         "qq",
-        "voice"
+        "voice",
+        "requires-extension"
       ]
     },
     "cortico-world-qiandengji": {
@@ -669,7 +693,8 @@
     "cortico-world-qq-antiloop": {
       "addTags": [
         "im",
-        "qq"
+        "qq",
+        "requires-extension"
       ]
     },
     "cortico-world-qq-emotion": {
@@ -677,20 +702,23 @@
         "im",
         "qq",
         "companion",
-        "internal-state"
+        "internal-state",
+        "requires-extension"
       ]
     },
     "cortico-world-qq-sticker": {
       "addTags": [
         "im",
-        "qq"
+        "qq",
+        "requires-extension"
       ]
     },
     "cortico-provider-gemini-web": {
       "addTags": [
         "browser",
         "external-setup",
-        "unofficial-api"
+        "unofficial-api",
+        "requires-extension"
       ],
       "note": {
         "zh": "借用 Gemini 网页登录态",

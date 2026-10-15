@@ -54,8 +54,8 @@
 
 词表与每个标签的用法见 [TAGS.md](TAGS.md)。要点:
 
-- 16 个作者标签:im、qq、streaming、game、browser、video、voice、desktop、real-world、apps、memory、companion、creative、diagnostics、local、external-setup。apps 只在其他标签都不适用时用。
-- 4 个官方标签,作者写了无效、也去不掉:unsafe、sensitive-data、unofficial-api 显示为警示色;internal-state 显示为提示色。
+- 16 个作者标签:im、qq、streaming、game、browser、video、voice、computer-use、real-world、apps、memory、companion、creative、diagnostics、local、external-setup。apps 只在其他标签都不适用时用。
+- 5 个官方标签,作者写了无效、也去不掉:unsafe、sensitive-data、unofficial-api 显示为红色警示色;internal-state、requires-extension 显示为黄色提示色。requires-extension 不打给 Bot 扩展。
 - 不设数量上限。作者贴错,官方在 `overrides` 里改。
 - 每个标签两段文字:`when` 给作者与 agent 判断该不该贴,`hint` 是用户悬停看到的说明。
 - 一个包的标签 = 作者 `cortico.tags` 中词表内的作者标签 ∪ `keywords` 中属于词表的词 ∪ 官方 `addTags` − 官方 `removeTags`。
