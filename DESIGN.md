@@ -114,7 +114,7 @@
 
 ```jsonc
 {
-  "official": { "maintainers": ["phantivia"], "names": ["Pal AI Lab", "Cortico", "Coopanion"] },
+  "official": { "maintainers": ["phantivia"], "githubOwners": ["Pal-AI-Lab"], "names": ["Pal AI Lab", "Cortico", "Coopanion"] },
   "tags": { "...": "见 TAGS.md" },
   "featured": ["cortico-world-bilibili"],
   "blocked": {
@@ -132,7 +132,7 @@
 }
 ```
 
-- **官方**:npm 维护者里有 `official.maintainers` 列出的账号就算官方(现在 phantivia,14 个包)。按维护者判断,不按发布者:用 GitHub Actions 发布的包,发布者都显示为 GitHub Actions。
+- **官方**:Cortico 主仓库与 Pal-AI-Lab 名下仓库发布的包。两条同时满足才算:npm 维护者里有 `official.maintainers` 列出的账号;package.json 的 `repository` 指向 `official.githubOwners` 下的仓库。`repository` 谁都能填,所以维护者那条用来防冒充;维护者账号发在个人仓库的包不算官方。现在是 5 个:主仓库发布的 qq、bilibili、websearch、minecraft,与 Coopanion 仓里的 coo。按维护者判断,不按发布者:用 GitHub Actions 发布的包,发布者都显示为 GitHub Actions。
 - **推荐**:`featured` 里的包名,没有推荐语;排序「按推荐」按列表顺序排在前面。只推荐第三方的包,官方的包不进推荐;上线时为空,由官方按需添加。
 - **冒名排查**:author 谁都能写,npm 账号只有本人能用。Action 把 author 或 displayName 里带 `official.names`、但维护者不在 `official.maintainers` 里的包列出来,官方人工看,确认冒名就拉黑。
 - **拉黑**:被拉黑的包,或被拉黑的 npm 发布者发的所有包,不在市场里出现。手动按包名安装时提示拉黑原因,但不拦。已装的不隐藏,在已安装卡片上标红写出原因。控制台把最近一次读到的 `index.json` 缓存在扩展目录里,连不上 GitHub 时继续按缓存拦。
@@ -220,7 +220,7 @@
 
 1. 本仓库上 GitHub,Action 跑通,`catalog.json` 与 `packages/` 有数据;GitHub App 建好并实测设备码登录。
 2. 写迁移说明(改名对照、自描述怎么写、`describe:extension` / `check:extension` 用法),放 Cortico `docs/`。
-3. 官方的包(现在 phantivia 名下 14 个)按新契约重发。
+3. 官方的包与维护者自己名下的包(现在 phantivia 名下 15 个)按新契约重发。
 4. 提前通知第三方作者(hth768 19 个、alont1 14 个,其余零散),给出迁移说明与发版日期。
 5. 发 0.2.0。市场里没跟上的包显示「不兼容」,详情写原因。
 
