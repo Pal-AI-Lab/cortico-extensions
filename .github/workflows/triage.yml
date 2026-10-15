@@ -4,8 +4,6 @@ name: Triage extension requests
 on:
   issues:
     types: [opened, edited, reopened]
-  push:
-    branches: [feat/actions-schema-1]
   workflow_dispatch:
     inputs:
       issue:
@@ -22,7 +20,7 @@ concurrency:
 
 jobs:
   triage:
-    if: github.event_name != 'issues' || !github.event.issue.pull_request
+    if: github.event_name == 'workflow_dispatch' || !github.event.issue.pull_request
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -33,4 +31,4 @@ jobs:
       - run: node scripts/triage.mjs
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          ISSUE_NUMBER: ${{ inputs.issue || 69 }}
+          ISSUE_NUMBER: ${{ inputs.issue }}
