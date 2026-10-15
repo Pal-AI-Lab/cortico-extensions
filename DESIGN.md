@@ -1,6 +1,6 @@
 # Cortico 扩展市场升级:设计
 
-状态:控制台前端已在 Cortico 分支 `feat/extension-market-index` 上实现,待随 0.2.0 合并;服务端只做了历史版本兼容性,其余未做;Action 与 GitHub App 未做。
+状态:控制台前端已在 Cortico 分支 `feat/extension-market-index` 上实现,待随 0.2.0 合并;服务端已做历史版本兼容、`platform` 与包详情的 `os`,其余未做;GitHub App 已建并装在本仓库,Action 未做。
 
 - GitHub 仓库名定为 `Pal-AI-Lab/cortico-extensions`(本地目录仍叫 cortico-extension-index)。
 - 全部改动攒到 Cortico 0.2.0 一起发,world / provider / bot 三类契约版本各加一,硬切(见「0.2.0 发版」)。
