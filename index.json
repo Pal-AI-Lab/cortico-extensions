@@ -314,6 +314,22 @@
         "zh": "官方审查后添加。这个扩展依赖其他扩展才能正常运行，具体请查看说明。注意：我们强烈不建议引入任何 World 扩展之间的互相依赖，请将单个外部环境整合为单一 World，确为必要时优先通过订阅事件流等方式间接传递信号。Bot 扩展不打这个标签。",
         "en": "Added after official review. This extension needs other extensions to work; see its README. Note: we strongly advise against dependencies between World extensions. Integrate one outside environment into a single World; where truly necessary, pass signals indirectly, for example by subscribing to the event stream. Bot extensions do not get this tag."
       }
+    },
+    "high-cost": {
+      "officialOnly": true,
+      "style": "notice",
+      "label": {
+        "zh": "高消耗",
+        "en": "High token use"
+      },
+      "hint": {
+        "zh": "这个扩展可能让 Token 消耗得很快。",
+        "en": "This extension may use tokens quickly."
+      },
+      "when": {
+        "zh": "会让 bot 频繁调用模型或每次带很多上下文，比如高频事件、持续截屏或视频帧、长文本注入。",
+        "en": "Makes the bot call the model often or with large context, such as high-frequency events, continuous screenshots or video frames, or long injected text."
+      }
     }
   },
   "featured": [],
