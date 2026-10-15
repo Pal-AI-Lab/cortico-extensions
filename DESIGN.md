@@ -1,6 +1,6 @@
 # Cortico 扩展市场升级:设计
 
-状态:控制台前端已在 Cortico 分支 `feat/extension-market-index` 上实现(本地,未推);服务端只做了历史版本兼容性,其余未做;本仓库在本地,尚未推到 GitHub。
+状态:控制台前端已在 Cortico 分支 `feat/extension-market-index` 上实现,待随 0.2.0 合并;服务端只做了历史版本兼容性,其余未做;Action 与 GitHub App 未做。
 
 - GitHub 仓库名定为 `Pal-AI-Lab/cortico-extensions`(本地目录仍叫 cortico-extension-index)。
 - 全部改动攒到 Cortico 0.2.0 一起发,world / provider / bot 三类契约版本各加一,硬切(见「0.2.0 发版」)。
@@ -133,7 +133,7 @@
 ```
 
 - **官方**:npm 维护者里有 `official.maintainers` 列出的账号就算官方(现在 phantivia,14 个包)。按维护者判断,不按发布者:用 GitHub Actions 发布的包,发布者都显示为 GitHub Actions。
-- **推荐**:`featured` 里的包名,没有推荐语;排序「按推荐」按列表顺序排在前面。只推荐第三方的包,官方的包不进推荐;上线时为空,由操作员按需添加。
+- **推荐**:`featured` 里的包名,没有推荐语;排序「按推荐」按列表顺序排在前面。只推荐第三方的包,官方的包不进推荐;上线时为空,由官方按需添加。
 - **冒名排查**:author 谁都能写,npm 账号只有本人能用。Action 把 author 或 displayName 里带 `official.names`、但维护者不在 `official.maintainers` 里的包列出来,官方人工看,确认冒名就拉黑。
 - **拉黑**:被拉黑的包,或被拉黑的 npm 发布者发的所有包,不在市场里出现。手动按包名安装时提示拉黑原因,但不拦。已装的不隐藏,在已安装卡片上标红写出原因。控制台把最近一次读到的 `index.json` 缓存在扩展目录里,连不上 GitHub 时继续按缓存拦。
 - **`note`**:官方说明这个包为什么带某个标签,显示在安装确认里。
