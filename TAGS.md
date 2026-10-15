@@ -35,7 +35,7 @@ Blue marks for extensions used by an official Cortico downstream product. Only m
 
 | id | Label | When to use | Hover hint shown to users | Existing examples |
 |---|---|---|---|---|
-| `pal-ai-world` | Pal AI World | Maintainers only; authors cannot declare it. Marks extensions used by an official Cortico downstream product. Worlds in Pal AI World. | Part of Pal AI World: a virtual world designed for AI bots. | `cortico-world-dungeon` |
+| `pal-ai-world` | Pal AI World | Maintainers only; authors cannot declare it. Marks extensions used by an official Cortico downstream product. Worlds in the Pal AI World Project. | Part of the Pal AI World Project: a virtual world designed for AI bots. | `cortico-world-dungeon` |
 | `corti` | Corti Vtuber | Maintainers only; authors cannot declare it. Marks extensions used by an official Cortico downstream product. World extensions used on Corti Vtuber live streams. | Used on the streams of our idol Corti, the cutest sea-salt daifuku AI Vtuber!<br>Follow @可缇Corti on bilibili. Thanks, nya~ | `cortico-world-bilibili` `cortico-world-minecraft` `cortico-world-asr` `cortico-world-sisterdrive` and 7 more |
 | `coopanion` | Coopanion | Maintainers only; authors cannot declare it. Extensions used by Coopanion, the desktop companion built on Cortico. | Used by Coo, the adorable AI desktop pet! Coo… | `cortico-provider-coo` |
 
