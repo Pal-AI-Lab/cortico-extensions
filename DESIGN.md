@@ -92,17 +92,18 @@
 
 ## 评论与评分
 
-- 本仓库开 Discussions,建一个 Announcement 格式的分类:只有维护者能开帖,任何人能回复。
-- Action 发现 npm 上有新包就开帖,标题是包名。
-- 评分是首楼的 👍 / 👎;GitHub 没有星级。评论是帖子回复。
-- 详情抽屉里嵌 giscus(按包名对应帖子,严格匹配标题)。看评论不用登录;回复和点赞时在嵌入框里授权 giscus 这个 GitHub App,以用户自己的账号发出。Cortico 不经手 GitHub 账号或 token。
-- 卡片上的 👍 数和「按评分排序」用 `catalog.json` 里 Action 取好的数,不必每张卡片加载 giscus。
-- 先用 giscus.app 公共实例。它挂了只是评论区加载不出来;要换成自建,数据都在 Discussions 里,控制台改一个地址即可。
+- 本仓库开 Discussions,建一个 Announcement 格式的分类:只有维护者能开帖,任何人能回复。Action 发现 npm 上有新包就开帖,标题是包名。
+- 评分是首楼的喜欢 / 不喜欢两种 reaction;评论是帖子回复。
+- 直接投票(待定):建 GitHub App「Cortico 扩展市场」,只有 Discussions 读写权限,只装在本仓库。用户第一次投票时控制台走设备码登录(github.com/login/device),由本机 Cortico 服务端完成,不需要服务器和 client secret。令牌只能动装了这个 App 的仓库,存在本机扩展目录;服务端代用户调 GraphQL 加 / 撤 reaction。接口 `POST /api/extensions/vote { name, vote: "up" | "down" | null }`,回应带最新的 up / down / comments 与本机账号的 `mine`。
+- 一人一票:同一账号对同一帖的同种 reaction,GitHub 只记一次;喜欢和不喜欢二选一由控制台保证(改票先撤旧的)。绕过控制台两种都点了的账号,Action 统计时算作不投票。
+- 卡片上的数字和「按评分排序」用 `catalog.json` 里 Action 取好的数;投票后用服务端回的实时数。
+- 评论区:继续嵌 giscus,或用同一个 App 的令牌自己渲染(样式一致,也去掉对 giscus.app 的依赖)。用 giscus 时投票和评论要分别授权两个 App。
 - 审核用 GitHub 自带的隐藏、删除、锁帖、组织级屏蔽。
+- 卡片署名用 npm 账号(维护者;发布者是 GitHub Actions 时改用维护者),不用 package.json 的 author:后者谁都能写。author 放进悬停说明并注明是自填。
 
 ## 控制台
 
-- **卡片**:头像、名称、「官方」与「推荐」徽标、简介、标签(悬停看说明)、👍 数、下载量;官方标签排在最前。
+- **卡片**:见预案页「控制台」一节。
 - **标签颜色**:作者标签中性色;警示标签(unsafe、sensitive-data、unofficial-api)红色,提示标签(internal-state)黄色。这两种颜色不跟配色方案走,只分明暗两档,因为各配色方案的 `--warn` 不全是黄色。选中的筛选标签用实心填充并排到最前。
 - **市场顶部**:「推荐」一行,下面是标签筛选条;排序加「推荐」「评分」。
 - **详情抽屉**:两栏。左栏是简介、标签、官方标注与理由、截图、紧凑的信息表与历史版本;右栏是 giscus 评论区。窄屏叠成一栏。
