@@ -1,15 +1,17 @@
 // 按 index.json 生成 TAGS.md:词表的唯一来源是 index.json,TAGS.md 不手改。
 // TAGS.md 是给扩展作者的 coding agent 看的,只写英文;标签名与悬停说明的中文只进控制台。
-import { readFileSync, writeFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { writeFileSync } from 'node:fs';
+import { loadIndex, readJson, root } from './lib.mjs';
 
-const root = fileURLToPath(new URL('..', import.meta.url));
-const index = JSON.parse(readFileSync(`${root}index.json`, 'utf8'));
+const index = loadIndex();
 const EXAMPLES = 4;
 
-const examples = (id) => Object.entries(index.overrides)
-  .filter(([, o]) => o.addTags?.includes(id))
-  .map(([name]) => `\`${name}\``);
+// 例子取 Action 合并后的标签;还没有 catalog.json 时退回 index.json 的 addTags。
+const catalog = readJson('catalog.json');
+const tagsOf = catalog
+  ? Object.entries(catalog.packages).map(([name, p]) => [name, p.tags])
+  : Object.entries(index.overrides).map(([name, o]) => [name, o.addTags ?? []]);
+const examples = (id) => tagsOf.filter(([, tags]) => tags.includes(id)).map(([name]) => `\`${name}\``);
 
 const row = (id, t) => {
   const ex = examples(id);

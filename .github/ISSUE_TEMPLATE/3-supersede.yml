@@ -1,0 +1,32 @@
+name: "取代 / Superseded"
+description: "说明旧包已被新包取代 / Mark an old package as superseded by a new one"
+title: "[supersede] "
+labels:
+  - "supersede"
+body:
+  - type: "markdown"
+    attributes:
+      value: "标题写成 `[supersede] 旧包名`。先在 npm 上弃用旧包(只有包的维护者能做,算身份证明):`npm deprecate 旧包 \"改用 新包\"`。\n\nTitle: `[supersede] old-package`. First deprecate the old package on npm (only its maintainers can, which proves ownership): `npm deprecate old-package \"use new-package\"`."
+  - type: "input"
+    id: "package"
+    attributes:
+      label: "包名 / Package (`package`)"
+      description: "旧包 / The old package"
+      placeholder: "cortico-world-xxx"
+    validations:
+      required: true
+  - type: "input"
+    id: "by"
+    attributes:
+      label: "新包 / New package (`by`)"
+      description: "取代旧包的新包 / The package that replaces the old one"
+      placeholder: "cortico-world-yyy"
+    validations:
+      required: true
+  - type: "textarea"
+    id: "reason"
+    attributes:
+      label: "理由 / Reason (`reason`)"
+      description: "一两句 / A sentence or two"
+    validations:
+      required: false

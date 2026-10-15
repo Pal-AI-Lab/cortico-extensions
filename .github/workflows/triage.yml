@@ -1,0 +1,34 @@
+# 扩展申请:认标题前缀与正文的「键: 值」,贴 label,在 issue 下维护一条中英双语回帖。
+name: Triage extension requests
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: Issue number
+        required: true
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: triage-${{ github.event.issue.number || inputs.issue }}
+  cancel-in-progress: true
+
+jobs:
+  triage:
+    if: github.event_name == 'workflow_dispatch' || !github.event.issue.pull_request
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: node scripts/triage.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ inputs.issue }}

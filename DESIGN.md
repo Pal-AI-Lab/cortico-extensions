@@ -1,6 +1,6 @@
 # Cortico 扩展市场升级:设计
 
-状态:控制台前端已在 Cortico 分支 `feat/extension-market-index` 上实现,待随 0.2.0 合并;服务端已做历史版本兼容、`platform` 与包详情的 `os`,其余未做;GitHub App 已建并装在本仓库,Action 未做。
+状态:控制台前端已在 Cortico 分支 `feat/extension-market-index` 上实现,待随 0.2.0 合并;服务端已做历史版本兼容、`platform` 与包详情的 `os`,其余未做;GitHub App 已建并装在本仓库;Action(扫 npm、开帖、评论快照、扩展申请)已跑通,讨论帖已为现有的包开好。
 
 - GitHub 仓库名定为 `Pal-AI-Lab/cortico-extensions`(本地目录仍叫 cortico-extension-index)。
 - 全部改动攒到 Cortico 0.2.0 一起发,world / provider / bot 三类契约版本各加一,硬切(见「0.2.0 发版」)。
@@ -32,19 +32,66 @@
 | Discussions | 本仓库 | 用户 | 每个包一帖:回复是评论,首楼 reaction 是喜欢 / 不喜欢 |
 | Issues | 本仓库 | 任何人 | 扩展申请:标签、认证、取代、拉黑申诉、举报、新增标签、其他 |
 | GitHub App「Cortico 扩展市场」 | GitHub | 官方建 | 只有 Discussions 读写权限,只装在本仓库;控制台用它代用户投票、读写评论;安装 ID 与 Client ID 存为仓库变量 `APP_INSTALLATION_ID` / `APP_CLIENT_ID`,私钥存为 Actions secret `APP_PRIVATE_KEY`(Action 用安装令牌开帖) |
+| Action | 本仓库 `.github/workflows/` | 官方 | `sync.yml` 定时扫 npm、开帖、写快照并提交;`triage.yml` 处理扩展申请,见「Action」 |
 | 控制台 | Cortico | | 服务端读索引并合进搜索结果;页面见「控制台」 |
 
 控制台读 `raw.githubusercontent.com` 上的 `index.json` 与 `catalog.json`,不调 GitHub API(匿名每 IP 每小时 60 次)。raw 文件有 5 分钟 CDN 缓存。
 
 - **格式版本**:`index.json`、`catalog.json` 与 `packages/` 里的文件都带 `"schema": 1`。控制台只认自己知道的版本,不认识的当作索引读不到,退回纯 npm。格式不兼容地改时换路径(`v2/catalog.json`),旧路径留着给已发出的控制台。
 - **文件名**:包名直接当文件名,作用域包的 `/` 换成 `__`(`@scope/name` → `@scope__name.json`),`packages/`、`comments/`、`assets/` 同一规则。非作用域包名不能以 `@` 开头,所以只有 `@` 开头的文件名要换回 `/`,不会撞。
+- **只用 npm 包名**:`index.json`、`catalog.json`、讨论帖标题都按 npm 包名。内建 World 在控制台里的内部名(`builtin:world:<id>`)对应 npm 包 `cortico-world-<id>`,由控制台换算,索引里不出现内部名。
+
+## 文件格式(`schema: 1`)
+
+Action 生成的文件不手改。地址都相对本仓库根目录,控制台拼上 raw 地址取。字段缺席表示没有,不写 `null`。
+
+**`catalog.json`**:
+
+```jsonc
+{
+  "schema": 1,
+  "sticky": { "cortico-world-xxx": ["unsafe"] },       // 粘住名单
+  "packages": {
+    "cortico-world-xxx": {
+      "kind": "world", "version": "0.2.0",
+      "displayName": "…", "description": "…",
+      "locales": { "en": { "displayName": "…", "description": "…" } },
+      "author": "…", "maintainers": ["npm 账号"], "license": "MIT", "keywords": ["…"],
+      "links": { "npm": "…", "repository": "…", "homepage": "…", "bugs": "…" },
+      "os": ["win32"],
+      "created": "首次发布时间", "published": "当前版本发布时间", "versionCount": 3,
+      "deprecated": "当前版本在 npm 上的弃用说明",
+      "official": true, "isNew": false,
+      "declaredTags": ["作者当前版本 cortico.tags 里词表内的"],
+      "tags": ["合并后的,按词表顺序"],
+      "icon": "assets/cortico-world-xxx/icon.png",
+      "screenshots": ["assets/cortico-world-xxx/screenshot-1.png"],
+      "downloads": { "total": 0, "month": 0, "week": 0 },
+      "summary": { "tools": 5, "events": 3 },              // 能力摘要,见「扩展自描述」
+      "changelog": { "versions": ["0.2.0"], "url": "…" },
+      "discussion": { "number": 12, "url": "…", "up": 3, "down": 0, "comments": 4 }
+    }
+  }
+}
+```
+
+- `summary`:World 是 `{ tools, events }`(个数);供应商是 `{ protocols, auth, input, local }`;Bot 是 `{ worlds, memory }`(World 个数与 Memory 名)。
+- `downloads.total` 现在是近一年(npm 批量接口最多一年),包都不到一年,等于累计。
+- `discussion.comments` 是顶层评论加回复的条数,被隐藏的不算;`up` / `down` 已去掉两种都点的账号。
+- `catalog.json` 包括被拉黑的包,由控制台按 `index.json` 过滤;被拉黑的包不开讨论帖、不带新品。
+
+**`packages/<包名>.json`**:`{ schema, name, version, describe?, changelog? }`。`describe` 是包里自描述文件的原样内容;`changelog` 是 `{ "0.2.0": "这一版的说明" }`。版本没变就不重新解包。
+
+**`comments/<包名>.json`**:`{ schema, name, discussion, total, comments }`,`comments` 与 `GET /api/extensions/comments` 回应里的同形(新的在前,`replies` 旧的在前),一次写全部,控制台自己分页。没有评论的包没有文件,读不到就当没有评论。
+
+**`assets/<包名>/`**:`icon.<png|webp|svg>`(最大 512KB)、`screenshot-<n>.<png|webp|jpg>`(每张最大 2MB,最多 8 张)。路径来自 `cortico.icon` 与 `cortico.screenshots`,只认包内相对路径。
 
 ## 每个扩展的信息
 
 | 来源 | 信息 |
 |---|---|
 | 作者(package.json 与包内文件) | 包名、版本、简介、author、许可证、主页 / 仓库 / 问题链接、`engines`、依赖、`os`、`funding`、README、`CHANGELOG.md` |
-| 作者(`cortico` 块) | `kind`、`api`、`displayName`、`icon`、面板产物;新增 `tags`、`locales`、`screenshots` |
+| 作者(`cortico` 块) | `kind`、`api`、`displayName`、`icon`、面板产物;新增 `tags`、`locales`、`screenshots`、`describe` |
 | 官方(`index.json`) | 是否认证、是否拉黑、增删标签及理由(`note`)、「已被 X 取代」 |
 | Action(`catalog.json` 与 `packages/`) | 上面作者字段的汇总、npm 维护者、是否官方、作者声明的标签、粘住名单、图标与截图地址、下载量(累计 / 30 天 / 7 天)、讨论帖编号、喜欢 / 不喜欢 / 评论数、自描述、更新日志 |
 | 控制台现场算 | 已装、待重启、有更新、契约兼容(当前版本与每个历史版本) |
@@ -58,7 +105,8 @@
   "icon": "assets/icon.png",
   "tags": ["streaming"],
   "locales": { "en": { "displayName": "Bilibili Live", "description": "Read danmaku and gifts from a Bilibili live room." } },
-  "screenshots": ["assets/shot-1.png"]
+  "screenshots": ["assets/shot-1.png"],
+  "describe": "describe.json"
 }
 ```
 
@@ -77,7 +125,7 @@
 
 0.2.0 起三类扩展都要导出自描述,三类契约版本随 0.2.0 各加一。
 
-- **数据源**:声明写在 Definition 的静态字段里,运行时用的是同一份。发布前跑 `pnpm describe:extension`,用干装载把声明导出成包里的 `describe.json`,manifest 写它的路径;`check:extension` 检查文件与代码当前的声明一致。Action 与控制台只读这个文件,不执行扩展代码。
+- **数据源**:声明写在 Definition 的静态字段里,运行时用的是同一份。发布前跑 `pnpm describe:extension`,用干装载把声明导出成包里的 `describe.json`,`cortico.describe` 写它的包内路径;`check:extension` 检查文件与代码当前的声明一致。Action 与控制台只读这个文件,不执行扩展代码。
 - **World**:
   - `tools`:全部工具,每个有 `name`、`description`(给模型)、`parameters`、`tags`,可选 `summary`(给人看的一句话)。实例的 `tools()` 只能返回其中的子集,可以按配置改描述;Core 挂载时检查工具名都在声明里。
   - `events`:会推出的事件,每个有 `type`、`description`(必填,给人看的一句话)、默认投递方式与标签。推出没声明的事件照常投递,记进运行日志并在 World 页标出。
@@ -190,12 +238,14 @@
   证据 / evidence: 链接(源码行、npm 页、截图)
   ```
 
-  用不到的键不写。Action 两种都解析(网页表单的输出是 `### 包名` 加一段),按类型贴 label,并回帖贴出这个包现在的标签与来源、是否已在 npm 上弃用。格式不对时回帖说明缺了哪项,不关 issue。
+  用不到的键不写。Action 两种都解析(网页表单的输出是 `` ### 包名 / Package (`package`) `` 加一段,标题里任一段认得就行),按类型贴 label,并回帖贴出这个包现在的标签与来源、是否已在 npm 上弃用。格式不对时回帖说明缺了哪项、贴 `needs-info`,不关 issue。每个 issue 只有一条 Action 回帖(带隐藏标记),编辑 issue 后更新那一条。
+- **各类型的必填项**:标签要包名、加或去至少一项、理由;取代要旧包名与新包,且旧包已在 npm 上弃用;申诉、举报要包名与理由;新标签要标题里的 id(小写字母、数字、连字符,不能已在词表里)与理由;认证只要包名,回帖附自动核对结果,官方的包不收;其他没有必填项。
+- **网页表单**:`.github/ISSUE_TEMPLATE/` 每种类型一个,标题预填前缀,字段名中英双语并在括号里写键名;不开空白 issue,Cortico 本身的问题链到主仓库。
 - 入口:索引仓 README 开头「我要…」;TAGS.md;`check:extension` 的「发布前」一段;控制台详情的标签行加「反馈标签」链接,打开预填包名的 issue(待做)。
 
 ## 喜欢 / 不喜欢与评论
 
-- 本仓库开 Discussions,建一个 Announcement 格式的分类:只有维护者能开帖,任何人能回复。Action 发现 npm 上有新包就开帖,标题是包名。
+- 本仓库开 Discussions,建一个 Announcement 格式的分类(Extensions,slug `extensions`):只有维护者能开帖,任何人能回复。Action 发现 npm 上有新包就用 App 的安装令牌开帖(实测 Announcement 分类开得了,发帖人显示为这个 App),标题是包名,首楼是中英两段说明;被拉黑的包不开帖。
 - 喜欢 / 不喜欢是首楼的两种 reaction,评论是帖子回复。
 - **投票和评论都走 GitHub App**:用户第一次投票或评论时,控制台走设备码登录(github.com/login/device),由本机 Cortico 服务端完成,不需要服务器和 client secret。App 设置里关掉「Expire user authorization tokens」:用户令牌默认 8 小时过期,续期要 client secret,而 client secret 不能随 Cortico 分发;关掉后令牌只在用户撤销或一年未用时失效,失效时接口回 428 重新登录。令牌只能动装了这个 App 的仓库,存在本机扩展目录的 `github-token.json`,Cortico 的 `.gitignore` 单列了这个文件名。服务端代用户调 GraphQL 加 / 撤 reaction、读写回复。
 - **接口**(都在本机服务端,要账号的接口没登录时回 428,控制台先弹登录、登上后重发一次):
@@ -211,7 +261,25 @@
 - **评论区的附加功能**:输入框旁一个「插入文本块」按钮,在光标处插入 ```markdown 包起来的一段(选中了文字就包进去;语言标记是 GFM 的标准写法,GitHub 上按 Markdown 高亮),用来贴提示词等长文本;评论里的代码块右上角带复制按钮,拿去用靠自己粘贴,不做一键导入。每条评论可以「回复」,回复显示在原评论下面,只有一层;回复一条回复时挂到同一条顶层评论下并带上 `@对方`。
 - **内建扩展的评论区**:内建 World 也以 `cortico-world-<id>` 发布在 npm 上,从「已安装」打开内建 World 时,评论区、标签与徽标都跟那个包;没有对应 npm 包的内建供应商没有评论区。
 - **登录弹窗**:显示登录码与复制按钮、「打开 GitHub」,下面一行等待状态;登上自动关闭,过期提示重新登录。
-- 审核用 GitHub 自带的隐藏、删除、锁帖与组织级屏蔽。
+- 审核用 GitHub 自带的隐藏、删除、锁帖与组织级屏蔽。快照不收被隐藏的评论。
+
+## Action
+
+脚本在 `scripts/`,只用 Node 自带的模块,不装依赖。
+
+- **`sync.yml`**:每 30 分钟(每小时 17 分、47 分)与手动 `workflow_dispatch`,同一时间只跑一个。
+  1. `scan.mjs`:搜 npm 三个关键字,加上一次 `catalog.json` 里的包与 `index.json` 覆盖过的包(搜索接口偶尔漏包),逐个取包文档;版本变了才下载 tarball,在内存里解出自描述、`CHANGELOG.md`、图标与截图,不执行包里的代码。写 `catalog.json`、`packages/`、`assets/`;npm 上下架的包删掉它的 `packages/` 与 `assets/`。冒名排查的候选与不再满足自动核对的认证包写在这次运行的摘要页上。
+  2. `app-token.mjs`:用 `APP_CLIENT_ID` 作 JWT 的 `iss`、私钥签名,换一个只对本仓库、只有 Discussions 读写的安装令牌(一小时有效)。私钥只在内存里,不打印。
+  3. `discussions.mjs`:给没帖子的包开帖,统计票数与评论数写进 `catalog.json`,写 `comments/`。
+  4. 有变化才提交,内容没变的文件不重写;检出分支最新提交,推送前 rebase,冲突时以这次生成的为准。
+- **`triage.yml`**:issue 打开、编辑、重新打开时跑 `triage.mjs`(也可手动给 issue 号)。用 Action 自带的 `GITHUB_TOKEN`。
+
+## 本仓库的 label
+
+| label | 意思 |
+|---|---|
+| `tags` `certify` `supersede` `appeal` `report` `new-tag` `other` | 扩展申请的类型,Action 按标题前缀贴,改了前缀会换 |
+| `needs-info` | 前缀认不出、缺必填项、标签不在词表里、取代的旧包没弃用等;补好后 Action 自己撤 |
 
 ## 控制台
 
@@ -269,7 +337,7 @@
 
 ## 进度与分期
 
-1. **本仓库**:已公开在 GitHub,有 `index.json`(27 个标签、59 个公开包的覆盖;deepseek 与 coo 两个供应商没有贴切的标签)、TAGS.md、本文档、生成脚本。Discussions 的 Extensions 分类(Announcement 格式)已建。待做:Action(扫 npm 生成 `catalog.json`、`packages/` 与 `assets/`、粘住名单、冒名排查、开帖与统计、评论快照 `comments/`、按版本切更新日志);「扩展申请」的网页表单与 Action 解析(纯文本与表单两种)、README「我要…」。
+1. **本仓库**:已公开在 GitHub,有 `index.json`(27 个标签、59 个公开包的覆盖;deepseek 与 coo 两个供应商没有贴切的标签)、TAGS.md、本文档、生成脚本。Discussions 的 Extensions 分类(Announcement 格式)已建。Action 已跑通:`catalog.json`、`packages/`、`assets/`、粘住名单、冒名排查、开帖与统计、评论快照、按版本切更新日志、扩展申请的解析与回帖(纯文本与表单两种);网页表单与 label 已建,README「我要…」已写。现有包都还没有 `describe.json`、图标与 `CHANGELOG.md`,这几项要等 0.2.0 重发的包验证。
 2. **控制台前端**:已在分支上实现,本文「控制台」一节与评论区、登录弹窗、平台标记、取代提示、更新日志都已做,另有预览页。待做:「反馈标签」链接(预填包名的扩展申请);自描述与更新日志正文改从包详情取(现在从搜索结果取,跟服务端一起改)。
 3. **控制台服务端**:已做历史版本兼容性;`/api/extensions` 已回 `platform`。待做:读 `index.json` / `catalog.json`(认 `schema`)并合进搜索结果(标签、作者声明、官方、认证、新品、评分、图标、截图、author、维护者、说明、`os`、取代、能力摘要、写了更新说明的版本号),打开详情时取 `packages/<包名>.json`(完整自描述、更新日志正文)合进包详情、过滤拉黑、缓存索引、投票与评论接口、设备码登录与令牌文件、`check:extension` 的标签检查与「发布前」一段、模板 `AGENTS.md` / `CLAUDE.md`、根目录 AGENTS.md 一行、迁移说明、文档。
 4. **GitHub App**:已建并只装在本仓库(Device Flow 开、用户令牌不过期、只有 Discussions 读写),私钥已存为 Actions secret;Discussions 的 Extensions 分类已建。
@@ -278,7 +346,7 @@
 ## 待定 / 未实测
 
 - 高消耗目前只打给 Minecraft,其他包没有实测数据。
-- Action 自带的 `GITHUB_TOKEN` 能否在 Announcement 分类开帖;不行就用 bot 账号的令牌。
 - GitHub App 的设备码登录要在 App 设置里打开 Device Flow,关掉令牌过期后的行为,都未实测。
-- 评论快照 `comments/` 按包一个文件,包多了以后仓库提交会很频繁;可以只在评论数变了时重写那个文件。
-- Action 的运行周期(Joplin 是 30 分钟)。
+- 一条评论下超过 100 条回复时,快照只收前 100 条。
+- 下载量「累计」超过一年后要改成按首次发布日期分段查(单包接口最多 18 个月)。
+- 更新日志的地址:仓库是 monorepo 又没写 `repository.directory` 时,指向的是仓库根目录的 CHANGELOG.md。

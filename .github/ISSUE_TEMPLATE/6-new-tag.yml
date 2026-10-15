@@ -1,0 +1,21 @@
+name: "新标签 / New tag"
+description: "提议新增词表标签 / Propose a new tag for the vocabulary"
+title: "[new-tag] "
+labels:
+  - "new-tag"
+body:
+  - type: "markdown"
+    attributes:
+      value: "标题写成 `[new-tag] 标签 id`(小写字母、数字和连字符)。至少 3 个已发布的扩展会用到时才收;也可以直接提 PR 改 `index.json`。现有词表见 [TAGS.md](https://github.com/Pal-AI-Lab/cortico-extensions/blob/main/TAGS.md)。\n\nTitle: `[new-tag] tag-id` (lowercase letters, digits and hyphens). A tag is added once at least 3 published extensions would use it; a PR against `index.json` works too. The current vocabulary is in [TAGS.md](https://github.com/Pal-AI-Lab/cortico-extensions/blob/main/TAGS.md)."
+  - type: "textarea"
+    id: "reason"
+    attributes:
+      label: "理由 / Reason (`reason`)"
+      description: "中英名称与悬停说明的建议、什么时候该贴、会用到它的包 / Suggested Chinese and English label and hover hint, when to use it, and the packages that would use it"
+    validations:
+      required: true
+  - type: "textarea"
+    id: "evidence"
+    attributes:
+      label: "证据 / Evidence (`evidence`)"
+      description: "链接:源码行、npm 页面、截图 / Links: source lines, npm page, screenshots"

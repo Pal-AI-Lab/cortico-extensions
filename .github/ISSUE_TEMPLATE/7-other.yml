@@ -1,0 +1,23 @@
+name: "其他 / Other"
+description: "以上都不是 / Anything else"
+title: "[other] "
+labels:
+  - "other"
+body:
+  - type: "markdown"
+    attributes:
+      value: "标题写成 `[other] 包名`(和包无关时只写 `[other]` 加一句概括)。\n\nTitle: `[other] package-name` (or `[other]` and a short summary when no package is involved)."
+  - type: "input"
+    id: "package"
+    attributes:
+      label: "包名 / Package (`package`)"
+      description: "npm 上的包名 / The package name on npm"
+      placeholder: "cortico-world-xxx"
+    validations:
+      required: false
+  - type: "textarea"
+    id: "reason"
+    attributes:
+      label: "内容 / Details (`reason`)"
+    validations:
+      required: true

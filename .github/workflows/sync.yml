@@ -1,0 +1,53 @@
+# 扫 npm 上的 Cortico 扩展,用 GitHub App 给新包开讨论帖,提交 catalog.json、packages/、assets/ 与 comments/ 快照。
+name: Sync catalog and discussions
+
+on:
+  schedule:
+    - cron: '17,47 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      # 检出分支最新提交而不是触发时的提交,重跑旧的运行也从上一次生成的数据接着算。
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Scan npm
+        run: node scripts/scan.mjs
+
+      - name: GitHub App installation token
+        id: app
+        run: node scripts/app-token.mjs
+        env:
+          APP_CLIENT_ID: ${{ vars.APP_CLIENT_ID }}
+          APP_INSTALLATION_ID: ${{ vars.APP_INSTALLATION_ID }}
+          APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Discussions and comment snapshots
+        run: node scripts/discussions.mjs
+        env:
+          GH_APP_TOKEN: ${{ steps.app.outputs.token }}
+
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then echo 'No changes'; exit 0; fi
+          git commit -q -m 'Sync catalog and comment snapshots'
+          git pull -q --rebase -X theirs origin "$GITHUB_REF_NAME"
+          git push -q origin "HEAD:$GITHUB_REF_NAME"

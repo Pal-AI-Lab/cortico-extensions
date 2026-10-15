@@ -1,0 +1,29 @@
+name: "申诉 / Appeal"
+description: "包或发布者被拉黑后申诉 / Appeal a blocked package or publisher"
+title: "[appeal] "
+labels:
+  - "appeal"
+body:
+  - type: "markdown"
+    attributes:
+      value: "标题写成 `[appeal] 包名`;发布者被拉黑时写 npm 账号。\n\nTitle: `[appeal] package-name`; for a blocked publisher, give the npm account."
+  - type: "input"
+    id: "package"
+    attributes:
+      label: "包名 / Package (`package`)"
+      description: "包名或 npm 账号 / Package name or npm account"
+      placeholder: "cortico-world-xxx"
+    validations:
+      required: true
+  - type: "textarea"
+    id: "reason"
+    attributes:
+      label: "理由 / Reason (`reason`)"
+      description: "一两句 / A sentence or two"
+    validations:
+      required: true
+  - type: "textarea"
+    id: "evidence"
+    attributes:
+      label: "证据 / Evidence (`evidence`)"
+      description: "链接:源码行、npm 页面、截图 / Links: source lines, npm page, screenshots"
