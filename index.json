@@ -1,179 +1,813 @@
 {
   "version": 1,
-  "maxAuthorTags": 3,
   "tags": {
-    "qq": {
-      "label": { "zh": "QQ", "zh-Hant": "QQ", "en": "QQ", "ja": "QQ", "ko": "QQ", "fr": "QQ", "de": "QQ", "es-419": "QQ", "pt-BR": "QQ", "it": "QQ", "ru": "QQ" },
+    "im": {
+      "label": {
+        "zh": "即时通讯",
+        "zh-Hant": "即時通訊",
+        "en": "Messaging",
+        "ja": "メッセージング",
+        "ko": "메신저",
+        "fr": "Messagerie",
+        "de": "Messaging",
+        "es-419": "Mensajería",
+        "pt-BR": "Mensagens",
+        "it": "Messaggistica",
+        "ru": "Мессенджеры"
+      },
+      "hint": {
+        "zh": "接入聊天软件收发消息。",
+        "en": "Sends and receives messages on a chat platform."
+      },
       "when": {
-        "zh": "接入 QQ 或依附于某个 QQ World(OneBot / NapCat 适配器、QQ 功能包、QQ 空间、QQ 通话)。",
-        "en": "Connects to QQ or extends a QQ World (OneBot / NapCat adapters, QQ add-on packs, Qzone, QQ calls)."
+        "zh": "接入任意即时通讯平台收发消息(QQ、Discord、Telegram、微信等),或依附于这类 World 的功能包。",
+        "en": "Connects to any instant-messaging platform (QQ, Discord, Telegram, WeChat, etc.), or extends such a World."
+      }
+    },
+    "qq": {
+      "label": {
+        "zh": "QQ",
+        "zh-Hant": "QQ",
+        "en": "QQ",
+        "ja": "QQ",
+        "ko": "QQ",
+        "fr": "QQ",
+        "de": "QQ",
+        "es-419": "QQ",
+        "pt-BR": "QQ",
+        "it": "QQ",
+        "ru": "QQ"
+      },
+      "hint": {
+        "zh": "接入 QQ,或是某个 QQ World 的功能包。",
+        "en": "Connects to QQ, or is an add-on for a QQ World."
+      },
+      "when": {
+        "zh": "接入 QQ 或依附于某个 QQ World。QQ 生态有大量依附于宿主的功能包,所以单独设一个平台标签;同时也贴 im。",
+        "en": "Connects to QQ or extends a QQ World. QQ has many add-on packs tied to a host, so it gets its own platform tag; also tag im."
       }
     },
     "streaming": {
-      "label": { "zh": "直播", "zh-Hant": "直播", "en": "Streaming", "ja": "配信", "ko": "방송", "fr": "Streaming", "de": "Streaming", "es-419": "Transmisión", "pt-BR": "Transmissão", "it": "Streaming", "ru": "Стриминг" },
+      "label": {
+        "zh": "直播",
+        "zh-Hant": "直播",
+        "en": "Streaming",
+        "ja": "配信",
+        "ko": "방송",
+        "fr": "Streaming",
+        "de": "Streaming",
+        "es-419": "Transmisión",
+        "pt-BR": "Transmissão",
+        "it": "Streaming",
+        "ru": "Стриминг"
+      },
+      "hint": {
+        "zh": "读直播间弹幕礼物,或为直播做演出。",
+        "en": "Reads a live room or performs for a stream."
+      },
       "when": {
         "zh": "读直播间的弹幕、礼物、观众信号,或为直播做演出(Live2D、字幕、OBS overlay)。只是在直播里玩过的游戏不算。",
         "en": "Reads a live room's chat, gifts or audience signals, or performs for a stream (Live2D, subtitles, OBS overlay). A game that was merely played on stream does not count."
       }
     },
     "game": {
-      "label": { "zh": "游戏", "zh-Hant": "遊戲", "en": "Games", "ja": "ゲーム", "ko": "게임", "fr": "Jeux", "de": "Spiele", "es-419": "Juegos", "pt-BR": "Jogos", "it": "Giochi", "ru": "Игры" },
+      "label": {
+        "zh": "游戏",
+        "zh-Hant": "遊戲",
+        "en": "Games",
+        "ja": "ゲーム",
+        "ko": "게임",
+        "fr": "Jeux",
+        "de": "Spiele",
+        "es-419": "Juegos",
+        "pt-BR": "Jogos",
+        "it": "Giochi",
+        "ru": "Игры"
+      },
+      "hint": {
+        "zh": "让 bot 玩或旁观一个游戏。",
+        "en": "Lets the bot play or watch a game."
+      },
       "when": {
         "zh": "让 bot 玩、操控或旁观一个游戏,包括桌游规则与跑团检定。",
         "en": "Lets the bot play, control or watch a game, including tabletop rules and TRPG checks."
       }
     },
     "web": {
-      "label": { "zh": "网页与视频", "zh-Hant": "網頁與影片", "en": "Web & video", "ja": "ウェブと動画", "ko": "웹·동영상", "fr": "Web et vidéo", "de": "Web & Video", "es-419": "Web y video", "pt-BR": "Web e vídeo", "it": "Web e video", "ru": "Веб и видео" },
+      "label": {
+        "zh": "网页与视频",
+        "zh-Hant": "網頁與影片",
+        "en": "Web & video",
+        "ja": "ウェブと動画",
+        "ko": "웹·동영상",
+        "fr": "Web et vidéo",
+        "de": "Web & Video",
+        "es-419": "Web y video",
+        "pt-BR": "Web e vídeo",
+        "it": "Web e video",
+        "ru": "Веб и видео"
+      },
+      "hint": {
+        "zh": "搜索、读网页或看视频获取信息。",
+        "en": "Searches, reads pages or watches videos for information."
+      },
       "when": {
         "zh": "搜索、读网页正文、看视频或字幕,用来获取外部信息。",
         "en": "Searches, reads web pages, or watches videos and subtitles to bring in outside information."
       }
     },
     "voice": {
-      "label": { "zh": "语音", "zh-Hant": "語音", "en": "Voice", "ja": "音声", "ko": "음성", "fr": "Voix", "de": "Sprache", "es-419": "Voz", "pt-BR": "Voz", "it": "Voce", "ru": "Голос" },
+      "label": {
+        "zh": "语音",
+        "zh-Hant": "語音",
+        "en": "Voice",
+        "ja": "音声",
+        "ko": "음성",
+        "fr": "Voix",
+        "de": "Sprache",
+        "es-419": "Voz",
+        "pt-BR": "Voz",
+        "it": "Voce",
+        "ru": "Голос"
+      },
+      "hint": {
+        "zh": "让 bot 听、说或通话。",
+        "en": "Lets the bot listen, speak or take calls."
+      },
       "when": {
         "zh": "让 bot 听(语音识别)、说(语音合成)或通话。",
         "en": "Lets the bot listen (speech recognition), speak (speech synthesis) or take calls."
       }
     },
     "desktop": {
-      "label": { "zh": "桌面", "zh-Hant": "桌面", "en": "Desktop", "ja": "デスクトップ", "ko": "데스크톱", "fr": "Bureau", "de": "Desktop", "es-419": "Escritorio", "pt-BR": "Área de trabalho", "it": "Desktop", "ru": "Рабочий стол" },
+      "label": {
+        "zh": "桌面",
+        "zh-Hant": "桌面",
+        "en": "Desktop",
+        "ja": "デスクトップ",
+        "ko": "데스크톱",
+        "fr": "Bureau",
+        "de": "Desktop",
+        "es-419": "Escritorio",
+        "pt-BR": "Área de trabalho",
+        "it": "Desktop",
+        "ru": "Рабочий стол"
+      },
+      "hint": {
+        "zh": "在你的电脑桌面上出现或起作用。",
+        "en": "Lives on or acts on your desktop."
+      },
       "when": {
         "zh": "在用户的电脑桌面上出现或起作用:桌宠、读前台窗口、在不在电脑前、操控鼠标键盘。",
         "en": "Lives on or acts on the user's desktop: desktop pets, reading the foreground window, presence detection, mouse and keyboard control."
       }
     },
     "memory": {
-      "label": { "zh": "记忆", "zh-Hant": "記憶", "en": "Memory", "ja": "記憶", "ko": "기억", "fr": "Mémoire", "de": "Gedächtnis", "es-419": "Memoria", "pt-BR": "Memória", "it": "Memoria", "ru": "Память" },
+      "label": {
+        "zh": "记忆",
+        "zh-Hant": "記憶",
+        "en": "Memory",
+        "ja": "記憶",
+        "ko": "기억",
+        "fr": "Mémoire",
+        "de": "Gedächtnis",
+        "es-419": "Memoria",
+        "pt-BR": "Memória",
+        "it": "Memoria",
+        "ru": "Память"
+      },
+      "hint": {
+        "zh": "帮 bot 记住、检索或整理过去的事。",
+        "en": "Helps the bot remember, search or tidy the past."
+      },
       "when": {
         "zh": "帮 bot 记住、检索或整理过去的事:记忆库、聊天记录检索、笔记、相册、记忆体检。",
         "en": "Helps the bot remember, search or tidy the past: memory stores, chat history search, notes, albums, memory health checks."
       }
     },
     "companion": {
-      "label": { "zh": "陪伴", "zh-Hant": "陪伴", "en": "Companion", "ja": "コンパニオン", "ko": "동반자", "fr": "Compagnon", "de": "Begleiter", "es-419": "Compañía", "pt-BR": "Companhia", "it": "Compagnia", "ru": "Компаньон" },
+      "label": {
+        "zh": "陪伴",
+        "zh-Hant": "陪伴",
+        "en": "Companion",
+        "ja": "コンパニオン",
+        "ko": "동반자",
+        "fr": "Compagnon",
+        "de": "Begleiter",
+        "es-419": "Compañía",
+        "pt-BR": "Companhia",
+        "it": "Compagnia",
+        "ru": "Компаньон"
+      },
+      "hint": {
+        "zh": "让 bot 更像一个有自己生活的伙伴。",
+        "en": "Makes the bot feel like a companion with a life of its own."
+      },
       "when": {
         "zh": "让 bot 更像一个有自己生活的伙伴:情绪、好感、作息、时间感、节日、主动开口。",
         "en": "Makes the bot feel like a companion with a life of its own: mood, affinity, daily routine, sense of time, festivals, speaking first."
       }
     },
     "creative": {
-      "label": { "zh": "创作", "zh-Hant": "創作", "en": "Creative", "ja": "創作", "ko": "창작", "fr": "Création", "de": "Kreativ", "es-419": "Creatividad", "pt-BR": "Criação", "it": "Creatività", "ru": "Творчество" },
+      "label": {
+        "zh": "创作",
+        "zh-Hant": "創作",
+        "en": "Creative",
+        "ja": "創作",
+        "ko": "창작",
+        "fr": "Création",
+        "de": "Kreativ",
+        "es-419": "Creatividad",
+        "pt-BR": "Criação",
+        "it": "Creatività",
+        "ru": "Творчество"
+      },
+      "hint": {
+        "zh": "让 bot 画画、生成图片这类作品。",
+        "en": "Lets the bot make works such as drawings and images."
+      },
       "when": {
         "zh": "让 bot 产出作品:画画、生成或修改图片、合成音频作品。",
         "en": "Lets the bot make things: drawing, generating or editing images, producing audio pieces."
       }
     },
     "utility": {
-      "label": { "zh": "工具", "zh-Hant": "工具", "en": "Utilities", "ja": "ユーティリティ", "ko": "유틸리티", "fr": "Utilitaires", "de": "Werkzeuge", "es-419": "Utilidades", "pt-BR": "Utilitários", "it": "Utilità", "ru": "Утилиты" },
+      "label": {
+        "zh": "工具",
+        "zh-Hant": "工具",
+        "en": "Utilities",
+        "ja": "ユーティリティ",
+        "ko": "유틸리티",
+        "fr": "Utilitaires",
+        "de": "Werkzeuge",
+        "es-419": "Utilidades",
+        "pt-BR": "Utilitários",
+        "it": "Utilità",
+        "ru": "Утилиты"
+      },
+      "hint": {
+        "zh": "提醒、群管理、省 token 这类辅助功能。",
+        "en": "Helpers such as reminders, moderation and token savings."
+      },
       "when": {
         "zh": "提醒、群管理、限速防刷、省 token、给其他语言写插件的桥接这类运维与效率功能。上面的标签都不合适时才用。",
         "en": "Operational and productivity helpers: reminders, group moderation, rate limits, token savings, bridges for plugins in other languages. Use it only when none of the tags above fits."
       }
     },
     "local": {
-      "label": { "zh": "本地模型", "zh-Hant": "本機模型", "en": "Local model", "ja": "ローカルモデル", "ko": "로컬 모델", "fr": "Modèle local", "de": "Lokales Modell", "es-419": "Modelo local", "pt-BR": "Modelo local", "it": "Modello locale", "ru": "Локальная модель" },
+      "label": {
+        "zh": "本地模型",
+        "zh-Hant": "本機模型",
+        "en": "Local model",
+        "ja": "ローカルモデル",
+        "ko": "로컬 모델",
+        "fr": "Modèle local",
+        "de": "Lokales Modell",
+        "es-419": "Modelo local",
+        "pt-BR": "Modelo local",
+        "it": "Modello locale",
+        "ru": "Локальная модель"
+      },
+      "hint": {
+        "zh": "在本机跑模型,需要本机算力或显存。",
+        "en": "Runs a model on this machine; needs local compute or VRAM."
+      },
       "when": {
         "zh": "在用户本机跑模型推理(LLM、语音识别、语音合成),需要本机算力或显存。",
         "en": "Runs model inference on the user's machine (LLM, speech recognition, speech synthesis) and needs local compute or VRAM."
       }
     },
     "external-setup": {
-      "label": { "zh": "需额外安装", "zh-Hant": "需額外安裝", "en": "Extra setup", "ja": "追加セットアップ", "ko": "추가 설치 필요", "fr": "Installation supplémentaire", "de": "Zusätzliche Einrichtung", "es-419": "Configuración adicional", "pt-BR": "Configuração adicional", "it": "Configurazione aggiuntiva", "ru": "Доп. установка" },
+      "label": {
+        "zh": "需额外安装",
+        "zh-Hant": "需額外安裝",
+        "en": "Extra setup",
+        "ja": "追加セットアップ",
+        "ko": "추가 설치 필요",
+        "fr": "Installation supplémentaire",
+        "de": "Zusätzliche Einrichtung",
+        "es-419": "Configuración adicional",
+        "pt-BR": "Configuração adicional",
+        "it": "Configurazione aggiuntiva",
+        "ru": "Доп. установка"
+      },
+      "hint": {
+        "zh": "装上包还不能用,要先另装游戏、mod 加载器、NapCat 等,见扩展说明。",
+        "en": "Not usable on install alone; set up the game, mod loader, NapCat or similar first. See its README."
+      },
       "when": {
         "zh": "装上包还不能用,得先另装别的东西:游戏本体或 mod 加载器(BepInEx)、NapCat、VTube Studio、Python 环境、模型权重、游戏服务器。",
         "en": "Installing the package is not enough; something else must be set up first: the game itself or a mod loader (BepInEx), NapCat, VTube Studio, a Python environment, model weights, a game server."
       }
     },
     "unsafe": {
+      "label": {
+        "zh": "不安全",
+        "zh-Hant": "不安全",
+        "en": "Unsafe",
+        "ja": "安全でない",
+        "ko": "위험",
+        "fr": "Non sûr",
+        "de": "Unsicher",
+        "es-419": "Inseguro",
+        "pt-BR": "Inseguro",
+        "it": "Non sicuro",
+        "ru": "Небезопасно"
+      },
+      "hint": {
+        "zh": "模型能借它执行任意代码或命令、读写任意文件,或操控鼠标键盘。只在信任这个 bot 和模型时启用。",
+        "en": "The model can run arbitrary code or commands, touch any file, or control the mouse and keyboard. Enable only if you trust the bot and the model."
+      },
       "officialOnly": true,
       "style": "warning",
-      "label": { "zh": "不安全", "zh-Hant": "不安全", "en": "Unsafe", "ja": "安全でない", "ko": "위험", "fr": "Non sûr", "de": "Unsicher", "es-419": "Inseguro", "pt-BR": "Inseguro", "it": "Non sicuro", "ru": "Небезопасно" },
       "when": {
         "zh": "官方审查后添加。模型能借它执行任意代码或命令、读写任意文件,或任意操控鼠标键盘。",
         "en": "Added after official review. The model can use it to run arbitrary code or commands, read and write arbitrary files, or freely control the mouse and keyboard."
       }
     },
     "sensitive-data": {
+      "label": {
+        "zh": "读取隐私",
+        "zh-Hant": "讀取隱私",
+        "en": "Reads private data",
+        "ja": "個人データ読み取り",
+        "ko": "개인 데이터 읽기",
+        "fr": "Lit des données privées",
+        "de": "Liest private Daten",
+        "es-419": "Lee datos privados",
+        "pt-BR": "Lê dados privados",
+        "it": "Legge dati privati",
+        "ru": "Читает личные данные"
+      },
+      "hint": {
+        "zh": "会持续读取屏幕、麦克风、窗口等个人数据,并发给你配置的模型端点。",
+        "en": "Continuously reads personal data such as the screen, microphone or windows, and sends it to your configured model endpoint."
+      },
       "officialOnly": true,
       "style": "warning",
-      "label": { "zh": "读取隐私", "zh-Hant": "讀取隱私", "en": "Reads private data", "ja": "個人データ読み取り", "ko": "개인 데이터 읽기", "fr": "Lit des données privées", "de": "Liest private Daten", "es-419": "Lee datos privados", "pt-BR": "Lê dados privados", "it": "Legge dati privati", "ru": "Читает личные данные" },
       "when": {
         "zh": "官方审查后添加。会持续读取屏幕、麦克风、前台窗口或消费记录这类个人数据,并随模型调用发给模型端点。",
         "en": "Added after official review. Continuously reads personal data such as the screen, microphone, foreground window or spending records, and sends it to the model endpoint with model calls."
       }
     },
     "unofficial-api": {
+      "label": {
+        "zh": "非官方接口",
+        "zh-Hant": "非官方介面",
+        "en": "Unofficial API",
+        "ja": "非公式API",
+        "ko": "비공식 API",
+        "fr": "API non officielle",
+        "de": "Inoffizielle API",
+        "es-419": "API no oficial",
+        "pt-BR": "API não oficial",
+        "it": "API non ufficiale",
+        "ru": "Неофициальный API"
+      },
+      "hint": {
+        "zh": "借用登录态或未公开接口调用服务,可能违反服务条款,账号有被限制的风险。",
+        "en": "Uses a login session or undocumented endpoint; may break the service's terms and put the account at risk."
+      },
       "officialOnly": true,
       "style": "warning",
-      "label": { "zh": "非官方接口", "zh-Hant": "非官方介面", "en": "Unofficial API", "ja": "非公式API", "ko": "비공식 API", "fr": "API non officielle", "de": "Inoffizielle API", "es-419": "API no oficial", "pt-BR": "API não oficial", "it": "API non ufficiale", "ru": "Неофициальный API" },
       "when": {
         "zh": "官方审查后添加。借用网页登录态、CLI 额度或未公开接口调用服务,可能违反该服务的条款,账号有被限制的风险。",
         "en": "Added after official review. Calls a service through a web login session, a CLI quota or an undocumented endpoint; this may break the service's terms and put the account at risk."
       }
+    },
+    "internal-state": {
+      "label": {
+        "zh": "内部状态",
+        "zh-Hant": "內部狀態",
+        "en": "Internal state",
+        "ja": "内部状態",
+        "ko": "내부 상태",
+        "fr": "État interne",
+        "de": "Interner Zustand",
+        "es-419": "Estado interno",
+        "pt-BR": "Estado interno",
+        "it": "Stato interno",
+        "ru": "Внутреннее состояние"
+      },
+      "hint": {
+        "zh": "这个 World 在 bot 的 Memory 之外自己管理 bot 的内部状态(情绪、好感、记忆等),装上或卸下前后 bot 对自己的认知可能不一致。这类功能推荐在 bot 扩展的 Persona 里实现。",
+        "en": "This World manages the bot's internal state (mood, affinity, memories) outside the bot's Memory, so the bot's sense of itself may differ before and after it is installed or removed. We recommend building this into a bot extension's Persona instead."
+      },
+      "officialOnly": true,
+      "style": "notice",
+      "when": {
+        "zh": "官方审查后添加。World 自己保存并注入 bot 的情绪、好感、记忆、经历这类内部状态。",
+        "en": "Added after official review. The World keeps and injects the bot's own internal state: mood, affinity, memories, experiences."
+      }
     }
   },
   "featured": [],
-  "blocked": { "packages": {}, "publishers": {} },
+  "blocked": {
+    "packages": {},
+    "publishers": {}
+  },
   "overrides": {
-    "cortico-world-memory": { "addTags": ["memory"] },
-    "cortico-world-simple-trpg-check": { "addTags": ["game"] },
-    "cortico-world-bilibili": { "addTags": ["streaming"] },
-    "cortico-world-minecraft": { "addTags": ["game", "external-setup"] },
-    "cortico-world-qq-final-beta": { "addTags": ["qq", "external-setup"] },
-    "cortico-world-life-alont1": { "addTags": ["companion"] },
-    "cortico-world-humanlike-alont1": { "addTags": ["companion", "desktop", "sensitive-data"], "note": { "zh": "读取桌面与消费记录", "en": "Reads the desktop and spending records" } },
-    "cortico-world-websearch": { "addTags": ["web"] },
-    "cortico-world-affinity-alont1": { "addTags": ["companion"] },
-    "cortico-world-gaming-alont1": { "addTags": ["companion", "desktop", "sensitive-data"], "note": { "zh": "读取前台窗口并定期截取游戏画面", "en": "Reads the foreground window and periodically captures the game screen" } },
-    "cortico-world-dungeon": { "addTags": ["game"] },
-    "cortico-world-qq": { "addTags": ["qq", "external-setup"] },
-    "cortico-world-qq-lite": { "addTags": ["qq", "external-setup"] },
-    "cortico-world-qq-better-alont1": { "addTags": ["qq", "external-setup"] },
-    "cortico-world-alive-alont1": { "addTags": ["companion", "desktop", "sensitive-data"], "note": { "zh": "读取桌面与消费记录", "en": "Reads the desktop and spending records" } },
-    "cortico-world-together-alont1": { "addTags": ["companion", "memory"] },
-    "cortico-world-learn-alont1": { "addTags": ["web", "memory"] },
-    "cortico-world-qzone-alont1": { "addTags": ["qq"] },
-    "cortico-world-asr": { "addTags": ["voice", "local", "external-setup", "sensitive-data"], "note": { "zh": "持续监听麦克风", "en": "Listens to the microphone continuously" } },
-    "cortico-world-image": { "addTags": ["creative"] },
-    "cortico-world-sisterdrive": { "addTags": ["game", "external-setup"] },
-    "cortico-world-clock-alont1": { "addTags": ["companion"] },
-    "cortico-world-canvas": { "addTags": ["creative", "game"] },
-    "cortico-world-buckshot": { "addTags": ["game", "external-setup"] },
-    "cortico-world-pvz": { "addTags": ["game", "external-setup"] },
-    "cortico-world-phone": { "addTags": ["qq", "voice", "external-setup"] },
-    "cortico-world-lite-alont1": { "addTags": ["companion", "memory"] },
-    "cortico-world-cortidrive": { "addTags": ["game", "external-setup"] },
-    "cortico-world-overcooked2": { "addTags": ["game", "external-setup"] },
-    "cortico-world-qq-final": { "addTags": ["qq", "external-setup"] },
-    "cortico-world-album-alont1": { "addTags": ["memory"] },
-    "cortico-world-gemini-web": { "addTags": ["utility", "unofficial-api"], "note": { "zh": "借用 Gemini 网页登录态", "en": "Uses a Gemini web login session" } },
-    "cortico-world-python": { "addTags": ["utility", "unsafe"], "note": { "zh": "运行任意 Python 插件代码", "en": "Runs arbitrary Python plugin code" } },
-    "cortico-world-memory-doctor-alont1": { "addTags": ["memory"] },
-    "cortico-frugal-alont1": { "addTags": ["utility"] },
-    "cortico-world-sts-1": { "addTags": ["game", "external-setup"] },
-    "cortico-world-cosyvoice-tts": { "addTags": ["voice", "local"] },
-    "cortico-world-surfing": { "addTags": ["web"] },
-    "cortico-world-qq-affinity": { "addTags": ["qq", "companion"] },
-    "cortico-world-qq-admin": { "addTags": ["qq", "utility"] },
-    "cortico-world-tts": { "addTags": ["voice", "creative"] },
-    "cortico-world-majsoul": { "addTags": ["game"] },
-    "cortico-world-qq-festival": { "addTags": ["qq", "companion"] },
-    "cortico-world-qq-history": { "addTags": ["qq", "memory"] },
-    "cortico-world-qq-proactive": { "addTags": ["qq", "companion"] },
-    "cortico-world-qq-routine": { "addTags": ["qq", "companion"] },
-    "cortico-world-qq-reminder": { "addTags": ["qq", "utility"] },
-    "cortico-world-presence": { "addTags": ["desktop", "companion", "sensitive-data"], "note": { "zh": "读取前台窗口、键鼠空闲并能截屏", "en": "Reads the foreground window and input idle time, and can take screenshots" } },
-    "cortico-world-qq-groupspeak": { "addTags": ["qq", "utility"] },
-    "cortico-world-qq-notebook": { "addTags": ["qq", "memory"] },
-    "cortico-world-qq-qzone": { "addTags": ["qq"] },
-    "cortico-world-qq-voice": { "addTags": ["qq", "voice"] },
-    "cortico-world-qiandengji": { "addTags": ["game", "external-setup"] },
-    "cortico-world-qq-antiloop": { "addTags": ["qq", "utility"] },
-    "cortico-world-qq-emotion": { "addTags": ["qq", "companion"] },
-    "cortico-world-qq-sticker": { "addTags": ["qq"] },
-    "cortico-provider-gemini-web": { "addTags": ["external-setup", "unofficial-api"], "note": { "zh": "借用 Gemini 网页登录态", "en": "Uses a Gemini web login session" } },
-    "cortico-bot-continuity": { "addTags": ["memory", "companion"] }
+    "cortico-world-memory": {
+      "addTags": [
+        "memory",
+        "internal-state"
+      ]
+    },
+    "cortico-world-simple-trpg-check": {
+      "addTags": [
+        "game"
+      ]
+    },
+    "cortico-world-bilibili": {
+      "addTags": [
+        "streaming"
+      ]
+    },
+    "cortico-world-minecraft": {
+      "addTags": [
+        "game",
+        "external-setup"
+      ]
+    },
+    "cortico-world-qq-final-beta": {
+      "addTags": [
+        "im",
+        "qq",
+        "external-setup"
+      ]
+    },
+    "cortico-world-life-alont1": {
+      "addTags": [
+        "companion",
+        "internal-state"
+      ]
+    },
+    "cortico-world-humanlike-alont1": {
+      "addTags": [
+        "companion",
+        "desktop",
+        "sensitive-data",
+        "internal-state"
+      ],
+      "note": {
+        "zh": "读取桌面与消费记录",
+        "en": "Reads the desktop and spending records"
+      }
+    },
+    "cortico-world-websearch": {
+      "addTags": [
+        "web"
+      ]
+    },
+    "cortico-world-affinity-alont1": {
+      "addTags": [
+        "companion",
+        "internal-state"
+      ]
+    },
+    "cortico-world-gaming-alont1": {
+      "addTags": [
+        "companion",
+        "desktop",
+        "sensitive-data"
+      ],
+      "note": {
+        "zh": "读取前台窗口并定期截取游戏画面",
+        "en": "Reads the foreground window and periodically captures the game screen"
+      }
+    },
+    "cortico-world-dungeon": {
+      "addTags": [
+        "game"
+      ]
+    },
+    "cortico-world-qq": {
+      "addTags": [
+        "im",
+        "qq",
+        "external-setup"
+      ]
+    },
+    "cortico-world-qq-lite": {
+      "addTags": [
+        "im",
+        "qq",
+        "external-setup"
+      ]
+    },
+    "cortico-world-qq-better-alont1": {
+      "addTags": [
+        "im",
+        "qq",
+        "external-setup",
+        "internal-state"
+      ]
+    },
+    "cortico-world-alive-alont1": {
+      "addTags": [
+        "companion",
+        "desktop",
+        "sensitive-data",
+        "internal-state"
+      ],
+      "note": {
+        "zh": "读取桌面与消费记录",
+        "en": "Reads the desktop and spending records"
+      }
+    },
+    "cortico-world-together-alont1": {
+      "addTags": [
+        "companion",
+        "memory",
+        "internal-state"
+      ]
+    },
+    "cortico-world-learn-alont1": {
+      "addTags": [
+        "web",
+        "memory",
+        "internal-state"
+      ]
+    },
+    "cortico-world-qzone-alont1": {
+      "addTags": [
+        "im",
+        "qq"
+      ]
+    },
+    "cortico-world-asr": {
+      "addTags": [
+        "voice",
+        "local",
+        "external-setup",
+        "sensitive-data"
+      ],
+      "note": {
+        "zh": "持续监听麦克风",
+        "en": "Listens to the microphone continuously"
+      }
+    },
+    "cortico-world-image": {
+      "addTags": [
+        "creative"
+      ]
+    },
+    "cortico-world-sisterdrive": {
+      "addTags": [
+        "game",
+        "external-setup"
+      ]
+    },
+    "cortico-world-clock-alont1": {
+      "addTags": [
+        "companion"
+      ]
+    },
+    "cortico-world-canvas": {
+      "addTags": [
+        "creative",
+        "game"
+      ]
+    },
+    "cortico-world-buckshot": {
+      "addTags": [
+        "game",
+        "external-setup"
+      ]
+    },
+    "cortico-world-pvz": {
+      "addTags": [
+        "game",
+        "external-setup"
+      ]
+    },
+    "cortico-world-phone": {
+      "addTags": [
+        "im",
+        "qq",
+        "voice",
+        "external-setup"
+      ]
+    },
+    "cortico-world-lite-alont1": {
+      "addTags": [
+        "companion",
+        "memory",
+        "internal-state"
+      ]
+    },
+    "cortico-world-cortidrive": {
+      "addTags": [
+        "game",
+        "external-setup"
+      ]
+    },
+    "cortico-world-overcooked2": {
+      "addTags": [
+        "game",
+        "external-setup"
+      ]
+    },
+    "cortico-world-qq-final": {
+      "addTags": [
+        "im",
+        "qq",
+        "external-setup"
+      ]
+    },
+    "cortico-world-album-alont1": {
+      "addTags": [
+        "memory"
+      ]
+    },
+    "cortico-world-gemini-web": {
+      "addTags": [
+        "utility",
+        "unofficial-api"
+      ],
+      "note": {
+        "zh": "借用 Gemini 网页登录态",
+        "en": "Uses a Gemini web login session"
+      }
+    },
+    "cortico-world-python": {
+      "addTags": [
+        "utility",
+        "unsafe"
+      ],
+      "note": {
+        "zh": "运行任意 Python 插件代码",
+        "en": "Runs arbitrary Python plugin code"
+      }
+    },
+    "cortico-world-memory-doctor-alont1": {
+      "addTags": [
+        "memory"
+      ]
+    },
+    "cortico-frugal-alont1": {
+      "addTags": [
+        "utility"
+      ]
+    },
+    "cortico-world-sts-1": {
+      "addTags": [
+        "game",
+        "external-setup"
+      ]
+    },
+    "cortico-world-cosyvoice-tts": {
+      "addTags": [
+        "voice",
+        "local"
+      ]
+    },
+    "cortico-world-surfing": {
+      "addTags": [
+        "web"
+      ]
+    },
+    "cortico-world-qq-affinity": {
+      "addTags": [
+        "im",
+        "qq",
+        "companion",
+        "internal-state"
+      ]
+    },
+    "cortico-world-qq-admin": {
+      "addTags": [
+        "im",
+        "qq",
+        "utility"
+      ]
+    },
+    "cortico-world-tts": {
+      "addTags": [
+        "voice"
+      ]
+    },
+    "cortico-world-majsoul": {
+      "addTags": [
+        "game"
+      ]
+    },
+    "cortico-world-qq-festival": {
+      "addTags": [
+        "im",
+        "qq",
+        "companion"
+      ]
+    },
+    "cortico-world-qq-history": {
+      "addTags": [
+        "im",
+        "qq",
+        "memory"
+      ]
+    },
+    "cortico-world-qq-proactive": {
+      "addTags": [
+        "im",
+        "qq",
+        "companion"
+      ]
+    },
+    "cortico-world-qq-routine": {
+      "addTags": [
+        "im",
+        "qq",
+        "companion"
+      ]
+    },
+    "cortico-world-qq-reminder": {
+      "addTags": [
+        "im",
+        "qq",
+        "utility"
+      ]
+    },
+    "cortico-world-presence": {
+      "addTags": [
+        "desktop",
+        "companion",
+        "sensitive-data"
+      ],
+      "note": {
+        "zh": "读取前台窗口、键鼠空闲并能截屏",
+        "en": "Reads the foreground window and input idle time, and can take screenshots"
+      }
+    },
+    "cortico-world-qq-groupspeak": {
+      "addTags": [
+        "im",
+        "qq",
+        "utility"
+      ]
+    },
+    "cortico-world-qq-notebook": {
+      "addTags": [
+        "im",
+        "qq",
+        "memory",
+        "internal-state"
+      ]
+    },
+    "cortico-world-qq-qzone": {
+      "addTags": [
+        "im",
+        "qq"
+      ]
+    },
+    "cortico-world-qq-voice": {
+      "addTags": [
+        "im",
+        "qq",
+        "voice"
+      ]
+    },
+    "cortico-world-qiandengji": {
+      "addTags": [
+        "game",
+        "external-setup"
+      ]
+    },
+    "cortico-world-qq-antiloop": {
+      "addTags": [
+        "im",
+        "qq",
+        "utility"
+      ]
+    },
+    "cortico-world-qq-emotion": {
+      "addTags": [
+        "im",
+        "qq",
+        "companion",
+        "internal-state"
+      ]
+    },
+    "cortico-world-qq-sticker": {
+      "addTags": [
+        "im",
+        "qq"
+      ]
+    },
+    "cortico-provider-gemini-web": {
+      "addTags": [
+        "external-setup",
+        "unofficial-api"
+      ],
+      "note": {
+        "zh": "借用 Gemini 网页登录态",
+        "en": "Uses a Gemini web login session"
+      }
+    },
+    "cortico-bot-continuity": {
+      "addTags": [
+        "memory",
+        "companion"
+      ]
+    }
   }
 }
