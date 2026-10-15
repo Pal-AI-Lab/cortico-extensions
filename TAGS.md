@@ -36,7 +36,7 @@ Blue marks that only maintainers assign. Do not list them in `cortico.tags`; the
 | id | Label | When to use | Hover hint shown to users | Existing examples |
 |---|---|---|---|---|
 | `pal-ai-world` | Pal AI World Project | Maintainers only; authors cannot declare it. Worlds in the Pal AI World Project. | Part of the Pal AI World Project: a virtual world designed for AI bots. | `cortico-world-dungeon` |
-| `corti` | Corti Vtuber | Maintainers only; authors cannot declare it. World extensions used on Corti Vtuber live streams. | Used on Corti Vtuber live streams. | `cortico-world-bilibili` `cortico-world-minecraft` `cortico-world-sisterdrive` `cortico-world-buckshot` and 4 more |
+| `corti` | Corti Vtuber | Maintainers only; authors cannot declare it. World extensions used on Corti Vtuber live streams. | Used on Corti Vtuber live streams. | `cortico-world-bilibili` `cortico-world-minecraft` `cortico-world-asr` `cortico-world-sisterdrive` and 7 more |
 
 ## Plain tags
 
