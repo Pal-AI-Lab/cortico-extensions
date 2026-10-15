@@ -99,7 +99,8 @@
 - 卡片上的数字和「按评分排序」用 `catalog.json` 里 Action 取好的数;投票后用服务端回的实时数。
 - 评论区:继续嵌 giscus,或用同一个 App 的令牌自己渲染(样式一致,也去掉对 giscus.app 的依赖)。用 giscus 时投票和评论要分别授权两个 App。
 - 审核用 GitHub 自带的隐藏、删除、锁帖、组织级屏蔽。
-- 卡片署名用 npm 账号(维护者;发布者是 GitHub Actions 时改用维护者),不用 package.json 的 author:后者谁都能写。author 放进悬停说明并注明是自填。
+- 卡片署名是 package.json 的 author,悬停显示 npm 账号(维护者;发布者是 GitHub Actions 时改用维护者)。
+- 冒名排查:author 谁都能写,npm 账号只有本人能用。Action 把 author 或 displayName 里带官方名字(`index.json` 的 `official.names`)、但维护者不在 `official.maintainers` 里的包列出来,官方人工看,确认冒名就拉黑。
 
 ## 控制台
 
