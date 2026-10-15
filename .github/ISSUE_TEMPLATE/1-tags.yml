@@ -1,0 +1,39 @@
+name: "标签 / Tags"
+description: "去掉官方加的标签、撤销声明过的警示标签,或请官方加标签 / Remove a maintainer tag, withdraw a declared warning tag, or ask maintainers to add one"
+title: "[tags] "
+labels:
+  - "tags"
+body:
+  - type: "markdown"
+    attributes:
+      value: "标题写成 `[tags] 包名`。自己声明的普通标签与提示标签,发新版本改 `cortico.tags` 即可,不用申请。\n\nTitle: `[tags] package-name`. Plain and notice tags you declared yourself change with a new version of `cortico.tags`; no request needed."
+  - type: "input"
+    id: "package"
+    attributes:
+      label: "包名 / Package (`package`)"
+      description: "npm 上的包名 / The package name on npm"
+      placeholder: "cortico-world-xxx"
+    validations:
+      required: true
+  - type: "input"
+    id: "add"
+    attributes:
+      label: "要加的标签 / Tags to add (`add`)"
+      description: "标签 id,逗号分隔,见 [TAGS.md](https://github.com/Pal-AI-Lab/cortico-extensions/blob/main/TAGS.md) / Tag ids, comma-separated; see [TAGS.md](https://github.com/Pal-AI-Lab/cortico-extensions/blob/main/TAGS.md)"
+  - type: "input"
+    id: "remove"
+    attributes:
+      label: "要去的标签 / Tags to remove (`remove`)"
+      description: "标签 id,逗号分隔 / Tag ids, comma-separated"
+  - type: "textarea"
+    id: "reason"
+    attributes:
+      label: "理由 / Reason (`reason`)"
+      description: "一两句 / A sentence or two"
+    validations:
+      required: true
+  - type: "textarea"
+    id: "evidence"
+    attributes:
+      label: "证据 / Evidence (`evidence`)"
+      description: "链接:源码行、npm 页面、截图 / Links: source lines, npm page, screenshots"

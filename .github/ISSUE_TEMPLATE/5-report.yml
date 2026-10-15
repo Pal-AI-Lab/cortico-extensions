@@ -1,0 +1,29 @@
+name: "举报 / Report"
+description: "恶意代码、冒名、标签严重不符 / Malicious code, impersonation or badly wrong tags"
+title: "[report] "
+labels:
+  - "report"
+body:
+  - type: "markdown"
+    attributes:
+      value: "标题写成 `[report] 包名`。\n\nTitle: `[report] package-name`."
+  - type: "input"
+    id: "package"
+    attributes:
+      label: "包名 / Package (`package`)"
+      description: "npm 上的包名 / The package name on npm"
+      placeholder: "cortico-world-xxx"
+    validations:
+      required: true
+  - type: "textarea"
+    id: "reason"
+    attributes:
+      label: "理由 / Reason (`reason`)"
+      description: "一两句 / A sentence or two"
+    validations:
+      required: true
+  - type: "textarea"
+    id: "evidence"
+    attributes:
+      label: "证据 / Evidence (`evidence`)"
+      description: "链接:源码行、npm 页面、截图 / Links: source lines, npm page, screenshots"

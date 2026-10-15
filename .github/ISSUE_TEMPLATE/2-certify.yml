@@ -1,0 +1,29 @@
+name: "认证 / Certification"
+description: "为第三方包申请认证 / Apply for certification of a third-party package"
+title: "[certify] "
+labels:
+  - "certify"
+body:
+  - type: "markdown"
+    attributes:
+      value: "标题写成 `[certify] 包名`。认证只给第三方包,要求全部满足:\n\n0. 没有错误的标签、缺失的信息等基本问题;\n1. 发布的版本表现稳定,没有明显的 bug 或不可用的问题;\n2. World 扩展不直接依赖(调用)其他 World 扩展;订阅其他 World 的事件时,在下面说明必要性,并写进简介;\n3. 至少有过一次后续更新。\n\nTitle: `[certify] package-name`. Certification is for third-party packages and needs all of:\n\n0. No basic problems such as wrong tags or missing information;\n1. Published versions are stable, without obvious bugs or broken features;\n2. A World extension does not depend on (call) another World extension; if it subscribes to another World's events, explain why below and say so in the description;\n3. At least one follow-up release."
+  - type: "input"
+    id: "package"
+    attributes:
+      label: "包名 / Package (`package`)"
+      description: "npm 上的包名 / The package name on npm"
+      placeholder: "cortico-world-xxx"
+    validations:
+      required: true
+  - type: "textarea"
+    id: "reason"
+    attributes:
+      label: "说明与评估材料 / Statement and evaluation (`reason`)"
+      description: "可选:实际场景运行的表现评估、单位时间内的输入 Token 与模型唤醒次数、测试环境(实际环境、上游端点等)。/ Optional: how it performed in real use, input tokens and model wake-ups per unit of time, and the test setup (environment, upstream endpoint, etc.)."
+    validations:
+      required: false
+  - type: "textarea"
+    id: "evidence"
+    attributes:
+      label: "证据 / Evidence (`evidence`)"
+      description: "链接:源码行、npm 页面、截图 / Links: source lines, npm page, screenshots"
