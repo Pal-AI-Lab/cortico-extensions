@@ -21,12 +21,22 @@ Pick every tag below that fits and list it in `cortico.tags` in package.json. Th
 
 | Level | Author | Maintainers |
 |---|---|---|
+| Official mark (blue) | cannot declare; ignored if listed | add and remove |
 | Plain | add and remove | add and remove |
 | Notice (yellow) | add; remove only what the author added | add and remove |
 | Warning (red) | add; once any version declares it, it stays | add and remove |
 
 Declare notice and warning tags yourself where they apply. Their absence means "not declared and not reviewed yet", not "safe".
 To remove a tag added by maintainers, or withdraw a declared warning tag, open an issue in this repository titled `[tags] package-name`. The [README](README.md) gives the request format.
+
+## Official marks
+
+Blue marks that only maintainers assign. Do not list them in `cortico.tags`; they are ignored there.
+
+| id | Label | When to use | Hover hint shown to users | Existing examples |
+|---|---|---|---|---|
+| `pal-ai-world` | Pal AI World Project | Maintainers only; authors cannot declare it. Worlds in the Pal AI World Project. | Part of the Pal AI World Project: a virtual world designed for AI bots. | `cortico-world-dungeon` |
+| `corti` | Corti Vtuber | Maintainers only; authors cannot declare it. World extensions used on Corti Vtuber live streams. | Used on Corti Vtuber live streams. | `cortico-world-bilibili` `cortico-world-minecraft` `cortico-world-sisterdrive` `cortico-world-buckshot` and 4 more |
 
 ## Plain tags
 

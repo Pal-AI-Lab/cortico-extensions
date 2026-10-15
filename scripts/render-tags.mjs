@@ -18,6 +18,7 @@ const row = (id, t) => {
 };
 
 const entries = Object.entries(index.tags);
+const official = entries.filter(([, t]) => t.style === 'official');
 const author = entries.filter(([, t]) => !t.style);
 const notice = entries.filter(([, t]) => t.style === 'notice');
 const warning = entries.filter(([, t]) => t.style === 'warning');
@@ -46,12 +47,20 @@ Pick every tag below that fits and list it in \`cortico.tags\` in package.json. 
 
 | Level | Author | Maintainers |
 |---|---|---|
+| Official mark (blue) | cannot declare; ignored if listed | add and remove |
 | Plain | add and remove | add and remove |
 | Notice (yellow) | add; remove only what the author added | add and remove |
 | Warning (red) | add; once any version declares it, it stays | add and remove |
 
 Declare notice and warning tags yourself where they apply. Their absence means "not declared and not reviewed yet", not "safe".
 To remove a tag added by maintainers, or withdraw a declared warning tag, open an issue in this repository titled \`[tags] package-name\`. The [README](README.md) gives the request format.
+
+## Official marks
+
+Blue marks that only maintainers assign. Do not list them in \`cortico.tags\`; they are ignored there.
+
+${head}
+${official.map(([id, t]) => row(id, t)).join('\n')}
 
 ## Plain tags
 
@@ -74,4 +83,4 @@ Once at least 3 published extensions would use the tag, open an issue titled \`[
 `;
 
 writeFileSync(`${root}TAGS.md`, md);
-console.log(`TAGS.md: ${author.length} plain, ${notice.length} notice, ${warning.length} warning tags`);
+console.log(`TAGS.md: ${official.length} official, ${author.length} plain, ${notice.length} notice, ${warning.length} warning tags`);
