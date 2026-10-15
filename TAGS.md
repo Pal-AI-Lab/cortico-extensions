@@ -2,11 +2,11 @@
 
 # Cortico 扩展标签 / Extension tags
 
-扩展在 package.json 的 `cortico.tags` 里从下表选**最多 3 个**标签,控制台市场按它分类和筛选。
-Pick **at most 3** tags from the table below for `cortico.tags` in package.json; the console market groups and filters by them.
+扩展在 package.json 的 `cortico.tags` 里从下表选所有贴切的标签,控制台市场按它分类和筛选,鼠标悬停时显示「悬停说明」。
+Pick every tag below that fits for `cortico.tags` in package.json; the console market groups and filters by them and shows the hover hint.
 
 ```jsonc
-"cortico": { "kind": "world", "api": 5, "tags": ["qq", "companion"] }
+"cortico": { "kind": "world", "api": 5, "tags": ["im", "qq", "companion"] }
 ```
 
 ## 怎么选 / How to choose
@@ -15,8 +15,8 @@ Pick **at most 3** tags from the table below for `cortico.tags` in package.json;
   Choose by **what the extension connects to and what it lets the bot do**, not by how it is built.
 - 依附于另一个扩展的功能包,带上宿主所在的平台标签(QQ 功能包带 `qq`)。
   An add-on pack for another extension carries its host's platform tag (QQ add-ons carry `qq`).
-- 一个都不贴切就留空,不要硬选 `utility`。官方会补。
-  If nothing fits, leave it empty rather than forcing `utility`; the maintainers will tag it.
+- 只贴确实贴切的,不为多出现在几个筛选里多贴。一个都不贴切就留空,不要硬选 `utility`;官方会修正。
+  Tag only what truly fits, not to appear in more filters. If nothing fits, leave it empty rather than forcing `utility`; maintainers will correct tags.
 - 只能在某些系统上跑,写 npm 标准字段 `"os": ["win32"]`,不用标签表达。
   Platform limits go in the standard npm `"os"` field, not in tags.
 - 写完跑 `pnpm check:extension <包目录>`,不在词表里的标签会被指出。
@@ -24,33 +24,35 @@ Pick **at most 3** tags from the table below for `cortico.tags` in package.json;
 
 ## 作者可选 / Author tags
 
-| id | 名称 | 什么时候用 / When to use | 现有例子 |
-|---|---|---|---|
-| `qq` | QQ / QQ | 接入 QQ 或依附于某个 QQ World(OneBot / NapCat 适配器、QQ 功能包、QQ 空间、QQ 通话)。<br>Connects to QQ or extends a QQ World (OneBot / NapCat adapters, QQ add-on packs, Qzone, QQ calls). | `cortico-world-qq-final-beta` `cortico-world-qq` `cortico-world-qq-lite` `cortico-world-qq-better-alont1` 等 21 个 |
-| `streaming` | 直播 / Streaming | 读直播间的弹幕、礼物、观众信号,或为直播做演出(Live2D、字幕、OBS overlay)。只是在直播里玩过的游戏不算。<br>Reads a live room's chat, gifts or audience signals, or performs for a stream (Live2D, subtitles, OBS overlay). A game that was merely played on stream does not count. | `cortico-world-bilibili` |
-| `game` | 游戏 / Games | 让 bot 玩、操控或旁观一个游戏,包括桌游规则与跑团检定。<br>Lets the bot play, control or watch a game, including tabletop rules and TRPG checks. | `cortico-world-simple-trpg-check` `cortico-world-minecraft` `cortico-world-dungeon` `cortico-world-sisterdrive` 等 12 个 |
-| `web` | 网页与视频 / Web & video | 搜索、读网页正文、看视频或字幕,用来获取外部信息。<br>Searches, reads web pages, or watches videos and subtitles to bring in outside information. | `cortico-world-websearch` `cortico-world-learn-alont1` `cortico-world-surfing` |
-| `voice` | 语音 / Voice | 让 bot 听(语音识别)、说(语音合成)或通话。<br>Lets the bot listen (speech recognition), speak (speech synthesis) or take calls. | `cortico-world-asr` `cortico-world-phone` `cortico-world-cosyvoice-tts` `cortico-world-tts` 等 5 个 |
-| `desktop` | 桌面 / Desktop | 在用户的电脑桌面上出现或起作用:桌宠、读前台窗口、在不在电脑前、操控鼠标键盘。<br>Lives on or acts on the user's desktop: desktop pets, reading the foreground window, presence detection, mouse and keyboard control. | `cortico-world-humanlike-alont1` `cortico-world-gaming-alont1` `cortico-world-alive-alont1` `cortico-world-presence` |
-| `memory` | 记忆 / Memory | 帮 bot 记住、检索或整理过去的事:记忆库、聊天记录检索、笔记、相册、记忆体检。<br>Helps the bot remember, search or tidy the past: memory stores, chat history search, notes, albums, memory health checks. | `cortico-world-memory` `cortico-world-together-alont1` `cortico-world-learn-alont1` `cortico-world-lite-alont1` 等 9 个 |
-| `companion` | 陪伴 / Companion | 让 bot 更像一个有自己生活的伙伴:情绪、好感、作息、时间感、节日、主动开口。<br>Makes the bot feel like a companion with a life of its own: mood, affinity, daily routine, sense of time, festivals, speaking first. | `cortico-world-life-alont1` `cortico-world-humanlike-alont1` `cortico-world-affinity-alont1` `cortico-world-gaming-alont1` 等 15 个 |
-| `creative` | 创作 / Creative | 让 bot 产出作品:画画、生成或修改图片、合成音频作品。<br>Lets the bot make things: drawing, generating or editing images, producing audio pieces. | `cortico-world-image` `cortico-world-canvas` `cortico-world-tts` |
-| `utility` | 工具 / Utilities | 提醒、群管理、限速防刷、省 token、给其他语言写插件的桥接这类运维与效率功能。上面的标签都不合适时才用。<br>Operational and productivity helpers: reminders, group moderation, rate limits, token savings, bridges for plugins in other languages. Use it only when none of the tags above fits. | `cortico-world-gemini-web` `cortico-world-python` `cortico-frugal-alont1` `cortico-world-qq-admin` 等 7 个 |
-| `local` | 本地模型 / Local model | 在用户本机跑模型推理(LLM、语音识别、语音合成),需要本机算力或显存。<br>Runs model inference on the user's machine (LLM, speech recognition, speech synthesis) and needs local compute or VRAM. | `cortico-world-asr` `cortico-world-cosyvoice-tts` |
-| `external-setup` | 需额外安装 / Extra setup | 装上包还不能用,得先另装别的东西:游戏本体或 mod 加载器(BepInEx)、NapCat、VTube Studio、Python 环境、模型权重、游戏服务器。<br>Installing the package is not enough; something else must be set up first: the game itself or a mod loader (BepInEx), NapCat, VTube Studio, a Python environment, model weights, a game server. | `cortico-world-minecraft` `cortico-world-qq-final-beta` `cortico-world-qq` `cortico-world-qq-lite` 等 16 个 |
+| id | 名称 | 什么时候用 / When to use | 悬停说明 / Hover hint | 现有例子 |
+|---|---|---|---|---|
+| `im` | 即时通讯 / Messaging | 接入任意即时通讯平台收发消息(QQ、Discord、Telegram、微信等),或依附于这类 World 的功能包。<br>Connects to any instant-messaging platform (QQ, Discord, Telegram, WeChat, etc.), or extends such a World. | 接入聊天软件收发消息。<br>Sends and receives messages on a chat platform. | `cortico-world-qq-final-beta` `cortico-world-qq` `cortico-world-qq-lite` `cortico-world-qq-better-alont1` 等 21 个 |
+| `qq` | QQ / QQ | 接入 QQ 或依附于某个 QQ World。QQ 生态有大量依附于宿主的功能包,所以单独设一个平台标签;同时也贴 im。<br>Connects to QQ or extends a QQ World. QQ has many add-on packs tied to a host, so it gets its own platform tag; also tag im. | 接入 QQ,或是某个 QQ World 的功能包。<br>Connects to QQ, or is an add-on for a QQ World. | `cortico-world-qq-final-beta` `cortico-world-qq` `cortico-world-qq-lite` `cortico-world-qq-better-alont1` 等 21 个 |
+| `streaming` | 直播 / Streaming | 读直播间的弹幕、礼物、观众信号,或为直播做演出(Live2D、字幕、OBS overlay)。只是在直播里玩过的游戏不算。<br>Reads a live room's chat, gifts or audience signals, or performs for a stream (Live2D, subtitles, OBS overlay). A game that was merely played on stream does not count. | 读直播间弹幕礼物,或为直播做演出。<br>Reads a live room or performs for a stream. | `cortico-world-bilibili` |
+| `game` | 游戏 / Games | 让 bot 玩、操控或旁观一个游戏,包括桌游规则与跑团检定。<br>Lets the bot play, control or watch a game, including tabletop rules and TRPG checks. | 让 bot 玩或旁观一个游戏。<br>Lets the bot play or watch a game. | `cortico-world-simple-trpg-check` `cortico-world-minecraft` `cortico-world-dungeon` `cortico-world-sisterdrive` 等 12 个 |
+| `web` | 网页与视频 / Web & video | 搜索、读网页正文、看视频或字幕,用来获取外部信息。<br>Searches, reads web pages, or watches videos and subtitles to bring in outside information. | 搜索、读网页或看视频获取信息。<br>Searches, reads pages or watches videos for information. | `cortico-world-websearch` `cortico-world-learn-alont1` `cortico-world-surfing` |
+| `voice` | 语音 / Voice | 让 bot 听(语音识别)、说(语音合成)或通话。<br>Lets the bot listen (speech recognition), speak (speech synthesis) or take calls. | 让 bot 听、说或通话。<br>Lets the bot listen, speak or take calls. | `cortico-world-asr` `cortico-world-phone` `cortico-world-cosyvoice-tts` `cortico-world-tts` 等 5 个 |
+| `desktop` | 桌面 / Desktop | 在用户的电脑桌面上出现或起作用:桌宠、读前台窗口、在不在电脑前、操控鼠标键盘。<br>Lives on or acts on the user's desktop: desktop pets, reading the foreground window, presence detection, mouse and keyboard control. | 在你的电脑桌面上出现或起作用。<br>Lives on or acts on your desktop. | `cortico-world-humanlike-alont1` `cortico-world-gaming-alont1` `cortico-world-alive-alont1` `cortico-world-presence` |
+| `memory` | 记忆 / Memory | 帮 bot 记住、检索或整理过去的事:记忆库、聊天记录检索、笔记、相册、记忆体检。<br>Helps the bot remember, search or tidy the past: memory stores, chat history search, notes, albums, memory health checks. | 帮 bot 记住、检索或整理过去的事。<br>Helps the bot remember, search or tidy the past. | `cortico-world-memory` `cortico-world-together-alont1` `cortico-world-learn-alont1` `cortico-world-lite-alont1` 等 9 个 |
+| `companion` | 陪伴 / Companion | 让 bot 更像一个有自己生活的伙伴:情绪、好感、作息、时间感、节日、主动开口。<br>Makes the bot feel like a companion with a life of its own: mood, affinity, daily routine, sense of time, festivals, speaking first. | 让 bot 更像一个有自己生活的伙伴。<br>Makes the bot feel like a companion with a life of its own. | `cortico-world-life-alont1` `cortico-world-humanlike-alont1` `cortico-world-affinity-alont1` `cortico-world-gaming-alont1` 等 15 个 |
+| `creative` | 创作 / Creative | 让 bot 产出作品:画画、生成或修改图片、合成音频作品。<br>Lets the bot make things: drawing, generating or editing images, producing audio pieces. | 让 bot 画画、生成图片这类作品。<br>Lets the bot make works such as drawings and images. | `cortico-world-image` `cortico-world-canvas` |
+| `utility` | 工具 / Utilities | 提醒、群管理、限速防刷、省 token、给其他语言写插件的桥接这类运维与效率功能。上面的标签都不合适时才用。<br>Operational and productivity helpers: reminders, group moderation, rate limits, token savings, bridges for plugins in other languages. Use it only when none of the tags above fits. | 提醒、群管理、省 token 这类辅助功能。<br>Helpers such as reminders, moderation and token savings. | `cortico-world-gemini-web` `cortico-world-python` `cortico-frugal-alont1` `cortico-world-qq-admin` 等 7 个 |
+| `local` | 本地模型 / Local model | 在用户本机跑模型推理(LLM、语音识别、语音合成),需要本机算力或显存。<br>Runs model inference on the user's machine (LLM, speech recognition, speech synthesis) and needs local compute or VRAM. | 在本机跑模型,需要本机算力或显存。<br>Runs a model on this machine; needs local compute or VRAM. | `cortico-world-asr` `cortico-world-cosyvoice-tts` |
+| `external-setup` | 需额外安装 / Extra setup | 装上包还不能用,得先另装别的东西:游戏本体或 mod 加载器(BepInEx)、NapCat、VTube Studio、Python 环境、模型权重、游戏服务器。<br>Installing the package is not enough; something else must be set up first: the game itself or a mod loader (BepInEx), NapCat, VTube Studio, a Python environment, model weights, a game server. | 装上包还不能用,要先另装游戏、mod 加载器、NapCat 等,见扩展说明。<br>Not usable on install alone; set up the game, mod loader, NapCat or similar first. See its README. | `cortico-world-minecraft` `cortico-world-qq-final-beta` `cortico-world-qq` `cortico-world-qq-lite` 等 16 个 |
 
 ## 官方标签 / Official tags
 
-下面这些标签由官方审查后添加,显示为警示色。作者写进 `cortico.tags` 也会被忽略,作者也去不掉。
+下面这些标签由官方审查后添加:`internal-state` 显示为提示色,其余显示为警示色。作者写进 `cortico.tags` 也会被忽略,作者也去不掉。
 没有这些标签只表示还没审查到,不代表安全。
-These are added by maintainers after review and shown as warnings. Authors cannot add or remove them.
+These are added by maintainers after review; `internal-state` is shown as a notice, the rest as warnings. Authors cannot add or remove them.
 Their absence means "not reviewed yet", not "safe".
 
-| id | 名称 | 什么时候用 / When to use | 现有例子 |
-|---|---|---|---|
-| `unsafe` | 不安全 / Unsafe | 官方审查后添加。模型能借它执行任意代码或命令、读写任意文件,或任意操控鼠标键盘。<br>Added after official review. The model can use it to run arbitrary code or commands, read and write arbitrary files, or freely control the mouse and keyboard. | `cortico-world-python` |
-| `sensitive-data` | 读取隐私 / Reads private data | 官方审查后添加。会持续读取屏幕、麦克风、前台窗口或消费记录这类个人数据,并随模型调用发给模型端点。<br>Added after official review. Continuously reads personal data such as the screen, microphone, foreground window or spending records, and sends it to the model endpoint with model calls. | `cortico-world-humanlike-alont1` `cortico-world-gaming-alont1` `cortico-world-alive-alont1` `cortico-world-asr` 等 5 个 |
-| `unofficial-api` | 非官方接口 / Unofficial API | 官方审查后添加。借用网页登录态、CLI 额度或未公开接口调用服务,可能违反该服务的条款,账号有被限制的风险。<br>Added after official review. Calls a service through a web login session, a CLI quota or an undocumented endpoint; this may break the service's terms and put the account at risk. | `cortico-world-gemini-web` `cortico-provider-gemini-web` |
+| id | 名称 | 什么时候用 / When to use | 悬停说明 / Hover hint | 现有例子 |
+|---|---|---|---|---|
+| `unsafe` | 不安全 / Unsafe | 官方审查后添加。模型能借它执行任意代码或命令、读写任意文件,或任意操控鼠标键盘。<br>Added after official review. The model can use it to run arbitrary code or commands, read and write arbitrary files, or freely control the mouse and keyboard. | 模型能借它执行任意代码或命令、读写任意文件,或操控鼠标键盘。只在信任这个 bot 和模型时启用。<br>The model can run arbitrary code or commands, touch any file, or control the mouse and keyboard. Enable only if you trust the bot and the model. | `cortico-world-python` |
+| `sensitive-data` | 读取隐私 / Reads private data | 官方审查后添加。会持续读取屏幕、麦克风、前台窗口或消费记录这类个人数据,并随模型调用发给模型端点。<br>Added after official review. Continuously reads personal data such as the screen, microphone, foreground window or spending records, and sends it to the model endpoint with model calls. | 会持续读取屏幕、麦克风、窗口等个人数据,并发给你配置的模型端点。<br>Continuously reads personal data such as the screen, microphone or windows, and sends it to your configured model endpoint. | `cortico-world-humanlike-alont1` `cortico-world-gaming-alont1` `cortico-world-alive-alont1` `cortico-world-asr` 等 5 个 |
+| `unofficial-api` | 非官方接口 / Unofficial API | 官方审查后添加。借用网页登录态、CLI 额度或未公开接口调用服务,可能违反该服务的条款,账号有被限制的风险。<br>Added after official review. Calls a service through a web login session, a CLI quota or an undocumented endpoint; this may break the service's terms and put the account at risk. | 借用登录态或未公开接口调用服务,可能违反服务条款,账号有被限制的风险。<br>Uses a login session or undocumented endpoint; may break the service's terms and put the account at risk. | `cortico-world-gemini-web` `cortico-provider-gemini-web` |
+| `internal-state` | 内部状态 / Internal state | 官方审查后添加。World 自己保存并注入 bot 的情绪、好感、记忆、经历这类内部状态。<br>Added after official review. The World keeps and injects the bot's own internal state: mood, affinity, memories, experiences. | 这个 World 在 bot 的 Memory 之外自己管理 bot 的内部状态(情绪、好感、记忆等),装上或卸下前后 bot 对自己的认知可能不一致。这类功能推荐在 bot 扩展的 Persona 里实现。<br>This World manages the bot's internal state (mood, affinity, memories) outside the bot's Memory, so the bot's sense of itself may differ before and after it is installed or removed. We recommend building this into a bot extension's Persona instead. | `cortico-world-memory` `cortico-world-life-alont1` `cortico-world-humanlike-alont1` `cortico-world-affinity-alont1` 等 12 个 |
 
 ## 新增标签 / Proposing a tag
 

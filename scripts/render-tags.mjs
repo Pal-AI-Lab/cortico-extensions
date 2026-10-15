@@ -13,23 +13,23 @@ const examples = (id) => Object.entries(index.overrides)
 const row = (id, t) => {
   const ex = examples(id);
   const shown = ex.slice(0, EXAMPLES).join(' ') + (ex.length > EXAMPLES ? ` 等 ${ex.length} 个` : '');
-  return `| \`${id}\` | ${t.label.zh} / ${t.label.en} | ${t.when.zh}<br>${t.when.en} | ${shown || '—'} |`;
+  return `| \`${id}\` | ${t.label.zh} / ${t.label.en} | ${t.when.zh}<br>${t.when.en} | ${t.hint.zh}<br>${t.hint.en} | ${shown || '—'} |`;
 };
 
 const entries = Object.entries(index.tags);
 const author = entries.filter(([, t]) => !t.officialOnly);
 const official = entries.filter(([, t]) => t.officialOnly);
-const head = '| id | 名称 | 什么时候用 / When to use | 现有例子 |\n|---|---|---|---|';
+const head = '| id | 名称 | 什么时候用 / When to use | 悬停说明 / Hover hint | 现有例子 |\n|---|---|---|---|---|';
 
 const md = `<!-- 由 scripts/render-tags.mjs 按 index.json 生成,不要手改。 -->
 
 # Cortico 扩展标签 / Extension tags
 
-扩展在 package.json 的 \`cortico.tags\` 里从下表选**最多 ${index.maxAuthorTags} 个**标签,控制台市场按它分类和筛选。
-Pick **at most ${index.maxAuthorTags}** tags from the table below for \`cortico.tags\` in package.json; the console market groups and filters by them.
+扩展在 package.json 的 \`cortico.tags\` 里从下表选所有贴切的标签,控制台市场按它分类和筛选,鼠标悬停时显示「悬停说明」。
+Pick every tag below that fits for \`cortico.tags\` in package.json; the console market groups and filters by them and shows the hover hint.
 
 \`\`\`jsonc
-"cortico": { "kind": "world", "api": 5, "tags": ["qq", "companion"] }
+"cortico": { "kind": "world", "api": 5, "tags": ["im", "qq", "companion"] }
 \`\`\`
 
 ## 怎么选 / How to choose
@@ -38,8 +38,8 @@ Pick **at most ${index.maxAuthorTags}** tags from the table below for \`cortico.
   Choose by **what the extension connects to and what it lets the bot do**, not by how it is built.
 - 依附于另一个扩展的功能包,带上宿主所在的平台标签(QQ 功能包带 \`qq\`)。
   An add-on pack for another extension carries its host's platform tag (QQ add-ons carry \`qq\`).
-- 一个都不贴切就留空,不要硬选 \`utility\`。官方会补。
-  If nothing fits, leave it empty rather than forcing \`utility\`; the maintainers will tag it.
+- 只贴确实贴切的,不为多出现在几个筛选里多贴。一个都不贴切就留空,不要硬选 \`utility\`;官方会修正。
+  Tag only what truly fits, not to appear in more filters. If nothing fits, leave it empty rather than forcing \`utility\`; maintainers will correct tags.
 - 只能在某些系统上跑,写 npm 标准字段 \`"os": ["win32"]\`,不用标签表达。
   Platform limits go in the standard npm \`"os"\` field, not in tags.
 - 写完跑 \`pnpm check:extension <包目录>\`,不在词表里的标签会被指出。
@@ -52,9 +52,9 @@ ${author.map(([id, t]) => row(id, t)).join('\n')}
 
 ## 官方标签 / Official tags
 
-下面这些标签由官方审查后添加,显示为警示色。作者写进 \`cortico.tags\` 也会被忽略,作者也去不掉。
+下面这些标签由官方审查后添加:\`internal-state\` 显示为提示色,其余显示为警示色。作者写进 \`cortico.tags\` 也会被忽略,作者也去不掉。
 没有这些标签只表示还没审查到,不代表安全。
-These are added by maintainers after review and shown as warnings. Authors cannot add or remove them.
+These are added by maintainers after review; \`internal-state\` is shown as a notice, the rest as warnings. Authors cannot add or remove them.
 Their absence means "not reviewed yet", not "safe".
 
 ${head}
