@@ -45,12 +45,12 @@
         "en": "Streaming"
       },
       "hint": {
-        "zh": "读直播间弹幕礼物，或为直播做演出。",
-        "en": "Reads a live room or performs for a stream."
+        "zh": "成为偶像！为直播场景设计。",
+        "en": "Become an idol! Built for live streaming."
       },
       "when": {
-        "zh": "读直播间的弹幕、礼物、观众信号，或为直播做演出（Live2D、字幕、OBS overlay）。只是在直播里玩过的游戏不算。",
-        "en": "Reads a live room's chat, gifts or audience signals, or performs for a stream (Live2D, subtitles, OBS overlay). A game that was merely played on stream does not count."
+        "zh": "为直播场景设计：读直播间的弹幕、礼物、观众信号，或做直播演出（Live2D、字幕、OBS overlay）。只是在直播里玩过的游戏不算。",
+        "en": "Built for live streaming: reads a live room's chat, gifts or audience signals, or performs for a stream (Live2D, subtitles, OBS overlay). A game that was merely played on stream does not count."
       }
     },
     "game": {
@@ -59,26 +59,40 @@
         "en": "Games"
       },
       "hint": {
-        "zh": "让 bot 玩或旁观一个游戏。",
-        "en": "Lets the bot play or watch a game."
+        "zh": "接入、观察和操作游戏。",
+        "en": "Connects to, watches and plays games."
       },
       "when": {
-        "zh": "让 bot 玩、操控或旁观一个游戏，包括桌游规则与跑团检定。",
-        "en": "Lets the bot play, control or watch a game, including tabletop rules and TRPG checks."
+        "zh": "接入、观察或操作一个游戏，包括桌游规则与跑团检定。",
+        "en": "Connects to, watches or plays a game, including tabletop rules and TRPG checks."
       }
     },
-    "web": {
+    "browser": {
       "label": {
-        "zh": "网页与视频",
-        "en": "Web & video"
+        "zh": "浏览器",
+        "en": "Browser"
       },
       "hint": {
-        "zh": "搜索、读网页或看视频获取信息。",
-        "en": "Searches, reads pages or watches videos for information."
+        "zh": "涉及浏览器操作的功能。",
+        "en": "Operates a web browser."
       },
       "when": {
-        "zh": "搜索、读网页正文、看视频或字幕，用来获取外部信息。",
-        "en": "Searches, reads web pages, or watches videos and subtitles to bring in outside information."
+        "zh": "打开、读取、点击网页，或内嵌一个网页。只是调 HTTP 接口不算。",
+        "en": "Opens, reads or clicks web pages, or embeds a web page. Calling an HTTP API alone does not count."
+      }
+    },
+    "video": {
+      "label": {
+        "zh": "视频",
+        "en": "Video"
+      },
+      "hint": {
+        "zh": "让 bot 看视频、读字幕或生成视频。",
+        "en": "Lets the bot watch videos, read subtitles or make videos."
+      },
+      "when": {
+        "zh": "让 bot 看视频或直播画面、读字幕，或生成视频。",
+        "en": "Lets the bot watch videos or stream footage, read subtitles, or make videos."
       }
     },
     "voice": {
@@ -109,18 +123,46 @@
         "en": "Lives on or acts on the user's desktop: desktop pets, reading the foreground window, presence detection, mouse and keyboard control."
       }
     },
+    "real-world": {
+      "label": {
+        "zh": "现实环境",
+        "en": "Physical world"
+      },
+      "hint": {
+        "zh": "涉及现实环境操作，如智能家居。",
+        "en": "Acts on the physical world, such as a smart home."
+      },
+      "when": {
+        "zh": "操作现实环境里的设备，如智能家居、机器人、传感器。",
+        "en": "Operates devices in the physical world, such as smart homes, robots or sensors."
+      }
+    },
+    "apps": {
+      "label": {
+        "zh": "应用程序",
+        "en": "Apps"
+      },
+      "hint": {
+        "zh": "接入、监听或操作其他应用程序。",
+        "en": "Connects to, watches or operates other applications."
+      },
+      "when": {
+        "zh": "接入、监听或操作其他应用程序。只有其他标签都不适用时才用。",
+        "en": "Connects to, watches or operates other applications. Use it only when no other tag fits."
+      }
+    },
     "memory": {
       "label": {
         "zh": "记忆",
         "en": "Memory"
       },
       "hint": {
-        "zh": "帮 bot 记住、检索或整理过去的事。",
-        "en": "Helps the bot remember, search or tidy the past."
+        "zh": "帮 bot 记住、检索或整理过去的事。注意：我们不推荐通过 World 管理记忆和任何内部状态，请编写 Bot 扩展来处理内部状态管理。",
+        "en": "Helps the bot remember, search or tidy the past. Note: we do not recommend managing memory or any internal state in a World; write a bot extension for internal state."
       },
       "when": {
-        "zh": "帮 bot 记住、检索或整理过去的事：记忆库、聊天记录检索、笔记、相册、记忆体检。",
-        "en": "Helps the bot remember, search or tidy the past: memory stores, chat history search, notes, albums, memory health checks."
+        "zh": "帮 bot 记住、检索或整理过去的事：记忆库、聊天记录检索、笔记、相册、记忆体检。注意：我们不推荐通过 World 管理记忆和任何内部状态，请编写 Bot 扩展来处理内部状态管理。",
+        "en": "Helps the bot remember, search or tidy the past: memory stores, chat history search, notes, albums, memory health checks. Note: we do not recommend managing memory or any internal state in a World; write a bot extension for internal state."
       }
     },
     "companion": {
@@ -129,12 +171,12 @@
         "en": "Companion"
       },
       "hint": {
-        "zh": "情绪、好感、作息、时间感、节日、主动开口这类功能。",
-        "en": "Mood, affinity, daily routine, sense of time, festivals, speaking first."
+        "zh": "情绪、好感、作息、时间感、节日、主动开口这类功能。注意：我们不推荐通过 World 管理记忆和任何内部状态，请编写 Bot 扩展来处理内部状态管理。",
+        "en": "Mood, affinity, daily routine, sense of time, festivals, speaking first. Note: we do not recommend managing memory or any internal state in a World; write a bot extension for internal state."
       },
       "when": {
-        "zh": "让 bot 更像一个有自己生活的伙伴：情绪、好感、作息、时间感、节日、主动开口。",
-        "en": "Makes the bot feel like a companion with a life of its own: mood, affinity, daily routine, sense of time, festivals, speaking first."
+        "zh": "让 bot 更像一个有自己生活的伙伴：情绪、好感、作息、时间感、节日、主动开口。注意：我们不推荐通过 World 管理记忆和任何内部状态，请编写 Bot 扩展来处理内部状态管理。",
+        "en": "Makes the bot feel like a companion with a life of its own: mood, affinity, daily routine, sense of time, festivals, speaking first. Note: we do not recommend managing memory or any internal state in a World; write a bot extension for internal state."
       }
     },
     "creative": {
@@ -151,18 +193,18 @@
         "en": "Lets the bot make things: drawing, generating or editing images, producing audio pieces."
       }
     },
-    "utility": {
+    "diagnostics": {
       "label": {
-        "zh": "工具",
-        "en": "Utilities"
+        "zh": "诊断",
+        "en": "Diagnostics"
       },
       "hint": {
-        "zh": "提醒、群管理、省 token 这类辅助功能。",
-        "en": "Helpers such as reminders, moderation and token savings."
+        "zh": "涉及 Cortico 框架内部诊断和自我管理的功能。注意：如无必要，我们不推荐通过 World 做这类功能，请发布单独的工具。",
+        "en": "Diagnoses or manages the Cortico framework itself. Note: unless necessary, we do not recommend building this as a World; publish a separate tool instead."
       },
       "when": {
-        "zh": "提醒、群管理、限速防刷、省 token、给其他语言写插件的桥接这类运维与效率功能。上面的标签都不合适时才用。",
-        "en": "Operational and productivity helpers: reminders, group moderation, rate limits, token savings, bridges for plugins in other languages. Use it only when none of the tags above fits."
+        "zh": "诊断或管理 Cortico 框架本身：用量与花费体检、记忆体检、配置收紧这类。注意：如无必要，我们不推荐通过 World 做这类功能，请发布单独的工具。",
+        "en": "Diagnoses or manages the Cortico framework itself: usage and cost checks, memory health checks, tightening configuration. Note: unless necessary, we do not recommend building this as a World; publish a separate tool instead."
       }
     },
     "local": {
@@ -312,9 +354,7 @@
       }
     },
     "cortico-world-websearch": {
-      "addTags": [
-        "web"
-      ]
+      "addTags": []
     },
     "cortico-world-affinity-alont1": {
       "addTags": [
@@ -381,7 +421,6 @@
     },
     "cortico-world-learn-alont1": {
       "addTags": [
-        "web",
         "memory",
         "internal-state"
       ]
@@ -479,7 +518,7 @@
     },
     "cortico-world-gemini-web": {
       "addTags": [
-        "utility",
+        "browser",
         "unofficial-api"
       ],
       "note": {
@@ -489,7 +528,6 @@
     },
     "cortico-world-python": {
       "addTags": [
-        "utility",
         "unsafe"
       ],
       "note": {
@@ -499,12 +537,13 @@
     },
     "cortico-world-memory-doctor-alont1": {
       "addTags": [
-        "memory"
+        "memory",
+        "diagnostics"
       ]
     },
     "cortico-frugal-alont1": {
       "addTags": [
-        "utility"
+        "diagnostics"
       ]
     },
     "cortico-world-sts-1": {
@@ -521,7 +560,8 @@
     },
     "cortico-world-surfing": {
       "addTags": [
-        "web"
+        "browser",
+        "video"
       ]
     },
     "cortico-world-qq-affinity": {
@@ -535,8 +575,7 @@
     "cortico-world-qq-admin": {
       "addTags": [
         "im",
-        "qq",
-        "utility"
+        "qq"
       ]
     },
     "cortico-world-tts": {
@@ -580,8 +619,7 @@
     "cortico-world-qq-reminder": {
       "addTags": [
         "im",
-        "qq",
-        "utility"
+        "qq"
       ]
     },
     "cortico-world-presence": {
@@ -598,8 +636,7 @@
     "cortico-world-qq-groupspeak": {
       "addTags": [
         "im",
-        "qq",
-        "utility"
+        "qq"
       ]
     },
     "cortico-world-qq-notebook": {
@@ -632,8 +669,7 @@
     "cortico-world-qq-antiloop": {
       "addTags": [
         "im",
-        "qq",
-        "utility"
+        "qq"
       ]
     },
     "cortico-world-qq-emotion": {
@@ -652,6 +688,7 @@
     },
     "cortico-provider-gemini-web": {
       "addTags": [
+        "browser",
         "external-setup",
         "unofficial-api"
       ],
