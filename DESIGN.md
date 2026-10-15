@@ -1,6 +1,6 @@
 # Cortico 扩展市场升级:设计草案
 
-状态:草案,未开工。本仓库尚未推到 GitHub。
+状态:控制台前端已在 Cortico 分支 `feat/extension-market-index` 上实现(本地,未推);服务端读索引、Action 与 GitHub 仓库未做。本仓库尚未推到 GitHub。
 
 ## 目标与约束
 
@@ -59,7 +59,7 @@
 - 不设数量上限。作者贴错,官方在 `overrides` 里改。
 - 每个标签两段文字:`when` 给作者与 agent 判断该不该贴,`hint` 是用户悬停看到的说明。
 - 一个包的标签 = 作者 `cortico.tags` 中词表内的作者标签 ∪ `keywords` 中属于词表的词 ∪ 官方 `addTags` − 官方 `removeTags`。
-- 现有 60 个公开包的标签已在 `overrides` 里打好。
+- 现有 60 个公开包里 58 个已在 `overrides` 里打好标签;`cortico-provider-deepseek` 与 `cortico-provider-coo` 是普通云端模型供应商,没有贴切的标签。
 
 ## 官方管理(`index.json`)
 
