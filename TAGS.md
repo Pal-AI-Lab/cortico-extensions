@@ -31,12 +31,13 @@ To remove a tag added by maintainers, or withdraw a declared warning tag, open a
 
 ## Official marks
 
-Blue marks that only maintainers assign. Do not list them in `cortico.tags`; they are ignored there.
+Blue marks for extensions used by an official Cortico downstream product. Only maintainers assign them. Do not list them in `cortico.tags`; they are ignored there.
 
 | id | Label | When to use | Hover hint shown to users | Existing examples |
 |---|---|---|---|---|
-| `pal-ai-world` | Pal AI World Project | Maintainers only; authors cannot declare it. Worlds in the Pal AI World Project. | Part of the Pal AI World Project: a virtual world designed for AI bots. | `cortico-world-dungeon` |
-| `corti` | Corti Vtuber | Maintainers only; authors cannot declare it. World extensions used on Corti Vtuber live streams. | Used on Corti Vtuber live streams. | `cortico-world-bilibili` `cortico-world-minecraft` `cortico-world-asr` `cortico-world-sisterdrive` and 7 more |
+| `pal-ai-world` | Pal AI World Project | Maintainers only; authors cannot declare it. Marks extensions used by an official Cortico downstream product. Worlds in the Pal AI World Project. | Part of the Pal AI World Project: a virtual world designed for AI bots. | `cortico-world-dungeon` |
+| `corti` | Corti Vtuber | Maintainers only; authors cannot declare it. Marks extensions used by an official Cortico downstream product. World extensions used on Corti Vtuber live streams. | Used on Corti Vtuber live streams. | `cortico-world-bilibili` `cortico-world-minecraft` `cortico-world-asr` `cortico-world-sisterdrive` and 7 more |
+| `coopanion` | Coopanion | Maintainers only; authors cannot declare it. Extensions used by Coopanion, the desktop companion built on Cortico. | Used in Coopanion, the cute desktop pet! | `cortico-provider-coo` |
 
 ## Plain tags
 

@@ -57,7 +57,7 @@ To remove a tag added by maintainers, or withdraw a declared warning tag, open a
 
 ## Official marks
 
-Blue marks that only maintainers assign. Do not list them in \`cortico.tags\`; they are ignored there.
+Blue marks for extensions used by an official Cortico downstream product. Only maintainers assign them. Do not list them in \`cortico.tags\`; they are ignored there.
 
 ${head}
 ${official.map(([id, t]) => row(id, t)).join('\n')}
