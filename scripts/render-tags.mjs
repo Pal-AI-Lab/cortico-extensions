@@ -17,8 +17,9 @@ const row = (id, t) => {
 };
 
 const entries = Object.entries(index.tags);
-const author = entries.filter(([, t]) => !t.officialOnly);
-const official = entries.filter(([, t]) => t.officialOnly);
+const author = entries.filter(([, t]) => !t.style);
+const notice = entries.filter(([, t]) => t.style === 'notice');
+const warning = entries.filter(([, t]) => t.style === 'warning');
 const head = '| id | 名称 | 什么时候用 / When to use | 悬停说明 / Hover hint | 现有例子 |\n|---|---|---|---|---|';
 
 const md = `<!-- 由 scripts/render-tags.mjs 按 index.json 生成,不要手改。 -->
@@ -45,20 +46,39 @@ Pick every tag below that fits for \`cortico.tags\` in package.json; the console
 - 写完跑 \`pnpm check:extension <包目录>\`,不在词表里的标签会被指出。
   Run \`pnpm check:extension <dir>\` afterwards; tags outside this list are reported.
 
-## 作者可选 / Author tags
+## 谁能加、谁能去 / Who adds and removes
+
+| 级别 | 作者 | 官方 |
+|---|---|---|
+| 普通 | 可加可去 | 可加可去 |
+| 提示(黄色) | 可加;自己加的可去,官方加的去不掉 | 可加可去 |
+| 警示(红色) | 可加;任一版本声明过就一直保留,作者去不掉 | 可加可去 |
+
+| Level | Author | Maintainers |
+|---|---|---|
+| Plain | add and remove | add and remove |
+| Notice (yellow) | add; remove only what the author added | add and remove |
+| Warning (red) | add; once any version declares it, it stays | add and remove |
+
+提示与警示标签请作者对照下表主动声明。要去掉官方加的标签,或撤销声明过的警示标签,到本仓库提标签申请。
+没有这些标签只表示作者没声明、官方也还没审查到,不代表安全。
+Declare notice and warning tags yourself where they apply. To remove a tag added by maintainers, or withdraw a declared warning tag, open a tag request in this repository.
+Their absence means "not declared and not reviewed yet", not "safe".
+
+## 普通 / Plain tags
 
 ${head}
 ${author.map(([id, t]) => row(id, t)).join('\n')}
 
-## 官方标签 / Official tags
-
-下面这些标签由官方审查后添加:\`internal-state\`、\`requires-extension\` 显示为黄色提示色,其余显示为红色警示色。作者写进 \`cortico.tags\` 也会被忽略,作者也去不掉。
-没有这些标签只表示还没审查到,不代表安全。
-These are added by maintainers after review; \`internal-state\` and \`requires-extension\` are shown as yellow notices, the rest as red warnings. Authors cannot add or remove them.
-Their absence means "not reviewed yet", not "safe".
+## 提示 / Notice tags
 
 ${head}
-${official.map(([id, t]) => row(id, t)).join('\n')}
+${notice.map(([id, t]) => row(id, t)).join('\n')}
+
+## 警示 / Warning tags
+
+${head}
+${warning.map(([id, t]) => row(id, t)).join('\n')}
 
 ## 新增标签 / Proposing a tag
 
@@ -67,4 +87,4 @@ Open a PR against \`index.json\` once at least 3 published extensions would use 
 `;
 
 writeFileSync(`${root}TAGS.md`, md);
-console.log(`TAGS.md: ${author.length} author tags, ${official.length} official tags`);
+console.log(`TAGS.md: ${author.length} plain, ${notice.length} notice, ${warning.length} warning tags`);

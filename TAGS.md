@@ -22,7 +22,26 @@ Pick every tag below that fits for `cortico.tags` in package.json; the console m
 - 写完跑 `pnpm check:extension <包目录>`,不在词表里的标签会被指出。
   Run `pnpm check:extension <dir>` afterwards; tags outside this list are reported.
 
-## 作者可选 / Author tags
+## 谁能加、谁能去 / Who adds and removes
+
+| 级别 | 作者 | 官方 |
+|---|---|---|
+| 普通 | 可加可去 | 可加可去 |
+| 提示(黄色) | 可加;自己加的可去,官方加的去不掉 | 可加可去 |
+| 警示(红色) | 可加;任一版本声明过就一直保留,作者去不掉 | 可加可去 |
+
+| Level | Author | Maintainers |
+|---|---|---|
+| Plain | add and remove | add and remove |
+| Notice (yellow) | add; remove only what the author added | add and remove |
+| Warning (red) | add; once any version declares it, it stays | add and remove |
+
+提示与警示标签请作者对照下表主动声明。要去掉官方加的标签,或撤销声明过的警示标签,到本仓库提标签申请。
+没有这些标签只表示作者没声明、官方也还没审查到,不代表安全。
+Declare notice and warning tags yourself where they apply. To remove a tag added by maintainers, or withdraw a declared warning tag, open a tag request in this repository.
+Their absence means "not declared and not reviewed yet", not "safe".
+
+## 普通 / Plain tags
 
 | id | 名称 | 什么时候用 / When to use | 悬停说明 / Hover hint | 现有例子 |
 |---|---|---|---|---|
@@ -43,21 +62,21 @@ Pick every tag below that fits for `cortico.tags` in package.json; the console m
 | `local` | 本地模型 / Local model | 在用户本机跑模型推理（LLM、语音识别、语音合成），需要本机算力或显存。<br>Runs model inference on the user's machine (LLM, speech recognition, speech synthesis) and needs local compute or VRAM. | 在本机跑模型，需要本机算力或显存。<br>Runs a model on this machine; needs local compute or VRAM. | `cortico-world-asr` `cortico-world-cosyvoice-tts` |
 | `external-setup` | 需额外安装 / Extra setup | 装上包还不能用，得先另装别的东西：游戏本体或 mod 加载器（BepInEx）、NapCat、VTube Studio、Python 环境、模型权重、游戏服务器。<br>Installing the package is not enough; something else must be set up first: the game itself or a mod loader (BepInEx), NapCat, VTube Studio, a Python environment, model weights, a game server. | 装上包还不能用，要先另装游戏、mod 加载器、NapCat 等。<br>Needs something else installed first, such as the game, a mod loader or NapCat. | `cortico-world-minecraft` `cortico-world-qq-final-beta` `cortico-world-qq` `cortico-world-qq-lite` 等 16 个 |
 
-## 官方标签 / Official tags
-
-下面这些标签由官方审查后添加:`internal-state`、`requires-extension` 显示为黄色提示色,其余显示为红色警示色。作者写进 `cortico.tags` 也会被忽略,作者也去不掉。
-没有这些标签只表示还没审查到,不代表安全。
-These are added by maintainers after review; `internal-state` and `requires-extension` are shown as yellow notices, the rest as red warnings. Authors cannot add or remove them.
-Their absence means "not reviewed yet", not "safe".
+## 提示 / Notice tags
 
 | id | 名称 | 什么时候用 / When to use | 悬停说明 / Hover hint | 现有例子 |
 |---|---|---|---|---|
-| `unsafe` | 不安全 / Unsafe | 官方审查后添加。模型能借它执行任意代码或命令、读写任意文件，或任意操控鼠标键盘。<br>Added after official review. The model can use it to run arbitrary code or commands, read and write arbitrary files, or freely control the mouse and keyboard. | 模型能借它执行任意代码或命令、读写任意文件，或操控鼠标键盘。<br>The model can use it to run arbitrary code or commands, read and write any file, or control the mouse and keyboard. | `cortico-world-python` |
-| `sensitive-data` | 读取隐私 / Reads private data | 官方审查后添加。会持续读取屏幕、麦克风、前台窗口或消费记录这类个人数据，并随模型调用发给模型端点。<br>Added after official review. Continuously reads personal data such as the screen, microphone, foreground window or spending records, and sends it to the model endpoint with model calls. | 会持续读取屏幕、麦克风、窗口等个人数据，并发给你配置的模型端点。<br>Continuously reads personal data such as the screen, microphone or windows, and sends it to your configured model endpoint. | `cortico-world-humanlike-alont1` `cortico-world-gaming-alont1` `cortico-world-alive-alont1` `cortico-world-asr` 等 5 个 |
-| `unofficial-api` | 非官方接口 / Unofficial API | 官方审查后添加。借用网页登录态、CLI 额度或未公开接口调用服务，可能违反该服务的条款，账号有被限制的风险。<br>Added after official review. Calls a service through a web login session, a CLI quota or an undocumented endpoint; this may break the service's terms and put the account at risk. | 借用登录态或未公开接口调用服务，可能违反服务条款，账号有被限制的风险。<br>Uses a login session or undocumented endpoint; may break the service's terms and put the account at risk. | `cortico-world-gemini-web` `cortico-provider-gemini-web` |
-| `internal-state` | 内部状态 / Internal state | 官方审查后添加。World 自己保存并注入 bot 的情绪、好感、记忆、经历这类内部状态。这类功能推荐在 bot 扩展的 Persona 里实现。<br>Added after official review. The World keeps and injects the bot's own internal state: mood, affinity, memories, experiences. We recommend building this into a bot extension's Persona instead. | 这个 World 在 bot 的 Memory 之外自己管理 bot 的内部状态（情绪、好感、记忆等），装上或卸下前后 bot 对自己的认知可能不一致。<br>This World manages the bot's internal state (mood, affinity, memories) outside the bot's Memory, so the bot's sense of itself may differ before and after it is installed or removed. | `cortico-world-memory` `cortico-world-life-alont1` `cortico-world-humanlike-alont1` `cortico-world-affinity-alont1` 等 12 个 |
-| `requires-extension` | 依赖其他扩展 / Requires other extensions | 官方审查后添加。这个扩展依赖其他扩展才能正常运行，具体请查看说明。注意：我们强烈不建议引入任何 World 扩展之间的互相依赖，请将单个外部环境整合为单一 World，确为必要时优先通过订阅事件流等方式间接传递信号。Bot 扩展不打这个标签。<br>Added after official review. This extension needs other extensions to work; see its README. Note: we strongly advise against dependencies between World extensions. Integrate one outside environment into a single World; where truly necessary, pass signals indirectly, for example by subscribing to the event stream. Bot extensions do not get this tag. | 这个扩展依赖其他扩展才能正常运行，具体请查看说明。注意：我们强烈不建议引入任何 World 扩展之间的互相依赖，请将单个外部环境整合为单一 World，确为必要时优先通过订阅事件流等方式间接传递信号。<br>This extension needs other extensions to work; see its README. Note: we strongly advise against dependencies between World extensions. Integrate one outside environment into a single World; where truly necessary, pass signals indirectly, for example by subscribing to the event stream. | `cortico-world-gemini-web` `cortico-world-qq-affinity` `cortico-world-qq-admin` `cortico-world-qq-festival` 等 16 个 |
-| `high-cost` | 高消耗 / High token use | 会让 bot 频繁调用模型或每次带很多上下文，比如高频事件、持续截屏或视频帧、长文本注入。<br>Makes the bot call the model often or with large context, such as high-frequency events, continuous screenshots or video frames, or long injected text. | 这个扩展可能让 Token 消耗得很快。<br>This extension may use tokens quickly. | — |
+| `internal-state` | 内部状态 / Internal state | World 自己保存并注入 bot 的情绪、好感、记忆、经历这类内部状态。这类功能推荐在 bot 扩展的 Persona 里实现。<br>The World keeps and injects the bot's own internal state: mood, affinity, memories, experiences. We recommend building this into a bot extension's Persona instead. | 这个 World 在 bot 的 Memory 之外自己管理 bot 的内部状态（情绪、好感、记忆等），装上或卸下前后 bot 对自己的认知可能不一致。<br>This World manages the bot's internal state (mood, affinity, memories) outside the bot's Memory, so the bot's sense of itself may differ before and after it is installed or removed. | `cortico-world-memory` `cortico-world-life-alont1` `cortico-world-humanlike-alont1` `cortico-world-affinity-alont1` 等 12 个 |
+| `requires-extension` | 依赖其他扩展 / Requires other extensions | 这个扩展依赖其他扩展才能正常运行，具体请查看说明。注意：我们强烈不建议引入任何 World 扩展之间的互相依赖，请将单个外部环境整合为单一 World，确为必要时优先通过订阅事件流等方式间接传递信号。Bot 扩展不打这个标签。<br>This extension needs other extensions to work; see its README. Note: we strongly advise against dependencies between World extensions. Integrate one outside environment into a single World; where truly necessary, pass signals indirectly, for example by subscribing to the event stream. Bot extensions do not get this tag. | 这个扩展依赖其他扩展才能正常运行，具体请查看说明。注意：我们强烈不建议引入任何 World 扩展之间的互相依赖，请将单个外部环境整合为单一 World，确为必要时优先通过订阅事件流等方式间接传递信号。<br>This extension needs other extensions to work; see its README. Note: we strongly advise against dependencies between World extensions. Integrate one outside environment into a single World; where truly necessary, pass signals indirectly, for example by subscribing to the event stream. | `cortico-world-gemini-web` `cortico-world-qq-affinity` `cortico-world-qq-admin` `cortico-world-qq-festival` 等 16 个 |
+| `high-cost` | 高消耗 / High token use | 会让 bot 频繁调用模型或每次带很多上下文，比如高频事件、持续截屏或视频帧、长文本注入。<br>Makes the bot call the model often or with large context, such as high-frequency events, continuous screenshots or video frames, or long injected text. | 这个扩展可能让 Token 消耗得很快。<br>This extension may use tokens quickly. | `cortico-world-minecraft` |
+
+## 警示 / Warning tags
+
+| id | 名称 | 什么时候用 / When to use | 悬停说明 / Hover hint | 现有例子 |
+|---|---|---|---|---|
+| `unsafe` | 不安全 / Unsafe | 模型能借它执行任意代码或命令、读写任意文件，或任意操控鼠标键盘。<br>The model can use it to run arbitrary code or commands, read and write arbitrary files, or freely control the mouse and keyboard. | 模型能借它执行任意代码或命令、读写任意文件，或操控鼠标键盘。<br>The model can use it to run arbitrary code or commands, read and write any file, or control the mouse and keyboard. | `cortico-world-python` |
+| `sensitive-data` | 读取隐私 / Reads private data | 会持续读取屏幕、麦克风、前台窗口或消费记录这类个人数据，并随模型调用发给模型端点。<br>Continuously reads personal data such as the screen, microphone, foreground window or spending records, and sends it to the model endpoint with model calls. | 会持续读取屏幕、麦克风、窗口等个人数据，并发给你配置的模型端点。<br>Continuously reads personal data such as the screen, microphone or windows, and sends it to your configured model endpoint. | `cortico-world-humanlike-alont1` `cortico-world-gaming-alont1` `cortico-world-alive-alont1` `cortico-world-asr` 等 5 个 |
+| `unofficial-api` | 非官方接口 / Unofficial API | 借用网页登录态、CLI 额度或未公开接口调用服务，可能违反该服务的条款，账号有被限制的风险。<br>Calls a service through a web login session, a CLI quota or an undocumented endpoint; this may break the service's terms and put the account at risk. | 借用登录态或未公开接口调用服务，可能违反服务条款，账号有被限制的风险。<br>Uses a login session or undocumented endpoint; may break the service's terms and put the account at risk. | `cortico-world-gemini-web` `cortico-provider-gemini-web` |
 
 ## 新增标签 / Proposing a tag
 

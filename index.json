@@ -244,11 +244,10 @@
         "zh": "模型能借它执行任意代码或命令、读写任意文件，或操控鼠标键盘。",
         "en": "The model can use it to run arbitrary code or commands, read and write any file, or control the mouse and keyboard."
       },
-      "officialOnly": true,
       "style": "warning",
       "when": {
-        "zh": "官方审查后添加。模型能借它执行任意代码或命令、读写任意文件，或任意操控鼠标键盘。",
-        "en": "Added after official review. The model can use it to run arbitrary code or commands, read and write arbitrary files, or freely control the mouse and keyboard."
+        "zh": "模型能借它执行任意代码或命令、读写任意文件，或任意操控鼠标键盘。",
+        "en": "The model can use it to run arbitrary code or commands, read and write arbitrary files, or freely control the mouse and keyboard."
       }
     },
     "sensitive-data": {
@@ -260,11 +259,10 @@
         "zh": "会持续读取屏幕、麦克风、窗口等个人数据，并发给你配置的模型端点。",
         "en": "Continuously reads personal data such as the screen, microphone or windows, and sends it to your configured model endpoint."
       },
-      "officialOnly": true,
       "style": "warning",
       "when": {
-        "zh": "官方审查后添加。会持续读取屏幕、麦克风、前台窗口或消费记录这类个人数据，并随模型调用发给模型端点。",
-        "en": "Added after official review. Continuously reads personal data such as the screen, microphone, foreground window or spending records, and sends it to the model endpoint with model calls."
+        "zh": "会持续读取屏幕、麦克风、前台窗口或消费记录这类个人数据，并随模型调用发给模型端点。",
+        "en": "Continuously reads personal data such as the screen, microphone, foreground window or spending records, and sends it to the model endpoint with model calls."
       }
     },
     "unofficial-api": {
@@ -276,11 +274,10 @@
         "zh": "借用登录态或未公开接口调用服务，可能违反服务条款，账号有被限制的风险。",
         "en": "Uses a login session or undocumented endpoint; may break the service's terms and put the account at risk."
       },
-      "officialOnly": true,
       "style": "warning",
       "when": {
-        "zh": "官方审查后添加。借用网页登录态、CLI 额度或未公开接口调用服务，可能违反该服务的条款，账号有被限制的风险。",
-        "en": "Added after official review. Calls a service through a web login session, a CLI quota or an undocumented endpoint; this may break the service's terms and put the account at risk."
+        "zh": "借用网页登录态、CLI 额度或未公开接口调用服务，可能违反该服务的条款，账号有被限制的风险。",
+        "en": "Calls a service through a web login session, a CLI quota or an undocumented endpoint; this may break the service's terms and put the account at risk."
       }
     },
     "internal-state": {
@@ -292,15 +289,13 @@
         "zh": "这个 World 在 bot 的 Memory 之外自己管理 bot 的内部状态（情绪、好感、记忆等），装上或卸下前后 bot 对自己的认知可能不一致。",
         "en": "This World manages the bot's internal state (mood, affinity, memories) outside the bot's Memory, so the bot's sense of itself may differ before and after it is installed or removed."
       },
-      "officialOnly": true,
       "style": "notice",
       "when": {
-        "zh": "官方审查后添加。World 自己保存并注入 bot 的情绪、好感、记忆、经历这类内部状态。这类功能推荐在 bot 扩展的 Persona 里实现。",
-        "en": "Added after official review. The World keeps and injects the bot's own internal state: mood, affinity, memories, experiences. We recommend building this into a bot extension's Persona instead."
+        "zh": "World 自己保存并注入 bot 的情绪、好感、记忆、经历这类内部状态。这类功能推荐在 bot 扩展的 Persona 里实现。",
+        "en": "The World keeps and injects the bot's own internal state: mood, affinity, memories, experiences. We recommend building this into a bot extension's Persona instead."
       }
     },
     "requires-extension": {
-      "officialOnly": true,
       "style": "notice",
       "label": {
         "zh": "依赖其他扩展",
@@ -311,12 +306,11 @@
         "en": "This extension needs other extensions to work; see its README. Note: we strongly advise against dependencies between World extensions. Integrate one outside environment into a single World; where truly necessary, pass signals indirectly, for example by subscribing to the event stream."
       },
       "when": {
-        "zh": "官方审查后添加。这个扩展依赖其他扩展才能正常运行，具体请查看说明。注意：我们强烈不建议引入任何 World 扩展之间的互相依赖，请将单个外部环境整合为单一 World，确为必要时优先通过订阅事件流等方式间接传递信号。Bot 扩展不打这个标签。",
-        "en": "Added after official review. This extension needs other extensions to work; see its README. Note: we strongly advise against dependencies between World extensions. Integrate one outside environment into a single World; where truly necessary, pass signals indirectly, for example by subscribing to the event stream. Bot extensions do not get this tag."
+        "zh": "这个扩展依赖其他扩展才能正常运行，具体请查看说明。注意：我们强烈不建议引入任何 World 扩展之间的互相依赖，请将单个外部环境整合为单一 World，确为必要时优先通过订阅事件流等方式间接传递信号。Bot 扩展不打这个标签。",
+        "en": "This extension needs other extensions to work; see its README. Note: we strongly advise against dependencies between World extensions. Integrate one outside environment into a single World; where truly necessary, pass signals indirectly, for example by subscribing to the event stream. Bot extensions do not get this tag."
       }
     },
     "high-cost": {
-      "officialOnly": true,
       "style": "notice",
       "label": {
         "zh": "高消耗",
@@ -357,7 +351,8 @@
     "cortico-world-minecraft": {
       "addTags": [
         "game",
-        "external-setup"
+        "external-setup",
+        "high-cost"
       ]
     },
     "cortico-world-qq-final-beta": {
