@@ -94,12 +94,12 @@
 
 - 本仓库开 Discussions,建一个 Announcement 格式的分类:只有维护者能开帖,任何人能回复。Action 发现 npm 上有新包就开帖,标题是包名。
 - 评分是首楼的喜欢 / 不喜欢两种 reaction;评论是帖子回复。
-- 直接投票(待定):建 GitHub App「Cortico 扩展市场」,只有 Discussions 读写权限,只装在本仓库。用户第一次投票时控制台走设备码登录(github.com/login/device),由本机 Cortico 服务端完成,不需要服务器和 client secret。令牌只能动装了这个 App 的仓库,存在本机扩展目录;服务端代用户调 GraphQL 加 / 撤 reaction。接口 `POST /api/extensions/vote { name, vote: "up" | "down" | null }`,回应带最新的 up / down / comments 与本机账号的 `mine`。
+- 直接投票(已定):建 GitHub App「Cortico 扩展市场」,只有 Discussions 读写权限,只装在本仓库。用户第一次投票时控制台走设备码登录(github.com/login/device),由本机 Cortico 服务端完成,不需要服务器和 client secret。令牌只能动装了这个 App 的仓库,存在本机扩展目录;服务端代用户调 GraphQL 加 / 撤 reaction。接口 `POST /api/extensions/vote { name, vote: "up" | "down" | null }`,回应带最新的 up / down / comments 与本机账号的 `mine`。
 - 一人一票:同一账号对同一帖的同种 reaction,GitHub 只记一次;喜欢和不喜欢二选一由控制台保证(改票先撤旧的)。绕过控制台两种都点了的账号,Action 统计时算作不投票。
 - 卡片上的数字和「按评分排序」用 `catalog.json` 里 Action 取好的数;投票后用服务端回的实时数。
-- 评论区:继续嵌 giscus,或用同一个 App 的令牌自己渲染(样式一致,也去掉对 giscus.app 的依赖)。用 giscus 时投票和评论要分别授权两个 App。
+- 评论区(待定):继续嵌 giscus,或用同一个 App 的令牌自己渲染(样式一致,也去掉对 giscus.app 的依赖)。用 giscus 时投票和评论要分别授权两个 App。
 - 审核用 GitHub 自带的隐藏、删除、锁帖、组织级屏蔽。
-- 卡片署名是 package.json 的 author,悬停显示 npm 账号(维护者;发布者是 GitHub Actions 时改用维护者)。
+- 卡片署名是 package.json 的 author,悬停显示 `npm: @账号`(维护者;发布者是 GitHub Actions 时改用维护者)。
 - 冒名排查:author 谁都能写,npm 账号只有本人能用。Action 把 author 或 displayName 里带官方名字(`index.json` 的 `official.names`)、但维护者不在 `official.maintainers` 里的包列出来,官方人工看,确认冒名就拉黑。
 
 ## 控制台
@@ -117,6 +117,10 @@
 - Cortico `templates/extension/*/package.json` 的 `cortico` 块预留 `"tags": []`;模板 README「发布前」一节链到 TAGS.md。
 - Cortico `docs/extensions.md` 的 manifest 字段说明加 `tags`、`locales`、`screenshots`,链到 TAGS.md,不复制词表。
 - `pnpm check:extension` 从 raw 读词表:标签为空时列出整张词表与 `when`;不认识的标签给出接近的几个;写了官方标签时提示无效;连不上时跳过并说明。
+
+## 历史版本的兼容性
+
+包文档里每个版本都带完整 manifest,`packageInfo` 对每个历史版本跑同一套 `parseExtensionManifest`,装不了的版本带 `problems`。控制台把这一行的按钮换成「不兼容」并禁用,原因写在这一行下面;当前版本装不了时原因写在安装按钮下方。
 
 ## 分期
 
