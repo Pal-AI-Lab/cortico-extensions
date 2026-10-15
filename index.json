@@ -67,6 +67,20 @@
         "en": "Connects to, watches or plays a game, including tabletop rules and TRPG checks."
       }
     },
+    "internet": {
+      "label": {
+        "zh": "联网",
+        "en": "Internet"
+      },
+      "hint": {
+        "zh": "允许 Bot 读取或操作来自互联网的内容。",
+        "en": "Lets the bot read or act on content from the internet."
+      },
+      "when": {
+        "zh": "让 Bot 读取或操作来自互联网的内容：搜索、读网页、调用公开的网络服务。只连模型端点或自己声明的平台（QQ、直播间）不算。",
+        "en": "Lets the bot read or act on content from the internet: search, read web pages, call public web services. Talking only to the model endpoint or to the platform the extension declares (QQ, a live room) does not count."
+      }
+    },
     "browser": {
       "label": {
         "zh": "浏览器",
@@ -380,7 +394,9 @@
       }
     },
     "cortico-world-websearch": {
-      "addTags": []
+      "addTags": [
+        "internet"
+      ]
     },
     "cortico-world-affinity-alont1": {
       "addTags": [
@@ -445,6 +461,7 @@
     },
     "cortico-world-learn-alont1": {
       "addTags": [
+        "internet",
         "memory",
         "internal-state"
       ]
@@ -585,6 +602,7 @@
     },
     "cortico-world-surfing": {
       "addTags": [
+        "internet",
         "browser",
         "video"
       ]
