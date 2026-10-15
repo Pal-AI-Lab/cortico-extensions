@@ -11,6 +11,11 @@
 - 扩展照旧发布在 npm、从 npm 安装。
 - 不自建服务。市场数据放 GitHub,假定下游开发者连得上 GitHub。
 - 市场新增的文字只做中文和英文;控制台其他界面语言下显示英文。
+- **语言标准**:给 agent 看的只写英文;用户看到的写中英两份。
+  - 只写英文:`TAGS.md`、标签的 `when`、`check:extension` 的输出(现有输出是中文,随 0.2.0 一起改)、模板的 `AGENTS.md` / `CLAUDE.md`。
+  - 中英两份:控制台市场的界面文字、标签名与悬停说明(`label` / `hint`)、官方 `note`、拉黑原因、服务端给控制台的错误(428、409 等)、Action 在 issue 与讨论帖里的回帖、索引仓 README、0.2.0 迁移说明。
+  - 作者写的内容照作者写的显示:简介、更新日志、评论。简介可用 `locales` 给第二种语言;自描述里给人看的 `summary` 与事件 `description` 可以写字符串或 `{ "zh": "...", "en": "..." }`,服务端按界面语言取。
+  - 本文档是给维护者的内部设计,只写中文。
 - GitHub 连不上时,市场退回纯 npm(搜索结果 + 下载量),安装不受影响。
 
 ## 组成
@@ -25,7 +30,7 @@
 | `comments/` | 本仓库 | Action 定时生成 | 每个包讨论帖的评论快照,没登录 GitHub 的控制台读它 |
 | `TAGS.md` | 本仓库 | `scripts/render-tags.mjs` 按 `index.json` 生成 | 给作者和 coding agent 看的标签说明 |
 | Discussions | 本仓库 | 用户 | 每个包一帖:回复是评论,首楼 reaction 是喜欢 / 不喜欢 |
-| Issues | 本仓库 | 任何人 | 扩展申请:标签、推荐自荐、取代、拉黑申诉、举报、新增标签 |
+| Issues | 本仓库 | 任何人 | 扩展申请:标签、推荐自荐、取代、拉黑申诉、举报、新增标签、其他 |
 | GitHub App「Cortico 扩展市场」 | GitHub | 官方建 | 只有 Discussions 读写权限,只装在本仓库;控制台用它代用户投票、读写评论 |
 | 控制台 | Cortico | | 服务端读索引并合进搜索结果;页面见「控制台」 |
 
@@ -84,7 +89,7 @@
 
 ## 标签
 
-词表与每个标签的用法见 [TAGS.md](TAGS.md)。每个标签有两段文字:`when` 给作者与 agent 判断该不该贴,`hint` 是用户悬停看到的说明。
+词表与每个标签的用法见 [TAGS.md](TAGS.md)(英文)。每个标签有:`label` 与 `hint`(中英,控制台显示,`hint` 是用户悬停看到的说明);`when`(只写英文,给作者的 agent 判断该不该贴)。
 
 **三级,级别只看词表里的 `style`:**
 
@@ -101,7 +106,7 @@
 - 需要密钥:用户要自己申请第三方账号或 API Key(搜索、生图接口等);模型端点的密钥不算。实验性:作者自己标明还在测试,不按版本号自动判断。
 - 高消耗靠作者自己声明;用户在「扩展申请」里反馈、或官方自己发现时,官方用 `addTags` 加。
 - 记忆、陪伴的说明带一句:不推荐通过 World 管理记忆和任何内部状态,请写 Bot 扩展。诊断的说明带一句:如无必要不推荐通过 World 做,请发布单独的工具。
-- 新增词表标签:至少 3 个已发布的扩展会用到时,提 PR 改 `index.json`,名称与说明给中英两种。
+- 新增词表标签:至少 3 个已发布的扩展会用到时,提 PR 改 `index.json`,`label` 与 `hint` 给中英两种,`when` 写英文。
 - 黄色与红色是扩展页自己的固定色,只分明暗两档,不跟控制台配色方案走:各配色方案的 `--warn` 不全是黄色。
 - 排序各处一致:普通、黄色、红色,组内按词表顺序(标签条里按出现次数)。
 
@@ -113,8 +118,8 @@
   "tags": { "...": "见 TAGS.md" },
   "featured": ["cortico-world-bilibili"],
   "blocked": {
-    "packages": { "cortico-world-xxx": "原因" },
-    "publishers": { "some-npm-user": "原因" }
+    "packages": { "cortico-world-xxx": { "zh": "原因", "en": "Reason" } },
+    "publishers": { "some-npm-user": { "zh": "原因", "en": "Reason" } }
   },
   "overrides": {
     "cortico-world-python": {
@@ -136,7 +141,7 @@
 
 ## 扩展申请
 
-开发者和用户向官方提的事都走本仓库的 issue,一个入口,按类型分。谁都能提,官方审核后改 `index.json`,PR 关联 issue,结论回在 issue。
+开发者和用户向官方提的事都走本仓库的 issue,一个入口,按类型分;归不进前几类的用「其他」兜底。谁都能提,官方审核后改 `index.json`,PR 关联 issue,结论回在 issue。
 
 | 类型 | 标题前缀 | 用途 | 官方怎么处理 |
 |---|---|---|---|
@@ -146,9 +151,10 @@
 | 申诉 | `[申诉]` / `[appeal]` | 包或发布者被拉黑 | 复核,撤销或维持 `blocked` |
 | 举报 | `[举报]` / `[report]` | 恶意代码、冒名、标签严重不符 | 核实后拉黑或加标签 |
 | 新标签 | `[新标签]` / `[new-tag]` | 提议新增词表标签(至少 3 个已发布的扩展会用到) | 收了改词表;也可以直接提 PR |
+| 其他 | `[其他]` / `[other]` | 以上都不是 | 官方看后回复,需要时改成上面的类型 |
 
 - 作者改自己的普通标签与自己声明的提示标签,发新版本即可,不用申请。npm 上弃用旧包、在详情里显示弃用说明,作者自己用 `npm deprecate` 就行。
-- **纯文本格式**:coding agent 填不了网页表单,只会用 `gh issue create --title --body` 或 API 发 issue,所以格式以纯文本为准,网页表单只是它的界面。标题 `[类型] 包名`(新标签写标签 id);正文一行一项 `键: 值`,键中英都认:
+- **纯文本格式**:coding agent 填不了网页表单,只会用 `gh issue create --title --body` 或 API 发 issue,所以格式以纯文本为准,网页表单只是它的界面。标题 `[类型] 包名`(新标签写标签 id,中英前缀都认,给 agent 看的文档只写英文前缀);正文一行一项 `键: 值`,键中英都认:
 
   ```text
   包名 / package: cortico-world-xxx
@@ -228,7 +234,7 @@
 4. **Cortico 根目录 `AGENTS.md`**:加一行,写扩展先读 `docs/extensions.md` 与 `templates/extension/README.md`。
 5. **索引仓 README**:开头「我要…」对照表,链到 TAGS.md 与「扩展申请」格式,给从 GitHub 找过来的人。
 
-- `TAGS.md`:三级规则、词表、怎么选、每个标签的现有例子、申请格式。
+- `TAGS.md`(英文):三级规则、词表、怎么选、每个标签的现有例子、申请格式。
 - Cortico `templates/extension/*/package.json` 的 `cortico` 块预留 `"tags": []`;模板 README「发布前」一节链到 TAGS.md。
 - Cortico `docs/extensions.md` 的 manifest 字段说明加 `tags`、`locales`、`screenshots`,链到 TAGS.md,不复制词表。
 - 更新日志见「更新日志」一节:模板带一份只有当前版本标题的 `CHANGELOG.md`。
