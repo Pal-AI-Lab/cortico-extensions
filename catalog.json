@@ -1215,7 +1215,7 @@
     },
     "cortico-world-memory": {
       "kind": "world",
-      "version": "0.1.10",
+      "version": "0.2.0",
       "description": "Cortico World 扩展：五层记忆（事实库/知识库/反思/人格/档案）+ 三级记忆底座 + Hybrid Recall 向量混合检索（移植自 E:/qq_bot 的记忆系统与 memory_server 向量 sidecar，qq_bot 源码零改动）。",
       "maintainers": [
         "hth768"
@@ -1233,8 +1233,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-memory"
       },
       "created": "2026-09-22T13:09:30.278Z",
-      "published": "2026-09-25T06:21:03.503Z",
-      "versionCount": 11,
+      "published": "2026-10-16T04:14:33.577Z",
+      "versionCount": 12,
       "official": false,
       "isNew": false,
       "tags": [
@@ -1245,6 +1245,10 @@
         "total": 2040,
         "month": 2040,
         "week": 151
+      },
+      "summary": {
+        "tools": 25,
+        "events": 1
       },
       "discussion": {
         "number": 28,
@@ -1561,9 +1565,8 @@
     },
     "cortico-world-pvz": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.2.0",
       "description": "Cortico World: the original PopCap Plants vs. Zombies as a semantic, event-driven World — x86 implant, named-pipe bridge, task queue with receipts",
-      "author": "Phantivia",
       "maintainers": [
         "phantivia"
       ],
@@ -1584,8 +1587,8 @@
         "win32"
       ],
       "created": "2026-09-20T00:10:07.831Z",
-      "published": "2026-10-14T00:08:46.118Z",
-      "versionCount": 4,
+      "published": "2026-10-16T04:03:47.214Z",
+      "versionCount": 5,
       "official": false,
       "isNew": false,
       "tags": [
@@ -1599,6 +1602,16 @@
         "month": 510,
         "week": 17
       },
+      "summary": {
+        "tools": 6,
+        "events": 42
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://github.com/Phantivia/cortico-world-pvz/blob/HEAD/CHANGELOG.md"
+      },
       "discussion": {
         "number": 36,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/36",
@@ -1609,7 +1622,7 @@
     },
     "cortico-world-python": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "description": "Cortico World 扩展：通过 stdio JSON-RPC 桥接协议，让用 Python 编写的插件也能以原生 Cortico World 协议（工具 / 事件 / store）接入 agent。",
       "maintainers": [
         "hth768"
@@ -1626,8 +1639,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-python"
       },
       "created": "2026-09-29T09:10:02.772Z",
-      "published": "2026-09-29T09:10:03.009Z",
-      "versionCount": 1,
+      "published": "2026-10-16T04:13:27.134Z",
+      "versionCount": 2,
       "official": false,
       "isNew": false,
       "tags": [
@@ -1637,6 +1650,10 @@
         "total": 200,
         "month": 200,
         "week": 24
+      },
+      "summary": {
+        "tools": 0,
+        "events": 0
       },
       "discussion": {
         "number": 37,
@@ -1980,7 +1997,7 @@
     },
     "cortico-world-qq-final": {
       "kind": "world",
-      "version": "0.1.68",
+      "version": "0.2.0",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -1996,8 +2013,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-qq-final"
       },
       "created": "2026-10-06T07:39:25.866Z",
-      "published": "2026-10-12T13:28:05.847Z",
-      "versionCount": 8,
+      "published": "2026-10-16T04:12:28.331Z",
+      "versionCount": 9,
       "official": false,
       "isNew": true,
       "tags": [
@@ -2009,6 +2026,10 @@
         "total": 793,
         "month": 793,
         "week": 793
+      },
+      "summary": {
+        "tools": 37,
+        "events": 9
       },
       "discussion": {
         "number": 46,
@@ -2037,7 +2058,7 @@
       },
       "created": "2026-10-06T09:08:03.837Z",
       "published": "2026-10-12T13:27:17.668Z",
-      "versionCount": 14,
+      "versionCount": 15,
       "official": false,
       "isNew": true,
       "tags": [
@@ -2140,7 +2161,7 @@
     },
     "cortico-world-qq-lite": {
       "kind": "world",
-      "version": "0.1.30",
+      "version": "0.2.0",
       "description": "轻量化 QQ 世界基础包（Cortico）。提供连接与监听、实时事件分发、监听名单、配置基础设施与提示词模板机制，并暴露插件宿主 API，供功能包（cortico-world-qq-*）按需挂载。已剔除 voxcpm 侧车、语音电话、桌宠、CUA。",
       "maintainers": [
         "hth768"
@@ -2157,8 +2178,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-qq-lite"
       },
       "created": "2026-10-12T14:48:13.489Z",
-      "published": "2026-10-16T01:36:05.502Z",
-      "versionCount": 28,
+      "published": "2026-10-16T04:13:31.118Z",
+      "versionCount": 29,
       "official": false,
       "isNew": true,
       "tags": [
@@ -2170,6 +2191,10 @@
         "total": 623,
         "month": 623,
         "week": 623
+      },
+      "summary": {
+        "tools": 0,
+        "events": 1
       },
       "discussion": {
         "number": 50,
