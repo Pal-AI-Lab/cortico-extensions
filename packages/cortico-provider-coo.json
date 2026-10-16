@@ -1,5 +1,53 @@
 {
   "schema": 1,
   "name": "cortico-provider-coo",
-  "version": "0.2.0"
+  "version": "0.3.0",
+  "describe": {
+    "provider": {
+      "protocols": [
+        "openai-responses",
+        "openai-chat",
+        "anthropic-messages",
+        "gemini"
+      ],
+      "auth": [
+        "api-key"
+      ],
+      "local": false,
+      "input": [
+        "text",
+        "image"
+      ],
+      "title": "Coo Pet Provider",
+      "description": "DeepSeek, Qwen, Kimi, GLM, Doubao, MiniMax, StepFun, Baidu Qianfan, OpenRouter, OpenAI, Anthropic, Gemini and xAI.",
+      "reasoningTiers": [
+        {
+          "id": "off",
+          "label": "No thinking",
+          "thinking": false
+        },
+        {
+          "id": "low",
+          "label": "Thinking · fast",
+          "thinking": true,
+          "effort": "low"
+        },
+        {
+          "id": "high",
+          "label": "Thinking · standard",
+          "thinking": true,
+          "effort": "high"
+        },
+        {
+          "id": "max",
+          "label": "Thinking · deepest",
+          "thinking": true,
+          "effort": "max"
+        }
+      ]
+    }
+  },
+  "changelog": {
+    "0.3.0": "- Needs Cortico 0.2.0 (provider contract 6): the module's panels are declared by `webUi()`, and the sign-in methods of the `chatgpt` module are reached under `/api/webui/`.\n- Self-description: `describe` on the `coo` and `chatgpt` modules, written out to `describe.json`.\n- Whether a service gets placeholder reasoning before a tool call is set per service: DeepSeek gets it, OpenRouter does not.\n- ChatGPT plan: a final response with an empty `output` takes the items of its `output_item.done` events."
+  }
 }

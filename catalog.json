@@ -120,7 +120,7 @@
     },
     "cortico-provider-coo": {
       "kind": "provider",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "description": "Coo Pet Provider: DeepSeek, Qwen, Kimi, GLM, Doubao, MiniMax, StepFun, Baidu Qianfan, OpenRouter, OpenAI, Anthropic, Gemini and xAI for Cortico, over Responses, Chat Completions, the Messages API or the Gemini API; and a ChatGPT plan through Sign in with",
       "author": "Pal AI Lab",
       "maintainers": [
@@ -148,8 +148,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Coopanion/issues"
       },
       "created": "2026-10-13T23:51:14.273Z",
-      "published": "2026-10-13T23:52:10.187Z",
-      "versionCount": 2,
+      "published": "2026-10-16T03:11:03.437Z",
+      "versionCount": 3,
       "official": true,
       "isNew": true,
       "tags": [
@@ -159,6 +159,28 @@
         "total": 0,
         "month": 0,
         "week": 0
+      },
+      "summary": {
+        "protocols": [
+          "openai-responses",
+          "openai-chat",
+          "anthropic-messages",
+          "gemini"
+        ],
+        "auth": [
+          "api-key"
+        ],
+        "input": [
+          "text",
+          "image"
+        ],
+        "local": false
+      },
+      "changelog": {
+        "versions": [
+          "0.3.0"
+        ],
+        "url": "https://github.com/Pal-AI-Lab/Coopanion/blob/HEAD/packages/cortico-provider-coo/CHANGELOG.md"
       },
       "discussion": {
         "number": 4,
@@ -361,7 +383,7 @@
     },
     "cortico-world-asr": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.2.0",
       "description": "Cortico World: microphone speech recognition — RtAudio capture, energy-gated segmentation, FireRedASR2-AED backend, subtitle overlay",
       "author": "Phantivia",
       "maintainers": [
@@ -382,8 +404,8 @@
         "bugs": "https://github.com/Phantivia/cortico-world-asr/issues"
       },
       "created": "2026-09-20T00:10:15.494Z",
-      "published": "2026-10-13T23:53:54.704Z",
-      "versionCount": 3,
+      "published": "2026-10-16T03:09:37.561Z",
+      "versionCount": 4,
       "official": false,
       "isNew": false,
       "tags": [
@@ -399,6 +421,16 @@
         "month": 401,
         "week": 18
       },
+      "summary": {
+        "tools": 0,
+        "events": 1
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://github.com/Phantivia/cortico-world-asr/blob/HEAD/CHANGELOG.md"
+      },
       "discussion": {
         "number": 10,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/10",
@@ -409,7 +441,7 @@
     },
     "cortico-world-bilibili": {
       "kind": "world",
-      "version": "0.1.16",
+      "version": "0.2.0",
       "displayName": "B 站直播间",
       "description": "Cortico World: read-only Bilibili live room — danmaku, gifts, super chats and guard events, with a local transparent overlay",
       "author": "Pal AI Lab",
@@ -430,8 +462,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:39.729Z",
-      "published": "2026-10-15T01:05:27.574Z",
-      "versionCount": 11,
+      "published": "2026-10-16T02:43:10.652Z",
+      "versionCount": 12,
       "official": true,
       "isNew": false,
       "tags": [
@@ -443,6 +475,10 @@
         "month": 1307,
         "week": 986
       },
+      "summary": {
+        "tools": 1,
+        "events": 12
+      },
       "discussion": {
         "number": 11,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/11",
@@ -453,7 +489,7 @@
     },
     "cortico-world-bilibili-video": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "displayName": "B 站视频",
       "description": "Cortico World: watch a bilibili video in a logged-in browser, with frames, subtitles and the video's own danmaku delivered as events. 此乃直播测试验证之后的world，和其他 Persona / 非直播场景的兼容性有待测试。",
       "author": "Phantivia",
@@ -474,8 +510,8 @@
         "bugs": "https://github.com/Phantivia/cortico-world-bilibili-video/issues"
       },
       "created": "2026-10-15T04:22:42.746Z",
-      "published": "2026-10-15T04:25:21.496Z",
-      "versionCount": 2,
+      "published": "2026-10-16T03:11:25.756Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "tags": [
@@ -491,6 +527,16 @@
         "month": 0,
         "week": 0
       },
+      "summary": {
+        "tools": 13,
+        "events": 2
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://github.com/Phantivia/cortico-world-bilibili-video/blob/HEAD/CHANGELOG.md"
+      },
       "discussion": {
         "number": 12,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/12",
@@ -501,10 +547,9 @@
     },
     "cortico-world-buckshot": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "displayName": "恶魔轮盘",
       "description": "Buckshot Roulette game events and player actions for Cortico. 此乃直播测试验证之后的world，和其他 Persona / 非直播场景的兼容性有待测试。",
-      "author": "Phantivia",
       "maintainers": [
         "phantivia"
       ],
@@ -520,9 +565,12 @@
         "homepage": "https://github.com/Phantivia/cortico-world-buckshot#readme",
         "bugs": "https://github.com/Phantivia/cortico-world-buckshot/issues"
       },
+      "os": [
+        "win32"
+      ],
       "created": "2026-10-11T22:36:44.440Z",
-      "published": "2026-10-13T23:56:28.463Z",
-      "versionCount": 3,
+      "published": "2026-10-16T03:09:25.686Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "tags": [
@@ -537,6 +585,16 @@
         "month": 389,
         "week": 389
       },
+      "summary": {
+        "tools": 10,
+        "events": 22
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://github.com/Phantivia/cortico-world-buckshot/blob/HEAD/CHANGELOG.md"
+      },
       "discussion": {
         "number": 13,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/13",
@@ -547,7 +605,7 @@
     },
     "cortico-world-canvas": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.2.0",
       "description": "Cortico World: a drawing studio and a draw-and-guess game — p5.brush strokes rendered in a headless browser, served as a live board",
       "author": "Phantivia",
       "maintainers": [
@@ -567,8 +625,8 @@
         "bugs": "https://github.com/Phantivia/cortico-world-canvas/issues"
       },
       "created": "2026-09-20T00:10:00.147Z",
-      "published": "2026-10-13T23:52:56.681Z",
-      "versionCount": 3,
+      "published": "2026-10-16T03:09:40.150Z",
+      "versionCount": 4,
       "official": false,
       "isNew": false,
       "tags": [
@@ -581,6 +639,16 @@
         "total": 398,
         "month": 398,
         "week": 28
+      },
+      "summary": {
+        "tools": 15,
+        "events": 2
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://github.com/Phantivia/cortico-world-canvas/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 14,
@@ -629,10 +697,9 @@
     },
     "cortico-world-cortidrive": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "displayName": "教可缇开车",
       "description": "Cortico World for Teach my little sister how to drive, with the bot in the driver seat: a BepInEx plugin replaces the sister model with the bot's drive tool and turns game calls into events. 此乃直播测试验证之后的world，和其他 Persona / 非直播场景的兼容性有待测试。",
-      "author": "Phantivia",
       "maintainers": [
         "phantivia"
       ],
@@ -647,9 +714,12 @@
         "homepage": "https://github.com/Phantivia/cortico-world-cortidrive#readme",
         "bugs": "https://github.com/Phantivia/cortico-world-cortidrive/issues"
       },
+      "os": [
+        "win32"
+      ],
       "created": "2026-10-11T22:36:53.168Z",
-      "published": "2026-10-13T23:54:31.519Z",
-      "versionCount": 3,
+      "published": "2026-10-16T03:10:15.820Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "tags": [
@@ -662,6 +732,16 @@
         "total": 374,
         "month": 374,
         "week": 374
+      },
+      "summary": {
+        "tools": 3,
+        "events": 17
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://github.com/Phantivia/cortico-world-cortidrive/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 16,
@@ -714,9 +794,8 @@
     },
     "cortico-world-dungeon": {
       "kind": "world",
-      "version": "0.1.5",
+      "version": "0.2.0",
       "description": "Cortico World for Cortico Dungeon Alpha: a persistent multi-bot world with production, crafting and turn-based raids",
-      "author": "Phantivia",
       "maintainers": [
         "phantivia"
       ],
@@ -729,18 +808,33 @@
         "npm": "https://www.npmjs.com/package/cortico-world-dungeon"
       },
       "created": "2026-09-26T04:36:47.901Z",
-      "published": "2026-10-13T23:52:20.412Z",
-      "versionCount": 6,
+      "published": "2026-10-16T03:09:49.608Z",
+      "versionCount": 7,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "game",
+        "external-setup"
+      ],
       "tags": [
         "pal-ai-world",
-        "game"
+        "game",
+        "external-setup"
       ],
       "downloads": {
         "total": 1028,
         "month": 1028,
         "week": 53
+      },
+      "summary": {
+        "tools": 10,
+        "events": 11
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-dungeon@0.2.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 18,
@@ -1235,7 +1329,7 @@
     },
     "cortico-world-minecraft": {
       "kind": "world",
-      "version": "0.1.16",
+      "version": "0.2.0",
       "displayName": "Minecraft",
       "description": "Cortico World: Minecraft Java Edition through a Mineflayer player — observation text, movement, building, combat and an observer client",
       "author": "Pal AI Lab",
@@ -1256,8 +1350,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:42.066Z",
-      "published": "2026-10-15T01:05:11.742Z",
-      "versionCount": 10,
+      "published": "2026-10-16T02:42:04.492Z",
+      "versionCount": 11,
       "official": true,
       "isNew": false,
       "tags": [
@@ -1272,12 +1366,16 @@
         "month": 1156,
         "week": 972
       },
+      "summary": {
+        "tools": 13,
+        "events": 6
+      },
       "discussion": {
         "number": 31,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/31",
-        "up": 0,
+        "up": 1,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-notes": {
@@ -1325,7 +1423,7 @@
     },
     "cortico-world-overcooked2": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "displayName": "胡闹厨房 2",
       "description": "Cortico World for Overcooked! 2 local co-op: the bot joins as a second local player through a BepInEx plugin and plays next to the operator. 此乃直播测试验证之后的world，和其他 Persona / 非直播场景的兼容性有待测试。",
       "author": "Phantivia",
@@ -1344,8 +1442,8 @@
         "bugs": "https://github.com/Phantivia/cortico-world-overcooked2/issues"
       },
       "created": "2026-10-11T22:36:47.482Z",
-      "published": "2026-10-13T23:54:35.222Z",
-      "versionCount": 3,
+      "published": "2026-10-16T03:10:10.192Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "tags": [
@@ -1359,6 +1457,16 @@
         "month": 347,
         "week": 347
       },
+      "summary": {
+        "tools": 5,
+        "events": 16
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://github.com/Phantivia/cortico-world-overcooked2/blob/HEAD/CHANGELOG.md"
+      },
       "discussion": {
         "number": 33,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/33",
@@ -1369,7 +1477,7 @@
     },
     "cortico-world-phone": {
       "kind": "world",
-      "version": "0.2.1",
+      "version": "0.3.7",
       "displayName": "电话",
       "description": "Cortico World:电话 —— QQ 语音通话(走 QQ 自带的 AVSDK):她接得起真来电、听得见对方、说得出自己的话、挂断。★ 非即插即用:装之前先把它交给一个 coding agent,从 AGENTS.md 读起(真能力在另一台登着 QQ 的机器上)。作者已跑通并验证过的是服务器端那一套(NapCat);本机(Windows)那条路没有完全验证过 —— 社区里有人做过,可到 Cortico 社区群咨询。耳朵=本机语音识别,嗓子=TTS。",
       "maintainers": [
@@ -1385,12 +1493,11 @@
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-phone",
         "repository": "https://github.com/biliye/cortico-world-phone",
-        "homepage": "https://github.com/biliye/cortico-world-phone#readme",
-        "bugs": "https://github.com/biliye/cortico-world-phone/issues"
+        "homepage": "https://github.com/biliye/cortico-world-phone#readme"
       },
       "created": "2026-10-12T15:56:30.324Z",
-      "published": "2026-10-14T14:54:25.100Z",
-      "versionCount": 5,
+      "published": "2026-10-16T01:20:04.378Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "tags": [
@@ -1583,7 +1690,7 @@
     },
     "cortico-world-qq": {
       "kind": "world",
-      "version": "0.1.16",
+      "version": "0.2.1",
       "displayName": "QQ",
       "description": "Cortico World: QQ group and private chats through a OneBot v11 forward WebSocket, with a draft-and-confirm gate on replies",
       "author": "Pal AI Lab",
@@ -1604,8 +1711,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:41:03.758Z",
-      "published": "2026-10-15T01:06:00.982Z",
-      "versionCount": 10,
+      "published": "2026-10-16T03:09:52.806Z",
+      "versionCount": 11,
       "official": true,
       "isNew": false,
       "tags": [
@@ -1617,6 +1724,10 @@
         "total": 1289,
         "month": 1289,
         "week": 975
+      },
+      "summary": {
+        "tools": 5,
+        "events": 12
       },
       "discussion": {
         "number": 39,
@@ -2029,7 +2140,7 @@
     },
     "cortico-world-qq-lite": {
       "kind": "world",
-      "version": "0.1.29",
+      "version": "0.1.30",
       "description": "轻量化 QQ 世界基础包（Cortico）。提供连接与监听、实时事件分发、监听名单、配置基础设施与提示词模板机制，并暴露插件宿主 API，供功能包（cortico-world-qq-*）按需挂载。已剔除 voxcpm 侧车、语音电话、桌宠、CUA。",
       "maintainers": [
         "hth768"
@@ -2046,8 +2157,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-qq-lite"
       },
       "created": "2026-10-12T14:48:13.489Z",
-      "published": "2026-10-15T06:25:45.957Z",
-      "versionCount": 27,
+      "published": "2026-10-16T01:36:05.502Z",
+      "versionCount": 28,
       "official": false,
       "isNew": true,
       "tags": [
@@ -2465,10 +2576,9 @@
     },
     "cortico-world-sisterdrive": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "displayName": "教妹妹开车",
       "description": "Cortico World for Teach my little sister how to drive: a BepInEx plugin turns game calls into events and feeds the bot's voice to the game. 此乃直播测试验证之后的world，和其他 Persona / 非直播场景的兼容性有待测试。",
-      "author": "Phantivia",
       "maintainers": [
         "phantivia"
       ],
@@ -2483,9 +2593,12 @@
         "homepage": "https://github.com/Phantivia/cortico-world-sisterdrive#readme",
         "bugs": "https://github.com/Phantivia/cortico-world-sisterdrive/issues"
       },
+      "os": [
+        "win32"
+      ],
       "created": "2026-10-11T22:36:50.237Z",
-      "published": "2026-10-13T23:52:27.937Z",
-      "versionCount": 3,
+      "published": "2026-10-16T03:09:31.327Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "tags": [
@@ -2498,6 +2611,16 @@
         "total": 413,
         "month": 413,
         "week": 413
+      },
+      "summary": {
+        "tools": 3,
+        "events": 21
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://github.com/Phantivia/cortico-world-sisterdrive/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 61,
@@ -2555,7 +2678,7 @@
     },
     "cortico-world-sts-1": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "description": "Slay the Spire World for Cortico with a Mod sidecar and an in-game cursor",
       "author": "Phantivia",
       "maintainers": [
@@ -2574,8 +2697,8 @@
         "bugs": "https://github.com/Phantivia/cortico-world-sts-1/issues"
       },
       "created": "2026-09-22T18:07:34.578Z",
-      "published": "2026-10-13T23:52:32.014Z",
-      "versionCount": 2,
+      "published": "2026-10-16T03:09:23.038Z",
+      "versionCount": 3,
       "official": false,
       "isNew": false,
       "tags": [
@@ -2588,6 +2711,16 @@
         "total": 169,
         "month": 169,
         "week": 11
+      },
+      "summary": {
+        "tools": 4,
+        "events": 3
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://github.com/Phantivia/cortico-world-sts-1/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 63,
@@ -2780,7 +2913,7 @@
     },
     "cortico-world-websearch": {
       "kind": "world",
-      "version": "0.1.16",
+      "version": "0.2.0",
       "displayName": "WebSearch",
       "description": "Cortico World: a web_search tool backed by the Brave Search API",
       "author": "Pal AI Lab",
@@ -2801,8 +2934,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:50.954Z",
-      "published": "2026-10-15T01:05:32.917Z",
-      "versionCount": 10,
+      "published": "2026-10-16T02:41:33.821Z",
+      "versionCount": 11,
       "official": true,
       "isNew": false,
       "tags": [
@@ -2813,6 +2946,10 @@
         "total": 1143,
         "month": 1143,
         "week": 960
+      },
+      "summary": {
+        "tools": 1,
+        "events": 0
       },
       "discussion": {
         "number": 68,
