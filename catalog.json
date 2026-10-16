@@ -64,7 +64,7 @@
     },
     "cortico-bot-zcor": {
       "kind": "bot",
-      "version": "0.1.1",
+      "version": "0.2.1",
       "displayName": "zcor",
       "description": "Cortico bot with synonym title retrieval and LLM memory selection",
       "maintainers": [
@@ -79,22 +79,40 @@
         "npm": "https://www.npmjs.com/package/cortico-bot-zcor"
       },
       "created": "2026-10-15T17:29:51.425Z",
-      "published": "2026-10-15T17:50:27.282Z",
-      "versionCount": 3,
+      "published": "2026-10-16T14:42:42.395Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
-      "tags": [],
+      "declaredTags": [
+        "memory",
+        "internal-state"
+      ],
+      "tags": [
+        "memory",
+        "internal-state"
+      ],
       "downloads": {
         "total": 0,
         "month": 0,
         "week": 0
       },
+      "summary": {
+        "worlds": 1,
+        "memory": "Memory"
+      },
+      "changelog": {
+        "versions": [
+          "0.2.1",
+          "0.2.0"
+        ],
+        "url": "https://unpkg.com/cortico-bot-zcor@0.2.1/CHANGELOG.md"
+      },
       "discussion": {
         "number": 2,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/2",
-        "up": 0,
+        "up": 1,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-frugal-alont1": {
@@ -951,7 +969,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/18",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 2
       }
     },
     "cortico-world-fatfish": {
@@ -1086,7 +1104,7 @@
     },
     "cortico-world-humanlike-alont1": {
       "kind": "world",
-      "version": "0.1.12",
+      "version": "0.1.13",
       "description": "一些让 AI 更像人的功能：情绪与交情、作息、你们一起过的时间、时间感、学过的东西、它自己惦记的事，以及看得见你的桌面和花销——工具全部只读，不替它生成一个字",
       "author": "ALonT1",
       "maintainers": [
@@ -1101,8 +1119,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-humanlike-alont1"
       },
       "created": "2026-09-23T13:05:31.616Z",
-      "published": "2026-10-16T06:41:19.254Z",
-      "versionCount": 5,
+      "published": "2026-10-16T17:13:29.323Z",
+      "versionCount": 6,
       "official": false,
       "isNew": false,
       "tags": [
@@ -1129,9 +1147,9 @@
     },
     "cortico-world-image": {
       "kind": "world",
-      "version": "0.1.4",
+      "version": "0.2.0",
       "displayName": "图片工坊",
-      "description": "Image Studio（图片工坊）—— 给 Coopanion 桌宠的 cortico World 扩展：用任意 OpenAI 兼容的图片接口画图/改图、落盘成作品库、把图贴进控制台「对话」页，并自带一套自动重打的自愈补丁。 / A cortico World extension that draws through any OpenAI-compatible image API, keeps pictures on disk and shows them in the console.",
+      "description": "【注意：未升级0.2.0以上版本请安装本插件的上一个历史版本】Image Studio（图片工坊）—— 给 Coopanion 桌宠的 cortico World 扩展：用任意 OpenAI 兼容的图片接口（包括阿里）画图/改图、落盘成作品库、把图贴进控制台「对话」页，并自带一套自动重打的自愈补丁。 / A cortico World extension that draws through any OpenAI-compatible image API, keeps pictures on disk a",
       "author": "lostdegree",
       "maintainers": [
         "lostdegree"
@@ -1154,8 +1172,8 @@
         "bugs": "https://github.com/Lostdegree/cortico-world-image/issues"
       },
       "created": "2026-10-12T05:32:34.365Z",
-      "published": "2026-10-14T13:17:20.751Z",
-      "versionCount": 4,
+      "published": "2026-10-16T15:49:45.582Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "tags": [
@@ -1167,12 +1185,16 @@
         "month": 338,
         "week": 338
       },
+      "summary": {
+        "tools": 4,
+        "events": 0
+      },
       "discussion": {
         "number": 23,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/23",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-learn-alont1": {
@@ -1255,6 +1277,73 @@
       "discussion": {
         "number": 25,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/25",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-listen": {
+      "kind": "world",
+      "version": "0.3.0",
+      "displayName": "听觉",
+      "description": "听觉（Listen）—— 给 Coopanion 桌宠的 cortico World 扩展：监听系统声音或某个应用的音频，自动把语音切成块（能量门限或可选的 Silero VAD），并把每块作为事件投进 cortico 事件流（附件是 WAV），由 agent 决定接下来做什么（比如交给 stt_transcribe 转写成文字）。 / A cortico World extension that captures system or per-application audio, segments spe",
+      "author": "AqualCross",
+      "maintainers": [
+        "aqualcross"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "listen",
+        "listening",
+        "voice",
+        "vad",
+        "voice-activity-detection",
+        "speech-segmentation",
+        "system-audio",
+        "loopback",
+        "wasapi",
+        "audio-capture"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-listen",
+        "repository": "https://github.com/AqualCross/cortico-world-listen",
+        "homepage": "https://github.com/AqualCross/cortico-world-listen#readme",
+        "bugs": "https://github.com/AqualCross/cortico-world-listen/issues"
+      },
+      "created": "2026-10-16T15:24:26.356Z",
+      "published": "2026-10-16T15:27:34.865Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "voice"
+      ],
+      "tags": [
+        "voice"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 1
+      },
+      "changelog": {
+        "versions": [
+          "0.3.0",
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://github.com/AqualCross/cortico-world-listen/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 78,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/78",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -3312,7 +3401,7 @@
     },
     "cortico-world-wechat": {
       "kind": "world",
-      "version": "0.1.6",
+      "version": "0.1.8",
       "displayName": "微信消息提示",
       "description": "把 Windows 微信新消息播报给桌宠：扩展自己解密并轮询微信本地库，把新消息推进桌宠的事件流，由桌宠决定怎么汇报。",
       "author": "静音胡闹",
@@ -3334,8 +3423,8 @@
         "win32"
       ],
       "created": "2026-10-16T09:35:41.224Z",
-      "published": "2026-10-16T13:58:40.712Z",
-      "versionCount": 8,
+      "published": "2026-10-16T14:54:16.735Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3361,6 +3450,8 @@
       },
       "changelog": {
         "versions": [
+          "0.1.8",
+          "0.1.7",
           "0.1.6",
           "0.1.5",
           "0.1.4",
@@ -3369,7 +3460,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-wechat@0.1.6/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-wechat@0.1.8/CHANGELOG.md"
       },
       "discussion": {
         "number": 77,
