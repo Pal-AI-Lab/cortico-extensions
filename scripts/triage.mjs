@@ -50,7 +50,7 @@ const LEVEL_NAMES = { official: '官方标注 / official mark', plain: '普通 /
 
 const CHECK_NAMES = {
   versions: '发布过两个以上版本 / at least two published versions',
-  tags: '有标签 / has tags',
+  tags: '有标签(供应商不要求)/ has tags (not required for providers)',
   description: '有简介 / has a description',
   'world-deps': 'World 不依赖其他 cortico-world-* 包 / a World does not depend on other `cortico-world-*` packages',
   'no-warning': '没有警示标签 / no warning tags',

@@ -87,12 +87,14 @@ export function repositoryUrl(repository) {
  */
 export function certifyChecks(index, doc, entry) {
   const latest = doc.versions?.[doc['dist-tags']?.latest] ?? {};
-  const isWorld = (latest.cortico?.kind ?? entry?.kind) === 'world';
+  const kind = latest.cortico?.kind ?? entry?.kind;
+  const isWorld = kind === 'world';
   const deps = Object.keys({ ...latest.dependencies, ...latest.peerDependencies });
   const tags = entry?.tags ?? [];
   return [
     { id: 'versions', ok: Object.keys(doc.versions ?? {}).length >= 2 },
-    { id: 'tags', ok: tags.length > 0 },
+    // 词表里没有给供应商的标签(模型端点的 key 不算 requires-key),供应商留空是对的。
+    { id: 'tags', ok: kind === 'provider' || tags.length > 0 },
     { id: 'description', ok: !!latest.description?.trim() },
     { id: 'world-deps', ok: !isWorld || !deps.some((d) => d !== doc.name && d.startsWith('cortico-world-')) },
     { id: 'no-warning', ok: !tags.some((id) => tagStyle(index, id) === 'warning') },
