@@ -1,6 +1,10 @@
 {
   "schema": 1,
-  "sticky": {},
+  "sticky": {
+    "cortico-world-wechat": [
+      "sensitive-data"
+    ]
+  },
   "packages": {
     "cortico-bot-continuity": {
       "kind": "bot",
@@ -1341,7 +1345,7 @@
     },
     "cortico-world-memory": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "description": "Cortico World 扩展：五层记忆（事实库/知识库/反思/人格/档案）+ 三级记忆底座 + Hybrid Recall 向量混合检索（移植自 E:/qq_bot 的记忆系统与 memory_server 向量 sidecar，qq_bot 源码零改动）。",
       "maintainers": [
         "hth768"
@@ -1356,11 +1360,14 @@
         "agent"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-memory"
+        "npm": "https://www.npmjs.com/package/cortico-world-memory",
+        "repository": "https://github.com/hth768/cortico-world-memory",
+        "homepage": "https://github.com/hth768/cortico-world-memory#readme",
+        "bugs": "https://github.com/hth768/cortico-world-memory/issues"
       },
       "created": "2026-09-22T13:09:30.278Z",
-      "published": "2026-10-16T04:14:33.577Z",
-      "versionCount": 12,
+      "published": "2026-10-16T09:52:06.767Z",
+      "versionCount": 13,
       "official": false,
       "isNew": false,
       "tags": [
@@ -1788,7 +1795,7 @@
     },
     "cortico-world-python": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "description": "Cortico World 扩展：通过 stdio JSON-RPC 桥接协议，让用 Python 编写的插件也能以原生 Cortico World 协议（工具 / 事件 / store）接入 agent。",
       "maintainers": [
         "hth768"
@@ -1802,11 +1809,14 @@
         "bridge"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-python"
+        "npm": "https://www.npmjs.com/package/cortico-world-python",
+        "repository": "https://github.com/hth768/cortico-world-python",
+        "homepage": "https://github.com/hth768/cortico-world-python#readme",
+        "bugs": "https://github.com/hth768/cortico-world-python/issues"
       },
       "created": "2026-09-29T09:10:02.772Z",
-      "published": "2026-10-16T04:13:27.134Z",
-      "versionCount": 2,
+      "published": "2026-10-16T09:50:51.106Z",
+      "versionCount": 3,
       "official": false,
       "isNew": false,
       "tags": [
@@ -2167,7 +2177,7 @@
     },
     "cortico-world-qq-final": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.2",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -2180,11 +2190,14 @@
         "napcat"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-qq-final"
+        "npm": "https://www.npmjs.com/package/cortico-world-qq-final",
+        "repository": "https://github.com/hth768/cortico-world-qq-final",
+        "homepage": "https://github.com/hth768/cortico-world-qq-final#readme",
+        "bugs": "https://github.com/hth768/cortico-world-qq-final/issues"
       },
       "created": "2026-10-06T07:39:25.866Z",
-      "published": "2026-10-16T04:12:28.331Z",
-      "versionCount": 9,
+      "published": "2026-10-16T10:11:25.289Z",
+      "versionCount": 11,
       "official": false,
       "isNew": true,
       "tags": [
@@ -2228,7 +2241,7 @@
       },
       "created": "2026-10-06T09:08:03.837Z",
       "published": "2026-10-12T13:27:17.668Z",
-      "versionCount": 15,
+      "versionCount": 16,
       "official": false,
       "isNew": true,
       "tags": [
@@ -2331,7 +2344,7 @@
     },
     "cortico-world-qq-lite": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "description": "轻量化 QQ 世界基础包（Cortico）。提供连接与监听、实时事件分发、监听名单、配置基础设施与提示词模板机制，并暴露插件宿主 API，供功能包（cortico-world-qq-*）按需挂载。已剔除 voxcpm 侧车、语音电话、桌宠、CUA。",
       "maintainers": [
         "hth768"
@@ -2345,11 +2358,14 @@
         "lite"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-qq-lite"
+        "npm": "https://www.npmjs.com/package/cortico-world-qq-lite",
+        "repository": "https://github.com/hth768/cortico-world-qq-lite",
+        "homepage": "https://github.com/hth768/cortico-world-qq-lite#readme",
+        "bugs": "https://github.com/hth768/cortico-world-qq-lite/issues"
       },
       "created": "2026-10-12T14:48:13.489Z",
-      "published": "2026-10-16T04:13:31.118Z",
-      "versionCount": 29,
+      "published": "2026-10-16T09:51:18.344Z",
+      "versionCount": 30,
       "official": false,
       "isNew": true,
       "tags": [
@@ -2849,7 +2865,7 @@
     },
     "cortico-world-soft-voice": {
       "kind": "world",
-      "version": "0.4.8",
+      "version": "0.4.11",
       "displayName": "轻核语音 · Qwen3-TTS 超轻量高速语音引擎",
       "description": "轻核语音 · Qwen3-TTS 超轻量高速语音引擎 · Asryto：离线合成、核显/独显可选、流式播放、气泡同步与低功耗休眠。RTX 4050 实测专用显存约 1 GiB；无需语音 API key，模型需另行部署。",
       "author": "Asryto",
@@ -2875,8 +2891,8 @@
         "win32"
       ],
       "created": "2026-10-15T06:47:07.507Z",
-      "published": "2026-10-15T12:37:50.198Z",
-      "versionCount": 7,
+      "published": "2026-10-16T12:12:24.193Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "tags": [],
@@ -2884,6 +2900,18 @@
         "total": 0,
         "month": 0,
         "week": 0
+      },
+      "summary": {
+        "tools": 0,
+        "events": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.4.11",
+          "0.4.10",
+          "0.4.9"
+        ],
+        "url": "https://github.com/scarlet20252025-cloud/coopanion-soft-voice/blob/HEAD/world/CHANGELOG.md"
       },
       "discussion": {
         "number": 62,
@@ -3277,6 +3305,75 @@
       "discussion": {
         "number": 68,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/68",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-wechat": {
+      "kind": "world",
+      "version": "0.1.6",
+      "displayName": "微信消息提示",
+      "description": "把 Windows 微信新消息播报给桌宠：扩展自己解密并轮询微信本地库，把新消息推进桌宠的事件流，由桌宠决定怎么汇报。",
+      "author": "静音胡闹",
+      "maintainers": [
+        "jyhn"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "wechat",
+        "weixin",
+        "notifier"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-wechat"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-10-16T09:35:41.224Z",
+      "published": "2026-10-16T13:58:40.712Z",
+      "versionCount": 8,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "im",
+        "external-setup",
+        "experimental",
+        "sensitive-data"
+      ],
+      "tags": [
+        "im",
+        "external-setup",
+        "experimental",
+        "sensitive-data"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 0,
+        "events": 1
+      },
+      "changelog": {
+        "versions": [
+          "0.1.6",
+          "0.1.5",
+          "0.1.4",
+          "0.1.3",
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-wechat@0.1.6/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 77,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/77",
         "up": 0,
         "down": 0,
         "comments": 0

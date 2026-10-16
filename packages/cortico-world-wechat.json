@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "name": "cortico-world-wechat",
+  "version": "0.1.6",
+  "describe": {
+    "tools": [],
+    "events": [
+      {
+        "type": "wechat-notifier.notice",
+        "description": {
+          "zh": "微信里有人给你发消息了。",
+          "en": "Someone sent you a WeChat message."
+        },
+        "trigger": "flush",
+        "tags": [
+          "speak"
+        ]
+      }
+    ],
+    "prompts": [
+      {
+        "key": "wechat_notifier_duty",
+        "title": "微信消息提示的职责说明",
+        "role": "envPrompt",
+        "content": "微信消息提示是给你看的：微信里有人给你发消息了。看到要主动用 pet_say 简短汇报给胡闹（一句话说清\"谁在哪个会话说了什么\"，别念全文），不要只是记下来就结束这一轮。自己发的消息不用汇报。"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.6": "- **装完即用：不再需要用户自己装 Python。** 取密钥这一步仍然用上游 `wechatauto-replica`\n  （微信的库密钥只在其进程内存里，Node 重写实测性能不可接受），但**解释器由扩展自带**：\n  首次需要时按 `tools/runtime-manifest.json` 下载嵌入式 Python 3.13 + 5 个 wheel\n  （合计约 15MB，默认走国内镜像、官方保底），逐个校验 sha256 后解压到\n  `%LOCALAPPDATA%\\WeChatNotifier\\runtime\\<版本>-<指纹>\\`，**不经过 pip、不需要编译器**。\n  这消掉了三个必踩错误：`wechat-notifier-venv\\...\\python.exe` 不存在（spawn ENOENT）、\n  `No module named 'wechatauto'`、以及 Python 3.13 上 `winsdk` 没有轮子导致的安装失败。\n  实测从零到取出密钥约 6 秒（含下载）。\n- **只装取密钥真正用到的包**：`tools/fetch-keys.py` 改成按路径直接加载 `wechatauto/db.py`，\n  不执行包的 `__init__`（它会拉起 guia/moment/media/wx，于是需要 pywin32/opencv/Pillow/\n  uiautomation/**winsdk**）。依赖从 12 个包降到 5 个，下载量从约 80MB 降到约 15MB。\n  直接加载失败时回退到原来的 `from wechatauto import WeChatDB`，并打一行日志说明走了回退。\n- **新增配置项**：`pythonPath`（指定解释器）、`autoProvisionPython`（是否允许自动下载运行时）、\n  `runtimeMirror`（自建镜像或离线包目录）、`dbStorage`（手动指定微信数据目录；接受\n  `...\\xwechat_files`、账号目录、以及账号目录下的 `db_storage` 三种写法）。\n- **解释器候选顺序**（先到先用，每个都要用 `fetch-keys.py --probe` 证明自己真能取密钥）：配置 `pythonPath` →\n  自带运行时 → 旧的 `wechat-notifier-venv` → `WECHAT_NOTIFIER_PYTHON` → PATH 里的 `python`\n  （排除应用商店的占位 exe）。已按老办法装好环境的用户不受影响，也不会重复下载。\n  > 探针不是\"能不能导入 cryptography\"：那样会把\"有 Python、有 cryptography、但没装\n  > wechatauto\"的机器判成可用并选中，然后取密钥报 `No module named 'wechatauto'`、\n  > 且**不会**回退到自带运行时——正是要消掉的老症状。现在探测与取密钥共用同一条加载路径。\n- `tools/fetch-keys.py` 新增两个参数：`--probe`（只探测本解释器能否加载 WeChatDB）与可选的\n  微信数据目录（自动探测失败时兜底，接受 `...\\xwechat_files`、账号目录、账号目录下的 `db_storage`）。\n- 新增依赖 `fflate`（纯 JS，约 30KB）：解压 wheel 与 embed zip，避免为此引入 pip 或外部解压工具。\n- 新增 `test/runtime.test.mjs`（6 例，全离线：清单自洽、指纹、来源顺序、准备流程、校验失败、\n  换清单换目录）与 `scripts/update-runtime-manifest.mjs`（升级构件版本时重新生成清单并探测镜像）。\n- 失败路径不留半成品：下载/校验/解压任何一步失败都清掉临时目录，正式目录保持原样；\n  就绪与否看清单指纹，换了清单就换目录，多进程并发首启也安全。\n- **修复单测的副作用（既有缺陷）**：`test/world.test.mjs` 最后一个用例自己 new World 时漏了\n  `mode: 'bridge'`，于是走 in-process 分支 —— 在本机有 `keys.json` 时它\"碰巧通过\"，\n  没有 `keys.json` 时则会去下载运行时、取密钥，并写进开发者真实的 `%LOCALAPPDATA%`。\n  现在显式写 bridge，测试不再依赖也不改动开发者环境（实测：跑完单测后真实目录仍为空）。",
+    "0.1.5": "- **转达口径（行为变更）**：推给桌宠的文本从「通知」改为「转达请求」。\n  此前她收到 `XX 发来消息：<原文>。跟胡闹说一声。` 会把原文当成对她说的、直接接着聊\n  （实测：原文「你在干嘛呢？」，她答「在呢在呢！」）。原因是问句本身在邀请回答，\n  而\"转达\"只是附加从句。现在把动作要求前置，并写明**别自己回答**。\n- **分档转达**：正文不超过 `relayQuoteMax`（默认 40 字）时**照原文转达**，保证不失真；\n  超出、或没有文字正文时，改为只要求**一句话转述要点**，不搬运长文\n  （省上下文，也避免她复述长文时跑偏）。\n- 新增配置项 `relayQuoteMax`，可调整分档阈值。\n- 统一加 `【微信】` 前缀，便于识别与排查（此前只有长消息分支带前缀）。",
+    "0.1.4": "- **补充作者字段 `author`**（`静音胡闹 <2310468741@qq.com>`），此前漏填，npm 页面上作者为空。\n  说明：npm 的 \"published by\" 显示的是**账号名**，无法用该字段改写；本字段只影响作者展示。\n- 无功能变化。",
+    "0.1.3": "- **修复：读取失败不会自愈**。此前一旦某次读取失败（并发写、微信正在写库、缓存半成品），\n  扩展会每秒重试、每秒失败，直到重启 Coopanion —— 实测踩到过该状态。\n  现在：缓存不可用即丢弃并全量重建；WAL 合并改为\"临时文件 + 验证通过才原子替换\"，\n  合并失败只降级为\"少一次增量\"，不再污染缓存。\n- **修复：多进程共用同一解密缓存会互相踩**（扩展 + 排查脚本同时跑 → 永久 ile is not a database）。\n  缓存目录改为按进程隔离（cache/p<pid>）。\n- **修复：用 mtime 判断\"主库是否变化\"导致每秒全量解密 20MB**。微信活着时 mtime 每秒都在变；\n  改为按**文件大小**判断全量重建，内容增量靠 WAL 合并补齐。实测二次读取 5224 页库仅需 13ms。\n- 依赖内容自省的 describe.json、\test/ 均未变。",
+    "0.1.2": "- 文档重写：安装给出三条路径（npm / 离线包 / 源码，按推荐顺序）、配置项逐条说明、\n  \"没反应时按顺序查\"的排查表、以及\"消息正文会进入模型上下文\"的明确提示。\n- 无功能变化。",
+    "0.1.1": "- **打包内容调整**（无功能变化）：\n  - 把打包脚本移出 npm 包（仓库里保留在 `scripts/`）——它是构建用的，最终用户用不到；\n  - npm 包内补上 `test/`，方便使用者自行验证（尤其是微信升级后跑 `test/decrypt-verify.mjs`，\n    它用 `PRAGMA integrity_check` 判断页布局是否仍被正确解密）。",
+    "0.1.0": "首个公开版本。\n\n- **World 扩展（主体）**：监听、解密、轮询、限流、推送全部在扩展内，随 Coopanion 启动，\n  没有独立常驻进程、没有 exe、没有开机自启任务。\n- **解密**：纯 `node:crypto` 按页解密微信 4.x 本地库（AES-256-CBC raw CBC），并合并 `-wal` 增量帧。\n- **轮询**：以 `sort_seq` 为水位（落盘），按会话增量读取新消息。\n- **限流**：全局最短间隔、同会话冷却、静默时段（被吞掉即丢弃、不补发）。\n- **取密钥**：微信的库密钥只存在于其进程内存中，由 `tools/fetch-keys.py` 按需取出\n  （短命进程，取完即退；失效时自动重取）。这是本项目唯一用到 Python 的地方。\n- 实测：真机库解密 `PRAGMA integrity_check = ok`；测试 26 例（7 监听逻辑 + 6 文本格式化 + 13 World 行为）。"
+  }
+}
