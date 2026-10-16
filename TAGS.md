@@ -2,7 +2,7 @@
 
 # Cortico extension tags
 
-Pick every tag below that fits and list it in `cortico.tags` in package.json. The console market groups and filters extensions by these tags and shows the hover hint to users.
+Pick every tag below that fits and list it in `cortico.tags` in package.json. The WebUI market groups and filters extensions by these tags and shows the hover hint to users.
 
 ```jsonc
 "cortico": { "kind": "world", "api": 5, "tags": ["im", "qq", "companion"] }

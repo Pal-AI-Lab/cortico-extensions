@@ -61,7 +61,7 @@ for (const [name, entry] of Object.entries(catalog.packages)) {
   if (!d) { delete entry.discussion; continue; }
   const up = await reactors(d.id, 'THUMBS_UP', d.up);
   const down = await reactors(d.id, 'THUMBS_DOWN', d.down);
-  // 绕过控制台两种都点的账号算作不投票。
+  // 绕过 WebUI 两种都点的账号算作不投票。
   const both = new Set([...up].filter((u) => down.has(u)));
   const comments = d.comments.totalCount ? await commentTree(d.id) : [];
   const total = comments.reduce((n, c) => n + 1 + (c.replies?.length ?? 0), 0);
@@ -71,7 +71,7 @@ for (const [name, entry] of Object.entries(catalog.packages)) {
     snapshots.add(fileName(name));
   }
 }
-// 评论全被删掉或隐藏的帖子不留快照文件;控制台读不到快照就当没有评论。
+// 评论全被删掉或隐藏的帖子不留快照文件;WebUI 读不到快照就当没有评论。
 if (existsSync(`${root}comments`)) for (const f of readdirSync(`${root}comments`)) if (!snapshots.has(f.replace(/\.json$/, ''))) rmSync(`${root}comments/${f}`);
 
 writeJson('catalog.json', catalog);
@@ -83,9 +83,9 @@ function threadBody(name) {
     `<!-- cortico-extension: ${name} -->`,
     `**[${name}](${npm})**`,
     '',
-    '这一帖是 Cortico 扩展市场里这个扩展的评论区:回复就是评论;对这一帖点 👍 / 👎 就是喜欢 / 不喜欢。在 Cortico 控制台的扩展详情里也能直接投票和评论。',
+    '这一帖是 Cortico 扩展市场里这个扩展的评论区:回复就是评论;对这一帖点 👍 / 👎 就是喜欢 / 不喜欢。在 Cortico WebUI 的扩展详情里也能直接投票和评论。',
     '',
-    'This thread is the comment section for this extension in the Cortico extension market. Replies are comments; a 👍 or 👎 on this post is a like or dislike. You can also vote and comment from the extension details in the Cortico console.',
+    'This thread is the comment section for this extension in the Cortico extension market. Replies are comments; a 👍 or 👎 on this post is a like or dislike. You can also vote and comment from the extension details in the Cortico WebUI.',
   ].join('\n');
 }
 
