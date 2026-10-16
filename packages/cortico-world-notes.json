@@ -1,5 +1,165 @@
 {
   "schema": 1,
   "name": "cortico-world-notes",
-  "version": "0.1.0"
+  "version": "0.1.2",
+  "describe": {
+    "tools": [
+      {
+        "name": "note_add",
+        "tags": [
+          "write"
+        ],
+        "summary": "记一条便签，可带提醒时刻和分类",
+        "description": "记一条便签。当用户说「记一下」「帮我记住」「别忘了」「待会儿提醒我」这类话时用它。要提醒就填 remindAt（ISO 8601 带时区偏移，如 2026-10-15T09:00:00+08:00）。category 是便签分类，用户能在「查看便签」页面上按分类切换查看。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500,
+              "description": "便签正文，一句话说清要记什么。"
+            },
+            "category": {
+              "type": "string",
+              "maxLength": 20,
+              "description": "分类名。用户先说好归哪类就用那个；没说就按内容判断（一次性的用「临时」，长期不变的用「固定」）。分类不存在会自动新建。"
+            },
+            "remindAt": {
+              "type": "string",
+              "description": "提醒时刻，ISO 8601 带时区偏移。用户没说提醒就别填。相对时间要按当前时间自己算成绝对时刻。"
+            }
+          },
+          "required": [
+            "text"
+          ]
+        }
+      },
+      {
+        "name": "note_list",
+        "tags": [
+          "read"
+        ],
+        "summary": "列出便签，可按关键词或分类过滤",
+        "description": "列出便签。用户问「我记了什么」「有哪些便签」「找一下关于 X 的记录」时用它。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "query": {
+              "type": "string",
+              "maxLength": 120,
+              "description": "可选的关键词过滤，不填就列全部。"
+            },
+            "category": {
+              "type": "string",
+              "maxLength": 20,
+              "description": "只看某个分类。"
+            },
+            "includeDone": {
+              "type": "boolean",
+              "default": true,
+              "description": "是否包含已完成的便签。"
+            }
+          }
+        }
+      },
+      {
+        "name": "note_update",
+        "tags": [
+          "write"
+        ],
+        "summary": "改便签：内容、分类、完成状态或提醒时刻",
+        "description": "改一条便签：改内容、换分类、标完成、或设置/取消提醒。改之前先用 note_list 拿到 id。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "便签 id，如 note_list 输出里的 [a1b2c3d4]。"
+            },
+            "text": {
+              "type": "string",
+              "maxLength": 500,
+              "description": "新的正文。"
+            },
+            "category": {
+              "type": "string",
+              "maxLength": 20,
+              "description": "换到哪个分类。"
+            },
+            "done": {
+              "type": "boolean",
+              "description": "标记完成/未完成。"
+            },
+            "remindAt": {
+              "type": "string",
+              "description": "新的提醒时刻（ISO 8601）。传空字符串表示取消提醒。"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        }
+      },
+      {
+        "name": "note_delete",
+        "tags": [
+          "write"
+        ],
+        "summary": "删掉一条便签",
+        "description": "删掉一条便签。用户明确说「删掉那条」「不用记了」时才用，删之前最好先确认。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "要删的便签 id。"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        }
+      },
+      {
+        "name": "note_open",
+        "tags": [
+          "act"
+        ],
+        "summary": "把便签页面开成一个独立小窗口",
+        "description": "把便签页面打开成一个独立小窗口，方便用户看着勾选、编辑、翻找。用户说「打开便签」「把便签调出来」「让我看看便签」，或者你要给他看一屏东西时用它。它只是开个窗口，不改任何数据。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "notes.reminder",
+        "tags": [
+          "speak"
+        ],
+        "description": "某条便签的提醒时刻到了，把内容念给用户听"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.notes.envPrompt",
+        "title": "记事本 · 环境提示词",
+        "role": "envPrompt",
+        "content": "# 记事本\n\n用户可以让你把事情记成**便签**。便签是他能亲眼看到的东西：让你打开便签窗口，就能读到全部内容，还能按分类切换查看。\n\n现在一共有 {{notes_count}} 条便签，分类有：{{notes_categories}}。最近的几条：\n\n{{notes_recent}}\n\n## 用户要看便签时\n\n调 `note_open` 把便签页面开成一个独立小窗口。他说「打开便签」「把便签调出来」「让我看看」「便签窗口」时都用它。\n\n开好之后**一句话带过**就行，不用描述窗口长什么样、在哪个位置。他看得见。\n\n> 好的：`开好了，库…`\n> 不好的：`我已经为您打开了便签窗口，它在屏幕偏右的位置，标题是「便签」，您可以…`\n\n他要的是「找找关于报告的」「有哪些没做完的」这类**内容**时，先用 `note_list` 查再回答；只有确实要看那一屏东西时，才开窗口。\n\n## 用户让你记事情时，必须调用 note_add\n\n当他说「记一下」「帮我记住」「别忘了」「提醒我」「待会儿要做」这类话时，**一定要调用 `note_add`**。\n\n⚠️ **只写工作区里的文件（总览.md 之类）不算数**——那些文件他看不见，对话页也只显示工具名，不显示文件内容。**便签才是他能翻看的地方。**\n\n## 分类怎么给\n\n`note_add` 的 `category` 决定便签归到哪个选项卡里。\n\n- 用户明说了归哪类，就照他说的填。\n- 没说就按内容判断：**一次性的、会过去的事**归「临时」；**长期不变的数据**（账号、地址、固定事项）归「固定」。\n- 现有的分类见上面那行；用了不存在的分类名会自动新建，所以**别怕写**，但也别乱造一堆。\n- 实在拿不准就留空，默认落在第一个分类。\n\n## 记的时候顺手做好\n\n- **算好提醒时刻**：他说「明天下午三点」，就换算成绝对时刻填进 `remindAt`（ISO 8601 带时区偏移，如 `2026-10-16T15:00:00+08:00`）。\n- **一次交代多件事，就分成多条便签**，别全塞进一条里。\n- 把话记**准**：人名、机构名、数字、截止时间照原样写，别改写、别省略。\n\n## 便签的提醒 vs 闹钟\n\n- **便签的 `remindAt`** —— 用在「记着某事，到点提醒我」上。内容留在便签里，用户能在窗口里看到这件事还在。**用户说「记一下…提醒我…」时走这条。**\n- **`alarm_set`（闹钟）** —— 用在纯粹的定时上（比如「半小时后叫我」），它不产生记录，用户看不到。\n\n用完便签就别再叠一个闹钟做同一件事，免得他收到两次。\n\n## 什么时候别记\n\n- 只是随口聊天、不是要你记住的事，不要记。\n- 用户明确说「不用记」的，不要记。\n\n## 提醒送达时\n\n设置了 `remindAt` 的便签到点会以事件形式送到你面前（`notes.reminder`）。\n收到时用一句自然的话提醒用户，把要说的事说清楚，别只念 id。\n用户回了「知道了」「做完了」，记得用 `note_update` 标成已完成或删掉，别让它一直挂着。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.2": "- 扩展契约升到 v6（`console()` → `webUi()`、`WorldConsoleDecl` → `WorldWebUiDecl`）。\n  旧契约只靠框架的过渡层加载，下一个大版本起就不再加载了，所以这次跟上。\n- 新增自描述 `describe.json`：扩展市场不执行包里的代码就能读到工具和事件清单。\n- 功能没有变化。",
+    "0.1.1": "- 新增 `note_open` 工具：说一句「打开便签」，Coo 就能把便签页开成一个独立小窗口。\n  以前要改 Coopanion 自带的文件才能加这个入口，升级就会被冲掉；现在不碰它的文件了。",
+    "0.1.0": "- 首个版本。记便签、按分类查看、到点提醒、本机便签页面（可自定义分类选项卡）。"
+  }
 }

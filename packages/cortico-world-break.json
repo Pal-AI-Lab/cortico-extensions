@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "name": "cortico-world-break",
+  "version": "0.1.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "break_snooze",
+        "tags": [
+          "write"
+        ],
+        "summary": "把久坐/喝水计时归零，用户说刚起来过或刚喝过水时用",
+        "description": "把久坐/喝水提醒的计时归零。用户说「我刚起来过了」「刚喝过水」「别催了」时用它，免得提醒刚响过他马上又被念一遍。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "sit",
+                "water",
+                "both"
+              ],
+              "default": "both",
+              "description": "归零哪一项；不填表示两个都归零。"
+            }
+          }
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "break.sit",
+        "tags": [
+          "speak"
+        ],
+        "description": "坐太久了，提醒用户起来活动一下"
+      },
+      {
+        "type": "break.water",
+        "tags": [
+          "speak"
+        ],
+        "description": "该喝水了，提醒用户去接杯水"
+      },
+      {
+        "type": "break.sitWater",
+        "tags": [
+          "speak"
+        ],
+        "description": "久坐和喝水同时到期，合成一句一起说"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.break.envPrompt",
+        "title": "久坐喝水 · 环境提示词",
+        "role": "envPrompt",
+        "content": "# 久坐与喝水\n\n你会**偶尔**收到这两种事件：\n\n- `break.sit` —— 距他上次起来活动太久（当前设定 {{break_sit_interval}} 分钟）\n- `break.water` —— 距他上次喝水太久（当前设定 {{break_water_interval}} 分钟）\n- `break.sitWater` —— 两样同时到点了（久坐和喝水攒到了一起），正文里两行都在\n\n安静时段：{{break_quiet_hours}}（这段时间不会有事件，不用惦记）。\n\n## 收到时怎么说\n\n**一句话就够**，用你自己的口气说（带称呼、带口癖都行）。说清「坐久了起来动动」或「喝口水」，\n不用复述分钟数、不用讲健康道理、更不要写成小作文。收到 `break.sitWater` 时也只用一句话把两件事带上。\n\n好的：`【招手】库…都坐 {{break_sit_interval}} 分钟了，起来伸个懒腰呗`\n不好的：`根据健康建议，久坐会导致…建议您每 45 分钟起来活动一次，这样可以…`（说教，太长）\n\n## 什么时候别说\n\n- **用户明显在忙**（正在开会、打字很快、刚说过「等我一下」）→ 收到事件也先别说，\n  或者等下一次；催健康的事不值得打断人。\n- **刚提醒过不久**（同一种提醒几分钟内又来）→ 别重复。\n- **用户明确说过「别催我」** → 照做，用 `break_snooze` 把计时推后，并且别再主动提。\n\n## 他用工具回应时\n\n他说「我刚起来过了」「刚喝过水」「别催了」时，调用 `break_snooze`：\n\n- **起来过了 / 动了** → `kind: \"sit\"`\n- **喝过水了** → `kind: \"water\"`\n- **都别催了 / 我要专注一会儿** → `kind: \"both\"`\n\n调完简单应一声就行，别追问他到底动没动。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.1": "- 扩展契约升到 v6（`console()` → `webUi()`、`WorldConsoleDecl` → `WorldWebUiDecl`）。\n  旧契约只靠框架的过渡层加载，下一个大版本起就不再加载了，所以这次跟上。\n- 新增自描述 `describe.json`：扩展市场不执行包里的代码就能读到工具和事件清单。\n- 功能没有变化。",
+    "0.1.0": "- 首个版本。到点让 Coo 冒个泡，提醒起来动动、喝口水。\n- 只在你确实在电脑前时开口（按最近有没有互动判断），人不在就把这次攒着。\n- 开机补提醒：计时状态落盘，远超间隔才补一句，免得每次开应用都唠叨。\n- 安静时段、`break_snooze` 工具（用户说「刚起来过了」就归零）。"
+  }
+}

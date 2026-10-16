@@ -1,5 +1,51 @@
 {
   "schema": 1,
   "name": "cortico-provider-deepseek",
-  "version": "0.1.6"
+  "version": "0.2.0",
+  "describe": {
+    "provider": {
+      "protocols": [
+        "openai-responses"
+      ],
+      "auth": [
+        "api-key"
+      ],
+      "local": false,
+      "input": [
+        "text",
+        "image"
+      ],
+      "title": "DeepSeek",
+      "description": "DeepSeek Responses API.",
+      "reasoningTiers": [
+        {
+          "id": "high",
+          "label": "高",
+          "thinking": true,
+          "effort": "high"
+        },
+        {
+          "id": "none",
+          "label": "关闭",
+          "thinking": false
+        },
+        {
+          "id": "low",
+          "label": "低",
+          "thinking": true,
+          "effort": "low"
+        },
+        {
+          "id": "max",
+          "label": "最大",
+          "thinking": true,
+          "effort": "max"
+        }
+      ]
+    }
+  },
+  "changelog": {
+    "0.2.0": "- Target Cortico 0.2.1 and provider contract 6.\n- Rename browser contributions, imports and bundles to WebUI.\n- Add extension self-description and publishing guidance; keep tags empty to match the official index.",
+    "0.1.6": "- Last release using the previous Cortico extension contract."
+  }
 }

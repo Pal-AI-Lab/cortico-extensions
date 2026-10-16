@@ -4,7 +4,7 @@
   "packages": {
     "cortico-bot-continuity": {
       "kind": "bot",
-      "version": "0.4.2",
+      "version": "0.5.0",
       "description": "Cortico 的 Bot 扩展，为机器人带来持续的记忆和鲜明的个性，记住经历，整理往事，延续对话。",
       "author": "DTMosken",
       "maintainers": [
@@ -22,10 +22,14 @@
         "bugs": "https://github.com/DTMosken/cortico-bot-continuity/issues"
       },
       "created": "2026-09-21T10:58:17.207Z",
-      "published": "2026-10-12T06:36:23.863Z",
-      "versionCount": 13,
+      "published": "2026-10-16T07:40:32.320Z",
+      "versionCount": 14,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "memory",
+        "companion"
+      ],
       "tags": [
         "memory",
         "companion"
@@ -34,6 +38,17 @@
         "total": 2485,
         "month": 2485,
         "week": 686
+      },
+      "summary": {
+        "worlds": 3,
+        "memory": "GitMem"
+      },
+      "changelog": {
+        "versions": [
+          "0.5.0",
+          "0.4.2"
+        ],
+        "url": "https://github.com/DTMosken/cortico-bot-continuity/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 1,
@@ -192,7 +207,7 @@
     },
     "cortico-provider-deepseek": {
       "kind": "provider",
-      "version": "0.1.6",
+      "version": "0.2.0",
       "description": "Cortico 的 DeepSeek Responses API 模型供应商扩展。",
       "author": "DTMosken",
       "maintainers": [
@@ -206,8 +221,8 @@
         "npm": "https://www.npmjs.com/package/cortico-provider-deepseek"
       },
       "created": "2026-09-23T06:27:10.866Z",
-      "published": "2026-10-12T06:26:55.654Z",
-      "versionCount": 4,
+      "published": "2026-10-16T07:35:20.592Z",
+      "versionCount": 5,
       "official": false,
       "isNew": false,
       "tags": [],
@@ -215,6 +230,26 @@
         "total": 827,
         "month": 827,
         "week": 407
+      },
+      "summary": {
+        "protocols": [
+          "openai-responses"
+        ],
+        "auth": [
+          "api-key"
+        ],
+        "input": [
+          "text",
+          "image"
+        ],
+        "local": false
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0",
+          "0.1.6"
+        ],
+        "url": "https://unpkg.com/cortico-provider-deepseek@0.2.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 5,
@@ -269,7 +304,7 @@
     },
     "cortico-world-affinity-alont1": {
       "kind": "world",
-      "version": "0.1.12",
+      "version": "0.1.13",
       "description": "好感度 World：按账号记住关系分数与档位，模型回话前查一下该用什么态度；分数可涨可跌，还会随疏远衰减",
       "author": "ALonT1",
       "maintainers": [
@@ -284,8 +319,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-affinity-alont1"
       },
       "created": "2026-09-20T15:31:26.043Z",
-      "published": "2026-10-15T05:04:57.673Z",
-      "versionCount": 7,
+      "published": "2026-10-16T06:39:51.407Z",
+      "versionCount": 8,
       "official": false,
       "isNew": false,
       "tags": [
@@ -297,6 +332,10 @@
         "month": 988,
         "week": 305
       },
+      "summary": {
+        "tools": 4,
+        "events": 1
+      },
       "discussion": {
         "number": 7,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/7",
@@ -307,7 +346,7 @@
     },
     "cortico-world-album-alont1": {
       "kind": "world",
-      "version": "0.1.12",
+      "version": "0.1.13",
       "description": "相册 World：把收到过、发出去的图存成一份能翻的册子——按人、按时间、按会话都找得回来，看过还能自己写一句这是什么",
       "author": "ALonT1",
       "maintainers": [
@@ -322,8 +361,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-album-alont1"
       },
       "created": "2026-10-07T07:57:55.245Z",
-      "published": "2026-10-11T08:42:29.772Z",
-      "versionCount": 2,
+      "published": "2026-10-16T06:41:11.685Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "tags": [
@@ -333,6 +372,10 @@
         "total": 353,
         "month": 353,
         "week": 353
+      },
+      "summary": {
+        "tools": 4,
+        "events": 0
       },
       "discussion": {
         "number": 8,
@@ -344,7 +387,7 @@
     },
     "cortico-world-alive-alont1": {
       "kind": "world",
-      "version": "0.1.11",
+      "version": "0.1.12",
       "description": "能动性 World：让 bot 自己排期想做的事（到点把它写下的原话还给它）、有自己的时间、每天回顾一次，并看得见你在桌面上干什么、花了多少钱、它眼前那份规矩是怎么拼的——全部只读",
       "author": "ALonT1",
       "maintainers": [
@@ -359,8 +402,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-alive-alont1"
       },
       "created": "2026-09-23T12:48:43.787Z",
-      "published": "2026-10-15T05:07:41.307Z",
-      "versionCount": 4,
+      "published": "2026-10-16T06:40:41.214Z",
+      "versionCount": 5,
       "official": false,
       "isNew": false,
       "tags": [
@@ -372,6 +415,10 @@
         "total": 567,
         "month": 567,
         "week": 150
+      },
+      "summary": {
+        "tools": 8,
+        "events": 0
       },
       "discussion": {
         "number": 9,
@@ -441,7 +488,7 @@
     },
     "cortico-world-bilibili": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "displayName": "B 站直播间",
       "description": "Cortico World: read-only Bilibili live room — danmaku, gifts, super chats and guard events, with a local transparent overlay",
       "author": "Pal AI Lab",
@@ -462,8 +509,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:39.729Z",
-      "published": "2026-10-16T02:43:10.652Z",
-      "versionCount": 12,
+      "published": "2026-10-16T05:10:03.988Z",
+      "versionCount": 13,
       "official": true,
       "isNew": false,
       "tags": [
@@ -540,6 +587,61 @@
       "discussion": {
         "number": 12,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/12",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-break": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "久坐喝水",
+      "description": "Cortico World: 久坐与喝水提醒 — 到点让 Coo 冒个泡，只在你确实在电脑前时开口",
+      "author": "ding",
+      "maintainers": [
+        "fair-skinned"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "break",
+        "wellness",
+        "reminder",
+        "stand-up",
+        "hydration"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-break",
+        "repository": "https://github.com/ding/cortico-world-break",
+        "homepage": "https://github.com/ding/cortico-world-break#readme",
+        "bugs": "https://github.com/ding/cortico-world-break/issues"
+      },
+      "created": "2026-10-16T05:20:20.088Z",
+      "published": "2026-10-16T05:44:04.705Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 1,
+        "events": 3
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/ding/cortico-world-break/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 75,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/75",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -660,7 +762,7 @@
     },
     "cortico-world-clock-alont1": {
       "kind": "world",
-      "version": "0.1.11",
+      "version": "0.1.12",
       "description": "现在几点 World：把钟点和时段交给她——一天里的时间线索本来只有消息自带的时间戳，久没人说话就断了",
       "author": "ALonT1",
       "maintainers": [
@@ -675,8 +777,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-clock-alont1"
       },
       "created": "2026-09-21T05:38:38.843Z",
-      "published": "2026-10-15T05:08:43.374Z",
-      "versionCount": 4,
+      "published": "2026-10-16T06:40:10.922Z",
+      "versionCount": 5,
       "official": false,
       "isNew": false,
       "tags": [
@@ -686,6 +788,10 @@
         "total": 556,
         "month": 556,
         "week": 119
+      },
+      "summary": {
+        "tools": 1,
+        "events": 1
       },
       "discussion": {
         "number": 15,
@@ -893,7 +999,7 @@
     },
     "cortico-world-gaming-alont1": {
       "kind": "world",
-      "version": "0.1.11",
+      "version": "0.1.12",
       "description": "在玩什么 World：读前台窗口知道你（主人）在玩哪款游戏、玩了多久，还能定期看一眼游戏画面——一局打完、局中击杀或买到新装备时递一句给你，平时安静地看着",
       "author": "ALonT1",
       "maintainers": [
@@ -908,8 +1014,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-gaming-alont1"
       },
       "created": "2026-09-20T20:05:58.931Z",
-      "published": "2026-10-15T05:09:41.556Z",
-      "versionCount": 6,
+      "published": "2026-10-16T06:40:14.543Z",
+      "versionCount": 7,
       "official": false,
       "isNew": false,
       "tags": [
@@ -920,6 +1026,10 @@
         "total": 1042,
         "month": 1042,
         "week": 222
+      },
+      "summary": {
+        "tools": 3,
+        "events": 0
       },
       "discussion": {
         "number": 20,
@@ -972,7 +1082,7 @@
     },
     "cortico-world-humanlike-alont1": {
       "kind": "world",
-      "version": "0.1.11",
+      "version": "0.1.12",
       "description": "一些让 AI 更像人的功能：情绪与交情、作息、你们一起过的时间、时间感、学过的东西、它自己惦记的事，以及看得见你的桌面和花销——工具全部只读，不替它生成一个字",
       "author": "ALonT1",
       "maintainers": [
@@ -987,8 +1097,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-humanlike-alont1"
       },
       "created": "2026-09-23T13:05:31.616Z",
-      "published": "2026-10-15T05:10:14.111Z",
-      "versionCount": 4,
+      "published": "2026-10-16T06:41:19.254Z",
+      "versionCount": 5,
       "official": false,
       "isNew": false,
       "tags": [
@@ -1000,6 +1110,10 @@
         "total": 795,
         "month": 795,
         "week": 227
+      },
+      "summary": {
+        "tools": 24,
+        "events": 5
       },
       "discussion": {
         "number": 22,
@@ -1059,7 +1173,7 @@
     },
     "cortico-world-learn-alont1": {
       "kind": "world",
-      "version": "0.1.12",
+      "version": "0.1.13",
       "description": "联网学习 World：遇到不懂的词自己上网查（B站/贴吧/萌娘百科），提炼出用法再记；也能记人和关系",
       "author": "ALonT1",
       "maintainers": [
@@ -1074,8 +1188,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-learn-alont1"
       },
       "created": "2026-09-20T15:31:31.083Z",
-      "published": "2026-10-15T05:11:37.582Z",
-      "versionCount": 7,
+      "published": "2026-10-16T06:40:03.733Z",
+      "versionCount": 8,
       "official": false,
       "isNew": false,
       "tags": [
@@ -1088,6 +1202,10 @@
         "month": 888,
         "week": 255
       },
+      "summary": {
+        "tools": 4,
+        "events": 1
+      },
       "discussion": {
         "number": 24,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/24",
@@ -1098,7 +1216,7 @@
     },
     "cortico-world-life-alont1": {
       "kind": "world",
-      "version": "0.1.13",
+      "version": "0.1.14",
       "description": "生活状态 World：角色自己的一条时间线——这会儿在干嘛、心情如何、今天遇到了什么小事",
       "author": "ALonT1",
       "maintainers": [
@@ -1113,8 +1231,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-life-alont1"
       },
       "created": "2026-09-20T15:31:35.760Z",
-      "published": "2026-10-15T05:18:01.237Z",
-      "versionCount": 7,
+      "published": "2026-10-16T06:39:46.592Z",
+      "versionCount": 8,
       "official": false,
       "isNew": false,
       "tags": [
@@ -1126,6 +1244,10 @@
         "month": 889,
         "week": 154
       },
+      "summary": {
+        "tools": 5,
+        "events": 1
+      },
       "discussion": {
         "number": 25,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/25",
@@ -1136,7 +1258,7 @@
     },
     "cortico-world-lite-alont1": {
       "kind": "world",
-      "version": "0.1.11",
+      "version": "0.1.12",
       "description": "小模型专用 World：只给 4B 级小模型补两样东西——现在几点、以及记得他说过的事。3 个工具、提示词两百来字、没有任何主动推送与情绪机制，为的是不把小模型的上下文和指令空间挤爆",
       "author": "ALonT1",
       "maintainers": [
@@ -1151,8 +1273,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-lite-alont1"
       },
       "created": "2026-09-23T16:18:10.293Z",
-      "published": "2026-10-15T05:11:30.057Z",
-      "versionCount": 4,
+      "published": "2026-10-16T06:40:09.111Z",
+      "versionCount": 5,
       "official": false,
       "isNew": false,
       "tags": [
@@ -1164,6 +1286,10 @@
         "total": 337,
         "month": 337,
         "week": 42
+      },
+      "summary": {
+        "tools": 3,
+        "events": 0
       },
       "discussion": {
         "number": 26,
@@ -1260,7 +1386,7 @@
     },
     "cortico-world-memory-doctor-alont1": {
       "kind": "world",
-      "version": "0.1.12",
+      "version": "0.1.13",
       "description": "记忆体检 World：报出她那份记忆的体重与结构——哪几份在长、交接笔记堆了多少、有没有同一句话散在多份文件里，该整理的时候她自己看得见。只看不写",
       "author": "ALonT1",
       "maintainers": [
@@ -1275,8 +1401,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-memory-doctor-alont1"
       },
       "created": "2026-10-07T07:58:15.387Z",
-      "published": "2026-10-15T05:12:41.411Z",
-      "versionCount": 2,
+      "published": "2026-10-16T06:41:07.526Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "tags": [
@@ -1288,6 +1414,10 @@
         "month": 180,
         "week": 180
       },
+      "summary": {
+        "tools": 2,
+        "events": 0
+      },
       "discussion": {
         "number": 29,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/29",
@@ -1298,7 +1428,7 @@
     },
     "cortico-world-mind-alont1": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "description": "惦记 World（实验性）：她自己记下想做的事与时间，到点由框架把她自己的原话还给她——不是替她生成，也不是替她决定",
       "author": "ALonT1",
       "maintainers": [
@@ -1313,8 +1443,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-mind-alont1"
       },
       "created": "2026-10-15T05:06:25.087Z",
-      "published": "2026-10-15T05:08:02.643Z",
-      "versionCount": 2,
+      "published": "2026-10-16T06:40:26.100Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "tags": [],
@@ -1322,6 +1452,10 @@
         "total": 0,
         "month": 0,
         "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 0
       },
       "discussion": {
         "number": 30,
@@ -1333,7 +1467,7 @@
     },
     "cortico-world-minecraft": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "displayName": "Minecraft",
       "description": "Cortico World: Minecraft Java Edition through a Mineflayer player — observation text, movement, building, combat and an observer client",
       "author": "Pal AI Lab",
@@ -1354,8 +1488,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:42.066Z",
-      "published": "2026-10-16T02:42:04.492Z",
-      "versionCount": 11,
+      "published": "2026-10-16T05:09:06.514Z",
+      "versionCount": 12,
       "official": true,
       "isNew": false,
       "tags": [
@@ -1384,7 +1518,7 @@
     },
     "cortico-world-notes": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.2",
       "displayName": "记事本",
       "description": "Cortico World: a note keeper — record by talking, get reminded, and browse everything on a local page",
       "author": "ding",
@@ -1407,8 +1541,8 @@
         "bugs": "https://github.com/ding/cortico-world-notes/issues"
       },
       "created": "2026-10-15T13:18:45.906Z",
-      "published": "2026-10-15T13:19:42.686Z",
-      "versionCount": 2,
+      "published": "2026-10-16T05:45:27.436Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "tags": [],
@@ -1416,6 +1550,18 @@
         "total": 0,
         "month": 0,
         "week": 0
+      },
+      "summary": {
+        "tools": 5,
+        "events": 1
+      },
+      "changelog": {
+        "versions": [
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/ding/cortico-world-notes/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 32,
@@ -1481,7 +1627,7 @@
     },
     "cortico-world-phone": {
       "kind": "world",
-      "version": "0.3.7",
+      "version": "0.4.0",
       "displayName": "电话",
       "description": "Cortico World:电话 —— QQ 语音通话(走 QQ 自带的 AVSDK):她接得起真来电、听得见对方、说得出自己的话、挂断。★ 非即插即用:装之前先把它交给一个 coding agent,从 AGENTS.md 读起(真能力在另一台登着 QQ 的机器上)。作者已跑通并验证过的是服务器端那一套(NapCat);本机(Windows)那条路没有完全验证过 —— 社区里有人做过,可到 Cortico 社区群咨询。耳朵=本机语音识别,嗓子=TTS。",
       "maintainers": [
@@ -1500,8 +1646,8 @@
         "homepage": "https://github.com/biliye/cortico-world-phone#readme"
       },
       "created": "2026-10-12T15:56:30.324Z",
-      "published": "2026-10-16T01:20:04.378Z",
-      "versionCount": 6,
+      "published": "2026-10-16T07:24:46.202Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "tags": [
@@ -1515,6 +1661,16 @@
         "month": 453,
         "week": 453
       },
+      "summary": {
+        "tools": 6,
+        "events": 7
+      },
+      "changelog": {
+        "versions": [
+          "0.4.0"
+        ],
+        "url": "https://github.com/biliye/cortico-world-phone/blob/HEAD/CHANGELOG.md"
+      },
       "discussion": {
         "number": 34,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/34",
@@ -1525,7 +1681,7 @@
     },
     "cortico-world-presence": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.3.0",
       "description": "Cortico World: 在场感（Windows 专用）——能判别你是否离开/回到电脑前。★ 它会持续读前台窗口标题与键鼠空闲、并能截屏(屏幕上有什么截到什么),这些随模型调用发到你部署配置的模型端点;默认不启用。详细隐私说明见 README。",
       "maintainers": [
         "biliye"
@@ -1538,12 +1694,11 @@
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-presence",
         "repository": "https://github.com/biliye/cortico-world-presence",
-        "homepage": "https://github.com/biliye/cortico-world-presence#readme",
-        "bugs": "https://github.com/biliye/cortico-world-presence/issues"
+        "homepage": "https://github.com/biliye/cortico-world-presence#readme"
       },
       "created": "2026-10-14T12:52:28.450Z",
-      "published": "2026-10-14T13:28:57.940Z",
-      "versionCount": 3,
+      "published": "2026-10-16T09:01:27.999Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "tags": [
@@ -1554,6 +1709,17 @@
         "total": 0,
         "month": 0,
         "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 6
+      },
+      "changelog": {
+        "versions": [
+          "0.3.0",
+          "0.2.0"
+        ],
+        "url": "https://github.com/biliye/cortico-world-presence/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 35,
@@ -1875,7 +2041,7 @@
     },
     "cortico-world-qq-better-alont1": {
       "kind": "world",
-      "version": "0.1.16",
+      "version": "0.1.17",
       "description": "QQ（OneBot v11 / NapCat）World：群聊与私聊的收发、按号认人、听得见语音、看得见图、发图、人册与群梗册，以及主动开口的节拍——上游 cortico-world-qq-better 的 fork",
       "author": "ALonT1",
       "maintainers": [
@@ -1890,8 +2056,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-qq-better-alont1"
       },
       "created": "2026-09-23T13:12:12.960Z",
-      "published": "2026-10-13T14:42:29.942Z",
-      "versionCount": 10,
+      "published": "2026-10-16T06:41:45.328Z",
+      "versionCount": 11,
       "official": false,
       "isNew": false,
       "tags": [
@@ -1904,6 +2070,10 @@
         "total": 1256,
         "month": 1256,
         "week": 486
+      },
+      "summary": {
+        "tools": 25,
+        "events": 0
       },
       "discussion": {
         "number": 43,
@@ -2488,7 +2658,7 @@
     },
     "cortico-world-qzone-alont1": {
       "kind": "world",
-      "version": "0.1.12",
+      "version": "0.1.13",
       "description": "QQ 空间 World：让 bot 自己发说说（可配图）、删掉自己发过的说说，并把发过什么记在部署的数据目录里",
       "author": "ALonT1",
       "maintainers": [
@@ -2503,8 +2673,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-qzone-alont1"
       },
       "created": "2026-09-23T13:05:52.588Z",
-      "published": "2026-10-15T05:12:36.235Z",
-      "versionCount": 5,
+      "published": "2026-10-16T06:40:21.607Z",
+      "versionCount": 6,
       "official": false,
       "isNew": false,
       "tags": [
@@ -2516,6 +2686,10 @@
         "month": 603,
         "week": 56
       },
+      "summary": {
+        "tools": 3,
+        "events": 2
+      },
       "discussion": {
         "number": 58,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/58",
@@ -2526,7 +2700,7 @@
     },
     "cortico-world-real-alont1": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "description": "看得见的事 World：他自己桌面上在干什么、花了多少钱、以及她自己眼前那份规矩是从哪来的——都是只读，不带截图、不给写权限",
       "author": "ALonT1",
       "maintainers": [
@@ -2541,8 +2715,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-real-alont1"
       },
       "created": "2026-10-15T05:12:54.993Z",
-      "published": "2026-10-15T05:13:52.130Z",
-      "versionCount": 2,
+      "published": "2026-10-16T06:40:08.544Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "tags": [],
@@ -2550,6 +2724,10 @@
         "total": 0,
         "month": 0,
         "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 0
       },
       "discussion": {
         "number": 59,
@@ -2561,7 +2739,7 @@
     },
     "cortico-world-simple-trpg-check": {
       "kind": "world",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "description": "Cortico 的 TRPG 技能检定 World 扩展，使用本地或远程模型评估技能水平，支持 d100 掷骰、组合与对抗检定。",
       "author": "DTMosken",
       "maintainers": [
@@ -2579,10 +2757,13 @@
         "bugs": "https://github.com/DTMosken/cortico-world-simple-trpg-check/issues"
       },
       "created": "2026-09-24T04:35:03.761Z",
-      "published": "2026-10-07T12:18:19.274Z",
-      "versionCount": 8,
+      "published": "2026-10-16T07:39:50.052Z",
+      "versionCount": 9,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "game"
+      ],
       "tags": [
         "game"
       ],
@@ -2590,6 +2771,17 @@
         "total": 1446,
         "month": 1446,
         "week": 222
+      },
+      "summary": {
+        "tools": 2,
+        "events": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.4.0",
+          "0.3.0"
+        ],
+        "url": "https://github.com/DTMosken/cortico-world-simple-trpg-check/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 60,
@@ -2757,7 +2949,7 @@
     },
     "cortico-world-stt": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "语音转文本",
       "description": "语音转文本（Speech to Text）—— 给 Coopanion 桌宠的 cortico World 扩展：把音频文件转写成文字，并记进可浏览的转写记录。 / A cortico World extension that transcribes audio files to text through a configurable ASR API. It is an agent tool, not a realtime microphone.",
       "author": "AqualCross",
@@ -2785,15 +2977,31 @@
         "bugs": "https://github.com/AqualCross/cortico-world-stt/issues"
       },
       "created": "2026-10-15T14:29:20.510Z",
-      "published": "2026-10-15T14:33:31.135Z",
-      "versionCount": 2,
+      "published": "2026-10-16T06:29:01.998Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
-      "tags": [],
+      "declaredTags": [
+        "voice"
+      ],
+      "tags": [
+        "voice"
+      ],
       "downloads": {
         "total": 0,
         "month": 0,
         "week": 0
+      },
+      "summary": {
+        "tools": 1,
+        "events": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/AqualCross/cortico-world-stt/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 64,
@@ -2805,7 +3013,7 @@
     },
     "cortico-world-surfing": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "displayName": "网上冲浪",
       "description": "读取公开网页正文和 B站字幕，支持视频搜索、分段续读和可调返回量。",
       "author": "DTMosken",
@@ -2828,10 +3036,15 @@
         "bugs": "https://github.com/DTMosken/cortico-world-surfing/issues"
       },
       "created": "2026-10-08T04:13:29.496Z",
-      "published": "2026-10-08T04:15:36.570Z",
-      "versionCount": 2,
+      "published": "2026-10-16T07:43:39.809Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "internet",
+        "browser",
+        "video"
+      ],
       "tags": [
         "internet",
         "browser",
@@ -2841,6 +3054,17 @@
         "total": 372,
         "month": 372,
         "week": 372
+      },
+      "summary": {
+        "tools": 3,
+        "events": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://github.com/DTMosken/cortico-world-surfing/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 65,
@@ -2852,7 +3076,7 @@
     },
     "cortico-world-together-alont1": {
       "kind": "world",
-      "version": "0.1.11",
+      "version": "0.1.12",
       "description": "一起 World：记着她和你之间的事——一起做过什么、聊到哪没聊完，在她开口时把还悬着的话头递过去",
       "author": "ALonT1",
       "maintainers": [
@@ -2867,8 +3091,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-together-alont1"
       },
       "created": "2026-09-20T20:09:57.601Z",
-      "published": "2026-10-15T05:14:52.250Z",
-      "versionCount": 6,
+      "published": "2026-10-16T06:41:59.938Z",
+      "versionCount": 7,
       "official": false,
       "isNew": false,
       "tags": [
@@ -2881,6 +3105,10 @@
         "month": 883,
         "week": 123
       },
+      "summary": {
+        "tools": 3,
+        "events": 1
+      },
       "discussion": {
         "number": 66,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/66",
@@ -2891,9 +3119,9 @@
     },
     "cortico-world-tts": {
       "kind": "world",
-      "version": "0.1.0",
-      "displayName": "语音工坊",
-      "description": "语音工坊（Voice Studio）—— 给 Coopanion 桌宠的 cortico World 扩展：把文字合成为语音，音频落盘并作为附件交回对话。 / A cortico World extension that turns text into speech through a configurable TTS API and returns the audio as a conversation attachment.",
+      "version": "0.1.1",
+      "displayName": "文本转语音",
+      "description": "文本转语音（Text to Speech）—— 给 Coopanion 桌宠的 cortico World 扩展：把文字合成为语音，音频落盘并作为附件交回对话。 / A cortico World extension that turns text into speech through a configurable TTS API and returns the audio as a conversation attachment.",
       "author": "AqualCross",
       "maintainers": [
         "aqualcross"
@@ -2916,10 +3144,13 @@
         "bugs": "https://github.com/AqualCross/cortico-world-tts/issues"
       },
       "created": "2026-10-14T14:56:54.671Z",
-      "published": "2026-10-14T14:57:50.667Z",
-      "versionCount": 2,
+      "published": "2026-10-16T06:28:56.060Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "voice"
+      ],
       "tags": [
         "voice"
       ],
@@ -2927,6 +3158,17 @@
         "total": 0,
         "month": 0,
         "week": 0
+      },
+      "summary": {
+        "tools": 1,
+        "events": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/AqualCross/cortico-world-tts/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 67,
@@ -2936,9 +3178,65 @@
         "comments": 0
       }
     },
+    "cortico-world-webanswer": {
+      "kind": "world",
+      "version": "0.1.2",
+      "displayName": "联网问答",
+      "description": "Cortico World: answer questions from the live web — a web_ask tool that searches and synthesizes, for networks where Brave/Google are unreachable",
+      "author": "ding",
+      "maintainers": [
+        "fair-skinned"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "websearch",
+        "web",
+        "search",
+        "deepseek",
+        "china"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-webanswer",
+        "repository": "https://github.com/ding/cortico-world-webanswer",
+        "homepage": "https://github.com/ding/cortico-world-webanswer#readme",
+        "bugs": "https://github.com/ding/cortico-world-webanswer/issues"
+      },
+      "created": "2026-10-16T05:20:37.845Z",
+      "published": "2026-10-16T05:44:34.639Z",
+      "versionCount": 4,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 1,
+        "events": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/ding/cortico-world-webanswer/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 76,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/76",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-websearch": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "displayName": "WebSearch",
       "description": "Cortico World: a web_search tool backed by the Brave Search API",
       "author": "Pal AI Lab",
@@ -2959,8 +3257,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:50.954Z",
-      "published": "2026-10-16T02:41:33.821Z",
-      "versionCount": 11,
+      "published": "2026-10-16T05:12:10.815Z",
+      "versionCount": 12,
       "official": true,
       "isNew": false,
       "tags": [

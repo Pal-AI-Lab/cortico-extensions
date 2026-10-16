@@ -1,5 +1,569 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-better-alont1",
-  "version": "0.1.16"
+  "version": "0.1.17",
+  "describe": {
+    "tools": [
+      {
+        "name": "qq_send",
+        "description": "回复 QQ 消息事件的唯一渠道：发送一条发往 QQ 群或私聊的消息（不要用 terminal_send，那只会发到控制台终端）。调用即直接发送，无需再确认。to 填事件行方括号里的会话标号——群是 \"group:<群号>\"，私聊是 \"private:<QQ号>\"，照抄那一行的号码，不要自己改、不要凭记忆写；不确定就先调 qq_conversations 看清单。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "to": {
+              "type": "string",
+              "description": "发送目标，原样抄事件行最前面的会话标号：群 \"group:<群号>\"，私聊 \"private:<QQ号>\"。"
+            },
+            "text": {
+              "type": "string",
+              "description": "要发送的消息正文。可用 #编号 引用回复某条消息。"
+            },
+            "reply_message_id": {
+              "type": "number",
+              "description": "可选：引用回复的目标消息编号（也可在 text 里写 #编号）。必须是同一会话内的消息，否则会被拒绝。"
+            }
+          },
+          "required": [
+            "to",
+            "text"
+          ]
+        },
+        "tags": [
+          "speak"
+        ]
+      },
+      {
+        "name": "qq_conversations",
+        "description": "列出当前监听的所有会话：会话标号（qq_send 的 to 要用它）、群名或对方昵称。要发消息但不确定 to 该填什么号码时先查这里，不要凭记忆写号码。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "qq_confirm_send",
+        "description": "（兼容别名）qq_send 现已直接发送，通常无需调用本工具；仅当仍有未发送草稿时可补发。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "draft": {
+              "type": "string",
+              "description": "qq_send 返回的草稿编号；留空则发送最近一条草稿。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "speak"
+        ]
+      },
+      {
+        "name": "qq_view_image",
+        "description": "看一张 QQ 图片，返回文字描述。群里发的图平时只留一个 `[图片]` 占位，你想知道那是什么就调这个（**要花一次视觉调用，别每张都看**）。不传 url 时按 conv + index 到最近收到的图里找：conv 抄事件行的会话标号，index 是那个会话里往前数第几张（0=最新）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "可选：直接给图片链接（事件里带的图）或本地文件路径；给了就不再翻缓冲。"
+            },
+            "conv": {
+              "type": "string",
+              "description": "可选：会话标号（如 group:100001）。留空 = 所有会话最近收到的那张。"
+            },
+            "index": {
+              "type": "number",
+              "description": "可选：往前数第几张，0=最新（默认 0）。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "qq_send_image",
+        "description": "给某个会话发一张图。`image` 给本地文件路径或 http(s) 链接（本机下载后再发），二者挑一个。配 `text` 就是\"图 + 一句话\"。发文字还是走 qq_send。图片上限 8 MB，发不动会在回执里说明原因。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "to": {
+              "type": "string",
+              "description": "发送目标，原样抄事件行最前面的会话标号：群 \"group:<群号>\"，私聊 \"private:<QQ号>\"。"
+            },
+            "image": {
+              "type": "string",
+              "description": "本地文件路径（如 /home/user/pics/a.png）或 http(s) 链接。"
+            },
+            "text": {
+              "type": "string",
+              "description": "可选：跟图一起发的一句话。"
+            }
+          },
+          "required": [
+            "to",
+            "image"
+          ]
+        },
+        "tags": [
+          "speak"
+        ]
+      },
+      {
+        "name": "people_note",
+        "description": "在**人册**里给某个人记一句：这人是谁、怎么处、别提什么。按 QQ 号记，跨群通用——同一个人换昵称、换群，你照样认得出。以后他跟你说的话，那一行事件里会自动带上这句提醒。记**你自己想记的**：一句就够，别把聊天记录抄进来（那些在历史里）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "qq": {
+              "type": "string",
+              "description": "那个人的 QQ 号（事件行里 `昵称(QQ号)` 括号里的数字）。"
+            },
+            "note": {
+              "type": "string",
+              "description": "一两句：他是谁、怎么处、别提什么。上限 200 字。"
+            },
+            "name": {
+              "type": "string",
+              "description": "可选：记下他现在的昵称，方便你自己认。"
+            }
+          },
+          "required": [
+            "qq",
+            "note"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "people_list",
+        "description": "看人册里都记了谁（按最近改过排序）。要确认自己记过谁、或者想改一条之前先看这里。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "number",
+              "description": "返回几条，默认 30。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "people_forget",
+        "description": "从人册里删掉一个人的备注（记错了、或者不想再记着这个人）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "qq": {
+              "type": "string",
+              "description": "那个人的 QQ 号。"
+            }
+          },
+          "required": [
+            "qq"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "people_thread",
+        "description": "记一条**还没说完的话头**：下次这个人开口时，他那一行会带一句提醒你接上。只记真的悬着的（\"他说周五要交东西\"\"约了周末打游戏\"），不记流水、不记你自己的想法；一个人最多 3 条。说完了用 people_thread_done 结掉。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "qq": {
+              "type": "string",
+              "description": "那个人的 QQ 号。"
+            },
+            "text": {
+              "type": "string",
+              "description": "那句话头（上限 60 字）。"
+            }
+          },
+          "required": [
+            "qq",
+            "text"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "people_thread_done",
+        "description": "结掉一条话头（说完了、或者那事已经过去了）。序号或那句话里的几个字都行。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "qq": {
+              "type": "string",
+              "description": "那个人的 QQ 号。"
+            },
+            "which": {
+              "type": "string",
+              "description": "第几条（1 起），或者那句话里包含的几个字。"
+            }
+          },
+          "required": [
+            "qq",
+            "which"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "group_note",
+        "description": "给一个群记一句**这地方是什么样**：什么气氛、什么分寸、谁是自己人、什么话题别碰。一句话，上限 200 字。以后你在这个群说话时，那一行会（隔一阵）带出来提醒你。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "group": {
+              "type": "string",
+              "description": "群号（会话标号里的数字，如 100001）。"
+            },
+            "note": {
+              "type": "string",
+              "description": "一句话：这地方是什么样。"
+            },
+            "name": {
+              "type": "string",
+              "description": "可选：群名。"
+            }
+          },
+          "required": [
+            "group",
+            "note"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "group_lore",
+        "description": "往一个群里添一条**这儿的梗 / 黑话 / 内部说法**——那种别人一提就懂、你不懂的词。最多 8 条、每条不超过 50 字。不是记别人的事，是记这地方的话怎么讲。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "group": {
+              "type": "string",
+              "description": "群号。"
+            },
+            "text": {
+              "type": "string",
+              "description": "那条梗 / 那个说法（上限 50 字）。"
+            }
+          },
+          "required": [
+            "group",
+            "text"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "qq_proactive_status",
+        "description": "查看主动说话调度器状态：运行态（暖场/稳定/静默）、今日已发/配额、各会话未回复与静默情况、最近主动说过的话。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "qq_proactive_trigger",
+        "description": "手动触发一次主动说话：随机挑一个可主动的监听会话（或指定 address 如 private:123）发一条闲聊。用于测试主动说话调度器。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string",
+              "description": "可选：目标会话地址，如 private:123 / group:456；留空则随机。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "speak"
+        ]
+      },
+      {
+        "name": "qq_qzone_post",
+        "description": "在 QQ 空间发一条动态（说说）。内容按「最近聊天 + 你对人或事的真实看法」自己生成：可省略 content 让它自动按对话与记忆发挥（topic 给方向，如“吐槽最近的天气/介绍某人”）；也可直接给 content 发你写好的。可附图片（images：file://、http(s):// 或 base64:// 链接）与 @人（ats：昵称或 QQ 号）。permission 默认 1=公开。返回 tid 供后续删除/回复。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "content": {
+              "type": "string",
+              "description": "动态正文；留空则自动生成（结合最近聊天与记忆，以第一人称发表看法/吐槽/简介）。"
+            },
+            "topic": {
+              "type": "string",
+              "description": "自动生成时的方向提示，如「吐槽最近的天气」「介绍一下小明」。"
+            },
+            "images": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "附图链接数组（file:// / http(s):// / base64://）。"
+            },
+            "ats": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "@的人：昵称或 QQ 号数组。"
+            },
+            "permission": {
+              "type": "number",
+              "description": "可见权限 ugc_right，默认 1=公开。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "speak"
+        ]
+      },
+      {
+        "name": "qq_qzone_delete",
+        "description": "删除一条 QQ 空间动态。tid 来自 qq_qzone_post 的返回或 qq_qzone_status 的最近列表。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "tid": {
+              "type": "string",
+              "description": "要删除的动态 tid。"
+            }
+          },
+          "required": [
+            "tid"
+          ]
+        },
+        "tags": [
+          "speak"
+        ]
+      },
+      {
+        "name": "qq_qzone_reply",
+        "description": "回复某条动态下的一条评论。tid 为动态 id，comment_id 为评论 id。**这条路当前多半是断的**：NapCat 的空间扩展只有发/删说说两个动作，没有评论相关接口，所以它通常会回\"没配评论回复 action\"。别反复试——想跟评论的人说话，直接在群里或私聊找她。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "tid": {
+              "type": "string",
+              "description": "动态 tid。"
+            },
+            "comment_id": {
+              "type": "string",
+              "description": "评论 id。"
+            },
+            "content": {
+              "type": "string",
+              "description": "回复内容。"
+            }
+          },
+          "required": [
+            "tid",
+            "comment_id",
+            "content"
+          ]
+        },
+        "tags": [
+          "speak"
+        ]
+      },
+      {
+        "name": "qq_qzone_feeds",
+        "description": "查看自己的 QQ 空间动态列表（尽力而为；依赖 NapCat 的 get_qzone_msg_list 是否支持）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "num": {
+              "type": "number",
+              "description": "返回条数，默认 5。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "qq_qzone_status",
+        "description": "查看 QQ 空间动态发布器状态：是否开启、今日已发/配额、自动回复评论是否开、最近发的动态（含 tid）。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "qq_reminder_add",
+        "description": "给自己定一条到点提醒（闹钟）。到点会推给你一条内部事件，提示你当时记下的事，要不要在那个会话里说、说什么，到点你自己定。用来兜住「等会儿要做的事」和「跟人说好了几点」——不记下来就会忘。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "要提醒自己的内容（写清楚要做什么，别只写\"那件事\"）。"
+            },
+            "time": {
+              "type": "string",
+              "description": "什么时候提醒。支持：`30分钟后`/`2小时`/`3天`、`今天 21:30`/`明天 09:00`、或绝对时间 `2026-10-12T09:00:00+08:00`。"
+            },
+            "address": {
+              "type": "string",
+              "description": "到点在哪个会话提醒（`group:<群号>` 或 `private:<QQ号>`）。不填＝记住当前这个会话。"
+            }
+          },
+          "required": [
+            "text",
+            "time"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "qq_reminder_list",
+        "description": "列出还没到点的提醒（记事）。要删哪条就用这里的 id。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "qq_reminder_cancel",
+        "description": "取消一条还没到点的提醒。传 qq_reminder_list 里的 id。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "要取消的提醒 id。"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "qq_sticker_stats",
+        "description": "看表情包：本地目录里现在能发几张（附真实文件名），以及自动收藏索引的统计（总数、按情感分布、最近若干条）。想给 QQ 回复发表情包图片时，先调本工具拿到真实文件名（返回里的 [表情包:xxx.jpg]），再把整段 [表情包:文件名] 写进回复文本即可自动发出；不要编造不存在的文件名。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "number",
+              "description": "返回最近几条，默认 10。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "qq_recent",
+        "description": "查询某个群或私聊最近的消息（按时间倒序）。用于回顾刚才说过的话、确认上下文。conv 直接抄事件行开头的会话标号；也可以只给 group（群号）或 peer（对方 QQ）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "conv": {
+              "type": "string",
+              "description": "会话标号，原样抄事件行开头：群 \"group:<群号>\"，私聊 \"private:<QQ号>\"。与 group/peer 三选一。"
+            },
+            "group": {
+              "type": "number",
+              "description": "群号；与 conv、peer 三选一。"
+            },
+            "peer": {
+              "type": "number",
+              "description": "私聊对方 QQ；与 conv、group 三选一。"
+            },
+            "minutes": {
+              "type": "number",
+              "description": "回溯时间窗（分钟），默认 60。"
+            },
+            "limit": {
+              "type": "number",
+              "description": "最多返回条数，默认 30。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "qq_search",
+        "description": "在 QQ 消息记录中按关键词检索历史消息，返回匹配片段及上下文。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "keyword": {
+              "type": "string",
+              "description": "不区分大小写的包含匹配关键词。"
+            },
+            "limit": {
+              "type": "number",
+              "description": "最多返回的命中组数，默认 10。"
+            }
+          },
+          "required": [
+            "keyword"
+          ]
+        },
+        "tags": [
+          "read"
+        ]
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.qqbot.envPrompt",
+        "title": "QQ 环境描述",
+        "role": "envPrompt",
+        "content": "QQ 环境\n\n{{qq.self}}\n\n{{qq.now}}\n\n{{qq.festival}}\n\n你正在监听的群：\n{{qq.activeGroups}}\n\n你在各个群里的分寸：\n{{qq.groupProfiles}}\n\n这不是建议，是你在那几个群里的实际状态。参与度低的群真就别硬凑，\n但「不硬凑」不等于「当没看见」。\n\n你正在监听的私聊：\n{{qq.activePrivates}}\n\nQQ 空间动态（说说）：\n{{qq.qzone}}\n\n群聊发言限速：\n{{qq.groupSpeak}}\n\n话题防死循环：\n{{qq.antiLoop}}\n\n当前情绪状态（移植自 fat-fish 情绪系统）：\n{{qq.emotion}}\n\n到点提醒（你自己定的闹钟）：\n\n「等会儿要做的事」和「跟人说好了几点」用 `qq_reminder_add` 记下来——不记就会忘，\n而忘了那一刻没人会提醒你。到点这台机器会推给你一条内部事件，把当时记的原话还给你；\n到时候要不要在那个会话里开口、说什么，你自己定（要发就用 `qq_send`）。\n`qq_reminder_list` 查还没到点的，`qq_reminder_cancel` 删。\n\n时间写法：`30分钟后`、`2小时`、`3天`、`今天 21:30`、`明天 09:00`，\n或者绝对时间 `2026-10-12T09:00:00+08:00`。\n\n当你在这些群里被 @ 或有人私聊你时，会收到消息事件。每条 QQ 消息的事件文本以\n`【QQ群 群名 时刻】昵称：…` 或 `【QQ私聊 时刻 昵称】…` 开头，其中的「时刻」是该消息的发送时间\n（如 `15:30:05`），据此判断消息时效。回复群友时尽量自然、简洁；涉及敏感或重要决定时，先想清楚再发。\n\n回复渠道。你收到的 QQ 消息事件，其文本以 `【QQ群 …】` 或 `【QQ私聊 …】` 开头，meta.channel 为 `qq`。\n这类消息必须回到 QQ 原会话回复：用 `qq_send` 直接发送（`to` 直接填事件 meta 里的 `conv` 字段\n——群聊是 `group:<群号>`、私聊是 `private:<QQ号>`，原样复制即可，不要自己拆数字）。\n`qq_send` 调用即发出，无需再确认。\n\n严禁用 `terminal_send` 回复 QQ 消息——`terminal_send` 只发往控制台终端（网页聊天框），\n对方在 QQ 里收不到。\n\n群消息：被 @ 才回复；私聊消息：直接回复。\n\n发送语法（qq_send 的正文）。起草文本时可混用下面这些标记，发送时会自动转成对应 OneBot 段。\n\n`@名字` 或 `@QQ号`：提及某人。\n\n`[表情N]` / `[表情N:名称]`：按数字 id 发送 QQ 表情（如 `[表情14]`）。\n\n`[旺柴]`、`[笑哭]`、`[调皮]` 等中文表情名：自动映射到对应表情 id（与 fat-fish 一致）。\n\n`[表情包:文件名]`：发送本地表情包图片，文件需放在「表情包目录」配置所指位置（如 `emoji/Dog.png`）；\n文件不存在则该标记被丢弃，不报错。\n\n纯文本按句号/问号/感叹号/分号/换行自动拆成多条消息发送（可在控制台关掉「按句拆分发送」）；\n多条之间按「发送间隔」限速，防止触发风控。\n"
+      }
+    ]
+  }
 }

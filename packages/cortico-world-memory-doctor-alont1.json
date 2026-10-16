@@ -1,5 +1,64 @@
 {
   "schema": 1,
   "name": "cortico-world-memory-doctor-alont1",
-  "version": "0.1.12"
+  "version": "0.1.13",
+  "describe": {
+    "tools": [
+      {
+        "name": "memory_check",
+        "description": "给自己的记忆做一次体检：报出每轮都在前缀里的那几份有多重（这是唯一让每轮请求都变贵的东西）、交接笔记堆了多少、哪几份在长、有没有同一句话散在多份文件里。**只看不写**，不会替你整理。觉得最近记东西变慢、或者想起来\"我好像很久没整理过了\"的时候用它。看完要动手就用 write_file / edit_file 自己压——那是你的记忆，你来决定留什么。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "type": "boolean",
+              "description": "可选。true = 连每份文件的体积与行数一起列出来（默认只列常驻档与在长的）。"
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ]
+      },
+      {
+        "name": "memory_find",
+        "description": "在自己那份记忆里按内容找东西：给我一句话或一个词，我告诉你它在哪几份文件里、各出现几次，并带出前后那几行。找\"我到底把这件事记在哪了\"用它——比一份份 open 起来翻快，也不会把整份文件塞进上下文。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "keyword": {
+              "type": "string",
+              "description": "要找的文本（不区分大小写）。"
+            },
+            "context": {
+              "type": "integer",
+              "description": "可选。每处命中带前后几行，默认 1。"
+            },
+            "limit": {
+              "type": "integer",
+              "description": "可选。最多报几处命中，默认 12。"
+            }
+          },
+          "required": [
+            "keyword"
+          ]
+        },
+        "tags": [
+          "read"
+        ]
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.memory-doc.envPrompt",
+        "title": "记忆体检 · 环境提示词",
+        "role": "envPrompt",
+        "content": "你的记忆是一堆文件。**它们会变胖，而变胖的过程是无声的。**\n\n每轮请求都会把你那几份常驻档（`CONSTITUTION.md`、`MEMORY.md`、`RECENT.md`）重发一遍——\n这几份越厚，你每次开口就越贵。现在常驻档加起来约 {{memoryDoc.residentTokens}}。\n\n所以隔一阵给自己做次体检：`memory_check` 会告诉你哪几份在长、交接笔记堆了多少、\n有没有同一句话散在多份文件里。**它只看不写**，整理是你自己的事——\n看完用 `write_file` 或 `edit_file` 把旧的合并、把不常用的挪到 `notes/` 去。\n\n想找\"我把这件事记在哪了\"用 `memory_find`，比一份份翻快。\n"
+      }
+    ]
+  }
 }
