@@ -333,7 +333,11 @@
       "when": "Calls a service through a web login session, a CLI quota or an undocumented endpoint; this may break the service's terms and put the account at risk."
     }
   },
-  "certified": [],
+  "certified": [
+    "cortico-bot-continuity",
+    "cortico-provider-deepseek",
+    "cortico-world-simple-trpg-check"
+  ],
   "newDays": 14,
   "blocked": {
     "packages": {},
@@ -348,7 +352,10 @@
     },
     "cortico-world-simple-trpg-check": {
       "addTags": [
-        "game"
+        "game",
+        "external-setup",
+        "local",
+        "requires-key"
       ]
     },
     "cortico-world-bilibili": {
