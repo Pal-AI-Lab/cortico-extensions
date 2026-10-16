@@ -1,20 +1,28 @@
 # 扫 npm 上的 Cortico 扩展,用 GitHub App 给新包开讨论帖,提交 catalog.json、packages/、assets/ 与 comments/ 快照。
+# 标题是 `[sync] 包名` / `[同步] 包名` 的 issue 开出或重新打开时马上跑一次,扫完回帖并关闭(scripts/sync-requests.mjs)。
 name: Sync catalog and discussions
 
 on:
   schedule:
     - cron: '17,47 * * * *'
   workflow_dispatch:
+  issues:
+    types: [opened, reopened]
 
 permissions:
   contents: write
-
-concurrency:
-  group: sync
-  cancel-in-progress: false
+  issues: write
 
 jobs:
   sync:
+    # 别的 issue 不跑。表达式里的 contains 不分大小写;标题由脚本按前缀再认一遍,issue 内容不进 shell。
+    if: >-
+      github.event_name != 'issues' || (!github.event.issue.pull_request
+      && (contains(github.event.issue.title, 'sync') || contains(github.event.issue.title, '同步')))
+    # 放在 job 上:被上面跳过的运行不占队列,不会把排着的那次挤掉
+    concurrency:
+      group: sync
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -28,6 +36,8 @@ jobs:
 
       - name: Scan npm
         run: node scripts/scan.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: GitHub App installation token
         id: app
@@ -51,3 +61,8 @@ jobs:
           git commit -q -m 'Sync catalog and comment snapshots'
           git pull -q --rebase -X theirs origin "$GITHUB_REF_NAME"
           git push -q origin "HEAD:$GITHUB_REF_NAME"
+
+      - name: Answer sync requests
+        run: node scripts/sync-requests.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}

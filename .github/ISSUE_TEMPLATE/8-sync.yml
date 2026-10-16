@@ -1,0 +1,17 @@
+name: "同步 / Sync"
+description: "刚发布了新包或新版本,让市场马上收录 / Get a package or release you just published into the market now"
+title: "[sync] "
+labels:
+  - "sync"
+body:
+  - type: "markdown"
+    attributes:
+      value: "标题写成 `[sync] 包名`,提交后 Action 马上扫一次 npm,一两分钟内回帖说明结果并关闭这个 issue。一次可以写几个包(最多 10 个),写在下面一行一个。市场平时也会定时同步,只是 GitHub 的定时任务常常推迟几个小时。\n\nTitle: `[sync] package-name`. Once submitted, an Action scans npm right away, replies with the result within a minute or two and closes this issue. List several packages below, one per line (at most 10). The market also syncs on a schedule, but GitHub often runs scheduled jobs hours late."
+  - type: "textarea"
+    id: "package"
+    attributes:
+      label: "包名 / Package (`package`)"
+      description: "npm 上的包名,一行一个;只同步标题里那个包时可以留空 / Package names on npm, one per line; leave empty to sync only the one in the title"
+      placeholder: "cortico-world-xxx"
+    validations:
+      required: false

@@ -3,7 +3,7 @@
 // 同一个 issue 只维护一条回帖,编辑 issue 后更新那一条。令牌是 Action 的 GITHUB_TOKEN。
 import { readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
-import { REPO, blockReason, certifyChecks, loadIndex, mergeTags, packument, readJson, rest, tagStyle } from './lib.mjs';
+import { NPM_NAME, REPO, blockReason, certifyChecks, loadIndex, mergeTags, packument, readJson, rest, tagStyle } from './lib.mjs';
 
 const MARKER = '<!-- cortico-extensions-triage -->';
 const NEEDS_INFO = 'needs-info';
@@ -17,6 +17,8 @@ export const TYPES = {
   report: { prefixes: ['report', '举报'], zh: '举报', required: ['package', 'reason'] },
   'new-tag': { prefixes: ['new-tag', '新标签'], zh: '新标签', required: ['tag', 'reason'] },
   other: { prefixes: ['other', '其他'], zh: '其他', required: [] },
+  // 由 sync.yml 同步、回帖并关闭(sync-requests.mjs),这里只贴 label
+  sync: { prefixes: ['sync', '同步'], zh: '同步', required: [] },
 };
 
 /** 正文的键,中英都认。 */
@@ -84,7 +86,8 @@ export function parseBody(body) {
     if (key && !fields[key]) fields[key] = m[2].trim();
   }
   for (const k of ['add', 'remove']) if (fields[k]) fields[k] = fields[k].split(/[\s,，、]+/).filter(Boolean);
-  if (fields.package) fields.package = fields.package.split(/\s+/)[0];
+  // 同步请求可以一次写几个包;其他类型只用第一个
+  if (fields.package) [fields.package] = fields.packages = fields.package.split(/[\s,，、]+/).filter(Boolean);
   if (fields.by) fields.by = fields.by.split(/\s+/)[0];
   return fields;
 }
@@ -99,14 +102,15 @@ async function main() {
   const issue = event.issue ?? await rest(token, 'GET', `${repo}/issues/${process.env.ISSUE_NUMBER}`);
   if (!issue?.number || issue.pull_request) return;
 
-  const reply = await compose(issue);
-  console.log(reply.body);
+  const reply = parseTitle(issue.title).type === 'sync' ? { type: 'sync' } : await compose(issue);
+  if (reply.body) console.log(reply.body);
 
   const current = new Set(issue.labels.map((l) => (typeof l === 'string' ? l : l.name)));
   const wanted = new Set([...current].filter((l) => !TYPES[l] && l !== NEEDS_INFO));
   if (reply.type) wanted.add(reply.type);
   if (reply.needsInfo) wanted.add(NEEDS_INFO);
   if ([...wanted].sort().join() !== [...current].sort().join()) await rest(token, 'PUT', `${repo}/issues/${issue.number}/labels`, { labels: [...wanted] });
+  if (!reply.body) return;
 
   const comments = await rest(token, 'GET', `${repo}/issues/${issue.number}/comments?per_page=100`);
   const mine = comments.find((c) => c.user?.type === 'Bot' && c.body?.includes(MARKER));
@@ -123,9 +127,9 @@ export async function compose(issue) {
 
   if (!type) {
     out.push(
-      '标题没有认出的类型前缀。请把标题改成 `[类型] 包名`,类型见 [README](https://github.com/Pal-AI-Lab/cortico-extensions/blob/main/README.md):`[tags]`、`[certify]`、`[supersede]`、`[appeal]`、`[report]`、`[new-tag]`、`[other]`,中文前缀 `[标签]`、`[认证]`、`[取代]`、`[申诉]`、`[举报]`、`[新标签]`、`[其他]` 同样认。',
+      '标题没有认出的类型前缀。请把标题改成 `[类型] 包名`,类型见 [README](https://github.com/Pal-AI-Lab/cortico-extensions/blob/main/README.md):`[tags]`、`[certify]`、`[supersede]`、`[appeal]`、`[report]`、`[new-tag]`、`[other]`、`[sync]`,中文前缀 `[标签]`、`[认证]`、`[取代]`、`[申诉]`、`[举报]`、`[新标签]`、`[其他]`、`[同步]` 同样认。',
       '',
-      'The title has no recognized type prefix. Please rename it to `[type] package-name`; the types are listed in the [README](https://github.com/Pal-AI-Lab/cortico-extensions/blob/main/README.md): `[tags]`, `[certify]`, `[supersede]`, `[appeal]`, `[report]`, `[new-tag]`, `[other]` (Chinese prefixes work too).',
+      'The title has no recognized type prefix. Please rename it to `[type] package-name`; the types are listed in the [README](https://github.com/Pal-AI-Lab/cortico-extensions/blob/main/README.md): `[tags]`, `[certify]`, `[supersede]`, `[appeal]`, `[report]`, `[new-tag]`, `[other]`, `[sync]` (Chinese prefixes work too).',
     );
     return { body: out.join('\n'), needsInfo: true };
   }
@@ -148,7 +152,7 @@ export async function compose(issue) {
 
   const info = [];
   if (pkg) {
-    const doc = /^(@[a-z0-9-~][a-z0-9-._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/.test(pkg) ? await packument(pkg) : undefined;
+    const doc = NPM_NAME.test(pkg) ? await packument(pkg) : undefined;
     const entry = catalog.packages[pkg];
     const publisherBlock = index.blocked?.publishers?.[pkg];
     if (!doc && publisherBlock) {

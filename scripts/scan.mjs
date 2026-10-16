@@ -6,6 +6,7 @@ import {
   KIND_KEYWORDS, SCHEMA, blockReason, certifyChecks, fetchJson, fileName, githubOwner, loadIndex, mergeTags,
   packument, readJson, repositoryUrl, root, summary, tagStyle, writeJson,
 } from './lib.mjs';
+import { openRequests, saveResults } from './sync-requests.mjs';
 
 const MAX_TARBALL = 64 * 1024 * 1024;
 const MAX_DESCRIBE = 1024 * 1024;
@@ -20,8 +21,10 @@ const index = loadIndex();
 const previous = readJson('catalog.json', { packages: {}, sticky: {} });
 const today = new Date();
 
-// 搜索结果 ∪ 上次的 catalog ∪ index.json 覆盖过的包:搜索接口偶尔漏包,包文档才是准的。
-const names = new Set([...Object.keys(previous.packages ?? {}), ...Object.keys(index.overrides ?? {})]);
+// 搜索结果 ∪ 上次的 catalog ∪ index.json 覆盖过的包 ∪ 同步请求里的包:搜索接口偶尔漏包、收录新包也慢,包文档才是准的。
+const requests = await openRequests();
+const requested = new Set(requests.flatMap((r) => r.names));
+const names = new Set([...Object.keys(previous.packages ?? {}), ...Object.keys(index.overrides ?? {}), ...requested]);
 for (const keyword of Object.values(KIND_KEYWORDS)) {
   for (let from = 0; ; from += 250) {
     const page = await fetchJson(`https://registry.npmjs.org/-/v1/search?text=keywords:${keyword}&size=250&from=${from}`);
@@ -34,11 +37,12 @@ const downloads = await fetchDownloads([...names]);
 const packages = {};
 const sticky = {};
 const notes = { impersonation: [], certify: [], skipped: [] };
+const missing = new Set();
 
 for (const name of [...names].sort()) {
   const doc = await packument(name);
   const latest = doc?.versions?.[doc['dist-tags']?.latest];
-  if (!latest || doc.time?.unpublished) continue;
+  if (!latest || doc.time?.unpublished) { missing.add(name); continue; }
   const kind = latest.cortico?.kind ?? Object.entries(KIND_KEYWORDS).find(([, k]) => latest.keywords?.includes(k))?.[0];
   if (!kind) continue;
 
@@ -110,8 +114,20 @@ for (const dir of ['packages', 'assets']) {
 
 writeJson('catalog.json', { schema: SCHEMA, sticky, packages });
 
+if (requests.length) {
+  const results = {};
+  for (const name of requested) {
+    const prefix = `\`${name}\`: `;
+    results[name] = packages[name]
+      ? { version: packages[name].version, skipped: notes.skipped.filter((l) => l.startsWith(prefix)).map((l) => l.slice(prefix.length)) }
+      : { missing: missing.has(name) };
+  }
+  saveResults(requests, results);
+}
+
 summary([
   `### Catalog\n\n${Object.keys(packages).length} packages, ${Object.keys(sticky).length} with sticky warning tags.`,
+  requests.length && `#### Sync requests\n\n${requests.map((r) => `- #${r.number}: ${r.names.join(', ') || '—'}`).join('\n')}`,
   notes.impersonation.length && `#### Possible impersonation (review by hand)\n\n${notes.impersonation.map((l) => `- ${l}`).join('\n')}`,
   notes.certify.length && `#### Certified packages failing automatic checks\n\n${notes.certify.map((l) => `- ${l}`).join('\n')}`,
   notes.skipped.length && `#### Package files skipped\n\n${notes.skipped.map((l) => `- ${l}`).join('\n')}`,

@@ -8,6 +8,8 @@ export const SCHEMA = 1;
 export const REPO = { owner: 'Pal-AI-Lab', name: 'cortico-extensions' };
 export const DISCUSSION_CATEGORY = 'extensions';
 export const KIND_KEYWORDS = { world: 'cortico-world', provider: 'cortico-provider', bot: 'cortico-bot' };
+/** npm 现行规则下的包名(小写,可带作用域);长度另查,不超过 214。 */
+export const NPM_NAME = /^(@[a-z0-9-~][a-z0-9-._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/;
 
 export function readJson(path, fallback) {
   const file = `${root}${path}`;

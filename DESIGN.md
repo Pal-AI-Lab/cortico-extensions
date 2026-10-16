@@ -30,9 +30,9 @@
 | `comments/` | 本仓库 | Action 定时生成 | 每个包讨论帖的评论快照,没登录 GitHub 的控制台读它 |
 | `TAGS.md` | 本仓库 | `scripts/render-tags.mjs` 按 `index.json` 生成 | 给作者和 coding agent 看的标签说明 |
 | Discussions | 本仓库 | 用户 | 每个包一帖:回复是评论,首楼 reaction 是喜欢 / 不喜欢 |
-| Issues | 本仓库 | 任何人 | 扩展申请:标签、认证、取代、拉黑申诉、举报、新增标签、其他 |
+| Issues | 本仓库 | 任何人 | 扩展申请:标签、认证、取代、拉黑申诉、举报、新增标签、其他、同步 |
 | GitHub App「Cortico 扩展市场」 | GitHub | 官方建 | 只有 Discussions 读写权限,只装在本仓库;控制台用它代用户投票、读写评论;安装 ID 与 Client ID 存为仓库变量 `APP_INSTALLATION_ID` / `APP_CLIENT_ID`,私钥存为 Actions secret `APP_PRIVATE_KEY`(Action 用安装令牌开帖) |
-| Action | 本仓库 `.github/workflows/` | 官方 | `sync.yml` 定时扫 npm、开帖、写快照并提交;`triage.yml` 处理扩展申请,见「Action」 |
+| Action | 本仓库 `.github/workflows/` | 官方 | `sync.yml` 定时与 `[sync]` issue 触发扫 npm、开帖、写快照并提交;`triage.yml` 处理扩展申请,见「Action」 |
 | 控制台 | Cortico | | 服务端读索引并合进搜索结果;页面见「控制台」 |
 
 控制台读 `raw.githubusercontent.com` 上的 `index.json` 与 `catalog.json`,不调 GitHub API(匿名每 IP 每小时 60 次)。raw 文件有 5 分钟 CDN 缓存。
@@ -217,6 +217,7 @@ Action 生成的文件不手改。地址都相对本仓库根目录,控制台拼
 | 举报 | `[举报]` / `[report]` | 恶意代码、冒名、标签严重不符 | 核实后拉黑或加标签 |
 | 新标签 | `[新标签]` / `[new-tag]` | 提议新增词表标签(至少 3 个已发布的扩展会用到) | 收了改词表;也可以直接提 PR |
 | 其他 | `[其他]` / `[other]` | 以上都不是 | 官方看后回复,需要时改成上面的类型 |
+| 同步 | `[同步]` / `[sync]` | 刚发布的包或版本要马上进市场;`package` 可写几个(最多 10 个) | 不用官方处理:`sync.yml` 马上跑,回帖列出每个包的结果并关闭 |
 
 - **认证的要求**(全部满足):
   0. 没有错误的标签、缺失的信息等基本问题;
@@ -267,18 +268,19 @@ Action 生成的文件不手改。地址都相对本仓库根目录,控制台拼
 
 脚本在 `scripts/`,只用 Node 自带的模块,不装依赖。
 
-- **`sync.yml`**:每 30 分钟(每小时 17 分、47 分)与手动 `workflow_dispatch`,同一时间只跑一个。
+- **`sync.yml`**:每 30 分钟(每小时 17 分、47 分;GitHub 的定时任务常推迟几小时)、手动 `workflow_dispatch`,以及标题含 `sync` / `同步` 的 issue 打开或重新打开时;同一时间只跑一个。issue 内容不进 shell,标题由脚本按前缀再认。
+  0. 同步请求(`sync-requests.mjs`):`scan.mjs` 开头列出开着的 `[sync]` issue,包名按 npm 规则校验后并进扫描名单,不等 npm 搜索收录;提交之后逐个回帖说明结果(已收录的版本、npm 上找不到、没有扩展关键字、被拉黑、详情文件的问题)并关闭。扫描途中新开的请求留给它自己触发的那次运行。
   1. `scan.mjs`:搜 npm 三个关键字,加上一次 `catalog.json` 里的包与 `index.json` 覆盖过的包(搜索接口偶尔漏包),逐个取包文档;版本变了才下载 tarball,在内存里解出自描述、`CHANGELOG.md`、图标与截图,不执行包里的代码。写 `catalog.json`、`packages/`、`assets/`;npm 上下架的包删掉它的 `packages/` 与 `assets/`。冒名排查的候选与不再满足自动核对的认证包写在这次运行的摘要页上。
   2. `app-token.mjs`:用 `APP_CLIENT_ID` 作 JWT 的 `iss`、私钥签名,换一个只对本仓库、只有 Discussions 读写的安装令牌(一小时有效)。私钥只在内存里,不打印。
   3. `discussions.mjs`:给没帖子的包开帖,统计票数与评论数写进 `catalog.json`,写 `comments/`。
   4. 有变化才提交,内容没变的文件不重写;检出分支最新提交,推送前 rebase,冲突时以这次生成的为准。
-- **`triage.yml`**:issue 打开、编辑、重新打开时跑 `triage.mjs`(也可手动给 issue 号)。用 Action 自带的 `GITHUB_TOKEN`。
+- **`triage.yml`**:issue 打开、编辑、重新打开时跑 `triage.mjs`(也可手动给 issue 号)。用 Action 自带的 `GITHUB_TOKEN`。`[sync]` 只贴 label,回帖与关闭归 `sync.yml`。
 
 ## 本仓库的 label
 
 | label | 意思 |
 |---|---|
-| `tags` `certify` `supersede` `appeal` `report` `new-tag` `other` | 扩展申请的类型,Action 按标题前缀贴,改了前缀会换 |
+| `tags` `certify` `supersede` `appeal` `report` `new-tag` `other` `sync` | 扩展申请的类型,Action 按标题前缀贴,改了前缀会换 |
 | `needs-info` | 前缀认不出、缺必填项、标签不在词表里、取代的旧包没弃用等;补好后 Action 自己撤 |
 
 ## 控制台
