@@ -64,9 +64,9 @@
     },
     "cortico-bot-zcor": {
       "kind": "bot",
-      "version": "0.2.1",
+      "version": "0.5.1",
       "displayName": "zcor",
-      "description": "Cortico bot with synonym title retrieval and LLM memory selection",
+      "description": "Cortico bot with persistent memory, local recall and relationship tracking",
       "maintainers": [
         "zhiyuxl"
       ],
@@ -79,8 +79,8 @@
         "npm": "https://www.npmjs.com/package/cortico-bot-zcor"
       },
       "created": "2026-10-15T17:29:51.425Z",
-      "published": "2026-10-16T14:42:42.395Z",
-      "versionCount": 4,
+      "published": "2026-10-16T20:03:12.650Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -102,10 +102,14 @@
       },
       "changelog": {
         "versions": [
+          "0.5.1",
+          "0.5.0",
+          "0.4.0",
+          "0.3.0",
           "0.2.1",
           "0.2.0"
         ],
-        "url": "https://unpkg.com/cortico-bot-zcor@0.2.1/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-bot-zcor@0.5.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 2,
@@ -2870,7 +2874,10 @@
         "game"
       ],
       "tags": [
-        "game"
+        "game",
+        "local",
+        "external-setup",
+        "requires-key"
       ],
       "downloads": {
         "total": 1446,

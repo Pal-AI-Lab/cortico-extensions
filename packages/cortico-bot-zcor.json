@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-bot-zcor",
-  "version": "0.2.1",
+  "version": "0.5.1",
   "describe": {
     "tools": [
       {
         "name": "zcor_memory_write",
-        "description": "持久化标题和正文；提供已有 id 时更新，否则新增。",
+        "description": "新增或更新 Memory 节点，可指定父节点并保存来源消息。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -22,6 +22,26 @@
             "id": {
               "type": "string",
               "minLength": 1
+            },
+            "keywords": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "parentId": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "sourceMessage": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 20000
             }
           },
           "required": [
@@ -115,7 +135,213 @@
       },
       {
         "name": "zcor_memory_query",
-        "description": "按更新时间、标题和正文关键词查询当前记忆。",
+        "description": "按更新时间、标题、检索词和正文查询当前记忆。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "keywords": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "from": {
+              "type": "string",
+              "minLength": 1
+            },
+            "to": {
+              "type": "string",
+              "minLength": 1
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "offset": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "includeSuperseded": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "按关键词、时间范围查询当前 Memory。",
+          "en": "Queries current memories by keywords and time range."
+        }
+      },
+      {
+        "name": "zcor_memory_children",
+        "description": "读取根节点或指定节点的直属子节点。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "parentId": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读取 Memory 节点的直属子节点。",
+          "en": "Reads the direct children of a Memory node."
+        }
+      },
+      {
+        "name": "zcor_memory_trace",
+        "description": "读取节点从根到自身的路径及直属子节点。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读取 Memory 节点的父链和直属子节点。",
+          "en": "Reads a Memory node path and its direct children."
+        }
+      },
+      {
+        "name": "zcor_memory_merge",
+        "description": "把至少两条有效记忆合并为一条，并将旧记忆标记为被新记录替代。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ids": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1
+            },
+            "content": {
+              "type": "string",
+              "minLength": 1
+            },
+            "keywords": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "ids",
+            "title",
+            "content",
+            "reason"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "合并多条 Memory，并将来源记录标记为已替代。",
+          "en": "Merges memories and marks source records as superseded."
+        }
+      },
+      {
+        "name": "zcor_memory_supersede",
+        "description": "指定一条当前记忆替代其他当前记忆；旧内容保留在历史记录中。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ids": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "replacementId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "ids",
+            "replacementId",
+            "reason"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "将现有 Memory 标记为其他记录的旧版本。",
+          "en": "Marks existing memories as superseded by another record."
+        }
+      },
+      {
+        "name": "zcor_relationship_read",
+        "description": "按人物标识读取已保存的关系和好感度。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "personId": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "personId"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "按人物 id 读取关系和好感度。",
+          "en": "Reads a relationship and affinity by person id."
+        }
+      },
+      {
+        "name": "zcor_relationship_query",
+        "description": "按人物姓名、别名、关系描述和更新时间查找关系记录。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -151,8 +377,90 @@
           "read"
         ],
         "summary": {
-          "zh": "按关键词、时间范围查询当前 Memory。",
-          "en": "Queries current memories by keywords and time range."
+          "zh": "按人物姓名、别名和时间查找关系记录。",
+          "en": "Finds relationship records by name, alias and time."
+        }
+      },
+      {
+        "name": "zcor_relationship_write",
+        "description": "保存人物关系、-100 到 100 的好感度及判断原因，可关联人物 Memory 节点。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "personId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "aliases": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "memoryNodeId": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "relationship": {
+              "type": "string",
+              "minLength": 1
+            },
+            "affinity": {
+              "type": "number",
+              "minimum": -100,
+              "maximum": 100
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "personId",
+            "name",
+            "relationship",
+            "affinity",
+            "reason"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "新增或更新人物关系和好感度。",
+          "en": "Creates or updates a relationship and affinity."
+        }
+      },
+      {
+        "name": "zcor_relationship_delete",
+        "description": "删除人物关系记录；历史记录保留删除前内容。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "personId": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "personId"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "删除人物关系记录并保留操作历史。",
+          "en": "Deletes a relationship while retaining operation history."
         }
       },
       {
@@ -324,6 +632,10 @@
     }
   },
   "changelog": {
+    "0.5.1": "- Release the linked-memory and Memory WebUI package as a patch version.",
+    "0.5.0": "- Store memories as parent-linked nodes with source messages, traversal tools and relationship links.\n- Migrate Memory state versions 1 and 2 to version 3, preserving snapshots before the first write.\n- Add Memory and operation history panels with keyword and time filters.\n- Allow the Memory panel to edit, delete and mark records important.\n- Add synonym group management and local expansion preview.",
+    "0.4.0": "- Add settings for automatic recall and relationship memory.\n- Add a Memory page panel to search, create, edit and delete relationship records.",
+    "0.3.0": "- Add searchable memory keywords, a configurable automatic-recall character budget, and memory merge and supersede operations.\n- Add person relationship and affinity records with local queries and operation history.\n- Migrate Memory state version 1 to version 2; keep a `memory-state.v1.json` snapshot on the first version 2 write.",
     "0.2.1": "- Declare the `internal-state` market tag for the Persona-owned Memory system.",
     "0.2.0": "- Upgrade the bot extension contract to Cortico 0.2.0.\n- Rename the default built-in World declaration from `terminal` to `console`.\n- Keep structured Memory retrieval, important memories, operation history, backups and restores."
   }
