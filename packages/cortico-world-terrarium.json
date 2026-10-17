@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-terrarium",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "describe": {
     "tools": [
       {
@@ -850,6 +850,7 @@
     ]
   },
   "changelog": {
+    "0.7.2": "- Redraw nest ants with rounded brown bodies, short curved legs and faces; distinguish queens with a larger golden-brown illustration.\n- Keep nest illustrations within mobile cells and show representative residents while retaining full counts and details.",
     "0.7.1": "- Label queen cells and per-cell ant/egg counts; show expected time to hatch, using recorded time during replays.\n- Enlarge entrance targets on small canvases and restore focus and page or panel scroll positions after closing the nest.",
     "0.7.0": "- Open nests from their entrances to inspect a live 4×4 interior, resident ants, queen, eggs and food in WebUI, the public gallery and recorded replays.\n- Elect and persist one existing ant as queen; workers enter nests to store food and eat, while queen eggs hatch into workers inside.\n- Preserve version-3 saves, IDs and credentials; older clients can still report. Existing colonies elect a queen automatically on upgrade; workers no longer lay eggs.\n- Show only the nest entrance in the outside scene.",
     "0.6.1": "- Draw ant nests with raised entrances, curved underground tunnels, layered chambers and stored grain in daytime and nighttime scenes.",
