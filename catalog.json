@@ -4,6 +4,9 @@
     "cortico-bot-weighted-memory": [
       "sensitive-data"
     ],
+    "cortico-world-majsoul": [
+      "unofficial-api"
+    ],
     "cortico-world-qq-promax": [
       "sensitive-data",
       "unofficial-api",
@@ -1266,8 +1269,19 @@
     },
     "cortico-world-fatfish": {
       "kind": "world",
-      "version": "0.2.2",
-      "description": "大肥鱼功能复合包：桌宠与外界的连接，一体两用 —— DeepSeek Harness 桥接 + Edge TTS 语音朗读 / A Cortico World pack: one half bridges the pet to DeepSeek Harness, the other reads its replies aloud with Edge TTS",
+      "version": "0.3.0",
+      "displayName": "大肥鱼功能复合包",
+      "description": "和 DeepSeek Harness（DSH）对话让它帮你干活写代码，宠物回复时用内置语音包读出声。桥接这半边需要先装 DSH 的 Host 插件（coopanion-connector-dsh）才会连；不会装就看源码仓库的说明，或把仓库地址交给 AI 帮你装。/ Chat with DeepSeek Harness (DSH) so it does the work — writing code for you — and hear the pet's replies read aloud with b",
+      "locales": {
+        "zh": {
+          "displayName": "大肥鱼功能复合包",
+          "description": "和 DeepSeek Harness（DSH）对话，让它帮你干活、写代码；宠物回复你的时候用内置语音包读出声。桥接需要先装 DSH 的 Host 插件才会连——不会装就看源码仓库说明，或把仓库地址交给 AI 帮你装。"
+        },
+        "en": {
+          "displayName": "Fatfish Companions Pack",
+          "description": "Chat with DeepSeek Harness (DSH) so it does the work and writes code for you, and hear the pet's replies read aloud with built-in voices. The bridge needs the DSH Host extension installed first — if that sounds hard, open the source repo and let an AI walk you through it."
+        }
+      },
       "author": "blacksunshy",
       "maintainers": [
         "blacksunshy"
@@ -1291,17 +1305,25 @@
         "bugs": "https://github.com/blacksunshy/coopanion-fatfish/issues"
       },
       "created": "2026-10-15T06:47:52.601Z",
-      "published": "2026-10-15T08:59:26.136Z",
-      "versionCount": 4,
+      "published": "2026-10-17T16:48:51.683Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "requires-extension"
+      ],
       "tags": [
-        "voice"
+        "voice",
+        "requires-extension"
       ],
       "downloads": {
         "total": 0,
         "month": 0,
         "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 1
       },
       "discussion": {
         "number": 19,
@@ -1686,7 +1708,7 @@
     },
     "cortico-world-majsoul": {
       "kind": "world",
-      "version": "1.0.3",
+      "version": "1.1.0",
       "displayName": "雀魂麻将",
       "description": "雀魂网页公开牌局、版本校验和动作回执",
       "author": "Kpect10086",
@@ -1703,18 +1725,44 @@
         "homepage": "https://github.com/Kpect10086/cortico-world-majsoul#readme",
         "bugs": "https://github.com/Kpect10086/cortico-world-majsoul/issues"
       },
+      "os": [
+        "win32"
+      ],
       "created": "2026-10-07T18:31:43.383Z",
-      "published": "2026-10-08T05:39:56.590Z",
-      "versionCount": 3,
+      "published": "2026-10-17T17:01:27.263Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "game",
+        "browser",
+        "external-setup",
+        "requires-key",
+        "high-cost",
+        "unofficial-api"
+      ],
       "tags": [
-        "game"
+        "game",
+        "browser",
+        "external-setup",
+        "requires-key",
+        "high-cost",
+        "unofficial-api"
       ],
       "downloads": {
         "total": 539,
         "month": 539,
         "week": 539
+      },
+      "summary": {
+        "tools": 4,
+        "events": 1
+      },
+      "changelog": {
+        "versions": [
+          "1.1.0"
+        ],
+        "url": "https://github.com/Kpect10086/cortico-world-majsoul/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 27,
@@ -3589,7 +3637,7 @@
     },
     "cortico-world-terrarium": {
       "kind": "world",
-      "version": "0.7.0",
+      "version": "0.7.1",
       "displayName": "Terrarium",
       "description": "Claimable land and water ecosystems with plants, bugs, fish and a public leaderboard",
       "locales": {
@@ -3619,8 +3667,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-terrarium"
       },
       "created": "2026-10-17T06:11:00.470Z",
-      "published": "2026-10-17T12:06:27.915Z",
-      "versionCount": 7,
+      "published": "2026-10-17T17:04:04.978Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3642,6 +3690,7 @@
       },
       "changelog": {
         "versions": [
+          "0.7.1",
           "0.7.0",
           "0.6.1",
           "0.6.0",
@@ -3655,7 +3704,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-terrarium@0.7.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-terrarium@0.7.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 85,
