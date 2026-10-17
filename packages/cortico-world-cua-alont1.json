@@ -1,0 +1,215 @@
+{
+  "schema": 1,
+  "name": "cortico-world-cua-alont1",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "cua_screenshot",
+        "description": "截取主屏幕：返回缩放后的图片（画着光标位置）。所有工具的坐标都用这张截图的像素。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "cua_move",
+        "description": "把鼠标移到 (x, y)，不点击；用于悬停出提示或菜单。坐标用最近一张截图。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "cua_click",
+        "description": "把鼠标移到 (x, y) 并点击。clicks：1 单击（默认）、2 双击、3 三击。button：left/right/middle。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "button": {
+              "type": "string",
+              "enum": [
+                "left",
+                "right",
+                "middle"
+              ]
+            },
+            "clicks": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "cua_drag",
+        "description": "按住左键从 (fromX, fromY) 拖到 (toX, toY) 再松开。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "fromX": {
+              "type": "number"
+            },
+            "fromY": {
+              "type": "number"
+            },
+            "toX": {
+              "type": "number"
+            },
+            "toY": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "fromX",
+            "fromY",
+            "toX",
+            "toY"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "cua_scroll",
+        "description": "把鼠标移到 (x, y) 滚动滚轮。delta 为正向下、为负向上（单位=一格）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "delta": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "x",
+            "y",
+            "delta"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "cua_type",
+        "description": "在当前输入焦点处打字（任何语言，与输入法状态无关）。打之前先点中输入框。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "cua_key",
+        "description": "按键或组合键。组合用 + 连：ctrl+s、alt+tab；多个键用逗号分先后。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "keys": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "keys"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "cua_windows",
+        "description": "列出可见的顶层窗口：标题、位置、是否最小化、是否前台。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "cua_focus",
+        "description": "把一个窗口切到前台（最小化的先还原）。title 用标题里的连续几个字。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "title"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "cua_wait",
+        "description": "等待若干秒（最多 30）让界面加载，然后附一张截图。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "seconds": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "seconds"
+          ]
+        },
+        "tags": [
+          "read"
+        ]
+      }
+    ],
+    "events": []
+  }
+}

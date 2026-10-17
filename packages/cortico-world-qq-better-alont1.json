@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-better-alont1",
-  "version": "0.1.17",
+  "version": "0.1.62",
   "describe": {
     "tools": [
       {
@@ -497,6 +497,227 @@
         },
         "tags": [
           "read"
+        ]
+      },
+      {
+        "name": "qq_admin_recall",
+        "description": "撤回一条群消息（仅授权群；只能撤回自己发的、或近 2 分钟内的）。messageId 是消息开头那个 #数字。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "messageId": {
+              "type": "string",
+              "description": "要撤回的 message_id，可带 #。"
+            },
+            "group": {
+              "type": "string",
+              "description": "群号（必填）。"
+            }
+          },
+          "required": [
+            "messageId",
+            "group"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "qq_admin_at_all",
+        "description": "在授权群里发一条带 @全体成员 的消息。留给真正的公告/通知，别当打招呼用。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "group": {
+              "type": "string",
+              "description": "群号（必填）。"
+            },
+            "text": {
+              "type": "string",
+              "description": "公告正文。"
+            }
+          },
+          "required": [
+            "group",
+            "text"
+          ]
+        },
+        "tags": [
+          "speak"
+        ]
+      },
+      {
+        "name": "qq_admin_notice",
+        "description": "给授权群发一条群公告（进群公告栏，不是聊天消息）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "group": {
+              "type": "string",
+              "description": "群号（必填）。"
+            },
+            "content": {
+              "type": "string",
+              "description": "公告正文。"
+            }
+          },
+          "required": [
+            "group",
+            "content"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "qq_admin_join_list",
+        "description": "列出待处理的加群请求（协议端支持 get_group_system_msg 时才有）。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "qq_admin_join_approve",
+        "description": "通过一条加群请求。flag 来自 qq_admin_join_list；group 用来核对授权群。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "flag": {
+              "type": "string",
+              "description": "加群请求的 flag（qq_admin_join_list 里那条）。"
+            },
+            "group": {
+              "type": "string",
+              "description": "这条请求要进的群号（必填，用来核对授权）。"
+            }
+          },
+          "required": [
+            "flag",
+            "group"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "qq_admin_join_reject",
+        "description": "拒绝一条加群请求。flag 来自 qq_admin_join_list；group 用来核对授权群。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "flag": {
+              "type": "string",
+              "description": "加群请求的 flag（qq_admin_join_list 里那条）。"
+            },
+            "group": {
+              "type": "string",
+              "description": "这条请求要进的群号（必填，用来核对授权）。"
+            },
+            "reason": {
+              "type": "string",
+              "description": "拒绝理由（可选）。"
+            }
+          },
+          "required": [
+            "flag",
+            "group"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "qq_admin_title",
+        "description": "给群成员设专属头衔（仅授权群，通常要群主权限）。空字符串=取消头衔。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "group": {
+              "type": "string",
+              "description": "群号（必填）。"
+            },
+            "user": {
+              "type": "string",
+              "description": "对方 QQ 号。"
+            },
+            "title": {
+              "type": "string",
+              "description": "头衔内容。"
+            }
+          },
+          "required": [
+            "group",
+            "user",
+            "title"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "qq_admin_ban",
+        "description": "禁言群成员（仅授权群，需要管理员权限）。duration 秒；0=解除禁言。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "group": {
+              "type": "string",
+              "description": "群号（必填）。"
+            },
+            "user": {
+              "type": "string",
+              "description": "对方 QQ 号。"
+            },
+            "duration": {
+              "type": "integer",
+              "description": "禁言秒数；0=解除。"
+            }
+          },
+          "required": [
+            "group",
+            "user",
+            "duration"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "qq_admin_kick",
+        "description": "把成员移出群（仅授权群，需要管理员权限）。rejectAgain=true 时同时拒绝他再加群。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "group": {
+              "type": "string",
+              "description": "群号（必填）。"
+            },
+            "user": {
+              "type": "string",
+              "description": "对方 QQ 号。"
+            },
+            "rejectAgain": {
+              "type": "boolean",
+              "description": "是否同时拒绝再加群。"
+            }
+          },
+          "required": [
+            "group",
+            "user"
+          ]
+        },
+        "tags": [
+          "write"
         ]
       },
       {

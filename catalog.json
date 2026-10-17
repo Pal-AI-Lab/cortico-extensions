@@ -970,6 +970,45 @@
         "comments": 0
       }
     },
+    "cortico-world-cua-alont1": {
+      "kind": "world",
+      "version": "0.1.0",
+      "description": "电脑操作：看见并操作这台电脑的主屏幕（截图/鼠标/键盘/窗口）。原生调用隔离在引擎子进程，与使用者共用电脑时会让路；默认只读，动手要主人显式打开",
+      "author": "ALonT1",
+      "maintainers": [
+        "alont1"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-cua-alont1"
+      },
+      "created": "2026-10-17T07:42:00.496Z",
+      "published": "2026-10-17T07:42:56.985Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 10,
+        "events": 0
+      },
+      "discussion": {
+        "number": 90,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/90",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-dungeon": {
       "kind": "world",
       "version": "0.2.0",
@@ -2190,7 +2229,7 @@
     },
     "cortico-world-qq-better-alont1": {
       "kind": "world",
-      "version": "0.1.17",
+      "version": "0.1.62",
       "description": "QQ（OneBot v11 / NapCat）World：群聊与私聊的收发、按号认人、听得见语音、看得见图、发图、人册与群梗册，以及主动开口的节拍——上游 cortico-world-qq-better 的 fork",
       "author": "ALonT1",
       "maintainers": [
@@ -2205,8 +2244,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-qq-better-alont1"
       },
       "created": "2026-09-23T13:12:12.960Z",
-      "published": "2026-10-16T06:41:45.328Z",
-      "versionCount": 11,
+      "published": "2026-10-17T07:28:03.938Z",
+      "versionCount": 12,
       "official": false,
       "isNew": false,
       "tags": [
@@ -2221,7 +2260,7 @@
         "week": 486
       },
       "summary": {
-        "tools": 25,
+        "tools": 34,
         "events": 0
       },
       "discussion": {
@@ -2619,9 +2658,9 @@
     },
     "cortico-world-qq-promax": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "QQ ProMAX",
-      "description": "QQ ProMAX: Cortico QQ 私聊、群聊、空间、语音和桌宠扩展，支持 OneBot v11 / SnowLuma / NapCat。",
+      "description": "QQ ProMAX: Cortico QQ 私聊、群聊、空间和语音扩展，支持 OneBot v11 / SnowLuma / NapCat。",
       "locales": {
         "zh": {
           "displayName": "QQ ProMAX"
@@ -2633,7 +2672,7 @@
       "maintainers": [
         "kpect"
       ],
-      "license": "AGPL-3.0-or-later",
+      "license": "MIT",
       "keywords": [
         "cortico-world",
         "cortico",
@@ -2644,23 +2683,24 @@
         "qq-promax"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-qq-promax"
+        "npm": "https://www.npmjs.com/package/cortico-world-qq-promax",
+        "repository": "https://github.com/Kpect10086/QQ-ProMAX",
+        "homepage": "https://github.com/Kpect10086/QQ-ProMAX#readme",
+        "bugs": "https://github.com/Kpect10086/QQ-ProMAX/issues"
       },
       "os": [
         "win32"
       ],
       "created": "2026-10-17T07:03:46.358Z",
-      "published": "2026-10-17T07:05:57.042Z",
-      "versionCount": 2,
+      "published": "2026-10-17T07:55:17.625Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
         "im",
         "qq",
         "voice",
-        "computer-use",
         "memory",
-        "companion",
         "local",
         "external-setup",
         "internal-state",
@@ -2673,9 +2713,7 @@
         "im",
         "qq",
         "voice",
-        "computer-use",
         "memory",
-        "companion",
         "local",
         "external-setup",
         "experimental",
@@ -2690,14 +2728,15 @@
         "week": 0
       },
       "summary": {
-        "tools": 56,
-        "events": 15
+        "tools": 40,
+        "events": 11
       },
       "changelog": {
         "versions": [
+          "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-qq-promax@0.1.0/CHANGELOG.md"
+        "url": "https://github.com/Kpect10086/QQ-ProMAX/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 87,
@@ -3343,7 +3382,7 @@
     },
     "cortico-world-terrarium": {
       "kind": "world",
-      "version": "0.5.0",
+      "version": "0.5.1",
       "displayName": "Terrarium",
       "description": "Claimable land and water ecosystems with plants, bugs, fish and a public leaderboard",
       "locales": {
@@ -3373,8 +3412,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-terrarium"
       },
       "created": "2026-10-17T06:11:00.470Z",
-      "published": "2026-10-17T07:13:20.351Z",
-      "versionCount": 3,
+      "published": "2026-10-17T07:55:17.418Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3391,11 +3430,12 @@
         "week": 0
       },
       "summary": {
-        "tools": 19,
+        "tools": 20,
         "events": 6
       },
       "changelog": {
         "versions": [
+          "0.5.1",
           "0.5.0",
           "0.4.0",
           "0.3.0",
@@ -3404,7 +3444,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-terrarium@0.5.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-terrarium@0.5.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 85,
