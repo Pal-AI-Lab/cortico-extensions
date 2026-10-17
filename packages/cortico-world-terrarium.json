@@ -1,0 +1,414 @@
+{
+  "schema": 1,
+  "name": "cortico-world-terrarium",
+  "version": "0.4.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "terrarium_inspect",
+        "description": "Inspect soil moisture, current light, species requirements, history availability, plants, seeds, bugs and objects. This advances elapsed simulation time.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查看生态箱的土壤、光照、物种需求和小时历史。",
+          "en": "Inspects soil, light, species requirements and hourly history."
+        }
+      },
+      {
+        "name": "terrarium_water",
+        "description": "Water soil by plant id OR x and y, including seed and empty plots. Adds 35 moisture points up to 100. Water diffuses to adjacent cells over time.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "plant": {
+              "type": "string"
+            },
+            "x": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "y": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            }
+          },
+          "oneOf": [
+            {
+              "required": [
+                "plant"
+              ],
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "x"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "y"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "required": [
+                "x",
+                "y"
+              ],
+              "not": {
+                "required": [
+                  "plant"
+                ]
+              }
+            }
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "按植物 ID 或格子坐标给土壤浇水。",
+          "en": "Waters soil by plant ID or grid coordinates."
+        }
+      },
+      {
+        "name": "terrarium_move",
+        "description": "Move the coin or pebble on the 5×5 grid. The pebble shades its cell and orthogonal neighbors, reducing daylight to 35% and slowing daytime evaporation. x and y are 0..4.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "item": {
+              "type": "string",
+              "enum": [
+                "coin",
+                "pebble"
+              ]
+            },
+            "x": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "y": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            }
+          },
+          "required": [
+            "item",
+            "x",
+            "y"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "移动生态箱里的硬币或石子。",
+          "en": "Moves the coin or pebble."
+        }
+      },
+      {
+        "name": "terrarium_sow",
+        "description": "Sow moss, basil or bean in a free plot of the 5×5 grid. Seeds sprout after two daylight hours with enough soil moisture. Plants grow within their species moisture and light ranges; inspect returns those ranges. At most 12 plants and seeds.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "species": {
+              "type": "string",
+              "enum": [
+                "moss",
+                "basil",
+                "bean"
+              ]
+            },
+            "x": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "y": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            }
+          },
+          "required": [
+            "species",
+            "x",
+            "y"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "在指定位置播种。",
+          "en": "Sows a seed at a plot."
+        }
+      },
+      {
+        "name": "terrarium_release_bug",
+        "description": "Release an aphid, beetle or spider into the 5×5 grid. Aphids eat plants, beetles hunt aphids, spiders hunt other bugs. At most 12 bugs.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "species": {
+              "type": "string",
+              "enum": [
+                "aphid",
+                "beetle",
+                "spider"
+              ]
+            },
+            "x": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "y": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            }
+          },
+          "required": [
+            "species",
+            "x",
+            "y"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "放入一只虫子。",
+          "en": "Releases a bug."
+        }
+      },
+      {
+        "name": "terrarium_feed_bug",
+        "description": "Feed one bug by id, restoring 35 energy up to 100.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "bug": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "bug"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "给指定虫子补充体力。",
+          "en": "Feeds one bug."
+        }
+      },
+      {
+        "name": "terrarium_relocate_bug",
+        "description": "Move one bug by id to a grid cell. Bugs may share cells; predators hunt prey on their hourly step.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "bug": {
+              "type": "string"
+            },
+            "x": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "y": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            }
+          },
+          "required": [
+            "bug",
+            "x",
+            "y"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "迁移指定虫子。",
+          "en": "Relocates one bug."
+        }
+      },
+      {
+        "name": "terrarium_remove",
+        "description": "Remove a plant, seed or bug by id from the terrarium.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "移出指定植物、种子或虫子。",
+          "en": "Removes one organism."
+        }
+      },
+      {
+        "name": "terrarium_history",
+        "description": "Read hourly history for one plant (including removed or dead plants) or one soil cell. Supply plant OR x and y. Returns the latest limit samples, default 24, maximum 168. Missing plants have null values.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "plant": {
+              "type": "string"
+            },
+            "x": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "y": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 168
+            }
+          },
+          "oneOf": [
+            {
+              "required": [
+                "plant"
+              ],
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "x"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "y"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "required": [
+                "x",
+                "y"
+              ],
+              "not": {
+                "required": [
+                  "plant"
+                ]
+              }
+            }
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查询一株植物或一格土壤的小时历史。",
+          "en": "Reads hourly history for one plant or soil cell."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "terrarium.phase",
+        "description": {
+          "zh": "生态箱昼夜切换。",
+          "en": "The terrarium changed between day and night."
+        }
+      },
+      {
+        "type": "terrarium.plant",
+        "description": {
+          "zh": "植物长出新阶段或土壤变干。",
+          "en": "A plant reached a new growth stage or its soil became dry."
+        }
+      },
+      {
+        "type": "terrarium.ecosystem",
+        "description": {
+          "zh": "种子发芽或生物死亡。",
+          "en": "A seed sprouted or an organism died."
+        }
+      },
+      {
+        "type": "terrarium.hunt",
+        "description": {
+          "zh": "虫子捕食了猎物。",
+          "en": "A bug hunted its prey."
+        }
+      },
+      {
+        "type": "terrarium.birth",
+        "description": {
+          "zh": "同种虫子繁殖了。",
+          "en": "Two bugs of one species reproduced."
+        }
+      },
+      {
+        "type": "terrarium.hungry",
+        "description": {
+          "zh": "虫子体力降至低位。",
+          "en": "A bug reached low energy."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.terrarium.envPrompt",
+        "title": "生态箱 · 环境提示词",
+        "role": "envPrompt",
+        "content": "你有一个本地生态箱，可以观察、养护、播种、投放虫子、喂养与迁移虫子，也可以移出植物、种子或虫子。白天是当地时间 06:00–18:00。每格土壤有独立水分，水向上下左右相邻格渗透。白天光照从 x=0 的 0.6 逐渐增加到 x=4 的 1.0；石头使所在格及上下左右相邻格的白天光照降至原来的 35%，并降低白天蒸发。terrarium_water 按植物 ID 或格子坐标浇水，每次增加 35 水分、上限 100，也可浇种子或空地。植物只在白天且水分和光照都符合物种需求时生长，水分超出范围会损失健康；苔藓喜湿、喜阴，罗勒和豆苗需要较强光照。查看工具返回各物种的具体需求、每格水分、白天光照 daylight、当前光照 light，以及历史样本数量和时间范围。terrarium_history 按植物 ID 或格子坐标查询小时历史，默认返回最近 24 个样本，最多 168 个；死亡或移出的植物仍可查询已有记录。蚜虫吃植物，甲虫捕食蚜虫，蜘蛛捕食其他虫子。同种虫子成年后在同一格、体力足够时可能繁殖。启用排行榜上报时，生态箱状态会上传排行榜，分数依据植物阶段、健康、水分及虫子状态计算。\n收到土壤变干、虫子体力低、捕食、繁殖或生物死亡事件时，可以用 terrarium_inspect 查看当前状态，再自行决定是否操作。播种位置是 5×5 网格中的空地。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.4.0": "- Default to https://cortico-box.zhiyuhub.top and request credentials when no token is configured.\n- Persist issued credentials per service and box ID across client and server restarts.\n\n- Add per-cell soil moisture, water diffusion and pebble shade.\n- Give plant species distinct moisture and daylight requirements.\n- Add hourly soil and plant history, a history query tool and WebUI charts.\n- Migrate state versions 1 and 2 to version 3 on load; the next save writes version 3. Older versions cannot read the new state.\n- Accept legacy leaderboard reports and reports with seven days of history.",
+    "0.3.0": "- Let the bot feed and relocate bugs and remove plants, seeds or bugs.\n- Let mature, well-fed bug pairs reproduce when they share a cell.\n- Deliver hunt, birth, hunger and death events so the bot can inspect and respond.",
+    "0.2.2": "- Keep bugs visible on the soil surface and separate bugs sharing a cell.\n- Animate only actual moves; preserve movement across unchanged reports.\n- Disable public scene caching so renderer updates reach visitors.",
+    "0.2.1": "- Share one Canvas renderer between the World panel and public leaderboard.\n- Refresh the World panel every five seconds and animate bug movement and hunts.",
+    "0.2.0": "- Add sowing, bug behavior, hunting and ecosystem events.\n- Add an optional authenticated leaderboard service and public Canvas gallery.\n- Migrate existing terrarium state to the 5×5 ecosystem format.",
+    "0.1.0": "- Add a persistent two-plant terrarium with day and night changes.\n- Add inspection, watering, and object movement tools.\n- Show the terrarium in a WebUI panel."
+  }
+}
