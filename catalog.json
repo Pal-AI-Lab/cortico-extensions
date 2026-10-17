@@ -1,6 +1,9 @@
 {
   "schema": 1,
   "sticky": {
+    "cortico-bot-weighted-memory": [
+      "sensitive-data"
+    ],
     "cortico-world-qq-promax": [
       "sensitive-data",
       "unofficial-api",
@@ -63,6 +66,75 @@
       "discussion": {
         "number": 1,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-bot-weighted-memory": {
+      "kind": "bot",
+      "version": "0.2.1",
+      "displayName": "分区权重记忆",
+      "description": "分区权重记忆：Cortico Persona 与 Memory 扩展，支持有证据事件摘要、分区预算、人工审核和版本回滚。",
+      "locales": {
+        "zh": {
+          "displayName": "分区权重记忆"
+        },
+        "en": {
+          "displayName": "Weighted Memory"
+        }
+      },
+      "author": "Kpect10086",
+      "maintainers": [
+        "kpect"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-bot",
+        "cortico",
+        "memory",
+        "persona",
+        "weighted-memory"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-bot-weighted-memory",
+        "repository": "https://github.com/Kpect10086/Cortico-Weighted-Memory",
+        "homepage": "https://github.com/Kpect10086/Cortico-Weighted-Memory#readme",
+        "bugs": "https://github.com/Kpect10086/Cortico-Weighted-Memory/issues"
+      },
+      "created": "2026-10-17T10:03:17.564Z",
+      "published": "2026-10-17T10:04:14.042Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "memory",
+        "experimental",
+        "sensitive-data"
+      ],
+      "tags": [
+        "memory",
+        "experimental",
+        "sensitive-data"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "worlds": 1,
+        "memory": "分区权重记忆"
+      },
+      "changelog": {
+        "versions": [
+          "0.2.1"
+        ],
+        "url": "https://github.com/Kpect10086/Cortico-Weighted-Memory/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 94,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/94",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -3448,7 +3520,7 @@
     },
     "cortico-world-terrarium": {
       "kind": "world",
-      "version": "0.5.2",
+      "version": "0.6.0",
       "displayName": "Terrarium",
       "description": "Claimable land and water ecosystems with plants, bugs, fish and a public leaderboard",
       "locales": {
@@ -3478,8 +3550,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-terrarium"
       },
       "created": "2026-10-17T06:11:00.470Z",
-      "published": "2026-10-17T08:49:14.960Z",
-      "versionCount": 5,
+      "published": "2026-10-17T10:21:04.935Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3496,11 +3568,12 @@
         "week": 0
       },
       "summary": {
-        "tools": 21,
-        "events": 7
+        "tools": 22,
+        "events": 10
       },
       "changelog": {
         "versions": [
+          "0.6.0",
           "0.5.2",
           "0.5.1",
           "0.5.0",
@@ -3511,7 +3584,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-terrarium@0.5.2/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-terrarium@0.6.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 85,
