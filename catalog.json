@@ -4,12 +4,8 @@
     "cortico-bot-weighted-memory": [
       "sensitive-data"
     ],
-    "cortico-world-majsoul": [
-      "unofficial-api"
-    ],
     "cortico-world-qq-promax": [
       "sensitive-data",
-      "unofficial-api",
       "unsafe"
     ],
     "cortico-world-wechat": [
@@ -766,7 +762,7 @@
     },
     "cortico-world-bilibili": {
       "kind": "world",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "displayName": "B 站直播间",
       "description": "Cortico World: read-only Bilibili live room — danmaku, gifts, super chats and guard events, with a local transparent overlay",
       "author": "Pal AI Lab",
@@ -787,8 +783,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:39.729Z",
-      "published": "2026-10-16T20:19:35.300Z",
-      "versionCount": 14,
+      "published": "2026-10-17T21:10:52.225Z",
+      "versionCount": 15,
       "official": true,
       "isNew": false,
       "tags": [
@@ -1314,6 +1310,7 @@
       ],
       "tags": [
         "voice",
+        "external-setup",
         "requires-extension"
       ],
       "downloads": {
@@ -1903,7 +1900,7 @@
     },
     "cortico-world-minecraft": {
       "kind": "world",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "displayName": "Minecraft",
       "description": "Cortico World: Minecraft Java Edition through a Mineflayer player — observation text, movement, building, combat and an observer client",
       "author": "Pal AI Lab",
@@ -1924,8 +1921,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:42.066Z",
-      "published": "2026-10-16T20:21:36.853Z",
-      "versionCount": 13,
+      "published": "2026-10-17T21:05:48.986Z",
+      "versionCount": 14,
       "official": true,
       "isNew": false,
       "tags": [
@@ -2312,7 +2309,7 @@
     },
     "cortico-world-qq": {
       "kind": "world",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "displayName": "QQ",
       "description": "Cortico World: QQ group and private chats through a OneBot v11 forward WebSocket, with a draft-and-confirm gate on replies",
       "author": "Pal AI Lab",
@@ -2333,14 +2330,15 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:41:03.758Z",
-      "published": "2026-10-16T20:20:42.351Z",
-      "versionCount": 12,
+      "published": "2026-10-17T21:05:52.831Z",
+      "versionCount": 13,
       "official": true,
       "isNew": false,
       "tags": [
         "im",
         "qq",
-        "external-setup"
+        "external-setup",
+        "unofficial-api"
       ],
       "downloads": {
         "total": 1289,
@@ -2503,7 +2501,8 @@
         "im",
         "qq",
         "external-setup",
-        "internal-state"
+        "internal-state",
+        "unofficial-api"
       ],
       "downloads": {
         "total": 1256,
@@ -2637,7 +2636,8 @@
       "tags": [
         "im",
         "qq",
-        "external-setup"
+        "external-setup",
+        "unofficial-api"
       ],
       "downloads": {
         "total": 793,
@@ -2705,7 +2705,8 @@
         "im",
         "qq",
         "external-setup",
-        "experimental"
+        "experimental",
+        "unofficial-api"
       ],
       "downloads": {
         "total": 1977,
@@ -2848,7 +2849,8 @@
       "tags": [
         "im",
         "qq",
-        "external-setup"
+        "external-setup",
+        "unofficial-api"
       ],
       "downloads": {
         "total": 623,
@@ -3919,7 +3921,7 @@
     },
     "cortico-world-websearch": {
       "kind": "world",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "displayName": "WebSearch",
       "description": "Cortico World: a web_search tool backed by the Brave Search API",
       "author": "Pal AI Lab",
@@ -3940,8 +3942,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:50.954Z",
-      "published": "2026-10-16T20:24:57.724Z",
-      "versionCount": 13,
+      "published": "2026-10-17T21:06:02.703Z",
+      "versionCount": 14,
       "official": true,
       "isNew": false,
       "tags": [
