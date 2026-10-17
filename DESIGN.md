@@ -82,7 +82,7 @@ Action 生成的文件不手改。地址都相对本仓库根目录,控制台拼
 
 **`packages/<包名>.json`**:`{ schema, name, version, describe?, changelog? }`。`describe` 是包里自描述文件的原样内容;`changelog` 是 `{ "0.2.0": "这一版的说明" }`。版本没变就不重新解包。
 
-**`comments/<包名>.json`**:`{ schema, name, discussion, total, comments }`,`comments` 与 `GET /api/extensions/comments` 回应里的同形(新的在前,`replies` 旧的在前),一次写全部,控制台自己分页。没有评论的包没有文件,读不到就当没有评论。
+**`comments/<包名>.json`**:`{ schema, name, discussion, total, comments }`,`discussion` 是讨论帖的完整地址,`comments` 与 `GET /api/extensions/comments` 回应里的同形(新的在前,`replies` 旧的在前),一次写全部,控制台自己分页。没有评论的包没有文件,读不到就当没有评论。
 
 **`assets/<包名>/`**:`icon.<png|webp|svg>`(最大 512KB)、`screenshot-<n>.<png|webp|jpg>`(每张最大 2MB,最多 8 张)。路径来自 `cortico.icon` 与 `cortico.screenshots`,只认包内相对路径。
 
