@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-provider-deepseek",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "describe": {
     "provider": {
       "protocols": [
@@ -15,8 +15,8 @@
         "text",
         "image"
       ],
-      "title": "DeepSeek",
-      "description": "DeepSeek Responses API.",
+      "title": "DeepSeek（峰谷计价）",
+      "description": "DeepSeek Responses API，支持峰谷计价与关闭、低、高、最大四档思考。",
       "reasoningTiers": [
         {
           "id": "high",
@@ -45,6 +45,7 @@
     }
   },
   "changelog": {
+    "0.2.1": "- Identify peak/off-peak pricing in the provider title and all four reasoning tiers in its descriptions.\n- Correct the README requirement to provider contract 6.",
     "0.2.0": "- Target Cortico 0.2.1 and provider contract 6.\n- Rename browser contributions, imports and bundles to WebUI.\n- Add extension self-description and publishing guidance; keep tags empty to match the official index.",
     "0.1.6": "- Last release using the previous Cortico extension contract."
   }

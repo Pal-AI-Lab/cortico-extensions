@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-simple-trpg-check",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "describe": {
     "tools": [
       {
@@ -416,6 +416,7 @@
     ]
   },
   "changelog": {
+    "0.4.1": "- Reject pending and subsequent requests when the multilingual Laya worker exits.\n- Default to Jev; document backend setup and retaining an existing Laya selection.\n- Declare the official external-setup, local and requires-key tags.",
     "0.4.0": "- Target Cortico 0.2.1 and world contract 6.\n- Rename browser contributions, imports and bundles to WebUI.\n- Add extension self-description, official index tags and publishing guidance.",
     "0.3.0": "- Last release using the previous Cortico extension contract."
   }
