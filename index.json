@@ -326,11 +326,11 @@
         "en": "Unofficial API"
       },
       "hint": {
-        "zh": "借用登录态或未公开接口调用服务，可能违反服务条款，账号有被限制的风险。",
-        "en": "Uses a login session or undocumented endpoint; may break the service's terms and put the account at risk."
+        "zh": "用你的账号经非官方客户端、网页登录态或应用内部接口调用服务，可能违反服务条款，账号有被限制或封禁的风险。",
+        "en": "Uses your account through an unofficial client, a web login session or an app's internal endpoint; may break the service's terms and get the account restricted or banned."
       },
       "style": "warning",
-      "when": "Calls a service through a web login session, a CLI quota or an undocumented endpoint; this may break the service's terms and put the account at risk."
+      "when": "Calls a service with the user's own account in a way the service does not offer to third parties, so the account may be restricted or banned: unofficial IM clients such as NapCat, web login sessions, or the internal endpoints and quotas of coding-agent apps. Undocumented endpoints that need no user account do not count."
     }
   },
   "certified": [
