@@ -46,8 +46,8 @@ for (const name of [...names].sort()) {
   const kind = latest.cortico?.kind ?? Object.entries(KIND_KEYWORDS).find(([, k]) => latest.keywords?.includes(k))?.[0];
   if (!kind) continue;
 
-  // 粘住名单:任一版本在 cortico.tags 里声明过的警示标签,只增不减。
-  const warn = new Set(previous.sticky?.[name] ?? []);
+  // 粘住名单:任一版本在 cortico.tags 里声明过的警示标签,只增不减;已降级的不再沿用。
+  const warn = new Set((previous.sticky?.[name] ?? []).filter((id) => tagStyle(index, id) === 'warning'));
   for (const v of Object.values(doc.versions)) for (const id of tagList(v.cortico?.tags)) if (tagStyle(index, id) === 'warning') warn.add(id);
   if (warn.size) sticky[name] = [...warn].sort();
 
