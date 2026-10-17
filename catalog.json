@@ -1,6 +1,11 @@
 {
   "schema": 1,
   "sticky": {
+    "cortico-world-qq-promax": [
+      "sensitive-data",
+      "unofficial-api",
+      "unsafe"
+    ],
     "cortico-world-wechat": [
       "sensitive-data"
     ]
@@ -330,7 +335,7 @@
     },
     "cortico-tool-junction-upgrade": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "Junction 升级（跳过 24h）",
       "description": "跳过 Coopanion 市场 24 小时发布间隔，用 junction 方式把已安装的 cortico 扩展直接升级到指定版本。",
       "author": "hth768",
@@ -351,8 +356,8 @@
         "bugs": "https://github.com/hth768/cortico-tool-junction-upgrade/issues"
       },
       "created": "2026-10-17T06:04:17.777Z",
-      "published": "2026-10-17T06:04:53.144Z",
-      "versionCount": 2,
+      "published": "2026-10-17T07:01:43.094Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "tags": [],
@@ -364,7 +369,7 @@
       "discussion": {
         "number": 84,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/84",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -2351,7 +2356,7 @@
       "discussion": {
         "number": 46,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/46",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -2399,9 +2404,9 @@
       "discussion": {
         "number": 47,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/47",
-        "up": 0,
+        "up": 1,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-qq-groupspeak": {
@@ -2607,6 +2612,96 @@
       "discussion": {
         "number": 52,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/52",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-qq-promax": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "QQ ProMAX",
+      "description": "QQ ProMAX: Cortico QQ 私聊、群聊、空间、语音和桌宠扩展，支持 OneBot v11 / SnowLuma / NapCat。",
+      "locales": {
+        "zh": {
+          "displayName": "QQ ProMAX"
+        },
+        "en": {
+          "displayName": "QQ ProMAX"
+        }
+      },
+      "maintainers": [
+        "kpect"
+      ],
+      "license": "AGPL-3.0-or-later",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "qq",
+        "onebot",
+        "snowluma",
+        "napcat",
+        "qq-promax"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-qq-promax"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-10-17T07:03:46.358Z",
+      "published": "2026-10-17T07:05:57.042Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "im",
+        "qq",
+        "voice",
+        "computer-use",
+        "memory",
+        "companion",
+        "local",
+        "external-setup",
+        "internal-state",
+        "unsafe",
+        "sensitive-data",
+        "unofficial-api",
+        "experimental"
+      ],
+      "tags": [
+        "im",
+        "qq",
+        "voice",
+        "computer-use",
+        "memory",
+        "companion",
+        "local",
+        "external-setup",
+        "experimental",
+        "internal-state",
+        "unsafe",
+        "sensitive-data",
+        "unofficial-api"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 56,
+        "events": 15
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-qq-promax@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 87,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/87",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -3248,17 +3343,17 @@
     },
     "cortico-world-terrarium": {
       "kind": "world",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "displayName": "Terrarium",
-      "description": "A persistent ecosystem World with a public leaderboard",
+      "description": "Claimable land and water ecosystems with plants, bugs, fish and a public leaderboard",
       "locales": {
         "zh": {
           "displayName": "生态箱",
-          "description": "照料植物与昆虫的持久化生态箱，支持土壤湿度、光照、历史曲线和公开排行榜。"
+          "description": "自行认领独立的地箱和水箱，照料植物、虫子与鱼，查看环境历史和捕食回放。"
         },
         "en": {
           "displayName": "Terrarium",
-          "description": "A persistent plant and bug ecosystem with soil moisture, daylight, history charts and a public leaderboard."
+          "description": "Claim independent land and water ecosystems, care for plants, bugs and fish, and inspect environmental history and hunt replays."
         }
       },
       "author": "zhiyuxl",
@@ -3278,8 +3373,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-terrarium"
       },
       "created": "2026-10-17T06:11:00.470Z",
-      "published": "2026-10-17T06:11:57.228Z",
-      "versionCount": 2,
+      "published": "2026-10-17T07:13:20.351Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3296,11 +3391,12 @@
         "week": 0
       },
       "summary": {
-        "tools": 9,
+        "tools": 19,
         "events": 6
       },
       "changelog": {
         "versions": [
+          "0.5.0",
           "0.4.0",
           "0.3.0",
           "0.2.2",
@@ -3308,7 +3404,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-terrarium@0.4.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-terrarium@0.5.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 85,
