@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-provider-chatgpt",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "describe": {
     "provider": {
       "protocols": [
@@ -45,6 +45,7 @@
     }
   },
   "changelog": {
+    "0.1.6": "- 将历史消息与工具结果中的 `text` 片段转换为 Responses 文本类型，修复带历史上下文时的 HTTP 400；存档保持原样。",
     "0.1.5": "- 账号面板提示只修改模型，其他配置保持默认，避免请求失败。",
     "0.1.4": "- callback 直接读取当前部署 `config.json` 的 `web.host`，优先使用启动参数 `--host`，不再依赖宿主新增接口。\n- 删除依赖非官方 WebUI 接口的连接字段隐藏功能。",
     "0.1.3": "- 在支持 `ProviderModule.connectionFields` 的 Cortico 中隐藏 API 地址与 API Key 输入框。",
