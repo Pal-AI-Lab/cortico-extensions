@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-better-alont1",
-  "version": "0.1.62",
+  "version": "0.1.63",
   "describe": {
     "tools": [
       {
@@ -367,7 +367,7 @@
       },
       {
         "name": "qq_qzone_reply",
-        "description": "回复某条动态下的一条评论。tid 为动态 id，comment_id 为评论 id。**这条路当前多半是断的**：NapCat 的空间扩展只有发/删说说两个动作，没有评论相关接口，所以它通常会回\"没配评论回复 action\"。别反复试——想跟评论的人说话，直接在群里或私聊找她。",
+        "description": "回复某条动态下的一条评论。tid 为动态 id，comment_id 为评论 id（来自 QQ空间评论事件或你记忆里的互动记录）。如果服务端回「不支持的Api」，说明这台机器的协议端没有评论接口，就别反复试——直接在群里或私聊找那个人。",
         "parameters": {
           "type": "object",
           "properties": {
