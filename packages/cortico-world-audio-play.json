@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "name": "cortico-world-audio-play",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "audio_play",
+        "description": "Play an audio file through the local speakers and wait until playback finishes. The audio comes from a local file path or a log:/mem: handle, such as the path or handle returned by tts_speak. It only plays sound; it does not send anything.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "audio": {
+              "type": "string",
+              "description": "Audio file path (absolute, or relative to the bot workspace) or a log:/mem: handle, e.g. the path or log: handle returned by tts_speak."
+            },
+            "volume": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Playback volume 0–100 for this call; omit to use the configured volume."
+            }
+          },
+          "required": [
+            "audio"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "把一段音频（本地文件或 log:/mem: 句柄，比如 tts_speak 回执里的那个）从本机扬声器播放出来；只回成功或失败。",
+          "en": "Play an audio file or a log:/mem: handle (such as the one returned by tts_speak) through the local speakers; reports only the outcome."
+        }
+      }
+    ],
+    "events": []
+  },
+  "changelog": {
+    "0.1.0": "- 首个版本：`audio_play` 工具，接受本地音频路径或 `log:` / `mem:` 句柄（比如 `tts_speak` 回执里的路径与附件句柄），在本机扬声器播放并等待结束，只回成功或失败。\n- Windows 用系统自带的 PowerShell + WPF MediaPlayer，macOS 用 `afplay`，Linux 依次尝试 `ffplay` / `mpv` / `paplay` / `aplay`；没有 npm 运行时依赖。\n- 配置 `worlds.audio-play`：`enabled`、`volume`、`timeoutMs`；不需要密钥。\n- 句柄先落成临时文件，播放结束即删；同一时间只放一段，后到的调用排队。"
+  }
+}
