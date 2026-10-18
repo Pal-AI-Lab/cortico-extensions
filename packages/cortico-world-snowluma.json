@@ -1,0 +1,197 @@
+{
+  "schema": 1,
+  "name": "cortico-world-snowluma",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "snowluma_actions",
+        "description": "Look up SnowLuma OneBot actions. With no args it lists categories and enabled/disabled counts; query/category search the catalog; name returns one action's full docs and JSON Schema. Disabled actions are hidden unless include_disabled is true.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "Search action name, alias or summary."
+            },
+            "name": {
+              "type": "string",
+              "description": "Return the full catalog entry and inputSchema for this action or alias."
+            },
+            "category": {
+              "type": "string",
+              "description": "Filter by catalog category, e.g. 消息 or 群管理."
+            },
+            "include_disabled": {
+              "type": "boolean",
+              "description": "Also list actions disabled by config. Default false."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查 SnowLuma 的 OneBot action 目录、参数 Schema 和启用状态。",
+          "en": "Look up SnowLuma's OneBot action catalog, JSON Schemas and enabled state."
+        }
+      },
+      {
+        "name": "snowluma_call",
+        "description": "Call any SnowLuma OneBot action. Read-only actions run immediately. Write actions require confirm=true and are refused when disabled by worlds.snowluma.actions.disabled. Use snowluma_actions first when you do not know the action name or params. The result is the OneBot response envelope.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "description": "Action name or alias, e.g. send_group_msg or get_group_info."
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": true,
+              "description": "The action params object. For send_* actions, message may be a string or OneBot segment array."
+            },
+            "confirm": {
+              "type": "boolean",
+              "description": "Set true to execute a write action."
+            },
+            "timeout_ms": {
+              "type": "integer",
+              "description": "Optional call timeout in milliseconds (1000-120000)."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "调用任意 SnowLuma OneBot action；只读直接执行，写操作需要 confirm=true。",
+          "en": "Call any SnowLuma OneBot action; reads run immediately, writes need confirm=true."
+        }
+      },
+      {
+        "name": "snowluma_events",
+        "description": "Read archived SnowLuma events by kind/time. Useful for events that were muted, arrived before the current turn, or are not delivered by policy. kind supports * (e.g. notice/*). raw defaults to true.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "description": "Event kind or glob: message/group, notice/group_recall, meta_event/*."
+            },
+            "since": {
+              "type": "string",
+              "description": "ISO 8601 lower bound, inclusive."
+            },
+            "until": {
+              "type": "string",
+              "description": "ISO 8601 upper bound, inclusive."
+            },
+            "limit": {
+              "type": "integer",
+              "description": "Maximum events to return (1-100, default 30)."
+            },
+            "raw": {
+              "type": "boolean",
+              "description": "Include meta.raw. Default true; set false for a compact result."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "按类型和时间查已归档的 SnowLuma 事件。",
+          "en": "Read archived SnowLuma events by kind and time."
+        }
+      },
+      {
+        "name": "snowluma_view_image",
+        "description": "Download an image and return it as an attachment the model can actually see. Use this when a message only shows [图片], or when you have an image URL / SnowLuma file_id from get_image or snowluma_events. Provide url, or file/file_id for a SnowLuma cached image.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "http(s) image URL."
+            },
+            "file": {
+              "type": "string",
+              "description": "A SnowLuma image file parameter (usually from an image segment)."
+            },
+            "file_id": {
+              "type": "string",
+              "description": "A SnowLuma cached image file_id."
+            },
+            "timeout_ms": {
+              "type": "integer",
+              "description": "Optional download timeout in milliseconds."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "把图片 URL 或 SnowLuma 图片 file_id 下载成模型能看的附件。",
+          "en": "Download an image URL or SnowLuma image file_id as an attachment the model can see."
+        }
+      },
+      {
+        "name": "snowluma_status",
+        "description": "SnowLuma connection, account, action catalog, and current action/event policy. Never returns the access token.",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看 SnowLuma 连接、账号、catalog 和当前策略状态。",
+          "en": "Show SnowLuma connection, account, catalog and current policy."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "snowluma.message",
+        "description": {
+          "zh": "SnowLuma 送来的一条 QQ 消息；正文是可读的一行，meta.raw 是原始 OneBot 事件。",
+          "en": "A QQ message from SnowLuma; text is a readable line and meta.raw is the original OneBot event."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "snowluma.event",
+        "description": {
+          "zh": "未专门投影的 OneBot 事件（notice/request/meta_event 等）；正文是一行摘要，meta.raw 是原始事件。",
+          "en": "An OneBot event that is not specially projected (notice/request/meta_event, etc.); text is a compact line and meta.raw is the original event."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "snowluma.connection",
+        "description": {
+          "zh": "SnowLuma 连接建立或断开。",
+          "en": "SnowLuma connected or disconnected."
+        },
+        "trigger": "debounce"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.snowluma.env",
+        "title": "QQ（SnowLuma）",
+        "role": "envPrompt",
+        "content": "### QQ（SnowLuma）\n\n连接：{{snowluma.status}}\n{{snowluma.identity}}\n{{snowluma.actions}}\n目录：{{snowluma.catalog}}\n\n- **先查再做**：不确定 action 名或参数时，先用 `snowluma_actions` 搜索，或给 `name` 取完整 JSON Schema。\n- **所有操作都走** `snowluma_call`：`{ action, params, confirm }`。只读 action 直接执行；写 action 要 `confirm: true`。被 `worlds.snowluma.actions.disabled` 禁用的 action 会被拒绝。\n- **发消息**：`send_private_msg` / `send_group_msg` 的 `message` 可以直接是字符串；图片、语音、引用、转发用 OneBot segment 数组。转发用 `send_group_forward_msg` / `send_private_forward_msg`。\n- **图片**：消息里的图片会自动下载成附件；只看到 `[图片]`、或要查看历史/转发里的图时，用 `snowluma_view_image`（给 `url` 或 SnowLuma 的 `file_id`）。不要为了看图去开 shell。\n- **撤回**：`delete_msg` 返回 ok 只代表撤回请求已发出，不代表 QQ 已撤回。群里撤回别人的消息需要管理员/群主且在时限内；看到 `notice/group_recall` 或对方确认后再声称成功。\n- **事件**：`snowluma.message` 是消息；`snowluma.event` 是其他 OneBot 事件，正文是一行摘要，`meta.raw` 是原始 JSON。默认 `meta_event/*` 只归档不唤醒，心跳丢弃；用 `snowluma_events` 按 kind/时间查。\n- **状态**：`snowluma_status` 看连接、账号、catalog 和启用/禁用数量。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "- 首个版本：通过 OneBot v11 正向 WebSocket 接入 SnowLuma，覆盖全部 action 与 event。\n- 一个通用 `snowluma_call` dispatcher，不按 action 建专用工具。发布包带本包维护的 OneBot v11 标准 action 兜底；完整 SnowLuma action 用 `npm run sync-catalog` 在本机同步，catalog 不进入 Git/npm。\n- `snowluma_actions`：按关键词/分类查 action，给 `name` 返回完整 JSON Schema。\n- `snowluma_events`：按 kind / 时间查归档的原始 OneBot 事件。\n- `snowluma_view_image`：把图片 URL 或 SnowLuma 图片 `file_id` 下载成模型可看的附件。\n- `snowluma_status`：连接、账号、catalog、action/event 策略。\n- 默认全开，用 `actions.disabled` / `disabledCategories` / `events.mute` / `events.drop` 做配置减法；默认只禁用 `set_restart`、`clean_cache`、`bot_exit`。\n- 写操作默认 `writePolicy: \"confirm\"`，需要 `confirm: true`；支持全局 `readOnly`。\n- 消息里的图片会自动下载为 `blobs`；图片过大、URL 过期或下载失败时保留 `[图片]` 占位。\n- 事件兜底：非消息 OneBot 事件统一为 `snowluma.event`，原始 JSON 保存在 `meta.raw`，没有 per-event handler。\n- `delete_msg` 回执附带说明：`ok` 只代表撤回请求已发出，不代表 QQ 服务端已撤回。\n- 需要扩展契约 world 6（Coopanion v0.2.0 / 内嵌 Cortico v0.2.0 及以上）。"
+  }
+}
