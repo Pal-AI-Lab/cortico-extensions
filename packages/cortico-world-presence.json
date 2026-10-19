@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-presence",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "describe": {
     "tools": [
       {
@@ -186,6 +186,7 @@
     ]
   },
   "changelog": {
+    "0.3.1": "- 补上 `package.json` 的 `author`（筆離嘢）：市场卡片与详情页的「作者」一栏不再显示「未提供」。**行为零改动**。",
     "0.3.0": "- **截图与列窗口不再「每次现编一段脚本」**：改成一只常驻的 PowerShell 助手（包内 `src/capture-host.ps1`），\n  C# 声明只编译一次，之后一行命令一行结果。**每次截图从约 2.6 秒降到十几毫秒**（列窗口约 3.2 秒 → 0.5 秒），\n  冷启动那一次仍是两三秒。World 收工时助手一起收掉。\n- **顺带修一个一直在的 bug**：窗口清单里「DWM 拿不到边框」那条兜底分支用了错的 RECT 类型，碰到这种窗口会让\n  `presence_windows` 整个失败（屏幕分辨率一变就容易碰上）。现已改对。\n- 为什么改：原来那条形状在某些杀毒软件下会被拦（PowerShell 报「此脚本包含恶意内容」，\n  `ScriptContainedMaliciousContent`），而常驻这条路在本包与同类包里一直通。\n- **行为没变**：工具名、参数、回执字段一个都没动；要求 Cortico 0.2.0 及以上也不变。",
     "0.2.0": "- **要求 Cortico 0.2.0 及以上**：扩展契约从 world 5 升到 world 6（`cortico.api: 6`）。Cortico 0.1.x 不认识\n  这个版本号，装载时直接拒绝；0.2.0 及以上照常。\n- **行为一个字没改**：只做契约适配（`console()` → `webUi()`、类型改名），并按 0.2.0 新加的要求补上自描述\n  （三个工具、六种事件，`describe.json` 随包发布）。截图、传感器、摘要的实现一行没碰。\n- 验证：`tsc --noEmit`、84 条测试、`pnpm check:extension`（在 Cortico 0.2.0 下）全过。"
   }

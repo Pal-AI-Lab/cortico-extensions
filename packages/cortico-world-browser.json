@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-browser",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "describe": {
     "tools": [
       {
@@ -765,6 +765,7 @@
     ]
   },
   "changelog": {
+    "0.3.1": "- 补上 `package.json` 的 `author`（筆離嘢）：市场卡片与详情页的「作者」一栏不再显示「未提供」。**行为零改动**。",
     "0.3.0": "- 网页搜索新增 DeepSeek 和 Tavily，按用户设置的优先级、启用状态和密钥选择引擎。\n- 搜索设置面板支持拖拽及上下移动，分别保存两家 API key 到部署 .env，排序与开关下次调用生效。\n- 可选失败自动切换；无结果、鉴权/额度错误及取消时停止，显式选引擎不切换。\n- 新增 `browser_fetch`，通过 DeepSeek Fetch 或 Tavily Extract 返回公开网页 Markdown 正文。\n- 旧部署保留原 searchEngine 的优先级；停止 World 时取消 API 请求。\n- 补齐市场发布元数据：显示名、图标、中英文简介、标签、截图、LICENSE 与发布前检查。",
     "0.2.0": "- Browser 内加入 B 站视频模块，共用浏览器、页面登记和 profile 登录态。\n- 新增 11 个 `browser_video_*` 工具：打开、绑定、播放、暂停、跳转、看帧、画质、退出、站内搜索、推荐、评论。\n- 观看期间保护视频页，导航、关闭、换分 P 和停止时清理观察；默认观察间隔 15 秒。\n- 新增 B 站授权与播放面板；扫码结果写入同一 profile，登出清除 B 站 cookie。\n- 保留原有网页操作、窗口展示和拉取式浏览活动；无需改动 Persona 或 Core。"
   }
