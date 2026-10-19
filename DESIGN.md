@@ -67,7 +67,7 @@ Action 生成的文件不手改。地址都相对本仓库根目录,控制台拼
       "icon": "assets/cortico-world-xxx/icon.png",
       "screenshots": ["assets/cortico-world-xxx/screenshot-1.png"],
       "downloads": { "total": 0, "month": 0, "week": 0 },
-      "summary": { "tools": 5, "events": 3 },              // 能力摘要,见「扩展自描述」
+      "summary": { "tools": 5, "events": 3, "toolTokens": 820, "envPromptTokens": 540 },  // 能力摘要,见「扩展自描述」
       "changelog": { "versions": ["0.2.0"], "url": "…" },
       "discussion": { "number": 12, "url": "…", "up": 3, "down": 0, "comments": 4 }
     }
@@ -75,7 +75,7 @@ Action 生成的文件不手改。地址都相对本仓库根目录,控制台拼
 }
 ```
 
-- `summary`:World 是 `{ tools, events }`(个数);供应商是 `{ protocols, auth, input, local }`;Bot 是 `{ worlds, memory }`(World 个数与 Memory 名)。
+- `summary`:World 是 `{ tools, events, toolTokens, envPromptTokens }`:工具与事件个数,全部声明工具的定义按 OpenAI function 格式整段估算的 token 数,环境提示词模板原文估算的 token 数(变量未代入);估算与 Cortico 的 `estimateTokens` 相同,中日文每字 0.6、其他字符 0.3;每次扫描按 `packages/` 里存的自描述重算;供应商是 `{ protocols, auth, input, local }`;Bot 是 `{ worlds, memory }`(World 个数与 Memory 名)。
 - `downloads.total` 现在是近一年(npm 批量接口最多一年),包都不到一年,等于累计。
 - `discussion.comments` 是顶层评论加回复的条数,被隐藏的不算;`up` / `down` 已去掉两种都点的账号。
 - `catalog.json` 包括被拉黑的包,由控制台按 `index.json` 过滤;被拉黑的包不开讨论帖、不带新品。
@@ -127,14 +127,14 @@ Action 生成的文件不手改。地址都相对本仓库根目录,控制台拼
 
 - **数据源**:声明写在 Definition 的静态字段里,运行时用的是同一份。发布前跑 `pnpm describe:extension`,用干装载把声明导出成包里的 `describe.json`,`cortico.describe` 写它的包内路径;`check:extension` 检查文件与代码当前的声明一致。Action 与控制台只读这个文件,不执行扩展代码。
 - **World**:
-  - `tools`:全部工具,每个有 `name`、`description`(给模型)、`parameters`、`tags`,可选 `summary`(给人看的一句话)。实例的 `tools()` 只能返回其中的子集,可以按配置改描述;Core 挂载时检查工具名都在声明里。
+  - `tools`:全部工具,每个有 `name`、`description`(给模型)、`parameters`、`tags`,可选 `summary`(给人看的一句话)。实例的 `tools()` 只能返回其中的子集,可以按配置改描述;Core 挂载时检查工具名都在声明里;`check:extension` 在默认配置下比对实例与声明的描述和参数,不一致只警告。
   - `events`:会推出的事件,每个有 `type`、`description`(必填,给人看的一句话)、默认投递方式与标签。推出没声明的事件照常投递,记进运行日志并在 World 页标出。
   - 声明只给人和市场看,不进提示词;环境说明仍走 envPrompt 模板。
 - **Provider**:接入的协议、登录方式(API Key / OAuth / 设备码 / 网页登录态)、是否在本机跑模型、支持的输入(文本 / 图片 / 音频 / 视频);现有的 `title`、`description`、档位表一起导出。
 - **Bot**:默认启用的 World(`declares`)、Persona 提供的工具(同 World 工具的写法)、Memory 的名字与形式。
 - **默认提示词**(World 与 Bot):包里带的提示词模板,每份有 `key`、标题、`role`(`envPrompt` 或 `prefix`)与模板原文,和控制台提示词页同一套 `key`。World 一般是环境提示词,Bot 是 Persona 模板。
 - **存放**:完整自描述在 `packages/<包名>.json`;`catalog.json` 只放卡片要的能力摘要(World 工具与事件数;供应商的协议、登录方式、输入、是否本机;Bot 的 World 数与 Memory 名)。
-- **市场展示**:卡片上一行能力摘要(World 是工具与事件数;供应商是协议、登录方式与输入;Bot 是 World 数与 Memory),没有自描述的包这一行留空占位;详情左栏的选项卡:「扩展信息」、「工具与事件」(供应商是「接入方式」,Bot 是「组成」)、「环境提示词」(Bot 是「提示词模板」,显示默认提示词原文,可复制;没有就不出)。工具先显示 `summary`,没有就取 `description` 的第一句,点开看完整的给模型描述;事件超过 8 种先列 8 种。
+- **市场展示**:卡片上一行能力摘要(World 是工具数、事件数与前缀 token 数,工具数悬停「包含 N 个工具，工具定义占用了约 X token」,前缀悬停「环境提示词占用了约 X token」;工具数取工具个数(10 / 20)与工具定义 token(2500 / 6000)两档里较严的一档,前缀按环境提示词 token(1000 / 2500),超过前一个数标黄、超过后一个数标红,颜色同提示与警示标签;供应商是协议、登录方式与输入;Bot 是 World 数与 Memory),没有自描述的包这一行留空占位;详情左栏的选项卡:「扩展信息」、「工具与事件」(供应商是「接入方式」,Bot 是「组成」)、「环境提示词」(Bot 是「提示词模板」,显示默认提示词原文,可复制;没有就不出)。工具先显示 `summary`,没有就取 `description` 的第一句,点开看完整的给模型描述;事件超过 8 种先列 8 种。
 
 ## 徽标与标签
 
