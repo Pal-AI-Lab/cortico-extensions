@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-cua-alont1",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "describe": {
     "tools": [
       {
@@ -208,8 +208,142 @@
         "tags": [
           "read"
         ]
+      },
+      {
+        "name": "cua_free_play",
+        "description": "申请一段自己玩电脑的时间（要主人批准）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "minutes": {
+              "type": "integer"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "申请自己玩电脑。",
+          "en": "Asks for free play time on the computer."
+        }
+      },
+      {
+        "name": "cua_free_allow",
+        "description": "主人批准自己玩：给一段自由时间。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "minutes": {
+              "type": "integer"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "主人批准自己玩。",
+          "en": "The owner grants free play time."
+        }
+      },
+      {
+        "name": "cua_free_deny",
+        "description": "主人拒绝自己玩。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "主人拒绝自己玩。",
+          "en": "The owner denies free play."
+        }
+      },
+      {
+        "name": "cua_free_status",
+        "description": "看自己玩的状态：还剩多久、今天批过几次。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "自己玩的状态。",
+          "en": "Free play status."
+        }
+      },
+      {
+        "name": "cua_danger_allow",
+        "description": "主人允许那条危险动作：执行它。id 来自 cua.danger_request 的 meta。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "允许一条危险动作并执行。",
+          "en": "Approves and runs one dangerous action."
+        }
+      },
+      {
+        "name": "cua_danger_deny",
+        "description": "主人拒绝那条危险动作。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "拒绝一条危险动作。",
+          "en": "Denies one dangerous action."
+        }
       }
     ],
-    "events": []
+    "events": [
+      {
+        "type": "cua.free_play_request",
+        "description": {
+          "zh": "她想自己玩，等主人批准。",
+          "en": "She asks for free play time."
+        }
+      },
+      {
+        "type": "cua.danger_request",
+        "description": {
+          "zh": "危险动作待批。",
+          "en": "A dangerous action awaits approval."
+        }
+      },
+      {
+        "type": "cua.free_time",
+        "description": {
+          "zh": "她闲着，可以申请自己玩。",
+          "en": "She is idle and may ask for free play."
+        }
+      }
+    ]
   }
 }
