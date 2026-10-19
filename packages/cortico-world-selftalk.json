@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "name": "cortico-world-selftalk",
+  "version": "0.2.1",
+  "describe": {
+    "tools": [],
+    "events": [
+      {
+        "type": "selftalk.nudge",
+        "description": {
+          "zh": "安静了设定的时长后，应用叫醒 Coo 的一条自主发言提示：开不开口、做什么由 Coo 自己决定。",
+          "en": "After the configured quiet time the app wakes the bot with a self-talk line; whether to speak or act is the bot's own call."
+        },
+        "trigger": "flush"
+      }
+    ]
+  },
+  "changelog": {
+    "0.2.1": "- 「间隔浮动」改为对**每个间隔**生效：第一次叫醒与每次再次叫醒都会各自乘一次随机倍数（之前只浮动第一次）。",
+    "0.2.0": "- 插件显示名改为「自主发言」（`cortico.displayName` 与 World 标签）。\n- 「最多叫醒几次」缺省改为 **0 = 不限**；正数（1–10）仍表示一段安静里的上限。",
+    "0.1.0": "- 第一个版本：安静计时后叫醒 Coo 的自主发言 World（`selftalk.nudge`，internal 投递）。\n- 时间参数（`quietMinutes` / `repeatMinutes` / `maxRounds` / `jitter`）在控制台 World 配置里，改完立即生效。\n- 检测使用者动作（桌宠与控制台的人侧事件），Coo 自己的发言不计入安静计时。\n- 支持 `describe.json` 自描述与本地干装载检查。"
+  }
+}
