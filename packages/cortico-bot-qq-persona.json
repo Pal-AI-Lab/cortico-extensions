@@ -1,0 +1,179 @@
+{
+  "schema": 1,
+  "name": "cortico-bot-qq-persona",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "qq_affinity_adjust",
+        "description": "调整对某人的好感度(关系分)。who 填 QQ 号或外号;delta 正数=加好感,负数=减好感,0=只记备注;reason 填原因(可选);note 填自由备注(可选)。返回更新后的关系分与态度指引。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "who": {
+              "type": "string",
+              "title": "QQ号或外号"
+            },
+            "delta": {
+              "type": "number",
+              "title": "好感度变化(可正可负)"
+            },
+            "reason": {
+              "type": "string",
+              "title": "原因(可选)"
+            },
+            "note": {
+              "type": "string",
+              "title": "备注(可选)"
+            }
+          },
+          "required": [
+            "who",
+            "delta"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "qq_affinity_get",
+        "description": "查某人的好感度(关系分)与态度指引。who 填 QQ 号或外号。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "who": {
+              "type": "string",
+              "title": "QQ号或外号"
+            }
+          },
+          "required": [
+            "who"
+          ]
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "qq_affinity_list",
+        "description": "列出全部关系分,按好感度从高到低。用于回看你和哪些人关系好/差。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "qq_alias_set",
+        "description": "记一个外号→QQ号的映射(方便以后用外号指代某人)。name 填外号,qq 填 QQ 号(数字)。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "外号"
+            },
+            "qq": {
+              "type": "number",
+              "title": "QQ号"
+            }
+          },
+          "required": [
+            "name",
+            "qq"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "qq_alias_forget",
+        "description": "删除一条外号映射。name 填外号。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "外号"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "qq_alias_list",
+        "description": "列出全部外号→QQ号映射。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "qq_mood",
+        "description": "查看或调整自己的心情(mood)。不带参数=查看当前心情;action=\"set\" 时用 moodDelta(正数变好/负数变差,范围±100)和/或 moodLabel 调整,reason 填原因;action=\"reset\" 把心情清零回中性。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "title": "操作",
+              "enum": [
+                "get",
+                "set",
+                "reset"
+              ]
+            },
+            "moodDelta": {
+              "type": "number",
+              "title": "心情变化(±100)"
+            },
+            "moodLabel": {
+              "type": "string",
+              "title": "情绪标签(可选)"
+            },
+            "reason": {
+              "type": "string",
+              "title": "原因(可选)"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read",
+          "write"
+        ]
+      }
+    ],
+    "bot": {
+      "worlds": [],
+      "memory": {
+        "name": "QQ 人格",
+        "form": "QQ 机器人的内部状态(情绪/好感度/外号):作为 bot 记忆,经系统前缀注入,让机器人自然拿捏语气,不向用户转述\"我有内部状态工具\"。"
+      }
+    }
+  },
+  "changelog": {
+    "0.1.0": "从 `cortico-world-qq-final` 拆分出来的第一项（响应认证评审 Pal-AI-Lab/cortico-extensions#104）：\n把「情绪 / 好感度 / 外号」这三块 bot 内部状态从 QQ World 抽到独立的 **Bot 扩展（Persona, api=7）**，与 QQ 收发/群管解耦。\n\n- 情绪（mood）：单一全局心情值，经 `qq_mood` 由主模型自我调整，默认**不**做逐条自动感知（消除「每条消息另调一次模型」的冗余）。提供自然衰减、系统前缀注入。\n- 好感度（affinity）：按 `qq:<QQ号>` 隔离的关系分，`qq_affinity_*` 工具管理；入站真人消息只刷新昵称/时间戳，不调模型。\n- 外号（alias）：`外号→QQ号` 映射，`qq_alias_*` 工具管理。\n- 全部状态落 bot 私有目录（mood.json / affinity.json / aliases.json），与任何 world 互不耦合。\n- 配置段 `worlds.qqPersona`：`emotion.{enabled,decayHours,labelMinutes}`、`affinity.enabled`。"
+  }
+}

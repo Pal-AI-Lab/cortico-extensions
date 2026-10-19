@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-final",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "describe": {
     "tools": [
       {
@@ -383,141 +383,6 @@
         "summary": {
           "zh": "取消并删除一条提醒。",
           "en": "Cancel and delete a reminder."
-        }
-      },
-      {
-        "name": "qq_affinity_adjust",
-        "description": "调整你对某个用户的好感度（关系分）。好感度是每个人独立的、可在正负间浮动的数字（范围 -100~100，初始 0=普通），做让人舒服/投缘的事就加，做让人反感/越界的事就减——不是只增不减。delta 为正数增加、负数减少（如 +5 / -10 / 20）。who 填对方 QQ 号（群聊里必须指定；私聊不填则默认对方）。reason 可选，记一笔这次加减的原因（会进好感度档案）。调整后好感度会随下一条该用户的消息自动注入对话上下文，影响你后续的态度与分寸。",
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "who": {
-              "type": "string",
-              "description": "对方 QQ 号（纯数字字符串）。群聊必填；私聊可省略（默认当前私聊对象）。"
-            },
-            "delta": {
-              "type": "number",
-              "description": "好感度变化量，正数加、负数减，如 5、-10、20"
-            },
-            "reason": {
-              "type": "string",
-              "description": "可选，这次加减的原因（如“帮我解决了个问题”“阴阳怪气了我”）"
-            }
-          },
-          "required": [
-            "delta"
-          ]
-        },
-        "tags": [
-          "speak"
-        ],
-        "summary": {
-          "zh": "调整你对某个用户的好感度(关系分)。",
-          "en": "Adjust your affinity score toward one user."
-        }
-      },
-      {
-        "name": "qq_affinity_get",
-        "description": "查询某个用户当前的好感度（关系分）。who 填 QQ 号；省略则默认当前私聊对象（群聊需指定）。",
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "who": {
-              "type": "string",
-              "description": "对方 QQ 号；群聊必填，私聊可省略"
-            }
-          },
-          "required": []
-        },
-        "tags": [
-          "read"
-        ],
-        "summary": {
-          "zh": "查询某个用户当前的好感度。",
-          "en": "Read the current affinity score of one user."
-        }
-      },
-      {
-        "name": "qq_affinity_list",
-        "description": "列出你对所有用户的好感度（关系分），按从高到低排序；用于了解“谁跟我现在关系好/不好”。",
-        "parameters": {
-          "type": "object",
-          "properties": {},
-          "required": []
-        },
-        "tags": [
-          "read"
-        ],
-        "summary": {
-          "zh": "列出你对所有用户的好感度,按高低排序。",
-          "en": "List your affinity toward every user, highest first."
-        }
-      },
-      {
-        "name": "qq_alias_set",
-        "description": "记住一个「外号/代称 → QQ 号」的对应关系（长期记忆，跨重启保留）。之后用禁言、设头衔、戳一戳、好感度等工具时，who 直接填这个外号就能解析到对应的人。alias 填外号（如“阿强”“老板”），qq 填对方的 QQ 号。已存在同名外号会覆盖。",
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "alias": {
-              "type": "string",
-              "description": "外号/代称，例如“阿强”“老板”“那个总发广告的”"
-            },
-            "qq": {
-              "type": "string",
-              "description": "对应的真实 QQ 号（纯数字）"
-            }
-          },
-          "required": [
-            "alias",
-            "qq"
-          ]
-        },
-        "tags": [
-          "write"
-        ],
-        "summary": {
-          "zh": "记住「外号 → QQ 号」对应关系,之后可直接用外号指代。",
-          "en": "Remember a nickname-to-QQ mapping so later tools accept the nickname."
-        }
-      },
-      {
-        "name": "qq_alias_forget",
-        "description": "忘记一个外号对应关系（删除之前用 qq_alias_set 记的）。alias 填要删的外号。",
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "alias": {
-              "type": "string",
-              "description": "要忘记的外号/代称"
-            }
-          },
-          "required": [
-            "alias"
-          ]
-        },
-        "tags": [
-          "write"
-        ],
-        "summary": {
-          "zh": "忘记一个外号对应关系。",
-          "en": "Forget a stored nickname mapping."
-        }
-      },
-      {
-        "name": "qq_alias_list",
-        "description": "列出当前记住的所有外号→QQ 对应关系。",
-        "parameters": {
-          "type": "object",
-          "properties": {},
-          "required": []
-        },
-        "tags": [
-          "read"
-        ],
-        "summary": {
-          "zh": "列出所有记住的外号与 QQ 号对应关系。",
-          "en": "List every stored nickname-to-QQ mapping."
         }
       },
       {
@@ -949,13 +814,6 @@
         }
       },
       {
-        "type": "qq.affinity",
-        "description": {
-          "zh": "某个用户的好感度发生了变化。",
-          "en": "The affinity score of a user changed."
-        }
-      },
-      {
         "type": "qq.recall",
         "description": {
           "zh": "某条群消息被撤回。",
@@ -1001,6 +859,7 @@
     ]
   },
   "changelog": {
+    "0.5.0": "拆分：情绪 / 好感度 / 外号三大内部状态迁移到独立 bot 人格扩展 **`cortico-bot-qq-persona`**（api=7）。qq-final 本体不再内嵌这些状态，功能经装该人格获得。\n\n- 移除 `qq_affinity_adjust` / `qq_affinity_get` / `qq_affinity_list` / `qq_alias_set` / `qq_alias_forget` / `qq_alias_list` / `qq_mood` 七个工具及其背后的 `EmotionEngine` / `AffinityStore` / 外号存储。\n- 移除 world 侧「情绪系统」「好感度」配置项（`worlds.qqbot.emotion.*` / `worlds.qqbot.affinity.enabled`）、对应控制台面板与 prompt 占位符（`qq.affinity` / `qq.emotion`）。\n- 关系分与时间戳刷新改由人格扩展的 `onDelivery` 负责；`qq_send` / `qq_recent` 的「who」解析不再走本地外号，外号 → QQ 号映射改由人格扩展托管。\n- 配套：cortico-bot-qq-persona 0.1.0（新包）。",
     "0.4.0": "安全整改（响应认证评审 Pal-AI-Lab/cortico-extensions#104），四项均为**破坏性变更**，升级后需检查配置。\n\n### 密钥一律走框架 `ctx.secret()`，不再自行读部署文件\n\n- 删除 `resolveSecret` 里的目录扫描逻辑：不再从 `dataDir` 往上推算、读取部署 `config.json` 与 `providers/*/config.json`、也不再用自复制的正则解析各 provider 的 `.env`。这既绕开了框架「密钥按部署隔离、provider 密钥只交给 provider」的安全措施，自复制的正则还踩过「`NAME=` 留空会读到下一行」的坑（Cortico#268）——空值行会把下一个密钥整行当成 Bearer 发出去。\n- 密钥统一经 `WorldContext.secret(name)` 解析（读部署 `.env`，解析规则随框架修复）。涉及：辅助视觉、表情包标注、主动说话、动态生成、情绪感知、语音判定/合成/ASR 全部密钥。\n\n### 辅助 AI 任务改为纯配置驱动，不再跟随主模型密钥\n\n- 删除 `detectActiveProvider()` 与 `autoEndpoint`/`autoApiKey`/`autoModel` 三个缓存字段。曾经的「配置留空 = 自动跟随部署主模型」已移除：那需要自行读部署配置与 provider 目录，且存在「地址填了、密钥名留空时把主模型密钥发到用户所填地址」的隐患。\n- `resolveHelperModel()` 改为逐项检查：**模型地址 / 密钥名 / 模型名三项必填**，缺任一项返回失败并给出可操作的提示（写清缺哪项、密钥该写什么名字、值放哪），绝不借用别的密钥、绝不静默重试。\n- `vision` / `proactive` / `qzone` / `emotion` 四段的配置描述同步更新：密钥只写名字，值放在部署密钥库（`.env`）里由框架读取。\n- `emotion.enabled` 默认由 `true` 改为 `false`：情绪感知每条消息都会额外调一次模型，与主模型的工作重复；真需要时填好三项再开。\n\n### 去掉与其他 World 的桥接（qq_note_*）\n\n- `notebook.ts` 删除经 `globalThis` 桥接 `cortico-world-memory` 的逻辑，只写本地 `dataDir/notebook.jsonl`。`qq_note_*` 与记忆扩展自带的 `mem_note`/`mem_notes`/`mem_forget_note` 功能重复，两个都装时模型应优先用后者（常驻环境提示词 + 混合检索）；工具描述里已写明。\n- 本扩展不 import、不探测、不调用任何其他 World。\n\n### 自有模型调用上报用量\n\n- `completeChat`（主动说话/动态/情绪）、辅助视觉 `describe`、表情包标注 `annotate` 三处自有模型调用，成功后经 `host.reportUsage()` 上报，用户可在控制台看到用量。\n\n### 其他\n\n- `qzone.ts` 删除未使用的 `resolveSecret` 选项。\n- `vision.enabled` 描述补充其与默认开启的「图片作为模型附件」的关系（两条看图的路，不建议同开）；README 同步说明。\n- README 修正多处与代码不一致：`wsHost`/`wsPath` 默认值、`token` 自动生成说明、`privateAggregationWindow` 默认 0、`emotion.enabled` 默认值、`qq_send` 发送语义、工具清单补齐 `qq_reminder_*` 三项、配置项全部对齐源码。",
     "0.3.8": "修复 0.3.7 的自动探测路径层级错误。\n\n- `detectActiveProvider()` 把**部署配置**和 **provider 目录**按同一层级去找了：两者都按「`dataDir` 往上两级」计算，于是部署配置被找成 `<DATA>/home/config.json`（实际在 `<DATA>/home/companion/config.json`）→探测静默失败 → 四个辅助 AI 任务全部报「未能自动确定要用的模型」。\n- 正确层级：`dataDir = <DATA>/home/companion/data`，**上一级**是 `companion`（部署配置在这），**上两级**是 `home`（各 provider 目录在这）。现按这两个层级分别取。\n- 新增回归测试锁住该路径推导，避免再犯。",
     "0.3.7": "辅助 AI 任务改为**默认跟随主模型**，做到零配置。\n\n起因：装桌宠时用户配好的是自己的模型（如 DeepSeek），但「主动说话 / QQ空间动态 / 情绪感知 / 辅助视觉」这四项任务各自写死了 OpenRouter，于是装完一开主动说话就刷「缺少 API Key」——默认值让人先失败一次很不友好。更糟的是四处默认值本就不一致（视觉/主动/动态指向 OpenRouter，情绪指向 DeepSeek），且 `endpoint` 与 `apiKeySecret` 压根没注册到配置面板，用户无法自行修改。\n\n改动：\n\n- `vision` / `proactive` / `qzone` / `emotion` 四段的 `endpoint`、`apiKeySecret`、`model` **默认值改为空串**，含义是「自动跟随部署里当前启用的主模型」。\n- 新增 `QQWorld.resolveHelperModel()`：逐项判断——填了就用填的，没填就从 `config.json` 的 `activeProvider` 取 `baseUrl` / `secret` / 模型名，密钥交给既有的 `resolveSecret`（进程环境变量 → provider 目录下的 .env）。\n- 新增 `QQWorld.detectActiveProvider()`，在 `start()` 里探测一次并记入日志（含实际使用的 provider、模型与地址），便于用户确认「到底在用哪个模型」。\n- 显式填了密钥名但找不到时，告警会直接给出可操作的下一步（去哪个 .env 写什么，或留空以跟随主模型），不再只丢一个名字。\n- 四段的 `endpoint` / `apiKeySecret` **注册到配置面板**（各段新增「模型地址」「密钥名」两项），用户可在界面自行指定；`model` 字段描述补充「留空=跟随主模型」。\n- `Vision` 接受注入的模型解析器，复用同一套逻辑；此前它只查 `process.env`，拿不到 provider 目录下的 .env 密钥。\n- 回归测试：新增「四项任务默认留空」与「normalizeConfig 不会把留空字段回填成默认值」两条，防止以后又被写死。\n\n升级后**什么都不用配**即可使用主动说话等四项功能；若想单独指定某个 OpenAI 兼容服务，在对应面板填「模型地址 / 密钥名 / 模型名」即可。",
