@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-cua-alont1",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "describe": {
     "tools": [
       {
@@ -211,7 +211,7 @@
       },
       {
         "name": "cua_free_play",
-        "description": "申请一段自己玩电脑的时间（要主人批准）。",
+        "description": "申请自己玩一段时间。只是记一笔；主人在聊天里同意后，你自己调 cua_free_allow 开时间。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -230,7 +230,7 @@
       },
       {
         "name": "cua_free_allow",
-        "description": "主人批准自己玩：给一段自由时间。",
+        "description": "主人已经在聊天里同意：调它给自己开一段自由时间。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -249,7 +249,7 @@
       },
       {
         "name": "cua_free_deny",
-        "description": "主人拒绝自己玩。",
+        "description": "主人没同意：记一下，回去做自己的事。",
         "parameters": {
           "type": "object",
           "properties": {}
@@ -279,7 +279,7 @@
       },
       {
         "name": "cua_danger_allow",
-        "description": "主人允许那条危险动作：执行它。id 来自 cua.danger_request 的 meta。",
+        "description": "主人已经同意那条危险动作：用挂起时给的编号执行。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -301,7 +301,7 @@
       },
       {
         "name": "cua_danger_deny",
-        "description": "主人拒绝那条危险动作。",
+        "description": "主人不同意那条危险动作：用编号取消它。",
         "parameters": {
           "type": "object",
           "properties": {

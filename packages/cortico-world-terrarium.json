@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-terrarium",
-  "version": "0.7.11",
+  "version": "0.7.12",
   "describe": {
     "tools": [
       {
@@ -953,6 +953,7 @@
     ]
   },
   "changelog": {
+    "0.7.12": "- Remove the configurable land box ID. New land and water claims always request server-assigned identities; old ID settings cannot affect new registrations.\n- Migrate saved named identities and legacy supplied tokens to automatic credential lookup while keeping existing IDs, tokens and original entries. Refuse ambiguous migrations instead of creating another identity.\n- Show recognized registration rejection reasons and preserve generic handling for non-JSON proxy errors.\n- Add atomic server release installation, checksums, activation journals, startup health checks, rollback and flat-deployment migration. Keep shared data outside release payloads.\n- Add the private LAN-only administration console with Lucide icons and MiSans, and include server operation documentation in the package.\n- Add authenticated, persisted server controls for immediately enabling or disabling HTTP Push and scheduling or cancelling one future switch. Disabled HTTP reports return 410; WebSocket reports remain available.",
     "0.7.11": "- Limit beetle and spider prey sensing to two Manhattan steps and pause movement and hunting at 80 energy or above.\n- Shelter organisms at nest entrances; move existing surface predators away before they resume activity. Workers remain vulnerable while foraging.",
     "0.7.10": "- Include the Coopanion application version in full, incremental and HTTP reports when launched by Coopanion; validate and persist it with the box entry.\n- Add system, dark and light modes to the public gallery, with saved preferences, and adapt World panels and colony dialogs to the host color mode.",
     "0.7.9": "- Return per-plant moisture ranges and explicit warnings after single-cell or area watering; preview full-garden overwatering in WebUI.\n- Identify measured health losses from excess moisture, drought, aphids and ant harvesting in health and death events. Summarize crossings of 75 and 50 health while retaining persisted critical warning deduplication.\n- Clarify that elapsed simulation time is settled before watering, and watering restores five health immediately.",

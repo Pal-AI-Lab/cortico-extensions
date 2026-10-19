@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-final",
-  "version": "0.3.8",
+  "version": "0.4.0",
   "describe": {
     "tools": [
       {
@@ -522,7 +522,7 @@
       },
       {
         "name": "qq_note_save",
-        "description": "把你想长期记住的东西写进「私人笔记本」——任何你（智能体）想记的事：对某个人的观感、一条约定、一个灵感、用户叮嘱的偏好、自己立下的小目标等。记忆插件(cortico-world-memory)启用时，笔记会进它的记忆库并常驻进你的环境提示词；没启用时落到本地笔记本文件。text 填要记的内容（尽量具体、自包含，日后回看能懂）。",
+        "description": "把你想长期记住的东西写进「私人笔记本」——任何你（智能体）想记的事：对某个人的观感、一条约定、一个灵感、用户叮嘱的偏好、自己立下的小目标等。注意：若同时安装了 cortico-world-memory，请优先用它的 mem_note/mem_notes/mem_forget_note（常驻环境提示词 + 混合检索），本笔记本只落本地文件、不参与检索。text 填要记的内容（尽量具体、自包含，日后回看能懂）。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -545,7 +545,7 @@
       },
       {
         "name": "qq_note_list",
-        "description": "列出私人笔记本里的全部条目（记忆插件模式下为记忆库 qq 域；本地模式下为 notebook.jsonl）。用于回看你记过什么。",
+        "description": "列出私人笔记本里的全部条目（本地 notebook.jsonl）。用于回看你记过什么。",
         "parameters": {
           "type": "object",
           "properties": {},
@@ -1001,6 +1001,7 @@
     ]
   },
   "changelog": {
+    "0.4.0": "安全整改（响应认证评审 Pal-AI-Lab/cortico-extensions#104），四项均为**破坏性变更**，升级后需检查配置。\n\n### 密钥一律走框架 `ctx.secret()`，不再自行读部署文件\n\n- 删除 `resolveSecret` 里的目录扫描逻辑：不再从 `dataDir` 往上推算、读取部署 `config.json` 与 `providers/*/config.json`、也不再用自复制的正则解析各 provider 的 `.env`。这既绕开了框架「密钥按部署隔离、provider 密钥只交给 provider」的安全措施，自复制的正则还踩过「`NAME=` 留空会读到下一行」的坑（Cortico#268）——空值行会把下一个密钥整行当成 Bearer 发出去。\n- 密钥统一经 `WorldContext.secret(name)` 解析（读部署 `.env`，解析规则随框架修复）。涉及：辅助视觉、表情包标注、主动说话、动态生成、情绪感知、语音判定/合成/ASR 全部密钥。\n\n### 辅助 AI 任务改为纯配置驱动，不再跟随主模型密钥\n\n- 删除 `detectActiveProvider()` 与 `autoEndpoint`/`autoApiKey`/`autoModel` 三个缓存字段。曾经的「配置留空 = 自动跟随部署主模型」已移除：那需要自行读部署配置与 provider 目录，且存在「地址填了、密钥名留空时把主模型密钥发到用户所填地址」的隐患。\n- `resolveHelperModel()` 改为逐项检查：**模型地址 / 密钥名 / 模型名三项必填**，缺任一项返回失败并给出可操作的提示（写清缺哪项、密钥该写什么名字、值放哪），绝不借用别的密钥、绝不静默重试。\n- `vision` / `proactive` / `qzone` / `emotion` 四段的配置描述同步更新：密钥只写名字，值放在部署密钥库（`.env`）里由框架读取。\n- `emotion.enabled` 默认由 `true` 改为 `false`：情绪感知每条消息都会额外调一次模型，与主模型的工作重复；真需要时填好三项再开。\n\n### 去掉与其他 World 的桥接（qq_note_*）\n\n- `notebook.ts` 删除经 `globalThis` 桥接 `cortico-world-memory` 的逻辑，只写本地 `dataDir/notebook.jsonl`。`qq_note_*` 与记忆扩展自带的 `mem_note`/`mem_notes`/`mem_forget_note` 功能重复，两个都装时模型应优先用后者（常驻环境提示词 + 混合检索）；工具描述里已写明。\n- 本扩展不 import、不探测、不调用任何其他 World。\n\n### 自有模型调用上报用量\n\n- `completeChat`（主动说话/动态/情绪）、辅助视觉 `describe`、表情包标注 `annotate` 三处自有模型调用，成功后经 `host.reportUsage()` 上报，用户可在控制台看到用量。\n\n### 其他\n\n- `qzone.ts` 删除未使用的 `resolveSecret` 选项。\n- `vision.enabled` 描述补充其与默认开启的「图片作为模型附件」的关系（两条看图的路，不建议同开）；README 同步说明。\n- README 修正多处与代码不一致：`wsHost`/`wsPath` 默认值、`token` 自动生成说明、`privateAggregationWindow` 默认 0、`emotion.enabled` 默认值、`qq_send` 发送语义、工具清单补齐 `qq_reminder_*` 三项、配置项全部对齐源码。",
     "0.3.8": "修复 0.3.7 的自动探测路径层级错误。\n\n- `detectActiveProvider()` 把**部署配置**和 **provider 目录**按同一层级去找了：两者都按「`dataDir` 往上两级」计算，于是部署配置被找成 `<DATA>/home/config.json`（实际在 `<DATA>/home/companion/config.json`）→探测静默失败 → 四个辅助 AI 任务全部报「未能自动确定要用的模型」。\n- 正确层级：`dataDir = <DATA>/home/companion/data`，**上一级**是 `companion`（部署配置在这），**上两级**是 `home`（各 provider 目录在这）。现按这两个层级分别取。\n- 新增回归测试锁住该路径推导，避免再犯。",
     "0.3.7": "辅助 AI 任务改为**默认跟随主模型**，做到零配置。\n\n起因：装桌宠时用户配好的是自己的模型（如 DeepSeek），但「主动说话 / QQ空间动态 / 情绪感知 / 辅助视觉」这四项任务各自写死了 OpenRouter，于是装完一开主动说话就刷「缺少 API Key」——默认值让人先失败一次很不友好。更糟的是四处默认值本就不一致（视觉/主动/动态指向 OpenRouter，情绪指向 DeepSeek），且 `endpoint` 与 `apiKeySecret` 压根没注册到配置面板，用户无法自行修改。\n\n改动：\n\n- `vision` / `proactive` / `qzone` / `emotion` 四段的 `endpoint`、`apiKeySecret`、`model` **默认值改为空串**，含义是「自动跟随部署里当前启用的主模型」。\n- 新增 `QQWorld.resolveHelperModel()`：逐项判断——填了就用填的，没填就从 `config.json` 的 `activeProvider` 取 `baseUrl` / `secret` / 模型名，密钥交给既有的 `resolveSecret`（进程环境变量 → provider 目录下的 .env）。\n- 新增 `QQWorld.detectActiveProvider()`，在 `start()` 里探测一次并记入日志（含实际使用的 provider、模型与地址），便于用户确认「到底在用哪个模型」。\n- 显式填了密钥名但找不到时，告警会直接给出可操作的下一步（去哪个 .env 写什么，或留空以跟随主模型），不再只丢一个名字。\n- 四段的 `endpoint` / `apiKeySecret` **注册到配置面板**（各段新增「模型地址」「密钥名」两项），用户可在界面自行指定；`model` 字段描述补充「留空=跟随主模型」。\n- `Vision` 接受注入的模型解析器，复用同一套逻辑；此前它只查 `process.env`，拿不到 provider 目录下的 .env 密钥。\n- 回归测试：新增「四项任务默认留空」与「normalizeConfig 不会把留空字段回填成默认值」两条，防止以后又被写死。\n\n升级后**什么都不用配**即可使用主动说话等四项功能；若想单独指定某个 OpenAI 兼容服务，在对应面板填「模型地址 / 密钥名 / 模型名」即可。",
     "0.3.6": "修正连接相关提示文案——0.3.0 起反向连接已强制带鉴权 Token，但界面与文档里还残留着「反向不用填 Token」的旧说法，会让人漏配而连不上。\n\n- **「连接与监听」面板**：删掉「OneBot Token 留空即可」的说法，改为「Token 必填」。原先的提示框只有一行灰字，现在把三步流程做成醒目卡片（红框）：① 在协议端打开「设置反向客户端」② 粘贴 Token ③ **点「保存连接」**，并注明「填完不保存 → 协议端不重连 → 桌宠一直显示未连接，尽管 Token 明明填对了」。\n- **配置项说明**：`token` 字段改为「【反向连接必填】…就显示在下方输入框里，整串复制到协议端的鉴权 Token 并保存」；`wsHost` / `wsPort` / `wsPath` 统一改用「协议端」统称（NapCat / SnowLuma 都适用），并强调路径结尾 `/ws` 不能少；`wsUrl` 补上「仅正向模式使用」的说明。\n- **图文教程**：第 2 步新增醒目提示「别忘了点保存连接」并解释其症状；检查清单补「并点了保存连接」；全文把操作对象改称「协议端」，避免与实际使用的 SnowLuma 混淆。\n- 顺带修掉 `qq_qzone_post` 工具描述里残留的 `file://`（0.3.0 已移除该支持，描述漏改）。",
