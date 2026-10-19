@@ -138,7 +138,8 @@ async function packageFiles(name, latest, repository) {
   const file = fileName(name);
   const prev = readJson(`packages/${file}.json`);
   const prevEntry = previous.packages?.[name];
-  const kept = { icon: prevEntry?.icon, screenshots: prevEntry?.screenshots, summary: prevEntry?.summary, changelog: prevEntry?.changelog };
+  // 能力摘要按已存的自描述重算:摘要加了字段时不用等包发新版。
+  const kept = { icon: prevEntry?.icon, screenshots: prevEntry?.screenshots, summary: prev?.describe ? summarize(prev.describe) : prevEntry?.summary, changelog: prevEntry?.changelog };
   if (prev?.version === latest.version && prevEntry?.version === latest.version) return kept;
   const result = {};
   const out = { schema: SCHEMA, name, version: latest.version };
@@ -199,7 +200,28 @@ async function packageFiles(name, latest, repository) {
 function summarize(d) {
   if (d.provider) return clean({ protocols: d.provider.protocols, auth: d.provider.auth, input: d.provider.input, local: d.provider.local });
   if (d.bot) return clean({ worlds: d.bot.worlds?.length ?? 0, memory: d.bot.memory?.name });
-  return { tools: d.tools?.length ?? 0, events: d.events?.length ?? 0 };
+  const tools = Array.isArray(d.tools) ? d.tools : [];
+  const envPrompt = (Array.isArray(d.prompts) ? d.prompts : [])
+    .filter((p) => p?.role === 'envPrompt' && typeof p.content === 'string').map((p) => p.content).join('\n');
+  return {
+    tools: tools.length,
+    events: d.events?.length ?? 0,
+    // 工具定义按 Cortico mapTools 发出的 OpenAI function 格式整段估算。
+    toolTokens: tools.reduce((sum, t) => sum + estimateTokens(JSON.stringify({ type: 'function', function: { name: t?.name, description: t?.description, parameters: t?.parameters } })), 0),
+    envPromptTokens: estimateTokens(envPrompt),
+  };
+}
+
+/** 与 Cortico 的 estimateTokens 同一估算:中日文每字 0.6,其他字符 0.3。 */
+function estimateTokens(text) {
+  let cjk = 0;
+  let other = 0;
+  for (const ch of text) {
+    const code = ch.codePointAt(0);
+    if ((code >= 0x4e00 && code <= 0x9fff) || (code >= 0x3000 && code <= 0x30ff) || (code >= 0xff00 && code <= 0xffef)) cjk++;
+    else other++;
+  }
+  return Math.ceil(cjk * 0.6 + other * 0.3);
 }
 
 /** 每个 `## ` 标题一段,标题里第一个版本号是这一段的版本;每段截到 2000 字。 */
