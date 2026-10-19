@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-perch",
-  "version": "0.2.4",
+  "version": "0.2.6",
   "describe": {
     "tools": [
       {
@@ -80,6 +80,8 @@
     ]
   },
   "changelog": {
+    "0.2.6": "- Icon: minimal square crop of the original screenshot (centre 724×724, no content trimmed away),\n  scaled to 512×512. Replaces the tighter close-up used in 0.2.5. No behaviour change.",
+    "0.2.5": "- New icon: the pet's face instead of the drawn placeholder. No behaviour change.",
     "0.2.4": "- Added `repository`, `homepage` and `bugs`, so the market and npm can link back to the source.\n- No behaviour change.",
     "0.2.3": "Roaming jumps actually leave the ground now.\n\n- Fixed: automatic window hops and travelling jumps were rejected for ever once the page had set\n  its \"stay put\" timer — the check compared the timer's timestamp against zero instead of the\n  clock, so only the floor-hop fallback ever ran. That is why the pet kept hopping in place on the\n  floor while window-ledges still worked (those came from edge leaps).\n- Reaching a high window now works on tall or portrait screens: the jump arc may rise 1700 px\n  (was 1000) and the launch speed may reach 2900 px/s.\n- The last-resort floor hop aims across the screen instead of where the pet happens to face, so it\n  never lands on its own feet at a screen edge.\n- Panel state shows the reason for the last roaming jump (`diag.hopWhy`) and the terrain it saw.",
     "0.2.2": "Renamed to **雷霆大跳** (Thunder Jump) in the extension market and in the console panel. The package\nname, the World id (`perch`) and everything else stay the same, so this is a normal update.",

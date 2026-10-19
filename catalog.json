@@ -81,8 +81,19 @@
     },
     "cortico-bot-memory": {
       "kind": "bot",
-      "version": "0.1.0",
+      "version": "0.1.1",
+      "displayName": "长期记忆",
       "description": "Cortico bot 模板:在 Persona 层面复现五层长期记忆(事实库/知识库/反思/人格/档案 + 三级底座 + 混合检索),记忆归 bot 私有,经系统前缀注入、对话实时沉淀,无需 world。",
+      "locales": {
+        "zh": {
+          "displayName": "长期记忆",
+          "description": "Cortico bot 扩展：在 Persona 层面复现五层长期记忆（事实库 / 知识库 / 反思 / 人格 / 档案 + 三级底座 + 混合检索），记忆归 bot 私有，经系统前缀注入、对话实时沉淀，无需 world。"
+        },
+        "en": {
+          "displayName": "Long-term Memory",
+          "description": "A Cortico bot extension that replicates a five-layer long-term memory system at the Persona level (fact base / knowledge base / reflection / persona / profile + three-tier base + hybrid retrieval). Memory is bot-private, injected via the system prefix and accumulated live from conversations, with no world required."
+        }
+      },
       "author": "hth768",
       "maintainers": [
         "hth768"
@@ -99,15 +110,18 @@
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-bot-memory",
-        "repository": "https://github.com/hth768/cortico-extensions",
-        "homepage": "https://github.com/hth768/cortico-extensions",
-        "bugs": "https://github.com/hth768/cortico-extensions/issues"
+        "repository": "https://github.com/hth768/cortico-bot-memory",
+        "homepage": "https://github.com/hth768/cortico-bot-memory",
+        "bugs": "https://github.com/hth768/cortico-bot-memory/issues"
       },
       "created": "2026-10-19T08:22:28.109Z",
-      "published": "2026-10-19T08:23:45.752Z",
-      "versionCount": 2,
+      "published": "2026-10-19T15:03:10.435Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "memory"
+      ],
       "tags": [
         "memory"
       ],
@@ -123,7 +137,7 @@
         "versions": [
           "0.1.0"
         ],
-        "url": "https://github.com/hth768/cortico-extensions/blob/HEAD/CHANGELOG.md"
+        "url": "https://github.com/hth768/cortico-bot-memory/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 136,
@@ -1438,7 +1452,7 @@
     },
     "cortico-world-coocowork": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "CooCowork",
       "description": "Cortico World for Coopanion: Coo keeps you company while you work, with the activity, focus sessions and calendar it can see",
       "author": "Phantivia",
@@ -1464,8 +1478,8 @@
         "win32"
       ],
       "created": "2026-10-19T14:24:10.310Z",
-      "published": "2026-10-19T14:26:20.182Z",
-      "versionCount": 2,
+      "published": "2026-10-19T15:09:39.907Z",
+      "versionCount": 3,
       "official": true,
       "isNew": true,
       "declaredTags": [
@@ -1474,6 +1488,7 @@
         "experimental"
       ],
       "tags": [
+        "coopanion",
         "companion",
         "experimental",
         "sensitive-data"
@@ -1489,6 +1504,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.1",
           "0.1.0"
         ],
         "url": "https://github.com/Pal-AI-Lab/cortico-world-coocowork/blob/HEAD/CHANGELOG.md"
@@ -2707,7 +2723,7 @@
     },
     "cortico-world-perch": {
       "kind": "world",
-      "version": "0.2.4",
+      "version": "0.2.6",
       "displayName": "雷霆大跳",
       "description": "Coo walks along the top edge of any window and thunder-jumps between windows and the desktop floor.",
       "locales": {
@@ -2743,8 +2759,8 @@
         "win32"
       ],
       "created": "2026-10-19T07:26:39.063Z",
-      "published": "2026-10-19T09:12:20.175Z",
-      "versionCount": 6,
+      "published": "2026-10-19T14:59:11.592Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2760,7 +2776,7 @@
         "experimental",
         "sensitive-data"
       ],
-      "icon": "assets/cortico-world-perch/icon.svg",
+      "icon": "assets/cortico-world-perch/icon.png",
       "downloads": {
         "total": 0,
         "month": 0,
@@ -2772,6 +2788,8 @@
       },
       "changelog": {
         "versions": [
+          "0.2.6",
+          "0.2.5",
           "0.2.4",
           "0.2.3",
           "0.2.2",
@@ -2786,7 +2804,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/132",
         "up": 1,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-phone": {
@@ -4168,9 +4186,9 @@
     },
     "cortico-world-selftalk": {
       "kind": "world",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "displayName": "自主发言",
-      "description": "Cortico World: after a configurable quiet time the app wakes the bot with a self-talk line, and the bot decides for itself whether to speak, use its tools, or stay quiet.",
+      "description": "Coopanion / Cortico 的自主发言 World 扩展：安静一段时间后叫醒 Coo，由它自己决定开不开口、用什么工具；不想说就继续安静。",
       "author": "qwq-awa-qnq",
       "maintainers": [
         "zihaitaier"
@@ -4191,8 +4209,8 @@
         "bugs": "https://github.com/qwq-awa-qnq/cortico-world-selftalk/issues"
       },
       "created": "2026-10-19T14:38:22.724Z",
-      "published": "2026-10-19T14:39:20.869Z",
-      "versionCount": 2,
+      "published": "2026-10-19T14:55:02.068Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4212,6 +4230,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.2",
           "0.2.1",
           "0.2.0",
           "0.1.0"
