@@ -561,9 +561,15 @@
     },
     "cortico-world-agenda": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "displayName": "日程与便签",
       "description": "Cortico World: 日程与便签 —— 到点把一条提示投给她并当场叫醒(循环闹钟 / 定时 / 一次性,错过只补一次),外加一册两人共写、开机整册交给她的便签。控制台有两个页签。要求 Cortico 0.2.0 及以上。",
+      "locales": {
+        "en": {
+          "displayName": "Schedule & Notes",
+          "description": "Cortico World: a shared schedule that wakes the bot with a prompt at its due minute (repeat interval, cron or one-shot; missed periods are caught up once), plus a shared notepad delivered in full whenever the World starts. Two console tabs. Requires Cortico 0.2.0 or later."
+        }
+      },
       "maintainers": [
         "biliye"
       ],
@@ -584,8 +590,8 @@
         "bugs": "https://github.com/biliye/cortico-world-agenda/issues"
       },
       "created": "2026-10-17T08:44:18.628Z",
-      "published": "2026-10-17T08:45:14.692Z",
-      "versionCount": 2,
+      "published": "2026-10-19T01:34:29.698Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -596,6 +602,7 @@
         "memory",
         "companion"
       ],
+      "icon": "assets/cortico-world-agenda/icon.svg",
       "downloads": {
         "total": 0,
         "month": 0,
@@ -607,6 +614,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0"
         ],
         "url": "https://github.com/biliye/cortico-world-agenda/blob/HEAD/CHANGELOG.md"
@@ -986,6 +994,84 @@
         "comments": 0
       }
     },
+    "cortico-world-browser": {
+      "kind": "world",
+      "version": "0.3.0",
+      "displayName": "浏览器",
+      "description": "Cortico World: 浏览器 —— 她能搜索、开页、读页、点击、填表、上传、截图，也能陪看 B 站视频（画面拼图、字幕与弹幕），共用浏览器与登录态。要求 Cortico 0.2.0 及以上。",
+      "locales": {
+        "en": {
+          "displayName": "Browser",
+          "description": "Cortico World: a managed browser the bot can search, open, read, click, fill, upload and screenshot, plus Bilibili video watching with frame mosaics, subtitles and danmaku. Requires Cortico 0.2.0 or later."
+        }
+      },
+      "maintainers": [
+        "biliye"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "browser",
+        "web",
+        "puppeteer",
+        "bilibili",
+        "video",
+        "search",
+        "danmaku"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-browser",
+        "repository": "https://github.com/biliye/cortico-world-browser",
+        "homepage": "https://github.com/biliye/cortico-world-browser#readme"
+      },
+      "created": "2026-10-19T01:45:52.988Z",
+      "published": "2026-10-19T01:46:50.334Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "internet",
+        "browser",
+        "video",
+        "external-setup",
+        "high-cost"
+      ],
+      "tags": [
+        "internet",
+        "browser",
+        "video",
+        "external-setup",
+        "high-cost"
+      ],
+      "icon": "assets/cortico-world-browser/icon.svg",
+      "screenshots": [
+        "assets/cortico-world-browser/screenshot-1.png"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 26,
+        "events": 4
+      },
+      "changelog": {
+        "versions": [
+          "0.3.0",
+          "0.2.0"
+        ],
+        "url": "https://github.com/biliye/cortico-world-browser/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 120,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/120",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-buckshot": {
       "kind": "world",
       "version": "0.2.0",
@@ -1330,7 +1416,7 @@
     },
     "cortico-world-fatfish": {
       "kind": "world",
-      "version": "0.3.3",
+      "version": "0.3.4",
       "displayName": "大肥鱼功能复合包",
       "description": "和 DeepSeek Harness（DSH）对话让它帮你干活写代码，宠物回复时用内置语音包读出声。桥接这半边需要先装 DSH 的 Host 插件（coopanion-connector-dsh）才会连；不会装就看源码仓库的说明，或把仓库地址交给 AI 帮你装。/ Chat with DeepSeek Harness (DSH) so it does the work — writing code for you — and hear the pet's replies read aloud with b",
       "locales": {
@@ -1366,8 +1452,8 @@
         "bugs": "https://github.com/blacksunshy/coopanion-fatfish/issues"
       },
       "created": "2026-10-15T06:47:52.601Z",
-      "published": "2026-10-18T10:19:52.727Z",
-      "versionCount": 8,
+      "published": "2026-10-19T01:47:09.870Z",
+      "versionCount": 9,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1389,6 +1475,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.4",
           "0.3.3",
           "0.3.2",
           "0.3.1",
@@ -3877,6 +3964,7 @@
         "game"
       ],
       "tags": [
+        "pal-ai-world",
         "game"
       ],
       "downloads": {
