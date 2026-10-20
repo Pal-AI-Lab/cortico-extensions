@@ -745,13 +745,13 @@
     },
     "cortico-world-agenda": {
       "kind": "world",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "displayName": "日程与便签",
-      "description": "Cortico World: 日程与便签 —— 到点把一条提示投给她并当场叫醒(循环闹钟 / 定时 / 一次性,错过只补一次),外加一册两人共写、开机整册交给她的便签。控制台有两个页签。要求 Cortico 0.2.0 及以上。",
+      "description": "Cortico World: 日程与便签 —— 到点把一条提示投给她并当场叫醒(循环闹钟 / 定时 / 一次性,错过只补一次),外加一册两人共写、开机整册交给她的便签。控制台有两个页签。要求 Cortico 0.2.0 及以上。 ★ 支持 Coopanion(Coo):已在 Coopanion 0.2.5 上装机验证;出问题可去 GitHub 提 issue,或到 QQ 群里 @筆離嘢(与作者名同名)。",
       "locales": {
         "en": {
           "displayName": "Schedule & Notes",
-          "description": "Cortico World: a shared schedule that wakes the bot with a prompt at its due minute (repeat interval, cron or one-shot; missed periods are caught up once), plus a shared notepad delivered in full whenever the World starts. Two console tabs. Requires Cortico 0.2.0 or later."
+          "description": "Cortico World: a shared schedule that wakes the bot with a prompt at its due minute (repeat interval, cron or one-shot; missed periods are caught up once), plus a shared notepad delivered in full whenever the World starts. Two console tabs. Requires Cortico 0.2.0 or later. ★ Runs in Coopanion (Coo): installed and verified on Coopanion 0.2.5. Problems: open an issue on GitHub, or ping @筆離嘢 in the QQ group (same name as the author)."
         }
       },
       "author": "筆離嘢",
@@ -775,8 +775,8 @@
         "bugs": "https://github.com/biliye/cortico-world-agenda/issues"
       },
       "created": "2026-10-17T08:44:18.628Z",
-      "published": "2026-10-19T15:28:41.100Z",
-      "versionCount": 4,
+      "published": "2026-10-20T07:20:07.765Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -801,6 +801,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.3",
           "0.2.2",
           "0.2.1",
           "0.2.0"
@@ -1200,13 +1201,13 @@
     },
     "cortico-world-browser": {
       "kind": "world",
-      "version": "0.3.3",
+      "version": "0.3.5",
       "displayName": "浏览器",
-      "description": "Cortico World: 浏览器 —— 她能搜索、开页、读页、点击、填表、上传、截图，也能陪看 B 站视频（画面拼图、字幕与弹幕），共用浏览器与登录态。★ 非即插即用：装完包还不能用，要先装上游 web-access，填 worlds.browser.skillDir、选浏览器并打开远程调试，否则 World 起不来。要求 Cortico 0.2.0 及以上。",
+      "description": "Cortico World: 浏览器 —— 她能搜索、开页、读页、点击、填表、上传、截图，也能陪看 B 站视频（画面拼图、字幕与弹幕），共用浏览器与登录态。★ 非即插即用：装完包还不能用，要先装上游 web-access，填 worlds.browser.skillDir、选浏览器并打开远程调试，否则 World 起不来。要求 Cortico 0.2.0 及以上。 ★ 支持 Coopanion(Coo):0.2.5 上实测通过。有问题请提 GitHub issue,或到 QQ 群 @筆離嘢。",
       "locales": {
         "en": {
           "displayName": "Browser",
-          "description": "Cortico World: a managed browser the bot can search, open, read, click, fill, upload and screenshot, plus Bilibili video watching with frame mosaics, subtitles and danmaku. ★ Not plug-and-play: installing the package is not enough. Install the upstream web-access project first, set worlds.browser.skillDir, pick the browser and enable its remote debugging, or the World will not start. Requires Cortico 0.2.0 or later."
+          "description": "Cortico World: a managed browser the bot can search, open, read, click, fill, upload and screenshot, plus Bilibili video watching with frame mosaics, subtitles and danmaku. ★ Not plug-and-play: installing the package is not enough. Install the upstream web-access project first, set worlds.browser.skillDir, pick the browser and enable its remote debugging, or the World will not start. Requires Cortico 0.2.0 or later. ★ Runs in Coopanion (Coo): installed and verified on Coopanion 0.2.5. Problems: open an issue on GitHub, or ping @筆離嘢 in the QQ group (same name as the author)."
         }
       },
       "author": "筆離嘢",
@@ -1232,8 +1233,8 @@
         "bugs": "https://github.com/biliye/cortico-world-browser/issues"
       },
       "created": "2026-10-19T01:45:52.988Z",
-      "published": "2026-10-20T04:45:49.801Z",
-      "versionCount": 5,
+      "published": "2026-10-20T07:32:15.967Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1263,10 +1264,12 @@
         "tools": 26,
         "events": 4,
         "toolTokens": 4551,
-        "envPromptTokens": 1199
+        "envPromptTokens": 1246
       },
       "changelog": {
         "versions": [
+          "0.3.5",
+          "0.3.4",
           "0.3.3",
           "0.3.2",
           "0.3.1",
@@ -2812,7 +2815,7 @@
     },
     "cortico-world-perch": {
       "kind": "world",
-      "version": "0.2.6",
+      "version": "0.2.8",
       "displayName": "雷霆大跳",
       "description": "Coo walks along the top edge of any window and thunder-jumps between windows and the desktop floor.",
       "locales": {
@@ -2848,8 +2851,8 @@
         "win32"
       ],
       "created": "2026-10-19T07:26:39.063Z",
-      "published": "2026-10-19T14:59:11.592Z",
-      "versionCount": 8,
+      "published": "2026-10-20T07:47:51.461Z",
+      "versionCount": 9,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2879,6 +2882,8 @@
       },
       "changelog": {
         "versions": [
+          "0.2.8",
+          "0.2.7",
           "0.2.6",
           "0.2.5",
           "0.2.4",
@@ -3007,8 +3012,8 @@
     },
     "cortico-world-presence": {
       "kind": "world",
-      "version": "0.3.1",
-      "description": "Cortico World: 在场感（Windows 专用）——能判别你是否离开/回到电脑前。★ 它会持续读前台窗口标题与键鼠空闲、并能截屏(屏幕上有什么截到什么),这些随模型调用发到你部署配置的模型端点;默认不启用。详细隐私说明见 README。",
+      "version": "0.3.2",
+      "description": "Cortico World: 在场感（Windows 专用）——能判别你是否离开/回到电脑前。★ 它会持续读前台窗口标题与键鼠空闲、并能截屏(屏幕上有什么截到什么),这些随模型调用发到你部署配置的模型端点;默认不启用。详细隐私说明见 README。 ★ 支持 Coopanion(Coo):已在 Coopanion 0.2.5 上装机验证;出问题可去 GitHub 提 issue,或到 QQ 群里 @筆離嘢(与作者名同名)。",
       "author": "筆離嘢",
       "maintainers": [
         "biliye"
@@ -3025,8 +3030,8 @@
         "bugs": "https://github.com/biliye/cortico-world-presence/issues"
       },
       "created": "2026-10-14T12:52:28.450Z",
-      "published": "2026-10-19T15:28:50.470Z",
-      "versionCount": 6,
+      "published": "2026-10-20T07:18:53.161Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "tags": [
@@ -3046,6 +3051,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.2",
           "0.3.1",
           "0.3.0",
           "0.2.0"
@@ -3535,7 +3541,7 @@
       "published": "2026-10-20T00:40:08.944Z",
       "versionCount": 33,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "im",
         "qq",
@@ -3619,7 +3625,7 @@
       "versionCount": 34,
       "deprecated": "旧版兼容通道（含第二模型/情绪外号全功能旧实现）。已弃用，推荐升级到",
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "im",
         "qq",
@@ -4810,7 +4816,7 @@
     },
     "cortico-world-terrarium": {
       "kind": "world",
-      "version": "0.8.1",
+      "version": "0.8.2",
       "displayName": "Terrarium",
       "description": "Claimable land and water ecosystems with plants, bugs, fish and a public leaderboard",
       "locales": {
@@ -4843,8 +4849,8 @@
         "bugs": "https://github.com/zhiyuHD/cortico-world-terrarium/issues"
       },
       "created": "2026-10-17T06:11:00.470Z",
-      "published": "2026-10-20T05:30:13.660Z",
-      "versionCount": 23,
+      "published": "2026-10-20T10:00:59.176Z",
+      "versionCount": 24,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4860,13 +4866,14 @@
         "week": 3140
       },
       "summary": {
-        "tools": 33,
-        "events": 13,
-        "toolTokens": 5843,
-        "envPromptTokens": 3971
+        "tools": 34,
+        "events": 12,
+        "toolTokens": 6428,
+        "envPromptTokens": 4596
       },
       "changelog": {
         "versions": [
+          "0.8.2",
           "0.8.1",
           "0.8.0",
           "0.7.14",
