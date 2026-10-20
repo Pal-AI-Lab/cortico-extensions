@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-better-alont1",
-  "version": "0.1.64",
+  "version": "0.1.68",
   "describe": {
     "tools": [
       {
@@ -777,7 +777,64 @@
         ]
       }
     ],
-    "events": [],
+    "events": [
+      {
+        "type": "qq.message",
+        "description": {
+          "zh": "收到一条 QQ 消息（群聊或私聊）。",
+          "en": "A QQ message arrived (group or private)."
+        }
+      },
+      {
+        "type": "qq.poke",
+        "description": {
+          "zh": "有人戳了一戳。",
+          "en": "Someone poked."
+        }
+      },
+      {
+        "type": "qq.image",
+        "description": {
+          "zh": "收到一张图片。",
+          "en": "An image arrived."
+        }
+      },
+      {
+        "type": "qq.member",
+        "description": {
+          "zh": "群成员变动（进群、退群、改名等）。",
+          "en": "Group membership changed."
+        }
+      },
+      {
+        "type": "qq.forward",
+        "description": {
+          "zh": "收到合并转发的聊天记录。",
+          "en": "A forwarded chat record arrived."
+        }
+      },
+      {
+        "type": "qq.recall",
+        "description": {
+          "zh": "有人撤回了一条消息。",
+          "en": "Someone recalled a message."
+        }
+      },
+      {
+        "type": "qq.react",
+        "description": {
+          "zh": "有人对消息做了表态（表情回应）。",
+          "en": "Someone reacted to a message."
+        }
+      },
+      {
+        "type": "qq.reminder",
+        "description": {
+          "zh": "到点了，这条提醒该提了。",
+          "en": "A reminder is due."
+        }
+      }
+    ],
     "prompts": [
       {
         "key": "worlds.qqbot.envPrompt",

@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "name": "cortico-world-memsearch-alont1",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "mem_search",
+        "description": "在自己的记忆/笔记里找原话：给它关键词或一句话，返回命中的文件、行号和上下文。回忆事情、核对「我是不是记错了」时用它。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "找什么：关键词、人名、一件事的说法都行。"
+            },
+            "count": {
+              "type": "integer",
+              "description": "要几条，默认用配置值。"
+            }
+          },
+          "required": [
+            "query"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "找记忆里的原话",
+          "en": "Search own memory/notes"
+        }
+      },
+      {
+        "name": "mem_stats",
+        "description": "看看记忆检索索引了多少文件（排查「怎么搜不到」时用）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "索引状态",
+          "en": "Index stats"
+        }
+      }
+    ],
+    "events": []
+  }
+}

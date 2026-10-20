@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "name": "cortico-world-works-alont1",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "works_add",
+        "description": "把自己的作品收进作品页：写个标题、备注，可以附一个本地文件（图/视频/网页都行）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "作品名。"
+            },
+            "note": {
+              "type": "string",
+              "description": "一句介绍，可不填。"
+            },
+            "path": {
+              "type": "string",
+              "description": "本地文件路径（图/视频/网页），可不填。"
+            }
+          },
+          "required": [
+            "title"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "收一件作品",
+          "en": "Add a work"
+        }
+      },
+      {
+        "name": "works_list",
+        "description": "看作品页里都有什么。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "列作品",
+          "en": "List works"
+        }
+      },
+      {
+        "name": "works_page",
+        "description": "重新生成作品页（本地 HTML），返回路径。改了作品之后调一次。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "生成作品页",
+          "en": "Generate works page"
+        }
+      }
+    ],
+    "events": []
+  }
+}
