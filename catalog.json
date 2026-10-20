@@ -1082,7 +1082,7 @@
     },
     "cortico-world-bilibili-video": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "displayName": "B 站视频",
       "description": "Cortico World: watch a bilibili video in a logged-in browser, with frames, subtitles and the video's own danmaku delivered as events. 此乃直播测试验证之后的world，和其他 Persona / 非直播场景的兼容性有待测试。",
       "author": "Phantivia",
@@ -1103,8 +1103,8 @@
         "bugs": "https://github.com/Phantivia/cortico-world-bilibili-video/issues"
       },
       "created": "2026-10-15T04:22:42.746Z",
-      "published": "2026-10-16T03:11:25.756Z",
-      "versionCount": 3,
+      "published": "2026-10-20T02:36:43.944Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "tags": [
@@ -1128,6 +1128,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0"
         ],
         "url": "https://github.com/Phantivia/cortico-world-bilibili-video/blob/HEAD/CHANGELOG.md"
@@ -2460,7 +2461,7 @@
     },
     "cortico-world-memory": {
       "kind": "world",
-      "version": "0.2.3",
+      "version": "0.2.4",
       "description": "Cortico World 扩展：五层记忆（事实库/知识库/反思/人格/档案）+ 三级记忆底座 + Hybrid Recall 向量混合检索（移植自 E:/qq_bot 的记忆系统与 memory_server 向量 sidecar，qq_bot 源码零改动）。",
       "maintainers": [
         "hth768"
@@ -2481,8 +2482,8 @@
         "bugs": "https://github.com/hth768/cortico-world-memory/issues"
       },
       "created": "2026-09-22T13:09:30.278Z",
-      "published": "2026-10-19T05:45:57.616Z",
-      "versionCount": 15,
+      "published": "2026-10-20T00:47:59.154Z",
+      "versionCount": 16,
       "official": false,
       "isNew": false,
       "tags": [
@@ -3510,7 +3511,7 @@
     },
     "cortico-world-qq-final": {
       "kind": "world",
-      "version": "0.5.1",
+      "version": "0.6.0",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -3529,8 +3530,8 @@
         "bugs": "https://github.com/hth768/cortico-world-qq-final/issues"
       },
       "created": "2026-10-06T07:39:25.866Z",
-      "published": "2026-10-19T16:34:47.389Z",
-      "versionCount": 32,
+      "published": "2026-10-20T00:40:08.944Z",
+      "versionCount": 33,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3552,11 +3553,12 @@
       "summary": {
         "tools": 31,
         "events": 8,
-        "toolTokens": 4383,
+        "toolTokens": 4387,
         "envPromptTokens": 508
       },
       "changelog": {
         "versions": [
+          "0.6.0",
           "0.5.1",
           "0.5.0",
           "0.4.0",
@@ -3592,7 +3594,7 @@
     },
     "cortico-world-qq-final-beta": {
       "kind": "world",
-      "version": "0.2.0-beta.21",
+      "version": "0.5.0",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -3606,14 +3608,14 @@
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-qq-final-beta",
-        "repository": "https://github.com/hth768/cortico-world-qq-final-beta",
-        "homepage": "https://github.com/hth768/cortico-world-qq-final-beta#readme",
-        "bugs": "https://github.com/hth768/cortico-world-qq-final-beta/issues"
+        "repository": "https://github.com/hth768/cortico-world-qq-final",
+        "homepage": "https://github.com/hth768/cortico-world-qq-final#readme",
+        "bugs": "https://github.com/hth768/cortico-world-qq-final/issues"
       },
       "created": "2026-10-06T09:08:03.837Z",
-      "published": "2026-10-18T15:41:46.676Z",
-      "versionCount": 33,
-      "deprecated": "This beta channel is closed. Use the stable package cortico-world-qq-final instead: npm i cortico-world-qq-final. No further beta releases will be published.",
+      "published": "2026-10-20T00:55:34.915Z",
+      "versionCount": 34,
+      "deprecated": "旧版兼容通道（含第二模型/情绪外号全功能旧实现）。已弃用，推荐升级到",
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3634,15 +3636,17 @@
         "week": 3745
       },
       "summary": {
-        "tools": 37,
-        "events": 9,
-        "toolTokens": 5083,
+        "tools": 31,
+        "events": 8,
+        "toolTokens": 4383,
         "envPromptTokens": 539
       },
       "changelog": {
         "versions": [
-          "0.2.0-beta.21",
-          "0.2.0-beta.20",
+          "0.5.0",
+          "0.4.0",
+          "0.3.8",
+          "0.3.7",
           "0.3.6",
           "0.3.5",
           "0.3.4",
@@ -3661,7 +3665,7 @@
           "0.2.4",
           "0.2.3"
         ],
-        "url": "https://github.com/hth768/cortico-world-qq-final-beta/blob/HEAD/CHANGELOG.md"
+        "url": "https://github.com/hth768/cortico-world-qq-final/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 47,
