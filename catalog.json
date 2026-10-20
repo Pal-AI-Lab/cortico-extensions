@@ -7,6 +7,9 @@
     "cortico-world-coocowork": [
       "sensitive-data"
     ],
+    "cortico-world-localvision": [
+      "sensitive-data"
+    ],
     "cortico-world-perch": [
       "sensitive-data"
     ],
@@ -2495,6 +2498,79 @@
         "comments": 0
       }
     },
+    "cortico-world-localvision": {
+      "kind": "world",
+      "version": "0.3.0",
+      "displayName": "本地视觉 LocalVision",
+      "description": "在本机把屏幕 OCR 成「文字 + 坐标」，默认不把截图发到云端，省掉每帧看屏的 token；可选接视觉模型，也可硬拦截内置截图。",
+      "locales": {
+        "zh": {
+          "displayName": "本地视觉 LocalVision",
+          "description": "在本机把屏幕 OCR 成「文字 + 坐标」，默认不上传截图，省掉每帧看屏的 token；可选接视觉模型看图，也可硬拦截内置截图。"
+        },
+        "en": {
+          "displayName": "LocalVision",
+          "description": "Reads the screen locally with OCR and returns text with coordinates, keeping screenshots off the cloud by default. Optional vision model and built-in screenshot interception."
+        }
+      },
+      "author": "HY-pt",
+      "maintainers": [
+        "hy-pt"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-localvision",
+        "repository": "https://github.com/HY-pt/cortico-world-localvision",
+        "homepage": "https://github.com/HY-pt/cortico-world-localvision",
+        "bugs": "https://github.com/HY-pt/cortico-world-localvision/issues"
+      },
+      "os": [
+        "win32",
+        "darwin"
+      ],
+      "created": "2026-10-20T18:30:32.418Z",
+      "published": "2026-10-20T18:31:48.756Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "local",
+        "experimental",
+        "sensitive-data"
+      ],
+      "tags": [
+        "local",
+        "experimental",
+        "sensitive-data"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 0,
+        "toolTokens": 940,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.3.0"
+        ],
+        "url": "https://github.com/HY-pt/cortico-world-localvision/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 169,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/169",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-majsoul": {
       "kind": "world",
       "version": "1.1.0",
@@ -3477,7 +3553,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/37",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-qiandengji": {

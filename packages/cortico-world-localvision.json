@@ -1,0 +1,178 @@
+{
+  "schema": 1,
+  "name": "cortico-world-localvision",
+  "version": "0.3.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "localvision_see",
+        "description": "看屏幕：在本机截屏后用本机 OCR 把可见文字转成「文字 + 截图像素坐标」返回，默认不向云端上传图片（省 token）。小字看不清时，可用上一次返回的坐标传 region 再 OCR 一次，会在原始分辨率下识别。屏幕上一行文字都没有时，按配置处理：默认只回文字提示（最省 token）；也可交给视觉模型（本地端点 / 在线端点 / Coopanion 模型商）或直接上传图片（费 token）。返回的坐标可直接传给内置的 pet_cua_click（同一显示器、默认 1280×800 缩放）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "display": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "显示器编号（1 起，1 = 最左）；缺省为主显示器。多屏时与 pet_cua_* 用同一个编号。"
+            },
+            "prompt": {
+              "type": "string",
+              "description": "可选：只想关注的内容（例如\"右上角的按钮\"）。仅作为提示，不影响 OCR 结果。"
+            },
+            "region": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "y": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "w": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "h": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "x",
+                "y",
+                "w",
+                "h"
+              ],
+              "description": "只截这块再 OCR（小字更准）。坐标用上一次 localvision_see 返回的截图坐标（同一坐标系）。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ]
+      },
+      {
+        "name": "localvision_ocr",
+        "description": "逐字提取屏幕上的文字（本机原生 OCR），只返回纯文本、不含坐标、不回退图片。适合读错误消息、字段名等具体文字；小字可传 region 局部放大识别。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "display": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "显示器编号（1 起，1 = 最左）；缺省为主显示器。"
+            },
+            "region": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "y": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "w": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "h": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "x",
+                "y",
+                "w",
+                "h"
+              ],
+              "description": "只截这块再 OCR（小字更准）。坐标用上一次 localvision_see 返回的截图坐标（同一坐标系）。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "localvision_describe",
+        "description": "用视觉模型描述画面（游戏、图片、图表、视频帧等 OCR 读不出来的内容）。需在「模型」页启用视觉模型，按「优先选择的模型」路由：自动=本地>在线>Coopanion 模型商，也可锁定本地端点、在线端点或直接用 Coopanion 模型商（截图交给对话模型看）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "prompt": {
+              "type": "string",
+              "description": "想问本地视觉模型的问题；缺省为\"描述截图内容\"。"
+            },
+            "display": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "显示器编号（1 起）；缺省为主显示器。"
+            },
+            "region": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "y": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "w": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "h": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "x",
+                "y",
+                "w",
+                "h"
+              ],
+              "description": "只截这块再 OCR（小字更准）。坐标用上一次 localvision_see 返回的截图坐标（同一坐标系）。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ]
+      },
+      {
+        "name": "localvision_doctor",
+        "description": "诊断本地视觉：报告屏幕/DPI、OCR 语言与已缓存语言包、硬拦截是否生效、当前视觉模型配置；checkModel=true 时还会实际请求一次端点。排查“识别不准/模型不工作”时先跑它（也可在「诊断」面板点按钮查看）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "checkModel": {
+              "type": "boolean",
+              "description": "是否实际请求一次视觉模型端点（会消耗少量 token）。默认 false。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      }
+    ],
+    "events": []
+  },
+  "changelog": {
+    "0.3.0": "- **面板与配置去重**：配置页不再重复视觉模型表单，改为动态只读摘要；视觉模型集中在「模型」页编辑\n- **模型面板**：启用开关置顶，勾选后折叠区自动展开、取消时灰掉收缩（配置保留不生效）；优先级下拉改为 自动 / 本地 / 在线 / Coopanion\n- **配置页下拉中文化**：感知优先级只给 自动 / 模型 / OCR-only；「OCR 无文字时」显示 图片 / 文本，说明两行并更正为默认 OCR 优先\n- **诊断**：结果保留到下次检测覆盖（存在浏览器本地，刷新不丢）；新增「打核心补丁」按钮\n- **修复**：优先级下拉改了被弹回（框架会丢弃组 schema 未声明的键）；「获取可用模型」缺数据时提示缺少必要数据而不是 fetch failed\n- **依赖**：视觉模型改为可选，按 本地 > 在线 > Coopanion 模型商 自动路由"
+  }
+}
