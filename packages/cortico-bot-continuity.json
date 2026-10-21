@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-bot-continuity",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "describe": {
     "tools": [
       {
@@ -297,15 +297,20 @@
               "type": "string",
               "description": "Text returned when the wake fires."
             },
+            "repeat": {
+              "type": "boolean",
+              "default": false,
+              "description": "Only with at. Repeat daily at the same local time in the deployment timezone, saved when scheduled. Skip nonexistent daylight-saving times; fire once on dates with a repeated time. The wake ID stays valid until cancelled."
+            },
             "block": {
               "type": "boolean",
               "default": false,
-              "description": "If true, hold live event delivery until this wake fires or wake_keyword matches. Manual operator pause remains independent."
+              "description": "If true, hold live event delivery until this wake fires or wake_keyword matches. Repeated wakes stop blocking after the first due time. Manual operator pause remains independent."
             },
             "wake_keyword": {
               "type": "string",
               "minLength": 1,
-              "description": "Optional, only used with block=true. A case-sensitive literal substring match in a new external event wakes early and cancels this wake."
+              "description": "Optional, only used with block=true. A case-sensitive literal substring match in a new external event wakes early and cancels this wake, including future repeats."
             },
             "overflow_limit": {
               "type": "integer",
@@ -326,8 +331,45 @@
             {
               "required": [
                 "after_minutes"
-              ]
+              ],
+              "properties": {
+                "repeat": {
+                  "const": false
+                }
+              }
             }
+          ]
+        },
+        "tags": [
+          "flow"
+        ]
+      },
+      {
+        "name": "list_wakes",
+        "description": "List scheduled wakes by next due time, with their IDs, notes, repeat and delivery-block state. Daily wakes include their saved timezone and local time.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "cancel_wake",
+        "description": "Cancel a wake by the ID returned by schedule_wake or list_wakes, including all future repeats. Release its delivery block; another blocking wake may keep delivery held.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Wake ID from schedule_wake or list_wakes."
+            }
+          },
+          "required": [
+            "id"
           ]
         },
         "tags": [
@@ -591,7 +633,7 @@
                   ]
                 }
               ],
-              "description": "Use \"all\" only for complete consolidation of every material in this dream. Partial progress requires explicit material IDs."
+              "description": "Use \"all\" after consolidating every material in this batch, with complete or partial status. Otherwise list only processed material IDs."
             },
             "pendingTasks": {
               "type": "array",
@@ -669,6 +711,7 @@
     ]
   },
   "changelog": {
+    "0.6.0": "- Add `list_wakes` and `cancel_wake` for scheduled wakes and their delivery blocks.\n- Support `schedule_wake(at, note, repeat=true)` at the same local time each day, with a persistent wake ID and timezone. Relative wakes remain one-shot.\n- Process Dream materials oldest first in input-sized batches and continue after confirmed progress, up to `dream.maxBatches` (default 3).\n- Return actionable `surface` validation errors and preserve pending future tasks when all materials in the current batch have been processed.\n- Fix worker deadline tests and Dream test receipts containing context-budget reminders.\n\n`surface(processedMaterials=\"all\")` now confirms the active batch and is valid with `status=\"partial\"`. Set `dream.maxBatches=1` to retain one batch per handoff or manual continuation. Existing materials and run records remain readable.",
     "0.5.1": "- Retain the question, speech calls and actual receipts from the batch crossing the soft context threshold in the recent handoff note.\n- Keep startup available when Dream run history, saved context or pending-task notes are damaged or unreadable.\n- Preserve malformed state files beside the original path and report recovery in the log; retain unconfirmed materials.",
     "0.5.0": "- Target Cortico 0.2.1 and bot contract 7.\n- Rename browser contributions, imports and bundles to WebUI.\n- Add extension self-description, official index tags and publishing guidance.\n\nThe built-in chat World is `console`. Migrate deployment `worlds.terminal` to `worlds.console`, move `worlds/terminal/ENV_PROMPT.md` to `worlds/console/ENV_PROMPT.md`, and rename `logging.console` to `logging.stdout` when present. Update the prompt variable `terminal.pin` to `console.pin` and subagent permission keys `terminal` / `terminal_send` to `console` / `console_send`. Existing `terminal.*` event records remain stored but do not appear on the Console page.",
     "0.4.2": "- Last release using the previous Cortico extension contract."
