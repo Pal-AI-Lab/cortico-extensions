@@ -4,6 +4,9 @@
     "cortico-bot-weighted-memory": [
       "sensitive-data"
     ],
+    "cortico-world-aigc": [
+      "unsafe"
+    ],
     "cortico-world-coocowork": [
       "sensitive-data"
     ],
@@ -815,6 +818,81 @@
       "discussion": {
         "number": 92,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/92",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-aigc": {
+      "kind": "world",
+      "version": "0.1.0-rc.1",
+      "displayName": "AIGC 创作室",
+      "description": "Independent image, video and music creation World with shared assets, explicit providers and durable jobs",
+      "maintainers": [
+        "jcs130"
+      ],
+      "license": "(MIT AND AGPL-3.0-only)",
+      "keywords": [
+        "cortico-world",
+        "aigc",
+        "image-generation",
+        "video",
+        "music",
+        "mcp"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-aigc",
+        "repository": "https://github.com/jcs130/cortico-world-aigc",
+        "homepage": "https://github.com/jcs130/cortico-world-aigc#readme",
+        "bugs": "https://github.com/jcs130/cortico-world-aigc/issues"
+      },
+      "created": "2026-10-21T12:21:19.473Z",
+      "published": "2026-10-21T12:23:58.639Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "creative",
+        "external-setup",
+        "experimental",
+        "internal-state",
+        "unsafe",
+        "high-cost"
+      ],
+      "tags": [
+        "video",
+        "creative",
+        "external-setup",
+        "experimental",
+        "internal-state",
+        "high-cost",
+        "unsafe"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 1,
+        "toolTokens": 914,
+        "envPromptTokens": 511
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0-rc.1",
+          "0.1.0-dev.20261021.2",
+          "0.1.0-dev.20261021.1",
+          "0.1.0-dev.20261020.3",
+          "0.1.0-dev.20261020.2",
+          "0.1.0-dev.20261020.1"
+        ],
+        "url": "https://github.com/jcs130/cortico-world-aigc/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 175,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/175",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -2030,7 +2108,7 @@
     },
     "cortico-world-ego": {
       "kind": "world",
-      "version": "0.1.5",
+      "version": "0.1.6",
       "displayName": "Ego 浏览器",
       "description": "Ego 浏览器 —— 专为 AI 打造的浏览器 World，让你家的小肥鱼上网、看图、看视频更顺手。Cortico 与 Coopanion 共用官方 ego-browser 接口，在独立 Space 里开网页、点击填表、截图，观看 HTML5 / B 站视频的画面、字幕与弹幕。需先安装 Ego Lite。",
       "locales": {
@@ -2063,8 +2141,8 @@
         "darwin"
       ],
       "created": "2026-10-21T11:07:12.898Z",
-      "published": "2026-10-21T11:14:23.903Z",
-      "versionCount": 2,
+      "published": "2026-10-21T12:31:20.467Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2081,7 +2159,7 @@
         "external-setup",
         "high-cost"
       ],
-      "icon": "assets/cortico-world-ego/icon.svg",
+      "icon": "assets/cortico-world-ego/icon.webp",
       "downloads": {
         "total": 0,
         "month": 0,
@@ -2090,11 +2168,12 @@
       "summary": {
         "tools": 14,
         "events": 3,
-        "toolTokens": 2235,
-        "envPromptTokens": 1089
+        "toolTokens": 2538,
+        "envPromptTokens": 1291
       },
       "changelog": {
         "versions": [
+          "0.1.6",
           "0.1.5",
           "0.1.4",
           "0.1.3",
@@ -3790,7 +3869,7 @@
       },
       "created": "2026-10-09T15:09:16.966Z",
       "published": "2026-10-09T15:21:32.912Z",
-      "versionCount": 3,
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "tags": [
@@ -4115,7 +4194,7 @@
     },
     "cortico-world-qq-final": {
       "kind": "world",
-      "version": "0.6.6",
+      "version": "0.6.7",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -4134,8 +4213,8 @@
         "bugs": "https://github.com/hth768/cortico-world-qq-final/issues"
       },
       "created": "2026-10-06T07:39:25.866Z",
-      "published": "2026-10-21T09:50:23.554Z",
-      "versionCount": 39,
+      "published": "2026-10-21T12:08:03.255Z",
+      "versionCount": 40,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -4155,13 +4234,14 @@
         "week": 4025
       },
       "summary": {
-        "tools": 33,
+        "tools": 13,
         "events": 8,
-        "toolTokens": 5033,
+        "toolTokens": 3561,
         "envPromptTokens": 508
       },
       "changelog": {
         "versions": [
+          "0.6.7",
           "0.6.6",
           "0.6.5",
           "0.6.4",
@@ -5037,7 +5117,7 @@
     },
     "cortico-world-simple-trpg-check": {
       "kind": "world",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "description": "Cortico 的 TRPG 技能检定 World 扩展，使用本地或远程模型评估技能水平，支持 d100 掷骰、组合与对抗检定。",
       "author": "DTMosken",
       "maintainers": [
@@ -5055,8 +5135,8 @@
         "bugs": "https://github.com/DTMosken/cortico-world-simple-trpg-check/issues"
       },
       "created": "2026-09-24T04:35:03.761Z",
-      "published": "2026-10-17T08:24:15.197Z",
-      "versionCount": 10,
+      "published": "2026-10-21T13:05:37.279Z",
+      "versionCount": 11,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -5080,10 +5160,11 @@
         "tools": 2,
         "events": 0,
         "toolTokens": 2303,
-        "envPromptTokens": 2046
+        "envPromptTokens": 502
       },
       "changelog": {
         "versions": [
+          "0.4.2",
           "0.4.1",
           "0.4.0",
           "0.3.0"
@@ -5483,9 +5564,9 @@
     },
     "cortico-world-surfing": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "displayName": "网上冲浪",
-      "description": "读取公开网页正文和 B站字幕，支持视频搜索、分段续读和可调返回量。",
+      "description": "读取公开网页正文和 B站视频简介、字幕、评论，支持视频搜索、分段续读和可调返回量。",
       "author": "DTMosken",
       "maintainers": [
         "dtmosken"
@@ -5506,8 +5587,8 @@
         "bugs": "https://github.com/DTMosken/cortico-world-surfing/issues"
       },
       "created": "2026-10-08T04:13:29.496Z",
-      "published": "2026-10-16T07:43:39.809Z",
-      "versionCount": 3,
+      "published": "2026-10-21T13:20:10.937Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5526,13 +5607,14 @@
         "week": 312
       },
       "summary": {
-        "tools": 3,
+        "tools": 5,
         "events": 0,
-        "toolTokens": 684,
-        "envPromptTokens": 607
+        "toolTokens": 1222,
+        "envPromptTokens": 201
       },
       "changelog": {
         "versions": [
+          "0.3.0",
           "0.2.0",
           "0.1.0"
         ],
@@ -5548,7 +5630,7 @@
     },
     "cortico-world-terrarium": {
       "kind": "world",
-      "version": "0.8.7",
+      "version": "0.8.7-bugfix.1",
       "displayName": "Terrarium",
       "description": "Claimable land and water ecosystems with plants, bugs, fish and a public leaderboard",
       "locales": {
@@ -5581,8 +5663,8 @@
         "bugs": "https://github.com/zhiyuHD/cortico-world-terrarium/issues"
       },
       "created": "2026-10-17T06:11:00.470Z",
-      "published": "2026-10-21T11:04:08.903Z",
-      "versionCount": 29,
+      "published": "2026-10-21T13:24:22.693Z",
+      "versionCount": 30,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5605,6 +5687,7 @@
       },
       "changelog": {
         "versions": [
+          "0.8.7-bugfix.1",
           "0.8.7",
           "0.8.6",
           "0.8.5",
