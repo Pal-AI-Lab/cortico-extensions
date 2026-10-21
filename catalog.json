@@ -970,7 +970,7 @@
     },
     "cortico-world-audio": {
       "kind": "world",
-      "version": "0.1.9",
+      "version": "0.2.0",
       "displayName": "听觉（音频理解）",
       "description": "Cortico World: 音频理解（Qwen2-Audio 本地模型）——听一段音频，说出它在放什么（音乐类型/情绪/歌词大意），也能把语音转成文字。",
       "maintainers": [
@@ -992,8 +992,8 @@
         "bugs": "https://github.com/wjpgkz/cortico-world-audio/issues"
       },
       "created": "2026-10-21T08:39:09.632Z",
-      "published": "2026-10-21T10:17:43.916Z",
-      "versionCount": 11,
+      "published": "2026-10-21T11:57:06.163Z",
+      "versionCount": 12,
       "official": false,
       "isNew": true,
       "tags": [],
@@ -2028,6 +2028,90 @@
         "comments": 0
       }
     },
+    "cortico-world-ego": {
+      "kind": "world",
+      "version": "0.1.5",
+      "displayName": "Ego 浏览器",
+      "description": "Ego 浏览器 —— 专为 AI 打造的浏览器 World，让你家的小肥鱼上网、看图、看视频更顺手。Cortico 与 Coopanion 共用官方 ego-browser 接口，在独立 Space 里开网页、点击填表、截图，观看 HTML5 / B 站视频的画面、字幕与弹幕。需先安装 Ego Lite。",
+      "locales": {
+        "en": {
+          "displayName": "Ego Browser",
+          "description": "Ego Browser — a browser built for AI, so your little fat fish (小肥鱼) browses, reads pages and watches videos more smoothly. For Cortico and Coopanion via the official ego-browser API: isolated task spaces, browsing, forms, screenshots, HTML5/Bilibili video frames, subtitles and danmaku. Requires an installed Ego Lite."
+        }
+      },
+      "author": "筆離嘢",
+      "maintainers": [
+        "biliye"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "ego",
+        "browser",
+        "video",
+        "bilibili"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-ego",
+        "repository": "https://github.com/biliye/cortico-world-ego",
+        "homepage": "https://github.com/biliye/cortico-world-ego#readme",
+        "bugs": "https://github.com/biliye/cortico-world-ego/issues"
+      },
+      "os": [
+        "win32",
+        "darwin"
+      ],
+      "created": "2026-10-21T11:07:12.898Z",
+      "published": "2026-10-21T11:14:23.903Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "internet",
+        "browser",
+        "video",
+        "external-setup",
+        "high-cost"
+      ],
+      "tags": [
+        "internet",
+        "browser",
+        "video",
+        "external-setup",
+        "high-cost"
+      ],
+      "icon": "assets/cortico-world-ego/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 14,
+        "events": 3,
+        "toolTokens": 2235,
+        "envPromptTokens": 1089
+      },
+      "changelog": {
+        "versions": [
+          "0.1.5",
+          "0.1.4",
+          "0.1.3",
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/biliye/cortico-world-ego/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 173,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/173",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-fatfish": {
       "kind": "world",
       "version": "0.3.8",
@@ -2509,7 +2593,7 @@
     },
     "cortico-world-listen": {
       "kind": "world",
-      "version": "0.3.3",
+      "version": "0.4.0",
       "displayName": "听觉",
       "description": "听觉（Listen）—— 给 Coopanion 桌宠的 cortico World 扩展：监听系统声音或某个应用的音频，自动把语音切成块（能量门限或可选的 Silero VAD），并把每块作为事件投进 cortico 事件流（附件是 WAV），由 agent 决定接下来做什么（比如交给 stt_transcribe 转写成文字）。 / A cortico World extension that captures system or per-application audio, segments spe",
       "author": "AqualCross",
@@ -2539,8 +2623,8 @@
         "bugs": "https://github.com/AqualCross/cortico-world-listen/issues"
       },
       "created": "2026-10-16T15:24:26.356Z",
-      "published": "2026-10-21T09:36:31.522Z",
-      "versionCount": 5,
+      "published": "2026-10-21T11:14:43.310Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2555,13 +2639,14 @@
         "week": 315
       },
       "summary": {
-        "tools": 3,
+        "tools": 2,
         "events": 1,
-        "toolTokens": 437,
+        "toolTokens": 556,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.4.0",
           "0.3.3",
           "0.3.2",
           "0.3.1",
