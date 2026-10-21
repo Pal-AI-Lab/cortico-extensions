@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "name": "cortico-world-screen-look",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [],
+    "events": [
+      {
+        "type": "screen-look.shot",
+        "description": {
+          "zh": "按快捷键截了一张屏幕图,连同图片一起投给模型;图是事件附件,不是工具回执。",
+          "en": "A screenshot was taken with the hotkey and pushed to the model with the image attached, not as a tool result."
+        },
+        "trigger": "preempt"
+      },
+      {
+        "type": "screen-look.failed",
+        "description": {
+          "zh": "按了快捷键但没截到屏幕,只说明失败原因。",
+          "en": "The hotkey was pressed but the screenshot failed; only the reason is reported."
+        },
+        "trigger": "preempt"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.screen-look.envPrompt",
+        "title": "看一眼屏幕",
+        "role": "envPrompt",
+        "content": "## 看一眼屏幕\n\n对方随时可能按下 {{screen-look.hotkey}}。每按一次,你会收到一条 `screen-look.shot` 事件:一句说明,加上一张此刻屏幕的截图,图作为附件跟事件一起来。\n\n这是对方主动把屏幕给你看的,不是你在偷看。看到什么就说什么:他在做什么、卡在哪一步、哪里值得提醒或接一句。看不清就说看不清,不要补上截图里没有的细节。同一张图会一直留在对话里,不必反复复述。\n\n你手上没有截图工具,想看新的画面只能请对方再按一次 {{screen-look.hotkey}}。"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "第一个版本。\n\n- 新 World：`screen-look`（显示名「看一眼屏幕」/ Screen Look）。按快捷键截一张屏幕图，\n  以 `screen-look.shot` 事件带 JPEG 附件投给模型，`trigger: 'preempt'`。\n- 按键监听：`Ctrl+Alt+S` 这类组合键，或 `LeftAlt*2` 这类连按；三平台实现\n  （Windows koffi `GetAsyncKeyState`、macOS CoreGraphics、Linux X11 `XQueryKeymap`）。\n  在控制台改快捷键 1 秒内生效。\n- 截图：Windows 用 GDI（含分层窗口、per-monitor DPI v2），macOS 用 `screencapture`，\n  Linux 依次试 `grim` / `convert import` / `scrot`；取鼠标所在屏或主屏，等比缩到 1280×800 以内，\n  JPEG 质量 72。\n- 模型不接受图片时不带附件，并明确说「你收不到图片」；截图失败推 `screen-look.failed` 并只说原因。\n- 配置组 `worlds.screen-look.*`：`enabled`、`hotkey`、`display`、`maxWidth`、`maxHeight`、\n  `quality`、`cooldownMs`；控制台有指示灯（已监听 / 没在听 / 出错）与环境提示词。\n- `describe.json` 自描述；`pnpm check:extension` 应通过（契约版本 world 6）。"
+  }
+}

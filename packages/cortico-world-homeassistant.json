@@ -1,0 +1,224 @@
+{
+  "schema": 1,
+  "name": "cortico-world-homeassistant",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "ha_states",
+        "description": "List Home Assistant entities with their current states. Filter by area (room), domain and/or a text query over entity id and friendly name; results show the area when known. Call this before controlling anything; never guess entity ids. Use ha_areas first when a room name is ambiguous.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "area": {
+              "type": "string",
+              "description": "Restrict to one area by name or area_id, e.g. \"study\" or \"书房\". Matching is case-insensitive and allows a substring."
+            },
+            "domain": {
+              "type": "string",
+              "description": "Restrict to one domain, e.g. light, switch, sensor, climate, camera."
+            },
+            "query": {
+              "type": "string",
+              "description": "Case-insensitive substring matched against entity id and friendly name, e.g. \"living\" or \"客厅\"."
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 30,
+              "description": "Maximum number of entities to return."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "列出 Home Assistant 里的实体与当前状态,可按区域、域和名称筛选,结果带上所在区域。",
+          "en": "Lists Home Assistant entities and their current states, filtered by area, domain and name; results show the area."
+        }
+      },
+      {
+        "name": "ha_get",
+        "description": "Read the current state and attributes of specific entities by entity_id. Use it after ha_states when the details of one device matter.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "entity_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "maxItems": 20,
+              "description": "Entity ids such as [\"light.living_room\"]."
+            }
+          },
+          "required": [
+            "entity_ids"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读指定实体的完整状态与属性。",
+          "en": "Reads the full state and attributes of specific entities."
+        }
+      },
+      {
+        "name": "ha_service",
+        "description": "Call a Home Assistant service to change devices, e.g. light.turn_on, switch.turn_off, scene.turn_on, climate.set_temperature. entity_id is required: this tool never calls a service for a whole domain at once. Only domains allowlisted in the World config are accepted; shell_command, python_script, hassio, homeassistant, recorder, logger and system_log are always refused.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "domain": {
+              "type": "string",
+              "description": "Service domain, e.g. light, switch, scene, script, climate, cover, fan."
+            },
+            "service": {
+              "type": "string",
+              "description": "Service name within the domain, e.g. turn_on, turn_off, toggle, set_temperature."
+            },
+            "entity_id": {
+              "type": [
+                "string",
+                "array"
+              ],
+              "items": {
+                "type": "string"
+              },
+              "description": "One entity id or an array of them. Required."
+            },
+            "data": {
+              "type": "object",
+              "description": "Extra service fields, e.g. {\"brightness_pct\": 40} or {\"temperature\": 24}.",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "domain",
+            "service",
+            "entity_id"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "调用白名单内的 HA 服务控制设备,例如开灯、关开关、触发场景。",
+          "en": "Calls an allowlisted Home Assistant service to control devices, such as turning a light on or triggering a scene."
+        }
+      },
+      {
+        "name": "ha_history",
+        "description": "Read recent state changes of one entity from the Home Assistant recorder. Use it for questions such as when a light was turned on, or how a sensor moved today.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "entity_id": {
+              "type": "string",
+              "description": "One entity id, e.g. sensor.living_room_temperature."
+            },
+            "hours": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 168,
+              "default": 24,
+              "description": "How far back to look, 1 to 168 hours (7 days)."
+            }
+          },
+          "required": [
+            "entity_id"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读一个实体最近最多 7 天的状态变化记录。",
+          "en": "Reads up to seven days of recorded state changes for one entity."
+        }
+      },
+      {
+        "name": "ha_camera",
+        "description": "Fetch one still snapshot from a camera entity such as camera.front_door. Returns the image when the model accepts images; otherwise only a short text note. Only call it when the user asks to look or when the situation needs it.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "entity_id": {
+              "type": "string",
+              "description": "A camera entity id whose domain is camera."
+            }
+          },
+          "required": [
+            "entity_id"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "从摄像头实体抓一张当前画面;模型不支持图片时只给文字说明。",
+          "en": "Fetches one still snapshot from a camera entity; when the model does not accept images, only a text note is returned."
+        }
+      },
+      {
+        "name": "ha_areas",
+        "description": "List the areas (rooms) Home Assistant knows and how many entities each one contains. Use it to resolve a room name the user said into the exact area string for ha_states.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "列出 HA 里已知的房间/区域与各自的实体数量,用来把用户说的房间名对上。",
+          "en": "Lists the areas (rooms) Home Assistant knows with their entity counts, so a room name can be resolved."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "homeassistant.state_changed",
+        "description": {
+          "zh": "监听列表里的实体状态发生变化。",
+          "en": "A watched entity changed state."
+        }
+      },
+      {
+        "type": "homeassistant.connected",
+        "description": {
+          "zh": "与 HA 的 WebSocket 连接建立,状态变化开始实时推送。",
+          "en": "The WebSocket connection to Home Assistant is up and state changes are pushed live."
+        }
+      },
+      {
+        "type": "homeassistant.disconnected",
+        "description": {
+          "zh": "与 HA 的连接断开,或令牌被拒绝。",
+          "en": "The connection to Home Assistant dropped, or the token was rejected."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.homeassistant.envPrompt",
+        "title": "Home Assistant · 环境提示词",
+        "role": "envPrompt",
+        "content": "你连着这个家的 Home Assistant。灯、开关、传感器、空调、摄像头这些设备由它管;你能查到什么、能操作什么,以工具回执为准。\n\n## 先看再动\n\n不知道 `entity_id` 时先用 `ha_states` 找(可按区域、域或名称筛选),再用 `ha_get` 看细节。不要凭房间名猜 `entity_id`,也不要把\"客厅灯\"直接当成某个 id。要控制前先确认实体属于这个家、状态是你要改的那个。\n\n## 房间与区域\n\nHome Assistant 有区域(房间)登记,`ha_areas` 列出全部区域与各自的实体数量。用户说\"书房\"\"客厅\"这类房间名时,先调 `ha_areas` 对一下名字,再用 `ha_states` 的 `area` 参数列这个房间的实体;回执里括号中的就是区域。同名设备(比如两盏都叫\"顶灯\")要靠区域区分,不要按顺序猜\"第一盏\"\"第二盏\"。区域读不到(WebSocket 未连接)时如实说明,不要编造房间归属。\n\n**灯不一定在 `light` 域。** 有些集成常把墙开关、顶灯暴露成 `switch.*`(例如 `switch.xxx_on_p_2_1`,名称是\"顶灯 开关 开关\"),而 `light` 域里可能只有\"指示灯\"。用户说开灯时,先用 `ha_states` 带 `area` 和 `query`(\"灯\")找名称对得上的实体,看回执里的域名;`light` 域只有指示灯时就改看 `switch` 域,不要控制指示灯。区域结果按可控设备优先排序,被截断时表头会给出域分布,可以据此加 `domain` 缩小范围。\n\n## 工具怎么配合\n\n- `ha_states` / `ha_get`:只读,先查后说。\n- `ha_service`:真正改变设备。`entity_id` 必填,一次只动被点名的那几个;用户说\"关灯\"但没说是哪盏时,先问或先列出候选,不要一次关掉整个域。\n- 有场景或脚本(`scene.*`、`script.*`)时优先用它,比自己拼多个服务调用稳。\n- `ha_history`:回答\"什么时候开的\"\"今天温度怎么变\"这类问题。\n- `ha_camera`:用户让你看或确实需要画面时再抓;图会占上下文,不要连续抓。\n\n现在允许控制的域:{{homeassistant.allowedDomains}}。不在里面的服务一律会被拒绝,不要绕过,也不要说\"应该可以\"。\n\n## 主动告诉你的变化\n\n只有这些实体的状态变化会主动推送给你:{{homeassistant.watchEntities}}。收到时它就是刚发生的事实;没收到不等于没发生,需要时自己用 `ha_history` 查。\n\n## 事实边界\n\n回执里写的是 Home Assistant 报的状态。说\"已经打开/关掉\"之前先看本次回执;服务调用失败、超时或没配令牌时如实说没做成,不要编造结果。家里的设备、成员和作息属于隐私,不要主动搬到外部平台或别的会话里。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "首个版本。\n\n- 接入局域网 Home Assistant：`ha_states`、`ha_areas`、`ha_get`、`ha_service`、`ha_history`、`ha_camera` 六个工具。\n- 令牌面板：在 World 页粘贴长期访问令牌，保存进部署 `.env` 的 `HOME_ASSISTANT_PANEL_TOKEN`，立即重连，不需要环境变量或重启；保存后输入框以星号保留，刷新后显示星号占位。旧的 `HOME_ASSISTANT_TOKEN` 方式已完全移除。\n- 区域支持：WebSocket 读区域/设备/实体注册表，按房间筛选并标注；同名设备（两盏「顶灯」）靠区域区分。\n- 区域结果按可控设备优先排序，截断时给出域分布，避免按钮/事件占满列表。\n- 控制走域白名单，`entity_id` 必填；`shell_command`、`python_script`、`hassio`、`homeassistant` 等域硬拒绝。\n- WebSocket 订阅 `state_changed`，只推 `watchEntities` 命中的实体，同实体有冷却。\n- 连接/断开事件；令牌从未配置、被拒绝、请求超时分别给出可读回执。\n- 未发布到 npm，用本机目录安装。"
+  }
+}

@@ -10,6 +10,9 @@
     "cortico-world-coocowork": [
       "sensitive-data"
     ],
+    "cortico-world-homeassistant": [
+      "sensitive-data"
+    ],
     "cortico-world-localvision": [
       "sensitive-data"
     ],
@@ -2433,6 +2436,81 @@
         "comments": 0
       }
     },
+    "cortico-world-homeassistant": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "Home Assistant",
+      "description": "Home Assistant World for Cortico: read states, control allowlisted devices, trigger scenes and scripts, read history, fetch camera snapshots and push state changes",
+      "locales": {
+        "zh": {
+          "displayName": "Home Assistant",
+          "description": "接入局域网里的 Home Assistant:查设备状态、控制灯光与开关、触发场景和脚本、看历史与摄像头画面。"
+        },
+        "en": {
+          "displayName": "Home Assistant",
+          "description": "Connect to a Home Assistant instance on your LAN: read states, control lights and switches, trigger scenes and scripts, view history and camera snapshots."
+        }
+      },
+      "author": "近人可读",
+      "maintainers": [
+        "zhangyc27"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "home-assistant",
+        "smart-home"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-homeassistant",
+        "repository": "https://github.com/zyc0327/cortico-world-homeassistant",
+        "homepage": "https://github.com/zyc0327/cortico-world-homeassistant#readme",
+        "bugs": "https://github.com/zyc0327/cortico-world-homeassistant/issues"
+      },
+      "created": "2026-10-21T13:27:13.731Z",
+      "published": "2026-10-21T13:31:29.069Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "real-world",
+        "external-setup",
+        "requires-key",
+        "sensitive-data"
+      ],
+      "tags": [
+        "real-world",
+        "external-setup",
+        "requires-key",
+        "sensitive-data"
+      ],
+      "icon": "assets/cortico-world-homeassistant/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 6,
+        "events": 3,
+        "toolTokens": 1154,
+        "envPromptTokens": 584
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/zyc0327/cortico-world-homeassistant/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 176,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/176",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-humanlike-alont1": {
       "kind": "world",
       "version": "0.1.17",
@@ -4194,7 +4272,7 @@
     },
     "cortico-world-qq-final": {
       "kind": "world",
-      "version": "0.6.7",
+      "version": "0.6.8",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -4213,8 +4291,8 @@
         "bugs": "https://github.com/hth768/cortico-world-qq-final/issues"
       },
       "created": "2026-10-06T07:39:25.866Z",
-      "published": "2026-10-21T12:08:03.255Z",
-      "versionCount": 40,
+      "published": "2026-10-21T15:55:35.913Z",
+      "versionCount": 41,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -4234,13 +4312,14 @@
         "week": 4025
       },
       "summary": {
-        "tools": 13,
+        "tools": 14,
         "events": 8,
-        "toolTokens": 3561,
+        "toolTokens": 3850,
         "envPromptTokens": 508
       },
       "changelog": {
         "versions": [
+          "0.6.8",
           "0.6.7",
           "0.6.6",
           "0.6.5",
@@ -5002,6 +5081,66 @@
         "comments": 0
       }
     },
+    "cortico-world-screen-look": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "Screen Look",
+      "description": "Cortico World: press a hotkey and the bot looks at your screen once — the person decides when the screen is shared",
+      "locales": {
+        "zh": {
+          "displayName": "看一眼屏幕",
+          "description": "按一下快捷键,让桌宠看一眼你此刻的屏幕:截一张图,连同事件一起投给模型。"
+        }
+      },
+      "author": "lizhoule",
+      "maintainers": [
+        "lizhoule"
+      ],
+      "license": "AGPL-3.0-or-later",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "screenshot",
+        "hotkey"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-screen-look",
+        "repository": "https://github.com/lizhouleli-ui/cortico-world-screen-look",
+        "homepage": "https://github.com/lizhouleli-ui/cortico-world-screen-look#readme",
+        "bugs": "https://github.com/lizhouleli-ui/cortico-world-screen-look/issues"
+      },
+      "created": "2026-10-21T14:13:52.510Z",
+      "published": "2026-10-21T14:17:27.615Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 0,
+        "events": 2,
+        "toolTokens": 0,
+        "envPromptTokens": 127
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/lizhouleli-ui/cortico-world-screen-look/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 177,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/177",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-selfkit-alont1": {
       "kind": "world",
       "version": "0.1.0",
@@ -5728,9 +5867,9 @@
       "discussion": {
         "number": 85,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/85",
-        "up": 3,
+        "up": 4,
         "down": 2,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-todo-alont1": {

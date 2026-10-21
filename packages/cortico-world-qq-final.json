@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-final",
-  "version": "0.6.7",
+  "version": "0.6.8",
   "describe": {
     "tools": [
       {
@@ -155,6 +155,46 @@
         ]
       },
       {
+        "name": "qq_sticker_tag",
+        "description": "修改某张已收藏表情包的标注（情感 emotion / 用处 usage / 短标签 tag / 显示名 label），并持久化保存。\n用途：自动标注不准（如情感写成「未知」）或你想按自己的习惯整理表情库时，用本工具改标注；改完后 qq_sticker_stats 里看到的就是新标注。\n先调 qq_sticker_stats 拿到真实文件名（如 sticker-xxxx.jpg），再调本工具指定要改的字段；只传想改的字段，其余保持不变。文件名也接受 [表情包:sticker-xxxx.jpg] 写法。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "file": {
+              "type": "string",
+              "description": "表情包文件名（来自 qq_sticker_stats），如 sticker-abc123.jpg。"
+            },
+            "emotion": {
+              "type": "string",
+              "description": "可选：新的情感标签（如 开心/撒娇/嘲讽/无奈）。"
+            },
+            "usage": {
+              "type": "string",
+              "description": "可选：新的适用场景（如 回应夸奖/表达无语）。"
+            },
+            "tag": {
+              "type": "string",
+              "description": "可选：新的 2-4 字短标签。"
+            },
+            "label": {
+              "type": "string",
+              "description": "可选：新的显示短名。"
+            }
+          },
+          "required": [
+            "file"
+          ]
+        },
+        "tags": [
+          "write",
+          "read"
+        ],
+        "summary": {
+          "zh": "修改某张表情包的标注(情感/用处/标签/显示名),改完即持久化。",
+          "en": "Edit the annotation (emotion/usage/tag/label) of one collected sticker and persist it."
+        }
+      },
+      {
         "name": "qq_proactive",
         "description": "主动说话调度器系列（用一个 action 选子功能）：status=查看调度器状态、今日配额与近期主动发言；trigger=手动触发一次主动说话（address?，留空随机），用于测试。",
         "parameters": {
@@ -188,7 +228,7 @@
       },
       {
         "name": "qq_qzone",
-        "description": "QQ 空间动态系列（用一个 action 选子功能）：post=发一条动态（说说，content 必填，可附图 images / @人 ats / 权限 permission）；delete=删除一条动态（tid）；reply=回复某条动态下的评论（tid+comment_id+content）；feeds=查看自己的动态列表（num）；status=查看发布器状态（开关/配额/最近动态 tid）。content 必须由你（主模型）显式给出：按“最近聊天 + 真实看法”以第一人称写，自然有梗，1-3 句；不要空泛、不要“我帮你记下了”这类托管语气。",
+        "description": "QQ 空间动态系列（用一个 action 选子功能）：post=发一条动态（说说，content 必填，可附图 images / @人 ats / 权限 permission）；delete=删除一条动态（tid）；reply=回复某条动态下的评论（tid+comment_id+content）；feeds=查看自己的动态列表（num）；status=查看发布器状态（开关/配额/最近动态 tid）。content 必须由你（主模型）显式给出：按\"最近聊天 + 真实看法\"以第一人称写，自然有梗，1-3 句；不要空泛、不要\"我帮你记下了\"这类托管语气。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -209,7 +249,7 @@
             },
             "topic": {
               "type": "string",
-              "description": "可选方向提示，如“吐槽最近的天气”“介绍一下小明”。"
+              "description": "可选方向提示，如\"吐槽最近的天气\"\"介绍一下小明\"。"
             },
             "images": {
               "type": "array",
@@ -299,7 +339,7 @@
             },
             "text": {
               "type": "string",
-              "description": "【add】要提醒的内容，例如“提醒我三点开会”。"
+              "description": "【add】要提醒的内容，例如\"提醒我三点开会\"。"
             },
             "when": {
               "type": "string",
@@ -566,6 +606,7 @@
     ]
   },
   "changelog": {
+    "0.6.8": "- 修复：宠物没有任何把标签写回表情包索引的通道——`sticker.ts` 里 `emotion/usage/tag` 只在收货那一刻由自动标注写入，此后无代码路径可改；对外只有只读的 `qq_sticker_stats` 与只同步的 `qq_sticker_to_favorites`，宠物想修正/补充标注（尤其「未知」）没有任何接口，手工改 `sticker-index.json` 又会被内存里的旧 map 在下次落盘时悄悄覆盖。\n- 新增工具 `qq_sticker_tag`：按文件名（来自 `qq_sticker_stats`，也接受 `[表情包:xxx]` 写法）修改某张表情包的 `emotion/usage/tag/label`（只传想改的字段），`StickerStore` 新增 `updateMeta()` 走既有 debounce 落盘，不再有覆盖问题。\n- bot 可见工具 13 -> 14；describe.json / README / TOOL_SUMMARIES 同步更新。",
     "0.6.7": "工具合并（减少 bot 可见工具数量、降低模型选工具负担；框架原生支持 `action` 枚举参数）：\n- 把 6 个「同族」工具各自合并为单个工具，子功能用 `action` 枚举参数暴露（保留全部原有行为/鉴权/保护逻辑）：\n  - `qq_qzone_*`（post/delete/reply/feeds/status）-> `qq_qzone`，新增 `action` 参数。\n  - `qq_reminder_*`（add/list/cancel）-> `qq_reminder`。\n  - `qq_note_*`（save/list/get/forget）-> `qq_note`。\n  - `qq_admin_*`（recall/at_all/notice/join_list/join_approve/join_reject/title/ban/ban_all/kick）-> `qq_admin`，新增 `action` 参数；授权指挥官/白名单/protectOwner/protectAdmins 保护全部保留。\n  - `qq_proactive_*`（status/trigger）-> `qq_proactive`。\n  - `qq_recent` + `qq_search` -> `qq_history`（action=recent/search）。\n- bot 可见工具：33 -> 13（`qq_send` / `qq_confirm_send` / `qq_view_image` / `qq_sticker_stats` / `qq_sticker_to_favorites` / `qq_forward_by_id` / `qq_poke` 保持不变）。\n- 重新生成 describe.json（tools 13, events 8, prompts 1）；README 工具文档同步更新为 action 写法。",
     "0.6.6": "新增「表情包同步到 QQ 收藏表情」能力（用户诉求：在 SnowLuma 拉起的 QQ 客户端里也能看到 bot 收藏的表情包）：\n- 新增设置 **`worlds.qqbot.sticker.addToQQFavorites`**（默认关闭，控制台标题「同步到 QQ 收藏表情」）。开启后，bot 每收藏一张表情包，会同时调协议端的 `add_custom_face` 把同一张图加入登录账号的 QQ「收藏表情」（custom face），你能在 QQ 客户端的收藏表情面板里直接看到/使用；返回的 `emoji_id` 记入表情元数据。\n- 实现：在 `StickerStore` 落盘后调用注入的 `addToFavorites` 回调（由 world 经 `driver.callApi('add_custom_face', { file: 'base64://...' })` 实现，用 base64 直传，不依赖协议端进程读本机磁盘）；`StickerMeta` 新增 `emojiId` 字段持久化。\n- 新增工具 **`qq_sticker_to_favorites`**：把开启开关前就已攒下、尚未进 QQ 收藏表情的历史表情批量补推（带 `limit` 分批）。`qq_sticker_stats` 统计里增加「已同步到 QQ 收藏表情」张数。\n- 兼容性/健壮性：依赖协议端支持 `add_custom_face`（SnowLuma 支持；NapCat/Lagrange 等不一定有该扩展接口）。不支持时**自动降级**——图片照常存盘、可发，只是不进 QQ 收藏，不会崩溃或报错；QQ 收藏表情数量上限导致的失败仅在结果里提示，可删减后重试。",
     "0.6.5": "修复作息/主动说话模块（proactive.ts + world.ts）三处运行期崩溃与持久化失效（用户 2026-10-21 bug 报告确认，0.6.0→0.6.4 一直存在）：\n- **Bug 1（主循环崩溃）**：`world.ts` 的 `routineSegmentText()` 调了未导入的 `routineSegment()`，上下文交接（handoff）时抛 `ReferenceError: routineSegment is not defined` 拖垮主循环。改为直接按 `inRange` 计算真实作息相位（sleep/lazy/active），既消除崩溃，又修复「返回值被错当相位、永远走活跃分支」的逻辑错误。\n- **Bug 2（主动说话整条失效）**：`proactive.ts` 对 `RoutineConfig`（纯配置）调 `this.routine.isLunchBreak()/isSleep()`（实例方法），每 2 分钟 tick 抛 `TypeError`。改为用配置字段 + `inRange` 直接判定午休/睡眠；tick 相位判断同理改用真实相位。\n- **Bug 3（save failed ×106）**：`proactive.ts` 用了 `fs.*`/`path.*` 命名空间但只按需导入了 `existsSync/readFileSync/writeFileSync/join`，`fs` 与 `path` 根本未导入 → 每个 `load()/save()` 抛 `ReferenceError`。改为 `import * as fs` / `import * as path`；并给 `load/save` 加 `dataDir` 空守卫（没有可写目录时静默跳过，不再每 30s 刷 \"save failed\"），失败日志补全 `err` 与完整文件路径。\n- 附带修正 `announceRoutine` 引用了 `RoutineConfig` 上不存在的 `greetSleep/greetLazy/greetWake`（始终 undefined），改为用 `Routine.announceText(scene)` 兜底，作息切换播报文案恢复正常。",
