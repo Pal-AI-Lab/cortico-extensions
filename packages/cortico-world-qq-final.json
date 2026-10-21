@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-final",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "describe": {
     "tools": [
       {
@@ -135,6 +135,27 @@
         "summary": {
           "zh": "查看已收藏表情包的统计与真实文件名,发图前先取文件名。",
           "en": "List collected stickers with their real filenames, needed before replying with one."
+        }
+      },
+      {
+        "name": "qq_sticker_to_favorites",
+        "description": "把已收藏但还没进 QQ 收藏表情的表情包，批量补推到登录账号的 QQ「收藏表情」（custom face），让你能在 QQ 客户端里直接看到/使用。\n【前提】设置里「同步到 QQ 收藏表情」必须开启（否则本工具会提示先开启）。协议端须支持 add_custom_face（如 SnowLuma），不支持会如实报错。\n【用途】一般用于：开启开关前就已经攒下的一批历史表情，想一次性刷进 QQ。新收藏的表情在收藏时已经自动同步，无需再调本工具。\n注意 QQ 收藏表情有数量上限，超出部分会失败并在结果里告知，可删掉一些 QQ 收藏表情后重试。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "number",
+              "description": "本次最多补推多少张，默认 50，最大 200。批量失败或量大时可分多次调。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "把已收藏的表情包批量补推进 QQ 收藏表情,让你在 QQ 里能看到。",
+          "en": "Bulk-push collected stickers into QQ's favorite stickers so you can see them in QQ."
         }
       },
       {
@@ -888,6 +909,7 @@
     ]
   },
   "changelog": {
+    "0.6.6": "新增「表情包同步到 QQ 收藏表情」能力（用户诉求：在 SnowLuma 拉起的 QQ 客户端里也能看到 bot 收藏的表情包）：\n- 新增设置 **`worlds.qqbot.sticker.addToQQFavorites`**（默认关闭，控制台标题「同步到 QQ 收藏表情」）。开启后，bot 每收藏一张表情包，会同时调协议端的 `add_custom_face` 把同一张图加入登录账号的 QQ「收藏表情」（custom face），你能在 QQ 客户端的收藏表情面板里直接看到/使用；返回的 `emoji_id` 记入表情元数据。\n- 实现：在 `StickerStore` 落盘后调用注入的 `addToFavorites` 回调（由 world 经 `driver.callApi('add_custom_face', { file: 'base64://...' })` 实现，用 base64 直传，不依赖协议端进程读本机磁盘）；`StickerMeta` 新增 `emojiId` 字段持久化。\n- 新增工具 **`qq_sticker_to_favorites`**：把开启开关前就已攒下、尚未进 QQ 收藏表情的历史表情批量补推（带 `limit` 分批）。`qq_sticker_stats` 统计里增加「已同步到 QQ 收藏表情」张数。\n- 兼容性/健壮性：依赖协议端支持 `add_custom_face`（SnowLuma 支持；NapCat/Lagrange 等不一定有该扩展接口）。不支持时**自动降级**——图片照常存盘、可发，只是不进 QQ 收藏，不会崩溃或报错；QQ 收藏表情数量上限导致的失败仅在结果里提示，可删减后重试。",
     "0.6.5": "修复作息/主动说话模块（proactive.ts + world.ts）三处运行期崩溃与持久化失效（用户 2026-10-21 bug 报告确认，0.6.0→0.6.4 一直存在）：\n- **Bug 1（主循环崩溃）**：`world.ts` 的 `routineSegmentText()` 调了未导入的 `routineSegment()`，上下文交接（handoff）时抛 `ReferenceError: routineSegment is not defined` 拖垮主循环。改为直接按 `inRange` 计算真实作息相位（sleep/lazy/active），既消除崩溃，又修复「返回值被错当相位、永远走活跃分支」的逻辑错误。\n- **Bug 2（主动说话整条失效）**：`proactive.ts` 对 `RoutineConfig`（纯配置）调 `this.routine.isLunchBreak()/isSleep()`（实例方法），每 2 分钟 tick 抛 `TypeError`。改为用配置字段 + `inRange` 直接判定午休/睡眠；tick 相位判断同理改用真实相位。\n- **Bug 3（save failed ×106）**：`proactive.ts` 用了 `fs.*`/`path.*` 命名空间但只按需导入了 `existsSync/readFileSync/writeFileSync/join`，`fs` 与 `path` 根本未导入 → 每个 `load()/save()` 抛 `ReferenceError`。改为 `import * as fs` / `import * as path`；并给 `load/save` 加 `dataDir` 空守卫（没有可写目录时静默跳过，不再每 30s 刷 \"save failed\"），失败日志补全 `err` 与完整文件路径。\n- 附带修正 `announceRoutine` 引用了 `RoutineConfig` 上不存在的 `greetSleep/greetLazy/greetWake`（始终 undefined），改为用 `Routine.announceText(scene)` 兜底，作息切换播报文案恢复正常。",
     "0.6.4": "`qq_forward_by_id` 改为「合并成一张卡片」转发（落实用户诉求）：多条消息合成**一张**合并转发卡片发出，而不是一条条发。\n- 行为变更：之前每条选中消息各自成一张卡片；现在用 OneBot 的 `send_forward_msg` 把多条消息合成一张合并转发卡片（node 的 `user_id` 只能是 bot 自己，这是 OneBot 限制），卡片内每条消息用「文本标注原始发送者昵称+QQ号」+ 保留原文内容（图片/引用等富媒体原样内嵌）来体现来源，**绝不伪造他人身份**。\n- 实现：逐条经 `get_msg` 取回原文与发送者，再组装成节点数组一次性 `send_forward_msg`。某条取不到（已撤回/不可读/`get_msg` 失败）时跳过并提示，不会静默失败。\n- 依赖：协议端需支持 OneBot 的 `send_forward_msg` 与 `get_msg`（NapCat/Lagrange/SnowLuma 等主流实现大多支持，不支持会如实报错）。其余安全约束（只能转发本 bot 见过的消息、仅限目标会话、默认关闭开关）不变。",
     "0.6.3": "修复 0.6.1 引入的回归：`qq_forward_by_id` 工具虽已实现，但遗漏加入 `tools()` 的返回数组，导致运行时框架拿不到该工具、主模型「找不到合并转发工具」。本次将 `forwardById` 加入工具列表并重新生成 describe.json（工具数 31 -> 32），模型现可在开启 `forwardByMessageId` 后正常调用。",

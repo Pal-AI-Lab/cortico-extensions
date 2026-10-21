@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "name": "cortico-world-audio",
+  "version": "0.1.9",
+  "describe": {
+    "tools": [
+      {
+        "name": "audio_describe",
+        "description": "Listen to an audio file (music, voice, video soundtrack) and describe what it is: type of music, emotion, lyrics. Accepts either an absolute file path (including amr/silk voice files — they are decoded first), or a log:/mem: handle of an audio attachment — it will read the bytes itself.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "description": "What to listen to: an absolute path to an audio file (wav/mp3/m4a/flac/ogg/amr), or a log:/mem: handle from a [blob ...] line / your workspace."
+            },
+            "prompt": {
+              "type": "string",
+              "description": "Optional. A specific question about the audio (e.g. '这段是戏腔还是普通流行？'). If omitted, a general description is returned."
+            }
+          },
+          "required": [
+            "source"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "听一段音频（文件路径或 log: 句柄），说出它在放什么。",
+          "en": "Listens to an audio file or log: handle and describes what it is."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "audio.heard",
+        "description": {
+          "zh": "自动听到了一条新的 QQ 语音：QQ 客户端把语音落到缓存目录后，本 World 会转码并让模型听一遍，把听到的内容作为事件推给主循环（含大致说话内容/情绪）。",
+          "en": "A new QQ voice message was listened to automatically: the QQ client dropped the voice file into its cache, this World transcoded it and had the model listen, then pushed what it heard."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.audio.envPrompt",
+        "title": "听觉 · 环境提示词",
+        "role": "envPrompt",
+        "content": "你可以听音频。\n\n**主动听**：用 `audio_describe` 听一段音频（音乐/语音/视频原声），它告诉你这是什么类型的音乐、什么情绪、在唱什么。`source` 可以是绝对文件路径（含 amr/silk 语音文件，会自动解码），也可以是你收到的音频附件句柄（`log:` 开头那一串）。所以收到 QQ 语音时，不要因为「我打不开文件」就说自己聋。\n\n**自动听**：QQ 收到的语音会自动被听一遍，以 `audio.heard` 事件的形式出现在上下文里，写着听到的大致内容和情绪。那是机器听出来的，**不是逐字转写**，可能听错词（尤其是方言、气声、专业词）；引用时用「听起来像」「我听到的是」，别当成原话复述。\n\n想听 B站 视频里的音乐时，先把视频音频导出成文件（mp3/wav），再调用 `audio_describe`。不要凭空猜旋律——没听过就说没听过。\n"
+      }
+    ]
+  }
+}

@@ -84,7 +84,7 @@
     },
     "cortico-bot-memory": {
       "kind": "bot",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "displayName": "长期记忆",
       "description": "Cortico bot 模板:在 Persona 层面复现五层长期记忆(事实库/知识库/反思/人格/档案 + 三级底座 + 混合检索),记忆归 bot 私有,经系统前缀注入、对话实时沉淀,无需 world。",
       "locales": {
@@ -118,8 +118,8 @@
         "bugs": "https://github.com/hth768/cortico-bot-memory/issues"
       },
       "created": "2026-10-19T08:22:28.109Z",
-      "published": "2026-10-19T15:03:10.435Z",
-      "versionCount": 3,
+      "published": "2026-10-21T07:07:10.488Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -138,6 +138,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.0",
           "0.1.0"
         ],
         "url": "https://github.com/hth768/cortico-bot-memory/blob/HEAD/CHANGELOG.md"
@@ -839,7 +840,7 @@
       "published": "2026-10-16T06:41:11.685Z",
       "versionCount": 3,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [
         "memory"
       ],
@@ -962,6 +963,54 @@
       "discussion": {
         "number": 10,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/10",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-audio": {
+      "kind": "world",
+      "version": "0.1.9",
+      "displayName": "听觉（音频理解）",
+      "description": "Cortico World: 音频理解（Qwen2-Audio 本地模型）——听一段音频，说出它在放什么（音乐类型/情绪/歌词大意），也能把语音转成文字。",
+      "maintainers": [
+        "wjpgkz"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "audio",
+        "music",
+        "qwen2-audio",
+        "sound"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-audio",
+        "repository": "https://github.com/wjpgkz/cortico-world-audio",
+        "homepage": "https://github.com/wjpgkz/cortico-world-audio",
+        "bugs": "https://github.com/wjpgkz/cortico-world-audio/issues"
+      },
+      "created": "2026-10-21T08:39:09.632Z",
+      "published": "2026-10-21T10:17:43.916Z",
+      "versionCount": 11,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 1,
+        "events": 1,
+        "toolTokens": 236,
+        "envPromptTokens": 200
+      },
+      "discussion": {
+        "number": 171,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/171",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -1905,6 +1954,80 @@
         "comments": 4
       }
     },
+    "cortico-world-eat": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "吃饭",
+      "description": "吃饭（Eat）—— 给 Coopanion 桌宠的 cortico World 扩展：饱食度、米仓、电饭煲，外加一块水稻田、一个水池和虫灾鸟灾；桌宠用工具做饭、吃饭、种田、立稻草人，主人在控制台厨房/稻田面板直接操作；煮饭和水稻都要时间，下雨会替田里浇水，鸟先吃虫再吃稻子。 / A cortico World extension with satiety, a rice bin, a rice cooker, one rice paddy, a water pool, pests and birds: t",
+      "author": "AqualCross",
+      "maintainers": [
+        "aqualcross"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "eat",
+        "eating",
+        "hunger",
+        "satiety",
+        "rice",
+        "rice-cooker",
+        "paddy",
+        "farm",
+        "farming",
+        "rice-paddy",
+        "rain",
+        "pet",
+        "game",
+        "pest",
+        "birds",
+        "scarecrow",
+        "disaster"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-eat",
+        "repository": "https://github.com/AqualCross/cortico-world-eat",
+        "homepage": "https://github.com/AqualCross/cortico-world-eat#readme",
+        "bugs": "https://github.com/AqualCross/cortico-world-eat/issues"
+      },
+      "created": "2026-10-21T09:34:44.190Z",
+      "published": "2026-10-21T09:43:29.697Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "game"
+      ],
+      "tags": [
+        "game"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 9,
+        "events": 2,
+        "toolTokens": 835,
+        "envPromptTokens": 162
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1"
+        ],
+        "url": "https://github.com/AqualCross/cortico-world-eat/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 172,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/172",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-fatfish": {
       "kind": "world",
       "version": "0.3.8",
@@ -1988,14 +2111,14 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
     },
     "cortico-world-gaming-alont1": {
       "kind": "world",
-      "version": "0.1.14",
+      "version": "0.1.15",
       "description": "在玩什么 World：读前台窗口知道你（主人）在玩哪款游戏、玩了多久，还能定期看一眼游戏画面——一局打完、局中击杀或买到新装备时递一句给你，平时安静地看着",
       "author": "ALonT1",
       "maintainers": [
@@ -2010,8 +2133,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-gaming-alont1"
       },
       "created": "2026-09-20T20:05:58.931Z",
-      "published": "2026-10-21T03:26:26.129Z",
-      "versionCount": 9,
+      "published": "2026-10-21T10:23:51.612Z",
+      "versionCount": 10,
       "official": false,
       "isNew": false,
       "tags": [
@@ -2386,7 +2509,7 @@
     },
     "cortico-world-listen": {
       "kind": "world",
-      "version": "0.3.1",
+      "version": "0.3.3",
       "displayName": "听觉",
       "description": "听觉（Listen）—— 给 Coopanion 桌宠的 cortico World 扩展：监听系统声音或某个应用的音频，自动把语音切成块（能量门限或可选的 Silero VAD），并把每块作为事件投进 cortico 事件流（附件是 WAV），由 agent 决定接下来做什么（比如交给 stt_transcribe 转写成文字）。 / A cortico World extension that captures system or per-application audio, segments spe",
       "author": "AqualCross",
@@ -2416,8 +2539,8 @@
         "bugs": "https://github.com/AqualCross/cortico-world-listen/issues"
       },
       "created": "2026-10-16T15:24:26.356Z",
-      "published": "2026-10-21T05:55:29.348Z",
-      "versionCount": 3,
+      "published": "2026-10-21T09:36:31.522Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2435,10 +2558,12 @@
         "tools": 3,
         "events": 1,
         "toolTokens": 437,
-        "envPromptTokens": 201
+        "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.3.3",
+          "0.3.2",
           "0.3.1",
           "0.3.0",
           "0.2.0",
@@ -2686,7 +2811,7 @@
     },
     "cortico-world-memory": {
       "kind": "world",
-      "version": "0.2.5",
+      "version": "0.2.7",
       "description": "Cortico World 扩展：五层记忆（事实库/知识库/反思/人格/档案）+ 三级记忆底座 + Hybrid Recall 向量混合检索（移植自 E:/qq_bot 的记忆系统与 memory_server 向量 sidecar，qq_bot 源码零改动）。",
       "maintainers": [
         "hth768"
@@ -2707,8 +2832,8 @@
         "bugs": "https://github.com/hth768/cortico-world-memory/issues"
       },
       "created": "2026-09-22T13:09:30.278Z",
-      "published": "2026-10-21T05:54:13.354Z",
-      "versionCount": 17,
+      "published": "2026-10-21T06:39:35.928Z",
+      "versionCount": 19,
       "official": false,
       "isNew": false,
       "tags": [
@@ -2754,7 +2879,7 @@
       "published": "2026-10-16T06:41:07.526Z",
       "versionCount": 3,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [
         "memory",
         "diagnostics"
@@ -3030,7 +3155,7 @@
     },
     "cortico-world-onebot": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "OneBot",
       "description": "让TA使用QQ。连接到你的napcat或者snowluma，然后在QQ上和TA聊天吧。就像直接用QQ一样，使用几乎所有功能。",
       "author": "AqualCross",
@@ -3057,8 +3182,8 @@
         "bugs": "https://github.com/AqualCross/cortico-world-onebot/issues"
       },
       "created": "2026-10-20T16:13:35.429Z",
-      "published": "2026-10-20T16:14:32.306Z",
-      "versionCount": 2,
+      "published": "2026-10-21T09:35:48.291Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3080,6 +3205,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.1",
           "0.1.0"
         ],
         "url": "https://github.com/AqualCross/cortico-world-onebot/blob/HEAD/CHANGELOG.md"
@@ -3904,7 +4030,7 @@
     },
     "cortico-world-qq-final": {
       "kind": "world",
-      "version": "0.6.5",
+      "version": "0.6.6",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -3923,8 +4049,8 @@
         "bugs": "https://github.com/hth768/cortico-world-qq-final/issues"
       },
       "created": "2026-10-06T07:39:25.866Z",
-      "published": "2026-10-20T17:24:58.400Z",
-      "versionCount": 38,
+      "published": "2026-10-21T09:50:23.554Z",
+      "versionCount": 39,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -3944,13 +4070,14 @@
         "week": 4025
       },
       "summary": {
-        "tools": 32,
+        "tools": 33,
         "events": 8,
-        "toolTokens": 4814,
+        "toolTokens": 5033,
         "envPromptTokens": 508
       },
       "changelog": {
         "versions": [
+          "0.6.6",
           "0.6.5",
           "0.6.4",
           "0.6.3",
@@ -5070,9 +5197,9 @@
     },
     "cortico-world-span": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "displayName": "跨屏跑动",
-      "description": "让桌宠跑到屏幕边缘时跨到旁边的显示器继续跑，而不是停在边缘前几十个像素。为 Coopanion 0.2.5 制作；也支持最大化的窗口、不同分辨率与缩放的屏幕。",
+      "description": "让桌宠跑到屏幕边缘时跨到旁边的显示器上，从那一侧接着跑，而不是停在边缘前几十个像素。为 Coopanion 0.2.5 制作；两块屏分辨率、缩放不同也照样能跨，也不会因为最大化窗口或显卡浮层挡住就过不去。",
       "locales": {
         "zh": {
           "displayName": "跨屏跑动",
@@ -5106,8 +5233,8 @@
         "win32"
       ],
       "created": "2026-10-20T14:53:05.813Z",
-      "published": "2026-10-20T15:00:37.707Z",
-      "versionCount": 3,
+      "published": "2026-10-21T10:55:56.319Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5128,14 +5255,15 @@
         "tools": 1,
         "events": 0,
         "toolTokens": 152,
-        "envPromptTokens": 328
+        "envPromptTokens": 342
       },
       "changelog": {
         "versions": [
+          "0.1.2",
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-span@0.1.1/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-span@0.1.2/CHANGELOG.md"
       },
       "discussion": {
         "number": 156,
@@ -5203,7 +5331,7 @@
     },
     "cortico-world-stt": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "displayName": "语音转文本",
       "description": "语音转文本（Speech to Text）—— 给 Coopanion 桌宠的 cortico World 扩展：把音频文件转写成文字，并记进可浏览的转写记录。 / A cortico World extension that transcribes audio files to text through a configurable ASR API. It is an agent tool, not a realtime microphone.",
       "author": "AqualCross",
@@ -5231,8 +5359,8 @@
         "bugs": "https://github.com/AqualCross/cortico-world-stt/issues"
       },
       "created": "2026-10-15T14:29:20.510Z",
-      "published": "2026-10-16T06:29:01.998Z",
-      "versionCount": 3,
+      "published": "2026-10-21T09:35:32.797Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5254,6 +5382,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.2",
           "0.1.1",
           "0.1.0"
         ],
@@ -5334,7 +5463,7 @@
     },
     "cortico-world-terrarium": {
       "kind": "world",
-      "version": "0.8.6",
+      "version": "0.8.7",
       "displayName": "Terrarium",
       "description": "Claimable land and water ecosystems with plants, bugs, fish and a public leaderboard",
       "locales": {
@@ -5367,8 +5496,8 @@
         "bugs": "https://github.com/zhiyuHD/cortico-world-terrarium/issues"
       },
       "created": "2026-10-17T06:11:00.470Z",
-      "published": "2026-10-20T17:32:16.919Z",
-      "versionCount": 28,
+      "published": "2026-10-21T11:04:08.903Z",
+      "versionCount": 29,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5384,13 +5513,14 @@
         "week": 3140
       },
       "summary": {
-        "tools": 37,
+        "tools": 42,
         "events": 13,
-        "toolTokens": 7389,
-        "envPromptTokens": 1006
+        "toolTokens": 8660,
+        "envPromptTokens": 1148
       },
       "changelog": {
         "versions": [
+          "0.8.7",
           "0.8.6",
           "0.8.5",
           "0.8.4",
@@ -5430,7 +5560,7 @@
       "discussion": {
         "number": 85,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/85",
-        "up": 2,
+        "up": 3,
         "down": 2,
         "comments": 1
       }
@@ -5530,7 +5660,7 @@
     },
     "cortico-world-tts": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "displayName": "文本转语音",
       "description": "文本转语音（Text to Speech）—— 给 Coopanion 桌宠的 cortico World 扩展：把文字合成为语音，音频落盘并作为附件交回对话。 / A cortico World extension that turns text into speech through a configurable TTS API and returns the audio as a conversation attachment.",
       "author": "AqualCross",
@@ -5555,8 +5685,8 @@
         "bugs": "https://github.com/AqualCross/cortico-world-tts/issues"
       },
       "created": "2026-10-14T14:56:54.671Z",
-      "published": "2026-10-16T06:28:56.060Z",
-      "versionCount": 3,
+      "published": "2026-10-21T09:35:46.958Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5578,6 +5708,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.2",
           "0.1.1",
           "0.1.0"
         ],
