@@ -1166,7 +1166,7 @@
     },
     "cortico-world-bilibili": {
       "kind": "world",
-      "version": "0.2.4",
+      "version": "0.2.5",
       "displayName": "B 站直播间",
       "description": "Cortico World: read-only Bilibili live room — danmaku, gifts, super chats and guard events, with a local transparent overlay",
       "author": "Pal AI Lab",
@@ -1187,8 +1187,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:39.729Z",
-      "published": "2026-10-19T20:11:35.125Z",
-      "versionCount": 16,
+      "published": "2026-10-22T00:34:25.849Z",
+      "versionCount": 17,
       "official": true,
       "isNew": false,
       "tags": [
@@ -1217,7 +1217,7 @@
     },
     "cortico-world-bilibili-video": {
       "kind": "world",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "displayName": "B 站视频",
       "description": "Cortico World: watch a bilibili video in a logged-in browser, with frames, subtitles and the video's own danmaku delivered as events. 此乃直播测试验证之后的world，和其他 Persona / 非直播场景的兼容性有待测试。",
       "author": "Phantivia",
@@ -1238,8 +1238,8 @@
         "bugs": "https://github.com/Phantivia/cortico-world-bilibili-video/issues"
       },
       "created": "2026-10-15T04:22:42.746Z",
-      "published": "2026-10-20T02:36:43.944Z",
-      "versionCount": 4,
+      "published": "2026-10-22T00:34:52.107Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "tags": [
@@ -1263,6 +1263,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.2",
           "0.2.1",
           "0.2.0"
         ],
@@ -1832,6 +1833,78 @@
       "discussion": {
         "number": 90,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/90",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-deepseek-usage": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "DeepSeek Usage",
+      "description": "Cortico World: the bot reads DeepSeek account balances, with scheduled reports and low-balance alerts",
+      "locales": {
+        "zh": {
+          "displayName": "DeepSeek 余额",
+          "description": "bot 查询 DeepSeek 账户余额，可定时播报、跌破警告线时提醒"
+        },
+        "en": {
+          "displayName": "DeepSeek Usage",
+          "description": "The bot reads DeepSeek account balances, with scheduled reports and low-balance alerts"
+        }
+      },
+      "author": "Phantivia",
+      "maintainers": [
+        "phantivia"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "deepseek",
+        "balance",
+        "usage"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-deepseek-usage",
+        "repository": "https://github.com/Phantivia/cortico-world-deepseek-usage",
+        "homepage": "https://github.com/Phantivia/cortico-world-deepseek-usage#readme",
+        "bugs": "https://github.com/Phantivia/cortico-world-deepseek-usage/issues"
+      },
+      "created": "2026-10-22T01:36:42.508Z",
+      "published": "2026-10-22T01:38:00.143Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "diagnostics",
+        "experimental"
+      ],
+      "tags": [
+        "diagnostics",
+        "experimental"
+      ],
+      "icon": "assets/cortico-world-deepseek-usage/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 2,
+        "toolTokens": 625,
+        "envPromptTokens": 162
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/Phantivia/cortico-world-deepseek-usage/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 180,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/180",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -3240,7 +3313,7 @@
     },
     "cortico-world-minecraft": {
       "kind": "world",
-      "version": "0.2.4",
+      "version": "0.2.5",
       "displayName": "Minecraft",
       "description": "Cortico World: Minecraft Java Edition through a Mineflayer player — observation text, movement, building, combat and an observer client",
       "author": "Pal AI Lab",
@@ -3261,8 +3334,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:42.066Z",
-      "published": "2026-10-19T20:09:21.922Z",
-      "versionCount": 15,
+      "published": "2026-10-22T00:34:54.382Z",
+      "versionCount": 16,
       "official": true,
       "isNew": false,
       "tags": [
@@ -3558,7 +3631,7 @@
       "published": "2026-10-20T07:47:51.461Z",
       "versionCount": 9,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "apps",
         "external-setup",
@@ -3971,7 +4044,7 @@
     },
     "cortico-world-qq": {
       "kind": "world",
-      "version": "0.2.4",
+      "version": "0.2.5",
       "displayName": "QQ",
       "description": "Cortico World: QQ group and private chats through a OneBot v11 forward WebSocket, with a draft-and-confirm gate on replies",
       "author": "Pal AI Lab",
@@ -3992,8 +4065,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:41:03.758Z",
-      "published": "2026-10-19T20:08:14.561Z",
-      "versionCount": 14,
+      "published": "2026-10-22T00:34:18.306Z",
+      "versionCount": 15,
       "official": true,
       "isNew": false,
       "tags": [
@@ -4273,7 +4346,7 @@
     },
     "cortico-world-qq-final": {
       "kind": "world",
-      "version": "0.6.8",
+      "version": "0.6.9",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -4292,8 +4365,8 @@
         "bugs": "https://github.com/hth768/cortico-world-qq-final/issues"
       },
       "created": "2026-10-06T07:39:25.866Z",
-      "published": "2026-10-21T15:55:35.913Z",
-      "versionCount": 41,
+      "published": "2026-10-22T00:39:40.025Z",
+      "versionCount": 42,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -4320,6 +4393,7 @@
       },
       "changelog": {
         "versions": [
+          "0.6.9",
           "0.6.8",
           "0.6.7",
           "0.6.6",
@@ -5730,7 +5804,7 @@
       "published": "2026-10-21T13:20:10.937Z",
       "versionCount": 4,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "internet",
         "browser",
@@ -6188,7 +6262,7 @@
     },
     "cortico-world-websearch": {
       "kind": "world",
-      "version": "0.2.4",
+      "version": "0.2.5",
       "displayName": "WebSearch",
       "description": "Cortico World: a web_search tool backed by the Brave Search API",
       "author": "Pal AI Lab",
@@ -6209,8 +6283,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:50.954Z",
-      "published": "2026-10-19T20:11:40.683Z",
-      "versionCount": 15,
+      "published": "2026-10-22T00:34:35.752Z",
+      "versionCount": 16,
       "official": true,
       "isNew": false,
       "tags": [

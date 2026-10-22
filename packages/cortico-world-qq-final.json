@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-final",
-  "version": "0.6.8",
+  "version": "0.6.9",
   "describe": {
     "tools": [
       {
@@ -606,6 +606,7 @@
     ]
   },
   "changelog": {
+    "0.6.9": "- 修复：启用作息功能后「总览面板」崩溃加载不出来。\n  - 根因：配置重命名（`config.ts` 真实字段为 `sleepStart/sleepEnd/lazyStart/lazyEnd/greetSleep/greetWake/greetLazy`）未同步到读取处，`proactive.ts` 的 `Routine` 类与 `world.ts` 的 `routineSegmentText()` 仍使用旧字段名 `silentStart/silentEnd/noonStart/noonEnd/...`。启用后 `inRange(undefined, undefined)` 触发 `undefined.split` 抛错，环境提示（qq.routine）构建失败，导致面板拉取失败。\n  - 受影响处全部改为真实字段：`RoutineConfig` 接口、`Routine.isSleep/isLunchBreak/announceText`、`routineSegment()` 模块函数、`ProactiveSpeaker.buildNudge/tick` 的时段判定、`world.routineSegmentText()`。\n  - `announceText()` 改为优先使用配置里的问候语（greetSleep/greetLazy/greetWake），缺省时回退内置文案。",
     "0.6.8": "- 修复：宠物没有任何把标签写回表情包索引的通道——`sticker.ts` 里 `emotion/usage/tag` 只在收货那一刻由自动标注写入，此后无代码路径可改；对外只有只读的 `qq_sticker_stats` 与只同步的 `qq_sticker_to_favorites`，宠物想修正/补充标注（尤其「未知」）没有任何接口，手工改 `sticker-index.json` 又会被内存里的旧 map 在下次落盘时悄悄覆盖。\n- 新增工具 `qq_sticker_tag`：按文件名（来自 `qq_sticker_stats`，也接受 `[表情包:xxx]` 写法）修改某张表情包的 `emotion/usage/tag/label`（只传想改的字段），`StickerStore` 新增 `updateMeta()` 走既有 debounce 落盘，不再有覆盖问题。\n- bot 可见工具 13 -> 14；describe.json / README / TOOL_SUMMARIES 同步更新。",
     "0.6.7": "工具合并（减少 bot 可见工具数量、降低模型选工具负担；框架原生支持 `action` 枚举参数）：\n- 把 6 个「同族」工具各自合并为单个工具，子功能用 `action` 枚举参数暴露（保留全部原有行为/鉴权/保护逻辑）：\n  - `qq_qzone_*`（post/delete/reply/feeds/status）-> `qq_qzone`，新增 `action` 参数。\n  - `qq_reminder_*`（add/list/cancel）-> `qq_reminder`。\n  - `qq_note_*`（save/list/get/forget）-> `qq_note`。\n  - `qq_admin_*`（recall/at_all/notice/join_list/join_approve/join_reject/title/ban/ban_all/kick）-> `qq_admin`，新增 `action` 参数；授权指挥官/白名单/protectOwner/protectAdmins 保护全部保留。\n  - `qq_proactive_*`（status/trigger）-> `qq_proactive`。\n  - `qq_recent` + `qq_search` -> `qq_history`（action=recent/search）。\n- bot 可见工具：33 -> 13（`qq_send` / `qq_confirm_send` / `qq_view_image` / `qq_sticker_stats` / `qq_sticker_to_favorites` / `qq_forward_by_id` / `qq_poke` 保持不变）。\n- 重新生成 describe.json（tools 13, events 8, prompts 1）；README 工具文档同步更新为 action 写法。",
     "0.6.6": "新增「表情包同步到 QQ 收藏表情」能力（用户诉求：在 SnowLuma 拉起的 QQ 客户端里也能看到 bot 收藏的表情包）：\n- 新增设置 **`worlds.qqbot.sticker.addToQQFavorites`**（默认关闭，控制台标题「同步到 QQ 收藏表情」）。开启后，bot 每收藏一张表情包，会同时调协议端的 `add_custom_face` 把同一张图加入登录账号的 QQ「收藏表情」（custom face），你能在 QQ 客户端的收藏表情面板里直接看到/使用；返回的 `emoji_id` 记入表情元数据。\n- 实现：在 `StickerStore` 落盘后调用注入的 `addToFavorites` 回调（由 world 经 `driver.callApi('add_custom_face', { file: 'base64://...' })` 实现，用 base64 直传，不依赖协议端进程读本机磁盘）；`StickerMeta` 新增 `emojiId` 字段持久化。\n- 新增工具 **`qq_sticker_to_favorites`**：把开启开关前就已攒下、尚未进 QQ 收藏表情的历史表情批量补推（带 `limit` 分批）。`qq_sticker_stats` 统计里增加「已同步到 QQ 收藏表情」张数。\n- 兼容性/健壮性：依赖协议端支持 `add_custom_face`（SnowLuma 支持；NapCat/Lagrange 等不一定有该扩展接口）。不支持时**自动降级**——图片照常存盘、可发，只是不进 QQ 收藏，不会崩溃或报错；QQ 收藏表情数量上限导致的失败仅在结果里提示，可删减后重试。",
