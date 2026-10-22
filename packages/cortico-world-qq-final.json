@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-final",
-  "version": "0.6.14",
+  "version": "0.6.18",
   "describe": {
     "tools": [
       {
@@ -228,7 +228,7 @@
       },
       {
         "name": "qq_qzone",
-        "description": "QQ 空间动态系列（用一个 action 选子功能）：post=发一条动态（说说，content 必填，可附图 images / @人 ats / 权限 permission）；delete=删除一条动态（tid）；reply=回复某条动态下的评论（tid+comment_id+content）；feeds=查看自己的动态列表（num）；status=查看发布器状态（开关/配额/最近动态 tid）。content 必须由你（主模型）显式给出：按\"最近聊天 + 真实看法\"以第一人称写，自然有梗，1-3 句；不要空泛、不要\"我帮你记下了\"这类托管语气。",
+        "description": "QQ 空间动态系列（用一个 action 选子功能）：post=发一条动态（说说，content 必填，可附图 images / 权限 permission）；delete=删除一条动态（tid）；reply=对一条动态发表评论（NapCat/SnowLuma 仅支持对整个动态评论，tid+content，comment_id 可不填）；feeds=查看自己的动态列表（num）；status=查看发布器状态（开关/配额/最近动态 tid）。content 必须由你（主模型）显式给出：按\"最近聊天 + 真实看法\"以第一人称写，自然有梗，1-3 句；不要空泛、不要\"我帮你记下了\"这类托管语气。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -258,13 +258,6 @@
               },
               "description": "【post】附图链接数组（仅支持 http(s):// 与 base64://；不支持本机文件）。"
             },
-            "ats": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "description": "【post】@的人：昵称或 QQ 号数组。"
-            },
             "permission": {
               "type": "number",
               "description": "【post】可见权限 ugc_right，默认 1=公开。"
@@ -275,7 +268,7 @@
             },
             "comment_id": {
               "type": "string",
-              "description": "【reply】评论 id。"
+              "description": "【reply】评论 id（可选；NapCat/SnowLuma 仅支持对整个动态发表评论，comment_id 不会被使用）。"
             },
             "num": {
               "type": "number",
@@ -568,6 +561,10 @@
     ]
   },
   "changelog": {
+    "0.6.18": "- 重发 0.6.17 的内容（0.6.17 在 npm 端发布时进入 staged 卡死状态、tarball 不可取，无法覆盖重发，故升一版）。代码与 0.6.17 完全一致。",
+    "0.6.17": "- 同步 README 与代码（用户约定：README 必须与代码一致），修正若干过时描述并清理死参数：\n  - 删除 README 里已随 0.6.0 事件驱动重构移除的 `qzone.systemPrompt` / `qzone.endpoint` / `qzone.apiKeySecret` / `qzone.model` 配置项说明（qzone 现已用主模型，无独立第二模型配置）。\n  - `qzone.permission` 语义修正：实为 `ugc_right`（1=公开/4=好友/16=指定人/64=仅自己/128=黑名单），旧 README「0=公开/1=好友」错误。\n  - `qzone.commentAction` 默认值修正为 `auto`（旧 README 误写 `comment_qzone`）。\n  - `qzone.autoReplyComments.chance`（不存在）替换为真实存在的 `dailyQuota` / `cooldownSec`。\n  - `qq_qzone（action=post）`：说明 `content` 为必填（工具不再自动生成文案），删除并不存在的 `ats`（@）参数；`reply` 说明 `comment_id` 可留空（NapCat/SnowLuma 仅支持对整个动态评论）。\n  - 已知限制里 `get_qzone_msg_list` → 正确的 `get_qzone_feeds`。\n  - 代码侧：移除 `qq_qzone` 工具里透传给 `post` 但 `post` 从不接收的死参数 `ats`；`qzone.imageMode` 类型收窄为 `'none' | 'recent'`（与 schema/normalize 一致）。\n\n规则：每版本一个二级标题，标题里的第一个版本号即为本节版本。",
+    "0.6.16": "- 修复 QQ空间（qzone）四个 OneBot action 全部调用失败（retcode=1404 UNKNOWN_ACTION）。\n  - 根因：`qzone.ts` 用了点号命名空间名（`qzone.publish` / `qzone.replyComment` / `qzone.feeds` / `qzone.delete`），但 NapCat / SnowLuma 内核只注册扁平名，故全部 1404。\n  - 改用协议端真实扁平名：`send_qzone_msg`（发动态）、`comment_qzone`（评论）、`get_qzone_feeds`（列动态）、`delete_qzone_msg`（删动态）。\n  - 顺带修掉几个相关错误：\n    - 发动态参数：`send_qzone_msg` 用 `ugc_right`（仅 1/4/16/64/128 合法），旧代码的 `content_type` 与 `visible.type`（2/8 非法）会被拒；`permission` 配置项类型由字符串联合改为数字 ugc_right（与 config 默认值 `1` 及工具参数的\"数字\"语义一致，避免模型传入的可见权限永远落到非法值）。\n    - 评论：`comment_qzone` 只能对整个动态发表新评论，不支持按 comment_id 回楼中楼（已据此修正 qq_qzone 工具描述与校验，并去掉误导的回执文案）；`qzone.commentAction` 配置此前从没接到 `callApi`，现已真正生效（`auto`→内置 `comment_qzone`，也可直接填协议端 action 名）。\n    - 列动态：`get_qzone_feeds` 参数为 `{ page_num, count }`（旧 `{ num }` 无效）；返回的是 HTML 片段，现剥标签后给模型可读文本。\n  - 同步：README「配置项 / 已知限制」里写错的旧 action 名 `send_qzone_comment` → `comment_qzone`；`config.ts` 的 `qzone.commentAction` schema 说明同步。",
+    "0.6.15": "- 安全加固：`allowPrivateRedirect` 的有效默认值修正为关闭。\n  - 根因：`QQWorldConfig` 默认值里写的是 `false`（注释也写\"默认关闭\"），但 `normalizeConfig()` 里有一句 `if (typeof c.allowPrivateRedirect !== 'boolean') c.allowPrivateRedirect = true;` 把缺省值强行翻成 `true`，导致实际默认是\"开启\"——群里任何人都能让 bot 私聊任意 QQ 号（跳过监听名单）。现改为 `= false`，与文档/默认对象一致。\n  - 同步把 schema 描述里\"默认 true 可用\"改为\"默认关闭\"。\n  - 注：本轮审计里其余安全/清理项（qzone 附图 http(s)/base64 白名单、qzone 外部内容走 `origin:'external'`、回复禁用 @all、ASR 只扫本包+stop 结束孤儿进程+最小 env、去掉 onTurnEnded 直接发、提醒改推事件、语音判定密钥默认空+上报用量、删未用 QQ_SECRETS 密钥、去重 qq_note、beta 弃用、qzone.ts 导入/replyComment 签名/proactive `this.routine`、README 对齐）均已在 0.6.10–0.6.13 完成，本次经核对代码确认无回归；`tsc` 现存报错均为预存且 tsx 运行期会被擦除的 `import type` 或 cortico 类型不导出问题，非本次引入、不影响 tsx 运行时。",
     "0.6.14": "- 给合并转发（`qq.forward`）事件加「转发来源群/人」可见标签，帮助模型判断语境。\n  - 在 `renderForwardNode` 里从每个转发节点捕获原始会话：`group_id`（群转发）/ 对方 QQ（私聊转发，排除自己），即 SnowLuma `get_forward_msg` 节点已携带的 `group_id` / `user_id` / `message_type`。\n  - 新增 `forwardSource()`：由节点推断来源——单一群标 `群「<群名>(<id>)」`、单一私聊标 `私聊「<昵称>(<QQ>)」`、跨群/跨人则标 `多个来源（…）`；并把结构化 `forward_source` 写入事件 `meta`。\n  - 来源恰好等于收到转发的当前会话（如把本群聊天记录转发回本群）时自动抑制，避免重复噪声。\n  - 标签直接渲染进事件正文头（`[系统] #编号 引用的转发消息展开如下（转发来源：…）：`），因为事件 `meta` 不会进入模型上下文、只有正文头才会被模型看到。",
     "0.6.13": "- 修合并转发（聊天记录卡片）读不到的根因：别人发来的合并转发 bot 一直展开失败、看不到内容。\n  - 根因：`driver.getForwardMessages` 只接受裸数组（`if (!Array.isArray(r)) return []`），但 OneBot `get_forward_msg` 的真实返回是 `{ messages: [...] }`（对象），导致永远返回空、静默失败。\n  - 修法：`getForwardMessages` 兼容多种返回形状——`{ messages: [...] }` / `{ message: [...] }` / 裸数组（`callApi` 已剥掉 OneBot 应答最外层的 data）。\n  - 同步对齐 `renderForwardNode` 与内置 `qq` world：兼容 NapCat 记录形态 `{ type:'node', data:{ name, uin, content } }`（下沉到 data 取正文/身份），正文来源兼容 `content` / `message` / `raw_message`，昵称兼容 `sender.card`。\n  - 已确认协议端 SnowLuma 实现 `get_forward_msg`（返回 `{ messages: [...] }`，每节点带 `sender` + `message` 段数组），本修复后 bot 可正常展开并读入会话。",
     "0.6.12": "- 修本地 ASR 侧车「找不到 asr_sidecar.py」的根因（用户反馈 2026-10-22：Coopanion 启动时刷三条 `[asr-sidecar]` WARN、语音识别不可用）。\n  - 根因：`resolveAsrSidecar` 只按框架给的 `packageDir` 找脚本，而框架有时把 `packageDir` 指向 `bots/<bot>` 而非扩展目录，导致随包发布的 `asr_sidecar.py`（在扩展包根）找不到。\n  - 修法：新增 `EXT_ROOT`（`fileURLToPath(new URL('..', import.meta.url))`，从模块自身位置推算的扩展包根）作为查找**主锚点**，`packageDir` 降级为兜底候选。脚本/venv/python/model 四类候选都先查 `EXT_ROOT` 再查 `packageDir`。仍保持「只查本扩展自身目录、不跨包/跨目录扫描」的安全属性（避免别的扩展放同名文件被误执行）。\n  - 说明：这是源码修复，用户不再需要把脚本手动复制到 `bots/<bot>`；但 Python venv（funasr+torch，约 1.3GB）仍需自行准备——`asr.mode=local` 默认需要它，放 `<扩展>/venv_vox` 或配置 `asr.localVenv` 即可。",

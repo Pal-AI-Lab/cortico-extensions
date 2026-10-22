@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-better-alont1",
-  "version": "0.1.68",
+  "version": "0.1.69",
   "describe": {
     "tools": [
       {
@@ -721,6 +721,40 @@
         ]
       },
       {
+        "name": "qq_friend_requests",
+        "description": "看谁想加你好友（待处理的申请），带 flag。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "qq_friend_approve",
+        "description": "通过/拒绝一条好友申请（flag 来自 qq_friend_requests；approve=false 拒绝）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "flag": {
+              "type": "string",
+              "description": "申请的 flag。"
+            },
+            "approve": {
+              "type": "boolean",
+              "description": "true=通过（默认），false=拒绝。"
+            }
+          },
+          "required": [
+            "flag"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
         "name": "qq_recent",
         "description": "查询某个群或私聊最近的消息（按时间倒序）。用于回顾刚才说过的话、确认上下文。conv 直接抄事件行开头的会话标号；也可以只给 group（群号）或 peer（对方 QQ）。",
         "parameters": {
@@ -774,6 +808,115 @@
         },
         "tags": [
           "read"
+        ]
+      },
+      {
+        "name": "qq_sticker_save",
+        "description": "从图片 URL 或本地路径收藏表情包。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string"
+            },
+            "path": {
+              "type": "string"
+            },
+            "summary": {
+              "type": "string"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "qq_poke",
+        "description": "在已监听的群聊或私聊中戳一戳指定对象。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "target": {
+              "type": "string"
+            },
+            "user": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "target"
+          ]
+        },
+        "tags": [
+          "speak"
+        ]
+      },
+      {
+        "name": "qq_note_save",
+        "description": "把文本保存到本地私人笔记本。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "qq_note_list",
+        "description": "列出本地私人笔记本的条目。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "qq_note_get",
+        "description": "按条目 id 查看本地笔记。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "qq_note_forget",
+        "description": "按条目 id 删除本地笔记。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "tags": [
+          "write"
         ]
       }
     ],
