@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-imagekit-alont1",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "describe": {
     "tools": [
       {
@@ -78,7 +78,7 @@
       },
       {
         "name": "avatar_set",
-        "description": "把自己的 QQ 头像换成指定图片（本地路径 / http(s) 链接；不填就用最近下载的那张）。换头像是公开的，别人看得见，换之前想清楚。",
+        "description": "把自己的 QQ 头像换成指定图片（OneBot v11 set_qq_avatar，SnowLuma / NapCat 都走这个接口）。本地路径或 http(s) 链接；不填就用最近下载的那张。换头像是公开的，别人看得见，换之前想清楚。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
