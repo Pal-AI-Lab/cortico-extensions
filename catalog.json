@@ -29,6 +29,9 @@
       "sensitive-data",
       "unsafe"
     ],
+    "cortico-world-speechreview": [
+      "sensitive-data"
+    ],
     "cortico-world-wechat": [
       "sensitive-data"
     ]
@@ -218,7 +221,7 @@
     },
     "cortico-bot-weighted-memory": {
       "kind": "bot",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "displayName": "分区权重记忆",
       "description": "分区权重记忆：Cortico Persona 与 Memory 扩展，支持有证据事件摘要、分区预算、人工审核和版本回滚。",
       "locales": {
@@ -248,8 +251,8 @@
         "bugs": "https://github.com/Kpect10086/Cortico-Weighted-Memory/issues"
       },
       "created": "2026-10-17T10:03:17.564Z",
-      "published": "2026-10-17T10:32:23.702Z",
-      "versionCount": 3,
+      "published": "2026-10-22T10:53:26.758Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -273,6 +276,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.3",
           "0.2.2",
           "0.2.1"
         ],
@@ -2945,7 +2949,7 @@
     },
     "cortico-world-localvision": {
       "kind": "world",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "displayName": "本地视觉 LocalVision",
       "description": "在本机把屏幕 OCR 成「文字 + 坐标」，默认不把截图发到云端，省掉每帧看屏的 token；可选接视觉模型，也可硬拦截内置截图。",
       "locales": {
@@ -2964,7 +2968,8 @@
       ],
       "license": "MIT",
       "keywords": [
-        "cortico-world"
+        "cortico-world",
+        "cortico"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-localvision",
@@ -2977,8 +2982,8 @@
         "darwin"
       ],
       "created": "2026-10-20T18:30:32.418Z",
-      "published": "2026-10-20T18:31:48.756Z",
-      "versionCount": 2,
+      "published": "2026-10-22T11:02:30.426Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2991,6 +2996,7 @@
         "experimental",
         "sensitive-data"
       ],
+      "icon": "assets/cortico-world-localvision/icon.png",
       "downloads": {
         "total": 0,
         "month": 0,
@@ -2999,11 +3005,12 @@
       "summary": {
         "tools": 4,
         "events": 0,
-        "toolTokens": 940,
+        "toolTokens": 1049,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.3.1",
           "0.3.0"
         ],
         "url": "https://github.com/HY-pt/cortico-world-localvision/blob/HEAD/CHANGELOG.md"
@@ -3018,7 +3025,7 @@
     },
     "cortico-world-majsoul": {
       "kind": "world",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "displayName": "雀魂麻将",
       "description": "雀魂网页公开牌局、版本校验和动作回执",
       "author": "Kpect10086",
@@ -3039,8 +3046,8 @@
         "win32"
       ],
       "created": "2026-10-07T18:31:43.383Z",
-      "published": "2026-10-17T17:01:27.263Z",
-      "versionCount": 4,
+      "published": "2026-10-22T10:53:59.771Z",
+      "versionCount": 5,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -3068,10 +3075,11 @@
         "tools": 4,
         "events": 1,
         "toolTokens": 436,
-        "envPromptTokens": 1170
+        "envPromptTokens": 3482
       },
       "changelog": {
         "versions": [
+          "1.1.1",
           "1.1.0"
         ],
         "url": "https://github.com/Kpect10086/cortico-world-majsoul/blob/HEAD/CHANGELOG.md"
@@ -4220,7 +4228,7 @@
     },
     "cortico-world-qq-final": {
       "kind": "world",
-      "version": "0.6.12",
+      "version": "0.6.13",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -4239,8 +4247,8 @@
         "bugs": "https://github.com/hth768/cortico-world-qq-final/issues"
       },
       "created": "2026-10-06T07:39:25.866Z",
-      "published": "2026-10-22T07:41:42.155Z",
-      "versionCount": 45,
+      "published": "2026-10-22T10:53:07.291Z",
+      "versionCount": 46,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -4267,6 +4275,7 @@
       },
       "changelog": {
         "versions": [
+          "0.6.13",
           "0.6.12",
           "0.6.11",
           "0.6.10",
@@ -4450,7 +4459,7 @@
     },
     "cortico-world-qq-promax": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "displayName": "QQ ProMAX",
       "description": "QQ ProMAX: Cortico QQ 私聊、群聊、空间和语音扩展，支持 OneBot v11 / SnowLuma / NapCat。",
       "locales": {
@@ -4464,7 +4473,7 @@
       "maintainers": [
         "kpect"
       ],
-      "license": "MIT",
+      "license": "AGPL-3.0-or-later",
       "keywords": [
         "cortico-world",
         "cortico",
@@ -4484,8 +4493,8 @@
         "win32"
       ],
       "created": "2026-10-17T07:03:46.358Z",
-      "published": "2026-10-17T07:55:17.625Z",
-      "versionCount": 3,
+      "published": "2026-10-22T10:52:38.238Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4520,13 +4529,14 @@
         "week": 581
       },
       "summary": {
-        "tools": 40,
-        "events": 11,
-        "toolTokens": 5865,
-        "envPromptTokens": 921
+        "tools": 30,
+        "events": 13,
+        "toolTokens": 5364,
+        "envPromptTokens": 1515
       },
       "changelog": {
         "versions": [
+          "0.1.2",
           "0.1.1",
           "0.1.0"
         ],
@@ -5227,6 +5237,66 @@
       "discussion": {
         "number": 156,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/156",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-speechreview": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "通用审核",
+      "description": "通用审核：独立审核 QQ、直播语音字幕、输入与记忆内容，提供本机审核接口。",
+      "author": "Kpect10086",
+      "maintainers": [
+        "kpect"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "content-review"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-speechreview",
+        "repository": "https://github.com/Kpect10086/cortico-world-speechreview",
+        "homepage": "https://github.com/Kpect10086/cortico-world-speechreview#readme",
+        "bugs": "https://github.com/Kpect10086/cortico-world-speechreview/issues"
+      },
+      "created": "2026-10-22T10:51:16.189Z",
+      "published": "2026-10-22T10:52:11.963Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "external-setup",
+        "requires-key",
+        "sensitive-data"
+      ],
+      "tags": [
+        "external-setup",
+        "requires-key",
+        "sensitive-data"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 0,
+        "events": 0,
+        "toolTokens": 0,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/Kpect10086/cortico-world-speechreview/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 187,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/187",
         "up": 0,
         "down": 0,
         "comments": 0
