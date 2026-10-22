@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-final",
-  "version": "0.6.10",
+  "version": "0.6.12",
   "describe": {
     "tools": [
       {
@@ -568,6 +568,8 @@
     ]
   },
   "changelog": {
+    "0.6.12": "- 修本地 ASR 侧车「找不到 asr_sidecar.py」的根因（用户反馈 2026-10-22：Coopanion 启动时刷三条 `[asr-sidecar]` WARN、语音识别不可用）。\n  - 根因：`resolveAsrSidecar` 只按框架给的 `packageDir` 找脚本，而框架有时把 `packageDir` 指向 `bots/<bot>` 而非扩展目录，导致随包发布的 `asr_sidecar.py`（在扩展包根）找不到。\n  - 修法：新增 `EXT_ROOT`（`fileURLToPath(new URL('..', import.meta.url))`，从模块自身位置推算的扩展包根）作为查找**主锚点**，`packageDir` 降级为兜底候选。脚本/venv/python/model 四类候选都先查 `EXT_ROOT` 再查 `packageDir`。仍保持「只查本扩展自身目录、不跨包/跨目录扫描」的安全属性（避免别的扩展放同名文件被误执行）。\n  - 说明：这是源码修复，用户不再需要把脚本手动复制到 `bots/<bot>`；但 Python venv（funasr+torch，约 1.3GB）仍需自行准备——`asr.mode=local` 默认需要它，放 `<扩展>/venv_vox` 或配置 `asr.localVenv` 即可。",
+    "0.6.11": "- 安全加固（纵深防御）：QQ 空间发说说/评论的附图在真正调 API 的边界（`QZonePoster.post`）补一层协议白名单——仅收 `http(s)://` 与 `base64://` / `data:` 图片数据，拒绝 `file://` 等本地/任意协议，避免模型经 `qq_qzone(action=post)` 传入本地文件路径把本机任意文件上传出去。`world` 层已过滤一次，这里再挡一道。bot 自己收到的本地图片（`collectImages`）是可信内部来源，不经此过滤。\n- 修测试：修掉 0.6.9 起就挂、与本轮无关的两处预存在失败：\n  - `tests/normalize.test.ts`：原断言基于过时假设，把 `proactive`/`qzone`/`emotion` 当成「跟随主模型的辅助模型配置段」并断言其 `endpoint/apiKeySecret/model` 留空。实际只有 `vision` 是辅助模型配置段；`proactive`/`qzone` 是走主模型的调度器、没有这些字段，`emotion` 不是配置段（只是表情包标注）。断言列表收敛为真实结构 `['vision']`。\n  - `tests/security.test.ts`：原断言 grep 的是 `src/qzone.ts` 里的附图白名单，但那段校验实际在 `world.ts`。已在 `qzone.ts` 边界补齐白名单，断言随之成立。",
     "0.6.10": "- 认证评审（#104）收尾：\n  - 移除 `qq_note` 工具（原 save/list/get/forget 四个子功能）。它与 `cortico-world-memory` 的 `mem_note`/`mem_notes`/`mem_forget_note` 功能重复，两个都装会让模型同时面对两套记忆入口、互相打架。长期记忆请改用记忆扩展（常驻环境提示词 + 混合检索）。`definition.ts`/`describe.json`/`README` 同步移除相关描述，`notebook.ts` 本地后端保留但不再对外暴露工具。\n  - 安全加固：`@all` / `@全体成员` / `@everyone` 在普通回复正文里不再被解析成「at 全体」段。at 全体是 `qq_admin`（action=at_all）+ `admin.enabled` 授权保护的高危操作，不能靠在正文里写 `@all` 绕过鉴权。\n  - 安全加固：QQ 空间评论回复 / 主动发说说 的 nudge 不再把不可信的外部内容（评论者昵称、评论原文、最近聊天取材）拼进 prompt 文本，改为放进事件 meta，由主模型按需读取。\n  - 安全加固：`allowPrivateRedirect` 默认改为 `false`（群里任何人无法借 `qq_send` 让 bot 私聊任意 QQ 号）；语音语义判定的 `judgeEndpoint`/`judgeApiKeySecret` 默认留空（须显式配置才启用，不再跟随主模型密钥）；`QQ_SECRETS` 删除已无处使用的 `OPENROUTER_API_KEY`/`DEEPSEEK_API_KEY`。\n  - 语音语义判定（`judgeVoiceWish`）补上 `reportUsage` 用量上报，控制台可看到语音判定模型的 token 消耗（认证评审 #104 要求自有模型调用须上报用量）。",
     "0.6.9": "- 修复：启用作息功能后「总览面板」崩溃加载不出来。\n  - 根因：配置重命名（`config.ts` 真实字段为 `sleepStart/sleepEnd/lazyStart/lazyEnd/greetSleep/greetWake/greetLazy`）未同步到读取处，`proactive.ts` 的 `Routine` 类与 `world.ts` 的 `routineSegmentText()` 仍使用旧字段名 `silentStart/silentEnd/noonStart/noonEnd/...`。启用后 `inRange(undefined, undefined)` 触发 `undefined.split` 抛错，环境提示（qq.routine）构建失败，导致面板拉取失败。\n  - 受影响处全部改为真实字段：`RoutineConfig` 接口、`Routine.isSleep/isLunchBreak/announceText`、`routineSegment()` 模块函数、`ProactiveSpeaker.buildNudge/tick` 的时段判定、`world.routineSegmentText()`。\n  - `announceText()` 改为优先使用配置里的问候语（greetSleep/greetLazy/greetWake），缺省时回退内置文案。",
     "0.6.8": "- 修复：宠物没有任何把标签写回表情包索引的通道——`sticker.ts` 里 `emotion/usage/tag` 只在收货那一刻由自动标注写入，此后无代码路径可改；对外只有只读的 `qq_sticker_stats` 与只同步的 `qq_sticker_to_favorites`，宠物想修正/补充标注（尤其「未知」）没有任何接口，手工改 `sticker-index.json` 又会被内存里的旧 map 在下次落盘时悄悄覆盖。\n- 新增工具 `qq_sticker_tag`：按文件名（来自 `qq_sticker_stats`，也接受 `[表情包:xxx]` 写法）修改某张表情包的 `emotion/usage/tag/label`（只传想改的字段），`StickerStore` 新增 `updateMeta()` 走既有 debounce 落盘，不再有覆盖问题。\n- bot 可见工具 13 -> 14；describe.json / README / TOOL_SUMMARIES 同步更新。",

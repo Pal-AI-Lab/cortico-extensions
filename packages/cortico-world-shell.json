@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "name": "cortico-world-shell",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "shell_run",
+        "description": "在一条全新的 PowerShell 进程里运行一条命令,返回它的 stdout/stderr 和退出码。命令之间没有状态延续:Set-Location、$env: 和变量都不保留,一条命令要用到的步骤写进同一次调用(分号、换行、管道都行)。用 PowerShell 语法,不是 bash。回执另带 [cwd](这条命令跑完时的目录,起点是配置的工作目录)和 [bg](跑完后仍存活的直接子进程;PowerShell 退出后它们就成了孤儿,要停就用回执里的 pid)。按 worlds.shell.ask 的设置,命令之前可能在桌面上弹一个「是/否」确认框;被拒就没执行,换个写法重试也还是同一条命令。框里会显示工作目录和程序,命令超过 1600 字只显示头尾,关键动作别藏在中间。命令超时或调用被中断会终止这条命令的进程树。回执的 ok/fail 跟最后一条语句的 $?;失败时 exit 取 $LASTEXITCODE(命令里最后一次原生命令,没有就是 1)。要省 token 可把可压缩命令加 rtk 前缀(见环境提示)。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "command": {
+              "type": "string",
+              "maxLength": 8000,
+              "description": "要执行的命令(可多行)。"
+            },
+            "timeoutMs": {
+              "type": "integer",
+              "minimum": 1000,
+              "maximum": 600000,
+              "description": "本条命令的超时上限,缺省用配置值。"
+            }
+          },
+          "required": [
+            "command"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "在一次性 PowerShell 进程里运行一条命令",
+          "en": "Run a command in a one-shot PowerShell process"
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.shell.envPrompt",
+        "title": "Shell · 环境提示词",
+        "role": "envPrompt",
+        "content": "你有一个 PowerShell 执行器(Windows 自带 5.1 或 pwsh 7):程序 {{shell.program}},每条命令的工作目录 {{shell.cwd}},单条命令默认超时 {{shell.timeout}} 毫秒。\n\n{{shell.ask}}\n\n用 shell_run 执行 PowerShell 语句。每条命令都在一个全新的 PowerShell 进程里跑,跑完即退:Set-Location、$env: 和变量都不会留到下一次调用。一条命令要用到的步骤写在一起(分号、换行、管道都行),别分两次指望状态还在。\n\n回执开头的 ok/fail 跟着最后一条语句的 `$?`;失败时 `exit` 取 `$LASTEXITCODE`(命令里最后一次原生命令的退出码),没有就是 1。超时或调用被中断,那次调用的进程树会被终止;命令让进程提前退出(比如 `exit`,或脚本没解析完)时回执是 `[incomplete]`,拿不到 `[cwd]`/`[bg]`,以 exit 为准。\n\n回执还会带两行元信息:`[cwd]` 是这条命令跑完时的目录(不必再问 `Get-Location`),`[bg]` 是它跑完时还活着的直接子进程,形如 `powershell(18244)`(pwsh 则是 `pwsh(18244)`)。PowerShell 一退,这些进程就成了孤儿,还占着端口和内存;要停就 `Stop-Process -Id`,不确定就 `Get-Process` 再看一眼(脱离这条链的服务和进程不在此列)。\n\n{{shell.rtk}}\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "- 默认用 Windows 自带的 PowerShell 5.1(`powershell`)执行命令,无需额外安装;也可以填 `pwsh` 用 PowerShell 7,或填 Niubash 的 `niu` 继续用 bash。每条命令在全新的进程里执行,超时或中断终止这次调用的进程树,停用 World 会中止在途调用,回执用 `[bg]` 报出仍存活的直接子进程。\n- 默认 `ask-once`(同意后 30 分钟内不再问),默认不提示 RTK。\n- 审批框显示工作目录、程序与命令头尾;默认按钮为「否」;命令上限 8000 字;控制符与双向字符转义后显示。\n- 免询问名单在 World 启动时读取;RTK 只在开启提示时定位,不执行。\n- 输出有界;收尾在捕获状态后复位 shell 设置,bash 的 `set -euo pipefail` 与 PowerShell 的 StrictMode 都不会打断收尾。\n- 适配 Cortico world v6:`webUi()` 与 `describe.json`;按 shell 选择提示词与工具描述;仅支持 Windows。"
+  }
+}
