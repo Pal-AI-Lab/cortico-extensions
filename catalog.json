@@ -13,6 +13,9 @@
     "cortico-world-homeassistant": [
       "sensitive-data"
     ],
+    "cortico-world-image-attach": [
+      "unsafe"
+    ],
     "cortico-world-localvision": [
       "sensitive-data"
     ],
@@ -2878,6 +2881,58 @@
         "comments": 1
       }
     },
+    "cortico-world-image-attach": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "本地图片递送",
+      "description": "Cortico World: 把电脑里任意一张图片发进对话，可以配合有搜图能力的扩展，将找到的图片直接发在对话里。",
+      "maintainers": [
+        "black-fencer"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-image-attach"
+      },
+      "created": "2026-10-22T15:54:04.287Z",
+      "published": "2026-10-22T15:54:39.967Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "unsafe"
+      ],
+      "tags": [
+        "unsafe"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 1,
+        "events": 0,
+        "toolTokens": 150,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-image-attach@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 195,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/195",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-imagekit-alont1": {
       "kind": "world",
       "version": "0.1.2",
@@ -3018,7 +3073,7 @@
     },
     "cortico-world-listen": {
       "kind": "world",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "displayName": "听觉",
       "description": "听觉（Listen）—— 给 Coopanion 桌宠的 cortico World 扩展：监听系统声音或某个应用的音频，自动把语音切成块（能量门限或可选的 Silero VAD），并把每块作为事件投进 cortico 事件流（附件是 WAV），由 agent 决定接下来做什么（比如交给 stt_transcribe 转写成文字）。 / A cortico World extension that captures system or per-application audio, segments spe",
       "author": "AqualCross",
@@ -3048,8 +3103,8 @@
         "bugs": "https://github.com/AqualCross/cortico-world-listen/issues"
       },
       "created": "2026-10-16T15:24:26.356Z",
-      "published": "2026-10-21T11:14:43.310Z",
-      "versionCount": 6,
+      "published": "2026-10-22T16:03:16.206Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3071,6 +3126,7 @@
       },
       "changelog": {
         "versions": [
+          "0.4.1",
           "0.4.0",
           "0.3.3",
           "0.3.2",
@@ -3136,7 +3192,7 @@
     },
     "cortico-world-localvision": {
       "kind": "world",
-      "version": "0.3.2",
+      "version": "0.3.3",
       "displayName": "本地视觉 LocalVision",
       "description": "让 AI 助手能看懂你的电脑屏幕，但截图全程只留在你电脑上、不上传云端——既保护隐私，又省下每次看屏的流量与费用。要看图标、游戏、图片这类只有画面没有文字的内容时，可接一个本地或在线视觉模型；也能拦住其他工具偷偷把截图发出去。",
       "locales": {
@@ -3170,8 +3226,8 @@
         "linux"
       ],
       "created": "2026-10-20T18:30:32.418Z",
-      "published": "2026-10-22T15:00:13.104Z",
-      "versionCount": 4,
+      "published": "2026-10-22T16:32:02.176Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3198,6 +3254,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.3",
           "0.3.2",
           "0.3.1",
           "0.3.0"
@@ -4417,7 +4474,7 @@
     },
     "cortico-world-qq-final": {
       "kind": "world",
-      "version": "0.6.14",
+      "version": "0.6.17",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -4436,8 +4493,8 @@
         "bugs": "https://github.com/hth768/cortico-world-qq-final/issues"
       },
       "created": "2026-10-06T07:39:25.866Z",
-      "published": "2026-10-22T11:44:24.684Z",
-      "versionCount": 47,
+      "published": "2026-10-22T16:34:38.147Z",
+      "versionCount": 50,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -5889,7 +5946,7 @@
     },
     "cortico-world-tts": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "displayName": "文本转语音",
       "description": "文本转语音（Text to Speech）—— 给 Coopanion 桌宠的 cortico World 扩展：把文字合成为语音，音频落盘并作为附件交回对话。 / A cortico World extension that turns text into speech through a configurable TTS API and returns the audio as a conversation attachment.",
       "author": "AqualCross",
@@ -5914,8 +5971,8 @@
         "bugs": "https://github.com/AqualCross/cortico-world-tts/issues"
       },
       "created": "2026-10-14T14:56:54.671Z",
-      "published": "2026-10-21T09:35:46.958Z",
-      "versionCount": 4,
+      "published": "2026-10-22T16:01:50.172Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5937,6 +5994,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.3",
           "0.1.2",
           "0.1.1",
           "0.1.0"
@@ -5946,6 +6004,56 @@
       "discussion": {
         "number": 67,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/67",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-video": {
+      "kind": "world",
+      "version": "0.1.2",
+      "description": "视频观看：给 AI 看本地视频，读时长和分辨率，按秒抽帧成图片",
+      "author": "richuff",
+      "maintainers": [
+        "richuff"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-video",
+        "repository": "https://github.com/richuff/cortico-world-video",
+        "homepage": "https://github.com/richuff/cortico-world-video#readme",
+        "bugs": "https://github.com/richuff/cortico-world-video/issues"
+      },
+      "created": "2026-10-22T16:07:40.134Z",
+      "published": "2026-10-22T16:35:01.315Z",
+      "versionCount": 4,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 1,
+        "toolTokens": 485,
+        "envPromptTokens": 190
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/richuff/cortico-world-video/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 196,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/196",
         "up": 0,
         "down": 0,
         "comments": 0

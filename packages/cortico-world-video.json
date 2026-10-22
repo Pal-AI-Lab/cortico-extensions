@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "name": "cortico-world-video",
+  "version": "0.1.2",
+  "describe": {
+    "tools": [
+      {
+        "name": "video_probe",
+        "description": "Read metadata of a local video file with ffprobe. Returns duration, resolution, frame rate, bitrate and whether an audio track exists. Use this first to learn how long a video is before extracting frames from it.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "Absolute or relative path to a local video file."
+            }
+          },
+          "required": [
+            "path"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读一个本地视频文件的元数据：时长、分辨率、帧率、码率、有没有音轨。",
+          "en": "Reads a local video file’s duration, resolution, frame rate, bitrate and whether it has audio."
+        }
+      },
+      {
+        "name": "video_frames",
+        "description": "Extract frames from a local video file as JPEG images so you can see what is on screen. Pass fromSec alone to grab a single frame at that second; pass count (or intervalSec) to grab several frames spread over the video. The images are attached to the tool result, so a model that accepts image input can look at them directly.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "Absolute or relative path to a local video file."
+            },
+            "fromSec": {
+              "type": "number",
+              "description": "Where to start, in seconds. Default 0."
+            },
+            "count": {
+              "type": "integer",
+              "description": "How many frames to extract. 1 means a single frame at fromSec. Default comes from config (worlds.video.defaultCount)."
+            },
+            "intervalSec": {
+              "type": "number",
+              "description": "Seconds between consecutive frames. Default comes from config (worlds.video.defaultIntervalSec)."
+            },
+            "scale": {
+              "type": "integer",
+              "description": "Output width in pixels, aspect ratio preserved. 0 keeps the original size. Default comes from config (worlds.video.defaultScale)."
+            }
+          },
+          "required": [
+            "path"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "从本地视频抽帧成 jpg 图片，直接作为图片回传，让模型看见某一刻画面。",
+          "en": "Extracts frames from a local video as JPEG images and returns them so the model can see them."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "video.mounted",
+        "description": {
+          "zh": "Video World 挂载完成。",
+          "en": "The Video World was mounted."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.video.envPrompt",
+        "title": "Video · 环境提示词",
+        "role": "envPrompt",
+        "content": "Video World 让你看本地视频文件的内容，只读传入路径的文件，不联网、不上传。\n\n- 想看一个视频长什么样：先调 `video_probe` 拿时长、分辨率、帧率、有没有音轨，再决定从哪一刻抽帧。\n- 想看某一刻在播什么：调 `video_frames` 只传 `path` 和 `fromSec`，会抽出那一秒的单帧图片。\n- 想通看一遍：调 `video_frames` 传 `count`（和可选的 `intervalSec`），会按间隔抽多帧一起回传。\n- 图太大或太多时可以传 `scale` 压宽度；一次最多抽 `worlds.video.maxCount` 张。\n- ffmpeg / ffprobe 从 PATH 找，找不到时回执会写清楚怎么装；也可以在配置里填绝对路径。\n- 抽出来的 jpg 落在 `worlds.video.framesDir`（留空则用系统临时目录），回执里会给出每个文件的时间点和路径。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "首个版本。\n\n- `video_probe`：ffprobe 读本地视频元数据（时长、分辨率、帧率、码率、音轨有无）。\n- `video_frames`：ffmpeg 抽帧成 jpg 并以图片回传，支持单帧（`fromSec`）与多帧（`count` + `intervalSec`）。\n- 默认 `count=6`、`intervalSec=5`、`scale=640`，均可在 `worlds.video` 配置段调整。\n- ffmpeg / ffprobe 从 PATH 查找，找不到时回执写明安装方式。"
+  }
+}

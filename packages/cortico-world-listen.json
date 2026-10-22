@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-listen",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "describe": {
     "tools": [
       {
@@ -100,6 +100,7 @@
     ]
   },
   "changelog": {
+    "0.4.1": "- 修复 Electron 下 Silero 切分必报 `External buffers are not allowed`：取段改用 `front(false)`，复制进普通 ArrayBuffer。\n- 「听觉开始监听」日志带上切分类型与当前门限（silero 概率 / energy dBFS）。\n- 默认参数按实测调整：`sileroThreshold` 0.5 → 0.4，`minSpeechMs` 200 → 400，`minUtteranceMs` 400 → 1000（引擎仍默认 energy，零依赖）。\n- 移除配置页里与框架 World 开关重复的「启用」项；World 的启用与停用统一在 World 页。",
     "0.4.0": "- 模型工具合并为 `listen_act`（start / stop）和 `listen_read`（source_list / status / recent），统一结构化 action 参数并保留读写权限区分。source_list 查询有音频会话的应用名称、PID 与窗口标题。\n- 应用列表改为仅列出有 Windows 音频会话的应用，包含暂时未播放的会话；其他软件可手动输入进程名或 PID，查询失败时明确报错。\n- 按进程树合并音频子进程，使用具体 PID 区分独立实例；刷新不再自动覆盖监听目标，并清除空结果的旧列表。",
     "0.3.3": "- 修复详情页顶部徽标未随面板状态和操作结果同步更新的问题。",
     "0.3.2": "- 精简听到的与状态页面，移除重复标题、说明和配置展示，统一左对齐布局。\n- 合并开始/停止监听按钮，调整操作提示位置，监听徽标显示实际使用的 energy / silero。\n- 增加听觉模块选择，与配置同步；选择 Silero 时自动准备缺少的组件和模型，并显示阶段状态。\n- 环境提示词默认留空，保留用户编辑入口，移除动态状态变量。\n- 修复事件写入失败仍计为已送达的问题，保留本地音频及失败原因，失败不占成功投递额度。\n- 修复片段时间戳重复累加和 Silero 长静音后的时间偏移。\n- 移除挂载后自动监听选项，监听由控制台或工具显式开启。\n- 验证：41 项离线自检通过。",

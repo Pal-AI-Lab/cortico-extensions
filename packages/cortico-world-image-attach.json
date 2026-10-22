@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "name": "cortico-world-image-attach",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "image_attach",
+        "description": "Attach one image file from the local disk to this conversation. Give its absolute path; the receipt carries the image as a [blob ...] line with a log: handle you can hand to image-sending tools. Accepts png, jpg, jpeg, gif and webp up to 5 MB.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "Absolute path of the image file on this machine."
+            }
+          },
+          "required": [
+            "path"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读取硬盘上的一张图片,作为附件交给这次对话,回执给 log: 句柄。",
+          "en": "Reads one image file from disk into the conversation as an attachment and returns its log: handle."
+        }
+      }
+    ],
+    "events": []
+  },
+  "changelog": {
+    "0.1.0": "- 首个版本:`image_attach`,把硬盘上的一张图片读成对话附件,回执给 `log:` 句柄。"
+  }
+}
