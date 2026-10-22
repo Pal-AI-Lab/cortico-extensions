@@ -2666,6 +2666,44 @@
         "comments": 0
       }
     },
+    "cortico-world-hands": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "手",
+      "description": "Cortico World: hands for the desktop pet — looks at the phone screen, then taps, swipes, types and presses keys through whatever actuator the device actually has",
+      "maintainers": [
+        "mokils"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "hands",
+        "automation",
+        "accessibility"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-hands"
+      },
+      "created": "2026-10-22T14:40:37.506Z",
+      "published": "2026-10-22T14:49:19.437Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 192,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/192",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-homeassistant": {
       "kind": "world",
       "version": "0.1.0",
@@ -3098,17 +3136,17 @@
     },
     "cortico-world-localvision": {
       "kind": "world",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "displayName": "本地视觉 LocalVision",
-      "description": "在本机把屏幕 OCR 成「文字 + 坐标」，默认不把截图发到云端，省掉每帧看屏的 token；可选接视觉模型，也可硬拦截内置截图。",
+      "description": "让 AI 助手能看懂你的电脑屏幕，但截图全程只留在你电脑上、不上传云端——既保护隐私，又省下每次看屏的流量与费用。要看图标、游戏、图片这类只有画面没有文字的内容时，可接一个本地或在线视觉模型；也能拦住其他工具偷偷把截图发出去。",
       "locales": {
         "zh": {
           "displayName": "本地视觉 LocalVision",
-          "description": "在本机把屏幕 OCR 成「文字 + 坐标」，默认不上传截图，省掉每帧看屏的 token；可选接视觉模型看图，也可硬拦截内置截图。"
+          "description": "让 AI 助手能看懂你的电脑屏幕，但截图全程只留在你电脑上、不上传云端——既保护隐私，又省下每次看屏的流量与费用。要看图标、游戏、图片这类只有画面没有文字的内容时，可接一个本地或在线视觉模型；也能拦住其他工具偷偷把截图发出去。"
         },
         "en": {
           "displayName": "LocalVision",
-          "description": "Reads the screen locally with OCR and returns text with coordinates, keeping screenshots off the cloud by default. Optional vision model and built-in screenshot interception."
+          "description": "Lets your AI assistant see your screen, but screenshots stay on your computer and are never sent to the cloud — keeping things private and cheap. For icons, games, or images, it can use a local or online vision model, and it can also stop other tools from silently uploading screenshots."
         }
       },
       "author": "HY-pt",
@@ -3128,11 +3166,12 @@
       },
       "os": [
         "win32",
-        "darwin"
+        "darwin",
+        "linux"
       ],
       "created": "2026-10-20T18:30:32.418Z",
-      "published": "2026-10-22T11:02:30.426Z",
-      "versionCount": 3,
+      "published": "2026-10-22T15:00:13.104Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3159,6 +3198,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.2",
           "0.3.1",
           "0.3.0"
         ],
@@ -5314,84 +5354,6 @@
         "comments": 0
       }
     },
-    "cortico-world-span": {
-      "kind": "world",
-      "version": "0.1.2",
-      "displayName": "跨屏跑动",
-      "description": "让桌宠跑到屏幕边缘时跨到旁边的显示器上，从那一侧接着跑，而不是停在边缘前几十个像素。为 Coopanion 0.2.5 制作；两块屏分辨率、缩放不同也照样能跨，也不会因为最大化窗口或显卡浮层挡住就过不去。",
-      "locales": {
-        "zh": {
-          "displayName": "跨屏跑动",
-          "description": "让桌宠跑到屏幕边缘时跨到旁边的显示器继续跑。支持 Coopanion 0.2.5。"
-        },
-        "en": {
-          "displayName": "Cross-Screen Run",
-          "description": "The pet keeps running across adjacent displays instead of stopping short. For Coopanion 0.2.5."
-        }
-      },
-      "author": "XYxiaojiang",
-      "maintainers": [
-        "xyxiaojiang"
-      ],
-      "license": "MIT",
-      "keywords": [
-        "cortico",
-        "cortico-world",
-        "world",
-        "companion",
-        "desktop-pet",
-        "coopanion",
-        "multi-monitor",
-        "dual-screen",
-        "cross-screen"
-      ],
-      "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-span"
-      },
-      "os": [
-        "win32"
-      ],
-      "created": "2026-10-20T14:53:05.813Z",
-      "published": "2026-10-21T10:55:56.319Z",
-      "versionCount": 4,
-      "official": false,
-      "isNew": true,
-      "declaredTags": [
-        "apps",
-        "experimental"
-      ],
-      "tags": [
-        "apps",
-        "companion",
-        "experimental"
-      ],
-      "downloads": {
-        "total": 0,
-        "month": 0,
-        "week": 0
-      },
-      "summary": {
-        "tools": 1,
-        "events": 0,
-        "toolTokens": 152,
-        "envPromptTokens": 342
-      },
-      "changelog": {
-        "versions": [
-          "0.1.2",
-          "0.1.1",
-          "0.1.0"
-        ],
-        "url": "https://unpkg.com/cortico-world-span@0.1.2/CHANGELOG.md"
-      },
-      "discussion": {
-        "number": 156,
-        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/156",
-        "up": 0,
-        "down": 0,
-        "comments": 0
-      }
-    },
     "cortico-world-speechreview": {
       "kind": "world",
       "version": "0.1.0",
@@ -5725,7 +5687,7 @@
     },
     "cortico-world-terrarium": {
       "kind": "world",
-      "version": "0.8.8-bugfix.1",
+      "version": "0.8.9",
       "displayName": "Terrarium",
       "description": "Claimable land and water ecosystems with plants, bugs, fish and a public leaderboard",
       "locales": {
@@ -5758,8 +5720,8 @@
         "bugs": "https://github.com/zhiyuHD/cortico-world-terrarium/issues"
       },
       "created": "2026-10-17T06:11:00.470Z",
-      "published": "2026-10-22T06:00:16.727Z",
-      "versionCount": 33,
+      "published": "2026-10-22T15:02:35.452Z",
+      "versionCount": 34,
       "official": false,
       "isNew": true,
       "declaredTags": [
