@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-final",
-  "version": "0.6.9",
+  "version": "0.6.10",
   "describe": {
     "tools": [
       {
@@ -373,44 +373,6 @@
         }
       },
       {
-        "name": "qq_note",
-        "description": "智能体私人笔记本（本地 notebook.jsonl；与记忆扩展的 mem_note 功能重复）系列（用一个 action 选子功能）：save=写一条长期记忆（text，尽量具体自包含）；list=列出全部条目；get=按 id 查看一条；forget=删除一条。注意：若同时装了 cortico-world-memory，请优先用它的 mem_note/mem_notes/mem_forget_note（常驻提示词+混合检索），本笔记本只落本地、不参与检索。",
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "action": {
-              "type": "string",
-              "enum": [
-                "save",
-                "list",
-                "get",
-                "forget"
-              ],
-              "description": "子功能：save 写 / list 列 / get 查 / forget 删。"
-            },
-            "text": {
-              "type": "string",
-              "description": "【save】要记的内容（尽量具体、自包含）。"
-            },
-            "id": {
-              "type": "string",
-              "description": "【get/forget】条目 id（来自 list）。"
-            }
-          },
-          "required": [
-            "action"
-          ]
-        },
-        "tags": [
-          "write",
-          "read"
-        ],
-        "summary": {
-          "zh": "私人笔记本:写(save)/列(list)/查(get)/删(forget),落本地 notebook.jsonl。",
-          "en": "Private notebook: save / list / get / forget, stored in local notebook.jsonl."
-        }
-      },
-      {
         "name": "qq_admin",
         "description": "【群管理员】系列（用一个 action 选子功能，需 admin.enabled 开启；部分操作需授权指挥官：控制台白名单 / 群管理员 / 群主，或开启 admin.allowSelf 让 AI 自主）：recall=撤回一条群消息（messageId，最近2分钟内或自己发的）；at_all=@全体成员（text 附带正文）；notice=发布群公告（content）；join_list=列出待审核加群请求；join_approve=通过加群请求（flag）；join_reject=拒绝加群请求（flag, reason?）；title=设置群专属头衔（who, title）；ban=禁言/解禁成员（who, durationSec?）；ban_all=全员禁言开关（enable）；kick=踢出成员（who, rejectRejoin?，高影响且不可逆，默认 AI 不能自主踢人）。",
         "parameters": {
@@ -606,6 +568,7 @@
     ]
   },
   "changelog": {
+    "0.6.10": "- 认证评审（#104）收尾：\n  - 移除 `qq_note` 工具（原 save/list/get/forget 四个子功能）。它与 `cortico-world-memory` 的 `mem_note`/`mem_notes`/`mem_forget_note` 功能重复，两个都装会让模型同时面对两套记忆入口、互相打架。长期记忆请改用记忆扩展（常驻环境提示词 + 混合检索）。`definition.ts`/`describe.json`/`README` 同步移除相关描述，`notebook.ts` 本地后端保留但不再对外暴露工具。\n  - 安全加固：`@all` / `@全体成员` / `@everyone` 在普通回复正文里不再被解析成「at 全体」段。at 全体是 `qq_admin`（action=at_all）+ `admin.enabled` 授权保护的高危操作，不能靠在正文里写 `@all` 绕过鉴权。\n  - 安全加固：QQ 空间评论回复 / 主动发说说 的 nudge 不再把不可信的外部内容（评论者昵称、评论原文、最近聊天取材）拼进 prompt 文本，改为放进事件 meta，由主模型按需读取。\n  - 安全加固：`allowPrivateRedirect` 默认改为 `false`（群里任何人无法借 `qq_send` 让 bot 私聊任意 QQ 号）；语音语义判定的 `judgeEndpoint`/`judgeApiKeySecret` 默认留空（须显式配置才启用，不再跟随主模型密钥）；`QQ_SECRETS` 删除已无处使用的 `OPENROUTER_API_KEY`/`DEEPSEEK_API_KEY`。\n  - 语音语义判定（`judgeVoiceWish`）补上 `reportUsage` 用量上报，控制台可看到语音判定模型的 token 消耗（认证评审 #104 要求自有模型调用须上报用量）。",
     "0.6.9": "- 修复：启用作息功能后「总览面板」崩溃加载不出来。\n  - 根因：配置重命名（`config.ts` 真实字段为 `sleepStart/sleepEnd/lazyStart/lazyEnd/greetSleep/greetWake/greetLazy`）未同步到读取处，`proactive.ts` 的 `Routine` 类与 `world.ts` 的 `routineSegmentText()` 仍使用旧字段名 `silentStart/silentEnd/noonStart/noonEnd/...`。启用后 `inRange(undefined, undefined)` 触发 `undefined.split` 抛错，环境提示（qq.routine）构建失败，导致面板拉取失败。\n  - 受影响处全部改为真实字段：`RoutineConfig` 接口、`Routine.isSleep/isLunchBreak/announceText`、`routineSegment()` 模块函数、`ProactiveSpeaker.buildNudge/tick` 的时段判定、`world.routineSegmentText()`。\n  - `announceText()` 改为优先使用配置里的问候语（greetSleep/greetLazy/greetWake），缺省时回退内置文案。",
     "0.6.8": "- 修复：宠物没有任何把标签写回表情包索引的通道——`sticker.ts` 里 `emotion/usage/tag` 只在收货那一刻由自动标注写入，此后无代码路径可改；对外只有只读的 `qq_sticker_stats` 与只同步的 `qq_sticker_to_favorites`，宠物想修正/补充标注（尤其「未知」）没有任何接口，手工改 `sticker-index.json` 又会被内存里的旧 map 在下次落盘时悄悄覆盖。\n- 新增工具 `qq_sticker_tag`：按文件名（来自 `qq_sticker_stats`，也接受 `[表情包:xxx]` 写法）修改某张表情包的 `emotion/usage/tag/label`（只传想改的字段），`StickerStore` 新增 `updateMeta()` 走既有 debounce 落盘，不再有覆盖问题。\n- bot 可见工具 13 -> 14；describe.json / README / TOOL_SUMMARIES 同步更新。",
     "0.6.7": "工具合并（减少 bot 可见工具数量、降低模型选工具负担；框架原生支持 `action` 枚举参数）：\n- 把 6 个「同族」工具各自合并为单个工具，子功能用 `action` 枚举参数暴露（保留全部原有行为/鉴权/保护逻辑）：\n  - `qq_qzone_*`（post/delete/reply/feeds/status）-> `qq_qzone`，新增 `action` 参数。\n  - `qq_reminder_*`（add/list/cancel）-> `qq_reminder`。\n  - `qq_note_*`（save/list/get/forget）-> `qq_note`。\n  - `qq_admin_*`（recall/at_all/notice/join_list/join_approve/join_reject/title/ban/ban_all/kick）-> `qq_admin`，新增 `action` 参数；授权指挥官/白名单/protectOwner/protectAdmins 保护全部保留。\n  - `qq_proactive_*`（status/trigger）-> `qq_proactive`。\n  - `qq_recent` + `qq_search` -> `qq_history`（action=recent/search）。\n- bot 可见工具：33 -> 13（`qq_send` / `qq_confirm_send` / `qq_view_image` / `qq_sticker_stats` / `qq_sticker_to_favorites` / `qq_forward_by_id` / `qq_poke` 保持不变）。\n- 重新生成 describe.json（tools 13, events 8, prompts 1）；README 工具文档同步更新为 action 写法。",
