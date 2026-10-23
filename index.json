@@ -368,8 +368,13 @@
     "cortico-world-bilibili": {
       "addTags": [
         "corti",
-        "streaming"
-      ]
+        "streaming",
+        "unofficial-api"
+      ],
+      "note": {
+        "zh": "借用 B 站网页登录 cookie(SESSDATA)",
+        "en": "Uses a bilibili web login cookie (SESSDATA)"
+      }
     },
     "cortico-world-minecraft": {
       "addTags": [
@@ -402,6 +407,8 @@
     },
     "cortico-world-humanlike-alont1": {
       "addTags": [
+        "internet",
+        "memory",
         "companion",
         "internal-state",
         "sensitive-data"
@@ -419,12 +426,17 @@
     },
     "cortico-world-affinity-alont1": {
       "addTags": [
+        "im",
+        "qq",
         "companion",
-        "internal-state"
+        "internal-state",
+        "requires-extension"
       ]
     },
     "cortico-world-gaming-alont1": {
       "addTags": [
+        "game",
+        "internet",
         "companion",
         "sensitive-data"
       ],
@@ -461,6 +473,7 @@
         "im",
         "qq",
         "external-setup",
+        "requires-extension",
         "unofficial-api"
       ],
       "note": {
@@ -472,6 +485,9 @@
       "addTags": [
         "im",
         "qq",
+        "voice",
+        "memory",
+        "companion",
         "external-setup",
         "internal-state",
         "unofficial-api"
@@ -509,8 +525,14 @@
     "cortico-world-qzone-alont1": {
       "addTags": [
         "im",
-        "qq"
-      ]
+        "qq",
+        "external-setup",
+        "unofficial-api"
+      ],
+      "note": {
+        "zh": "经 NapCat 等非官方 QQ 客户端登录 QQ 账号",
+        "en": "Signs in to a QQ account through an unofficial client such as NapCat"
+      }
     },
     "cortico-world-asr": {
       "addTags": [
@@ -537,7 +559,10 @@
         "corti",
         "streaming",
         "game",
-        "external-setup"
+        "voice",
+        "local",
+        "external-setup",
+        "high-cost"
       ]
     },
     "cortico-world-clock-alont1": {
@@ -559,7 +584,8 @@
         "streaming",
         "game",
         "external-setup",
-        "experimental"
+        "experimental",
+        "high-cost"
       ]
     },
     "cortico-world-pvz": {
@@ -575,8 +601,15 @@
         "im",
         "qq",
         "voice",
-        "external-setup"
-      ]
+        "local",
+        "external-setup",
+        "requires-key",
+        "unofficial-api"
+      ],
+      "note": {
+        "zh": "经 NapCat 等非官方 QQ 客户端登录 QQ 账号",
+        "en": "Signs in to a QQ account through an unofficial client such as NapCat"
+      }
     },
     "cortico-world-lite-alont1": {
       "addTags": [
@@ -590,21 +623,25 @@
         "corti",
         "streaming",
         "game",
-        "external-setup"
+        "external-setup",
+        "high-cost"
       ]
     },
     "cortico-world-overcooked2": {
       "addTags": [
         "corti",
-        "streaming",
         "game",
-        "external-setup"
+        "external-setup",
+        "high-cost"
       ]
     },
     "cortico-world-qq-final": {
       "addTags": [
         "im",
         "qq",
+        "voice",
+        "companion",
+        "local",
         "external-setup",
         "unofficial-api"
       ],
@@ -631,12 +668,8 @@
     },
     "cortico-world-python": {
       "addTags": [
-        "unsafe"
-      ],
-      "note": {
-        "zh": "运行任意 Python 插件代码",
-        "en": "Runs arbitrary Python plugin code"
-      }
+        "external-setup"
+      ]
     },
     "cortico-world-memory-doctor-alont1": {
       "addTags": [
@@ -652,7 +685,6 @@
     "cortico-world-sts-1": {
       "addTags": [
         "corti",
-        "streaming",
         "game",
         "external-setup"
       ]
@@ -660,7 +692,8 @@
     "cortico-world-cosyvoice-tts": {
       "addTags": [
         "voice",
-        "local"
+        "local",
+        "external-setup"
       ]
     },
     "cortico-world-surfing": {
@@ -670,69 +703,15 @@
         "video"
       ]
     },
-    "cortico-world-qq-affinity": {
-      "addTags": [
-        "im",
-        "qq",
-        "companion",
-        "internal-state",
-        "requires-extension"
-      ]
-    },
-    "cortico-world-qq-admin": {
-      "addTags": [
-        "im",
-        "qq",
-        "requires-extension"
-      ]
-    },
     "cortico-world-tts": {
       "addTags": [
-        "voice"
+        "voice",
+        "requires-key"
       ]
     },
     "cortico-world-majsoul": {
       "addTags": [
         "game"
-      ]
-    },
-    "cortico-world-qq-festival": {
-      "addTags": [
-        "im",
-        "qq",
-        "companion",
-        "requires-extension"
-      ]
-    },
-    "cortico-world-qq-history": {
-      "addTags": [
-        "im",
-        "qq",
-        "memory",
-        "requires-extension"
-      ]
-    },
-    "cortico-world-qq-proactive": {
-      "addTags": [
-        "im",
-        "qq",
-        "companion",
-        "requires-extension"
-      ]
-    },
-    "cortico-world-qq-routine": {
-      "addTags": [
-        "im",
-        "qq",
-        "companion",
-        "requires-extension"
-      ]
-    },
-    "cortico-world-qq-reminder": {
-      "addTags": [
-        "im",
-        "qq",
-        "requires-extension"
       ]
     },
     "cortico-world-presence": {
@@ -745,64 +724,13 @@
         "en": "Reads the foreground window and input idle time, and can take screenshots"
       }
     },
-    "cortico-world-qq-groupspeak": {
-      "addTags": [
-        "im",
-        "qq",
-        "requires-extension"
-      ]
-    },
-    "cortico-world-qq-notebook": {
-      "addTags": [
-        "im",
-        "qq",
-        "memory",
-        "internal-state",
-        "requires-extension"
-      ]
-    },
-    "cortico-world-qq-qzone": {
-      "addTags": [
-        "im",
-        "qq",
-        "requires-extension"
-      ]
-    },
-    "cortico-world-qq-voice": {
-      "addTags": [
-        "im",
-        "qq",
-        "voice",
-        "requires-extension"
-      ]
-    },
     "cortico-world-qiandengji": {
       "addTags": [
         "game",
         "external-setup"
-      ]
-    },
-    "cortico-world-qq-antiloop": {
-      "addTags": [
-        "im",
-        "qq",
-        "requires-extension"
-      ]
-    },
-    "cortico-world-qq-emotion": {
-      "addTags": [
-        "im",
-        "qq",
-        "companion",
-        "internal-state",
-        "requires-extension"
-      ]
-    },
-    "cortico-world-qq-sticker": {
-      "addTags": [
-        "im",
-        "qq",
-        "requires-extension"
+      ],
+      "removeTags": [
+        "unsafe"
       ]
     },
     "cortico-provider-gemini-web": {
@@ -830,8 +758,13 @@
         "internet",
         "browser",
         "video",
-        "high-cost"
-      ]
+        "high-cost",
+        "unofficial-api"
+      ],
+      "note": {
+        "zh": "网页扫码登录 B 站并保存登录 cookie",
+        "en": "Signs in to bilibili by web QR code and keeps the login cookies"
+      }
     },
     "cortico-provider-coo": {
       "addTags": [
@@ -841,6 +774,9 @@
     "cortico-world-fatfish": {
       "addTags": [
         "external-setup"
+      ],
+      "removeTags": [
+        "requires-extension"
       ]
     },
     "cortico-world-gpt-sovits-for-coopanion": {
@@ -851,6 +787,303 @@
     "cortico-world-coocowork": {
       "addTags": [
         "coopanion"
+      ]
+    },
+    "cortico-world-weather-alont1": {
+      "addTags": [
+        "internet"
+      ]
+    },
+    "cortico-world-web-alont1": {
+      "addTags": [
+        "internet"
+      ]
+    },
+    "cortico-world-webanswer": {
+      "addTags": [
+        "internet"
+      ]
+    },
+    "cortico-world-meme-alont1": {
+      "addTags": [
+        "internet"
+      ]
+    },
+    "cortico-world-bili-alont1": {
+      "addTags": [
+        "internet",
+        "video"
+      ]
+    },
+    "cortico-world-notes": {
+      "addTags": [
+        "memory"
+      ]
+    },
+    "cortico-world-diary-alont1": {
+      "addTags": [
+        "memory"
+      ]
+    },
+    "cortico-world-memory-brain-alont1": {
+      "addTags": [
+        "memory"
+      ]
+    },
+    "cortico-world-works-alont1": {
+      "addTags": [
+        "memory"
+      ]
+    },
+    "cortico-world-todo-alont1": {
+      "addTags": [
+        "memory"
+      ]
+    },
+    "cortico-world-break": {
+      "addTags": [
+        "companion"
+      ]
+    },
+    "cortico-world-ritual-alont1": {
+      "addTags": [
+        "companion"
+      ]
+    },
+    "cortico-world-mind-alont1": {
+      "addTags": [
+        "companion",
+        "internal-state"
+      ]
+    },
+    "cortico-world-mood-alont1": {
+      "addTags": [
+        "companion",
+        "sensitive-data"
+      ],
+      "note": {
+        "zh": "读取前台窗口标题、进程与键鼠空闲",
+        "en": "Reads the foreground window title, process and input idle time"
+      }
+    },
+    "cortico-world-draw-alont1": {
+      "addTags": [
+        "creative",
+        "local",
+        "external-setup"
+      ]
+    },
+    "cortico-world-soft-voice": {
+      "addTags": [
+        "voice",
+        "local",
+        "external-setup",
+        "requires-extension"
+      ]
+    },
+    "cortico-world-audio": {
+      "addTags": [
+        "im",
+        "qq",
+        "voice",
+        "local",
+        "external-setup",
+        "sensitive-data"
+      ],
+      "note": {
+        "zh": "持续转写本机 QQ 收到的语音",
+        "en": "Continuously transcribes voice messages received by the local QQ client"
+      }
+    },
+    "cortico-world-video": {
+      "addTags": [
+        "video",
+        "external-setup"
+      ]
+    },
+    "cortico-tool-junction-upgrade": {
+      "addTags": [
+        "diagnostics"
+      ]
+    },
+    "cortico-world-real-alont1": {
+      "addTags": [
+        "diagnostics",
+        "sensitive-data"
+      ],
+      "note": {
+        "zh": "读取前台窗口标题与进程",
+        "en": "Reads the foreground window title and process"
+      }
+    },
+    "cortico-world-clipboard-alont1": {
+      "addTags": [
+        "apps",
+        "sensitive-data"
+      ],
+      "note": {
+        "zh": "读取剪贴板",
+        "en": "Reads the clipboard"
+      }
+    },
+    "cortico-world-downloads-alont1": {
+      "addTags": [
+        "apps",
+        "sensitive-data"
+      ],
+      "note": {
+        "zh": "持续读取下载文件夹里的文件名",
+        "en": "Continuously reads file names in the Downloads folder"
+      }
+    },
+    "cortico-world-onebot": {
+      "addTags": [
+        "im",
+        "external-setup",
+        "unsafe",
+        "unofficial-api"
+      ],
+      "note": {
+        "zh": "经 NapCat 等非官方 QQ 客户端登录 QQ 账号;通用调用能把本机任意文件发到群聊或私聊",
+        "en": "Signs in to a QQ account through an unofficial client such as NapCat; its generic call can send any local file to a group or private chat"
+      }
+    },
+    "cortico-world-snowluma": {
+      "addTags": [
+        "im",
+        "external-setup",
+        "unsafe",
+        "unofficial-api"
+      ],
+      "note": {
+        "zh": "经 SnowLuma 等非官方 QQ 客户端登录 QQ 账号;通用调用能把本机任意文件发到群聊或私聊",
+        "en": "Signs in to a QQ account through an unofficial client such as SnowLuma; its generic call can send any local file to a group or private chat"
+      }
+    },
+    "cortico-world-imagekit-alont1": {
+      "addTags": [
+        "im",
+        "qq",
+        "internet",
+        "external-setup",
+        "unofficial-api"
+      ],
+      "note": {
+        "zh": "经 NapCat 等非官方 QQ 客户端登录 QQ 账号",
+        "en": "Signs in to a QQ account through an unofficial client such as NapCat"
+      }
+    },
+    "cortico-world-clawbot": {
+      "addTags": [
+        "unofficial-api"
+      ],
+      "note": {
+        "zh": "以 OpenClaw 客户端身份经微信 ClawBot 通道登录你的微信号",
+        "en": "Signs in to your WeChat account through the ClawBot channel, posing as the OpenClaw client"
+      }
+    },
+    "cortico-world-qq-promax": {
+      "addTags": [
+        "companion"
+      ]
+    },
+    "cortico-bot-qq-persona": {
+      "addTags": [
+        "im",
+        "companion"
+      ]
+    },
+    "cortico-bot-zcor": {
+      "addTags": [
+        "companion"
+      ],
+      "removeTags": [
+        "internal-state"
+      ]
+    },
+    "cortico-bot-xiaoshen-alont1": {
+      "removeTags": [
+        "internal-state"
+      ]
+    },
+    "cortico-world-listen": {
+      "addTags": [
+        "high-cost",
+        "sensitive-data"
+      ],
+      "note": {
+        "zh": "持续采集系统或指定应用的音频",
+        "en": "Continuously captures audio from the system or chosen apps"
+      }
+    },
+    "cortico-world-stt": {
+      "addTags": [
+        "requires-key"
+      ]
+    },
+    "cortico-world-shell": {
+      "addTags": [
+        "unsafe"
+      ],
+      "note": {
+        "zh": "运行模型给出的任意 PowerShell 命令",
+        "en": "Runs any PowerShell command the model gives"
+      }
+    },
+    "cortico-world-phone-alont1": {
+      "addTags": [
+        "apps",
+        "external-setup",
+        "unsafe"
+      ],
+      "note": {
+        "zh": "在 MuMu 模拟器里运行任意 adb shell 命令",
+        "en": "Runs any adb shell command in the MuMu emulator"
+      }
+    },
+    "cortico-world-hands": {
+      "addTags": [
+        "computer-use",
+        "external-setup",
+        "unsafe"
+      ],
+      "note": {
+        "zh": "自由点击、滑动、输入，操作整台安卓手机",
+        "en": "Taps, swipes and types freely to operate the whole Android phone"
+      }
+    },
+    "cortico-world-cua-alont1": {
+      "addTags": [
+        "computer-use",
+        "unsafe",
+        "sensitive-data"
+      ],
+      "note": {
+        "zh": "操作键鼠与窗口，每步回执附全屏截图",
+        "en": "Operates the mouse, keyboard and windows, attaching a full-screen screenshot to each step"
+      }
+    },
+    "cortico-world-browser": {
+      "addTags": [
+        "unsafe",
+        "sensitive-data"
+      ],
+      "note": {
+        "zh": "能打开本机文件、上传任意本机文件，读取书签与浏览历史",
+        "en": "Can open local files, upload any local file, and read bookmarks and browsing history"
+      }
+    },
+    "cortico-world-speechreview": {
+      "addTags": [
+        "requires-extension"
+      ],
+      "removeTags": [
+        "external-setup"
+      ]
+    },
+    "cortico-world-streamvoice": {
+      "removeTags": [
+        "streaming"
       ]
     }
   }
