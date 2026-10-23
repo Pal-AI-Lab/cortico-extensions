@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-stt",
-  "version": "0.1.2",
+  "version": "0.3.0",
   "describe": {
     "tools": [
       {
         "name": "stt_transcribe",
-        "description": "Transcribe an audio file to text (batch, not realtime). The audio comes from a local file path or a log:/mem: handle; the text is saved to the transcript list.",
+        "description": "Transcribe an audio file to text (batch, not realtime). The audio comes from a local file path or a log:/mem: handle; the text is saved to the transcript list. By default the call waits for the text; with delivery=event it returns at once and the text arrives later as an event.",
         "parameters": {
           "type": "object",
           "properties": {
@@ -18,13 +18,21 @@
               "type": "string",
               "description": "Short label for the transcript list."
             },
+            "delivery": {
+              "type": "string",
+              "enum": [
+                "wait",
+                "event"
+              ],
+              "description": "wait = return the text in this call; event = return immediately and deliver the text as an event. Defaults to the configured delivery mode."
+            },
             "language": {
               "type": "string",
               "description": "Language code such as zh / en; overrides the configured hints."
             },
             "context": {
               "type": "string",
-              "description": "Exact words (names, terms) likely spoken in the audio, in their original form; the engine matches against this text, so descriptions alone help little. Overrides the configured hint. (dashscope qwen-audio-3.x and openai only.)"
+              "description": "Exact words (names, terms) likely spoken in the audio, in their original form; the engine matches against this text, so descriptions alone help little. Overrides the configured hint. (dashscope sync qwen-audio-3.x and openai only.)"
             }
           },
           "required": [
@@ -35,14 +43,74 @@
           "read"
         ],
         "summary": {
-          "zh": "把一个音频文件（或 log:/mem: 句柄）转写成文字，记进转写记录并交回对话。",
-          "en": "Transcribe an audio file (or a log:/mem: handle) to text; the text is saved to the transcript list and returned to the conversation."
+          "zh": "把一个音频文件（或 log:/mem: 句柄）转写成文字，记进转写记录并交回对话；event 交付时立刻回执，结果稍后以事件送达。",
+          "en": "Transcribe an audio file (or a log:/mem: handle) to text; the text is saved to the transcript list and returned to the conversation. With event delivery the call returns at once and the text arrives later as an event."
+        }
+      },
+      {
+        "name": "stt_watch",
+        "description": "Turn automatic transcription of event audio on or off, change what is watched, or read the state. start watches the configured event types (listen.chunk by default) and sends new events carrying an audio attachment to transcription; stop ends watching; set changes the watched event types or where transcript events go (archive = stored only, model = delivered to the conversation and wakes you); status shows the settings. Every change is saved to the config.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "start",
+                "stop",
+                "set",
+                "status"
+              ],
+              "description": "start = watch new events and transcribe their audio; stop = end watching; set = change what is watched or where events go; status = show the settings."
+            },
+            "events": {
+              "type": "string",
+              "description": "For start and set: comma-separated event types to watch, e.g. listen.chunk. For start it defaults to the configured list."
+            },
+            "eventDelivery": {
+              "type": "string",
+              "enum": [
+                "archive",
+                "model"
+              ],
+              "description": "For set: archive = transcript events are stored only; model = they are delivered to the conversation and wake you."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "打开或关闭「自动转写事件音频」，更换监听的事件类型或转写事件的去处，或查看当前状态。",
+          "en": "Turn automatic transcription of event audio on or off, change the watched event types or where transcript events go, or read the current state."
         }
       }
     ],
-    "events": []
+    "events": [
+      {
+        "type": "stt.transcript",
+        "description": {
+          "zh": "转写完成：正文是转写文字，meta 带任务号、模型与来源；去处由 worlds.stt.eventDelivery 决定（监听到的音频也走这里）。",
+          "en": "Transcription finished: the text is the transcript; meta carries the task id, model and source. Where it goes is set by worlds.stt.eventDelivery (watched audio lands the same way)."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "stt.transcribe-failed",
+        "description": {
+          "zh": "转写失败或超时：正文是原因，meta 带任务号与来源。",
+          "en": "Transcription failed or timed out: the text is the reason; meta carries the task id and source."
+        },
+        "trigger": "debounce"
+      }
+    ]
   },
   "changelog": {
+    "0.3.0": "- 新增 `autoTranscribe` 与 `watchEvents`（默认 `listen.chunk`）：监听事件库，把带音频附件的新事件排队送去转写；只处理打开之后的事件，不补转旧的。\n- 音频引用依次取事件附件句柄、`meta.handle`、`meta.path`；解析不出的句柄、超限或认不出的格式只跳过这一块。接口报错后 10 秒内不再试下一块，并照旧发 `stt.transcribe-failed`。\n- 新增 `eventDelivery`（`model` / `archive`）：转写事件投递到对话，或只落事件库不唤醒桌宠；`event` 交付与自动转写共用。默认 `model`，与之前行为一致。\n- 新增 `stt_watch` 工具（`start` / `stop` / `set` / `status`）：桌宠可以开关自动转写、换监听的事件类型与事件去处，改动写回配置。",
+    "0.2.0": "- 新增 `dashscope-async` 协议：百炼异步文件转写。本地音频先上传换 `oss://` 临时地址，提交任务后由后台轮询。\n- 新增 `delivery` 配置（`auto` / `wait` / `event`）与同名工具参数：等结果或发事件与协议解耦，可按次覆盖；`event` 下完成发 `stt.transcript`，失败或超时发 `stt.transcribe-failed`。\n- 在途任务写入 `stt/pending.json`：异步任务重启后接着查，后台同步请求重启时发失败事件；状态页显示在途数量。\n- 默认模型改为 `qwen3-asr-flash`（同步）。\n- 异步提交返回 404 时，报错提示改用工作空间地址。\n- 修正 400 提示把帮助链接里的 `model-studio` 误判成“模型名不对”；`please check url` 会提示音频地址无效。",
     "0.1.2": "- 修复详情页顶部徽标未随面板状态和操作结果同步更新的问题。",
     "0.1.1": "- 适配扩展契约 world 6：World 的 `console()` 改名 `webUi()`，manifest 的 `consoleClient` 改为 `webUiClient`，浏览器面板产物改为 `dist/webui.js`。\n- 增加自描述 `describe.json`（工具与事件；由 `pnpm describe:extension` 生成），扩展市场与 `check:extension` 读它。\n- 声明市场标签 `voice`。\n- 需要 **Coopanion v0.2.0**（内嵌 Cortico v0.2.0）及以上；旧版会拒绝加载本包。",
     "0.1.0": "- 首个版本：`stt_transcribe` 工具，支持百炼 Qwen-ASR（qwen-audio / qwen3 两族请求体）与 OpenAI 兼容 `/v1/audio/transcriptions` 两种协议；转写记录入库、全文随回执交回对话。\n- 「转写」与「状态」两个面板：复制文字、来源、删除、离线自检；密钥填写与试转写。"

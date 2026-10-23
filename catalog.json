@@ -229,7 +229,7 @@
     },
     "cortico-bot-weighted-memory": {
       "kind": "bot",
-      "version": "0.2.3",
+      "version": "0.2.4",
       "displayName": "分区权重记忆",
       "description": "分区权重记忆：Cortico Persona 与 Memory 扩展，支持有证据事件摘要、分区预算、人工审核和版本回滚。",
       "locales": {
@@ -259,8 +259,8 @@
         "bugs": "https://github.com/Kpect10086/Cortico-Weighted-Memory/issues"
       },
       "created": "2026-10-17T10:03:17.564Z",
-      "published": "2026-10-22T10:53:26.758Z",
-      "versionCount": 4,
+      "published": "2026-10-23T15:25:04.344Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -284,6 +284,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.4",
           "0.2.3",
           "0.2.2",
           "0.2.1"
@@ -1126,9 +1127,9 @@
     },
     "cortico-world-audio-play": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "音频播放",
-      "description": "音频播放（Audio Play）—— 给 Coopanion 桌宠的 cortico World 扩展：把 log:/mem: 音频句柄或本地音频文件交给系统扬声器播放，只回成功或失败。 / A cortico World extension that plays a log:/mem: audio handle or a local audio file through the system speakers and reports only the outcome.",
+      "description": "音频播放（Audio Play）—— 给 Coopanion 桌宠的 cortico World 扩展：把 log:/mem: 音频句柄或本地音频文件交给系统扬声器播放，只回成功或失败；也可以监听其他扩展的声音事件自动播放。 / A cortico World extension that plays a log:/mem: audio handle or a local audio file through the system speakers and reports only the outcome",
       "author": "AqualCross",
       "maintainers": [
         "aqualcross"
@@ -1155,8 +1156,8 @@
         "bugs": "https://github.com/AqualCross/cortico-world-audio-play/issues"
       },
       "created": "2026-10-18T13:58:57.585Z",
-      "published": "2026-10-18T13:59:53.325Z",
-      "versionCount": 2,
+      "published": "2026-10-23T12:48:13.875Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1171,13 +1172,14 @@
         "week": 259
       },
       "summary": {
-        "tools": 1,
+        "tools": 2,
         "events": 0,
-        "toolTokens": 209,
+        "toolTokens": 486,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.1.1",
           "0.1.0"
         ],
         "url": "https://github.com/AqualCross/cortico-world-audio-play/blob/HEAD/CHANGELOG.md"
@@ -1493,7 +1495,7 @@
       "discussion": {
         "number": 120,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/120",
-        "up": 4,
+        "up": 5,
         "down": 0,
         "comments": 0
       }
@@ -2500,7 +2502,7 @@
     },
     "cortico-world-ego": {
       "kind": "world",
-      "version": "0.1.6",
+      "version": "0.1.11",
       "displayName": "Ego 浏览器",
       "description": "Ego 浏览器 —— 专为 AI 打造的浏览器 World，让你家的小肥鱼上网、看图、看视频更顺手。Cortico 与 Coopanion 共用官方 ego-browser 接口，在独立 Space 里开网页、点击填表、截图，观看 HTML5 / B 站视频的画面、字幕与弹幕。需先安装 Ego Lite。",
       "locales": {
@@ -2533,8 +2535,8 @@
         "darwin"
       ],
       "created": "2026-10-21T11:07:12.898Z",
-      "published": "2026-10-21T12:31:20.467Z",
-      "versionCount": 3,
+      "published": "2026-10-23T13:00:04.054Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2558,13 +2560,18 @@
         "week": 0
       },
       "summary": {
-        "tools": 14,
+        "tools": 15,
         "events": 3,
-        "toolTokens": 2538,
-        "envPromptTokens": 1291
+        "toolTokens": 2902,
+        "envPromptTokens": 2189
       },
       "changelog": {
         "versions": [
+          "0.1.11",
+          "0.1.10",
+          "0.1.9",
+          "0.1.8",
+          "0.1.7",
           "0.1.6",
           "0.1.5",
           "0.1.4",
@@ -2712,8 +2719,8 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 11,
-        "down": 0,
+        "up": 16,
+        "down": 1,
         "comments": 0
       }
     },
@@ -2875,7 +2882,7 @@
     },
     "cortico-world-hands": {
       "kind": "world",
-      "version": "0.1.7",
+      "version": "0.1.9",
       "displayName": "手",
       "description": "Cortico World: hands for the desktop pet — looks at the phone screen, then taps, swipes, pinches, drags, types and presses keys through whatever actuator the device actually has",
       "maintainers": [
@@ -2893,8 +2900,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-hands"
       },
       "created": "2026-10-22T14:40:37.506Z",
-      "published": "2026-10-23T04:12:29.087Z",
-      "versionCount": 9,
+      "published": "2026-10-23T12:31:09.855Z",
+      "versionCount": 11,
       "official": false,
       "isNew": true,
       "tags": [
@@ -3039,9 +3046,9 @@
     },
     "cortico-world-image": {
       "kind": "world",
-      "version": "0.3.1",
+      "version": "0.5.4",
       "displayName": "图片工坊",
-      "description": "【0.3+仅支持0.2.4+的coopanion（支持官方qq插件和alont1 不再给coo本体打补丁）/0.2+支持0.2.0-0.2.3（支持alont1QQ）/再往前的版本装0.1.x的】Image Studio（图片工坊）—— 给 Coopanion 桌宠的 cortico World 扩展：用任意 OpenAI 兼容的图片接口画图/改图、落盘成作品库、把图贴进控制台「对话」页，并自带一套自动重打的自愈补丁。 / A cortico World extension that draws thro",
+      "description": "Image Studio（图片工坊）—— 给 Coopanion 桌宠的 cortico World 扩展：用任意 OpenAI 兼容的图片接口画图/改图、落盘成作品库、把图贴进控制台「对话」页，并自带一套自动重打的自愈补丁。 / A cortico World extension that draws through any OpenAI-compatible image API, keeps pictures on disk and shows them in the console.",
       "author": "lostdegree",
       "maintainers": [
         "lostdegree"
@@ -3064,8 +3071,8 @@
         "bugs": "https://github.com/Lostdegree/cortico-world-image/issues"
       },
       "created": "2026-10-12T05:32:34.365Z",
-      "published": "2026-10-18T07:52:33.744Z",
-      "versionCount": 6,
+      "published": "2026-10-23T12:37:26.872Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "tags": [
@@ -3080,15 +3087,15 @@
       "summary": {
         "tools": 4,
         "events": 0,
-        "toolTokens": 759,
-        "envPromptTokens": 607
+        "toolTokens": 967,
+        "envPromptTokens": 695
       },
       "discussion": {
         "number": 23,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/23",
         "up": 0,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-image-attach": {
@@ -4715,7 +4722,7 @@
       "published": "2026-10-09T15:21:32.912Z",
       "versionCount": 5,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [
         "game",
         "external-setup"
@@ -5083,7 +5090,7 @@
     },
     "cortico-world-qq-promax": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "displayName": "QQ ProMAX",
       "description": "QQ ProMAX: Cortico QQ 私聊、群聊、空间和语音扩展，支持 OneBot v11 / SnowLuma / NapCat。",
       "locales": {
@@ -5117,8 +5124,8 @@
         "win32"
       ],
       "created": "2026-10-17T07:03:46.358Z",
-      "published": "2026-10-22T10:52:38.238Z",
-      "versionCount": 4,
+      "published": "2026-10-23T15:25:20.084Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5154,13 +5161,14 @@
         "week": 581
       },
       "summary": {
-        "tools": 30,
+        "tools": 33,
         "events": 13,
-        "toolTokens": 5364,
+        "toolTokens": 6038,
         "envPromptTokens": 1515
       },
       "changelog": {
         "versions": [
+          "0.1.3",
           "0.1.2",
           "0.1.1",
           "0.1.0"
@@ -5971,6 +5979,74 @@
         "comments": 0
       }
     },
+    "cortico-world-stardew": {
+      "kind": "world",
+      "version": "0.1.3",
+      "displayName": "星露谷联机",
+      "description": "星露谷独立农场角色联机 World，通过本机 SMAPI 桥接观察和操作。",
+      "author": "Kpect10086",
+      "maintainers": [
+        "kpect"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "stardew-valley"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-stardew",
+        "repository": "https://github.com/Kpect10086/cortico-world-stardew",
+        "homepage": "https://github.com/Kpect10086/cortico-world-stardew#readme",
+        "bugs": "https://github.com/Kpect10086/cortico-world-stardew/issues"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-10-23T15:23:16.547Z",
+      "published": "2026-10-23T15:26:34.515Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "game",
+        "external-setup",
+        "experimental",
+        "high-cost"
+      ],
+      "tags": [
+        "game",
+        "external-setup",
+        "experimental",
+        "high-cost"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 1,
+        "toolTokens": 663,
+        "envPromptTokens": 1971
+      },
+      "changelog": {
+        "versions": [
+          "0.1.3",
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/Kpect10086/cortico-world-stardew/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 212,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/212",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-streamvoice": {
       "kind": "world",
       "version": "0.4.0",
@@ -6109,9 +6185,9 @@
     },
     "cortico-world-stt": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.3.0",
       "displayName": "语音转文本",
-      "description": "语音转文本（Speech to Text）—— 给 Coopanion 桌宠的 cortico World 扩展：把音频文件转写成文字，并记进可浏览的转写记录。 / A cortico World extension that transcribes audio files to text through a configurable ASR API. It is an agent tool, not a realtime microphone.",
+      "description": "语音转文本（Speech to Text）—— 给 Coopanion 桌宠的 cortico World 扩展：把音频文件转写成文字，并记进可浏览的转写记录；也可以先回执后以事件送达，或监听事件里的音频自动转写。 / A cortico World extension that transcribes audio files to text through a configurable ASR API; results can arrive later as events, and it can tra",
       "author": "AqualCross",
       "maintainers": [
         "aqualcross"
@@ -6137,8 +6213,8 @@
         "bugs": "https://github.com/AqualCross/cortico-world-stt/issues"
       },
       "created": "2026-10-15T14:29:20.510Z",
-      "published": "2026-10-21T09:35:32.797Z",
-      "versionCount": 4,
+      "published": "2026-10-23T13:28:53.827Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -6154,13 +6230,15 @@
         "week": 273
       },
       "summary": {
-        "tools": 1,
-        "events": 0,
-        "toolTokens": 265,
+        "tools": 2,
+        "events": 2,
+        "toolTokens": 721,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.3.0",
+          "0.2.0",
           "0.1.2",
           "0.1.1",
           "0.1.0"
@@ -6448,9 +6526,9 @@
     },
     "cortico-world-tts": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "displayName": "文本转语音",
-      "description": "文本转语音（Text to Speech）—— 给 Coopanion 桌宠的 cortico World 扩展：把文字合成为语音，音频落盘并作为附件交回对话。 / A cortico World extension that turns text into speech through a configurable TTS API and returns the audio as a conversation attachment.",
+      "description": "文本转语音（Text to Speech）—— 给 Coopanion 桌宠的 cortico World 扩展：把文字合成为语音，音频落盘并作为附件交回对话；也可以先回执、完成后发声音事件，并把桌宠气泡自动合成成语音事件。 / A cortico World extension that turns text into speech through a configurable TTS API and returns the audio as a conversation attachment; it",
       "author": "AqualCross",
       "maintainers": [
         "aqualcross"
@@ -6473,8 +6551,8 @@
         "bugs": "https://github.com/AqualCross/cortico-world-tts/issues"
       },
       "created": "2026-10-14T14:56:54.671Z",
-      "published": "2026-10-22T16:01:50.172Z",
-      "versionCount": 5,
+      "published": "2026-10-23T12:50:34.165Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -6490,13 +6568,14 @@
         "week": 221
       },
       "summary": {
-        "tools": 1,
-        "events": 0,
-        "toolTokens": 172,
+        "tools": 2,
+        "events": 2,
+        "toolTokens": 609,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.1.4",
           "0.1.3",
           "0.1.2",
           "0.1.1",
