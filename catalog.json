@@ -38,6 +38,10 @@
     "cortico-world-speechreview": [
       "sensitive-data"
     ],
+    "cortico-world-task-supervisor": [
+      "sensitive-data",
+      "unsafe"
+    ],
     "cortico-world-wechat": [
       "sensitive-data"
     ],
@@ -2979,7 +2983,7 @@
     },
     "cortico-world-hands": {
       "kind": "world",
-      "version": "0.1.9",
+      "version": "0.2.1",
       "displayName": "手",
       "description": "Cortico World: hands for the desktop pet — looks at the phone screen, then taps, swipes, pinches, drags, types and presses keys through whatever actuator the device actually has",
       "maintainers": [
@@ -2997,8 +3001,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-hands"
       },
       "created": "2026-10-22T14:40:37.506Z",
-      "published": "2026-10-23T12:31:09.855Z",
-      "versionCount": 11,
+      "published": "2026-10-23T21:29:21.123Z",
+      "versionCount": 13,
       "official": false,
       "isNew": true,
       "tags": [
@@ -6424,6 +6428,89 @@
       "discussion": {
         "number": 65,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/65",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-task-supervisor": {
+      "kind": "world",
+      "version": "0.1.0-preview.2",
+      "displayName": "Task Supervisor",
+      "description": "One Cortico World for owner-gated DSH and Codex supervision, native conversation control and scoped external memory",
+      "locales": {
+        "zh": {
+          "displayName": "任务监管",
+          "description": "一个 World 整合 DSH/Codex 任务通知、本人 QQ 私聊开关、原生会话控制与外部记忆。"
+        },
+        "en": {
+          "displayName": "Task Supervisor",
+          "description": "One World for DSH/Codex task boundaries, owner-only QQ supervision, native conversation control and scoped external memory."
+        }
+      },
+      "author": "rtmhjx",
+      "maintainers": [
+        "rtmh"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "dsh",
+        "codex",
+        "task-supervisor"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-task-supervisor",
+        "repository": "https://github.com/rtmhjx/cortico-world-task-supervisor",
+        "homepage": "https://github.com/rtmhjx/cortico-world-task-supervisor#readme",
+        "bugs": "https://github.com/rtmhjx/cortico-world-task-supervisor/issues"
+      },
+      "created": "2026-10-23T22:33:43.196Z",
+      "published": "2026-10-23T22:35:52.440Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "im",
+        "qq",
+        "apps",
+        "experimental",
+        "unofficial-api",
+        "unsafe",
+        "sensitive-data"
+      ],
+      "tags": [
+        "im",
+        "qq",
+        "apps",
+        "experimental",
+        "unsafe",
+        "sensitive-data",
+        "unofficial-api"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 25,
+        "events": 6,
+        "toolTokens": 4894,
+        "envPromptTokens": 1623
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0-preview.2",
+          "0.1.0-preview.1"
+        ],
+        "url": "https://github.com/rtmhjx/cortico-world-task-supervisor/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 221,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/221",
         "up": 0,
         "down": 0,
         "comments": 0
