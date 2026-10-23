@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-bubble-emotes",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "describe": {
     "tools": [
       {
@@ -137,6 +137,7 @@
     ]
   },
   "changelog": {
+    "0.3.1": "- Rename the display title to 表情 and refresh the description.\n- Add an original, font-independent SVG logo through cortico.icon.\n- Keep the stock-compatible Unicode-only feature scope unchanged.",
     "0.3.0": "- BREAKING: target stock Coopanion 0.2.8 with Unicode emoji written directly in pet_say.script.\n- Remove picture import/sending, sticker/rich-bubble paths, renderer hooks, host patches and speech adapters from the published package.\n- Preserve legacy image records and files without exposing or sending them. Retain Unicode edits and disabled states.\n- Replace the untouched default comfort glyph with 💙 for broader font coverage.\n- Remove guarantees of confirmed body synchronization and third-party speech filtering; stock soft-voice 0.4.11 retains emoji in speech input.",
     "0.2.4": "- Port the companion host patch to official Coopanion 0.2.8 and its pinned Cortico 0.2.6 / World API 6.\n- Preserve window credentials, dynamic bot names and voice backend lifecycle while integrating rich bubbles, habit preferences and offline hugging artwork.\n- Ship separate 0.2.8 and legacy 0.2.6 patches with an explicit compatibility manifest; retain experimental and external-setup warnings.\n- Validate extension, storage, rendering, body-state, speech and video-comment acceptance rules against the 0.2.8 framework.",
     "0.2.3": "- Require a compatible visual emote for an already-warranted emotional video comment; neutral narration may remain text-only. Preserve existing comment frequency and body safety.\n\n- Bundle original hugging artwork for 🫂 so library previews and patched head bubbles do not depend on system glyph coverage.\n- Keep emoji meaning, reveal timing, body gates and text-only speech unchanged.\n- Use a new asset version to avoid stale immutable browser caches.",
