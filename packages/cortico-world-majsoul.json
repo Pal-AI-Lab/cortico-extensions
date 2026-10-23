@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-majsoul",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "describe": {
     "tools": [
       {
@@ -115,6 +115,7 @@
     ]
   },
   "changelog": {
+    "1.1.2": "- 增加 Linux 包安装与 PowerShell 7 启动入口，自动发现 Edge / Chromium / Chrome，支持 `-BrowserPath`。\n- 启动器的 Node.js 最低版本统一为 22.16，保留独立浏览器资料目录与调试端口归属检查。\n- `npm test` 执行所有牌局、文本渲染和帧率测试；新增 Ubuntu / Windows CI，测试浏览器可由 `MAJSOUL_BROWSER_PATH` 指定。",
     "1.1.1": "- 同步公开状态渲染、帧率限制、语音决策配合及重连回执更新。\n- 补齐协议下载脚本，附带已校验的公开协议和完整 WebUI。\n- 启动器使用用户提供的部署目录，移除个人路径和资料。",
     "1.1.0": "- 适配 Cortico 0.2.2 的 World v6 契约，迁移 webUi 声明与启动脚本接口。\n- 发布工具、事件和环境提示词自描述，供扩展市场展示。\n- 增加公开牌局状态面板，可刷新状态、打开游戏和附着桥接。\n- 同步本机的渲染帧率设置，默认 30 FPS，保留取消动画回调语义。\n- 保留协议延迟加载与缺失依赖自动安装，声明 Windows 支持与市场标签。\n\n需要 Cortico 0.2.2 或以上；更新后重启 Cortico 加载新代码。"
   }
