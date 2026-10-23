@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-bilibili",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "describe": {
     "tools": [
       {
@@ -27,6 +27,49 @@
         "summary": {
           "zh": "改写直播画面叠加层上的公告板文字。",
           "en": "Rewrites the announcement board text on the stream overlay."
+        }
+      },
+      {
+        "name": "bilibili_update_video_queue",
+        "description": "Edit the video queue list shown on the Bilibili Overlay: add puts a video into the queue, remove takes one out, move changes its position, clear empties the list. The queue holds at most 10 videos; add is rejected while it is full. The result lists the whole queue after the change.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "add",
+                "remove",
+                "move",
+                "clear"
+              ]
+            },
+            "bvid": {
+              "type": "string",
+              "description": "BV id (BV1 followed by 9 characters); a video link that contains one also works. Required for add, remove and move. remove and move act on the first matching entry."
+            },
+            "note": {
+              "type": "string",
+              "description": "add only: short text shown after the BV id, such as the video title or who asked for it."
+            },
+            "position": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "add: slot to insert at, counting from 1; default the end. move: required, the slot to move to."
+            }
+          },
+          "required": [
+            "action"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "act",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "改写直播画面上的视频排队列表:加入、移除、调整顺序或清空。",
+          "en": "Edits the video queue list on the stream overlay: add, remove, reorder or clear."
         }
       }
     ],
@@ -133,7 +176,7 @@
         "key": "worlds.bilibili.envPrompt",
         "title": "B 站直播间 · 环境提示词",
         "role": "envPrompt",
-        "content": "你接入了一个 B 站直播间\n观众看到的画面比现场晚 5 到 8 秒，注意下延迟\n你可以用 `bilibili_set_announcement` 更新直播画面上的写字板，最多 {{bilibili.agentAnnouncementLimit}} 字\n当前写字板内容：{{bilibili.agentAnnouncement | （暂无内容）}}\n可以把你当前的目标/直播内容，或者别的你想写的更新在写字板。更新之前要通知外界。"
+        "content": "你接入了一个 B 站直播间\n观众看到的画面比现场晚 5 到 8 秒，注意下延迟\n你可以用 `bilibili_set_announcement` 更新直播画面上的写字板，最多 {{bilibili.agentAnnouncementLimit}} 字\n当前写字板内容：{{bilibili.agentAnnouncement | （暂无内容）}}\n可以把你当前的目标/直播内容，或者别的你想写的更新在写字板。更新之前要通知外界。\n你还可以用 `bilibili_update_video_queue` 维护一份视频排队列表：加入、移除、调整顺序或清空，最多 {{bilibili.videoQueueLimit}} 个。Overlay 里放了视频排队组件时，这份列表会显示在直播画面上\n当前排队：\n{{bilibili.videoQueue | （空）}}"
       }
     ]
   }
