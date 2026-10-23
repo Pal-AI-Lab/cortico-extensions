@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-final",
-  "version": "0.6.21",
+  "version": "0.6.22",
   "describe": {
     "tools": [
       {
@@ -228,7 +228,7 @@
       },
       {
         "name": "qq_qzone",
-        "description": "QQ 空间动态系列（用一个 action 选子功能）：post=发一条动态（说说，content 必填，可附图 images / 权限 permission）；delete=删除一条动态（tid）；reply=对一条动态发表评论（NapCat/SnowLuma 仅支持对整个动态评论，tid+content，comment_id 可不填）；feeds=查看自己的动态列表（num）；status=查看发布器状态（开关/配额/最近动态 tid）。content 必须由你（主模型）显式给出：按\"最近聊天 + 真实看法\"以第一人称写，自然有梗，1-3 句；不要空泛、不要\"我帮你记下了\"这类托管语气。",
+        "description": "QQ 空间动态系列（用一个 action 选子功能）：post=发一条动态（说说，content 必填，可附图 images / 权限 permission）；delete=删除一条动态（tid）；reply=对一条动态发表评论（NapCat/SnowLuma 仅支持对整个动态评论，tid+content，comment_id 可不填；回复某条评论时在 content 里 @对方昵称 即可）；detail=查看一条动态的详情与全部评论（tid，uin=动态作者的QQ号，来自 feeds 返回）；feeds=查看好友动态列表（num）；status=查看发布器状态（开关/配额/最近动态 tid）。content 必须由你（主模型）显式给出：按\"最近聊天 + 真实看法\"以第一人称写，自然有梗，1-3 句；不要空泛、不要\"我帮你记下了\"这类托管语气。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -238,10 +238,11 @@
                 "post",
                 "delete",
                 "reply",
+                "detail",
                 "feeds",
                 "status"
               ],
-              "description": "子功能：post 发动态 / delete 删动态 / reply 回评论 / feeds 列动态 / status 看状态。"
+              "description": "子功能：post 发动态 / delete 删动态 / reply 回评论 / detail 查动态详情与评论 / feeds 列动态 / status 看状态。"
             },
             "content": {
               "type": "string",
@@ -264,7 +265,11 @@
             },
             "tid": {
               "type": "string",
-              "description": "【delete/reply】动态 tid（来自 post 返回或 status 最近列表）。"
+              "description": "【delete/reply/detail】动态 tid（来自 feeds 返回、post 返回或 status 最近列表）。"
+            },
+            "uin": {
+              "type": "number",
+              "description": "【detail】动态作者（贴主）的 QQ 号，来自 feeds 返回的 uin；查好友动态详情时必填，自家动态可省略。"
             },
             "comment_id": {
               "type": "string",
@@ -561,6 +566,7 @@
     ]
   },
   "changelog": {
+    "0.6.22": "- 新增 `qq_qzone（action=detail）`：查看一条动态的详情与全部评论（用户实测反馈 SnowLuma 有 `get_qzone_msg_detail` 接口，推翻 0.6.19「协议端无读评论接口」的判断——基于旧 bundle 静态分析有误，致歉）。\n  - `qzone.ts` 新增 `getDetail(tid, uin?)`：调 `get_qzone_msg_detail`（参数 `{tid, target_uin}`；查好友动态时 uin 必传，自家动态可省略），带类型/值校验 + try/catch（driver 已解包）。\n  - 返回规整省 token：`{tid, content, commentNum, comments[{commentId,uin,name,time,content,replies[]}]}`；评论里 QQ 空间的内联 @ 标记 `@{uin:xxx,nick:yyy,...}` 自动转成可读的 `@yyy(uin:xxx)`。\n  - `world.ts` 工具 enum 加 `detail`、新增 `uin` 参数；`case 'detail'` 把评论渲染成 `名字(uin:xxx)：内容（↩ 回复：…）` 的可读文本；引导模型用 `action=reply` + content 里 @对方昵称 回复评论（SnowLuma 的 comment_qzone 仅支持对整个动态评论）。\n  - `feeds` 输出提示更新：tid/uin 可接 `action=detail` 查评论。\n  - README：特性表/工具列表加 detail；**修正 0.6.19 写错的已知限制**（SnowLuma 实际有读评论接口 `get_qzone_msg_detail`；NapCat 不一定提供）。",
     "0.6.21": "- 修复主动说话（proactive）四处 bug（用户实测反馈，原报于 0.6.5，0.6.20 复核仍存在）：\n  - Bug1「私聊 undefined」：`proactive.ts` 的 `label()` 读 `t.name`/`t.qq`，但 `world.ts proactiveTargets()` 只推 `{address,kind,label}`（无 name/qq）→ 拼出 `私聊 undefined`，主模型拼不出私聊地址。`proactiveTargets()` 现补 `name`/`qq`（取自 `conv.label`/`conv.id`）并过滤掉号码缺失的会话；`label()` 改为多级兜底（label/name/qq/address）。\n  - Bug2「空号码也进候选」：`proactiveTargets()` 现过滤 `id` 为空/`undefined`/`null` 的会话；新增 `usable(t)` 并在 `pick()`/`announceRoutine()` 候选过滤、`emit()` 开头跳过。\n  - Bug3「qq_proactive_status 抛 Cannot convert undefined or null to object」：handler 读 `s.perAddr`/`s.runState`/`s.dailyQuota`，但 `status()` 返回 `{enabled,dailyCount,quota,recent,targets}`。改用真实字段，不再崩溃。\n  - Bug4「qq_proactive_trigger 传字符串却签名要对象」：`trigger()` 现兼容 `string`（按 address 在监听列表里查找），手动触发不再静默失效。\n  - 附带：控制台状态灯 `主动` 原本读不存在的 `status().runState`（总显示\"关\"），改为 `enabled`；`proactive.ts` 失效的 `import { ActiveGroup, ActivePrivate } from './world.ts'`（world 未导出，契约脱节）改为显式 `ProactiveTarget` 接口。",
     "0.6.20": "- 修复 README/代码不同步（用户约定 README 须与代码一致）：\n  - `config.ts` qzone.permission schema 原 `maximum: 10`，但代码合法集为 `{1,4,16,64,128}`（见 `qzone.ts` resolveUgcRight），导致用户在控制台设不了 `64=仅自己 / 128=黑名单`；改为 `maximum: 128` 并补全合法值说明。\n  - `world.ts` envPrompt 内嵌文案仍写旧工具名 `qq_qzone_post/delete/reply/status`，但当前是单一 `qq_qzone` 工具 + `action` 参数，会误导模型调用不存在的工具；改为 `qq_qzone(action=post/delete/reply/feeds/status)` 并去掉不实的\"@人\"。\n  - README 特性表去掉 qq_qzone 不支持的\"@人\"；已知限制补齐 4 个真实 qzone action（send_qzone_msg / delete_qzone_msg / get_qzone_feeds / comment_qzone）。",
     "0.6.19": "- 修复 QQ空间（qzone）所有功能「无返回值」的致命 bug（用户实测反馈：发动态/拉动态/评论/删除全部拿不到结果）。\n  - 根因：`driver.callApi` 已在收包处把 OneBot 回包的 `data` 字段解包（成功 resolve `msg.data`、失败 `reject`），但 `qzone.ts` 仍按旧约定访问 `res.data` 与 `res.error`。于是 `res` 本身就是 data、`res.data` 变成 `data.data`（空），且失败时被 reject 而非返回 `{error}`，导致 `post`/`getFeeds`/`replyComment`/`delete` 全部无返回值甚至 `null.data` 抛错。\n  - 修复：`qzone.ts` 四个 callApi 调用改为直接使用已解包的返回值，并用 `try/catch` 捕获 `reject` 转成 `{ok:false, error}`。\n  - 附带：`getFeeds` 现正确返回真实 feed（剥 HTML → 纯文本），并把协议端的 feed 句柄字段 `key` 映射为工具里的 `tid`，供 `action=reply` 对好友动态评论。\n  - 已知限制（协议端）：SnowLuma/NapCat 当前**未提供读取评论的接口**（仅有发表评论 `comment_qzone`、自家说说 `get_qzone_msg_list` 带 `comment_num` 计数），故 `feeds` 返回动态正文但不含评论内容；读取某条动态的全部评论需协议端侧补齐 detail/get_comment 能力。\n  - 同步 README 与代码（用户约定）。",

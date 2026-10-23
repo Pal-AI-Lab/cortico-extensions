@@ -1500,17 +1500,17 @@
     },
     "cortico-world-bubble-emotes": {
       "kind": "world",
-      "version": "0.2.1",
+      "version": "0.2.4",
       "displayName": "表情与表情包 · Bubble Emotes",
-      "description": "Coopanion 表情与表情包：37 个 emoji 基础表情、语境含义、身体动作同步和 PNG 表情包。头顶混排气泡需要 presentation schema 1 桌宠宿主。",
+      "description": "Coopanion 表情与表情包：37 个基础表情、PNG 表情包、语境含义与身体同步。已适配 0.2.8，头顶混排气泡需配套宿主补丁。",
       "locales": {
         "zh": {
           "displayName": "表情与表情包 · Bubble Emotes",
-          "description": "Coopanion 表情与表情包：37 个 emoji 基础表情、语境含义、身体动作同步和 PNG 表情包。头顶混排气泡需要 presentation schema 1 桌宠宿主。"
+          "description": "Coopanion 表情与表情包：37 个基础表情、PNG 表情包、语境含义与身体同步。已适配 0.2.8，头顶混排气泡需配套宿主补丁。"
         },
         "en": {
           "displayName": "Bubble Emotes · Emoji & Stickers",
-          "description": "37 reviewed emoji with contextual usage, static PNG stickers and synchronized body expressions. Requires a presentation-schema-1 desktop-pet host."
+          "description": "37 contextual emoji and PNG stickers with body synchronization. Adapted for Coopanion 0.2.8; rich head bubbles require the matching host patch."
         }
       },
       "author": "oceanxuhaiao",
@@ -1541,8 +1541,8 @@
         "win32"
       ],
       "created": "2026-10-22T13:59:51.432Z",
-      "published": "2026-10-22T14:00:48.589Z",
-      "versionCount": 2,
+      "published": "2026-10-23T07:37:09.092Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1564,15 +1564,18 @@
         "tools": 2,
         "events": 0,
         "toolTokens": 602,
-        "envPromptTokens": 2159
+        "envPromptTokens": 2756
       },
       "changelog": {
         "versions": [
+          "0.2.4",
+          "0.2.3",
           "0.2.1",
           "0.2.0",
           "0.1.2",
           "0.1.1",
-          "0.1.0"
+          "0.1.0",
+          "0.2.2"
         ],
         "url": "https://github.com/oceanxuhaiao/coopanion-bubble-emotes/blob/HEAD/packages/cortico-world-bubble-emotes/CHANGELOG.md"
       },
@@ -2596,7 +2599,7 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 7,
+        "up": 6,
         "down": 0,
         "comments": 0
       }
@@ -4721,7 +4724,7 @@
     },
     "cortico-world-qq-final": {
       "kind": "world",
-      "version": "0.6.21",
+      "version": "0.6.22",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -4740,8 +4743,8 @@
         "bugs": "https://github.com/hth768/cortico-world-qq-final/issues"
       },
       "created": "2026-10-06T07:39:25.866Z",
-      "published": "2026-10-23T05:53:56.370Z",
-      "versionCount": 54,
+      "published": "2026-10-23T07:23:12.525Z",
+      "versionCount": 55,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -4766,11 +4769,12 @@
       "summary": {
         "tools": 13,
         "events": 8,
-        "toolTokens": 3621,
+        "toolTokens": 3716,
         "envPromptTokens": 508
       },
       "changelog": {
         "versions": [
+          "0.6.22",
           "0.6.21",
           "0.6.20",
           "0.6.19",
