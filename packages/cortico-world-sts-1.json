@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-sts-1",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "describe": {
     "tools": [
       {
@@ -193,6 +193,7 @@
     ]
   },
   "changelog": {
+    "0.2.1": "- 挂载不再依赖游戏：没填游戏目录、游戏没开都能挂载,World 停在「未启动」。\n  Mounting no longer depends on the game; without a game directory or a running game the World mounts and stays stopped.\n- World 页新增「游戏」面板，可以启动、停止游戏;默认 bot 启动时不开游戏，打开「随 World 启动游戏」才一并拉起，且在后台进行。\n  A new `game` panel starts and stops the game. The game no longer opens with the bot by default; `launch` starts it in the background.\n- 说明里补上安装步骤：包里不带编译好的 Mod,要在本机编译后装进游戏的 `mods` 目录;写清了准备什么、扩展目录在哪、Mod 装到哪、常见报错。\n  The README now explains installation: the package ships no compiled Mod; it is built locally and copied into the game's `mods` directory.",
     "0.2.0": "- 适配 Cortico 0.2.0(扩展契约 world 6);需要 Cortico 0.2.0 或更新版本。\n  Targets Cortico 0.2.0 (world contract 6); requires Cortico 0.2.0 or later.\n- 定义加上自描述,包里附带 `describe.json`,列出全部工具与事件。\n  The definition now describes itself; `describe.json` in the package lists every tool and event."
   }
 }

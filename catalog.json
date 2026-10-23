@@ -6244,8 +6244,8 @@
     },
     "cortico-world-sts-1": {
       "kind": "world",
-      "version": "0.2.0",
-      "description": "Slay the Spire World for Cortico with a Mod sidecar and an in-game cursor",
+      "version": "0.2.1",
+      "description": "让 AI 玩杀戮尖塔。游戏 Mod 需在本机编译安装，步骤见说明。",
       "author": "Phantivia",
       "maintainers": [
         "phantivia"
@@ -6263,8 +6263,8 @@
         "bugs": "https://github.com/Phantivia/cortico-world-sts-1/issues"
       },
       "created": "2026-09-22T18:07:34.578Z",
-      "published": "2026-10-16T03:09:23.038Z",
-      "versionCount": 3,
+      "published": "2026-10-23T23:37:30.708Z",
+      "versionCount": 4,
       "official": false,
       "isNew": false,
       "tags": [
@@ -6285,6 +6285,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0"
         ],
         "url": "https://github.com/Phantivia/cortico-world-sts-1/blob/HEAD/CHANGELOG.md"
@@ -6435,17 +6436,17 @@
     },
     "cortico-world-task-supervisor": {
       "kind": "world",
-      "version": "0.1.0-preview.2",
-      "displayName": "Task Supervisor",
-      "description": "One Cortico World for owner-gated DSH and Codex supervision, native conversation control and scoped external memory",
+      "version": "0.1.0-preview.3",
+      "displayName": "dsh，codex等工作agent的实时汇报与控制桥 / DSH、CODEX CONTRLO WORLD",
+      "description": "独立的 World API 6 扩展：dsh、codex等工作agent的重要任务汇报、本人QQ私聊开关、授权会话控制与限定范围读取。",
       "locales": {
         "zh": {
-          "displayName": "任务监管",
-          "description": "一个 World 整合 DSH/Codex 任务通知、本人 QQ 私聊开关、原生会话控制与外部记忆。"
+          "displayName": "dsh，codex等工作agent的实时汇报与控制桥",
+          "description": "独立维护的单 World 扩展：dsh、codex等工作agent的重要事件汇报、本人QQ私聊开关、授权会话控制与限定范围读取。"
         },
         "en": {
-          "displayName": "Task Supervisor",
-          "description": "One World for DSH/Codex task boundaries, owner-only QQ supervision, native conversation control and scoped external memory."
+          "displayName": "DSH、CODEX CONTRLO WORLD",
+          "description": "An independent World API 6 bridge for work agents: owner-gated QQ task reports, native conversation control and scoped source reads."
         }
       },
       "author": "rtmhjx",
@@ -6468,8 +6469,8 @@
         "bugs": "https://github.com/rtmhjx/cortico-world-task-supervisor/issues"
       },
       "created": "2026-10-23T22:33:43.196Z",
-      "published": "2026-10-23T22:35:52.440Z",
-      "versionCount": 2,
+      "published": "2026-10-23T23:41:34.719Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -6498,11 +6499,12 @@
       "summary": {
         "tools": 25,
         "events": 6,
-        "toolTokens": 4894,
-        "envPromptTokens": 1623
+        "toolTokens": 5042,
+        "envPromptTokens": 1626
       },
       "changelog": {
         "versions": [
+          "0.1.0-preview.3",
           "0.1.0-preview.2",
           "0.1.0-preview.1"
         ],
