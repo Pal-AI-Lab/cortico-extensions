@@ -1493,7 +1493,7 @@
       "discussion": {
         "number": 120,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/120",
-        "up": 1,
+        "up": 2,
         "down": 0,
         "comments": 0
       }
@@ -2507,6 +2507,53 @@
       "discussion": {
         "number": 173,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/173",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-emote-pics": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "对话表情包",
+      "description": "让桌宠发文字消息时也能带图。你只需按情绪建立文件夹（如「开心」「眨眼」），在面板里为 19 种表情各自绑定文件夹。当桌宠表达对应情绪时，会根据你设定的概率和冷却时间，从对应情绪文件夹内随机挑一张图跟着文字发出。纯本地读取（支持常见图片格式，单张≤5MiB），仅显示在对话页。（建议和大肥鱼表情包配合食用）",
+      "maintainers": [
+        "black-fencer"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-emote-pics"
+      },
+      "created": "2026-10-23T09:09:50.168Z",
+      "published": "2026-10-23T09:10:26.140Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 1,
+        "events": 0,
+        "toolTokens": 334,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-emote-pics@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 209,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/209",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -3894,7 +3941,7 @@
     },
     "cortico-world-netlingo": {
       "kind": "world",
-      "version": "0.3.2",
+      "version": "0.3.3",
       "displayName": "网络语言",
       "description": "让 Coo 可以自己总结、自己上网搜索并保存梗到本地的扩展,建议搭配各大佬的 QQ 接入扩展使用;也可以当作一个互联网接口使用,查网络用语、热榜与评论区。",
       "locales": {
@@ -3930,8 +3977,8 @@
         "bugs": "https://github.com/danhuangpaii/cortico-world-netlingo/issues"
       },
       "created": "2026-10-22T16:36:33.230Z",
-      "published": "2026-10-23T06:09:11.091Z",
-      "versionCount": 6,
+      "published": "2026-10-23T09:17:31.516Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3948,13 +3995,14 @@
         "week": 0
       },
       "summary": {
-        "tools": 13,
+        "tools": 15,
         "events": 3,
-        "toolTokens": 1829,
-        "envPromptTokens": 950
+        "toolTokens": 2132,
+        "envPromptTokens": 1062
       },
       "changelog": {
         "versions": [
+          "0.3.3",
           "0.3.2",
           "0.3.1",
           "0.2.1",

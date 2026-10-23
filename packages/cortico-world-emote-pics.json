@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "name": "cortico-world-emote-pics",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "emote_pic",
+        "description": "Maybe attach one random picture from the folder configured for an emotion. The call first rolls the emotion's chance (and its cooldown); when it does not fire, the receipt says skipped with a reason and carries no image. Use force to bypass chance and cooldown while testing. When it fires, the receipt carries the image as a [blob ...] line with a log: handle for image-sending tools. Only png, jpg, jpeg, gif and webp up to 5 MB are used.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "emotion": {
+              "type": "string",
+              "enum": [
+                "neutral",
+                "happy",
+                "wink",
+                "love",
+                "shy",
+                "surprised",
+                "angry",
+                "sad",
+                "sleepy",
+                "thinking",
+                "smug",
+                "pout",
+                "worried",
+                "determined",
+                "flustered",
+                "scared",
+                "excited",
+                "cry",
+                "confused"
+              ],
+              "description": "Which emotion folder to draw from."
+            },
+            "avoid": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "File names not to pick, e.g. the last picture you sent."
+            },
+            "force": {
+              "type": "boolean",
+              "description": "Bypass the chance roll and the cooldown; the other rules still apply. For testing."
+            }
+          },
+          "required": [
+            "emotion"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "按配置的概率决定这次出不出图;出图时从该表情的文件夹随机挑一张,作为附件交给这次对话。",
+          "en": "Rolls the configured chance; when it fires, picks a random picture from that emotion folder and attaches it."
+        }
+      }
+    ],
+    "events": []
+  },
+  "changelog": {
+    "0.1.0": "- `emote_pic` 按概率决定这次出不出图:`chance`(每个表情)、`defaultChance`、`cooldownSeconds`;\n  跳过时回执 `[skipped] {skipped, reason, chance}`,不是错误。工具新增 `force`,绕过概率与冷却。\n- 配置是 `emotions: { <表情>: { dir, chance } }`;旧 `folders` 仍按 `defaultChance` 读取。\n- 出图时从该表情的文件夹随机挑一张,作为附件交给 Core;WebUI 的表情图库面板给 19 个表情各选一个\n  文件夹、设一个概率,顶部调默认概率与冷却。"
+  }
+}
