@@ -320,6 +320,18 @@
       "style": "warning",
       "when": "Continuously reads personal data such as the screen, microphone, foreground window or spending records, and sends it to the model endpoint with model calls."
     },
+    "injection-risk": {
+      "label": {
+        "zh": "注入风险",
+        "en": "Injection risk"
+      },
+      "hint": {
+        "zh": "会把群聊、评论、网页这类别人写的内容当作内部通知直接放进对话，不带外部消息的标记，模型可能把其中的话当成指示照做。",
+        "en": "Puts content written by others, such as group chat, comments or web pages, into the conversation as an internal notice without the external-message framing, so the model may follow instructions hidden in it."
+      },
+      "style": "warning",
+      "when": "Any text written by a third party (chat messages, nicknames or group names, comments, join-request messages, web pages, search results, scraped articles) goes into an event with origin 'internal', or otherwise reaches the conversation without the external-event framing. Fixed templates, the extension's own numbers and states, and notes the bot wrote with its own tools do not count."
+    },
     "unofficial-api": {
       "label": {
         "zh": "非官方接口",
@@ -391,12 +403,13 @@
         "qq",
         "external-setup",
         "experimental",
-        "unofficial-api"
+        "unofficial-api",
+        "injection-risk"
       ],
       "supersededBy": "cortico-world-qq-final",
       "note": {
-        "zh": "经 NapCat 等非官方 QQ 客户端登录 QQ 账号",
-        "en": "Signs in to a QQ account through an unofficial client such as NapCat"
+        "zh": "经 NapCat 等非官方 QQ 客户端登录 QQ 账号;加群申请的留言原文作为内部通知进入对话",
+        "en": "Signs in to a QQ account through an unofficial client such as NapCat; join-request messages enter the conversation verbatim as internal notices"
       }
     },
     "cortico-world-life-alont1": {
@@ -411,11 +424,12 @@
         "memory",
         "companion",
         "internal-state",
-        "sensitive-data"
+        "sensitive-data",
+        "injection-risk"
       ],
       "note": {
-        "zh": "读取桌面与消费记录",
-        "en": "Reads the desktop and spending records"
+        "zh": "读取桌面与消费记录;当天别人发来的消息原文汇总成内部通知",
+        "en": "Reads the desktop and spending records; other people's messages from the day are collected verbatim into internal notices"
       }
     },
     "cortico-world-websearch": {
@@ -438,11 +452,12 @@
         "game",
         "internet",
         "companion",
-        "sensitive-data"
+        "sensitive-data",
+        "injection-risk"
       ],
       "note": {
-        "zh": "读取前台窗口并定期截取游戏画面",
-        "en": "Reads the foreground window and periodically captures the game screen"
+        "zh": "读取前台窗口并定期截取游戏画面;网页搜索结果片段作为内部通知进入对话",
+        "en": "Reads the foreground window and periodically captures the game screen; web search snippets enter the conversation as internal notices"
       }
     },
     "cortico-world-dungeon": {
@@ -501,11 +516,12 @@
       "addTags": [
         "companion",
         "internal-state",
-        "sensitive-data"
+        "sensitive-data",
+        "injection-risk"
       ],
       "note": {
-        "zh": "读取桌面与消费记录",
-        "en": "Reads the desktop and spending records"
+        "zh": "读取桌面与消费记录;最近别人发来的消息原文汇总成内部通知",
+        "en": "Reads the desktop and spending records; other people's recent messages are collected verbatim into internal notices"
       }
     },
     "cortico-world-together-alont1": {
@@ -643,11 +659,12 @@
         "companion",
         "local",
         "external-setup",
-        "unofficial-api"
+        "unofficial-api",
+        "injection-risk"
       ],
       "note": {
-        "zh": "经 NapCat 等非官方 QQ 客户端登录 QQ 账号",
-        "en": "Signs in to a QQ account through an unofficial client such as NapCat"
+        "zh": "经 NapCat 等非官方 QQ 客户端登录 QQ 账号;加群申请的留言原文作为内部通知进入对话",
+        "en": "Signs in to a QQ account through an unofficial client such as NapCat; join-request messages enter the conversation verbatim as internal notices"
       }
     },
     "cortico-world-album-alont1": {
@@ -853,8 +870,13 @@
     "cortico-world-mind-alont1": {
       "addTags": [
         "companion",
-        "internal-state"
-      ]
+        "internal-state",
+        "injection-risk"
+      ],
+      "note": {
+        "zh": "当天别人发来的消息原文汇总成内部通知",
+        "en": "Other people's messages from the day are collected verbatim into internal notices"
+      }
     },
     "cortico-world-mood-alont1": {
       "addTags": [
@@ -984,8 +1006,13 @@
     },
     "cortico-world-qq-promax": {
       "addTags": [
-        "companion"
-      ]
+        "companion",
+        "injection-risk"
+      ],
+      "note": {
+        "zh": "群名、昵称与群名片作为内部通知进入对话",
+        "en": "Group names, nicknames and group cards enter the conversation as internal notices"
+      }
     },
     "cortico-bot-qq-persona": {
       "addTags": [
@@ -1085,6 +1112,24 @@
       "removeTags": [
         "streaming"
       ]
+    },
+    "cortico-world-dailypaper": {
+      "addTags": [
+        "injection-risk"
+      ],
+      "note": {
+        "zh": "抓取的论文标题、摘要与作者原文作为内部通知进入对话",
+        "en": "Scraped paper titles, abstracts and authors enter the conversation as internal notices"
+      }
+    },
+    "cortico-world-netlingo": {
+      "addTags": [
+        "injection-risk"
+      ],
+      "note": {
+        "zh": "B 站评论与群友原话作为内部通知进入对话",
+        "en": "Bilibili comments and group members' words enter the conversation as internal notices"
+      }
     }
   }
 }
