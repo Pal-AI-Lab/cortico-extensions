@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "name": "cortico-world-web-pro",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "webpro_search",
+        "description": "联网搜索。返回标题、链接、日期和摘要。问新闻、价格、版本号、政策、最近发生的事，或需要外部资料时用它。多个关键词用空格分隔；要限定站点时传 site。不要用它查对话里已有的信息或常识。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "query": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300,
+              "description": "搜索词，中英文都行；保留人名、版本号、日期等关键限定。"
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 15,
+              "description": "要几条，默认用配置值。"
+            },
+            "freshness": {
+              "type": "string",
+              "enum": [
+                "any",
+                "day",
+                "week",
+                "month",
+                "year"
+              ],
+              "description": "时效：any 不限，day 一天内，week 一周内，month 一月内，year 一年内。"
+            },
+            "site": {
+              "type": "string",
+              "description": "只搜某个站点，例如 github.com 或 gov.cn。"
+            }
+          },
+          "required": [
+            "query"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "联网搜索",
+          "en": "Web search"
+        }
+      },
+      {
+        "name": "webpro_read",
+        "description": "打开网页并返回干净的 Markdown 正文。搜索结果里挑一条读全文时用它。长文一次读不完时，把回执里的 next_offset 作为 offset 继续读；一次最多读 3 个链接。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "要读的 http(s) 链接。"
+            },
+            "urls": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 3,
+              "description": "一次读多个链接（最多 3 个）；与 url 二选一。"
+            },
+            "max_chars": {
+              "type": "integer",
+              "minimum": 500,
+              "maximum": 20000,
+              "description": "本次最多返回多少字符，默认用配置值。"
+            },
+            "offset": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "从正文第几个字符开始；首次读传 0 或不传。"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读网页正文",
+          "en": "Read a page as Markdown"
+        }
+      }
+    ],
+    "events": []
+  }
+}
