@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-official",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "describe": {
     "tools": [
       {
@@ -84,7 +84,7 @@
       },
       {
         "name": "qqofficial_send_media",
-        "description": "发送媒体；url、log:/mem: blob、授权的本地绝对 path 三选一，或 items 批量发送至多 8 项。fileType: 1 图片、2 视频、3 语音、4 文件。语音自动转码。部分失败不会重发已成功项。",
+        "description": "发送媒体；公开 url 与宿主管理的 log:/mem: blob 二选一，items 可批量发送至多 8 项。不接受本地 path。fileType: 1 图片、2 视频、3 语音、4 文件。语音自动转码。部分失败不会重发已成功项。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -115,9 +115,6 @@
               "type": "string"
             },
             "blob": {
-              "type": "string"
-            },
-            "path": {
               "type": "string"
             },
             "fileType": {
@@ -161,9 +158,6 @@
                     "type": "string"
                   },
                   "blob": {
-                    "type": "string"
-                  },
-                  "path": {
                     "type": "string"
                   },
                   "fileType": {
@@ -520,6 +514,7 @@
     ]
   },
   "changelog": {
+    "0.2.3": "- Close model-directed local filesystem access: media now accepts host-managed `log:` / `mem:` attachments or public HTTP(S) URLs. Legacy `path` inputs are rejected and must migrate to `blob` or `url`.\n- Reject path traversal, encoded filesystem paths and file URLs before resolving attachments or starting a media batch. Display filenames never select a local file.\n- Preserve image, voice, video and document sends, channel multipart images, batching, chunked uploads and FFmpeg/SILK conversion. Add regression coverage for attachment sends and attempts to read local files through paths, handles or audio playlists.\n- Withdraw the package’s `unsafe` declaration for 0.2.3; market warning removal requires approval from the Cortico maintainers.",
     "0.2.2": "- Complete the market listing with a display name, project icon, three panel previews, bilingual feature descriptions, author profile, homepage and discovery keywords.\n- Add illustrated English and Chinese READMEs, with links to installation, support and release notes.\n- Keep the API 6 runtime and API 5 compatibility implementation unchanged from the verified 0.2.0 release.",
     "0.2.0": "- Add persistent target discovery, proactive reception checks, delivery modes, throttling and host alarm guidance.\n- Keep proactive cooldowns after slow authentication, responses and rejections, and apply them to fallback retries.\n- Add local and batch media, Tencent chunked upload with TTL caching, channel multipart images, FFmpeg/SILK voice conversion and quoted attachment reads.\n- Forward explicitly selected model replies through the existing World output tap, with chunk throttling, conversation isolation and automatic stream completion; buffer proactive notifications through the regular message API.\n- Downgrade explicit expired-anchor, Markdown and unsupported-stream rejections; bound rate retries and preserve uncertain delivery across restarts without replaying content.\n- Extend protocol, streaming and real codec regression coverage for API 6 and Coopanion’s API 5 runtime; update model instructions, localized settings and package metadata.\n- Document npm installation and declare the Cortico tags for FFmpeg setup and local-file media access.",
     "0.1.1": "- Redesign Connection around an embedded QR code, automatic credential retrieval, and live connection status; remove the QR after authorization.\n- Move manual credentials and transport settings to Configuration, keeping AppSecret in the deployment secret store.\n- Resume pending binding tasks after a page reload and enable or reconnect the World after authorization.\n- Cover QR decoding, automatic binding, configuration validation and panel lifecycle on API 6 and Coopanion's API 5 runtime.",
