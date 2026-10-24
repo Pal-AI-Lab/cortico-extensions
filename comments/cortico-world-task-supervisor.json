@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "name": "cortico-world-task-supervisor",
+  "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/221",
+  "total": 1,
+  "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJE4q",
+      "author": "rtmhjx",
+      "avatar": "https://avatars.githubusercontent.com/u/329894718?s=64&v=4",
+      "body": "**dsh，codex等工作agent的实时汇报与控制桥**\r\n\r\n英文正式名：**DSH、CODEX CONTRLO WORLD**。\r\n\r\n这是适用于 Cortico/Coo API 6 宿主的独立 World 插件，当前实装 DSH/Codex 的重要任务通知、本人 QQ 监管与经确认的会话控制；其他工作 agent 仍需相应适配。\r\n\r\n1. **安装**：在“高级模式→扩展”搜索 [cortico-world-task-supervisor](https://www.npmjs.com/package/cortico-world-task-supervisor) 安装；重启后在 World 总览启用本插件并打开设置，无须另装三个旧桥接 World。\r\n2. **连接**：先运行底层 QQ 服务，再填本人 QQ 号、机器人账号、本机地址和凭证。SnowLuma 原生模式需要随包附加组件；已有 OneBot v11 服务也可选。\r\n3. **范围**：选择工作区、会话目录和排除目录，勾选功能，检查连接、保存重启。凭证交宿主管理，获准读取的内容会进入已配置模型。\r\n4. **网关**：DSH 控制需独立 DSH 宿主。点「生成 DSH 一键安装器」，下载并运行启动器，选择 DSH 配置目录/profile，确认安装、重启 DSH，再验证带凭证健康检查。Codex 只读可不启用网关；控制还需兼容且运行中的应用。安装器需 Node 24，英文终端可对照 World 内中文说明操作。\r\n\r\n监管默认关闭。本人真实私聊单发 `#@`，或放在原始文字最开头即可切换，再发一次关闭。开启补投积压，仅实时汇报完成、失败、阻塞、待批准等重要事件，普通进度不刷屏；群聊、他人、引用和中途标记无效。`#@` 不代替批准：先出草稿，再另发新的确认；关闭不取消已提交任务。\r\n\r\n向导支持中文等十一语。项目已有合成测试、两版接口隔离与界面检查记录；真人 QQ、生产 DSH、完整桌面宿主和长期稳定性仍待验收。\r\n\r\n[独立项目与中文说明](https://github.com/rtmhjx/cortico-world-task-supervisor#readme) · [preview.3 发布说明](https://github.com/rtmhjx/cortico-world-task-supervisor/releases/tag/v0.1.0-preview.3)\r\n",
+      "createdAt": "2026-10-24T00:03:57Z"
+    }
+  ]
+}
