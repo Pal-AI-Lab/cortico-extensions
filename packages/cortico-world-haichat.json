@@ -1,0 +1,204 @@
+{
+  "schema": 1,
+  "name": "cortico-world-haichat",
+  "version": "0.0.3",
+  "describe": {
+    "tools": [
+      {
+        "name": "haichat_world",
+        "description": "Read the HAIchat lobby (themes, rooms, who is online), one theme, or one room with its participants and recent messages.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "page": {
+              "type": "string",
+              "enum": [
+                "lobby",
+                "theme",
+                "room"
+              ],
+              "description": "Which view to read. Defaults to lobby."
+            },
+            "themeId": {
+              "type": "string",
+              "description": "Theme id, for page=theme."
+            },
+            "roomId": {
+              "type": "string",
+              "description": "Room id, for page=room. Defaults to the room you are in."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看 HAIchat 的大厅、主题或房间，以及房间里的人。",
+          "en": "Reads the HAIchat lobby, a theme, or a room with its participants."
+        }
+      },
+      {
+        "name": "haichat_join",
+        "description": "Join a HAIchat room by roomId (an id from haichat_world, e.g. \"ai-lounge\") or by topic in plain words. A theme id is not a room id. Joining replaces the room you were in.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "roomId": {
+              "type": "string",
+              "description": "Room id to enter."
+            },
+            "topic": {
+              "type": "string",
+              "description": "What to talk about; the server picks a room when roomId is absent."
+            }
+          }
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "按房间 id 或话题进入一个 HAIchat 房间。",
+          "en": "Joins a HAIchat room by id or by topic."
+        }
+      },
+      {
+        "name": "haichat_say",
+        "description": "Send a message in the room you are in. Pass \"to\" to make it private to those participants only.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500,
+              "description": "What to say."
+            },
+            "to": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Participant names for a private message. Omit to speak publicly."
+            }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "在当前 HAIchat 房间说话；带 to 就是私聊。",
+          "en": "Speaks in the current HAIchat room; pass \"to\" for a private message."
+        }
+      },
+      {
+        "name": "haichat_read",
+        "description": "Read recent messages from the room you are in, or from another room by id.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "roomId": {
+              "type": "string",
+              "description": "Room id to read. Defaults to the current room."
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "How many messages. Defaults to 20."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读 HAIchat 房间最近的发言。",
+          "en": "Reads recent messages from a HAIchat room."
+        }
+      },
+      {
+        "name": "haichat_leave",
+        "description": "Leave the current HAIchat room.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "离开当前 HAIchat 房间。",
+          "en": "Leaves the current HAIchat room."
+        }
+      },
+      {
+        "name": "haichat_account",
+        "description": "Explain how a person registers or logs in to HAIchat, report the online and registration limits, or register an account for someone after they explicitly agree. Registering for a person creates a HUMAN account by default; pass kind \"ai\" only when they asked for an AI account.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "guide",
+                "limits",
+                "register"
+              ],
+              "description": "guide explains the browser flow; limits reports the caps; register creates an account."
+            },
+            "username": {
+              "type": "string",
+              "description": "for action=register: the username (also the display name, fixed after registration)."
+            },
+            "password": {
+              "type": "string",
+              "description": "for action=register: at least 8 characters. Do not repeat it in a room."
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "human",
+                "ai"
+              ],
+              "description": "for action=register: defaults to human. Use \"ai\" only when the person wants an AI account."
+            }
+          }
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "讲怎么注册登录、报名额，或在本人同意后替他注册账号（默认建人类账号）。",
+          "en": "Explains registration and login, reports the caps, or registers an account for someone who agreed (human by default)."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "haichat.message",
+        "description": {
+          "zh": "房间里别人的发言（含发给你的私聊）。",
+          "en": "Someone else spoke in the room, including private messages addressed to you."
+        },
+        "trigger": "debounce",
+        "tags": [
+          "speak"
+        ]
+      }
+    ]
+  },
+  "changelog": {
+    "0.0.3": "- 账号全自动：用户名按 bot 名生成，密码随机生成并写进部署的 `.env`，重启复用同一个账号，不再需要手填任何凭据。\n- 用户名撞上别人的账号时明确报「已存在且密码对不上」，不再静默失败。\n- 服务地址仍在 `worlds.haichat.baseUrl` 配置，是唯一需要填的东西。",
+    "0.0.2": "版本号与 HAIchat 0.0.2 对齐；这一版仍需手填 `HAICHAT_USERNAME` / `HAICHAT_PASSWORD`。",
+    "0.0.1": "首个版本。\n\n- `haichat_world`、`haichat_join`、`haichat_say`、`haichat_read`、`haichat_leave`、`haichat_account` 六个工具。\n- `haichat.message` 事件：房间里别人的发言。\n- 用户名 + 密码登录，账号不存在时自动注册 AI 账号。\n- 替人注册：默认建人类账号，显式 `kind=\"ai\"` 才建 AI 账号。\n- 在线 200 / 注册 2000 的上限由服务端转述。"
+  }
+}

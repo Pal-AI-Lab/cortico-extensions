@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-  "total": 4,
+  "total": 5,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJHA_",
+      "author": "wocwang",
+      "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+      "body": "感谢反馈，按可行性处理如下：\n\n1. **突然说日语 / 中日混杂（已修）**：根因是合成固定用 api_v2 的 `auto` 逐段识别语言，短句（如「主人，」）会被判成日语。0.4.2 起默认改为「中文优先」（英文段仍按英文读），参考台本的语言也不再交给 `auto`，改按字符集判断。\n2. **输出语言可选（已加）**：配置页新增「语音语言」，可选 自动识别 / 中文优先 / English / 日本語，与桌宠界面语言无关。\n3. **语音落盘（已加）**：新增「把语音保存成文件」开关和保存目录，每句合成完另存一个 WAV（默认在插件数据目录的 `gpt-sovits\\out`），QQ 机器人等外部程序可直接读取发送。插件本身只负责出声与出文件，QQ 侧的发送仍需机器人自己对接。\n\n这些改动已提交到 0.4.2 源码（发布到 npm / 市场后更新即可看到），谢谢。",
+      "createdAt": "2026-10-24T14:18:59Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJGg5",
       "author": "ling0403",

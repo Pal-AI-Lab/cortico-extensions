@@ -67,7 +67,7 @@
   "packages": {
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
       "description": "Cortico World for Coopanion: speaks the pet's lines aloud with GPT-SoVITS (V5 on NVIDIA GPUs, a CPU tier otherwise), installing a portable runtime and weights in one click",
       "locales": {
@@ -102,8 +102,8 @@
         "win32"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-10-24T09:34:19.541Z",
-      "versionCount": 6,
+      "published": "2026-10-24T14:39:02.796Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -129,6 +129,7 @@
       },
       "changelog": {
         "versions": [
+          "0.4.2",
           "0.4.1",
           "0.4.0",
           "0.3.7",
@@ -152,7 +153,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
         "up": 1,
         "down": 0,
-        "comments": 4
+        "comments": 5
       }
     },
     "better-cortico-world-netease-companion": {
@@ -3399,6 +3400,58 @@
         "comments": 0
       }
     },
+    "cortico-world-haichat": {
+      "kind": "world",
+      "version": "0.0.3",
+      "displayName": "HAIchat",
+      "description": "Cortico World: HAIchat text rooms — browse the lobby, join rooms, speak, and register accounts for people on their behalf.",
+      "author": "HAIchat",
+      "maintainers": [
+        "smart_fish"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "haichat",
+        "chat"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-haichat"
+      },
+      "created": "2026-10-24T13:53:24.635Z",
+      "published": "2026-10-24T14:26:46.295Z",
+      "versionCount": 4,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 6,
+        "events": 1,
+        "toolTokens": 934,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.0.3",
+          "0.0.2",
+          "0.0.1"
+        ],
+        "url": "https://unpkg.com/cortico-world-haichat@0.0.3/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 252,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/252",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-hands": {
       "kind": "world",
       "version": "0.3.1",
@@ -3436,6 +3489,85 @@
       "discussion": {
         "number": 192,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/192",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-heybox": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "小黑盒",
+      "description": "小黑盒 Coopanion World：扫码登录、游戏社区信息流、帖子/评论、搜索与游戏库；按主人游戏库和最近游玩偏好定向刷帖；点赞/评论/发帖预演确认；每夜随机闲逛汇报。",
+      "locales": {
+        "zh": {
+          "displayName": "小黑盒",
+          "description": "让桌宠扫码登录小黑盒，逛游戏社区、读帖子和评论、按主人游戏库/最近游玩偏好定向刷帖；点赞/评论/发帖先预演再确认；每夜随机闲逛并汇报。"
+        },
+        "en": {
+          "displayName": "Heybox",
+          "description": "Xiaoheihe (Heybox) game community for Coopanion: QR login, feed/posts/comments/search/library, owner-preference-weighted browsing, preview-confirm writes, and a nightly browse report."
+        }
+      },
+      "author": "cortico-world-heybox contributors",
+      "maintainers": [
+        "wbsj"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "heybox",
+        "xiaoheihe",
+        "game-community",
+        "companion"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-heybox"
+      },
+      "created": "2026-10-24T14:30:19.968Z",
+      "published": "2026-10-24T14:31:15.713Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "internet",
+        "game",
+        "companion",
+        "external-setup",
+        "experimental",
+        "unofficial-api"
+      ],
+      "tags": [
+        "game",
+        "internet",
+        "companion",
+        "external-setup",
+        "experimental",
+        "unofficial-api"
+      ],
+      "icon": "assets/cortico-world-heybox/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 16,
+        "events": 1,
+        "toolTokens": 970,
+        "envPromptTokens": 66
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-heybox@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 253,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/253",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -4569,7 +4701,7 @@
     },
     "cortico-world-netease-companion": {
       "kind": "world",
-      "version": "0.3.5",
+      "version": "0.3.6",
       "displayName": "一起听 · 网易云音乐",
       "description": "一起听，让歌单成为你和 Coo 的共同话题。切歌后参考网易云热评聊两句，评论频率与字数可调，快切不补评。Windows 非官方陪听扩展。",
       "locales": {
@@ -4594,14 +4726,17 @@
         "music"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-netease-companion"
+        "npm": "https://www.npmjs.com/package/cortico-world-netease-companion",
+        "repository": "https://github.com/oceanxuhaiao/music",
+        "homepage": "https://github.com/oceanxuhaiao/music#readme",
+        "bugs": "https://github.com/oceanxuhaiao/music/issues"
       },
       "os": [
         "win32"
       ],
       "created": "2026-10-22T08:31:23.597Z",
-      "published": "2026-10-24T06:06:58.000Z",
-      "versionCount": 6,
+      "published": "2026-10-24T14:21:03.441Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4632,6 +4767,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.6",
           "0.3.5",
           "0.3.4",
           "0.3.3",
@@ -4643,7 +4779,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-netease-companion@0.3.5/CHANGELOG.md"
+        "url": "https://github.com/oceanxuhaiao/music/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 183,
