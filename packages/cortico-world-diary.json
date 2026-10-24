@@ -1,0 +1,135 @@
+{
+  "schema": 1,
+  "name": "cortico-world-diary",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "diary_write",
+        "description": "把一件事写成一条日记,追加到当月的日记文件。date 省略时用今天的日期;同一天可以写多条。回执写出写进了哪天、当月第几条。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "这一条的标题,简短,十来字。"
+            },
+            "content": {
+              "type": "string",
+              "description": "正文,第一人称写清楚发生了什么、说了什么、自己怎么想。"
+            },
+            "date": {
+              "type": "string",
+              "description": "记在哪天,YYYY-MM-DD;省略为今天。"
+            }
+          },
+          "required": [
+            "title",
+            "content"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "把一件事写成一条日记,追加到当月文件。",
+          "en": "Append one diary entry to the current month file."
+        }
+      },
+      {
+        "name": "diary_list",
+        "description": "列出日记条目(日期、时间、标题),新的在前。month 省略时跨所有月份,只回有内容的行;没有条目时明说没有。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "month": {
+              "type": "string",
+              "description": "只看某个月,YYYY-MM;省略为全部。"
+            },
+            "limit": {
+              "type": "integer",
+              "description": "最多回多少条,默认 20。"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "列出日记条目,新的在前,可按月筛选。",
+          "en": "List diary entries, newest first, optionally for one month."
+        }
+      },
+      {
+        "name": "diary_read",
+        "description": "读某一天或某个月的日记全文。给 day 只回那一天,只给 month 回那个月的全部条目。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "month": {
+              "type": "string",
+              "description": "月份 YYYY-MM,必填。"
+            },
+            "day": {
+              "type": "string",
+              "description": "具体某天 YYYY-MM-DD,可选。"
+            }
+          },
+          "required": [
+            "month"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读某一天或某个月的日记全文。",
+          "en": "Read the full text of one day or one month."
+        }
+      },
+      {
+        "name": "diary_search",
+        "description": "在所有日记里按关键词找,标题和正文都算;回执给出命中的日期、标题与命中的那一行。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "keyword": {
+              "type": "string",
+              "description": "要找的词。"
+            },
+            "limit": {
+              "type": "integer",
+              "description": "最多回多少条,默认 10。"
+            }
+          },
+          "required": [
+            "keyword"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "在所有日记里按关键词找条目。",
+          "en": "Search every diary entry by keyword."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.diary.envPrompt",
+        "title": "日记 · 环境提示词",
+        "role": "envPrompt",
+        "content": "「日记」World 把 {{diary.author}} 和你之间发生的事写成条目,一个月一个 Markdown 文件,存在部署的数据目录里。\n\n什么时候写:\n\n- 一次对话里出现值得回看的事——做了决定、答应或拒绝了什么、开心或被冷落了一场、修好或弄坏了什么、出门去了哪、身体或功课上的事——用 `diary_write` 记一条。寒暄、一次取图、一次查报错不必单独成篇。\n- 一天里可以写好几条,也可以隔天补:补旧的给 `date`,写 `YYYY-MM-DD`;不给就是今天。\n- 一个话题收尾时写最顺;一轮里已经写过就别再补一条同义的。\n\n怎么写:\n\n- `title` 十来个字,是这一条的名字,不是分类。\n- `content` 第一人称,现在时地写:当时在哪、说了什么、你自己怎么想、有没有不好意思或高兴。写事实,别编没发生的事;没搞清的地方就写没搞清。\n- 涉及密码、支付、身份证件这类内容不要写进去。\n- 不用写「本条已记录」这类交代,直接写内容。\n\n翻和搜:\n\n- 想知道以前发生过什么、答应过什么,先 `diary_list` 看标题,再 `diary_read` 读那一天;关键词记不清时用 `diary_search`。\n- 翻到的东西是当时的记录,不等于现在的状态;拿它说事之前先核一下眼下的事实。\n- 回执里的数字(这个月几条、命中几条)是可以直接引用的:它们来自文件本身。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "- 首个版本:日记 World。\n- 工具:`diary_write`、`diary_list`、`diary_read`、`diary_search`。\n- 按月一个 Markdown 文件,存放在部署数据目录;配置项 `worlds.diary.author`。\n- 环境提示词说明何时记账、怎么写、怎么回看。"
+  }
+}
