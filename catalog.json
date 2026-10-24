@@ -2626,17 +2626,17 @@
     },
     "cortico-world-doubao-tts": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.1.3",
       "displayName": "豆包语音",
-      "description": "给 Coopanion 的桌宠换上豆包（火山引擎）语音：可选音色、语气、语速，按句合成，本机播放。",
+      "description": "让桌宠用豆包（火山引擎）TTS 2.0 读出气泡内容：360 个 2.0 音色可按场景、语种、标签筛选，支持语音指令（方言/情绪）与语速、音量、音调、句尾静音调节，本机播放。",
       "locales": {
         "zh": {
           "displayName": "豆包语音",
-          "description": "让桌宠用豆包（火山引擎）TTS 读出气泡内容：7 个推荐音色、语气指令、语速/音量/音调可调；API Key 保存在部署 .env，面板内可直接测试连接。"
+          "description": "让桌宠用豆包（火山引擎）TTS 2.0 读出气泡内容：360 个 2.0 音色，可按场景、语种、标签筛选；支持语音指令（四川话、情绪、语气）、语速/音量/音调/句尾静音等调节，测试连接可直接试听。API Key 保存在部署 .env。"
         },
         "en": {
           "displayName": "Doubao voice",
-          "description": "Reads the pet's bubbles aloud with Doubao (Volcengine) TTS: seven recommended voices, tone instructions, adjustable rate/loudness/pitch; the API key lives in the deployment .env and can be tested in the panel."
+          "description": "Reads the pet's bubbles aloud with Doubao (Volcengine) TTS 2.0: 360 voices filterable by scene, language and tag; instruction control for dialect, emotion and tone; adjustable rate, loudness, pitch and trailing silence, with an in-panel test that plays back. The API key lives in the deployment .env."
         }
       },
       "author": "lotice",
@@ -2650,7 +2650,11 @@
         "coopanion",
         "tts",
         "doubao",
-        "volcengine"
+        "volcengine",
+        "豆包语音",
+        "语音合成",
+        "方言",
+        "voice"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-doubao-tts"
@@ -2659,8 +2663,8 @@
         "win32"
       ],
       "created": "2026-10-24T10:00:57.946Z",
-      "published": "2026-10-24T10:14:09.244Z",
-      "versionCount": 3,
+      "published": "2026-10-24T12:55:46.071Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3069,7 +3073,7 @@
     },
     "cortico-world-fatfish": {
       "kind": "world",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "displayName": "大肥鱼功能复合包",
       "description": "和 DeepSeek Harness（DSH）对话让它帮你干活写代码，宠物回复时用内置语音包读出声（朗读支持 Windows 与 macOS）。桥接这半边需要先装 DSH 的 Host 插件（coopanion-connector-dsh）才会连；不会装就看源码仓库的说明，或把仓库地址交给 AI 帮你装。/ Chat with DeepSeek Harness (DSH) so it does the work — writing code for you — and hear the pet's rep",
       "locales": {
@@ -3105,8 +3109,8 @@
         "bugs": "https://github.com/blacksunshy/coopanion-fatfish/issues"
       },
       "created": "2026-10-15T06:47:52.601Z",
-      "published": "2026-10-24T12:18:07.317Z",
-      "versionCount": 15,
+      "published": "2026-10-24T13:53:53.176Z",
+      "versionCount": 16,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3123,13 +3127,14 @@
         "week": 2580
       },
       "summary": {
-        "tools": 2,
+        "tools": 3,
         "events": 1,
-        "toolTokens": 360,
+        "toolTokens": 535,
         "envPromptTokens": 215
       },
       "changelog": {
         "versions": [
+          "0.5.0",
           "0.4.0",
           "0.3.9",
           "0.3.8",
@@ -3151,7 +3156,7 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 28,
+        "up": 30,
         "down": 6,
         "comments": 4
       }
@@ -3396,7 +3401,7 @@
     },
     "cortico-world-hands": {
       "kind": "world",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "displayName": "手",
       "description": "Cortico World: hands for the desktop pet — looks at the phone screen, then taps, swipes, pinches, drags, types and presses keys through whatever actuator the device actually has",
       "maintainers": [
@@ -3414,8 +3419,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-hands"
       },
       "created": "2026-10-22T14:40:37.506Z",
-      "published": "2026-10-24T12:15:33.108Z",
-      "versionCount": 14,
+      "published": "2026-10-24T13:32:22.341Z",
+      "versionCount": 15,
       "official": false,
       "isNew": true,
       "tags": [
@@ -4507,7 +4512,7 @@
       "discussion": {
         "number": 31,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/31",
-        "up": 3,
+        "up": 4,
         "down": 0,
         "comments": 1
       }
