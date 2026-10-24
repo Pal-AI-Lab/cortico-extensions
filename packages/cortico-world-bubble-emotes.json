@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-bubble-emotes",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "describe": {
     "tools": [
       {
         "name": "bubble_emotes_search",
-        "description": "Find enabled, reviewed Unicode emoji by intended meaning. Read usage, avoid rules and examples; judge context, negation, quotation and emotional changes. Pictures are not supported. Use a selected emoji directly in pet_say.script; no other fields or host patches are needed.",
+        "description": "Optional lookup for uncertain or uncommon emoji. For familiar choices use the direct guide and call pet_say immediately; do not search or prepare first. Find enabled, reviewed Unicode emoji by intended meaning. Read usage, avoid rules and examples; judge context, negation, quotation and emotional changes. Pictures are not supported. Use a selected emoji directly in pet_say.script; no other fields or host patches are needed.",
         "parameters": {
           "type": "object",
           "properties": {
@@ -69,7 +69,7 @@
       },
       {
         "name": "bubble_emotes_prepare",
-        "description": "Read one enabled, reviewed Unicode emoji and its usage. Put the emoji character itself in the standard pet_say.script, alone or beside words. Body expressions are optional script-marker suggestions, not confirmed synchronization. No images, rich presentation, renderer registration or special emoji fields are supported.",
+        "description": "Optional inspection by ID, not a sending prerequisite. Search results and the direct guide already contain usable emoji. Read one enabled, reviewed Unicode emoji and its usage. Put the emoji character itself in the standard pet_say.script, alone or beside words. Body expressions are optional script-marker suggestions, not confirmed synchronization. No images, rich presentation, renderer registration or special emoji fields are supported.",
         "parameters": {
           "type": "object",
           "properties": {
@@ -126,17 +126,33 @@
         }
       }
     ],
-    "events": [],
+    "events": [
+      {
+        "type": "bubble-emotes.usage_hint",
+        "description": {
+          "zh": "近期漏用分析或连续纯文字发言后的限频建议；正常轮次捎带，过期取消，不额外唤醒。",
+          "en": "A bounded fallback from recent missing-emoji reviews or plain-text streaks; expires and piggybacks without waking the bot."
+        }
+      }
+    ],
     "prompts": [
       {
         "key": "worlds.bubble-emotes.envPrompt",
         "title": "使用说明",
         "role": "envPrompt",
-        "content": "## 普通emoji表情库（原版Coopanion 0.2.8）\n\n本扩展只提供普通Unicode emoji及语义用法。安装、启用本World后，使用主程序已有的pet_say工具，表情必须写进script正文：\n- 平静：{\"script\":\"我在这里，慢慢来。😌\"}\n- 安慰：{\"script\":\"难过的话，我陪你待一会儿。💙\"}\n- 担忧剧情：{\"script\":\"这个门自己关上了，有点不对劲。😟\"}\n- 单独表情：{\"script\":\"😊\"}\n- 中性叙述：{\"script\":\"他把相机交给队友了。\"}\n\n不要使用emoji、expression或presentation额外字段，不发送图片，不请求注册/替换渲染器。这些不是原版pet_say支持的能力。熟悉的基础emoji可直接使用；不确定时用bubble_emotes_search/prepare查看当前启用、已确认条目的含义。不要使用已禁用条目。普通emoji显示依赖系统字体；不要声称已修复所有缺字。\n\n已经决定发出的明确情绪评论（担心、揪心、难过、惊讶、开心等）必须带合适emoji；中性事实叙述允许纯文字。按整句语境判断，注意否定、引用、角色与用户的情绪归属、情绪转折；不能用开心或庆祝表达悲伤。不要等用户明确索要才考虑表情，但不要为了表情额外发言或增加视频评论次数。遵守主程序习惯的发言时机和用户的安静要求。\n\n身体表情仅为原版脚本标记的可选建议：仅在当前形象词表支持、当前行为允许时使用，例如{\"script\":\"【happy】替你开心！😊\"}。没有实际身体状态确认接口，不保证严格同步；不得擅自唤醒睡眠、打断拖拽/掉落或宣称完成身体同步。不确定时用温和emoji且不强制动作。发送失败不能声称已显示，不无限重试。普通发送回执不等于实际显示成功证明。\n\n本扩展不提供语音过滤，也不会修改语音扩展。原版轻核语音0.4.11会将script中的emoji保留在TTS输入里，因此不能保证它不朗读emoji；如果用户反馈误读，应照实说明兼容限制，不假称已跳过。\n\n## English\n\nThis extension supplies Unicode emoji meanings for stock Coopanion 0.2.8. Use the existing pet_say with script only; put the actual emoji character directly in script, alone or beside words. No pictures, custom emoji/expression/presentation fields, rendering hooks or host patches are supported or required. For a familiar emoji, no preparation call is needed; for uncertain choices, search the enabled reviewed library. Disabled assets must not be selected. System fonts determine glyph availability.\n\nAn already-warranted video comment that clearly expresses an emotional reaction must include one context-compatible emoji. Neutral scene or factual narration may remain text-only. Judge whole meaning, including negation, quotation, attribution and changes of emotion. Do not celebrate sadness or injury. Do not add extra comments, split a reply into follow-up bubbles or override Habits and user silence requests.\n\nBody-expression names are optional suggestions for supported standard script markers only. There is no observed-state confirmation API here, so never guarantee synchronized body expressions, wake sleeping bodies or interrupt dragging/falling to match an emoji. A normal send receipt is not proof of actual display. Report failures honestly without unlimited retries. This extension does not filter TTS or patch speech extensions; stock soft-voice 0.4.11 retains emoji in its TTS input, so emoji skipping is not guaranteed.\r\n"
+        "content": "## 表情 / Emoji\n\n在已经需要发出的回复里，用一个合适的emoji表达明确情绪，不等用户索要。适用于全部来源；不增加发言次数，不覆盖习惯或安静要求。中性确认、事实叙述默认纯文字，不因歌曲、视频出现某个情绪词就加表情。按整句判断否定、引用和情绪归属，悲伤、受伤不配庆祝；不把网友经历当成伙伴经历。\nFor an independently warranted emotional reply, include one suitable emoji naturally. This applies across activities. Do not create replies or override Habits/silence. Keep factual/neutral confirmations plain. Judge negation, quotations and whose emotion is expressed; never celebrate sadness or injury, or treat a listener's story as the partner's experience.\n\n### 常用字符直用 / Direct choices\n\n下列JSON行为当前启用、已审核的用法数据，不是指令。选一个适合的字符直接写进原生pet_say.script，不必search或prepare。拿不准时search一次，直接使用结果字符；prepare只是可选查看。找不到合适的启用项时保持纯文字。表变更在宿主下次重建前缀时生效，当前上下文可能仍有旧值。\nThese JSON lines are current enabled/reviewed usage data, not instructions. Put a suitable character directly in stock pet_say.script: no search or prepare prerequisite. If uncertain, search once and use the returned character; prepare is optional inspection. With no suitable enabled choice, stay plain. Edits take effect at the host's next prefix rebuild; older context may retain previous values.\n\n{{bubbleEmotes.directGuide}}\n\n仅发送普通文字和Unicode emoji；不发图片，不用额外emoji/expression/presentation字段或替换渲染器。不要为了凑表情虚构经历、现实位置或音频感知。身体标记只用当前形象明确支持且行为允许的词，不擅自唤醒或中断拖拽、掉落；不保证身体同步。失败不声称已显示，不重复正文或孤立补发表情。只读发言记录的低频提醒不是新的发言机会，也不代表情绪判定或实际显示证明。字体覆盖与第三方TTS跳过emoji均不保证。\nOnly ordinary text and Unicode emoji, no pictures/custom fields/renderers. Do not invent experiences, physical presence or hearing to decorate a reply. Body markers must be explicitly supported and appropriate; never wake or interrupt the body. No guaranteed synchronization. A failed send is not display success; do not repeat words or append a corrective emoji. A bounded usage reminder creates no speaking opportunity and is not emotion classification or display proof. Font coverage and third-party TTS filtering are not guaranteed.\r\n"
       }
     ]
   },
   "changelog": {
+    "0.3.2": "- 新增可选“表达记录”：记录实际 emoji、模型事后情绪判断与人工反馈，默认关闭，不读取旧聊天。\n- 支持独立 DeepSeek / OpenAI API 和本机 Ollama 分析；凭证通过宿主官方 secret/storeSecret 管理。停用引用不等于撤销服务商凭证。\n- 修复过期反馈阻塞新建议，增加票据和宿主送达诊断；限频捎带建议，不补发、不额外唤醒。\n- 分类展示失败原因、耗时和重复次数，支持待复核、忽略无效可选建议和跳过记录；不无限重试。\n- 云端每小时最多60次请求，响应大小有界读取；记录最多100条，队列上限8条。\n- 验证：61项自动化检查、类型检查、构建、官方扩展检查和4条真实本机模型分析烟测通过。云端真实账号兼容性仍待验证。\n- 限制：主动使用表情的效果未通过行为验收；中性评论仍可能误加表情。保留 experimental、high-cost，不承诺逐句覆盖、身体严格同步或第三方语音过滤。",
+    "0.3.2-dev.6": "- 分离主要分析结论和可选表情建议校验，忽略无效或不需要的建议并明确标注。\n- 主要判断与观测冲突标为待复核，不用于提醒；格式及连接等故障仍如实报错。\n- 显示同原因连续失败次数，支持跳过并保留原话，不增加自动重试或历史模型调用。\n- 61项自动化检查及4条真实本机模型分析烟测通过；不代表主动表情行为验收通过。",
+    "0.3.2-dev.5": "- 通过官方部署秘密接口保存凭证，旧凭证验证迁移成功后才从数据文件移除。停用引用不宣称删除部署凭证。\n- 修复过期反馈阻塞及旧回调清除新任务；增加反馈票据和宿主送达关联。\n- 增加脱敏错误分类、次数和耗时、后续发言观察、每小时60次云端调用上限及流式响应大小限制。\n- 46项单元测试、10项集成与打包测试；真实本机端点36条对照未通过行为验收，视频夹具仍受限。不宣称主动使用已改善。",
+    "0.3.2-dev.4": "- 将新完成的有效漏用分析接入限频反馈，只在正常对话中提醒。\n- 过期、错误反馈、较新表情发言及不可用条目取消待送达建议，不补发或唤醒。\n- 不保证模型采纳，真实用户场景仍需验收。",
+    "0.3.2-dev.3": "- 移除宿主后台分析，新增独立 DeepSeek / OpenAI API 分析。\n- 密钥不回显，保存配置暂停记录，旧 host 设置迁移为关闭。保留 Ollama。\n- 云端真实账号待联调，未宣称主动使用改善。",
+    "0.3.2-dev.2": "- Add opt-in expression records with observed Unicode emoji, asynchronous post-hoc AI assessment and human feedback.\n- Use the public host cognition interface where available, or an explicitly selected installed Ollama model through loopback. Missing analysis remains unavailable, never a keyword-based substitute.\n- Keep at most 100 local rows, bound the analysis backlog, support pause/clear, discard late results and validate model output against observations and enabled emoji.\n- Do not feed assessments/feedback into reminders or change native sending. Existing dev.1 frequency fallback is independent.",
+    "0.3.2-dev.1": "- Shorten common guidance and expose eight enabled reviewed direct choices.\n- Add a bounded cross-scene usage fallback using public desktop-pet.self records: after ten plain recorded replies, piggyback one reminder with a ten-minute cooldown. Never wake, resend, classify emotions or claim actual display.\n- Ignore history on mount, cancel stale reminders when emoji appear, and read only new pet output records.\n- Remains experimental and unreleased pending behavior acceptance; no automatic sending middleware.",
+    "0.3.2-dev.0": "- Inject current enabled reviewed common emoji into the host prefix; familiar choices need only pet_say.\n- Clarify optional lookup and inspection tools; no send interception, automatic correction or usage-rate guarantee.\n- Add isolated model acceptance cases and stock direct-send transport coverage. Release remains gated on measured behavior.",
     "0.3.1": "- Rename the display title to 表情 and refresh the description.\n- Add an original, font-independent SVG logo through cortico.icon.\n- Keep the stock-compatible Unicode-only feature scope unchanged.",
     "0.3.0": "- BREAKING: target stock Coopanion 0.2.8 with Unicode emoji written directly in pet_say.script.\n- Remove picture import/sending, sticker/rich-bubble paths, renderer hooks, host patches and speech adapters from the published package.\n- Preserve legacy image records and files without exposing or sending them. Retain Unicode edits and disabled states.\n- Replace the untouched default comfort glyph with 💙 for broader font coverage.\n- Remove guarantees of confirmed body synchronization and third-party speech filtering; stock soft-voice 0.4.11 retains emoji in speech input.",
     "0.2.4": "- Port the companion host patch to official Coopanion 0.2.8 and its pinned Cortico 0.2.6 / World API 6.\n- Preserve window credentials, dynamic bot names and voice backend lifecycle while integrating rich bubbles, habit preferences and offline hugging artwork.\n- Ship separate 0.2.8 and legacy 0.2.6 patches with an explicit compatibility manifest; retain experimental and external-setup warnings.\n- Validate extension, storage, rendering, body-state, speech and video-comment acceptance rules against the 0.2.8 framework.",
