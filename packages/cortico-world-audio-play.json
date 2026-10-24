@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-audio-play",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "describe": {
     "tools": [
       {
         "name": "audio_play",
-        "description": "Play an audio file through the local speakers and wait until playback finishes. The audio comes from a local file path or a log:/mem: handle, such as the path or handle returned by tts_speak. It only plays sound; it does not send anything.",
+        "description": "Start playing an audio file through the local speakers and return at once. The audio comes from a local file path or a log:/mem: handle, such as the path or handle returned by tts_speak. It only plays sound; it does not send anything. A playback failure arrives later as an audio-play.failed event.",
         "parameters": {
           "type": "object",
           "properties": {
@@ -29,13 +29,13 @@
           "act"
         ],
         "summary": {
-          "zh": "把一段音频（本地文件或 log:/mem: 句柄，比如 tts_speak 回执里的那个）从本机扬声器播放出来；只回成功或失败。",
-          "en": "Play an audio file or a log:/mem: handle (such as the one returned by tts_speak) through the local speakers; reports only the outcome."
+          "zh": "把一段音频（本地文件或 log:/mem: 句柄，比如 tts_speak 回执里的那个）交给本机扬声器，开始播放后立刻返回；失败会发 audio-play.failed 事件，成功不再回报。",
+          "en": "Start playing an audio file or a log:/mem: handle (such as the one returned by tts_speak) through the local speakers and return at once; a failure arrives later as an audio-play.failed event, and success is silent."
         }
       },
       {
         "name": "audio_watch",
-        "description": "Turn automatic playback of event audio on or off, change the watched event types, or read the current state. start watches events of the configured types (tts.voice by default) and plays new events that carry an audio attachment; stop ends watching; set changes the watched types without changing whether watching is on; status shows the settings and last playback. Every change is saved to the config.",
+        "description": "Read or change playback settings. start turns on automatic playback of event audio for the configured event types (tts.voice by default) and plays new events that carry an audio attachment; stop turns it off; set changes the watched event types and/or the playback backend without changing whether watching is on; status shows the settings and last playback. Every change is saved to the config. Playback failures arrive as audio-play.failed events; success is silent.",
         "parameters": {
           "type": "object",
           "properties": {
@@ -47,11 +47,26 @@
                 "set",
                 "status"
               ],
-              "description": "start = watch new events and play their audio; stop = stop watching; set = change the watched types; status = show the current settings."
+              "description": "start = watch new events and play their audio; stop = stop watching; set = change the watched types and/or the playback backend; status = show the current settings."
             },
             "events": {
               "type": "string",
               "description": "For start and set: comma-separated event types to watch, e.g. tts.voice. For start it defaults to the configured list."
+            },
+            "backend": {
+              "type": "string",
+              "enum": [
+                "auto",
+                "wpf",
+                "ffplay",
+                "mpv",
+                "vlc",
+                "afplay",
+                "paplay",
+                "aplay",
+                "custom"
+              ],
+              "description": "For start and set: the playback backend. auto = platform default; wpf = Windows system player; ffplay, mpv, vlc, afplay, paplay, aplay = that command; custom = the command configured in the settings."
             }
           },
           "required": [
@@ -62,14 +77,24 @@
           "act"
         ],
         "summary": {
-          "zh": "打开或关闭事件音频的自动播放，或查看当前监听的事件类型；播放新事件里的音频附件。",
-          "en": "Turn automatic playback of event audio on or off, or read the watched event types; plays audio attachments on new events."
+          "zh": "打开或关闭事件音频的自动播放，更换监听的事件类型或播放后端，或查看当前设置；播放新事件里的音频附件。",
+          "en": "Turn automatic playback of event audio on or off, change the watched event types or the playback backend, or read the current settings; plays audio attachments on new events."
         }
       }
     ],
-    "events": []
+    "events": [
+      {
+        "type": "audio-play.failed",
+        "description": {
+          "zh": "播放失败：正文带音频来源、音量与原因，没有附件；手动播放和自动播放失败都会发，成功不发。",
+          "en": "A failed playback: the text carries the audio reference, volume and reason, with no attachment; both manual and watched playback emit it, success is silent."
+        },
+        "trigger": "debounce"
+      }
+    ]
   },
   "changelog": {
+    "0.2.0": "- 新增 `worlds.audio-play.backend`：选择播放后端。`auto` 保持平台默认，也可以指定 `wpf` / `ffplay` / `mpv` / `vlc` / `afplay` / `paplay` / `aplay`，或用 `custom`。\n- 新增 `worlds.audio-play.command`：后端为 `custom` 时执行自定义命令，`{file}` 与 `{volume}` 是占位符；命令不经过 shell。\n- `audio_watch` 的 `set` 可以更换播放后端，`status` 会显示当前后端与自定义命令。\n- `audio_play` 改为非阻塞：开始播放（或排队）后立刻返回，不再等播放结束。\n- 成功不发事件；播放失败发 `audio-play.failed` 事件，正文带音频来源、音量与原因，默认投递到对话事件流。取消和 World 停止不算失败。\n- 自动播放失败也发同一条事件；连续失败时 30 秒内最多通知一次，避免事件潮。\n- 回执从「播放完了」改为「开始播放 / 已排队」；播放器和自动播放仍然共用一条串行队列。\n- 新增空的「提示词」页（`src/ENV_PROMPT.md`）；默认不往系统前缀加内容，部署者可以补充播放约定。\n- Windows 的 WPF 打不开格式时，错误提示会建议换一个后端。",
     "0.1.1": "- 新增 `worlds.audio-play.autoPlay` 与 `watchEvents`：监听事件库里的指定事件（默认 `tts.voice`），把带音频附件的新事件播放出来；只播打开监听之后的事件，重启不补。\n- 新增 `audio_watch` 工具：桌宠可以 `start` / `stop` / `set` 监听类型 / `status`，改动写入配置。\n- 事件里的音频优先取附件句柄，其次取事件 meta 里的文件路径；与 `audio_play` 共用同一条播放队列。",
     "0.1.0": "- 首个版本：`audio_play` 工具，接受本地音频路径或 `log:` / `mem:` 句柄（比如 `tts_speak` 回执里的路径与附件句柄），在本机扬声器播放并等待结束，只回成功或失败。\n- Windows 用系统自带的 PowerShell + WPF MediaPlayer，macOS 用 `afplay`，Linux 依次尝试 `ffplay` / `mpv` / `paplay` / `aplay`；没有 npm 运行时依赖。\n- 配置 `worlds.audio-play`：`enabled`、`volume`、`timeoutMs`；不需要密钥。\n- 句柄先落成临时文件，播放结束即删；同一时间只放一段，后到的调用排队。"
   }

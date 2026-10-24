@@ -1345,9 +1345,9 @@
     },
     "cortico-world-audio-play": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "displayName": "音频播放",
-      "description": "音频播放（Audio Play）—— 给 Coopanion 桌宠的 cortico World 扩展：把 log:/mem: 音频句柄或本地音频文件交给系统扬声器播放，只回成功或失败；也可以监听其他扩展的声音事件自动播放。 / A cortico World extension that plays a log:/mem: audio handle or a local audio file through the system speakers and reports only the outcome",
+      "description": "音频播放（Audio Play）—— 给 Coopanion 桌宠的 cortico World 扩展：把 log:/mem: 音频句柄或本地音频文件交给本机播放器播放（后端可配置，支持 ffplay / mpv / VLC 与自定义命令），开始播放后立刻返回，失败才发事件；也可以监听其他扩展的声音事件自动播放。 / A cortico World extension that plays a log:/mem: audio handle or a local audio file through a c",
       "author": "AqualCross",
       "maintainers": [
         "aqualcross"
@@ -1374,8 +1374,8 @@
         "bugs": "https://github.com/AqualCross/cortico-world-audio-play/issues"
       },
       "created": "2026-10-18T13:58:57.585Z",
-      "published": "2026-10-23T12:48:13.875Z",
-      "versionCount": 3,
+      "published": "2026-10-24T11:04:32.567Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1391,12 +1391,13 @@
       },
       "summary": {
         "tools": 2,
-        "events": 0,
-        "toolTokens": 486,
+        "events": 1,
+        "toolTokens": 629,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.2.0",
           "0.1.1",
           "0.1.0"
         ],
@@ -3140,9 +3141,71 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 27,
+        "up": 28,
         "down": 6,
-        "comments": 3
+        "comments": 4
+      }
+    },
+    "cortico-world-figure-persona": {
+      "kind": "world",
+      "version": "0.1.0",
+      "description": "给 Coopanion 形象包绑定人格：把当前形象的人格注入环境提示词",
+      "author": "苏鸿与维基",
+      "maintainers": [
+        "suhong1130"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "desktop-pet",
+        "figure-pack",
+        "persona",
+        "system-prompt"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-figure-persona",
+        "repository": "https://github.com/suhong11300/cortico-world-figure-persona",
+        "homepage": "https://github.com/suhong11300/cortico-world-figure-persona#readme",
+        "bugs": "https://github.com/suhong11300/cortico-world-figure-persona/issues"
+      },
+      "created": "2026-10-24T11:16:15.780Z",
+      "published": "2026-10-24T11:18:22.791Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "external-setup",
+        "experimental"
+      ],
+      "tags": [
+        "external-setup",
+        "experimental"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 1,
+        "events": 1,
+        "toolTokens": 76,
+        "envPromptTokens": 60
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/suhong11300/cortico-world-figure-persona/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 246,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/246",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-gaming-alont1": {
@@ -5283,7 +5346,7 @@
       },
       "created": "2026-10-09T15:09:16.966Z",
       "published": "2026-10-09T15:21:32.912Z",
-      "versionCount": 5,
+      "versionCount": 6,
       "official": false,
       "isNew": false,
       "tags": [
@@ -5351,7 +5414,7 @@
       "discussion": {
         "number": 39,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/39",
-        "up": 2,
+        "up": 3,
         "down": 0,
         "comments": 0
       }
@@ -6280,7 +6343,7 @@
       "discussion": {
         "number": 60,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/60",
-        "up": 2,
+        "up": 3,
         "down": 0,
         "comments": 0
       }
@@ -6706,6 +6769,60 @@
       "discussion": {
         "number": 212,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/212",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-sticker-window": {
+      "kind": "world",
+      "version": "0.1.1",
+      "description": "可以让你的桌宠在桌面上弹表情包",
+      "maintainers": [
+        "danhuangpaii"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "sticker",
+        "bubble",
+        "desktop",
+        "表情窗户",
+        "表情",
+        "表情包",
+        "桌宠"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-sticker-window"
+      },
+      "created": "2026-10-24T10:44:29.707Z",
+      "published": "2026-10-24T10:50:48.886Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 0,
+        "toolTokens": 330,
+        "envPromptTokens": 334
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-sticker-window@0.1.1/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 247,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/247",
         "up": 0,
         "down": 0,
         "comments": 0
