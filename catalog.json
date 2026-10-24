@@ -67,7 +67,7 @@
   "packages": {
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.4.2",
+      "version": "0.4.4",
       "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
       "description": "Cortico World for Coopanion: speaks the pet's lines aloud with GPT-SoVITS (V5 on NVIDIA GPUs, a CPU tier otherwise), installing a portable runtime and weights in one click",
       "locales": {
@@ -102,8 +102,8 @@
         "win32"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-10-24T14:39:02.796Z",
-      "versionCount": 7,
+      "published": "2026-10-24T15:42:48.880Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -123,12 +123,14 @@
       },
       "summary": {
         "tools": 2,
-        "events": 1,
+        "events": 2,
         "toolTokens": 242,
-        "envPromptTokens": 177
+        "envPromptTokens": 207
       },
       "changelog": {
         "versions": [
+          "0.4.4",
+          "0.4.3",
           "0.4.2",
           "0.4.1",
           "0.4.0",
@@ -151,9 +153,9 @@
       "discussion": {
         "number": 228,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-        "up": 1,
+        "up": 2,
         "down": 0,
-        "comments": 5
+        "comments": 6
       }
     },
     "better-cortico-world-netease-companion": {
@@ -1224,7 +1226,7 @@
       "discussion": {
         "number": 9,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/9",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -2627,7 +2629,7 @@
     },
     "cortico-world-doubao-tts": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.2.0",
       "displayName": "豆包语音",
       "description": "让桌宠用豆包（火山引擎）TTS 2.0 读出气泡内容：360 个 2.0 音色可按场景、语种、标签筛选，支持语音指令（方言/情绪）与语速、音量、音调、句尾静音调节，本机播放。",
       "locales": {
@@ -2664,15 +2666,22 @@
         "win32"
       ],
       "created": "2026-10-24T10:00:57.946Z",
-      "published": "2026-10-24T12:55:46.071Z",
-      "versionCount": 5,
+      "published": "2026-10-24T14:47:04.110Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
-        "voice"
+        "voice",
+        "coopanion",
+        "requires-key",
+        "internet",
+        "high-cost"
       ],
       "tags": [
-        "voice"
+        "internet",
+        "voice",
+        "requires-key",
+        "high-cost"
       ],
       "icon": "assets/cortico-world-doubao-tts/icon.png",
       "downloads": {
@@ -3219,6 +3228,75 @@
       "discussion": {
         "number": 246,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/246",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-frame-extract": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "抽帧",
+      "description": "抽帧（Frame Extraction）—— 给 Coopanion 桌宠的 cortico World 扩展：用本机 ffmpeg 把视频或动图按时间拆成带时间戳的 JPEG 帧，作为图片交给模型；取样帧数、间隔、范围、长边与质量可配置，也能被桌宠的调用参数临时覆盖。 / A cortico World extension that turns a video or animated image into timestamped JPEG frames with local ffmpeg and ret",
+      "author": "AqualCross",
+      "maintainers": [
+        "aqualcross"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "vision",
+        "video",
+        "gif",
+        "frames",
+        "frame-extraction",
+        "timestamps",
+        "ffmpeg",
+        "multimodal"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-frame-extract",
+        "repository": "https://github.com/AqualCross/cortico-world-frame-extract",
+        "homepage": "https://github.com/AqualCross/cortico-world-frame-extract#readme",
+        "bugs": "https://github.com/AqualCross/cortico-world-frame-extract/issues"
+      },
+      "created": "2026-10-24T14:59:12.777Z",
+      "published": "2026-10-24T14:59:47.727Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "video",
+        "external-setup",
+        "high-cost"
+      ],
+      "tags": [
+        "video",
+        "external-setup",
+        "high-cost"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 0,
+        "toolTokens": 851,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/AqualCross/cortico-world-frame-extract/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 255,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/255",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -4791,7 +4869,7 @@
     },
     "cortico-world-netlingo": {
       "kind": "world",
-      "version": "0.3.7",
+      "version": "0.3.8",
       "displayName": "网络语言",
       "description": "可以自主在互联网上找梗玩,也可以当成一个简便的小浏览器;接入 QQ 群后会自主学习群友的梗并加进自己的梗库使用。建议搭配各大佬的 QQ 扩展。",
       "locales": {
@@ -4827,8 +4905,8 @@
         "bugs": "https://github.com/danhuangpaii/cortico-world-netlingo/issues"
       },
       "created": "2026-10-22T16:36:33.230Z",
-      "published": "2026-10-24T05:20:05.719Z",
-      "versionCount": 10,
+      "published": "2026-10-24T14:41:06.949Z",
+      "versionCount": 11,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4848,10 +4926,11 @@
         "tools": 16,
         "events": 3,
         "toolTokens": 2312,
-        "envPromptTokens": 1316
+        "envPromptTokens": 1392
       },
       "changelog": {
         "versions": [
+          "0.3.8",
           "0.3.7",
           "0.3.6",
           "0.3.5",
@@ -6494,7 +6573,7 @@
       "discussion": {
         "number": 60,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/60",
-        "up": 3,
+        "up": 4,
         "down": 0,
         "comments": 0
       }

@@ -1,0 +1,138 @@
+{
+  "schema": 1,
+  "name": "cortico-world-frame-extract",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "frame_extract",
+        "description": "Extract timestamped frames from a video or animated image (GIF, APNG, WebP, MP4, WebM, MKV, MOV and other formats ffmpeg reads). The frames come back as images in chronological order; the text lists each frame time, and every image file name carries it too. Pick one sampling mode: frames = evenly spaced across the range (default), interval = one frame every N seconds, or times = explicit timestamps in seconds. start and end limit the range in seconds. Use it when motion, timing or what changes across a clip matters.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "description": "Video or animated image: an absolute path, a path relative to the bot workspace, or a log:/mem: handle."
+            },
+            "frames": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 48,
+              "description": "Evenly spaced frame count across the range; omit to use the configured default. Do not combine with interval or times."
+            },
+            "interval": {
+              "type": "number",
+              "minimum": 0.02,
+              "description": "Seconds between frames, starting at start; do not combine with frames or times."
+            },
+            "times": {
+              "type": "string",
+              "description": "Comma-separated timestamps in seconds, e.g. \"0.5, 2, 4.25\"; do not combine with frames, interval, start or end."
+            },
+            "start": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Range start in seconds; only for frames or interval. Default 0."
+            },
+            "end": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Range end in seconds; only for frames or interval. Default the clip duration."
+            },
+            "maxSize": {
+              "type": "integer",
+              "minimum": 64,
+              "maximum": 2048,
+              "description": "Long-edge pixel cap for every frame; omit to use the configured value."
+            },
+            "quality": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "JPEG quality for this call; omit to use the configured value."
+            }
+          },
+          "required": [
+            "source"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "把视频或动图按时间拆成帧，作为图片交给模型：可以均匀取样、按间隔取样或指定时间点；每帧的时间写在回执、文件名和附件说明里。",
+          "en": "Split a video or animated image into timestamped frames and return them as images: evenly spaced, every N seconds, or at explicit times; each frame time appears in the text, its file name and its attachment line."
+        }
+      },
+      {
+        "name": "frame_config",
+        "description": "Read or change the default extraction settings: frames, maxFrames, maxSize, quality, timeoutMs. status shows the current values; set saves the given keys to the config. Arguments passed to frame_extract override these for one call.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "status",
+                "set"
+              ],
+              "description": "status = show the current settings; set = save the given keys."
+            },
+            "frames": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 48,
+              "description": "Default evenly spaced frame count."
+            },
+            "maxFrames": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 48,
+              "description": "The most frames one call may take."
+            },
+            "maxSize": {
+              "type": "integer",
+              "minimum": 64,
+              "maximum": 2048,
+              "description": "Long-edge pixel cap per frame."
+            },
+            "quality": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "JPEG quality."
+            },
+            "timeoutMs": {
+              "type": "integer",
+              "minimum": 5000,
+              "maximum": 600000,
+              "description": "Extraction timeout in milliseconds."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "查看或修改默认取帧设置（帧数、单次上限、长边、JPEG 质量、超时）；改动写入配置。引擎路径只在配置页改。",
+          "en": "Read or change the default extraction settings (frame count, cap, long edge, JPEG quality, timeout); set saves them to the config. Engine paths are operator-only."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.frame-extract.env",
+        "title": "提示词",
+        "role": "envPrompt",
+        "content": ""
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "- 首个版本：`frame_extract` 工具，接受本地视频 / 动图路径或 `log:` / `mem:` 句柄，用本机 ffmpeg 拆成 JPEG 帧，作为图片附件交回模型。\n- 三种取样方式：均匀取 `frames` 帧（默认）、每 `interval` 秒一帧、按 `times` 指定时间点；`start` / `end` 限定范围。\n- 每帧的时间写进回执、图片文件名与附件说明；`maxSize` 限制长边，`quality` 控制 JPEG 质量。\n- 新增 `frame_config` 工具：桌宠可以查看或修改默认帧数、单次上限、长边、质量与超时，改动写入配置；ffmpeg / ffprobe 路径只在配置页改，桌宠不能把引擎指向任意程序。\n- 没有 npm 运行时依赖；本机需要 `ffmpeg` 与 `ffprobe`。取帧可被 interrupt 取消，句柄临时文件与帧目录在调用结束后删除。"
+  }
+}
