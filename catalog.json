@@ -150,9 +150,9 @@
       "discussion": {
         "number": 228,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-        "up": 0,
+        "up": 1,
         "down": 0,
-        "comments": 2
+        "comments": 4
       }
     },
     "better-cortico-world-netease-companion": {
@@ -2326,7 +2326,7 @@
         "number": 17,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/17",
         "up": 0,
-        "down": 0,
+        "down": 1,
         "comments": 0
       }
     },
@@ -3014,7 +3014,7 @@
     },
     "cortico-world-emote-pics": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "displayName": "对话表情包",
       "description": "让桌宠发文字消息时也能带图。你只需按情绪建立文件夹（如「开心」「眨眼」），在面板里为 19 种表情各自绑定文件夹。当桌宠表达对应情绪时，会根据你设定的概率和冷却时间，从对应情绪文件夹内随机挑一张图跟着文字发出。纯本地读取（支持常见图片格式，单张≤5MiB），仅显示在对话页。（建议和大肥鱼表情包配合食用）",
       "maintainers": [
@@ -3029,27 +3029,35 @@
         "npm": "https://www.npmjs.com/package/cortico-world-emote-pics"
       },
       "created": "2026-10-23T09:09:50.168Z",
-      "published": "2026-10-23T10:21:37.413Z",
-      "versionCount": 3,
+      "published": "2026-10-24T11:25:32.031Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
-      "tags": [],
+      "declaredTags": [
+        "internal-state"
+      ],
+      "tags": [
+        "internal-state"
+      ],
+      "icon": "assets/cortico-world-emote-pics/icon.png",
       "downloads": {
         "total": 0,
         "month": 0,
         "week": 0
       },
       "summary": {
-        "tools": 1,
+        "tools": 2,
         "events": 0,
-        "toolTokens": 334,
-        "envPromptTokens": 0
+        "toolTokens": 585,
+        "envPromptTokens": 142
       },
       "changelog": {
         "versions": [
+          "0.2.0",
+          "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-emote-pics@0.1.1/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-emote-pics@0.2.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 209,
@@ -3061,7 +3069,7 @@
     },
     "cortico-world-fatfish": {
       "kind": "world",
-      "version": "0.3.8",
+      "version": "0.3.9",
       "displayName": "大肥鱼功能复合包",
       "description": "和 DeepSeek Harness（DSH）对话让它帮你干活写代码，宠物回复时用内置语音包读出声（朗读支持 Windows 与 macOS）。桥接这半边需要先装 DSH 的 Host 插件（coopanion-connector-dsh）才会连；不会装就看源码仓库的说明，或把仓库地址交给 AI 帮你装。/ Chat with DeepSeek Harness (DSH) so it does the work — writing code for you — and hear the pet's rep",
       "locales": {
@@ -3097,8 +3105,8 @@
         "bugs": "https://github.com/blacksunshy/coopanion-fatfish/issues"
       },
       "created": "2026-10-15T06:47:52.601Z",
-      "published": "2026-10-19T07:33:11.354Z",
-      "versionCount": 13,
+      "published": "2026-10-24T11:49:02.288Z",
+      "versionCount": 14,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3122,6 +3130,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.9",
           "0.3.8",
           "0.3.7",
           "0.3.6",

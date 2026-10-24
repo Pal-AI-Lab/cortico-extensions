@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-emote-pics",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "describe": {
     "tools": [
       {
         "name": "emote_pic",
-        "description": "Maybe attach one random picture from the folder configured for an emotion. The call first rolls the emotion's chance (and its cooldown); when it does not fire, the receipt says skipped with a reason and carries no image. Use force to bypass chance and cooldown while testing. When it fires, the receipt carries the image as a [blob ...] line with a log: handle for image-sending tools. Only png, jpg, jpeg, gif and webp up to 5 MB are used.",
+        "description": "Maybe attach one random picture from the folder configured for an emotion. The call first rolls the emotion's chance (and its cooldown); when it does not fire, the receipt says skipped with a reason and carries no image. Omit emotion to use the current mood from emote_mood; without a valid mood the call is skipped. Use force to bypass chance and cooldown while testing. When it fires, the receipt carries the image as a [blob ...] line with a log: handle for image-sending tools. Only png, jpg, jpeg, gif and webp up to 5 MB are used.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -34,7 +34,7 @@
                 "cry",
                 "confused"
               ],
-              "description": "Which emotion folder to draw from."
+              "description": "Which emotion folder to draw from. Omit to use the current mood."
             },
             "avoid": {
               "type": "array",
@@ -47,10 +47,7 @@
               "type": "boolean",
               "description": "Bypass the chance roll and the cooldown; the other rules still apply. For testing."
             }
-          },
-          "required": [
-            "emotion"
-          ]
+          }
         },
         "tags": [
           "read"
@@ -59,11 +56,68 @@
           "zh": "按配置的概率决定这次出不出图;出图时从该表情的文件夹随机挑一张,作为附件交给这次对话。",
           "en": "Rolls the configured chance; when it fires, picks a random picture from that emotion folder and attaches it."
         }
+      },
+      {
+        "name": "emote_mood",
+        "description": "Record the emotion you are in right now, so your next replies know it. Stores only { emotion, setAt }; it sends no image and attaches no blob. The mood expires after the configured minutes. Pass clear: true to clear it instead.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "emotion": {
+              "type": "string",
+              "enum": [
+                "neutral",
+                "happy",
+                "wink",
+                "love",
+                "shy",
+                "surprised",
+                "angry",
+                "sad",
+                "sleepy",
+                "thinking",
+                "smug",
+                "pout",
+                "worried",
+                "determined",
+                "flustered",
+                "scared",
+                "excited",
+                "cry",
+                "confused"
+              ],
+              "description": "The emotion you are in right now."
+            },
+            "clear": {
+              "type": "boolean",
+              "default": false,
+              "description": "Clear the current mood instead of setting one."
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "记下当前心情,供之后的环境说明参考;不发图,也不产生句柄。",
+          "en": "Records the current mood for later environment notes; sends no image and produces no handle."
+        }
       }
     ],
-    "events": []
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.emote-pics.envPrompt",
+        "title": "情绪配图",
+        "role": "envPrompt",
+        "content": "## 情绪配图\n{{emotePics.text}}\n\n当前心情:{{emotePics.mood}}。心情标签是你自己上报的当前状态,只作参考;要配图仍然要你自己调 emote_pic。心情和 emotion 参数不一致时,以心情标签为准。不是每条都要配图,有情绪又合适的时候带一张就够了。\n\n心情会从你气泡里的表情标记自动更新(`【开心】`、`<眨眼>` 这类),不用每次手动上报。想在不说话时改心情、或清空,再调 emote_mood。\n\n心情不是配图义务:不传 emotion 调 emote_pic 才会用到心情;照旧是「有情绪、又合适的时候才带图」,不要为了刷新心情而发图。\n"
+      }
+    ]
   },
   "changelog": {
-    "0.1.0": "- `emote_pic` 按概率决定这次出不出图:`chance`(每个表情)、`defaultChance`、`cooldownSeconds`;\n  跳过时回执 `[skipped] {skipped, reason, chance}`,不是错误。工具新增 `force`,绕过概率与冷却。\n- 配置是 `emotions: { <表情>: { dir, chance } }`;旧 `folders` 仍按 `defaultChance` 读取。\n- 出图时从该表情的文件夹随机挑一张,作为附件交给 Core;WebUI 的表情图库面板给 19 个表情各选一个\n  文件夹、设一个概率,顶部调默认概率与冷却。"
+    "0.2.0": "- 新增「情绪配图」提示词:每次请求拼进系统前缀,让桌宠自己知道什么时候调 `emote_pic`;面板可开关、\n  改正文、恢复默认、保存,注入失败只记日志。\n- 新增 `emote_mood({ emotion })`:只记录当前心情(落盘 `data/emote-pics-mood.json`),不发图、\n  不产生句柄;心情以 `{{emotePics.mood}}` 出现在环境说明里,默认 30 分钟失效(`moodTtlMinutes`)。\n- 面板显示当前心情与剩余有效期。\n- `emote_pic` 的 `emotion` 改为可选:省略时用当前心情;没有心情就 `skipped/no_mood`,不发图。\n- 取图成功时顺手刷新心情(`moodFromPic`,默认开);`emote_mood({ clear: true })` 清空心情;\n  面板顶部显示中文心情并带「清除」。\n- 心情可以自动更新:读桌面宠 `desktop-pet.self` 事件里 `meta.beats[].mood`(气泡标记解析结果),\n  每秒扫一次、`emote_pic` 开始时再扫一次;来源记 `script`,面板显示来源与写入时间。\n- 自动感知可观测:面板第二行显示运行状态、最近扫描时间、有没有读到情绪;连续 N 条无表情或\n  T 分钟无事件时各记一次 warn,恢复记 info;阈值 `moodWatchNoMoodCount` / `moodWatchSilentMinutes`\n  可配,0 = 关。\n- 默认提示词换成「说话前先想一句、带情绪先调 emote_pic、心情从表情标记自动更新」的版本;配置里\n  还存着旧默认全文或空白时视为未自定义,注入新默认,自己写过的不覆盖。\n- 提示词的保存/恢复反馈挪到按钮行下面,固定预留高度,成功 3 秒消失、失败标红保留。",
+    "0.1.1": "- 图标与中文简介。",
+    "0.1.0": "- `emote_pic` 按概率决定这次出不出图:`chance`(每个表情)、`defaultChance`、`cooldownSeconds`;\n  跳过时回执 `[skipped] {skipped, reason, chance}`,不是错误。工具新增 `force`,绕过概率与冷却。\n- 配置是 `emotions: { <表情>: { dir, chance } }`;旧 `folders` 仍按 `defaultChance` 读取。\n- 出图时从该表情的文件夹随机挑一张,作为附件交给 Core;WebUI 的对话表情包面板给 19 个表情各选一个\n  文件夹、设一个概率,顶部调默认概率与冷却。"
   }
 }
