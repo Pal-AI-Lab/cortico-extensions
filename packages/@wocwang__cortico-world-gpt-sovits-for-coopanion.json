@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
+  "version": "0.2.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "sovits_speak",
+        "description": "Say a line aloud in your voice, after any line still playing. Emit it in the same reply as the pet_say it voices, immediately followed by that pet_say, without waiting for this result: the bubble then appears as the voice begins. Bubble markup (【…】 and <…>) is skipped, so the text can be the pet_say script verbatim.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "type": "string",
+              "maxLength": 2000,
+              "description": "The line to say."
+            }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "用 GPT-SoVITS 把一句台词念出来，排在没念完的句子后面。",
+          "en": "Says a line aloud with GPT-SoVITS, after any line still playing."
+        }
+      },
+      {
+        "name": "sovits_hush",
+        "description": "Stop the voice now: the line playing is cut and queued lines are dropped. Bubbles are not affected.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "停下正在念的句子并清空队列。",
+          "en": "Stops the line playing and drops the queue."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "gpt-sovits.state",
+        "description": {
+          "zh": "语音变为可用或不可用，随下一批事件送达。",
+          "en": "The voice became available or unavailable; delivered with the next batch of events."
+        },
+        "trigger": "piggyback"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.gpt-sovits.envPrompt",
+        "title": "GPTSovits 语音 · 环境提示词",
+        "role": "envPrompt",
+        "content": "## 语音\r\n\r\n`sovits_speak` 把一句话用你的声音从对方电脑的扬声器念出来。\r\n\r\n每次调用 `pet_say` 之前，在同一次回复里先调用 `sovits_speak`,text 与这次 `pet_say` 的 script 逐字相同(连标记照抄，标记不会被念出来),紧接着调用 `pet_say`。两个调用在同一次回复里连着发出，不要等 `sovits_speak` 的回执;这样气泡会在声音开始时出现。`pet_ask` 的问题不用念。\r\n\r\n对方让你安静，或者你要长时间专心做事时，调用 `sovits_hush` 停下声音;气泡不受影响。\r\n\r\n语音在这段提示词写下时：{{sovits.state}}。之后变为可用或不可用会以 `[gpt-sovits.state]` 事件告诉你，以最新的为准。不可用时只用 `pet_say`;被问起时如实说明。\r\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.2.1": "- README 重排：开头新增「普通用户：装完就能用」指南（安装 → 等自动下载 → 直接聊天）与常见问题\n  （第一次没声音、换音色、用自己声音、硬件要求、隐私），开发者内容移到后半。\n- 修正配置表：`voice.preset` 默认值 0.2.0 起就是 `dfy`（大肥鱼(日语)），表里还写着 `female`。",
+    "0.2.0": "- **随包带默认音色「大肥鱼(日语)」**：`assets/voices/dfy.wav` + `dfy.txt`（5.16 秒），\n  装好即用，不用自己找参考音频；原「女声 / 男声」预设仍在，可在配置里切换。\n  该参考只做了滤波（高通 80 Hz + 工频陷波），没有做谱减，保留气声与呼吸，比原样干净但不发闷。\n- 参考音频时长不在 3–10 秒时，合成前就报出实际时长；之前只拿到一个不带原因的 `HTTP 400`。\n- 修：台词里的装饰符号(♡ ★ ♪、emoji 等)会让服务端音素前端崩掉(`torch.cat(): expected a non-empty list`)。\n  合成前先把这类字符去掉；仍失败时去掉标点再重试一次（已经出过声则不重试，避免半句重复播）。\n- 新增「采样种子」(`seed`)：`-1` 每次重新采样（默认，与之前一致），填 0 或正整数则同一句逐字节可复现。\n- **配置里可选自备训练权重**：`weights.gpt`(`.ckpt`) 与 `weights.sovits`(`.pth`)，\n  自己用 GPT-SoVITS 训的模型有地方放了，两个一起填才生效。\n  启动时写进 `tts_infer.<档>.yaml`；服务在跑时改配置会调 `/set_gpt_weights` 与 `/set_sovits_weights`\n  就地换，不用重启也不打断正在播的句子。读 `.pth` 头两字节判版本，和推理档对不上时先报出来，\n  不等到加载底座才崩；语音页新增「权重来源」一行，填错了直接显示原因。",
+    "0.1.2": "- 配置里加「自定义参考音频」(选择本机 WAV)和「参考音频的台本」,不用进语音页上传也能换音色。",
+    "0.1.1": "- 随包带 audify 的预编译件，不再从 npm 装 audify:它安装时要从 GitHub 下预编译件，下不到就现场编译，没有编译工具的机器装不上。",
+    "0.1.0": "- 首个版本：`sovits_speak` / `sovits_hush`,显卡档 V5 turbo、CPU 档 v2ProPlus,已有服务、自备目录与托管安装三种后端，\n  高级模式「GPTSovits 语音」页(状态、安装、启动、音色、试听)。\n- 女声、男声两个预设音色，由 MOSS-VoiceGenerator 生成。"
+  }
+}

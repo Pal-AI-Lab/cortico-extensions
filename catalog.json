@@ -50,6 +50,76 @@
     ]
   },
   "packages": {
+    "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
+      "kind": "world",
+      "version": "0.2.1",
+      "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
+      "description": "Cortico World for Coopanion: speaks the pet's lines aloud with GPT-SoVITS (V5 on NVIDIA GPUs, a CPU tier otherwise), installing a portable runtime and weights in one click",
+      "author": "wocwang",
+      "maintainers": [
+        "wocwang"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "tts",
+        "gpt-sovits"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/@wocwang/cortico-world-gpt-sovits-for-coopanion",
+        "repository": "https://github.com/wocwang/cortico-world-gpt-sovits-for-coopanion",
+        "homepage": "https://github.com/wocwang/cortico-world-gpt-sovits-for-coopanion#readme",
+        "bugs": "https://github.com/wocwang/cortico-world-gpt-sovits-for-coopanion/issues"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-10-24T03:43:35.086Z",
+      "published": "2026-10-24T04:00:22.965Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "voice",
+        "local",
+        "experimental"
+      ],
+      "tags": [
+        "voice",
+        "local",
+        "experimental"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 1,
+        "toolTokens": 242,
+        "envPromptTokens": 177
+      },
+      "changelog": {
+        "versions": [
+          "0.2.1",
+          "0.2.0",
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/wocwang/cortico-world-gpt-sovits-for-coopanion/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 228,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "better-cortico-world-netease-companion": {
       "kind": "world",
       "version": "1.2.0",
@@ -2822,8 +2892,8 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 20,
-        "down": 2,
+        "up": 22,
+        "down": 3,
         "comments": 0
       }
     },
@@ -4055,9 +4125,19 @@
     },
     "cortico-world-netease-companion": {
       "kind": "world",
-      "version": "0.3.2",
+      "version": "0.3.3",
       "displayName": "一起听 · 网易云音乐",
-      "description": "网易云音乐陪听 World：本机曲目信息、切歌事件与节制的桌宠评论",
+      "description": "一起听，让歌单成为你和 Coo 的共同话题。切歌后参考网易云热评聊两句，评论频率与字数可调，快切不补评。Windows 非官方陪听扩展。",
+      "locales": {
+        "zh": {
+          "displayName": "一起听 · 网易云音乐",
+          "description": "一起听，让歌单成为你和 Coo 的共同话题。切歌后参考网易云热评聊两句，评论频率与字数可调，快切不补评。Windows 非官方陪听扩展。"
+        },
+        "en": {
+          "displayName": "Listen Together · NetEase Music",
+          "description": "Turn your playlist into a conversation with Coo. Track changes spark short reactions inspired by listener comments. Adjustable frequency and model-guided length, with rapid-skip protection. Unofficial Windows extension."
+        }
+      },
       "author": "oceanxuhaiao",
       "maintainers": [
         "oceanxuhaiao"
@@ -4076,8 +4156,8 @@
         "win32"
       ],
       "created": "2026-10-22T08:31:23.597Z",
-      "published": "2026-10-22T09:22:48.234Z",
-      "versionCount": 3,
+      "published": "2026-10-24T04:49:13.515Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4094,6 +4174,7 @@
         "experimental",
         "sensitive-data"
       ],
+      "icon": "assets/cortico-world-netease-companion/icon.png",
       "downloads": {
         "total": 529,
         "month": 529,
@@ -4107,6 +4188,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.3",
           "0.3.2",
           "0.3.1",
           "0.3.0",
@@ -4115,7 +4197,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-netease-companion@0.3.2/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-netease-companion@0.3.3/CHANGELOG.md"
       },
       "discussion": {
         "number": 183,
@@ -4127,7 +4209,7 @@
     },
     "cortico-world-netlingo": {
       "kind": "world",
-      "version": "0.3.3",
+      "version": "0.3.5",
       "displayName": "网络语言",
       "description": "让 Coo 可以自己总结、自己上网搜索并保存梗到本地的扩展,建议搭配各大佬的 QQ 接入扩展使用;也可以当作一个互联网接口使用,查网络用语、热榜与评论区。",
       "locales": {
@@ -4163,8 +4245,8 @@
         "bugs": "https://github.com/danhuangpaii/cortico-world-netlingo/issues"
       },
       "created": "2026-10-22T16:36:33.230Z",
-      "published": "2026-10-23T09:17:31.516Z",
-      "versionCount": 7,
+      "published": "2026-10-24T04:50:15.315Z",
+      "versionCount": 9,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4173,8 +4255,7 @@
       ],
       "tags": [
         "internet",
-        "companion",
-        "injection-risk"
+        "companion"
       ],
       "downloads": {
         "total": 407,
@@ -4182,13 +4263,15 @@
         "week": 407
       },
       "summary": {
-        "tools": 15,
+        "tools": 16,
         "events": 3,
-        "toolTokens": 2132,
-        "envPromptTokens": 1062
+        "toolTokens": 2312,
+        "envPromptTokens": 1195
       },
       "changelog": {
         "versions": [
+          "0.3.5",
+          "0.3.4",
           "0.3.3",
           "0.3.2",
           "0.3.1",
