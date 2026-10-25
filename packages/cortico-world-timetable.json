@@ -1,0 +1,239 @@
+{
+  "schema": 1,
+  "name": "cortico-world-timetable",
+  "version": "0.2.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "timetable_import",
+        "description": "Write a whole timetable in one call: the course entries, the period start times, the term and its length. Parse the image or text yourself first, including the time column beside the periods; everything omitted from the timetable is filled in here, so the user never has to type times in the settings. Call it again with mode \"append\" to add or fix single entries.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "courses": {
+              "type": "array",
+              "description": "One entry per course slot. A course on two weekdays is two entries.",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Course name."
+                  },
+                  "weekday": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 7,
+                    "description": "1=Monday … 7=Sunday."
+                  },
+                  "startPeriod": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "First period of the slot."
+                  },
+                  "endPeriod": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Last period of the slot."
+                  },
+                  "weeks": {
+                    "type": "string",
+                    "description": "Week spec: \"1-16\", \"1-16 odd\", \"2-16 even\", \"1-8,10-16\". Omit for the whole term."
+                  },
+                  "teacher": {
+                    "type": "string",
+                    "description": "Teacher."
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "Room or building."
+                  },
+                  "note": {
+                    "type": "string",
+                    "description": "Anything else worth keeping."
+                  }
+                },
+                "required": [
+                  "name",
+                  "weekday",
+                  "startPeriod",
+                  "endPeriod"
+                ]
+              }
+            },
+            "periods": {
+              "type": "array",
+              "description": "Start (and if printed, end) time of each period, taken from the timetable's time column. Pass every period the grid uses; they are written into the settings so the user never types times.",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "period": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 30,
+                    "description": "Period number, 1-based."
+                  },
+                  "start": {
+                    "type": "string",
+                    "description": "HH:MM, when the period starts."
+                  },
+                  "end": {
+                    "type": "string",
+                    "description": "HH:MM, when it ends. Optional; used to size a period."
+                  }
+                },
+                "required": [
+                  "period",
+                  "start"
+                ]
+              }
+            },
+            "termStart": {
+              "type": "string",
+              "description": "Monday of week 1, YYYY-MM-DD, when the timetable states it. Omit to let the extension derive it."
+            },
+            "currentWeek": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30,
+              "description": "Which week the current week is, when the timetable or the user says so. Omit when unknown: the extension then takes this week as week 1, derives termStart from it and says so in the receipt."
+            },
+            "totalWeeks": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30,
+              "description": "Weeks in the term. Omit to take the largest week in the timetable."
+            },
+            "mode": {
+              "type": "string",
+              "enum": [
+                "replace",
+                "append"
+              ],
+              "description": "replace (default) rewrites the table; append merges entries by name and weekday."
+            },
+            "sourceNote": {
+              "type": "string",
+              "description": "Where this came from, e.g. \"photo of the timetable the user sent\"."
+            }
+          },
+          "required": [
+            "courses"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "一次写入整张课表：课程、节次时间、学期与周数一起配好，使用者不用手填时间。",
+          "en": "Writes a whole timetable in one call: courses, period times, term start and length, so nobody types times by hand."
+        }
+      },
+      {
+        "name": "timetable_list",
+        "description": "Read the course schedule: today, tomorrow, the next seven days, the next class, or every entry. Times are computed from the configured period start times.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "scope": {
+              "type": "string",
+              "enum": [
+                "today",
+                "tomorrow",
+                "week",
+                "next",
+                "all"
+              ],
+              "description": "today (default), tomorrow, week = next seven days, next = the next class only, all = every entry grouped by weekday."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查今天、明天、这一周、下一节或全部课程，回执带算好的起止时间。",
+          "en": "Reads today, tomorrow, the next seven days, the next class or every entry."
+        }
+      },
+      {
+        "name": "timetable_status",
+        "description": "Show the schedule settings in effect: term start, total weeks, current week, number of entries, next class, reminder settings and the data file.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看学期设置、课程条数、下一节课、提醒配置与数据文件。",
+          "en": "Shows term settings, entry count, next class, reminder settings and the data file."
+        }
+      },
+      {
+        "name": "timetable_clear",
+        "description": "Clear the whole timetable, or remove one course by name.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "scope": {
+              "type": "string",
+              "enum": [
+                "all",
+                "course"
+              ],
+              "description": "all (default) or course."
+            },
+            "name": {
+              "type": "string",
+              "description": "Course name to remove when scope is \"course\"."
+            }
+          }
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "清空课表，或按课程名删掉一条。",
+          "en": "Clears the timetable or removes one course by name."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "timetable.reminder",
+        "description": {
+          "zh": "上课提醒：提前若干分钟一次，上课时刻可以再来一次。带课程、节次、周次与地点。",
+          "en": "A class reminder, sent ahead of time and optionally again at the start, with course, periods, week and location."
+        }
+      },
+      {
+        "type": "timetable.daily",
+        "description": {
+          "zh": "每日课表汇总：到设定时间把当天的课一次列出。",
+          "en": "The daily digest listing every class of the day at the configured time."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.timetable.envPrompt",
+        "title": "课程表 · 环境提示词",
+        "role": "envPrompt",
+        "content": "课程表：使用者有一份课程表，存在这台电脑上，按节次定时提醒。\n\n- 使用者发来课表图片或文字时，**一次就配好**：自己把图读全，然后只调一次 `timetable_import`。\n  - `courses`：每条课的星期、起止节次、周次（单双周分开写）、地点、老师、备注。\n  - `periods`：图左侧／上方那一列「第几节 几点到几点」，按 `{period, start, end}` 全部传进来。这一项决定提醒准不准，不要留空、也不要问使用者。\n  - `currentWeek`：图上写了「第几周」或是使用者说了，就传；完全看不出来就省略，扩展按本周为第 1 周倒推学期，并在回执里请使用者确认一次。\n  - `termStart`：图上印了学期起止或第一周日期才传；一般不用传。\n- 导入完回执里会说「学期是第几周推到哪天、节次时间读到了多少节」。只有周次是猜的才需要跟使用者确认一句；节次时间是从图里读的，不用请他核对，除非回执明说没读出来。\n- 问「今天/明天/这周有什么课」「下一节是什么」时用 `timetable_list`；看配置用 `timetable_status`。别凭记忆答。\n- 上课提醒是课表自己定时推来的 `timetable.reminder` 事件：提前那条写「还有 N 分钟」，上课时刻那条写「现在开始」。收到后一句话告诉使用者上什么课、几点、在哪；使用者说过要发 QQ 的，同时用 `qq_draft` 发一条，没这个工具就只在桌宠说。它是系统提醒，不是使用者说的话。\n- 每天固定时间的 `timetable.daily` 是当天全部课的汇总，使用者没主动问也可以简单带一句。\n- 调课、换教室补一条就行（`mode: \"append\"` 会按「星期 + 开始节次 + 课程名」覆盖同名条目）；整学期换了课表才整表重写。\n- 设置页里的学期、周数、节次时间都由导入写好，不需要使用者手填；他若自己改了，以设置页为准。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.2.1": "首个发布到 npm 的版本，内容与 0.2.0 相同（0.2.0 在 npm 上因暂存冲突没发出去，包名已被本账号占住）。\n\n- 一次导入配好：课程、节次时间、学期、周数。\n- 上课提醒事件 `timetable.reminder`（提前 + 上课时刻），每日汇总 `timetable.daily`。",
+    "0.2.0": "扔一张课表就配好，不用再手填时间。\n\n- `timetable_import` 新增 `periods`：从课表图里的「节次—时间」列读出每节开始（和结束）时间，直接写进 `worlds.timetable.periodTimes`，并据读到的时长定 `periodMinutes`；图里只给了部分节次时，空档按相邻档位补。\n- 新增 `currentWeek`：课表或使用者说了「这周第几周」就按它倒推学期第一周的周一；都没说时按本周为第 1 周推算，并在回执里请你确认一次。\n- `totalWeeks` 省略时取课表里最大的周次（例如 `1-16` → 16 周）。\n- 回执改成报告「学期怎么来的、节次读到了几节、覆盖哪些周」，只有周次是猜的才需要确认。\n- 环境提示词改成：一次调用写全课程 + 节次时间 + 学期，不要问使用者时间细节。",
+    "0.1.0": "首个版本。\n\n- World `timetable`：`timetable_import`、`timetable_list`、`timetable_status`、`timetable_clear`。\n- 课表按节次算时刻：`periodTimes` + `periodMinutes`，周次支持 `1-16`、单双周、逗号分段。\n- 提醒事件 `timetable.reminder`：提前 N 分钟 + 上课时刻（可关）；每天汇总 `timetable.daily`（默认关）。\n- 提醒去重落盘到 `timetable-courses.json` 的 `fired`，重启不重复提醒。\n- 配置页「课程表」：学期、提醒、节次时刻，全部热改；数据页签可清除课表。"
+  }
+}

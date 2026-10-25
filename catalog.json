@@ -291,7 +291,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/214",
         "up": 1,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-bot-continuity": {
@@ -2116,7 +2116,7 @@
       "discussion": {
         "number": 189,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/189",
-        "up": 4,
+        "up": 5,
         "down": 0,
         "comments": 0
       }
@@ -3710,7 +3710,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
         "up": 38,
         "down": 5,
-        "comments": 15
+        "comments": 16
       }
     },
     "cortico-world-figure-persona": {
@@ -4075,7 +4075,7 @@
     },
     "cortico-world-hands": {
       "kind": "world",
-      "version": "0.17.0",
+      "version": "0.19.0",
       "displayName": "手",
       "description": "Cortico World: hands for the desktop pet — looks at the phone screen, then taps, swipes, pinches, drags, types and presses keys through whatever actuator the device actually has",
       "maintainers": [
@@ -4093,8 +4093,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-hands"
       },
       "created": "2026-10-22T14:40:37.506Z",
-      "published": "2026-10-25T09:10:22.186Z",
-      "versionCount": 35,
+      "published": "2026-10-25T19:39:32.491Z",
+      "versionCount": 37,
       "official": false,
       "isNew": true,
       "tags": [
@@ -6517,7 +6517,7 @@
       "discussion": {
         "number": 39,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/39",
-        "up": 11,
+        "up": 12,
         "down": 0,
         "comments": 1
       }
@@ -7691,6 +7691,69 @@
         "comments": 0
       }
     },
+    "cortico-world-skills": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "技能与脚本",
+      "description": "给 Cortico / Coopanion 桌宠加一套做法库（skill）与受限脚本执行能力，常驻上下文只增加索引。",
+      "locales": {
+        "en": {
+          "displayName": "Skills & Scripts"
+        }
+      },
+      "author": "空城",
+      "maintainers": [
+        "kongcheng-123"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "desktop-pet",
+        "companion",
+        "skill"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-skills"
+      },
+      "created": "2026-10-25T17:45:46.152Z",
+      "published": "2026-10-25T17:46:41.987Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion"
+      ],
+      "tags": [
+        "companion"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 0,
+        "toolTokens": 335,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-skills@0.1.1/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 289,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/289",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-snowluma": {
       "kind": "world",
       "version": "0.1.0",
@@ -8112,17 +8175,17 @@
     },
     "cortico-world-streamvoice": {
       "kind": "world",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "displayName": "流式语音播报",
-      "description": "流式语音播报：订阅主 session 的输出增量，从台词参数里边生成边按句切块，第一块立刻合成播放，后面排队连播。音色、语速、音调、音量、念哪些内容、切块长度、块间停顿都是自己的配置，面板上可以逐个试听 / Streaming speech: chunks the line as it streams out of the model and speaks the first sentence before the reply is finished. Voice, rate, pitch, volume",
+      "description": "流式语音播报：订阅主 session 的输出增量，从台词参数里边生成边按句切块，第一块立刻合成播放，后面排队连播。合成引擎可切：微软 Edge 朗读接口，或任何 OpenAI 兼容的语音服务（只填根地址，模型与音色点一下就能探测出来）。音色、语速、念哪些内容、切块长度、块间停顿都是自己的配置，面板上可以逐个试听 / Streaming speech: chunks the line as it streams out of the model and speaks the first sentence b",
       "locales": {
         "zh": {
           "displayName": "流式语音播报",
-          "description": "边生成边朗读：模型还在写，第一句已经出声。音色、语速、音调、音量、念什么、切块与停顿都在自己的配置页里，面板上还能逐个试听，不依赖别的扩展。"
+          "description": "边生成边朗读：模型还在写，第一句已经出声。合成走 Edge 朗读接口，或任何 OpenAI 兼容的语音服务——只填根地址，点一次「连接测试」就能把后端支持的音色与模型拉出来直接选。音色、念什么、切块与停顿都在自己的配置页里，只显示当前引擎那一组，不依赖别的扩展。"
         },
         "en": {
           "displayName": "Streaming speech",
-          "description": "Speaks the reply as it is written: the first sentence is heard before the model finishes. Voice, rate, pitch, volume, what is read and pacing are its own settings, with a built-in audition; no dependency on other extensions."
+          "description": "Speaks the reply as it is written: the first sentence is heard before the model finishes. Synthesise through Microsoft Edge or any OpenAI-compatible speech service — enter the base URL and one connection test pulls the voices and models the backend offers. Only the active engine is shown, and nothing is read from other extensions."
         }
       },
       "author": "xww",
@@ -8136,6 +8199,8 @@
         "tts",
         "streaming",
         "edge-tts",
+        "openai-tts",
+        "local-tts",
         "speech"
       ],
       "links": {
@@ -8149,8 +8214,8 @@
         "darwin"
       ],
       "created": "2026-10-22T06:56:30.519Z",
-      "published": "2026-10-22T09:21:22.466Z",
-      "versionCount": 4,
+      "published": "2026-10-25T18:31:20.746Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -8172,11 +8237,12 @@
       "summary": {
         "tools": 3,
         "events": 0,
-        "toolTokens": 870,
+        "toolTokens": 1599,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.5.0",
           "0.4.0",
           "0.3.2",
           "0.3.1"
@@ -8576,6 +8642,74 @@
         "up": 8,
         "down": 2,
         "comments": 5
+      }
+    },
+    "cortico-world-timetable": {
+      "kind": "world",
+      "version": "0.2.1",
+      "displayName": "课程表",
+      "description": "Coopanion 课程表 World：把课表读成课程表，按节次定时提醒上课（桌宠气泡，或交给 QQ 世界发送）",
+      "locales": {
+        "zh": {
+          "displayName": "课程表",
+          "description": "识图或照文字写入课表，按节次定时提醒上课；提醒经桌宠气泡，也可让 bot 用 qq_draft 发到 QQ。"
+        },
+        "en": {
+          "displayName": "Timetable",
+          "description": "Store a class timetable and get reminded before each class. Reminders reach the pet bubble, or QQ through the bot's qq_draft tool."
+        }
+      },
+      "maintainers": [
+        "ycayuri"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "timetable",
+        "course-schedule",
+        "reminder"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-timetable"
+      },
+      "created": "2026-10-25T19:12:44.847Z",
+      "published": "2026-10-25T19:15:18.432Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion"
+      ],
+      "tags": [
+        "companion"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 2,
+        "toolTokens": 1203,
+        "envPromptTokens": 425
+      },
+      "changelog": {
+        "versions": [
+          "0.2.1",
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-timetable@0.2.1/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 290,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/290",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-todo-alont1": {
@@ -9054,9 +9188,9 @@
     },
     "cortico-world-websearch": {
       "kind": "world",
-      "version": "0.2.7",
+      "version": "0.2.8-0",
       "displayName": "WebSearch",
-      "description": "Cortico World: a web_search tool backed by the Brave Search API",
+      "description": "Cortico World: a web_search tool backed by the Brave Search API or the DeepSeek Search API",
       "author": "Pal AI Lab",
       "maintainers": [
         "phantivia"
@@ -9066,7 +9200,8 @@
         "cortico-world",
         "cortico",
         "websearch",
-        "brave-search"
+        "brave-search",
+        "deepseek"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-websearch",
@@ -9075,8 +9210,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:50.954Z",
-      "published": "2026-10-24T20:22:12.480Z",
-      "versionCount": 18,
+      "published": "2026-10-25T19:06:00.691Z",
+      "versionCount": 19,
       "official": true,
       "isNew": false,
       "tags": [

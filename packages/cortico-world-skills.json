@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "name": "cortico-world-skills",
+  "version": "0.1.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "skill_list",
+        "description": "列出所有技能文档的名字和触发条件。不确定该怎么做、或者要动手做一件事之前，先看这里有没有对应技能。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "列出所有可用的技能文档",
+          "en": "List available skill documents"
+        }
+      },
+      {
+        "name": "skill_read",
+        "description": "读一份技能文档的全文，照着做。名字先用 skill_list 查，传文件名或技能名都行。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "技能名或者文件名"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读一份技能的全文",
+          "en": "Read one skill document in full"
+        }
+      },
+      {
+        "name": "script_list",
+        "description": "列出当前能跑的脚本，以及当前是什么权限模式。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "列出可执行的脚本和权限模式",
+          "en": "List runnable scripts and current mode"
+        }
+      },
+      {
+        "name": "script_run",
+        "description": "跑一个脚本。白名单模式下传 alias；不限模式下传 command 和 args。跑之前先用 script_list 看有什么可跑。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "alias": {
+              "type": "string",
+              "description": "白名单里的名字"
+            },
+            "command": {
+              "type": "string",
+              "description": "不限模式下的可执行文件"
+            },
+            "args": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "不限模式下的参数"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "执行一个脚本",
+          "en": "Run a script"
+        }
+      }
+    ],
+    "events": []
+  },
+  "changelog": {
+    "0.1.1": "**修的 bug**\n- 从 npm 或 GitHub 安装后 `docs/` 和 `examples/` 缺失，README 里的文档链接全部失效。`.npmignore` 原来只该排除自测脚本",
+    "0.1.0": "首个版本。\n\n**新增**\n- 做法库机制：扫描 `.md` 文件，索引常驻、正文按需读取\n- `skill_list` / `skill_read` 两个工具\n- `script_list` / `script_run` 两个工具\n- 脚本执行两档权限：白名单、不限\n- 路径防穿越、执行超时、输出截断\n\n**实测数据**\n- 两份做法时环境段 236 字符\n- 四个工具全部注册成功\n- 路径穿越、超时、截断、元字符拦截逐项验证通过"
+  }
+}
