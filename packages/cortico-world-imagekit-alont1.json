@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-imagekit-alont1",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "describe": {
     "tools": [
       {
@@ -34,7 +34,7 @@
       },
       {
         "name": "image_download",
-        "description": "把一张图下载到自己的 workspace/avatar/ 目录（只收图片，限大小），返回文件名。",
+        "description": "把一张图下载到本扩展的数据目录（只收图片，限大小），返回路径。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -56,13 +56,13 @@
           "write"
         ],
         "summary": {
-          "zh": "下载图片到 workspace/avatar",
-          "en": "Download an image into workspace/avatar"
+          "zh": "下载图片到扩展数据目录",
+          "en": "Download an image into extension data"
         }
       },
       {
         "name": "image_list",
-        "description": "看看 workspace/avatar/ 里已经有哪些图。",
+        "description": "看看本扩展 avatar 目录里已经有哪些图。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -99,5 +99,8 @@
       }
     ],
     "events": []
+  },
+  "changelog": {
+    "0.2.0": "- 下载保存到部署 dataDir/imagekit/avatar，自有目录不写 Persona 工作区。\n- 搜索及下载检查 HTTP 状态、超时和流式大小上限。\n- 面板保留快速交替启停的最终停止，显示执行中调用与耗时，按 failed:true 统计失败；面板代码随包内置。\n- 按 Cortico 0.2.7 的 World API 6 / Bot API 7 检查适用契约；单包产物不引入其他扩展。\n\n迁移：新图片为部署 dataDir/imagekit/avatar；旧 workspace/avatar 原位保留，按需手动复制选定图片。"
   }
 }

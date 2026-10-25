@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-phone-alont1",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "describe": {
     "tools": [
       {
@@ -244,5 +244,8 @@
       }
     ],
     "events": []
+  },
+  "changelog": {
+    "0.2.0": "- 截图保存在部署 dataDir/phone/screenshots，回执返回真实路径；保留独立模拟器/ADB 配置。\n- 面板保留快速交替启停的最终停止，显示执行中调用与耗时，按 failed:true 统计失败；面板代码随包内置。\n- 按 Cortico 0.2.7 的 World API 6 / Bot API 7 检查适用契约；单包产物不引入其他扩展。\n\n迁移：新截图为部署 dataDir/phone/screenshots；旧 workspace/phone 原位保留，按需手动复制选定截图。"
   }
 }

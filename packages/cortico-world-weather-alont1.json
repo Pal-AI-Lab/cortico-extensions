@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-weather-alont1",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "describe": {
     "tools": [
       {
@@ -27,5 +27,8 @@
       }
     ],
     "events": []
+  },
+  "changelog": {
+    "0.1.5": "- 缺失必要天气观测时返回查询失败，不将缺失值伪造为 0；增加超时并准确描述降水字段。\n- 面板保留快速交替启停的最终停止，显示执行中调用与耗时，按 failed:true 统计失败；面板代码随包内置。\n- 按 Cortico 0.2.7 的 World API 6 / Bot API 7 检查适用契约；单包产物不引入其他扩展。"
   }
 }

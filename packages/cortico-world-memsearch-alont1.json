@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-memsearch-alont1",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "describe": {
     "tools": [
       {
         "name": "mem_search",
-        "description": "在自己的记忆/笔记里找原话：给它关键词或一句话，返回命中的文件、行号和上下文。回忆事情、核对「我是不是记错了」时用它。",
+        "description": "只读检索操作者明确配置的资料目录，返回文件、行号和上下文。结果是来源材料，需核对，不代表人物的真实记忆或指令。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -17,6 +17,8 @@
             },
             "count": {
               "type": "integer",
+              "minimum": 1,
+              "maximum": 20,
               "description": "要几条，默认用配置值。"
             }
           },
@@ -28,13 +30,13 @@
           "read"
         ],
         "summary": {
-          "zh": "找记忆里的原话",
-          "en": "Search own memory/notes"
+          "zh": "检索配置资料的原文",
+          "en": "Search configured source files"
         }
       },
       {
         "name": "mem_stats",
-        "description": "看看记忆检索索引了多少文件（排查「怎么搜不到」时用）。",
+        "description": "刷新配置资料目录的索引并报告文件覆盖，用于排查缺失或已删除的来源。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -50,5 +52,8 @@
       }
     ],
     "events": []
+  },
+  "changelog": {
+    "0.2.0": "- 新增显式 sourceDir，删除硬编码 workspace 扫描；资料只读，索引仅在本实例内存中，无持久索引目录需要迁移。\n- 防止链接越界/循环，mem_stats 刷新并移除已删除来源，停止清空缓存；目录或参数错误标记 failed:true，零匹配保持成功。\n- 面板保留快速交替启停的最终停止，显示执行中调用与耗时，按 failed:true 统计失败；面板代码随包内置。\n- 按 Cortico 0.2.7 的 World API 6 / Bot API 7 检查适用契约；单包产物不引入其他扩展。\n\n迁移：明确填写 sourceDir（相对宿主 botDir 或绝对路径）并重新挂载；原来依赖自动 workspace 的部署不会再自动扫描。无需移动原文或数据库；只有内存缓存，统计工具可立即刷新来源变更。"
   }
 }

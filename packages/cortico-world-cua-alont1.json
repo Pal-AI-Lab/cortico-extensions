@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-cua-alont1",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "describe": {
     "tools": [
       {
@@ -102,7 +102,7 @@
       },
       {
         "name": "cua_scroll",
-        "description": "把鼠标移到 (x, y) 滚动滚轮。delta 为正向下、为负向上（单位=一格）。",
+        "description": "把鼠标移到 (x, y) 滚动滚轮。delta 为正向下、为负向上（单位=一\"格\"）。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -146,12 +146,13 @@
       },
       {
         "name": "cua_key",
-        "description": "按键或组合键。组合用 + 连：ctrl+s、alt+tab；多个键用逗号分先后。",
+        "description": "按键或组合键。组合用 + 连：ctrl+s、alt+tab、shift+enter；多个键用逗号分先后：ctrl+a, delete。",
         "parameters": {
           "type": "object",
           "properties": {
             "keys": {
-              "type": "string"
+              "type": "string",
+              "description": "如 ctrl+s 或 ctrl+a, delete"
             }
           },
           "required": [
@@ -164,7 +165,7 @@
       },
       {
         "name": "cua_windows",
-        "description": "列出可见的顶层窗口：标题、位置、是否最小化、是否前台。",
+        "description": "列出可见的顶层窗口：标题、位置（物理像素）、是否最小化、是否前台。",
         "parameters": {
           "type": "object",
           "properties": {}
@@ -175,7 +176,7 @@
       },
       {
         "name": "cua_focus",
-        "description": "把一个窗口切到前台（最小化的先还原）。title 用标题里的连续几个字。",
+        "description": "把一个窗口切到前台（最小化的先还原）。title 用标题里的连续几个字，不必写全。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -193,7 +194,7 @@
       },
       {
         "name": "cua_wait",
-        "description": "等待若干秒（最多 30）让界面加载，然后附一张截图。",
+        "description": "等待若干秒（最多 30）让界面加载，然后附一张截图。等待本身不消耗别的东西。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -211,12 +212,13 @@
       },
       {
         "name": "cua_free_play",
-        "description": "申请自己玩一段时间。只是记一笔；主人在聊天里同意后，你自己调 cua_free_allow 开时间。",
+        "description": "申请一段自己玩电脑的时间。这一步只是记一笔；主人在聊天里（QQ/控制台都算）说「行/好/允许」之后，你自己调 cua_free_allow 开时间，不需要他点任何按钮。",
         "parameters": {
           "type": "object",
           "properties": {
             "minutes": {
-              "type": "integer"
+              "type": "integer",
+              "description": "想玩几分钟；不填用配置值。"
             }
           }
         },
@@ -230,7 +232,7 @@
       },
       {
         "name": "cua_free_allow",
-        "description": "主人已经在聊天里同意：调它给自己开一段自由时间。",
+        "description": "主人已经同意（聊天里说「行/好/允许」都算）：调它给自己开一段自由时间。minutes 可不填，用配置值。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -353,5 +355,8 @@
         "content": "## 电脑操作\n\n你能看到并操作这台 {{cua.os}} 电脑的主屏幕：{{cua.control}}。\n\n- 截图缩放到 {{cua.shot}} 像素，上面画着光标；**所有工具的坐标都用这张截图的像素**。\n- 操作类工具做完会附一张新截图，用它确认结果再决定下一步。\n- 快捷键可靠时优先用键盘：`cua_key` 按组合键，`cua_type` 打字（先点中输入框）。{{cua.keys}}\n- 找不到窗口先 `cua_windows` 列出来，再 `cua_focus` 切过去。\n\n### 和使用者共用这台电脑\n\n{{cua.permission}}\n\n使用者也在用这台电脑：他动过鼠标或键盘后，你的操作会先等使用者静止 {{cua.idle}} 秒；\n使用者一直在用，操作就不执行。打字途中使用者一动，打字会停在已打出的地方。\n\n### 需要使用者自己来的事\n\n登录、输入密码、验证码、支付、双重验证这些步骤停下来，告诉使用者该做什么，等他完成。\n发送消息、删除文件、提交表单、购买这类做了就收不回的操作，先问过使用者再做。\n\n### 自己玩\n\n{{cua.freeplay}}\n\n想自己玩的时候用 `cua_free_play` 申请。申请只是记一笔，**开关在你手里**：\n主人在聊天里（QQ、控制台都算）说「行」「好」「允许」之后，**你直接调 `cua_free_allow` 给时间**——\n不需要他去点任何按钮，也不要说「等控制台批准」。他没回或者不同意，就用 `cua_free_deny` 记一下，\n然后回去做自己的事，别一直申请。\n\n自由时间里越过危险线的动作（支付、密码、验证码、删除、设置、退出、发消息）不会执行，\n工具会返回「已挂起」并给你一个**编号**。这时你要做的是：把这件事在聊天里告诉主人、问他同不同意；\n他说行，就用那个编号调 `cua_danger_allow(id=编号)` 执行；他说不行就 `cua_danger_deny(id=编号)`。\n他没回之前别自己重试，可以先做别的、不危险的事。\n"
       }
     ]
+  },
+  "changelog": {
+    "0.2.5": "- 停止时清空待授权动作、自由时间和宿主引用；定时事件只报告可核对事实。\n- 工具描述与参数由同一份声明供运行时和自描述使用。\n- 面板保留快速交替启停的最终停止，显示执行中调用与耗时，按 failed:true 统计失败；面板代码随包内置。\n- 按 Cortico 0.2.7 的 World API 6 / Bot API 7 检查适用契约；单包产物不引入其他扩展。"
   }
 }

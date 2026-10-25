@@ -1,5 +1,8 @@
 {
   "schema": 1,
   "name": "cortico-frugal-alont1",
-  "version": "1.0.2"
+  "version": "1.0.3",
+  "changelog": {
+    "1.0.3": "- 兼容 UTF-8 BOM，修改前创建时间戳加 UUID 的唯一原文件备份，完整写入临时文件后替换配置；发现源文件并发变化时取消本次替换。\n- 未指定 activeProvider 且存在多个端点时要求明确选择，拒绝部署名和端点名的目录穿越。保持独立 CLI，不挂载为 World；没有跨进程锁，--apply 仍须在维护窗口执行，原数据不迁移。\n- 独立 CLI；使用 Node.js 24 验证，不冒充 Cortico World/Bot 扩展。"
+  }
 }

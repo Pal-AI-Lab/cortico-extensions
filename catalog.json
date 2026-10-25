@@ -16,7 +16,20 @@
     "cortico-world-civ6-assistant": [
       "sensitive-data"
     ],
+    "cortico-world-clipboard-alont1": [
+      "sensitive-data"
+    ],
     "cortico-world-coocowork": [
+      "sensitive-data"
+    ],
+    "cortico-world-cua-alont1": [
+      "sensitive-data",
+      "unsafe"
+    ],
+    "cortico-world-diary-alont1": [
+      "sensitive-data"
+    ],
+    "cortico-world-downloads-alont1": [
       "sensitive-data"
     ],
     "cortico-world-gaming-alont1": [
@@ -37,11 +50,21 @@
     "cortico-world-mcp": [
       "unsafe"
     ],
+    "cortico-world-mood-alont1": [
+      "sensitive-data"
+    ],
     "cortico-world-netease-companion": [
       "sensitive-data"
     ],
     "cortico-world-perch": [
       "sensitive-data"
+    ],
+    "cortico-world-phone-alont1": [
+      "sensitive-data",
+      "unsafe"
+    ],
+    "cortico-world-playground-alont1": [
+      "unsafe"
     ],
     "cortico-world-qiandengji": [
       "unsafe"
@@ -52,6 +75,9 @@
     "cortico-world-qq-promax": [
       "sensitive-data",
       "unsafe"
+    ],
+    "cortico-world-real-alont1": [
+      "sensitive-data"
     ],
     "cortico-world-speechreview": [
       "sensitive-data"
@@ -157,7 +183,7 @@
       "discussion": {
         "number": 228,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-        "up": 2,
+        "up": 3,
         "down": 0,
         "comments": 8
       }
@@ -512,7 +538,7 @@
     },
     "cortico-bot-xiaoshen-alont1": {
       "kind": "bot",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "displayName": "小深",
       "description": "小深人格的 Cortico bot 扩展（默认种子已脱敏，可替换）",
       "author": "ALonT1",
@@ -529,13 +555,12 @@
         "npm": "https://www.npmjs.com/package/cortico-bot-xiaoshen-alont1"
       },
       "created": "2026-10-19T04:59:47.463Z",
-      "published": "2026-10-23T09:41:29.889Z",
-      "versionCount": 5,
+      "published": "2026-10-25T06:49:26.718Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
-        "companion",
-        "internal-state"
+        "companion"
       ],
       "tags": [
         "companion"
@@ -548,6 +573,12 @@
       "summary": {
         "worlds": 1,
         "memory": "GitMem"
+      },
+      "changelog": {
+        "versions": [
+          "0.1.4"
+        ],
+        "url": "https://unpkg.com/cortico-bot-xiaoshen-alont1@0.1.4/CHANGELOG.md"
       },
       "discussion": {
         "number": 122,
@@ -617,7 +648,7 @@
     },
     "cortico-frugal-alont1": {
       "kind": "world",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "description": "Cortico bot 省 token 体检：先按账本量出钱花在哪，再按规则收紧那些「一轮太贵」的配置项（只收紧、先备份、默认只看不改）",
       "author": "ALonT1",
       "maintainers": [
@@ -635,8 +666,8 @@
         "npm": "https://www.npmjs.com/package/cortico-frugal-alont1"
       },
       "created": "2026-09-28T08:40:38.635Z",
-      "published": "2026-10-23T09:43:18.297Z",
-      "versionCount": 3,
+      "published": "2026-10-25T06:50:59.201Z",
+      "versionCount": 4,
       "official": false,
       "isNew": false,
       "tags": [
@@ -646,6 +677,12 @@
         "total": 419,
         "month": 419,
         "week": 216
+      },
+      "changelog": {
+        "versions": [
+          "1.0.3"
+        ],
+        "url": "https://unpkg.com/cortico-frugal-alont1@1.0.3/CHANGELOG.md"
       },
       "discussion": {
         "number": 3,
@@ -1067,7 +1104,7 @@
     },
     "cortico-world-affinity-alont1": {
       "kind": "world",
-      "version": "0.1.17",
+      "version": "0.2.0",
       "description": "好感度 World：按账号记住关系分数与档位，模型回话前查一下该用什么态度；分数可涨可跌，还会随疏远衰减",
       "author": "ALonT1",
       "maintainers": [
@@ -1082,13 +1119,21 @@
         "npm": "https://www.npmjs.com/package/cortico-world-affinity-alont1"
       },
       "created": "2026-09-20T15:31:26.043Z",
-      "published": "2026-10-23T09:41:42.172Z",
-      "versionCount": 12,
+      "published": "2026-10-25T06:48:45.795Z",
+      "versionCount": 13,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "im",
+        "qq",
+        "companion",
+        "memory",
+        "internal-state"
+      ],
       "tags": [
         "im",
         "qq",
+        "memory",
         "companion",
         "internal-state",
         "requires-extension"
@@ -1101,8 +1146,14 @@
       "summary": {
         "tools": 4,
         "events": 1,
-        "toolTokens": 833,
-        "envPromptTokens": 947
+        "toolTokens": 831,
+        "envPromptTokens": 312
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-affinity-alont1@0.2.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 7,
@@ -1262,7 +1313,7 @@
     },
     "cortico-world-album-alont1": {
       "kind": "world",
-      "version": "0.1.14",
+      "version": "0.1.15",
       "description": "相册 World：把收到过、发出去的图存成一份能翻的册子——按人、按时间、按会话都找得回来，看过还能自己写一句这是什么",
       "author": "ALonT1",
       "maintainers": [
@@ -1277,10 +1328,13 @@
         "npm": "https://www.npmjs.com/package/cortico-world-album-alont1"
       },
       "created": "2026-10-07T07:57:55.245Z",
-      "published": "2026-10-23T09:42:26.478Z",
-      "versionCount": 4,
+      "published": "2026-10-25T06:52:16.612Z",
+      "versionCount": 5,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "memory"
+      ],
       "tags": [
         "memory"
       ],
@@ -1295,6 +1349,12 @@
         "toolTokens": 753,
         "envPromptTokens": 142
       },
+      "changelog": {
+        "versions": [
+          "0.1.15"
+        ],
+        "url": "https://unpkg.com/cortico-world-album-alont1@0.1.15/CHANGELOG.md"
+      },
       "discussion": {
         "number": 8,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/8",
@@ -1305,7 +1365,7 @@
     },
     "cortico-world-alive-alont1": {
       "kind": "world",
-      "version": "0.1.14",
+      "version": "0.1.15",
       "description": "能动性 World：让 bot 自己排期想做的事（到点把它写下的原话还给它）、有自己的时间、每天回顾一次，并看得见你在桌面上干什么、花了多少钱、它眼前那份规矩是怎么拼的——全部只读",
       "author": "ALonT1",
       "maintainers": [
@@ -1320,13 +1380,14 @@
         "npm": "https://www.npmjs.com/package/cortico-world-alive-alont1"
       },
       "created": "2026-09-23T12:48:43.787Z",
-      "published": "2026-10-24T05:53:51.032Z",
-      "versionCount": 7,
+      "published": "2026-10-25T06:49:32.567Z",
+      "versionCount": 8,
       "official": false,
       "isNew": false,
       "declaredTags": [
         "companion",
         "memory",
+        "diagnostics",
         "internal-state",
         "sensitive-data",
         "high-cost"
@@ -1334,6 +1395,7 @@
       "tags": [
         "memory",
         "companion",
+        "diagnostics",
         "internal-state",
         "high-cost",
         "sensitive-data",
@@ -1352,9 +1414,10 @@
       },
       "changelog": {
         "versions": [
+          "0.1.15",
           "0.1.14"
         ],
-        "url": "https://unpkg.com/cortico-world-alive-alont1@0.1.14/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-alive-alont1@0.1.15/CHANGELOG.md"
       },
       "discussion": {
         "number": 9,
@@ -1543,13 +1606,13 @@
         "number": 115,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/115",
         "up": 0,
-        "down": 1,
+        "down": 2,
         "comments": 0
       }
     },
     "cortico-world-bili-alont1": {
       "kind": "world",
-      "version": "0.1.4",
+      "version": "0.1.5",
       "displayName": "B站",
       "description": "B站视频信息与字幕：给个链接，读标题/UP主/简介/分P/字幕",
       "author": "ALonT1",
@@ -1565,10 +1628,14 @@
         "npm": "https://www.npmjs.com/package/cortico-world-bili-alont1"
       },
       "created": "2026-10-20T15:19:46.878Z",
-      "published": "2026-10-23T09:45:08.583Z",
-      "versionCount": 6,
+      "published": "2026-10-25T06:51:05.695Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "internet",
+        "video"
+      ],
       "tags": [
         "internet",
         "video"
@@ -1583,6 +1650,12 @@
         "events": 0,
         "toolTokens": 204,
         "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.5"
+        ],
+        "url": "https://unpkg.com/cortico-world-bili-alont1@0.1.5/CHANGELOG.md"
       },
       "discussion": {
         "number": 197,
@@ -2092,6 +2165,47 @@
         "comments": 0
       }
     },
+    "cortico-world-camera": {
+      "kind": "world",
+      "version": "0.2.0",
+      "displayName": "眼睛",
+      "description": "Cortico 的一只眼睛：摄像头画面 + YOLO 检测 + 姿态骨架 + 人脸 + 提案，全部先转译成一句人话再交给 Persona。",
+      "author": "cortico-world-camera contributors",
+      "maintainers": [
+        "zhzaill"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "camera",
+        "webcam",
+        "vision",
+        "yolo",
+        "pose"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-camera"
+      },
+      "created": "2026-10-25T05:49:24.267Z",
+      "published": "2026-10-25T05:50:20.085Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 269,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/269",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-canvas": {
       "kind": "world",
       "version": "0.2.0",
@@ -2293,7 +2407,7 @@
     },
     "cortico-world-clipboard-alont1": {
       "kind": "world",
-      "version": "0.1.4",
+      "version": "0.1.5",
       "description": "剪贴板 World：读当前剪贴板里的文字（默认关闭，Windows 专用）。你刚复制的东西她能接住",
       "author": "ALonT1",
       "maintainers": [
@@ -2313,10 +2427,14 @@
         "win32"
       ],
       "created": "2026-10-19T04:48:15.373Z",
-      "published": "2026-10-23T09:43:51.572Z",
-      "versionCount": 6,
+      "published": "2026-10-25T06:50:03.964Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "apps",
+        "sensitive-data"
+      ],
       "tags": [
         "apps",
         "sensitive-data"
@@ -2332,6 +2450,12 @@
         "toolTokens": 75,
         "envPromptTokens": 0
       },
+      "changelog": {
+        "versions": [
+          "0.1.5"
+        ],
+        "url": "https://unpkg.com/cortico-world-clipboard-alont1@0.1.5/CHANGELOG.md"
+      },
       "discussion": {
         "number": 123,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/123",
@@ -2342,7 +2466,7 @@
     },
     "cortico-world-clock-alont1": {
       "kind": "world",
-      "version": "0.1.13",
+      "version": "0.1.14",
       "description": "现在几点 World：把钟点和时段交给她——一天里的时间线索本来只有消息自带的时间戳，久没人说话就断了",
       "author": "ALonT1",
       "maintainers": [
@@ -2357,10 +2481,13 @@
         "npm": "https://www.npmjs.com/package/cortico-world-clock-alont1"
       },
       "created": "2026-09-21T05:38:38.843Z",
-      "published": "2026-10-23T09:42:14.007Z",
-      "versionCount": 6,
+      "published": "2026-10-25T06:51:11.546Z",
+      "versionCount": 7,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "companion"
+      ],
       "tags": [
         "companion"
       ],
@@ -2374,6 +2501,12 @@
         "events": 1,
         "toolTokens": 77,
         "envPromptTokens": 217
+      },
+      "changelog": {
+        "versions": [
+          "0.1.14"
+        ],
+        "url": "https://unpkg.com/cortico-world-clock-alont1@0.1.14/CHANGELOG.md"
       },
       "discussion": {
         "number": 15,
@@ -2557,7 +2690,7 @@
     },
     "cortico-world-cua-alont1": {
       "kind": "world",
-      "version": "0.2.4",
+      "version": "0.2.5",
       "description": "电脑操作：看见并操作这台电脑的主屏幕（截图/鼠标/键盘/窗口）。原生调用隔离在引擎子进程，与使用者共用电脑时会让路；默认只读，动手要主人显式打开",
       "author": "ALonT1",
       "maintainers": [
@@ -2571,11 +2704,19 @@
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-cua-alont1"
       },
+      "os": [
+        "win32"
+      ],
       "created": "2026-10-17T07:42:00.496Z",
-      "published": "2026-10-23T09:43:29.830Z",
-      "versionCount": 6,
+      "published": "2026-10-25T06:52:53.904Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "computer-use",
+        "unsafe",
+        "sensitive-data"
+      ],
       "tags": [
         "computer-use",
         "unsafe",
@@ -2589,8 +2730,14 @@
       "summary": {
         "tools": 16,
         "events": 3,
-        "toolTokens": 1090,
+        "toolTokens": 1174,
         "envPromptTokens": 429
+      },
+      "changelog": {
+        "versions": [
+          "0.2.5"
+        ],
+        "url": "https://unpkg.com/cortico-world-cua-alont1@0.2.5/CHANGELOG.md"
       },
       "discussion": {
         "number": 90,
@@ -2749,7 +2896,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/180",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-diary": {
@@ -2802,7 +2949,7 @@
     },
     "cortico-world-diary-alont1": {
       "kind": "world",
-      "version": "0.1.4",
+      "version": "0.1.5",
       "description": "截图日记 World：截一张当前屏幕存进当天日记，可以附一句。只截主屏、不主动传出去（Windows 专用，默认关闭）",
       "author": "ALonT1",
       "maintainers": [
@@ -2823,12 +2970,19 @@
         "win32"
       ],
       "created": "2026-10-19T04:48:30.950Z",
-      "published": "2026-10-23T09:44:04.628Z",
-      "versionCount": 6,
+      "published": "2026-10-25T06:49:48.729Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "apps",
+        "memory",
+        "sensitive-data"
+      ],
       "tags": [
-        "memory"
+        "apps",
+        "memory",
+        "sensitive-data"
       ],
       "downloads": {
         "total": 291,
@@ -2841,6 +2995,12 @@
         "toolTokens": 206,
         "envPromptTokens": 0
       },
+      "changelog": {
+        "versions": [
+          "0.1.5"
+        ],
+        "url": "https://unpkg.com/cortico-world-diary-alont1@0.1.5/CHANGELOG.md"
+      },
       "discussion": {
         "number": 124,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/124",
@@ -2851,7 +3011,7 @@
     },
     "cortico-world-doubao-tts": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "displayName": "豆包语音",
       "description": "让桌宠用豆包（火山引擎）TTS 2.0 读出气泡内容：360 个 2.0 音色可按场景、语种、标签筛选，支持语音指令（方言/情绪）与语速、音量、音调、句尾静音调节，本机播放。",
       "locales": {
@@ -2888,22 +3048,20 @@
         "win32"
       ],
       "created": "2026-10-24T10:00:57.946Z",
-      "published": "2026-10-24T14:47:04.110Z",
-      "versionCount": 6,
+      "published": "2026-10-25T06:10:44.590Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
         "voice",
         "coopanion",
         "requires-key",
-        "internet",
-        "high-cost"
+        "internet"
       ],
       "tags": [
         "internet",
         "voice",
-        "requires-key",
-        "high-cost"
+        "requires-key"
       ],
       "icon": "assets/cortico-world-doubao-tts/icon.png",
       "downloads": {
@@ -2927,7 +3085,7 @@
     },
     "cortico-world-downloads-alont1": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "description": "下载管家 World：看下载夹最近下了什么、占多大；新东西落地时冒一句。不移动、不删除文件",
       "author": "ALonT1",
       "maintainers": [
@@ -2949,10 +3107,14 @@
         "linux"
       ],
       "created": "2026-10-19T04:48:25.918Z",
-      "published": "2026-10-23T09:42:28.951Z",
-      "versionCount": 5,
+      "published": "2026-10-25T06:52:58.728Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "apps",
+        "sensitive-data"
+      ],
       "tags": [
         "apps",
         "sensitive-data"
@@ -2968,6 +3130,12 @@
         "toolTokens": 135,
         "envPromptTokens": 0
       },
+      "changelog": {
+        "versions": [
+          "0.1.4"
+        ],
+        "url": "https://unpkg.com/cortico-world-downloads-alont1@0.1.4/CHANGELOG.md"
+      },
       "discussion": {
         "number": 125,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/125",
@@ -2978,7 +3146,7 @@
     },
     "cortico-world-draw-alont1": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.2.0",
       "displayName": "画图",
       "description": "本地生图：调 MOSS-Image（ComfyUI）画图，默认二次元日漫风格。画完把图存到自己的 dir，也能直接看",
       "author": "ALonT1",
@@ -3002,10 +3170,15 @@
         "linux"
       ],
       "created": "2026-10-20T15:18:13.062Z",
-      "published": "2026-10-23T09:42:34.078Z",
-      "versionCount": 5,
+      "published": "2026-10-25T06:53:45.642Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "creative",
+        "local",
+        "external-setup"
+      ],
       "tags": [
         "creative",
         "local",
@@ -3021,6 +3194,12 @@
         "events": 0,
         "toolTokens": 320,
         "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-draw-alont1@0.2.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 158,
@@ -3310,7 +3489,7 @@
     },
     "cortico-world-fatfish": {
       "kind": "world",
-      "version": "0.5.0",
+      "version": "0.6.0",
       "displayName": "大肥鱼功能复合包",
       "description": "和 DeepSeek Harness（DSH）对话让它帮你干活写代码，宠物回复时用内置语音包读出声（朗读支持 Windows 与 macOS）。桥接这半边需要先装 DSH 的 Host 插件（coopanion-connector-dsh）才会连；不会装就看源码仓库的说明，或把仓库地址交给 AI 帮你装。/ Chat with DeepSeek Harness (DSH) so it does the work — writing code for you — and hear the pet's rep",
       "locales": {
@@ -3346,8 +3525,8 @@
         "bugs": "https://github.com/blacksunshy/coopanion-fatfish/issues"
       },
       "created": "2026-10-15T06:47:52.601Z",
-      "published": "2026-10-24T13:53:53.176Z",
-      "versionCount": 16,
+      "published": "2026-10-25T07:18:38.325Z",
+      "versionCount": 17,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3371,6 +3550,7 @@
       },
       "changelog": {
         "versions": [
+          "0.6.0",
           "0.5.0",
           "0.4.0",
           "0.3.9",
@@ -3531,7 +3711,7 @@
     },
     "cortico-world-gaming-alont1": {
       "kind": "world",
-      "version": "0.1.19",
+      "version": "0.1.20",
       "description": "陪玩 World：读前台窗口知道你（主人）在玩哪款游戏、玩了多久，还能定期看一眼游戏画面——一局打完、局中击杀或买到新装备时递一句给你，平时安静地看着",
       "author": "ALonT1",
       "maintainers": [
@@ -3549,8 +3729,8 @@
         "win32"
       ],
       "created": "2026-09-20T20:05:58.931Z",
-      "published": "2026-10-24T05:51:54.239Z",
-      "versionCount": 14,
+      "published": "2026-10-25T06:49:59.986Z",
+      "versionCount": 15,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -3578,14 +3758,15 @@
       "summary": {
         "tools": 7,
         "events": 10,
-        "toolTokens": 712,
+        "toolTokens": 731,
         "envPromptTokens": 796
       },
       "changelog": {
         "versions": [
+          "0.1.20",
           "0.1.19"
         ],
-        "url": "https://unpkg.com/cortico-world-gaming-alont1@0.1.19/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-gaming-alont1@0.1.20/CHANGELOG.md"
       },
       "discussion": {
         "number": 20,
@@ -3978,7 +4159,7 @@
     },
     "cortico-world-humanlike-alont1": {
       "kind": "world",
-      "version": "0.1.20",
+      "version": "0.2.0",
       "description": "交情、学习、作息、时间、共同经历与惦记；提供记录写入和只读桌面及用量观察，外部材料与内部调度分别投递",
       "author": "ALonT1",
       "maintainers": [
@@ -3993,8 +4174,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-humanlike-alont1"
       },
       "created": "2026-09-23T13:05:31.616Z",
-      "published": "2026-10-24T05:55:16.378Z",
-      "versionCount": 13,
+      "published": "2026-10-25T06:52:32.776Z",
+      "versionCount": 14,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -4024,16 +4205,17 @@
         "week": 1451
       },
       "summary": {
-        "tools": 24,
+        "tools": 25,
         "events": 7,
-        "toolTokens": 3245,
-        "envPromptTokens": 3177
+        "toolTokens": 3342,
+        "envPromptTokens": 3020
       },
       "changelog": {
         "versions": [
+          "0.2.0",
           "0.1.20"
         ],
-        "url": "https://unpkg.com/cortico-world-humanlike-alont1@0.1.20/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-humanlike-alont1@0.2.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 22,
@@ -4151,7 +4333,7 @@
     },
     "cortico-world-imagekit-alont1": {
       "kind": "world",
-      "version": "0.1.4",
+      "version": "0.2.0",
       "displayName": "图片与头像",
       "description": "图片与头像：搜图、下载图片、换 QQ 头像（NapCat set_qq_avatar）。让 bot 能自己找一张图当头像",
       "author": "ALonT1",
@@ -4174,10 +4356,17 @@
         "linux"
       ],
       "created": "2026-10-20T15:18:19.696Z",
-      "published": "2026-10-23T09:42:21.252Z",
-      "versionCount": 6,
+      "published": "2026-10-25T06:53:16.275Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "internet",
+        "qq",
+        "im",
+        "unofficial-api",
+        "external-setup"
+      ],
       "tags": [
         "im",
         "qq",
@@ -4193,8 +4382,14 @@
       "summary": {
         "tools": 4,
         "events": 0,
-        "toolTokens": 415,
+        "toolTokens": 409,
         "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-imagekit-alont1@0.2.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 159,
@@ -4270,7 +4465,7 @@
     },
     "cortico-world-learn-alont1": {
       "kind": "world",
-      "version": "0.1.14",
+      "version": "0.1.15",
       "description": "联网学习 World：遇到不懂的词自己上网查（B站/贴吧/萌娘百科），提炼出用法再记；也能记人和关系",
       "author": "ALonT1",
       "maintainers": [
@@ -4285,10 +4480,15 @@
         "npm": "https://www.npmjs.com/package/cortico-world-learn-alont1"
       },
       "created": "2026-09-20T15:31:31.083Z",
-      "published": "2026-10-23T09:43:27.069Z",
-      "versionCount": 9,
+      "published": "2026-10-25T06:50:05.010Z",
+      "versionCount": 10,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "internet",
+        "memory",
+        "internal-state"
+      ],
       "tags": [
         "internet",
         "memory",
@@ -4303,7 +4503,13 @@
         "tools": 4,
         "events": 1,
         "toolTokens": 677,
-        "envPromptTokens": 733
+        "envPromptTokens": 763
+      },
+      "changelog": {
+        "versions": [
+          "0.1.15"
+        ],
+        "url": "https://unpkg.com/cortico-world-learn-alont1@0.1.15/CHANGELOG.md"
       },
       "discussion": {
         "number": 24,
@@ -4315,7 +4521,7 @@
     },
     "cortico-world-life-alont1": {
       "kind": "world",
-      "version": "0.1.17",
+      "version": "0.2.0",
       "description": "生活状态 World：角色自己的一条时间线——这会儿在干嘛、心情如何、今天遇到了什么小事",
       "author": "ALonT1",
       "maintainers": [
@@ -4330,10 +4536,14 @@
         "npm": "https://www.npmjs.com/package/cortico-world-life-alont1"
       },
       "created": "2026-09-20T15:31:35.760Z",
-      "published": "2026-10-23T09:42:32.150Z",
-      "versionCount": 11,
+      "published": "2026-10-25T06:51:47.168Z",
+      "versionCount": 12,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "companion",
+        "internal-state"
+      ],
       "tags": [
         "companion",
         "internal-state"
@@ -4344,10 +4554,16 @@
         "week": 899
       },
       "summary": {
-        "tools": 5,
+        "tools": 6,
         "events": 1,
-        "toolTokens": 433,
-        "envPromptTokens": 328
+        "toolTokens": 609,
+        "envPromptTokens": 204
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-life-alont1@0.2.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 25,
@@ -4435,7 +4651,7 @@
     },
     "cortico-world-lite-alont1": {
       "kind": "world",
-      "version": "0.1.13",
+      "version": "0.1.14",
       "description": "小模型专用 World：只给 4B 级小模型补两样东西——现在几点、以及记得他说过的事。3 个工具、提示词两百来字、没有任何主动推送与情绪机制，为的是不把小模型的上下文和指令空间挤爆",
       "author": "ALonT1",
       "maintainers": [
@@ -4450,10 +4666,15 @@
         "npm": "https://www.npmjs.com/package/cortico-world-lite-alont1"
       },
       "created": "2026-09-23T16:18:10.293Z",
-      "published": "2026-10-23T09:42:35.734Z",
-      "versionCount": 6,
+      "published": "2026-10-25T06:53:24.866Z",
+      "versionCount": 7,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "companion",
+        "memory",
+        "internal-state"
+      ],
       "tags": [
         "memory",
         "companion",
@@ -4468,7 +4689,13 @@
         "tools": 3,
         "events": 0,
         "toolTokens": 186,
-        "envPromptTokens": 71
+        "envPromptTokens": 75
+      },
+      "changelog": {
+        "versions": [
+          "0.1.14"
+        ],
+        "url": "https://unpkg.com/cortico-world-lite-alont1@0.1.14/CHANGELOG.md"
       },
       "discussion": {
         "number": 26,
@@ -4554,7 +4781,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/169",
         "up": 1,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-majsoul": {
@@ -4696,7 +4923,7 @@
     },
     "cortico-world-meme-alont1": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "displayName": "梗",
       "description": "网络梗扩展：本地梗库 + 联网搜梗兜底，支持接龙真假判定与频率限制，让 bot 会接梗、不硬编、不刷屏",
       "author": "ALonT1",
@@ -4714,12 +4941,17 @@
         "npm": "https://www.npmjs.com/package/cortico-world-meme-alont1"
       },
       "created": "2026-10-20T15:18:24.970Z",
-      "published": "2026-10-23T09:43:13.747Z",
-      "versionCount": 4,
+      "published": "2026-10-25T06:50:10.071Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "internet",
+        "memory"
+      ],
       "tags": [
-        "internet"
+        "internet",
+        "memory"
       ],
       "downloads": {
         "total": 348,
@@ -4731,6 +4963,12 @@
         "events": 0,
         "toolTokens": 572,
         "envPromptTokens": 262
+      },
+      "changelog": {
+        "versions": [
+          "0.1.3"
+        ],
+        "url": "https://unpkg.com/cortico-world-meme-alont1@0.1.3/CHANGELOG.md"
       },
       "discussion": {
         "number": 160,
@@ -4792,7 +5030,7 @@
     },
     "cortico-world-memory-brain-alont1": {
       "kind": "world",
-      "version": "0.2.2",
+      "version": "0.3.0",
       "description": "实验性：本地只读记忆索引、中文检索、实体画像、间隔复习与审计",
       "maintainers": [
         "alont1"
@@ -4807,12 +5045,19 @@
         "npm": "https://www.npmjs.com/package/cortico-world-memory-brain-alont1"
       },
       "created": "2026-10-22T18:49:27.186Z",
-      "published": "2026-10-23T09:42:08.180Z",
-      "versionCount": 5,
+      "published": "2026-10-25T06:51:36.542Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "memory",
+        "diagnostics",
+        "experimental"
+      ],
       "tags": [
-        "memory"
+        "memory",
+        "diagnostics",
+        "experimental"
       ],
       "downloads": {
         "total": 406,
@@ -4823,7 +5068,13 @@
         "tools": 10,
         "events": 2,
         "toolTokens": 951,
-        "envPromptTokens": 428
+        "envPromptTokens": 474
+      },
+      "changelog": {
+        "versions": [
+          "0.3.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-memory-brain-alont1@0.3.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 198,
@@ -4835,7 +5086,7 @@
     },
     "cortico-world-memory-doctor-alont1": {
       "kind": "world",
-      "version": "0.1.14",
+      "version": "0.2.0",
       "description": "记忆体检 World：报出她那份记忆的体重与结构——哪几份在长、交接笔记堆了多少、有没有同一句话散在多份文件里，该整理的时候她自己看得见。只看不写",
       "author": "ALonT1",
       "maintainers": [
@@ -4850,10 +5101,14 @@
         "npm": "https://www.npmjs.com/package/cortico-world-memory-doctor-alont1"
       },
       "created": "2026-10-07T07:58:15.387Z",
-      "published": "2026-10-23T09:41:46.784Z",
-      "versionCount": 4,
+      "published": "2026-10-25T06:53:31.445Z",
+      "versionCount": 5,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "memory",
+        "diagnostics"
+      ],
       "tags": [
         "memory",
         "diagnostics"
@@ -4866,8 +5121,14 @@
       "summary": {
         "tools": 2,
         "events": 0,
-        "toolTokens": 353,
-        "envPromptTokens": 152
+        "toolTokens": 287,
+        "envPromptTokens": 158
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-memory-doctor-alont1@0.2.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 29,
@@ -4879,7 +5140,7 @@
     },
     "cortico-world-memsearch-alont1": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.2.0",
       "displayName": "记忆检索",
       "description": "记忆检索：在自己的记忆/笔记里按关键词找原话（带文件名和行号），比翻文件快",
       "author": "ALonT1",
@@ -4902,10 +5163,13 @@
         "linux"
       ],
       "created": "2026-10-20T15:18:30.195Z",
-      "published": "2026-10-23T09:42:52.521Z",
-      "versionCount": 5,
+      "published": "2026-10-25T06:49:54.788Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "memory"
+      ],
       "tags": [
         "memory"
       ],
@@ -4917,8 +5181,14 @@
       "summary": {
         "tools": 2,
         "events": 0,
-        "toolTokens": 190,
+        "toolTokens": 198,
         "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-memsearch-alont1@0.2.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 161,
@@ -4930,7 +5200,7 @@
     },
     "cortico-world-mind-alont1": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "description": "惦记 World（实验性）：她自己记下想做的事与时间，到点由框架把她自己的原话还给她——不是替她生成，也不是替她决定",
       "author": "ALonT1",
       "maintainers": [
@@ -4945,8 +5215,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-mind-alont1"
       },
       "created": "2026-10-15T05:06:25.087Z",
-      "published": "2026-10-24T05:52:13.260Z",
-      "versionCount": 5,
+      "published": "2026-10-25T06:51:22.667Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4970,14 +5240,15 @@
       "summary": {
         "tools": 4,
         "events": 4,
-        "toolTokens": 575,
-        "envPromptTokens": 303
+        "toolTokens": 574,
+        "envPromptTokens": 314
       },
       "changelog": {
         "versions": [
+          "0.1.4",
           "0.1.3"
         ],
-        "url": "https://unpkg.com/cortico-world-mind-alont1@0.1.3/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-mind-alont1@0.1.4/CHANGELOG.md"
       },
       "discussion": {
         "number": 30,
@@ -5043,7 +5314,7 @@
     },
     "cortico-world-mood-alont1": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "description": "情绪天气 World：看她/他在不在电脑前、是在忙还是在玩，语气跟着变（Windows 专用，默认关闭）",
       "author": "ALonT1",
       "maintainers": [
@@ -5064,12 +5335,18 @@
         "win32"
       ],
       "created": "2026-10-19T04:48:36.094Z",
-      "published": "2026-10-23T09:43:33.093Z",
-      "versionCount": 5,
+      "published": "2026-10-25T06:53:39.600Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "companion",
+        "sensitive-data",
+        "experimental"
+      ],
       "tags": [
         "companion",
+        "experimental",
         "sensitive-data"
       ],
       "downloads": {
@@ -5082,6 +5359,12 @@
         "events": 1,
         "toolTokens": 75,
         "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.4"
+        ],
+        "url": "https://unpkg.com/cortico-world-mood-alont1@0.1.4/CHANGELOG.md"
       },
       "discussion": {
         "number": 127,
@@ -5607,7 +5890,7 @@
     },
     "cortico-world-phone-alont1": {
       "kind": "world",
-      "version": "0.1.4",
+      "version": "0.2.0",
       "displayName": "手机",
       "description": "手机：MuMu 模拟器就是她的手机，随时能开、能看屏幕、能点、能装应用、能敲命令",
       "author": "ALonT1",
@@ -5630,14 +5913,21 @@
         "win32"
       ],
       "created": "2026-10-20T15:19:08.831Z",
-      "published": "2026-10-23T09:42:26.457Z",
-      "versionCount": 6,
+      "published": "2026-10-25T06:50:22.865Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "apps",
+        "external-setup",
+        "unsafe",
+        "sensitive-data"
+      ],
       "tags": [
         "apps",
         "external-setup",
-        "unsafe"
+        "unsafe",
+        "sensitive-data"
       ],
       "downloads": {
         "total": 342,
@@ -5650,6 +5940,12 @@
         "toolTokens": 835,
         "envPromptTokens": 0
       },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-phone-alont1@0.2.0/CHANGELOG.md"
+      },
       "discussion": {
         "number": 163,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/163",
@@ -5660,7 +5956,7 @@
     },
     "cortico-world-playground-alont1": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.2.0",
       "description": "玩具世界：在自己的 play/ 目录里写并跑一小段 JS，不联网、不碰外面文件、最多 5 秒。没有提醒，想起来才用",
       "author": "ALonT1",
       "maintainers": [
@@ -5682,11 +5978,18 @@
         "linux"
       ],
       "created": "2026-10-19T05:26:01.632Z",
-      "published": "2026-10-23T09:41:28.117Z",
-      "versionCount": 5,
+      "published": "2026-10-25T06:51:50.958Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
-      "tags": [],
+      "declaredTags": [
+        "creative",
+        "unsafe"
+      ],
+      "tags": [
+        "creative",
+        "unsafe"
+      ],
       "downloads": {
         "total": 320,
         "month": 320,
@@ -5697,6 +6000,12 @@
         "events": 0,
         "toolTokens": 162,
         "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-playground-alont1@0.2.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 128,
@@ -5966,7 +6275,7 @@
     },
     "cortico-world-qq-better-alont1": {
       "kind": "world",
-      "version": "0.1.70",
+      "version": "0.2.0",
       "description": "QQ（OneBot v11 / NapCat）World：上游 cortico-world-qq-better 的本地副本，这台机器的改动都加在这里",
       "maintainers": [
         "alont1"
@@ -5982,10 +6291,20 @@
         "npm": "https://www.npmjs.com/package/cortico-world-qq-better-alont1"
       },
       "created": "2026-09-23T13:12:12.960Z",
-      "published": "2026-10-23T09:41:33.567Z",
-      "versionCount": 19,
+      "published": "2026-10-25T06:54:56.922Z",
+      "versionCount": 20,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "im",
+        "qq",
+        "voice",
+        "companion",
+        "unofficial-api",
+        "external-setup",
+        "memory",
+        "internal-state"
+      ],
       "tags": [
         "im",
         "qq",
@@ -6003,9 +6322,15 @@
       },
       "summary": {
         "tools": 42,
-        "events": 8,
-        "toolTokens": 4851,
-        "envPromptTokens": 648
+        "events": 11,
+        "toolTokens": 5086,
+        "envPromptTokens": 437
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-qq-better-alont1@0.2.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 43,
@@ -6455,7 +6780,7 @@
     },
     "cortico-world-qzone-alont1": {
       "kind": "world",
-      "version": "0.1.14",
+      "version": "0.2.0",
       "description": "QQ 空间 World：让 bot 自己发说说（可配图）、删掉自己发过的说说，并把发过什么记在部署的数据目录里",
       "author": "ALonT1",
       "maintainers": [
@@ -6470,10 +6795,16 @@
         "npm": "https://www.npmjs.com/package/cortico-world-qzone-alont1"
       },
       "created": "2026-09-23T13:05:52.588Z",
-      "published": "2026-10-23T09:42:54.972Z",
-      "versionCount": 7,
+      "published": "2026-10-25T06:50:34.002Z",
+      "versionCount": 8,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "im",
+        "qq",
+        "unofficial-api",
+        "external-setup"
+      ],
       "tags": [
         "im",
         "qq",
@@ -6488,8 +6819,14 @@
       "summary": {
         "tools": 3,
         "events": 2,
-        "toolTokens": 350,
+        "toolTokens": 339,
         "envPromptTokens": 345
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-qzone-alont1@0.2.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 58,
@@ -6501,7 +6838,7 @@
     },
     "cortico-world-real-alont1": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "description": "看得见的事 World：他自己桌面上在干什么、花了多少钱、以及她自己眼前那份规矩是从哪来的——都是只读，不带截图、不给写权限",
       "author": "ALonT1",
       "maintainers": [
@@ -6516,10 +6853,14 @@
         "npm": "https://www.npmjs.com/package/cortico-world-real-alont1"
       },
       "created": "2026-10-15T05:12:54.993Z",
-      "published": "2026-10-23T09:42:26.321Z",
-      "versionCount": 4,
+      "published": "2026-10-25T06:52:19.206Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "diagnostics",
+        "sensitive-data"
+      ],
       "tags": [
         "diagnostics",
         "sensitive-data"
@@ -6535,6 +6876,12 @@
         "toolTokens": 398,
         "envPromptTokens": 177
       },
+      "changelog": {
+        "versions": [
+          "0.1.3"
+        ],
+        "url": "https://unpkg.com/cortico-world-real-alont1@0.1.3/CHANGELOG.md"
+      },
       "discussion": {
         "number": 59,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/59",
@@ -6545,7 +6892,7 @@
     },
     "cortico-world-ritual-alont1": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "description": "仪式感 World：早安/晚安按时冒一次泡，纪念日和节日到点提醒。只挑几个点，不刷屏",
       "author": "ALonT1",
       "maintainers": [
@@ -6567,10 +6914,13 @@
         "linux"
       ],
       "created": "2026-10-19T04:48:20.477Z",
-      "published": "2026-10-23T09:42:37.549Z",
-      "versionCount": 5,
+      "published": "2026-10-25T06:54:32.917Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "companion"
+      ],
       "tags": [
         "companion"
       ],
@@ -6584,6 +6934,12 @@
         "events": 3,
         "toolTokens": 151,
         "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.4"
+        ],
+        "url": "https://unpkg.com/cortico-world-ritual-alont1@0.1.4/CHANGELOG.md"
       },
       "discussion": {
         "number": 129,
@@ -6655,7 +7011,7 @@
     },
     "cortico-world-selfkit-alont1": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "displayName": "自我运维",
       "description": "自我运维：看自己的运行状态、最近日志、世界挂载情况。只读，不替主人做重启",
       "author": "ALonT1",
@@ -6677,10 +7033,13 @@
         "linux"
       ],
       "created": "2026-10-20T15:19:18.275Z",
-      "published": "2026-10-23T09:41:56.891Z",
-      "versionCount": 5,
+      "published": "2026-10-25T06:50:41.888Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "diagnostics"
+      ],
       "tags": [
         "diagnostics"
       ],
@@ -6694,6 +7053,12 @@
         "events": 0,
         "toolTokens": 219,
         "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.4"
+        ],
+        "url": "https://unpkg.com/cortico-world-selfkit-alont1@0.1.4/CHANGELOG.md"
       },
       "discussion": {
         "number": 164,
@@ -7844,7 +8209,7 @@
     },
     "cortico-world-todo-alont1": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "displayName": "任务板",
       "description": "任务板",
       "author": "ALonT1",
@@ -7866,12 +8231,17 @@
         "linux"
       ],
       "created": "2026-10-20T15:19:26.418Z",
-      "published": "2026-10-23T09:42:00.806Z",
-      "versionCount": 5,
+      "published": "2026-10-25T06:52:03.610Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
-      "tags": [
+      "declaredTags": [
+        "companion",
         "memory"
+      ],
+      "tags": [
+        "memory",
+        "companion"
       ],
       "downloads": {
         "total": 324,
@@ -7884,6 +8254,12 @@
         "toolTokens": 336,
         "envPromptTokens": 0
       },
+      "changelog": {
+        "versions": [
+          "0.1.4"
+        ],
+        "url": "https://unpkg.com/cortico-world-todo-alont1@0.1.4/CHANGELOG.md"
+      },
       "discussion": {
         "number": 165,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/165",
@@ -7894,7 +8270,7 @@
     },
     "cortico-world-together-alont1": {
       "kind": "world",
-      "version": "0.1.13",
+      "version": "0.1.14",
       "description": "一起 World：记着她和你之间的事——一起做过什么、聊到哪没聊完，在她开口时把还悬着的话头递过去",
       "author": "ALonT1",
       "maintainers": [
@@ -7909,10 +8285,15 @@
         "npm": "https://www.npmjs.com/package/cortico-world-together-alont1"
       },
       "created": "2026-09-20T20:09:57.601Z",
-      "published": "2026-10-23T09:43:49.602Z",
-      "versionCount": 8,
+      "published": "2026-10-25T06:54:17.094Z",
+      "versionCount": 9,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "companion",
+        "memory",
+        "internal-state"
+      ],
       "tags": [
         "memory",
         "companion",
@@ -7924,10 +8305,16 @@
         "week": 437
       },
       "summary": {
-        "tools": 3,
+        "tools": 4,
         "events": 1,
-        "toolTokens": 584,
-        "envPromptTokens": 491
+        "toolTokens": 679,
+        "envPromptTokens": 522
+      },
+      "changelog": {
+        "versions": [
+          "0.1.14"
+        ],
+        "url": "https://unpkg.com/cortico-world-together-alont1@0.1.14/CHANGELOG.md"
       },
       "discussion": {
         "number": 66,
@@ -8059,7 +8446,7 @@
     },
     "cortico-world-weather-alont1": {
       "kind": "world",
-      "version": "0.1.4",
+      "version": "0.1.5",
       "description": "天气 World：查现在天气、体感、湿度和风，给出带伞/穿衣的提醒。免 API key（wttr.in），无依赖",
       "author": "ALonT1",
       "maintainers": [
@@ -8081,10 +8468,13 @@
         "linux"
       ],
       "created": "2026-10-19T04:48:10.197Z",
-      "published": "2026-10-23T09:43:21.806Z",
-      "versionCount": 6,
+      "published": "2026-10-25T06:52:34.753Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "internet"
+      ],
       "tags": [
         "internet"
       ],
@@ -8099,6 +8489,12 @@
         "toolTokens": 98,
         "envPromptTokens": 0
       },
+      "changelog": {
+        "versions": [
+          "0.1.5"
+        ],
+        "url": "https://unpkg.com/cortico-world-weather-alont1@0.1.5/CHANGELOG.md"
+      },
       "discussion": {
         "number": 130,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/130",
@@ -8109,7 +8505,7 @@
     },
     "cortico-world-web-alont1": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "displayName": "联网",
       "description": "联网：网页搜索（Bing）与读网页正文。让 bot 能查资料、看新闻、了解外面发生的事",
       "author": "ALonT1",
@@ -8132,10 +8528,13 @@
         "linux"
       ],
       "created": "2026-10-20T15:19:32.764Z",
-      "published": "2026-10-23T09:42:36.247Z",
-      "versionCount": 5,
+      "published": "2026-10-25T06:52:10.131Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "internet"
+      ],
       "tags": [
         "internet"
       ],
@@ -8149,6 +8548,12 @@
         "events": 0,
         "toolTokens": 223,
         "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.4"
+        ],
+        "url": "https://unpkg.com/cortico-world-web-alont1@0.1.4/CHANGELOG.md"
       },
       "discussion": {
         "number": 166,
@@ -8407,7 +8812,7 @@
     },
     "cortico-world-works-alont1": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.2.0",
       "displayName": "作品页",
       "description": "作品页",
       "author": "ALonT1",
@@ -8429,12 +8834,17 @@
         "linux"
       ],
       "created": "2026-10-20T15:19:40.864Z",
-      "published": "2026-10-23T09:43:08.237Z",
-      "versionCount": 5,
+      "published": "2026-10-25T06:54:03.500Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
-      "tags": [
+      "declaredTags": [
+        "creative",
         "memory"
+      ],
+      "tags": [
+        "memory",
+        "creative"
       ],
       "downloads": {
         "total": 270,
@@ -8446,6 +8856,12 @@
         "events": 0,
         "toolTokens": 243,
         "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-works-alont1@0.2.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 167,

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-diary-alont1",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "describe": {
     "tools": [
       {
@@ -64,5 +64,8 @@
       }
     ],
     "events": []
+  },
+  "changelog": {
+    "0.1.5": "- 快照串行执行配额检查，按最大编号递增；删除中间图片后不覆盖已有照片。\n- 系统未生成非空图片时明确失败，不再仅凭子进程退出判定成功。\n- 面板保留快速交替启停的最终停止，显示执行中调用与耗时，按 failed:true 统计失败；面板代码随包内置。\n- 按 Cortico 0.2.7 的 World API 6 / Bot API 7 检查适用契约；单包产物不引入其他扩展。"
   }
 }

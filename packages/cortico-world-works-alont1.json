@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-works-alont1",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "describe": {
     "tools": [
       {
@@ -70,5 +70,8 @@
       }
     ],
     "events": []
+  },
+  "changelog": {
+    "0.2.0": "- 作品产物默认使用 works 自有数据目录，保留原子保存和坏状态保护。\n- 面板保留快速交替启停的最终停止，显示执行中调用与耗时，按 failed:true 统计失败；面板代码随包内置。\n- 按 Cortico 0.2.7 的 World API 6 / Bot API 7 检查适用契约；单包产物不引入其他扩展。\n\n迁移：作品副本与页面为部署 dataDir/works；works.json 索引位置保留。旧 workspace/works 原位保留，按 README 手动复制所需文件。"
   }
 }

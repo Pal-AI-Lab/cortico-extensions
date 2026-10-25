@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-clipboard-alont1",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "describe": {
     "tools": [
       {
@@ -22,5 +22,8 @@
       }
     ],
     "events": []
+  },
+  "changelog": {
+    "0.1.5": "- 核对 Windows 剪贴板读取的独立配置、失败回执与平台声明。\n- 面板保留快速交替启停的最终停止，显示执行中调用与耗时，按 failed:true 统计失败；面板代码随包内置。\n- 按 Cortico 0.2.7 的 World API 6 / Bot API 7 检查适用契约；单包产物不引入其他扩展。"
   }
 }

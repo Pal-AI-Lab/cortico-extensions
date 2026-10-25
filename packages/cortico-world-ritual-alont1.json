@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-ritual-alont1",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "describe": {
     "tools": [
       {
@@ -68,10 +68,13 @@
       {
         "type": "ritual.anniversary",
         "description": {
-          "zh": "今天是某个纪念日。",
-          "en": "A recorded anniversary is today."
+          "zh": "已登记纪念日到期；名称原文按 external 外部资料投递。",
+          "en": "A recorded anniversary is due; its original name is external source material."
         }
       }
     ]
+  },
+  "changelog": {
+    "0.1.4": "- 早间提醒与纪念日分别去重；验证真实日期、失败重试与停止边界。\n- 固定早晚通知保持 internal；纪念日登记名称按 external 外部资料投递。\n- 面板保留快速交替启停的最终停止，显示执行中调用与耗时，按 failed:true 统计失败；面板代码随包内置。\n- 按 Cortico 0.2.7 的 World API 6 / Bot API 7 检查适用契约；单包产物不引入其他扩展。"
   }
 }
