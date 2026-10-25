@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "name": "cortico-world-civ6-assistant",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "civ6_observe",
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "description": "观察当前文明六画面。仅当前台窗口标题明确匹配文明六时截图，返回前台标题、截图尺寸、场景说明和 JPEG；前台不是文明六时拒绝截图。这是内部状态的截图补充，不能替代游戏内数据。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "summary": {
+          "zh": "截取当前文明六画面并附上局势分析所需的信息。",
+          "en": "Captures the current Civilization VI screen with what the model needs to read the situation."
+        }
+      },
+      {
+        "name": "civ6_game_state",
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "description": "读取文明六游戏内只读 Mod 导出的最近本地玩家状态（回合、时代、科技、市政、产出、余额、城市生产、单位位置与状态）。无参数；仅同一 session 心跳不超过 15 秒时返回实时状态。Mod 未运行、数据过期或心跳不匹配时失败，不用截图替代。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "summary": {
+          "zh": "读取游戏内 Mod 导出的文明六本地玩家最近状态。",
+          "en": "Reads the local player state exported by the in-game Civilization VI mod."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "civ6.auto-observation",
+        "description": {
+          "zh": "自动观察到时间了，附文明六截图与策略建议请求。",
+          "en": "An automatic observation is due, with a Civilization VI screenshot and a request for strategy advice."
+        },
+        "trigger": "debounce"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.civ6-assistant.envPrompt",
+        "title": "文明六识别、内部状态与建议提示词",
+        "role": "envPrompt",
+        "content": "# 文明六助手\n\n{{civ6.recognition}}\n\n{{civ6.state}}\n当用户询问当前局面、回合、时代、科技、市政、城市生产或单位位置时，优先调用 `civ6_game_state`，依据工具返回的游戏内 Mod 数据回答。工具失败或数据过期时，明确说明“没有可用的游戏内实时状态”，不要用通用知识补造当前局面。\n\n`civ6_observe` 只是截图补充：只有用户明确要求看画面，或内部数据缺失且用户同意时，才观察画面；不得用截图静默替代缺失的内部数据。\n\n{{civ6.advice}}\n优先给出少量本回合可执行的建议，并说明对应依据。回合、时代、资源、科技、市政、城市生产或单位状态为 null 或未知时，明确写“未知”，不要补造数值。若回执没有实际图像，说明当前模型未收到图片，不能进行画面识别。\n\n此模块只读取与建议，不操作鼠标键盘，不替用户执行游戏动作。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "- 首个实验性发布。\n- 新增 `civ6_game_state` 与 `civ6_observe` 两个工具。\n- 新增只读游戏内 Lua Mod `CoopanionCiv6Bridge`。\n- 加入有界日志读取、schema 校验、session 与心跳新鲜度检查、未来时间戳保护。\n- 通过 22 项桌面端回归测试及 Cortico 临时部署检查；真实对局验收仍待完成。"
+  }
+}

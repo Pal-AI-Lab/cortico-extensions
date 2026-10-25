@@ -13,6 +13,9 @@
     "cortico-world-alive-alont1": [
       "sensitive-data"
     ],
+    "cortico-world-civ6-assistant": [
+      "sensitive-data"
+    ],
     "cortico-world-coocowork": [
       "sensitive-data"
     ],
@@ -1789,17 +1792,17 @@
     },
     "cortico-world-bubble-emotes": {
       "kind": "world",
-      "version": "0.3.5",
+      "version": "0.3.6",
       "displayName": "表达助手 · 情绪与表情",
-      "description": "让开心有笑意，安慰有温度。37个emoji搭配情绪分析与草稿检查，新增可编辑的“情绪→表情→身体心情”映射和身体心情建议；不自动安排动作，减少对睡眠与互动的干扰。适配Coopanion 0.2.8；分析需配置模型。",
+      "description": "让开心有笑意，安慰有温度。37个emoji搭配情绪分析与草稿检查，新增可编辑的“情绪→表情→身体心情”映射和身体心情建议；不自动安排动作，减少对睡眠与互动的干扰。分析需配置模型。",
       "locales": {
         "zh": {
           "displayName": "表达助手 · 情绪与表情",
-          "description": "让开心有笑意，安慰有温度。37个emoji搭配情绪分析与草稿检查，新增可编辑的“情绪→表情→身体心情”映射和身体心情建议；不自动安排动作，减少对睡眠与互动的干扰。适配Coopanion 0.2.8；分析需配置模型。"
+          "description": "让开心有笑意，安慰有温度。37个emoji搭配情绪分析与草稿检查，新增可编辑的“情绪→表情→身体心情”映射和身体心情建议；不自动安排动作，减少对睡眠与互动的干扰。分析需配置模型。"
         },
         "en": {
           "displayName": "表达助手 · 情绪与表情",
-          "description": "Help your pet express joy, comfort and thought with 37 emoji, emotion analysis, draft review and editable body-expression mappings. For Coopanion 0.2.8; analysis requires a configured model."
+          "description": "Help your pet express joy, comfort and thought with 37 emoji, emotion analysis, draft review and editable body-expression mappings. Analysis requires a configured model."
         }
       },
       "author": "oceanxuhaiao",
@@ -1830,8 +1833,8 @@
         "win32"
       ],
       "created": "2026-10-22T13:59:51.432Z",
-      "published": "2026-10-25T03:50:54.416Z",
-      "versionCount": 9,
+      "published": "2026-10-25T04:01:53.995Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1856,6 +1859,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.6",
           "0.3.5",
           "0.3.5-dev.5",
           "0.3.5-dev.4",
@@ -2013,6 +2017,83 @@
       "discussion": {
         "number": 14,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/14",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-civ6-assistant": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "文明六助手",
+      "description": "适用于 Coopanion／Cortico 的文明六助手：通过只读 Lua Mod 读取本地玩家状态，并以受控截图补充局势分析。",
+      "locales": {
+        "en": {
+          "displayName": "Civilization VI Assistant",
+          "description": "Reads Civilization VI local-player state through a read-only Lua mod, with guarded screenshots as optional context for Coopanion and Cortico."
+        }
+      },
+      "author": "Civ6 Assistant contributors",
+      "maintainers": [
+        "tom0r1"
+      ],
+      "license": "AGPL-3.0-or-later",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "civilization-vi",
+        "civ6",
+        "game"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-civ6-assistant"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-10-25T03:54:56.622Z",
+      "published": "2026-10-25T03:55:52.251Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "game",
+        "external-setup",
+        "experimental",
+        "sensitive-data",
+        "high-cost",
+        "requires-extension"
+      ],
+      "tags": [
+        "game",
+        "external-setup",
+        "experimental",
+        "requires-extension",
+        "high-cost",
+        "sensitive-data"
+      ],
+      "icon": "assets/cortico-world-civ6-assistant/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 1,
+        "toolTokens": 215,
+        "envPromptTokens": 204
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-civ6-assistant@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 261,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/261",
         "up": 0,
         "down": 0,
         "comments": 0
