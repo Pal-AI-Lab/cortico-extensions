@@ -2,8 +2,38 @@
   "schema": 1,
   "name": "cortico-world-fatfish",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-  "total": 6,
+  "total": 10,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJJ05",
+      "author": "blacksunshy",
+      "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
+      "body": "@2016244301 感谢把这个报出来，尤其是环境版本、复现步骤和试过的方法都列全了——正是这些细节让我直接定位到根因：是我们连接器自己的 `peerDependencies` 把 `@deepseek-ai/dsh-llm@0.0.1-rc.1` 拖进了 profile，被 DSH 0.2.x 的版本校验判成 incompatible。不是你装错了，也不是 DSH 的问题。\r\n\r\n已经修好并发布 **coopanion-connector-dsh 0.2.1**（commit `6713dea`，tag `v0.2.1`），可以更新了：\r\n\r\n```\r\ndsh plugin --profile web remove coopanion-connector-dsh\r\ndsh plugin --profile web add github:blacksunshy/coopanion-connector-dsh\r\n```\r\n\r\n更新完记得把之前被自动装进来的那个老包删掉（`%USERPROFILE%\\.dsh\\profiles\\web\\node_modules\\@deepseek-ai\\dsh-llm`）——它还在 profile 里的话，照样会被禁用。\r\n\r\n如果更新后还有问题，把 `dsh web` 的启动日志贴一段上来，我继续跟。\r\n",
+      "createdAt": "2026-10-25T10:46:25Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BJJzu",
+      "author": "blacksunshy",
+      "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
+      "body": "排查了一下这个报错，结论可能和你看到的不太一样：**这不是 cortico-world-fatfish 的版本问题，也不是 DSH 自己的 bug，而是 `coopanion-connector-dsh` 的 peerDependency 写错了。已经在 0.2.1 修掉。**\r\n\r\n## 根因\r\n\r\n连接器的 package.json 里写着：\r\n\r\n```json\r\n\"peerDependencies\": { \"@deepseek-ai/dsh-llm\": \"*\" }\r\n```\r\n\r\npnpm 对 `*` 解析的是 **latest tag**，而 npm 上这两个包的 latest 天差地别：\r\n\r\n| 包 | latest |\r\n| --- | --- |\r\n| `@deepseek-ai/dsh` | `0.2.1-rc.2` |\r\n| `@deepseek-ai/dsh-llm` | **`0.0.1-rc.1`** |\r\n\r\n于是只要你用的是会 `auto-install-peers` 的 profile（CLI `dsh web` 就是），装连接器时会顺带把一个 0.0.1-rc.1 时代的 `dsh-llm` 塞进 profile。DSH 0.2.x 启动时做插件版本校验，这个老包对不上宿主，被判 incompatible 并 disabled —— profile 起不来，桥接自然一直显示「未连接」。\r\n\r\n（桌面版不受影响：桌面 profile 不会自动装这个 peer，所以桌面版一直是通的。）\r\n\r\n## 已修复：0.2.1\r\n\r\n`@deepseek-ai/dsh-llm` 现在标为 optional peer：声明保留，但不会被自动安装。运行时本来就有三重兜底（宿主工厂 → 真实消息模板 → 文档形状），没有它也能完全正常工作。\r\n\r\n## 你现在怎么处理\r\n\r\n1. 把连接器换成最新 main：\r\n\r\n```\r\ndsh plugin --profile web remove coopanion-connector-dsh\r\ndsh plugin --profile web add github:blacksunshy/coopanion-connector-dsh\r\n```\r\n\r\n2. 清掉之前被自动装进去的老包（关键，不清照样起不来）：删掉 `%USERPROFILE%\\.dsh\\profiles\\web\\node_modules\\@deepseek-ai\\dsh-llm`；或者干脆删掉该 profile 的 `node_modules` + `pnpm-lock.yaml` 重新装一次。\r\n\r\n3. 再 `dsh web`，桥接状态应该显示已连接。\r\n\r\n## 两个补充\r\n\r\n- `dsh plugin allow-version` 那条路走不通是正常的：它是精确版本豁免，rc 之间互相不认，豁免不了整条依赖链。\r\n- 你记的 `dsh-llm@0.1.0-rc.1` 在 npm 上其实不存在，实际被拉进来的是 `0.0.1-rc.1`；不影响结论。\r\n",
+      "createdAt": "2026-10-25T10:38:11Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BJJxC",
+      "author": "2016244301",
+      "avatar": "https://avatars.githubusercontent.com/u/347748734?s=64&v=4",
+      "body": "DSH 桥接起不来,报插件版本不兼容(2026-10-25 实测,Windows)\n\n环境:Node v24.22.1 / npm 11.19.1 / Git 2.56\n\n步骤:\n1. npm i -g @deepseek-ai/dsh → 装到 0.2.1-rc.2\n2. 进 %USERPROFILE%\\.dsh\\profiles\\web,执行 npm add github:blacksunshy/coopanion-connector-dsh → 成功(11 个包)\n3. dsh web → 启动失败:profile 自带的 dsh-llm@0.1.0-rc.1 要求 dsh-attachment / dsh-brand / dsh-invariant / dsh-timeline 都是 ~0.1.0-rc.1,实际装的是 0.2.x,报 incompatible,插件被 disabled。\n\n试过但无效:\n- dsh plugin --profile web update → 无更新\n- dsh plugin --profile web allow-version \"@deepseek-ai/dsh-llm@0.1.0-rc.1\" --dsh-version 0.2.1-rc.2 --accept-risk → 回 allowed,但启动仍 disabled(Exact-version exemption: not active)\n- 降级 npm i -g @deepseek-ai/dsh@0.1.0-rc.2 → 版本检查过了,但读 credentials 报错(0.2 写的配置 0.1 不认),仍然起不来\n- dsh-llm 在 npm 上只有 0.1.0-rc.1,没有更新的版本\n\n另外:npm 上 coopanion-connector-dsh 这个名字是 404,只能走 github: 源装,且需要先装 git。\n\n想问:连接器目前对齐的是 dsh 哪个版本?0.2.x 这边是不是要等上游修?现在界面一直显示「桥接:未连接」。",
+      "createdAt": "2026-10-25T10:20:07Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJJ1R",
+          "author": "blacksunshy",
+          "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
+          "body": "非常感谢提出宝贵意见，已进行修复，原因也写在评论区了，可以根据评论内容进行版本更新",
+          "createdAt": "2026-10-25T10:49:30Z"
+        }
+      ]
+    },
     {
       "id": "DC_kwDOVLPtGM4BJJFF",
       "author": "3170124100",

@@ -69,6 +69,9 @@
     "cortico-world-qiandengji": [
       "unsafe"
     ],
+    "cortico-world-qq-audio-input": [
+      "sensitive-data"
+    ],
     "cortico-world-qq-official": [
       "unsafe"
     ],
@@ -188,12 +191,12 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
         "up": 3,
         "down": 0,
-        "comments": 8
+        "comments": 10
       }
     },
     "better-cortico-world-netease-companion": {
       "kind": "world",
-      "version": "1.5.0",
+      "version": "1.6.0",
       "displayName": "一起听",
       "description": "一起听 World：本机曲目信息、切歌事件与节制的桌宠评论",
       "author": "wocwang",
@@ -217,8 +220,8 @@
         "win32"
       ],
       "created": "2026-10-23T17:18:51.610Z",
-      "published": "2026-10-25T08:35:07.229Z",
-      "versionCount": 8,
+      "published": "2026-10-25T11:25:31.137Z",
+      "versionCount": 9,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -244,13 +247,14 @@
         "week": 0
       },
       "summary": {
-        "tools": 7,
+        "tools": 8,
         "events": 2,
-        "toolTokens": 1059,
-        "envPromptTokens": 2715
+        "toolTokens": 1228,
+        "envPromptTokens": 2965
       },
       "changelog": {
         "versions": [
+          "1.6.0",
           "1.5.0",
           "1.4.1",
           "1.4.0",
@@ -1781,7 +1785,7 @@
       "discussion": {
         "number": 12,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/12",
-        "up": 2,
+        "up": 3,
         "down": 0,
         "comments": 0
       }
@@ -2271,7 +2275,7 @@
     },
     "cortico-world-civ6-assistant": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.1.20",
       "displayName": "文明六助手",
       "description": "适用于 Coopanion／Cortico 的文明六助手：通过只读 Lua Mod 读取本地玩家状态，并以受控截图补充局势分析。",
       "locales": {
@@ -2300,8 +2304,8 @@
         "win32"
       ],
       "created": "2026-10-25T03:54:56.622Z",
-      "published": "2026-10-25T07:41:46.020Z",
-      "versionCount": 4,
+      "published": "2026-10-25T11:11:18.462Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2334,11 +2338,29 @@
       },
       "changelog": {
         "versions": [
+          "0.1.20",
+          "0.1.19",
+          "0.1.18",
+          "0.1.17",
+          "0.1.16",
+          "0.1.15",
+          "0.1.14",
+          "0.1.13",
+          "0.1.12",
+          "0.1.11",
+          "0.1.10",
+          "0.1.9",
+          "0.1.8",
+          "0.1.7",
+          "0.1.6",
+          "0.1.5",
+          "0.1.4",
+          "0.1.3",
           "0.1.2",
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-civ6-assistant@0.1.2/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-civ6-assistant@0.1.20/CHANGELOG.md"
       },
       "discussion": {
         "number": 261,
@@ -3676,9 +3698,9 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 33,
+        "up": 35,
         "down": 6,
-        "comments": 6
+        "comments": 10
       }
     },
     "cortico-world-figure-persona": {
@@ -3984,7 +4006,7 @@
       "discussion": {
         "number": 126,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/126",
-        "up": 2,
+        "up": 3,
         "down": 0,
         "comments": 0
       }
@@ -4043,7 +4065,7 @@
     },
     "cortico-world-hands": {
       "kind": "world",
-      "version": "0.14.0",
+      "version": "0.17.0",
       "displayName": "手",
       "description": "Cortico World: hands for the desktop pet — looks at the phone screen, then taps, swipes, pinches, drags, types and presses keys through whatever actuator the device actually has",
       "maintainers": [
@@ -4061,8 +4083,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-hands"
       },
       "created": "2026-10-22T14:40:37.506Z",
-      "published": "2026-10-25T07:50:10.692Z",
-      "versionCount": 31,
+      "published": "2026-10-25T09:10:22.186Z",
+      "versionCount": 35,
       "official": false,
       "isNew": true,
       "tags": [
@@ -5930,6 +5952,46 @@
         "comments": 1
       }
     },
+    "cortico-world-pet-voice": {
+      "kind": "world",
+      "version": "0.2.1",
+      "displayName": "气泡朗读（TTS）",
+      "description": "Coopanion 扩展：把桌宠气泡里的文字念出来——优先 MiniMax 云端 TTS（音色/语速/模型可配），失败或没配 key 时自动回退 Windows 自带语音。默认关闭。",
+      "author": "杠精大队委",
+      "maintainers": [
+        "gangjingdaduiwei"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "tts",
+        "minimax",
+        "desktop-pet"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-pet-voice"
+      },
+      "created": "2026-10-25T10:52:53.207Z",
+      "published": "2026-10-25T11:21:37.834Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 279,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/279",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-phone": {
       "kind": "world",
       "version": "0.4.1",
@@ -6373,6 +6435,73 @@
         "number": 39,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/39",
         "up": 9,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-qq-audio-input": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "QQ Audio Input",
+      "description": "按允许名单及近期语音消息编号提供 QQ 语音转写；独立启用，不采集麦克风或系统声音。",
+      "maintainers": [
+        "kpect"
+      ],
+      "license": "AGPL-3.0-or-later",
+      "keywords": [
+        "cortico-world",
+        "qq",
+        "onebot",
+        "asr"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-qq-audio-input",
+        "repository": "https://github.com/Kpect10086/QQ-ProMAX",
+        "homepage": "https://github.com/Kpect10086/QQ-ProMAX#readme",
+        "bugs": "https://github.com/Kpect10086/QQ-ProMAX/issues"
+      },
+      "os": [
+        "win32",
+        "linux"
+      ],
+      "created": "2026-10-25T08:34:36.291Z",
+      "published": "2026-10-25T08:35:52.575Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "im",
+        "qq",
+        "voice",
+        "sensitive-data",
+        "external-setup",
+        "unofficial-api",
+        "experimental"
+      ],
+      "tags": [
+        "im",
+        "qq",
+        "voice",
+        "external-setup",
+        "experimental",
+        "sensitive-data",
+        "unofficial-api"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 1,
+        "events": 0,
+        "toolTokens": 126,
+        "envPromptTokens": 0
+      },
+      "discussion": {
+        "number": 280,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/280",
+        "up": 0,
         "down": 0,
         "comments": 0
       }
@@ -7782,7 +7911,7 @@
       "discussion": {
         "number": 212,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/212",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -8661,7 +8790,7 @@
         "number": 166,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/166",
         "up": 1,
-        "down": 0,
+        "down": 1,
         "comments": 0
       }
     },
