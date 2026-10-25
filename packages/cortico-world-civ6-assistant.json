@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-civ6-assistant",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "describe": {
     "tools": [
       {
@@ -61,6 +61,7 @@
     ]
   },
   "changelog": {
+    "0.1.2": "- 修复游戏内 Mod “有加载、无输出” 的问题：v1 把所有失败都静默吞掉，且心跳排在状态导出之后，\n  任何一步出错都会让 `Lua.log` 完全没有标记，看起来像 Mod 未安装。\n- Mod 升级到 v2：新增 `COOPANION_CIV6_BOOT` 启动探针、`COOPANION_CIV6_READY` 事件注册回执、\n  `COOPANION_CIV6_ERROR` 带 traceback 的限流错误上报。\n- 心跳改为先于状态导出，状态构造失败不再压掉心跳。\n- 加载后立即导出一次状态，tick 同时绑定 `SystemUpdateUI` 与 `UIIdle`，不再依赖单一事件。\n- 修正 `os.date` 的 UTC `!` 前缀可能残留在时间戳里的隐患，并校验 ISO-8601 格式。\n- `Members()` 兼容迭代器、数组与空集合，集合异常不再中断整次导出。\n- 桌面端读取器新增诊断：缺少 BOOT／未完成注册／Mod 自报错误会直接写进失败原因。\n- 25 项桌面端回归测试通过；真实对局验收仍待完成。",
     "0.1.1": "- 修复干净安装时因 npm 上不存在 `cortico-world-desktop-pet` 而被 404 阻断的问题。\n- 移除该桌宠包的 npm 硬依赖，改为从 Coopanion 宿主的 Cortico 运行时解析截图引擎。\n- 宿主没有截图组件时，`civ6_observe` 明确提示不可用，`civ6_game_state` 不受影响。\n- 新增宿主解析与缺失组件降级测试，共 24 项桌面端回归测试通过；真实对局验收仍待完成。",
     "0.1.0": "- 首个实验性发布。\n- 新增 `civ6_game_state` 与 `civ6_observe` 两个工具。\n- 新增只读游戏内 Lua Mod `CoopanionCiv6Bridge`。\n- 加入有界日志读取、schema 校验、session 与心跳新鲜度检查、未来时间戳保护。\n- 通过 22 项桌面端回归测试及 Cortico 临时部署检查；真实对局验收仍待完成。"
   }
