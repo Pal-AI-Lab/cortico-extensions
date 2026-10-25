@@ -2,14 +2,23 @@
   "schema": 1,
   "name": "cortico-world-fatfish",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-  "total": 5,
+  "total": 6,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BJJFF",
       "author": "3170124100",
       "avatar": "https://avatars.githubusercontent.com/u/207039879?s=64&v=4",
       "body": "怎么增加新的语音包",
-      "createdAt": "2026-10-25T05:21:25Z"
+      "createdAt": "2026-10-25T05:21:25Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJJUN",
+          "author": "blacksunshy",
+          "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
+          "body": "感谢提问！刚发的 **0.6.0** 已经把「加语音包」做成开箱可用的了，两种加法：\n\n**1. 用现成的语音包（不用改任何东西）**\n装好 0.6.0 重启 Coopanion，设置 → 大肥鱼 → 语音组，最上面多了「语音包」下拉：温柔女声·晓晓、活泼少女·晓伊、少年音·云夏、播音腔·云扬、东北口音·晓北、陕西口音·晓妮、粤语女声·曉曼、台湾女声·曉臻、English·Aria。选一个就整套换好音色＋语速＋音高＋音量；选「自定义」才用下面你手调的那几项。\n\n**2. 想要列表里没有的音色**\n「音色」下拉下方可以直接手填任意 Edge TTS 的 ShortName（微软音色清单里的名字，例如 `zh-CN-XiaoxiaoNeural`、`ja-JP-NanamiNeural`），再自己配语速 / 音高 / 音量即可，不需要等发版。\n\n另外这次音色清单已补全到 19 个（新增陕西晓妮、台湾曉雨、台湾雲哲、粤语曉佳），并把已经下线的晓墨去掉了——它在微软那边下线后调用会超时，之前选用它会「没声音」。\n\n如果你想把某个「音色＋语速＋音高＋音量」组合固化成下拉里的固定一项，那就得改源码：`src/voices.ts` 里的 `VOICE_PRESETS` 加一行（voice/rate/volume/pitch 四个值），欢迎直接提 PR。\n\n升级方式：扩展页装 `cortico-world-fatfish@0.6.0`（或 GitHub Release 的 tgz），重启应用生效。有问题继续在讨论区说～",
+          "createdAt": "2026-10-25T07:20:54Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BJF76",
