@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-all",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "describe": {
     "tools": [
       {
@@ -309,6 +309,82 @@
         "summary": "戳一戳群友或私聊对象。"
       },
       {
+        "name": "qq_emoji",
+        "description": "管理 QQ 收藏表情（自定义表情）。save：把外部表情包/图片存进 QQ 收藏表情，支持 log:/mem: 句柄，一次最多 30 张；list：查看收藏列表；delete：删除；modify：改备注；move_front：移到最前；send：发送已收藏的表情（保留表情样式）。外部表情包要进 QQ 的「表情」，用 save，不要只 save_blob 到工作区文件夹。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "op": {
+              "type": "string",
+              "enum": [
+                "save",
+                "list",
+                "delete",
+                "modify",
+                "move_front",
+                "send"
+              ],
+              "description": "要做的收藏表情操作。"
+            },
+            "images": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "save 用：图片 URL、base64://、本地路径，或 log:/mem: 句柄。一次最多 30 张。"
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "list 用：最多列多少个，默认 20。"
+            },
+            "detail": {
+              "type": "boolean",
+              "description": "list 用：是否带 emoji_id、备注和图片地址，默认 true。"
+            },
+            "emoji_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "delete 用：要删除的 emoji_id 列表。"
+            },
+            "emoji_id": {
+              "type": "string",
+              "description": "modify / move_front / send 用的 emoji_id（或 32 位 MD5）。"
+            },
+            "description": {
+              "type": "string",
+              "description": "modify 用的新备注；空串表示清空。"
+            },
+            "target_type": {
+              "type": "string",
+              "enum": [
+                "group",
+                "private"
+              ],
+              "description": "group = 群，private = 私聊。"
+            },
+            "target_id": {
+              "type": "integer",
+              "description": "群号（group）或 QQ 号（private）。"
+            },
+            "reply_to": {
+              "type": "integer",
+              "description": "send 时可选的引用消息号。"
+            }
+          },
+          "required": [
+            "op"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": "管理 QQ 收藏表情：把外部表情包存进 QQ 表情、查看、删除、改备注、置顶、发送。"
+      },
+      {
         "name": "qq_api",
         "description": "直接调用 OneBot v11 的任意动作（action + params），覆盖协议端支持的全部功能，例如 get_forward_msg、upload_group_file、set_msg_emoji_like、get_group_honor_info。每个动作名第一次使用前会单独问主人一次；和专用工具同义的动作用同一份授权。参数里的 log:/mem: 图片句柄会自动转成 base64:// 再交给协议端，所以可以直接把截图传给 send_qzone_msg 之类只认图片源的接口。会导出账号凭据的动作（get_cookies / get_csrf_token）被拒绝。",
         "parameters": {
@@ -351,7 +427,7 @@
         "key": "worlds.qq-all.envPrompt",
         "title": "QQ 全能环境提示词",
         "role": "envPrompt",
-        "content": "## QQ 全能（qq-all）\n\n你可以通过 OneBot v11 使用主人的 QQ：发消息、读历史、查好友和群、管理群、戳一戳，或者调用协议端的任意动作。\n\n- 协议端：{{qq.status}}\n- 账号：{{qq.account}}\n- 授权：{{qq.access}}\n\n{{qq.rules}}\n\n### 工具\n\n- `qq_send`：发群消息或私聊，可带图片、引用回复、@。发出去就收不回来。\n- `qq_history`：读某个群或私聊最近的消息。\n- `qq_contacts`：查好友、群、群成员、陌生人资料；找群号或 QQ 号时先用它。\n- `qq_recall`：撤回自己发出的消息。\n- `qq_group_admin`：禁言/解禁、全员禁言、踢人、改群名片、设/撤管理员、改头衔、改群名、退群/解散、精华、群公告。\n- `qq_poke`：戳一戳。\n- `qq_api`：其他任何 OneBot 动作（`action` + `params`），例如 `get_forward_msg`、`upload_group_file`、`set_msg_emoji_like`、`get_group_honor_info`。\n- `qq_status`：看连接、账号和授权状态。\n- `qq_access`：授权流程本身。\n\n### 图片\n\n`qq_send` 的 `image`、`qq_api` 参数里的 `log:` / `mem:` 图片句柄（截图、存下来的图片都是这种句柄）会被读出来转成 `base64://` 再交给协议端。发说说（`send_qzone_msg`）的 `images` 数组也吃这种句柄，可以直接把截图带上；不需要自己找文件路径或转 base64。\n\n### 规矩\n\n- 只在主人让你做、或明显该你出手时用 QQ。不要为了刷存在感主动发消息、戳人、@全体。\n- 发给谁、发什么，先想清楚。群管理动作（踢人、禁言、解散）影响别人，不确定就先问。\n- 不要把私聊内容、群聊记录、手机号等转给无关的人，也不要写进公开的地方。\n- 不要调用 `get_cookies`、`get_csrf_token` 这类会导出账号凭据的动作；`qq_api` 会拒绝它们。\n- 协议端不支持的动作会返回明确的错误。换个做法或告诉主人，不要瞎猜参数反复试。\n- 授权是按功能算的：每个功能第一次使用前都要先问主人；同意过的功能不再问，没同意过的功能仍然要问。一次只处理一个功能，先按工具回执里的 `feature` 和口令问，再 `grant`；不要一次问\"全部功能可不可以\"。\n- \"这个功能不再问\"不等于\"可以随便用\"，仍然按上面的规矩来。\n"
+        "content": "## QQ 全能（qq-all）\n\n你可以通过 OneBot v11 使用主人的 QQ：发消息、读历史、查好友和群、管理群、戳一戳，或者调用协议端的任意动作。\n\n- 协议端：{{qq.status}}\n- 账号：{{qq.account}}\n- 授权：{{qq.access}}\n\n{{qq.rules}}\n\n### 工具\n\n- `qq_send`：发群消息或私聊，可带图片、引用回复、@。发出去就收不回来。\n- `qq_history`：读某个群或私聊最近的消息。\n- `qq_contacts`：查好友、群、群成员、陌生人资料；找群号或 QQ 号时先用它。\n- `qq_recall`：撤回自己发出的消息。\n- `qq_group_admin`：禁言/解禁、全员禁言、踢人、改群名片、设/撤管理员、改头衔、改群名、退群/解散、精华、群公告。\n- `qq_poke`：戳一戳。\n- `qq_emoji`：QQ 收藏表情：`save` 把外部表情包存进 QQ 表情，`list` 查看，`delete` 删除，`modify` 改备注，`move_front` 置顶，`send` 发送已收藏的表情。\n- `qq_api`：其他任何 OneBot 动作（`action` + `params`），例如 `get_forward_msg`、`upload_group_file`、`set_msg_emoji_like`、`get_group_honor_info`。\n- `qq_status`：看连接、账号和授权状态。\n- `qq_access`：授权流程本身。\n\n### 图片\n\n`qq_send` 的 `image`、`qq_api` 参数里的 `log:` / `mem:` 图片句柄（截图、存下来的图片都是这种句柄）会被读出来转成 `base64://` 再交给协议端。发说说（`send_qzone_msg`）的 `images` 数组也吃这种句柄，可以直接把截图带上；不需要自己找文件路径或转 base64。\n\n主人让你「把表情包存起来」时，指的是存进 QQ 的**收藏表情**：用 `qq_emoji(op=\"save\", images=[...])`，不要只 `save_blob` 到工作区文件夹。工作区只适合当临时缓存；存完可以用 `qq_emoji(list)` 核对，用 `qq_emoji(send, emoji_id=...)` 发送时还能保留 QQ 的表情样式。\n\n### 规矩\n\n- 只在主人让你做、或明显该你出手时用 QQ。不要为了刷存在感主动发消息、戳人、@全体。\n- 发给谁、发什么，先想清楚。群管理动作（踢人、禁言、解散）影响别人，不确定就先问。\n- 不要把私聊内容、群聊记录、手机号等转给无关的人，也不要写进公开的地方。\n- 不要调用 `get_cookies`、`get_csrf_token` 这类会导出账号凭据的动作；`qq_api` 会拒绝它们。\n- 协议端不支持的动作会返回明确的错误。换个做法或告诉主人，不要瞎猜参数反复试。\n- 授权是按功能算的：每个功能第一次使用前都要先问主人；同意过的功能不再问，没同意过的功能仍然要问。一次只处理一个功能，先按工具回执里的 `feature` 和口令问，再 `grant`；不要一次问\"全部功能可不可以\"。\n- \"这个功能不再问\"不等于\"可以随便用\"，仍然按上面的规矩来。\n"
       }
     ]
   }

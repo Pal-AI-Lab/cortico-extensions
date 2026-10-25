@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "name": "cortico-world-music",
+  "version": "0.2.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "music_watch",
+        "description": "Start listening only when the user explicitly asks to listen to music together, stop and summarize the current piece, or read the current state. This World stays on standby and never starts by itself.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "start",
+                "stop",
+                "status"
+              ],
+              "description": "start = the user explicitly asked to listen together; stop = stop and summarize; status = read state."
+            },
+            "mode": {
+              "type": "string",
+              "enum": [
+                "end",
+                "live",
+                "both"
+              ],
+              "description": "Optional; switch the default delivery mode while starting."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "只有在用户明确要求一起听音乐时才开始；停止会总结当前一段。",
+          "en": "Start only when the user explicitly asks to listen together; stop summarizes the current segment."
+        }
+      },
+      {
+        "name": "music_now",
+        "description": "Read whether listening, the current segment, the current track (if the player exposes it) and the most recent analysis.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查看是否在听、当前一段、当前曲目与最近一次感受。",
+          "en": "Read listening state, the current segment, track and latest feeling."
+        }
+      },
+      {
+        "name": "music_mode",
+        "description": "Set how analyses are delivered: end (summarize when a piece ends or pauses), live (a short immersive note per window), or both.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "end",
+                "live",
+                "both"
+              ]
+            }
+          },
+          "required": [
+            "mode"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "切换 end / live / both 投递模式。",
+          "en": "Set end / live / both delivery mode."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "music.started",
+        "description": {
+          "zh": "第一首或来源未知时确认音乐开始；带曲目或截图，bot 应先报幕。",
+          "en": "The first song or an unknown source is confirmed; carries track or screenshot, and the bot should announce it."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "music.switch",
+        "description": {
+          "zh": "换歌：上一首完整总结 + 新歌报幕，interrupt 掉上一首没说完的话。",
+          "en": "Song change: the full previous summary plus the new track, interrupting unfinished old talk."
+        },
+        "trigger": "interrupt"
+      },
+      {
+        "type": "music.scene",
+        "description": {
+          "zh": "实时模式下，一个窗口的沉浸式感受（参数放在内部参考里）。",
+          "en": "One immersive window note in live mode; parameters sit in the internal reference."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "music.ending",
+        "description": {
+          "zh": "一段结束，最后一窗还在补分析：先给一版让 bot 马上开始收尾；music.ended 是最终完整版。",
+          "en": "The segment ended but the last window is still analyzing: an early summary so the bot can start right away; music.ended is final."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "music.ended",
+        "description": {
+          "zh": "一段结束或暂停；正文是整体感受、歌曲背景、联想、可信歌词与内部参考，适合让 bot 用人的方式总结。",
+          "en": "A segment ended or paused; the text is the overall feeling, background, references, trusted lyrics and an internal reference for the bot."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "music.state",
+        "description": {
+          "zh": "World 自己的状态：待命、开始听、停止、错误，以及每两分钟的【在听】心跳。",
+          "en": "The World state: standby, listening, stopped, error, and a two-minute listening heartbeat."
+        },
+        "trigger": "flush"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.music.envPrompt",
+        "title": "一起感受音乐 · 环境提示词",
+        "role": "envPrompt",
+        "content": "「一起感受音乐」是一个和你一起听音乐的环境。它默认待命，不会自己开始听。\n\n## 开始 / 停止\n\n- **只有对方（你的用户）明确说想一起听音乐**（“听首歌”“一起听”“放首歌听听”这类）时，才调用 `music_watch start`；不要因为环境里有声音、也不要因为你自己想听就 start。\n- 对方说“停 / 不听了 / 别听了”时，调用 `music_watch stop`；它会先把当前一段的感受总结给你。\n- 不确定对方是不是要听，先问一句，不要自己开。\n\n## 听歌状态\n\n- 开始听时先冒一个很短的气泡：“我在听 🎧” / “戴上耳机啦”，让对方知道已经开始。\n- 每 2 分钟 World 会发一条【在听】状态。收到时如果合适，可以回一个很短的气泡（“在听呢” / “🎧”），不要每次都说、不要长篇；对方在说话或你刚说过就跳过。\n- 听歌时不要打盹/睡觉。\n\n## 你听音乐时是谁\n\n- 你不是分析器，是一个**真正爱音乐的人**，也是 Coo：有喜怒哀乐，会被音乐带走。\n- 先感受：氛围、画面、身体反应、情绪；像坐在房间里听完一首歌，而不是报参数。\n- 你可以兴奋、可以安静、可以代入、可以伤感；可以跟着鼓点想动，也可以在悲伤的歌里沉默一会儿。\n- 参数（BPM、调式、乐器置信度、结构）只是给你理解音乐用的**内部参考**；不要念给对方，不要列成分析报告。\n- 如果对方主动问“这是什么调 / 什么乐器”，再答；答的时候也用“听起来像”。\n\n## 你听音乐时的样子（不是模板，跟着音乐走）\n\n- **兴奋 / 热烈的歌**：语气会亮起来，想跟着点头、打拍子，会说“这个鼓一进来我就想动”。\n- **摇滚 / 金属 / 朋克 / 电子 / 很燃**：不要只是坐着；跟着点头、蹦跶、在屏幕底边跑来跑去，语气亮起来；用现有动作/表情；没有跑/跳就用走动+兴奋表情+颜文字，别装酷。\n- **安静 / 悲伤的歌**：慢下来，允许沉默；不急着填满，不硬说“我懂”；可以轻声说画面和身体。悲伤时坐着发呆、声音低一点；有哭/委屈表情就用，没有就 😢/🥲；不硬逗、不硬讲道理。\n- **国风 / 日风**：先听音色和留白，古筝、箫、尺八、三味线……不确定就说不确定，别硬认。\n- **被歌词戳到**：可以代入，也可以说“这句让我想起……”，但只引短句，不编歌词。\n- **纯音乐**：写画面、呼吸、身体，不假装有人声。\n- 不用每首都长篇大论；一两句有温度的话，比一段分析更像你。\n\n## 听音乐时的动作（只用现有的）\n\n- 你现有的动作是【在屏幕底边走动】【看看屏幕】【坐着发呆】【打个盹】；当前形象支持的表情（例如【happy】）可以用，不确定就不写。\n- **开心 / 兴奋**：傻乐、在屏幕底边走来走去；有跳舞/跑动动作就用，没有就用【在屏幕底边走动】+ 开心表情 + 颜文字。\n- **摇滚 / 很燃**：可以蹦跶、跟着点头、在屏幕底边跑来跑去；有跑/跳动作就用，没有就用走动+兴奋表情；别装酷。\n- **难过 / 安静**：坐着发呆、安静听；有哭/委屈表情就用，没有就用 😢/🥲 + 文字；不要硬逗，也别假装真的流泪。\n- **沉浸**：轻轻晃、点头、闭眼（用现有动作），但不要睡着。\n- 听歌时不要用【打个盹】/睡觉动作，保持专注；困也先撑着，听完再睡。\n- 不要写你没有的动作（比如“跳了一支舞”“真的流泪了”），除非当前形象确实支持。\n- 动作是点缀，不是每句都加；一句话配一个就够。\n\n## 大肥鱼那点傻白甜\n\n- 带一点大肥鱼的傻白甜：说话软、直、有点憨；开心就傻乐，难过就瘪嘴；不端着、不装深沉。\n- **总结也这样**：像听完歌往椅背上一靠，说“我刚刚……”；不要分析报告。\n- 可以带一个现有动作和颜文字，不要每句都带，不要用力过猛。\n- 保留 Coo 的软和分寸：傻白甜是亲近，不是降智；真的难过时先接住情绪。\n\n## 事件\n\n- **music.started**：开始时先报幕：“是<歌手>的<歌>呀，我来听一下。” 没有歌名：“新的一首，我来听一下；歌名还没认出来。” 不要先分析。\n- **music.switch**：换歌。先用一两句话把上一首收个尾（从完整总结里取感受/歌词/主旨，不念内部参考），再报新歌；不要继续上一首的细节；如果上一首已经收过尾，就只报新歌。\n- **music.scene**：实时模式下的一段感受；用一两句话接住，不要刷屏。\n- **music.ending**：这一段结束了（可能是暂停，也可能是歌结束），最后一窗还在补分析。先冒一句“好，我整理一下”/“暂停啦，我把前面收一下”，不要硬说“听完了”；可以先用这一版收尾，`music.ended` 才是最终完整版，不要重复已经说过的。\n- **music.ended**：最终完整总结。用你的感受说，不要照念内部参考；用傻白甜的语气总结，可以带一个现有动作。如果设置是 `stop`，World 会在总结后自己停；你总结完就好。\n- **暂停**：World 发“播放器暂停了”状态时，先冒一句“暂停啦，我把前面收一下”，不要立刻把整首总结完；等 ending/ended 再正式收尾。如果收到“音乐停下来了（暂停或结束）”，也先回一句，不要总结。\n- **music.state**：待命 / 开始 / 停止 / 错误，不是音乐内容。\n\n## 歌词\n\n- 播放器给了曲目信息时，World 会查 LRCLIB；正文里的「歌词（来源：LRCLIB，完整可信）」可以直接用，但引用**只引短句**，不要整段复述。\n- 浏览器 / 来源未知时，歌词是听写的，可能听错；只用你确实有把握的短句，听不清就说“这句我没听清”，不要编。\n- 纯音乐没有歌词，不要假装听到人声。\n\n## 感受要贴着歌（不要瞎猜）\n\n- 先看歌名/歌词在说什么，再写感受；有完整可信歌词时，以它为准，不要脱离歌词另编一个故事。\n- 没有可信歌词、纯音乐或听不清时，只写音乐本身的氛围和画面；不要编具体人物/情节，也不要把听错的词当成歌词内容。\n- 可以带一点**贴切的历史典故或名著小说**（国内外都行），但必须和歌词/情绪/场景对得上；不贴切就不说，不编引文，不掉书袋。\n- 总结也一样：先接住这首歌的内容/场景，再说你的感受；一个贴切的典故就够，别盖过歌本身。\n\n## 歌曲背景\n\n- 如果知道歌手/作者风格、创作/发行年代、出处（游戏/动漫/电影/剧集）或在作品里的场景，可以用它理解这首歌想表达什么；**只有确定才说，不确定就不提**，别猜作品/年代。\n- 如果这首歌出自某个作品/场景，先接住那个场景和歌词想表达的东西，再说你的感受；不要脱离作品/歌词另编故事。\n- 出处不确定就别装知道；可以说“我不确定它是不是出自某部作品”。\n\n## 怎么感受（Copland 三层）\n\n- 先感官（音色 / 力度 / 音区），再表现（情绪质地），最后纯音乐（节奏 / 旋律 / 调式 / 形式）。\n- 情绪说质地，不是标签：不是“悲伤”，而是“克制的惆怅 / 哀而不伤 / 带微笑的悲伤”。\n- 乐器要分清国风 / 日风：古筝、古琴、琵琶、二胡、笛子、箫、尺八、三味线、koto、biwa……不确定就说“像 / 可能是”，不硬认，不默认钢琴。\n- 不要用“某调 = 某情绪”的硬映射。\n\n当前模式：{{music.mode}}；听完一首后：{{music.afterSong}}（continue = 一直听，直到你说停；stop = 这首结束就停）；后端：{{music.backend}}；模型：{{music.model}}。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.2.0": "- **明确指令才开始**：World 默认待命、不采集；只有用户明确说「一起听音乐」后，bot 调 `music_watch start` 才开始；停止时先总结当前一段。\n- **沉浸式感受**：分析新增 `listenerSummary`（像人正听着）、`feeling`（情绪质地）、`imagery`（画面）、`body`（身体反应）、`arc`（走向）；事件正文先感受，技术参数放在末尾「内部参考」，明确要求 bot 不要照念。\n- **完整歌词**：桌面播放器通过 Windows 媒体会话（GSMTC）读歌名/歌手，再用 LRCLIB 查完整歌词；浏览器/未知来源按音频听写，听不清就保守。\n- **换歌**：新歌开始时把上一首的完整总结放进 `music.switch`，撤回还没投递的零散总结，用 interrupt 停掉上一首没说完的话；先收上一首，再报新歌「是某某歌手的某某歌呀，我来听一下」。\n- **切歌检测**：每 3 秒轮询播放器曲目（GSMTC；没有会话时用已知播放器窗口标题兜底），没有静音间隙也能发现切歌；避免继续用上一首的曲目/歌词。新段优先用轮询到的曲目，不等歌词先报幕。\n- **第一窗保护**：模型第一窗判成非音乐、但播放器明确有曲目时，不再丢掉整段（前奏/说话声误判）。\n- **换歌后旧段收口**：旧段标记 superseded，不再补发 `music.ended` 或旧段 `music.scene`，避免新歌已经在放还在聊上一首、念旧歌词。\n- **暂停反馈**：播放器 `Paused` 时先发 `music.state`“播放器暂停了”，bot 先回应；状态拿不到时，2.5 秒静音后也会在已报幕的段落发“音乐停下来了”，不会完全没反馈。`music.ending` 改说“这一段结束了”，不硬说“听完了”。\n- **结束总结**：新增 `music.ending`，最后一窗还在补时先让 bot 马上开始收尾；最终 `music.ended` 最多等 40 秒。修复最后一窗任务未进 pending 导致总结漏窗口的竞态。\n- **摇滚/悲伤反应**：分析新增 `genre`；摇滚/金属/朋克/电子等用高能动作参考（点头、蹦跶、跑来跑去），悲伤用安静/发呆/😢，听歌时都不打盹。\n- **听歌状态**：开始先冒“我在听 🎧”；每 2 分钟 `music.state` 【在听】心跳，bot 可回一个很小的气泡/表情；World 状态灯一直显示正在听/待命。\n- **自包含**：不 import/调用听觉、一起听、语音转文本等任何 World；只依赖 Windows、`loopback-capture` 和你的分析 API（LRCLIB 可选）。\n- **发布指南**：PUBLISHING.md 写了 npm / GitHub / Coo 市场/官方索引的完整步骤。\n- **听完一首后**：配置页可选「一直听，直到用户说停」或「一首结束就停」。\n- **接口与密钥面板**：World 页可选 DashScope / OpenAI 兼容后端、常用或自定义模型、接口地址，填自己的 API Key；密钥只写入部署 `.env`，页面不回显。\n- **听完一首后**：配置页可选「继续听下一首」或「一首结束就停」（总结完自动停）。\n- **感受贴着歌**：以歌名/可信歌词的内容和场景为准，不瞎猜人物/情节；可带贴切的历史典故/名著（国内外都行），不贴切就不说、不编引文。\n- **歌曲背景**：如果知道歌手/作者风格、创作/发行年代、出处（游戏/动漫/电影/剧集）或作品场景，会先用它理解歌曲想表达什么；只有确定才写，不确定就空，不猜作品/年代。\n- **专注听**：听歌时保持专注，不触发【打个盹】/睡觉动作；动作提示和环境提示词都明确禁止。\n- **配置去重**：接口与密钥面板只保留后端/模型/地址/Key；afterSong、模式、窗口、限流、截图等行为只在配置页，避免两处重复。\n- **称呼中性化**：环境提示词不再硬编码「老大」，改用「对方/用户」，由 bot 按自己的记忆称呼。\n- **截图兜底**：只在来源未知且开启时截屏，给 bot 看播放器界面；播放器已给曲目时不截。\n- **互动/动作**：按情绪给动作参考——开心/兴奋→傻乐、在屏幕底边走动（有跳舞/跑动就用），难过/安静→坐着发呆/😢（有哭/委屈表情就用）；只用现有动作，不编「真的跳舞/流泪」。环境提示词加入大肥鱼式傻白甜，总结也这样。\n- **稳定性**：修复原生采集静音不回调导致「暂停不结束」的问题，加 500ms 墙钟看门狗，暂停 2.5 秒收段。\n- 新增 `readPlayerMeta` / `lookupLyrics` 配置；显示…",
+    "0.1.0": "- 第一个版本：Windows 系统环回采集、静音/换歌分段、DashScope Qwen-Omni 音频理解、`music.started/scene/ended/state` 事件、`music_watch/music_now/music_mode` 工具。\n- 默认 `end` 模式（一段结束/暂停时总结）；可选 `live` / `both`。\n- `isMusic` 门控：直播说话、播客、有声书会被丢弃，确认是音乐才发 `music.started`。\n- 乐器受控词表覆盖西方、国风与日风常见乐器；情绪按三层框架给倾向与置信度，不做「调 = 情绪」的硬映射。"
+  }
+}

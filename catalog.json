@@ -53,6 +53,9 @@
     "cortico-world-mood-alont1": [
       "sensitive-data"
     ],
+    "cortico-world-music": [
+      "sensitive-data"
+    ],
     "cortico-world-netease-companion": [
       "sensitive-data"
     ],
@@ -192,7 +195,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
         "up": 5,
         "down": 0,
-        "comments": 12
+        "comments": 13
       }
     },
     "better-cortico-world-netease-companion": {
@@ -286,7 +289,7 @@
       "discussion": {
         "number": 214,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/214",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -346,7 +349,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1",
         "up": 0,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-bot-memory": {
@@ -2113,7 +2116,7 @@
       "discussion": {
         "number": 189,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/189",
-        "up": 3,
+        "up": 4,
         "down": 0,
         "comments": 0
       }
@@ -2929,7 +2932,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/180",
         "up": 0,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-diary": {
@@ -3244,19 +3247,20 @@
     },
     "cortico-world-dream": {
       "kind": "world",
-      "version": "0.11.0",
+      "version": "0.11.1",
       "displayName": "Dream",
-      "description": "Sleep events, daily news materials and searchable dream archives for Cortico",
+      "description": "Let your little whale embark on a dream journey. When she wakes, she can share the wonders of her dreams with you, including through QQ.\n\nKeywords: sleep scheduling, public news sources, and searchable fictional dream archives.\n\nDream journeys can use the",
       "locales": {
         "zh": {
           "displayName": "梦境",
-          "description": "睡眠调度、公开新闻素材与可查询的虚构梦境档案"
+          "description": "让你的大肥鱼完成一次梦境之旅，在梦醒之后她会向你分享奇妙的梦境见闻，还可以通过QQ向你进行汇报。\n\n关键词：睡眠调度、公开新闻素材与可查询的虚构梦境档案\n\n梦境之旅可通过默认浏览器完成，也可选配ego浏览器、tavily，体验更加。\n\n关于QQ梦话，当前仅测试过Cortico官方QQ插件，若有其他需要，欢迎反馈。"
         },
         "en": {
           "displayName": "Dream",
-          "description": "Sleep events, daily news materials and searchable dream archives for Cortico"
+          "description": "Let your little whale embark on a dream journey. When she wakes, she can share the wonders of her dreams with you, including through QQ.\n\nKeywords: sleep scheduling, public news sources, and searchable fictional dream archives.\n\nDream journeys can use the default browser, with optional support for ego browser and Tavily for more collection options.\n\nQQ dream sharing has currently been tested only with the official Cortico QQ plugin. Feedback and requests for other integrations are welcome."
         }
       },
+      "author": "Moya-Doc",
       "maintainers": [
         "ether_yang"
       ],
@@ -3272,8 +3276,8 @@
         "bugs": "https://github.com/Moya-Doc/cortico-world-dream/issues"
       },
       "created": "2026-10-25T07:17:16.838Z",
-      "published": "2026-10-25T07:20:25.536Z",
-      "versionCount": 2,
+      "published": "2026-10-25T15:28:34.286Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3305,12 +3309,13 @@
       },
       "summary": {
         "tools": 21,
-        "events": 7,
-        "toolTokens": 4998,
-        "envPromptTokens": 1976
+        "events": 8,
+        "toolTokens": 5088,
+        "envPromptTokens": 2154
       },
       "changelog": {
         "versions": [
+          "0.11.1",
           "0.11.0",
           "0.10.0",
           "0.9.0",
@@ -3551,8 +3556,8 @@
         "number": 173,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/173",
         "up": 1,
-        "down": 0,
-        "comments": 0
+        "down": 1,
+        "comments": 1
       }
     },
     "cortico-world-emote-pics": {
@@ -3617,7 +3622,7 @@
     },
     "cortico-world-fatfish": {
       "kind": "world",
-      "version": "0.6.1",
+      "version": "0.6.2",
       "displayName": "大肥鱼功能复合包",
       "description": "和 DeepSeek Harness（DSH）对话让它帮你干活写代码，宠物回复时用内置语音包读出声（朗读支持 Windows 与 macOS）。桥接这半边需要先装 DSH 的 Host 插件（coopanion-connector-dsh）才会连；不会装就看源码仓库的说明，或把仓库地址交给 AI 帮你装。/ Chat with DeepSeek Harness (DSH) so it does the work — writing code for you — and hear the pet's rep",
       "locales": {
@@ -3653,8 +3658,8 @@
         "bugs": "https://github.com/blacksunshy/coopanion-fatfish/issues"
       },
       "created": "2026-10-15T06:47:52.601Z",
-      "published": "2026-10-25T07:51:31.166Z",
-      "versionCount": 18,
+      "published": "2026-10-25T16:23:51.343Z",
+      "versionCount": 19,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3678,6 +3683,7 @@
       },
       "changelog": {
         "versions": [
+          "0.6.2",
           "0.6.1",
           "0.6.0",
           "0.5.0",
@@ -3702,9 +3708,9 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 37,
-        "down": 6,
-        "comments": 12
+        "up": 38,
+        "down": 5,
+        "comments": 13
       }
     },
     "cortico-world-figure-persona": {
@@ -4774,7 +4780,7 @@
       "discussion": {
         "number": 78,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/78",
-        "up": 1,
+        "up": 2,
         "down": 0,
         "comments": 0
       }
@@ -5500,6 +5506,79 @@
         "number": 127,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/127",
         "up": 1,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-music": {
+      "kind": "world",
+      "version": "0.2.0",
+      "displayName": "一起感受音乐",
+      "description": "一起感受音乐——在用户明确要求后，和桌宠一起听电脑上的音乐：系统环回采集、播放器曲目信息与完整歌词、云端沉浸式感受；开始会冒“我在听”并每 2 分钟提示状态；换歌先完整总结上一首再报新歌，摇滚会傻乐跑跳、悲伤会安静发呆（只用现有动作）；会结合歌手风格/年代/出处场景理解歌曲，听歌时保持专注不打盹；支持自定义 OpenAI 兼容接口/模型和自己的 Key，听完一首可一直听或停；带一点大肥鱼的傻白甜。只支持 Windows。",
+      "author": "Sakayume02",
+      "maintainers": [
+        "sakayume_02"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "music",
+        "audio",
+        "listening",
+        "wasapi",
+        "loopback",
+        "qwen-omni"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-music",
+        "repository": "https://github.com/Sakayume02/cortico-world-music",
+        "homepage": "https://github.com/Sakayume02/cortico-world-music#readme",
+        "bugs": "https://github.com/Sakayume02/cortico-world-music/issues"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-10-25T15:25:58.658Z",
+      "published": "2026-10-25T15:26:55.173Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "voice",
+        "requires-key",
+        "sensitive-data",
+        "experimental"
+      ],
+      "tags": [
+        "voice",
+        "requires-key",
+        "experimental",
+        "sensitive-data"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 6,
+        "toolTokens": 386,
+        "envPromptTokens": 1652
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://github.com/Sakayume02/cortico-world-music/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 288,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/288",
+        "up": 0,
         "down": 0,
         "comments": 0
       }
@@ -6445,7 +6524,7 @@
     },
     "cortico-world-qq-all": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "QQ 全能",
       "description": "Cortico World for Coopanion: lets the desktop pet use QQ through OneBot v11, asking the owner once per feature and never asking for that feature again",
       "locales": {
@@ -6473,8 +6552,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-qq-all"
       },
       "created": "2026-10-25T13:06:53.548Z",
-      "published": "2026-10-25T13:07:49.850Z",
-      "versionCount": 2,
+      "published": "2026-10-25T15:14:21.368Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "tags": [
@@ -6487,15 +6566,15 @@
         "week": 0
       },
       "summary": {
-        "tools": 9,
+        "tools": 10,
         "events": 1,
-        "toolTokens": 1804,
-        "envPromptTokens": 522
+        "toolTokens": 2237,
+        "envPromptTokens": 645
       },
       "discussion": {
         "number": 284,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/284",
-        "up": 1,
+        "up": 2,
         "down": 0,
         "comments": 1
       }

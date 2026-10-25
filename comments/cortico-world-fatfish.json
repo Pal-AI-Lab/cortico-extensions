@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "cortico-world-fatfish",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-  "total": 12,
+  "total": 13,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJKn2",
+      "author": "miari25",
+      "avatar": "https://avatars.githubusercontent.com/u/254370857?s=64&v=4",
+      "body": "作者你好，我是个小白，所以问的问题可能很蠢，实在不好意思。\n我装了这个插件后，coop这边一直显示的是未连接，我让DSH分析了一下问题，他给我这个回复：\n收到，暂停。下面是我目前确认的问题，按因果顺序说：\n\n1. 两半其实都装上了，DSH 这侧是好的\nDSH 插件 coopanion-connector-dsh 已加载，桥接路由在跑：GET http://127.0.0.1:54179/coopanion/status → {\"ok\":true,\"v\":1,\"pet\":false,\"session\":null}，v:1 说明协议版本对得上，只是没有桌宠连进来。\nCoopanion 侧 cortico-world-fatfish 0.6.1 已安装并在运行（日志里有 fatfish armed）。\n2. 第一个问题：地址写死 19387，而 DSH 的端口每次都变\nDSH 桌面版的启动参数是写死的 --host 127.0.0.1 --port 0（我从 app.asar 里的 desktop-host 反解出来的），所以每次启动都由系统随机分配端口，这次是 54179。\n而 fatfish 的默认地址是 ws://127.0.0.1:19387/coopanion/pet，19387 上根本没有监听 → 日志里一路 ECONNREFUSED 127.0.0.1:19387。\n这个端口不是配置项，插件是挂在 DSH 自身 web 服务器上的，没法让 DSH 固定端口。\n3. 第二个问题：自动发现端口的机制在这台机器上是坏的\nfatfish 本来有 discoverBridge：连接失败后扫 49152–65535 的回环端口，用 /coopanion/status 认出 DSH。但我实测复现了它的扫描逻辑：\n\n并发数\t结果\n512（它的默认值）\t15998 次超时、386 次拒绝、找到 0 个\n64\t正常，找到 54179\n也就是说：默认 512 并发把本机回环连接打崩了（大量 SYN 无响应），发现逻辑永远找不到 DSH——所以它日志里从来没有 DSH bridge moved to ... 那一行。\n\n4. 现在卡在第三个问题：WebSocket 握手被服务端挂断\n地址改成 54179 之后，报错从 ECONNREFUSED 变成了 socket hang up：\n\n即 TCP 能连上 54179，但在 /coopanion/pet 的 WebSocket 升级阶段，服务端直接关掉了连接。\n我用同一个 ws 库写了独立探针，也是 socket hang up（1006），所以不是桌宠侧的问题。\n同一台服务器上 /coopanion/status 正常，说明插件确实加载了；插件的升级守卫只检查 Host 是不是回环地址，127.0.0.1:54179 是能通过的。\n因此问题出在 DSH 服务端处理 upgrade 的那段：可能是路由没匹配上、被别的 upgrade 监听器抢先、或 handler 抛错后被 socket.destroy()（这几种在源码里都表现为\"直接挂断、没有 HTTP 响应\"）。我正查到这一步。\n结论\n目前不是一个原因，是三层叠在一起：端口漂移 → 自动发现失效 → WS 升级被拒。第 2 层已确认是插件自身的并发参数问题（可改一个数字修好）；第 3 层还没定位，需要继续看 DSH 的 upgrade 分发。\n\n你回来后告诉我继续，我可以接着查第 3 层；也可以先把第 2 层的修复做掉。\n\n以上是DSH给我的回复\n我主要是想换一个语音，但是也没有成功\n实在不好意思，如果方便的话烦请您帮我看一下，非常感谢！",
+      "createdAt": "2026-10-25T15:32:42Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJJ-T",
       "author": "742282994",
