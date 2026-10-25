@@ -2,14 +2,30 @@
   "schema": 1,
   "name": "cortico-world-fatfish",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-  "total": 13,
+  "total": 15,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJKyC",
+      "author": "blacksunshy",
+      "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
+      "body": "@miari25 一点都不蠢——恰恰相反，这份排查写得很专业：三层分开说、每层都有实测数据，直接帮我确认了问题在哪。感谢。\n\n**已经发版：cortico-world-fatfish 0.6.2**，Co 的扩展市场里更新（或卸载重装）就能拿到。改了三处，对应你列的第 1、2 层：\n\n1. **扫描并发 512 → 64。** 你那台机器「512 并发：15998 次超时、386 次拒绝、找到 0 个」是关键证据——默认值在你的环境里会把发现逻辑整个打坏，我这边复现不出来，所以一直没暴露。现在默认 64，扫描耗时几乎不变。\n2. **启动时就扫一次，不再等第一次连接失败。** 之前要先失败一轮才扫，扫空了还要等 20 秒冷却；我本机升到新版 DSH 后实测空等了约 80 秒。现在启动即扫、扫空按 3 秒起步翻倍到 30 秒重试、找到就立刻重连。默认地址写死 19387 的问题因此也一并绕过，**不需要你手动改地址**。\n3. **记住上次连上的端口**（`<dataDir>/fatfish-bridge.json`）：Co 重启而 DSH 没重启时直接连旧端口，连扫都不用。DSH 重启换了端口，就回落到扫描，只多一条连接被拒的日志。\n\n第 3 层（WebSocket 升级被挂断）我没法只靠代码定位，所以先补了日志，让它不再只是一句 socket hang up：\n\n```\nDSH bridge upgrade rejected: HTTP <状态码>\n```\n\n更新后麻烦把这几样发我，就能分清是「DSH 用 HTTP 拒绝」还是「DSH 直接 destroy 了 socket」：\n\n- Co 的 `build/data/logs/core.log` 里含 `DSH bridge` 的行（从启动后开始就行）\n- `dsh --version`\n- `dsh plugin list` 的输出（看 connector 装的是哪个版本、有没有被禁用）\n- DSH 那边启动时段的服务端日志（控制台或 `%USERPROFILE%\\\\.dsh\\\\logs\\\\` 下）\n\n如果日志里出现 `upgrade rejected: HTTP 503`，说明 DSH 的 web server 在、但没把这台 `upgrade` 交给插件，那问题在 DSH 侧的 upgrade 分发；如果一共没有这条、只有 `closed`，那就是 `socket.destroy()` 那条路，同样需要 DSH 的日志才能定位。\n\n另外你提到「主要是想换一个语音」：语音和桥接是两件事，桥接连不上不影响朗读。0.6.2 里「语音包」下拉可以直接选一套现成的音色（温柔女声、活泼少女、少年音、播音腔、东北/陕西口音、粤语、台湾、English），选「自定义」才用你自己填的音色、语速、音高、音量。可以先试试这个。",
+      "createdAt": "2026-10-25T16:27:19Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJKn2",
       "author": "miari25",
       "avatar": "https://avatars.githubusercontent.com/u/254370857?s=64&v=4",
       "body": "作者你好，我是个小白，所以问的问题可能很蠢，实在不好意思。\n我装了这个插件后，coop这边一直显示的是未连接，我让DSH分析了一下问题，他给我这个回复：\n收到，暂停。下面是我目前确认的问题，按因果顺序说：\n\n1. 两半其实都装上了，DSH 这侧是好的\nDSH 插件 coopanion-connector-dsh 已加载，桥接路由在跑：GET http://127.0.0.1:54179/coopanion/status → {\"ok\":true,\"v\":1,\"pet\":false,\"session\":null}，v:1 说明协议版本对得上，只是没有桌宠连进来。\nCoopanion 侧 cortico-world-fatfish 0.6.1 已安装并在运行（日志里有 fatfish armed）。\n2. 第一个问题：地址写死 19387，而 DSH 的端口每次都变\nDSH 桌面版的启动参数是写死的 --host 127.0.0.1 --port 0（我从 app.asar 里的 desktop-host 反解出来的），所以每次启动都由系统随机分配端口，这次是 54179。\n而 fatfish 的默认地址是 ws://127.0.0.1:19387/coopanion/pet，19387 上根本没有监听 → 日志里一路 ECONNREFUSED 127.0.0.1:19387。\n这个端口不是配置项，插件是挂在 DSH 自身 web 服务器上的，没法让 DSH 固定端口。\n3. 第二个问题：自动发现端口的机制在这台机器上是坏的\nfatfish 本来有 discoverBridge：连接失败后扫 49152–65535 的回环端口，用 /coopanion/status 认出 DSH。但我实测复现了它的扫描逻辑：\n\n并发数\t结果\n512（它的默认值）\t15998 次超时、386 次拒绝、找到 0 个\n64\t正常，找到 54179\n也就是说：默认 512 并发把本机回环连接打崩了（大量 SYN 无响应），发现逻辑永远找不到 DSH——所以它日志里从来没有 DSH bridge moved to ... 那一行。\n\n4. 现在卡在第三个问题：WebSocket 握手被服务端挂断\n地址改成 54179 之后，报错从 ECONNREFUSED 变成了 socket hang up：\n\n即 TCP 能连上 54179，但在 /coopanion/pet 的 WebSocket 升级阶段，服务端直接关掉了连接。\n我用同一个 ws 库写了独立探针，也是 socket hang up（1006），所以不是桌宠侧的问题。\n同一台服务器上 /coopanion/status 正常，说明插件确实加载了；插件的升级守卫只检查 Host 是不是回环地址，127.0.0.1:54179 是能通过的。\n因此问题出在 DSH 服务端处理 upgrade 的那段：可能是路由没匹配上、被别的 upgrade 监听器抢先、或 handler 抛错后被 socket.destroy()（这几种在源码里都表现为\"直接挂断、没有 HTTP 响应\"）。我正查到这一步。\n结论\n目前不是一个原因，是三层叠在一起：端口漂移 → 自动发现失效 → WS 升级被拒。第 2 层已确认是插件自身的并发参数问题（可改一个数字修好）；第 3 层还没定位，需要继续看 DSH 的 upgrade 分发。\n\n你回来后告诉我继续，我可以接着查第 3 层；也可以先把第 2 层的修复做掉。\n\n以上是DSH给我的回复\n我主要是想换一个语音，但是也没有成功\n实在不好意思，如果方便的话烦请您帮我看一下，非常感谢！",
-      "createdAt": "2026-10-25T15:32:42Z"
+      "createdAt": "2026-10-25T15:32:42Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJK2r",
+          "author": "blacksunshy",
+          "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
+          "body": "很棒啊，很专业，由于我本地一直是ok的所以没考虑到，已修复，可以考虑更新一下版本，如果还有问题的话欢迎提出来，谢啦",
+          "createdAt": "2026-10-25T16:49:20Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BJJ-T",
