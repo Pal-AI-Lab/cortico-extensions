@@ -895,6 +895,133 @@
         "comments": 0
       }
     },
+    "cortico-provider-openai-chat-compat": {
+      "kind": "provider",
+      "version": "0.1.0",
+      "description": "Cortico provider: an OpenAI Chat Completions dialect for compatible model services",
+      "locales": {
+        "zh": {
+          "displayName": "OpenAI Chat 兼容",
+          "description": "连接兼容 OpenAI Chat Completions 的模型服务。"
+        }
+      },
+      "author": "UnusWhite",
+      "maintainers": [
+        "unus-white"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-provider",
+        "cortico"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-provider-openai-chat-compat",
+        "repository": "https://github.com/UnusWhite/cortico-provider-openai-chat-compat",
+        "homepage": "https://github.com/UnusWhite/cortico-provider-openai-chat-compat#readme",
+        "bugs": "https://github.com/UnusWhite/cortico-provider-openai-chat-compat/issues"
+      },
+      "created": "2026-10-25T04:52:43.873Z",
+      "published": "2026-10-25T04:53:39.600Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "protocols": [
+          "openai-chat"
+        ],
+        "auth": [
+          "api-key"
+        ],
+        "input": [
+          "text",
+          "image"
+        ],
+        "local": false
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/UnusWhite/cortico-provider-openai-chat-compat/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 265,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/265",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-provider-qianfan-tokenplan": {
+      "kind": "provider",
+      "version": "0.1.0",
+      "description": "Cortico provider for Baidu Qianfan Token Plan subscription endpoint",
+      "author": "pyonopyon210",
+      "maintainers": [
+        "pyon_pyon210"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-provider",
+        "cortico",
+        "qianfan",
+        "baidu",
+        "llm"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-provider-qianfan-tokenplan"
+      },
+      "created": "2026-10-25T05:15:10.708Z",
+      "published": "2026-10-25T05:16:07.388Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "requires-key",
+        "experimental"
+      ],
+      "tags": [
+        "requires-key",
+        "experimental"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "protocols": [
+          "openai-chat"
+        ],
+        "auth": [
+          "api-key"
+        ],
+        "input": [
+          "text",
+          "image"
+        ],
+        "local": false
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-provider-qianfan-tokenplan@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 266,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/266",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-tool-junction-upgrade": {
       "kind": "world",
       "version": "0.1.1",
@@ -1785,7 +1912,7 @@
       "discussion": {
         "number": 120,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/120",
-        "up": 7,
+        "up": 9,
         "down": 0,
         "comments": 0
       }
@@ -2024,7 +2151,7 @@
     },
     "cortico-world-civ6-assistant": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "文明六助手",
       "description": "适用于 Coopanion／Cortico 的文明六助手：通过只读 Lua Mod 读取本地玩家状态，并以受控截图补充局势分析。",
       "locales": {
@@ -2053,8 +2180,8 @@
         "win32"
       ],
       "created": "2026-10-25T03:54:56.622Z",
-      "published": "2026-10-25T03:55:52.251Z",
-      "versionCount": 2,
+      "published": "2026-10-25T05:41:55.905Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2082,14 +2209,15 @@
       "summary": {
         "tools": 2,
         "events": 1,
-        "toolTokens": 215,
+        "toolTokens": 237,
         "envPromptTokens": 204
       },
       "changelog": {
         "versions": [
+          "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-civ6-assistant@0.1.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-civ6-assistant@0.1.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 261,
@@ -3267,7 +3395,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
         "up": 32,
         "down": 6,
-        "comments": 4
+        "comments": 5
       }
     },
     "cortico-world-figure-persona": {
@@ -3462,7 +3590,7 @@
       "discussion": {
         "number": 20,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/20",
-        "up": 1,
+        "up": 2,
         "down": 0,
         "comments": 0
       }
@@ -4071,6 +4199,70 @@
       "discussion": {
         "number": 159,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/159",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-immortal": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "大肥鱼的永生",
+      "description": "Coopanion / Cortico world extension: snapshots the bot's memory workspace to WebDAV on a schedule and restores it back on demand, with its own settings panel",
+      "locales": {
+        "zh": {
+          "displayName": "大肥鱼的永生",
+          "description": "把 bot 的记忆工作区定时导出成快照传到 WebDAV（坚果云、Nextcloud、群晖都行），需要时一键还原回记忆目录。地址、账号、份数、间隔都在面板上填。"
+        },
+        "en": {
+          "displayName": "Immortality",
+          "description": "Snapshots the bot's memory workspace to WebDAV on a schedule and restores it back on demand. Endpoint, account, keep count and interval all live on its own panel."
+        }
+      },
+      "maintainers": [
+        "nyany"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-immortal"
+      },
+      "created": "2026-10-25T05:35:48.070Z",
+      "published": "2026-10-25T05:36:44.421Z",
+      "versionCount": 1,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "external-setup",
+        "requires-key"
+      ],
+      "tags": [
+        "external-setup",
+        "requires-key"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 0,
+        "toolTokens": 179,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-immortal@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 267,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/267",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -5767,7 +5959,7 @@
       "discussion": {
         "number": 39,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/39",
-        "up": 5,
+        "up": 8,
         "down": 0,
         "comments": 0
       }
@@ -6163,7 +6355,7 @@
     },
     "cortico-world-qq-promax": {
       "kind": "world",
-      "version": "0.1.5",
+      "version": "0.1.6",
       "displayName": "QQ ProMAX",
       "description": "QQ ProMAX: Cortico QQ 私聊、群聊、空间和语音扩展，支持 OneBot v11 / SnowLuma / NapCat。",
       "locales": {
@@ -6198,8 +6390,8 @@
         "linux"
       ],
       "created": "2026-10-17T07:03:46.358Z",
-      "published": "2026-10-24T07:34:08.501Z",
-      "versionCount": 7,
+      "published": "2026-10-25T04:49:20.469Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -6243,6 +6435,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.6",
           "0.1.5",
           "0.1.4",
           "0.1.3",
@@ -7644,7 +7837,7 @@
       "discussion": {
         "number": 85,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/85",
-        "up": 7,
+        "up": 8,
         "down": 2,
         "comments": 4
       }

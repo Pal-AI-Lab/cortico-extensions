@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-civ6-assistant",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "describe": {
     "tools": [
       {
@@ -10,7 +10,7 @@
           "read",
           "snapshot"
         ],
-        "description": "观察当前文明六画面。仅当前台窗口标题明确匹配文明六时截图，返回前台标题、截图尺寸、场景说明和 JPEG；前台不是文明六时拒绝截图。这是内部状态的截图补充，不能替代游戏内数据。",
+        "description": "观察当前文明六画面。仅当前台窗口标题明确匹配文明六时截图，返回前台标题、截图尺寸、场景说明和 JPEG；前台不是文明六时拒绝截图。截图引擎由 Coopanion 宿主的桌面宠物组件提供，组件缺失时仅此工具不可用。这是内部状态的截图补充，不能替代游戏内数据。",
         "parameters": {
           "type": "object",
           "properties": {},
@@ -61,6 +61,7 @@
     ]
   },
   "changelog": {
+    "0.1.1": "- 修复干净安装时因 npm 上不存在 `cortico-world-desktop-pet` 而被 404 阻断的问题。\n- 移除该桌宠包的 npm 硬依赖，改为从 Coopanion 宿主的 Cortico 运行时解析截图引擎。\n- 宿主没有截图组件时，`civ6_observe` 明确提示不可用，`civ6_game_state` 不受影响。\n- 新增宿主解析与缺失组件降级测试，共 24 项桌面端回归测试通过；真实对局验收仍待完成。",
     "0.1.0": "- 首个实验性发布。\n- 新增 `civ6_game_state` 与 `civ6_observe` 两个工具。\n- 新增只读游戏内 Lua Mod `CoopanionCiv6Bridge`。\n- 加入有界日志读取、schema 校验、session 与心跳新鲜度检查、未来时间戳保护。\n- 通过 22 项桌面端回归测试及 Cortico 临时部署检查；真实对局验收仍待完成。"
   }
 }

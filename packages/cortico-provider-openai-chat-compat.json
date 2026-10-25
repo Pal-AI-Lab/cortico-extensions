@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "name": "cortico-provider-openai-chat-compat",
+  "version": "0.1.0",
+  "describe": {
+    "provider": {
+      "protocols": [
+        "openai-chat"
+      ],
+      "auth": [
+        "api-key"
+      ],
+      "local": false,
+      "input": [
+        "text",
+        "image"
+      ],
+      "title": "OpenAI Chat Compatible",
+      "description": "Connect to Chat Completions-compatible model services."
+    }
+  },
+  "changelog": {
+    "0.1.0": "- 首个版本:OpenAI Chat Completions 方言,带 `endpointPath` / `extraHeaders` / `extraBody` 选项、`GET /models` 模型目录、思维链回传与图片输入。\n- 发布元数据:MIT LICENSE、`author`、仓库字段与中文市场文案(`locales.zh`)。"
+  }
+}

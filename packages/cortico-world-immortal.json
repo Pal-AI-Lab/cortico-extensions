@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "name": "cortico-world-immortal",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "cloud_backup",
+        "description": "Snapshot the memory workspace to the configured WebDAV right now, without waiting for the schedule. Commits a mirror copy first, exports a git bundle, uploads it, and prunes snapshots beyond the keep count.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "立刻把记忆导出成快照传到云端,不等排程;回执报快照名、提交号、字节数。",
+          "en": "Exports the memory as a snapshot to the cloud now instead of waiting for the schedule; the receipt names the snapshot, commit and size."
+        }
+      },
+      {
+        "name": "cloud_status",
+        "description": "Report the last cloud backup, the next scheduled one, and how many snapshots sit on the remote.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "报上次备份的结果、下次排程与云端快照份数。",
+          "en": "Reports the last backup, the next scheduled run and how many snapshots the remote holds."
+        }
+      }
+    ],
+    "events": []
+  },
+  "changelog": {
+    "0.1.0": "首个版本。`world` 扩展，契约 api 6。显示名「大肥鱼的永生」，npm 包名 `cortico-world-immortal`。\n\n- 定时把记忆工作区导出成 git bundle 传到 WebDAV，间隔 30–10080 分钟可设，面板上有 1 小时 / 3 小时 / 1 天三档。\n- 排程由插件自己的定时器驱动，与模型的判断无关；「立即同步」和工具 `cloud_backup` 是两个手动开关。\n- 面板可填 WebDAV 地址、账号、应用密码、记忆目录、保留份数、云端目录、自动同步开关。\n  地址与间隔写部署的 `config.json`，密钥写部署的 `.env`。\n- 保留份数默认 3，超出从最旧的删起。一份快照是平铺的 `.bundle` + `.json` 一对文件。\n- 镜像式备份：第一次连 bot 的 `.git` 一起收下（历史跟着来），之后只同步工作树，\n  提交与打包都在镜像里做，她的目录一个字节不动。\n- 记忆目录由用户在面板填一次、存进配置；没填、或指向空目录时同步直接失败并报出实际路径，不传空快照。\n- 云端快照列表按本机时区显示（精确到秒），并给出「几小时前」。\n- 云端 → 本地两条路：每份快照可「下载」（落到 `<dataDir>/downloads/`，不碰记忆）或「还原」（写回记忆目录）。\n- 还原叠三道保险：先紧急上传当前记忆（失败即中止）→ 当前记忆整份留底到 `<dataDir>/pre-restore/`\n  → 才覆盖工作树。全程不碰她的 `.git`。\n- 「测试连接」按表单里的值验：地址与账号空着就报缺项、不发请求；密码空着用已保存的那个并在回执里点名。\n- 工具：`cloud_backup`（立刻快照）、`cloud_status`（报上次结果与下次排程）。\n- 重启后靠状态文件认出「与上次同步的提交相同」，不重复上传；面板仍能说清上次传了什么。\n- 52 条测试：记忆目录 12、镜像 8、快照 22、还原 10，其中假的 WebDAV 服务端与真实服务同口径。"
+  }
+}
