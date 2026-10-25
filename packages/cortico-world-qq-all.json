@@ -1,0 +1,358 @@
+{
+  "schema": 1,
+  "name": "cortico-world-qq-all",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "qq_status",
+        "description": "查看 QQ 全能的授权、协议端连接和登录账号。不读写任何 QQ 内容，随时可用。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": "查看 QQ 全能的授权、连接和登录账号。"
+      },
+      {
+        "name": "qq_access",
+        "description": "管理按功能授权。action=status 查看已授权/待确认的功能；action=request 给某个功能生成带口令的请示话术；action=grant 在主人回答后凭口令授权这一个功能；action=revoke 撤销一个功能（feature=\"all\" 撤销全部）。每个功能第一次使用前都要单独走一次 request → pet_ask → grant；grant 会回查主人的真实回答，模型自己说同意不算。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "status",
+                "request",
+                "grant",
+                "revoke"
+              ],
+              "description": "要做的授权操作。"
+            },
+            "feature": {
+              "type": "string",
+              "description": "功能 id，例如 qq_send、qq_history、qq_group_admin:kick、qq_api:get_group_honor_info。被挡下的工具回执里会给出这个 id。revoke 时可用 all。"
+            },
+            "challenge": {
+              "type": "string",
+              "description": "action=grant 时填请示话术里的口令，用来核对是哪一次询问。"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "flow"
+        ],
+        "summary": "按功能授权：第一次用到某个功能时单独征求主人同意，同意过的功能不再问。"
+      },
+      {
+        "name": "qq_send",
+        "description": "在 QQ 群或私聊里发一条消息，可带文字、图片、引用回复和 @。「发消息」这个功能第一次使用前会问主人一次，同意后不再逐次询问；发出去就收不回来。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "target_type": {
+              "type": "string",
+              "enum": [
+                "group",
+                "private"
+              ],
+              "description": "group = 群，private = 私聊。"
+            },
+            "target_id": {
+              "type": "integer",
+              "description": "群号（group）或 QQ 号（private）。"
+            },
+            "text": {
+              "type": "string",
+              "description": "文字内容。"
+            },
+            "image": {
+              "type": "string",
+              "description": "图片：http(s) 链接、base64://、协议端能读到的本地路径，或 Coopanion 的 log:/mem: 图片句柄（会自动转成 base64）。"
+            },
+            "reply_to": {
+              "type": "integer",
+              "description": "要引用的消息号。"
+            },
+            "at": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "description": "群里要 @ 的 QQ 号，最多 10 个。"
+            }
+          },
+          "required": [
+            "target_type",
+            "target_id"
+          ]
+        },
+        "tags": [
+          "speak",
+          "act"
+        ],
+        "summary": "在 QQ 群或私聊里发消息，可带图片、引用和 @。"
+      },
+      {
+        "name": "qq_history",
+        "description": "读取某个群或私聊最近的消息，带时间、发言人、消息号和正文。协议端不支持历史接口时，回退到本机 QQ 渠道已经记录的消息。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "target_type": {
+              "type": "string",
+              "enum": [
+                "group",
+                "private"
+              ],
+              "description": "group = 群，private = 私聊。"
+            },
+            "target_id": {
+              "type": "integer",
+              "description": "群号（group）或 QQ 号（private）。"
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "description": "要读多少条，默认 20。"
+            }
+          },
+          "required": [
+            "target_type",
+            "target_id"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": "读某个群或私聊最近的消息。"
+      },
+      {
+        "name": "qq_contacts",
+        "description": "查好友列表、群列表、群成员或某个陌生人的资料，可按关键词过滤。用来找群号、QQ 号，或者确认要发给谁。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "friends",
+                "groups",
+                "members",
+                "stranger"
+              ],
+              "description": "friends = 好友，groups = 群，members = 群成员，stranger = 陌生人资料。"
+            },
+            "group_id": {
+              "type": "integer",
+              "description": "kind=members 时的群号。"
+            },
+            "user_id": {
+              "type": "integer",
+              "description": "kind=stranger 时的 QQ 号。"
+            },
+            "query": {
+              "type": "string",
+              "description": "按昵称、群名、备注或号码过滤，不区分大小写。"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "description": "最多返回多少条，默认 50。"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": "查好友、群、群成员或陌生人的资料。"
+      },
+      {
+        "name": "qq_recall",
+        "description": "撤回一条自己发出的 QQ 消息。别人的消息撤不了。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "message_id": {
+              "type": "integer",
+              "description": "要撤回的消息号。"
+            }
+          },
+          "required": [
+            "message_id"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": "撤回一条自己发出的 QQ 消息。"
+      },
+      {
+        "name": "qq_group_admin",
+        "description": "群管理：禁言/解禁、全员禁言、踢人、改群名片、设/撤管理员、改头衔、改群名、退群/解散、设/撤精华、发群公告。这些动作按类别分别授权：禁言、踢人、群资料、管理员、退群/解散、精华、群公告，第一次用到哪类就单独问哪类。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "group_id": {
+              "type": "integer",
+              "description": "群号。"
+            },
+            "op": {
+              "type": "string",
+              "enum": [
+                "mute",
+                "unmute",
+                "mute_all",
+                "unmute_all",
+                "kick",
+                "set_card",
+                "set_admin",
+                "unset_admin",
+                "set_title",
+                "rename",
+                "leave",
+                "dismiss",
+                "set_essence",
+                "delete_essence",
+                "notice"
+              ],
+              "description": "要做的群管理动作。"
+            },
+            "user_id": {
+              "type": "integer",
+              "description": "mute/unmute/kick/set_card/set_admin/unset_admin/set_title 的目标 QQ 号。"
+            },
+            "duration_seconds": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2592000,
+              "description": "mute 的时长，秒；不给则 600（10 分钟），0 表示解禁。"
+            },
+            "card": {
+              "type": "string",
+              "description": "set_card 的新群名片。"
+            },
+            "title": {
+              "type": "string",
+              "description": "set_title 的新头衔。"
+            },
+            "name": {
+              "type": "string",
+              "description": "rename 的新群名。"
+            },
+            "message_id": {
+              "type": "integer",
+              "description": "set_essence/delete_essence 的消息号。"
+            },
+            "content": {
+              "type": "string",
+              "description": "notice 的群公告正文。"
+            },
+            "reject_add_request": {
+              "type": "boolean",
+              "description": "kick 时是否拒绝此人再次加群。"
+            }
+          },
+          "required": [
+            "group_id",
+            "op"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": "禁言、踢人、群资料等群管理，按类别分别授权。"
+      },
+      {
+        "name": "qq_poke",
+        "description": "戳一戳：群里戳某个群友，或私聊里戳对方。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "target_type": {
+              "type": "string",
+              "enum": [
+                "group",
+                "private"
+              ],
+              "description": "group = 群，private = 私聊。"
+            },
+            "target_id": {
+              "type": "integer",
+              "description": "群号（group）或 QQ 号（private）。"
+            },
+            "user_id": {
+              "type": "integer",
+              "description": "群里要戳的 QQ 号；私聊不用给。"
+            }
+          },
+          "required": [
+            "target_type",
+            "target_id"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": "戳一戳群友或私聊对象。"
+      },
+      {
+        "name": "qq_api",
+        "description": "直接调用 OneBot v11 的任意动作（action + params），覆盖协议端支持的全部功能，例如 get_forward_msg、upload_group_file、set_msg_emoji_like、get_group_honor_info。每个动作名第一次使用前会单独问主人一次；和专用工具同义的动作用同一份授权。参数里的 log:/mem: 图片句柄会自动转成 base64:// 再交给协议端，所以可以直接把截图传给 send_qzone_msg 之类只认图片源的接口。会导出账号凭据的动作（get_cookies / get_csrf_token）被拒绝。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "description": "OneBot 动作名，例如 get_group_info。"
+            },
+            "params": {
+              "type": "object",
+              "description": "动作参数对象；也可以给 JSON 字符串。",
+              "additionalProperties": true
+            },
+            "timeout_ms": {
+              "type": "integer",
+              "minimum": 1000,
+              "maximum": 60000,
+              "description": "调用超时，默认 15000。"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": "直接调用 OneBot v11 的任意动作，按动作名分别授权。"
+      }
+    ],
+    "events": [
+      {
+        "type": "qq-all.sent",
+        "description": "桌宠通过 QQ 全能发出的一条消息，只记录，不唤醒。"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.qq-all.envPrompt",
+        "title": "QQ 全能环境提示词",
+        "role": "envPrompt",
+        "content": "## QQ 全能（qq-all）\n\n你可以通过 OneBot v11 使用主人的 QQ：发消息、读历史、查好友和群、管理群、戳一戳，或者调用协议端的任意动作。\n\n- 协议端：{{qq.status}}\n- 账号：{{qq.account}}\n- 授权：{{qq.access}}\n\n{{qq.rules}}\n\n### 工具\n\n- `qq_send`：发群消息或私聊，可带图片、引用回复、@。发出去就收不回来。\n- `qq_history`：读某个群或私聊最近的消息。\n- `qq_contacts`：查好友、群、群成员、陌生人资料；找群号或 QQ 号时先用它。\n- `qq_recall`：撤回自己发出的消息。\n- `qq_group_admin`：禁言/解禁、全员禁言、踢人、改群名片、设/撤管理员、改头衔、改群名、退群/解散、精华、群公告。\n- `qq_poke`：戳一戳。\n- `qq_api`：其他任何 OneBot 动作（`action` + `params`），例如 `get_forward_msg`、`upload_group_file`、`set_msg_emoji_like`、`get_group_honor_info`。\n- `qq_status`：看连接、账号和授权状态。\n- `qq_access`：授权流程本身。\n\n### 图片\n\n`qq_send` 的 `image`、`qq_api` 参数里的 `log:` / `mem:` 图片句柄（截图、存下来的图片都是这种句柄）会被读出来转成 `base64://` 再交给协议端。发说说（`send_qzone_msg`）的 `images` 数组也吃这种句柄，可以直接把截图带上；不需要自己找文件路径或转 base64。\n\n### 规矩\n\n- 只在主人让你做、或明显该你出手时用 QQ。不要为了刷存在感主动发消息、戳人、@全体。\n- 发给谁、发什么，先想清楚。群管理动作（踢人、禁言、解散）影响别人，不确定就先问。\n- 不要把私聊内容、群聊记录、手机号等转给无关的人，也不要写进公开的地方。\n- 不要调用 `get_cookies`、`get_csrf_token` 这类会导出账号凭据的动作；`qq_api` 会拒绝它们。\n- 协议端不支持的动作会返回明确的错误。换个做法或告诉主人，不要瞎猜参数反复试。\n- 授权是按功能算的：每个功能第一次使用前都要先问主人；同意过的功能不再问，没同意过的功能仍然要问。一次只处理一个功能，先按工具回执里的 `feature` 和口令问，再 `grant`；不要一次问\"全部功能可不可以\"。\n- \"这个功能不再问\"不等于\"可以随便用\"，仍然按上面的规矩来。\n"
+      }
+    ]
+  }
+}

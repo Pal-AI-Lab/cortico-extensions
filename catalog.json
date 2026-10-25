@@ -102,7 +102,7 @@
   "packages": {
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.4.5",
+      "version": "0.4.6",
       "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
       "description": "Cortico World for Coopanion: speaks the pet's lines aloud with GPT-SoVITS (V5 on NVIDIA GPUs, a CPU tier otherwise), installing a portable runtime and weights in one click",
       "locales": {
@@ -137,8 +137,8 @@
         "win32"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-10-24T16:27:29.850Z",
-      "versionCount": 9,
+      "published": "2026-10-25T13:12:25.438Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -164,6 +164,7 @@
       },
       "changelog": {
         "versions": [
+          "0.4.6",
           "0.4.5",
           "0.4.4",
           "0.4.3",
@@ -3700,7 +3701,7 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 35,
+        "up": 36,
         "down": 6,
         "comments": 12
       }
@@ -4403,7 +4404,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/23",
         "up": 0,
         "down": 0,
-        "comments": 3
+        "comments": 4
       }
     },
     "cortico-world-image-attach": {
@@ -6439,6 +6440,63 @@
         "up": 10,
         "down": 0,
         "comments": 1
+      }
+    },
+    "cortico-world-qq-all": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "QQ 全能",
+      "description": "Cortico World for Coopanion: lets the desktop pet use QQ through OneBot v11, asking the owner once per feature and never asking for that feature again",
+      "locales": {
+        "zh": {
+          "displayName": "QQ 全能",
+          "description": "让桌宠使用 QQ 的全部功能，但每个功能第一次使用前都要单独征求你的同意；同意过的功能不再询问。"
+        },
+        "en": {
+          "displayName": "QQ All-in-One",
+          "description": "Lets the desktop pet use all of QQ, asking for your consent separately the first time each feature is used; a feature you agreed to never asks again."
+        }
+      },
+      "author": "uninjured",
+      "maintainers": [
+        "uninjured"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "coopanion",
+        "qq",
+        "onebot"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-qq-all"
+      },
+      "created": "2026-10-25T13:06:53.548Z",
+      "published": "2026-10-25T13:07:49.850Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [
+        "qq"
+      ],
+      "icon": "assets/cortico-world-qq-all/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 9,
+        "events": 1,
+        "toolTokens": 1804,
+        "envPromptTokens": 522
+      },
+      "discussion": {
+        "number": 284,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/284",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-qq-audio-input": {
