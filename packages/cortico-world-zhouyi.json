@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "name": "cortico-world-zhouyi",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "zhouyi_cast",
+        "description": "Cast a hexagram by tossing three fair coins six times. Takes no arguments. Returns six fields in Chinese: coin combinations, line values, changing lines, Zhu Xi reading priorities, the original hexagram name and the resulting hexagram name. Coins and lines run from bottom to top; heads score 3 and tails score 2.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "三硬币起卦，返回硬币组合、爻、动爻、取辞依据和本卦、之卦名。",
+          "en": "Casts six three-coin lines and returns coin combinations, line values, changing lines, reading priorities and hexagram names."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.zhouyi.envPrompt",
+        "title": "赛博半仙 · 环境提示词",
+        "role": "envPrompt",
+        "content": "Call `zhouyi_cast` when a reading is needed, then interpret it in relation to the user's question for entertainment. Each call generates one cast.\n\nCasting uses three coins; reading priorities follow Zhu Xi's changing-line rules in Yixue Qimeng. Coin combinations and line values run from the bottom line to the top. Values 6 and 9 are changing lines.\n\nFocus on the passages marked 主取 (primary), with 参看 (secondary) as supporting material. Use the original and resulting hexagrams and line names with your knowledge of the Zhouyi, Tuan, Xiang and Zhu Xi's Zhouyi Benyi commentary. Distinguish quotations, commentary and your interpretation; paraphrase passages whose exact wording you are unsure of. Match the conversation's language and tone, treating the reading as a prompt for reflection and entertainment.\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "- 提供 `zhouyi_cast` 三硬币起卦。\n- 按零至六动爻标出朱熹取辞主次。\n- 返回硬币组合、六爻数值、动爻、取辞依据、本卦名和之卦名。\n- 商城显示名为“赛博半仙”（Cyber Oracle）。"
+  }
+}

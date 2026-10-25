@@ -291,7 +291,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/214",
         "up": 1,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-bot-continuity": {
@@ -1711,8 +1711,7 @@
       "isNew": false,
       "tags": [
         "corti",
-        "streaming",
-        "unofficial-api"
+        "streaming"
       ],
       "icon": "assets/cortico-world-bilibili/icon.svg",
       "downloads": {
@@ -1736,7 +1735,7 @@
     },
     "cortico-world-bilibili-video": {
       "kind": "world",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "displayName": "B 站视频",
       "description": "Cortico World: watch a bilibili video in a logged-in browser, with frames, subtitles and the video's own danmaku delivered as events. 此乃直播测试验证之后的world，和其他 Persona / 非直播场景的兼容性有待测试。",
       "author": "Phantivia",
@@ -1757,8 +1756,8 @@
         "bugs": "https://github.com/Phantivia/cortico-world-bilibili-video/issues"
       },
       "created": "2026-10-15T04:22:42.746Z",
-      "published": "2026-10-22T00:34:52.107Z",
-      "versionCount": 5,
+      "published": "2026-10-25T21:58:21.511Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "tags": [
@@ -1767,8 +1766,7 @@
         "internet",
         "browser",
         "video",
-        "high-cost",
-        "unofficial-api"
+        "high-cost"
       ],
       "downloads": {
         "total": 1639,
@@ -1783,6 +1781,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.3",
           "0.2.2",
           "0.2.1",
           "0.2.0"
@@ -2820,7 +2819,7 @@
       "official": false,
       "isNew": true,
       "tags": [
-        "injection-risk"
+        "internet"
       ],
       "icon": "assets/cortico-world-dailypaper/icon.png",
       "screenshots": [
@@ -4075,7 +4074,7 @@
     },
     "cortico-world-hands": {
       "kind": "world",
-      "version": "0.19.0",
+      "version": "0.20.0",
       "displayName": "手",
       "description": "Cortico World: hands for the desktop pet — looks at the phone screen, then taps, swipes, pinches, drags, types and presses keys through whatever actuator the device actually has",
       "maintainers": [
@@ -4093,8 +4092,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-hands"
       },
       "created": "2026-10-22T14:40:37.506Z",
-      "published": "2026-10-25T19:39:32.491Z",
-      "versionCount": 37,
+      "published": "2026-10-25T21:46:17.092Z",
+      "versionCount": 38,
       "official": false,
       "isNew": true,
       "tags": [
@@ -5552,10 +5551,11 @@
         "experimental"
       ],
       "tags": [
-        "voice",
+        "internet",
         "requires-key",
         "experimental",
-        "sensitive-data"
+        "sensitive-data",
+        "injection-risk"
       ],
       "downloads": {
         "total": 0,
@@ -6750,7 +6750,6 @@
         "companion",
         "local",
         "external-setup",
-        "injection-risk",
         "unofficial-api"
       ],
       "downloads": {
@@ -7013,8 +7012,7 @@
         "qq",
         "external-setup",
         "requires-key",
-        "experimental",
-        "unsafe"
+        "experimental"
       ],
       "icon": "assets/cortico-world-qq-official/icon.png",
       "screenshots": [
@@ -7113,9 +7111,6 @@
         "external-setup",
         "experimental",
         "internal-state",
-        "unsafe",
-        "sensitive-data",
-        "injection-risk",
         "unofficial-api"
       ],
       "downloads": {
@@ -9423,8 +9418,7 @@
       ],
       "tags": [
         "internet",
-        "browser",
-        "injection-risk"
+        "browser"
       ],
       "icon": "assets/cortico-world-x/icon.svg",
       "downloads": {
@@ -9502,6 +9496,69 @@
       "discussion": {
         "number": 200,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/200",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-zhouyi": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "赛博半仙",
+      "description": "娱乐向周易占卦：三硬币起卦与朱熹取辞",
+      "locales": {
+        "zh": {
+          "displayName": "赛博半仙",
+          "description": "三硬币起卦，返回硬币、爻、动爻、取辞依据和卦名，供 bot 娱乐向解读。"
+        },
+        "en": {
+          "displayName": "Cyber Oracle",
+          "description": "Three-coin I Ching casting with line values, changing lines, Zhu Xi's reading priorities and hexagram names for recreational readings."
+        }
+      },
+      "author": "DTMosken",
+      "maintainers": [
+        "dtmosken"
+      ],
+      "license": "(MIT AND CC-BY-SA-4.0)",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "zhouyi",
+        "i-ching"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-zhouyi",
+        "repository": "https://github.com/DTMosken/cortico-world-zhouyi",
+        "homepage": "https://github.com/DTMosken/cortico-world-zhouyi#readme",
+        "bugs": "https://github.com/DTMosken/cortico-world-zhouyi/issues"
+      },
+      "created": "2026-10-25T21:38:31.745Z",
+      "published": "2026-10-25T21:39:27.063Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 1,
+        "events": 0,
+        "toolTokens": 138,
+        "envPromptTokens": 245
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/DTMosken/cortico-world-zhouyi/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 292,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/292",
         "up": 0,
         "down": 0,
         "comments": 0
