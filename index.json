@@ -338,17 +338,18 @@
         "en": "Unofficial API"
       },
       "hint": {
-        "zh": "用你的账号经非官方客户端、网页登录态或应用内部接口调用服务，可能违反服务条款，账号有被限制或封禁的风险。",
-        "en": "Uses your account through an unofficial client, a web login session or an app's internal endpoint; may break the service's terms and get the account restricted or banned."
+        "zh": "用你的账号经非官方客户端、应用内部接口，或靠网页登录态自动发帖、发消息、把网页当接口调用，可能违反服务条款，账号有被限制或封禁的风险。",
+        "en": "Uses your account through an unofficial client or an app's internal endpoint, or automates posting, messaging or a web app through your login; may break the service's terms and get the account restricted or banned."
       },
       "style": "notice",
-      "when": "Calls a service with the user's own account in a way the service does not offer to third parties, so the account may be restricted or banned: unofficial IM clients such as NapCat, web login sessions, or the internal endpoints and quotas of coding-agent apps. Undocumented endpoints that need no user account do not count."
+      "when": "Calls a service with the user's own account in a way the service does not offer to third parties, so the account may be restricted or banned: unofficial IM clients such as NapCat, the internal endpoints and quotas of coding-agent apps, driving a web app as a model or service API, or automated writes (posting, liking, messaging) through a web login. Only reusing a login session to read what the user could see in a browser does not count; neither do undocumented endpoints that need no user account."
     }
   },
   "certified": [
     "cortico-bot-continuity",
     "cortico-provider-deepseek",
     "cortico-world-fatfish",
+    "cortico-world-qq-final",
     "cortico-world-simple-trpg-check",
     "cortico-world-terrarium"
   ],
@@ -384,13 +385,8 @@
     "cortico-world-bilibili": {
       "addTags": [
         "corti",
-        "streaming",
-        "unofficial-api"
-      ],
-      "note": {
-        "zh": "借用 B 站网页登录 cookie(SESSDATA)",
-        "en": "Uses a bilibili web login cookie (SESSDATA)"
-      }
+        "streaming"
+      ]
     },
     "cortico-world-minecraft": {
       "addTags": [
@@ -663,12 +659,11 @@
         "companion",
         "local",
         "external-setup",
-        "unofficial-api",
-        "injection-risk"
+        "unofficial-api"
       ],
       "note": {
-        "zh": "经 NapCat 等非官方 QQ 客户端登录 QQ 账号;加群申请的留言原文作为内部通知进入对话",
-        "en": "Signs in to a QQ account through an unofficial client such as NapCat; join-request messages enter the conversation verbatim as internal notices"
+        "zh": "经 NapCat 等非官方 QQ 客户端登录 QQ 账号",
+        "en": "Signs in to a QQ account through an unofficial client such as NapCat"
       }
     },
     "cortico-world-album-alont1": {
@@ -779,13 +774,8 @@
         "internet",
         "browser",
         "video",
-        "high-cost",
-        "unofficial-api"
-      ],
-      "note": {
-        "zh": "网页扫码登录 B 站并保存登录 cookie",
-        "en": "Signs in to bilibili by web QR code and keeps the login cookies"
-      }
+        "high-cost"
+      ]
     },
     "cortico-provider-coo": {
       "addTags": [
@@ -1010,13 +1000,12 @@
     },
     "cortico-world-qq-promax": {
       "addTags": [
-        "companion",
-        "injection-risk"
+        "companion"
       ],
-      "note": {
-        "zh": "群名、昵称与群名片作为内部通知进入对话",
-        "en": "Group names, nicknames and group cards enter the conversation as internal notices"
-      }
+      "removeTags": [
+        "unsafe",
+        "sensitive-data"
+      ]
     },
     "cortico-bot-qq-persona": {
       "addTags": [
@@ -1119,11 +1108,30 @@
     },
     "cortico-world-dailypaper": {
       "addTags": [
+        "internet"
+      ]
+    },
+    "cortico-world-qq-official": {
+      "removeTags": [
+        "unsafe"
+      ]
+    },
+    "cortico-world-x": {
+      "removeTags": [
+        "injection-risk"
+      ]
+    },
+    "cortico-world-music": {
+      "addTags": [
+        "internet",
         "injection-risk"
       ],
+      "removeTags": [
+        "voice"
+      ],
       "note": {
-        "zh": "抓取的论文标题、摘要与作者原文作为内部通知进入对话",
-        "en": "Scraped paper titles, abstracts and authors enter the conversation as internal notices"
+        "zh": "播放器给出的曲名与歌手作为内部通知进入对话",
+        "en": "Track titles and artists from the media player enter the conversation as internal notices"
       }
     }
   }
