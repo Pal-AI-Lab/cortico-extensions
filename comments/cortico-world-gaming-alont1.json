@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "name": "cortico-world-gaming-alont1",
+  "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/20",
+  "total": 1,
+  "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJKFS",
+      "author": "18552853282z-ctrl",
+      "avatar": "https://avatars.githubusercontent.com/u/347800350?s=64&v=4",
+      "body": "gaming_look 一直报「现在看不了他的屏幕：没配视觉模型的密钥」，但设置里找不到填 key 的地方。\n\n本地视觉（localvision）已经配好可用的 OpenAI 兼容端点：dashscope + qwen-vl-ocr-2025-11-20，doctor 端点检查通过，单张 2~8 秒。\n\n试过都无效：\n1. 配好本地视觉后重启应用，还是同一个错；\n2. 在「模型供应商」新建一个同地址同 key 的兼容实例，gaming_look 依旧报同一个错；\n3. 「陪玩」设置页从头翻到底只有游戏库、窗口标题、主动提醒、深夜时段，没有视觉模型名/密钥输入框；「扩展」页和 World 总览里也没找到这个 world 的属性入口。\n\n猜测：gaming world 读的是自己那份配置键（大概是 worlds.gaming 下的 vision key/model），和本地视觉、模型供应商都不共用，而 UI 没暴露入口。希望能给个输入框，或者直接复用 localvision 已配好的那一套。",
+      "createdAt": "2026-10-25T12:31:20Z"
+    }
+  ]
+}
