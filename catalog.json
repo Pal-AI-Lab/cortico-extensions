@@ -89,6 +89,9 @@
     "cortico-world-wechat": [
       "sensitive-data"
     ],
+    "cortico-world-x": [
+      "injection-risk"
+    ],
     "cortico-world-zcode": [
       "unsafe"
     ]
@@ -3585,7 +3588,7 @@
     },
     "cortico-world-fatfish": {
       "kind": "world",
-      "version": "0.6.0",
+      "version": "0.6.1",
       "displayName": "大肥鱼功能复合包",
       "description": "和 DeepSeek Harness（DSH）对话让它帮你干活写代码，宠物回复时用内置语音包读出声（朗读支持 Windows 与 macOS）。桥接这半边需要先装 DSH 的 Host 插件（coopanion-connector-dsh）才会连；不会装就看源码仓库的说明，或把仓库地址交给 AI 帮你装。/ Chat with DeepSeek Harness (DSH) so it does the work — writing code for you — and hear the pet's rep",
       "locales": {
@@ -3621,8 +3624,8 @@
         "bugs": "https://github.com/blacksunshy/coopanion-fatfish/issues"
       },
       "created": "2026-10-15T06:47:52.601Z",
-      "published": "2026-10-25T07:18:38.325Z",
-      "versionCount": 17,
+      "published": "2026-10-25T07:51:31.166Z",
+      "versionCount": 18,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3646,6 +3649,7 @@
       },
       "changelog": {
         "versions": [
+          "0.6.1",
           "0.6.0",
           "0.5.0",
           "0.4.0",
@@ -3669,7 +3673,7 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 32,
+        "up": 33,
         "down": 6,
         "comments": 6
       }
@@ -4036,7 +4040,7 @@
     },
     "cortico-world-hands": {
       "kind": "world",
-      "version": "0.13.0",
+      "version": "0.14.0",
       "displayName": "手",
       "description": "Cortico World: hands for the desktop pet — looks at the phone screen, then taps, swipes, pinches, drags, types and presses keys through whatever actuator the device actually has",
       "maintainers": [
@@ -4054,8 +4058,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-hands"
       },
       "created": "2026-10-22T14:40:37.506Z",
-      "published": "2026-10-25T07:37:24.186Z",
-      "versionCount": 30,
+      "published": "2026-10-25T07:50:10.692Z",
+      "versionCount": 31,
       "official": false,
       "isNew": true,
       "tags": [
@@ -6364,7 +6368,7 @@
       "discussion": {
         "number": 39,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/39",
-        "up": 8,
+        "up": 9,
         "down": 0,
         "comments": 0
       }
@@ -8962,6 +8966,76 @@
       "discussion": {
         "number": 167,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/167",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-x": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "X 时间线",
+      "description": "Cortico World: X 时间线 —— 借本机浏览器只读 X 的公开内容，读到的每条落进本地知识库，摘要进对话，必要时导出成记忆包。不登录新账号、不点赞转发关注私信。零第三方依赖。",
+      "locales": {
+        "zh": {
+          "displayName": "X 时间线",
+          "description": "她能看 X：主时间线、某人的帖子、搜索、列表、话题。读到的东西落进本地知识库（Markdown + JSONL，人读可审计），按配置投摘要进对话，需要时导出成记忆包。用本机 Chromium 的调试口只读，不新建账号、不点赞转发关注私信。"
+        },
+        "en": {
+          "displayName": "X Timeline",
+          "description": "She reads X: the home timeline, one person's posts, search, lists and hashtags. What she reads lands in a local knowledge base (Markdown + JSONL, auditable by a human), digests go into the conversation, and the base exports as a memory bundle. Read-only through the local Chromium debugging port: no new account, no likes, reposts, follows or DMs."
+        }
+      },
+      "maintainers": [
+        "ljwei-stak"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "x",
+        "twitter",
+        "timeline",
+        "browser",
+        "knowledge-base"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-x",
+        "repository": "https://github.com/Alice-Marx/cortico-world-x",
+        "homepage": "https://github.com/Alice-Marx/cortico-world-x#readme",
+        "bugs": "https://github.com/Alice-Marx/cortico-world-x/issues"
+      },
+      "created": "2026-10-25T07:43:18.091Z",
+      "published": "2026-10-25T07:45:19.441Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "internet",
+        "browser",
+        "injection-risk"
+      ],
+      "tags": [
+        "internet",
+        "browser",
+        "injection-risk"
+      ],
+      "icon": "assets/cortico-world-x/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 7,
+        "events": 4,
+        "toolTokens": 1063,
+        "envPromptTokens": 827
+      },
+      "discussion": {
+        "number": 273,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/273",
         "up": 0,
         "down": 0,
         "comments": 0
