@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-heybox",
-  "version": "0.1.0",
+  "version": "0.3.3",
   "describe": {
     "tools": [
       {
@@ -75,6 +75,51 @@
         ]
       },
       {
+        "name": "heybox_media",
+        "description": "列出、下载或附加帖子图片给视觉模型。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "linkId": {
+              "type": "string"
+            },
+            "max": {
+              "type": "integer"
+            },
+            "download": {
+              "type": "boolean"
+            },
+            "attach": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "linkId"
+          ]
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "heybox_upload_image",
+        "description": "把 data 内图片上传到小黑盒图床。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "file": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
         "name": "heybox_comments",
         "description": "读小黑盒帖子评论。",
         "parameters": {
@@ -99,6 +144,104 @@
         ]
       },
       {
+        "name": "heybox_emoji",
+        "description": "查小黑盒表情库。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string"
+            },
+            "limit": {
+              "type": "integer"
+            },
+            "refresh": {
+              "type": "boolean"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "heybox_comment_digest",
+        "description": "读最近帖子下的评论摘要。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "posts": {
+              "type": "integer"
+            },
+            "limit": {
+              "type": "integer"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "heybox_replies",
+        "description": "读别人发来的评论/回复。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "heybox_reply",
+        "description": "回复收到的评论；独立额度。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "linkId": {
+              "type": "string"
+            },
+            "commentId": {
+              "type": "string"
+            },
+            "text": {
+              "type": "string"
+            },
+            "rootId": {
+              "type": "string"
+            },
+            "go": {
+              "type": "boolean"
+            },
+            "emoji": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "images": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "linkId",
+            "commentId",
+            "text"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
         "name": "heybox_search",
         "description": "搜索小黑盒帖子。",
         "parameters": {
@@ -114,6 +257,27 @@
           "required": [
             "query"
           ]
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "heybox_user",
+        "description": "按昵称搜索用户或读公开主页。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string"
+            },
+            "userId": {
+              "type": "string"
+            },
+            "limit": {
+              "type": "integer"
+            }
+          }
         },
         "tags": [
           "read"
@@ -178,6 +342,36 @@
         ]
       },
       {
+        "name": "heybox_voice",
+        "description": "调整小黑盒说话方式和学习到的表达。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "type": "string"
+            },
+            "warmth": {
+              "type": "integer"
+            },
+            "humor": {
+              "type": "integer"
+            },
+            "sample": {
+              "type": "string"
+            },
+            "verdict": {
+              "type": "string"
+            },
+            "avoid": {
+              "type": "string"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
         "name": "heybox_notify",
         "description": "读取评论回复、点赞、关注等通知。",
         "parameters": {
@@ -236,6 +430,18 @@
             },
             "replyId": {
               "type": "string"
+            },
+            "emoji": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "images": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           },
           "required": [
@@ -264,6 +470,12 @@
             },
             "draft": {
               "type": "boolean"
+            },
+            "images": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           },
           "required": [
@@ -319,6 +531,29 @@
     ]
   },
   "changelog": {
-    "0.1.0": "- First Coopanion World port of `dsh-heybox`.\n- QR login with local PNG rendering; credentials stored under the deployment data directory.\n- Feed, post detail, comments, search, game library, notifications.\n- Like / comment / text post with preview-confirm gates and daily limits.\n- Nightly read-only browse with configurable window, skip chance, interests and report event.\n- Offline tests for signing, credentials, config and write previews."
+    "0.3.3": "### 中文\n\n- 包说明、README、CHANGELOG 改为中英双语，并补充图片/表情/视觉/登录/回复能力说明。\n- 新增 `README.en.md`，同步英文功能、安装、权限边界和已知限制。\n\n### English\n\n- Package description, README and CHANGELOG are now bilingual; added notes for images, emoji, vision, login and replies.\n- Added `README.en.md` with the English feature overview, install steps, safety gates and known limitations.",
+    "0.3.2": "### 中文\n\n- 清理评论、评论摘要、回复和搜索标题中的 HTML 标签/实体。\n- 回归测试图片提取、媒体 blobs、表情、上传和写接口签名。\n\n### English\n\n- Cleaned HTML tags/entities from comments, digests, replies and search titles.\n- Regression-tested image extraction, media blobs, emoji, uploads and write signatures.",
+    "0.3.1": "### 中文\n\n- 修复从 `link.text` 提取图片：支持编辑器 JSON 图片块、HTML `<img data-original>` 和直接 URL 数组。\n- `heybox_post` 现在显示从该结构提取的图片 URL；`heybox_media attach` 可用于真实图片帖。\n\n### English\n\n- Fixed image extraction from `link.text`: editor JSON image blocks, HTML `<img data-original>` and direct URL arrays are now supported.\n- `heybox_post` now shows image URLs from that structure; `heybox_media attach` works for real image posts.",
+    "0.3.0": "### 中文\n\n- `heybox_upload_image` 支持 https 图片 URL 和 data 目录内本地文件，可直接上传 imagekit 搜索结果。\n- `heybox_create_post` 支持 `images[]` 并生成编辑器图片块。\n- 增加图片来源规范：优先 imagekit、官方/实机截图，不盲目抓图。\n\n### English\n\n- `heybox_upload_image` accepts https image URLs as well as local data-directory files, so imagekit results can be uploaded directly.\n- `heybox_create_post` accepts `images[]` and builds editor image blocks.\n- Added image-sourcing guidance: prefer imagekit and official/real screenshots; no blind scraping.",
+    "0.2.9": "### 中文\n\n- 评论/回复 schema 增加 `images[]`，让模型可以使用已上传图片 URL。\n\n### English\n\n- Added `images[]` to comment/reply schemas so uploaded URLs are available to the model.",
+    "0.2.8": "### 中文\n\n- 实现小黑盒 COS 图片上传（info/token/PUT/callback），用 1×1 PNG 真实验证。\n- 评论/回复支持 https 图片 URL 配图。\n- 新增 `heybox_upload_image`。\n\n### English\n\n- Implemented Xiaoheihe COS image upload (info/token/PUT/callback), verified with a live 1×1 PNG.\n- Comments/replies accept https image URLs; added `heybox_upload_image`.",
+    "0.2.7": "### 中文\n\n- `heybox_media attach=true` 返回真实图片 blobs，支持视觉模型；纯文本模型使用 fallback。\n- 参考 socialmedia 扩展的采样帧 blobs 模式。\n\n### English\n\n- `heybox_media attach=true` returns real image blobs for vision models; text-only models get a fallback.\n- Follows the social-media extension’s sampled-frame blob pattern.",
+    "0.2.6": "### 中文\n\n- 新增 `heybox_emoji`：搜索表情库并把 `[cube_*]` 标记加入评论/回复。\n- 读评论时标注表情名称。\n- 新增 `heybox_media` 列出/下载帖子图片。\n\n### English\n\n- Added `heybox_emoji`: search the emoji catalog and append `[cube_*]` tokens to comments/replies.\n- Comment reads annotate emoji names.\n- Added `heybox_media` to list/download post images.",
+    "0.2.5": "### 中文\n\n- 修复 workshop `_rnd` 签名重复拼接时间戳/nonce 的问题，评论/回复不再被误报「评论功能暂不可用」。\n- 用真实浏览器请求校验；无效帖子现在返回「该内容已被删除」。\n\n### English\n\n- Fixed the workshop `_rnd` signature double-appending timestamp/nonce; comments/replies no longer fail with “comment unavailable”.\n- Verified against a real browser request; an invalid post now returns “content deleted”.",
+    "0.2.4": "### 中文\n\n- 手动读评论上限默认 30，最高 100，适用于 `heybox_comments` / `heybox_comment_digest`；夜间摘录仍保持短。\n\n### English\n\n- Manual comment cap defaults to 30, max 100, for `heybox_comments` / `heybox_comment_digest`; nightly excerpts remain short.",
+    "0.2.3": "### 中文\n\n- 新增 `comments.maxRead` 全局单次读评论上限，并应用于帖子评论、评论摘要和夜间摘录。\n\n### English\n\n- Added `comments.maxRead`, a global per-read comment cap, applied to post comments, digest and nightly excerpts.",
+    "0.2.2": "### 中文\n\n- 写操作失败返还每日额度，只有成功才计数。\n- 新增 `heybox_comment_digest`；夜间汇报加入评论区摘录。\n\n### English\n\n- Failed writes refund the daily quota; only successful sends count.\n- Added `heybox_comment_digest`; nightly reports include a comment excerpt.",
+    "0.2.1": "### 中文\n\n- 账号面板显示当前登录 `heybox_id`，密码/验证码登录后自动更新。\n\n### English\n\n- Account panel shows the current logged-in `heybox_id` and updates after password/code login.",
+    "0.2.0": "### 中文\n\n- 新增手机号 + 密码、手机号 + 短信验证码登录。\n- 使用网页同款 RSA 加密；凭据不一致时不返回敏感信息。\n- 增加 60 秒短信重发倒计时和错误提示。\n\n### English\n\n- Added phone + password and phone + SMS-code login.\n- Uses the website’s RSA envelope; credentials are never returned in tool output.\n- Added a 60-second SMS resend countdown and explicit errors.",
+    "0.1.9": "### 中文\n\n- 免确认开关拆成点赞、评论、发帖、回复四个独立选项。\n- 发帖/回复拥有独立持久开关和额度检查。\n\n### English\n\n- Split no-confirm switches into four independent options: like, comment, post, reply.\n- Posts and replies have separate persisted switches and quota checks.",
+    "0.1.8": "### 中文\n\n- 「待确认操作」面板新增点赞/评论免确认开关。\n- 开启后仍受登录、分项开关和每日额度限制；发帖/回复仍需确认。\n\n### English\n\n- Added a like/comment no-confirm switch to the pending-actions panel.\n- Login, per-action gates and daily quotas still apply; posts/replies still required confirmation.",
+    "0.1.7": "### 中文\n\n- 新增自适应语气档案：可爱/松弛/有梗/短促，温暖度和幽默度可调。\n- `heybox_voice` 记录被喜欢/该少用的表达，并注入环境提示词。\n\n### English\n\n- Added an adaptive voice profile: cute/chill/funny/sharp, with warmth and humor.\n- `heybox_voice` records liked phrasing and things to avoid, injected into the environment prompt.",
+    "0.1.6": "### 中文\n\n- 回复收件箱改用网页消息中心 `/bbs/app/user/message` (`list_type=0`)，覆盖别人帖子下对 bot 的回复。\n- 回复消息暴露根评论 ID，保证正确楼层关系。\n\n### English\n\n- Reply inbox now uses the web message-center endpoint `/bbs/app/user/message` (`list_type=0`), covering replies on other people’s posts.\n- Reply messages expose root comment IDs for correct threading.",
+    "0.1.5": "### 中文\n\n- 新增收到的评论收件箱 `heybox_replies`。\n- 新增 `heybox_reply`，使用独立每日回复额度；后台轮询只推新评论。\n\n### English\n\n- Added `heybox_replies` for received comments.\n- Added `heybox_reply` with a separate daily quota; background polling only emits newly seen comments.",
+    "0.1.4": "### 中文\n\n- 新增 `heybox_user`：按昵称搜索用户、读公开主页，用于绑定主人账号。\n\n### English\n\n- Added `heybox_user`: nickname search and public profile reads, useful for binding the owner.",
+    "0.1.3": "### 中文\n\n- 新增「待确认操作」面板；服务端批准前再次检查登录和写开关。\n- 登录面板增加退出登录和二维码剩余时间。\n- 新增 `docs/COMPETITORS.md`。\n\n### English\n\n- Added the pending-actions panel; server re-checks login and write switches before approval.\n- Added logout and QR countdown; added `docs/COMPETITORS.md`.",
+    "0.1.2": "### 中文\n\n- 登录卡片视觉优化：状态徽章、账号行、二维码卡片、空/成功/过期状态更清晰。\n- 登录后隐藏二维码区域，只在状态变化时刷新 manifest。\n\n### English\n\n- Polished login card: status pill, account row, QR card, clearer empty/success/expired states.\n- Hides the QR area after login and refreshes the manifest only on transitions.",
+    "0.1.1": "### 中文\n\n- 登录面板先检查状态；已登录直接显示 `heybox_id`，不再先出二维码。\n- 二维码只在未登录时自动启动一次，手动刷新仍可用。\n\n### English\n\n- Login panel checks status first; logged-in users see their `heybox_id` instead of a fresh QR.\n- QR auto-starts once only when logged out; manual refresh remains available.",
+    "0.1.0": "### 中文\n\n- 首个 Coopanion World 版 `dsh-heybox` 移植。\n- 扫码登录、信息流、帖子、评论、搜索、游戏库、通知。\n- 点赞/评论/文字发帖的预演确认与每日额度。\n- 夜间只读闲逛、日记和汇报事件。\n- 签名、凭据、配置、写预演测试。\n\n### English\n\n- First Coopanion World port of `dsh-heybox`.\n- QR login, feed, posts, comments, search, game library, notifications.\n- Preview-confirm likes/comments/text posts with daily quotas.\n- Nightly read-only browsing, diary and report event.\n- Tests for signing, credentials, config and write previews."
   }
 }

@@ -1789,17 +1789,17 @@
     },
     "cortico-world-bubble-emotes": {
       "kind": "world",
-      "version": "0.3.4",
-      "displayName": "表情",
-      "description": "让桌宠的问候带上笑意，也让安慰多一点温度。37 个 emoji 与语境提示，把开心、思考和陪伴写进气泡。原版 Coopanion 0.2.8 安装启用即可，无需修改主程序。",
+      "version": "0.3.5",
+      "displayName": "表达助手 · 情绪与表情",
+      "description": "让开心有笑意，安慰有温度。37个emoji搭配情绪分析与草稿检查，新增可编辑的“情绪→表情→身体心情”映射和身体心情建议；不自动安排动作，减少对睡眠与互动的干扰。适配Coopanion 0.2.8；分析需配置模型。",
       "locales": {
         "zh": {
-          "displayName": "表情",
-          "description": "让桌宠的问候带上笑意，也让安慰多一点温度。37 个 emoji 与语境提示，把开心、思考和陪伴写进气泡。原版 Coopanion 0.2.8 安装启用即可，无需修改主程序。"
+          "displayName": "表达助手 · 情绪与表情",
+          "description": "让开心有笑意，安慰有温度。37个emoji搭配情绪分析与草稿检查，新增可编辑的“情绪→表情→身体心情”映射和身体心情建议；不自动安排动作，减少对睡眠与互动的干扰。适配Coopanion 0.2.8；分析需配置模型。"
         },
         "en": {
-          "displayName": "表情",
-          "description": "A little smile in a greeting, a little warmth in a quiet moment. Give your pet 37 emoji and contextual hints for joy, thought and companionship. Works with stock Coopanion 0.2.8; no host patch required."
+          "displayName": "表达助手 · 情绪与表情",
+          "description": "Help your pet express joy, comfort and thought with 37 emoji, emotion analysis, draft review and editable body-expression mappings. For Coopanion 0.2.8; analysis requires a configured model."
         }
       },
       "author": "oceanxuhaiao",
@@ -1815,7 +1815,10 @@
         "emotes",
         "表情",
         "桌宠",
-        "气泡"
+        "气泡",
+        "情绪",
+        "表达助手",
+        "身体心情"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-bubble-emotes",
@@ -1827,8 +1830,8 @@
         "win32"
       ],
       "created": "2026-10-22T13:59:51.432Z",
-      "published": "2026-10-24T10:43:28.083Z",
-      "versionCount": 8,
+      "published": "2026-10-25T03:50:54.416Z",
+      "versionCount": 9,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1848,11 +1851,18 @@
       "summary": {
         "tools": 3,
         "events": 1,
-        "toolTokens": 836,
+        "toolTokens": 886,
         "envPromptTokens": 762
       },
       "changelog": {
         "versions": [
+          "0.3.5",
+          "0.3.5-dev.5",
+          "0.3.5-dev.4",
+          "0.3.5-dev.3",
+          "0.3.5-dev.2",
+          "0.3.5-dev.1",
+          "0.3.5-dev.0",
           "0.3.4",
           "0.3.4-dev.0",
           "0.3.3",
@@ -3582,17 +3592,17 @@
     },
     "cortico-world-heybox": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.3.3",
       "displayName": "小黑盒",
-      "description": "小黑盒 Coopanion World：扫码登录、游戏社区信息流、帖子/评论、搜索与游戏库；按主人游戏库和最近游玩偏好定向刷帖；点赞/评论/发帖预演确认；每夜随机闲逛汇报。",
+      "description": "小黑盒 Coopanion World：扫码/手机号登录、帖子/评论、表情、图片上传与视觉附件、主人偏好、待确认操作与夜间汇报。 / Xiaoheihe (Heybox) for Coopanion: QR/phone login, posts/comments, emoji, image upload and vision blobs, owner preferences, approval queue and nightly reports.",
       "locales": {
         "zh": {
           "displayName": "小黑盒",
-          "description": "让桌宠扫码登录小黑盒，逛游戏社区、读帖子和评论、按主人游戏库/最近游玩偏好定向刷帖；点赞/评论/发帖先预演再确认；每夜随机闲逛并汇报。"
+          "description": "让桌宠扫码或手机号登录小黑盒，逛游戏社区、读帖子和评论、识别与发送表情、上传图片并附加视觉图片；按主人游戏库和最近游玩偏好定向刷帖；点赞/评论/发帖/回复可预演确认，也可分别开启免确认；每夜随机闲逛并汇报。"
         },
         "en": {
           "displayName": "Heybox",
-          "description": "Xiaoheihe (Heybox) game community for Coopanion: QR login, feed/posts/comments/search/library, owner-preference-weighted browsing, preview-confirm writes, and a nightly browse report."
+          "description": "Xiaoheihe (Heybox) for Coopanion: QR/phone login, feed/posts/comments, emoji recognition and sending, image upload and vision blobs, owner-preference browsing, approval or per-action no-confirm writes, and nightly browse reports."
         }
       },
       "author": "cortico-world-heybox contributors",
@@ -3613,8 +3623,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-heybox"
       },
       "created": "2026-10-24T14:30:19.968Z",
-      "published": "2026-10-24T14:31:15.713Z",
-      "versionCount": 2,
+      "published": "2026-10-25T02:24:03.304Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3640,16 +3650,39 @@
         "week": 0
       },
       "summary": {
-        "tools": 16,
+        "tools": 24,
         "events": 1,
-        "toolTokens": 970,
+        "toolTokens": 1630,
         "envPromptTokens": 66
       },
       "changelog": {
         "versions": [
+          "0.3.3",
+          "0.3.2",
+          "0.3.1",
+          "0.3.0",
+          "0.2.9",
+          "0.2.8",
+          "0.2.7",
+          "0.2.6",
+          "0.2.5",
+          "0.2.4",
+          "0.2.3",
+          "0.2.2",
+          "0.2.1",
+          "0.2.0",
+          "0.1.9",
+          "0.1.8",
+          "0.1.7",
+          "0.1.6",
+          "0.1.5",
+          "0.1.4",
+          "0.1.3",
+          "0.1.2",
+          "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-heybox@0.1.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-heybox@0.3.3/CHANGELOG.md"
       },
       "discussion": {
         "number": 253,
@@ -5585,7 +5618,7 @@
       },
       "created": "2026-10-09T15:09:16.966Z",
       "published": "2026-10-09T15:21:32.912Z",
-      "versionCount": 6,
+      "versionCount": 7,
       "official": false,
       "isNew": false,
       "tags": [

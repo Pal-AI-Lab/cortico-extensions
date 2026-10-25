@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-bubble-emotes",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "describe": {
     "tools": [
       {
@@ -127,7 +127,7 @@
       },
       {
         "name": "bubble_emotes_review_draft",
-        "description": "Pre-send draft review, enabled with configured expression analysis. Submit exact draft and short current context, read advisory result, then independently decide on one native pet_say.script. This tool sends nothing and never intercepts pet_say. Never blindly copy advice: neutral/missing conflicts, uncertainty or failed checks should preserve the draft or be reconsidered. Do not review indefinitely or repeat sent replies.",
+        "description": "Pre-send draft review, enabled with configured expression analysis. Submit exact draft and short current context. The result includes independently switchable body-expression advice; unknown posture/quiet/unsupported figure blocks marker insertion. No motion or display guarantees. Read advisory result, then independently decide on one native pet_say.script. This tool sends nothing and never intercepts pet_say. Never blindly copy advice: neutral/missing conflicts, uncertainty or failed checks should preserve the draft or be reconsidered. Do not review indefinitely or repeat sent replies.",
         "parameters": {
           "type": "object",
           "properties": {
@@ -174,6 +174,13 @@
     ]
   },
   "changelog": {
+    "0.3.5": "扩展更名为“表达助手 · 情绪与表情”，包名、World ID和数据目录保持不变，现有用户可以直接更新。\n\n- 表情库展示“情绪 → emoji → 身体心情”，支持编辑适用/禁用情绪、19种身体心情映射、对应程度及说明。修改供后续搜索和草稿检查使用。\n- 完善37个emoji与身体表情的直接/近似映射，支持用户自定义。\n- 草稿检查复用同次情绪分析给出身体心情建议，可单独关闭身体协调。保留中性冲突、睡眠、互动和安静保护。\n- 表达记录加入身体心情分析；记录没有身体心情时显示“没有”。不包含动作分析。\n\n边界：Coopanion 0.2.8公开接口缺少可靠实时身体状态，当前实际适配仅提供身体心情建议，不自动追加身体标记或安排动作。草稿检查仍依赖主模型主动调用与采纳，不是全局发送拦截器。事件记录不代表动画显示成功，主动使用效果尚未通过真实行为验收。保留experimental/high-cost标签，云端分析可能产生费用。\n\n验证：100项单元+15项集成，共115项；类型检查、构建、官方扩展检查、真实npm包原生Node加载与桌面/窄屏界面检查通过。配置、表情库与表达记录继续保留。",
+    "0.3.5-dev.5": "- 表情卡片展示情绪→emoji→身体心情；编辑适用/禁用情绪、身体心情、对应程度与说明。\n- 保存到现有表情库，后续搜索与草稿检查读取；自定义身体映射仅建议，保留安全保护。",
+    "0.3.5-dev.4": "- 移除表达记录的动作采集、分析与展示，旧动作字段读取时忽略。\n- 身体心情未记录时直接显示“没有”；有记录但分析不可靠时保留无法确认。",
+    "0.3.5-dev.3": "- 表达记录在同一模型请求中分别分析文字/emoji、事件中的身体表情及动作，与语境是否协调；卡片折叠区展示各自证据和判断。\n- 没有事件证据时强制无法确认，不把未记录的内联标记或独立动作判成没有动作；身体子结果缺失/无效不拖垮有效文字分析。\n- 保留新记录的有限事件字段，旧记录不自动补读、不编造身体历史；已提交意图不代表当前状态或动画成功。",
+    "0.3.5-dev.2": "- 新增身体协调子功能与独立开关，复用同一次草稿情绪分析，依据映射给出内置19种身体表情建议，不安排独立动作、不代发。\n- 保护安静、睡眠、用户互动、未知/过期状态、未知形象、中性冲突和既有标记；状态未知仅建议、不追加标记。Coopanion0.2.8公开接口缺乏实时身体状态，因此实际宿主默认进入保守降级，不宣称自动同步已经生效。\n- 诊断区分建议、匹配/不同标记提交、未观察到、无法归属；显示始终不作成功推断。不归档草稿正文，仅保存有界摘要及用于关联的指纹。",
+    "0.3.5-dev.1": "- 按用户指定更新四个近似映射：🙇抱歉→flustered、🙏感谢→excited、🤢恶心→scared、🤒生病→sleepy。说明语义差异，不自动播放或改变睡眠状态。\n- 库版本5定向迁移原默认映射，保留用法、启停和自定义映射；默认统计16直接、21近似、0无对应。",
+    "0.3.5-dev.0": "- 37个基础emoji按内置19种身体表情分类：16直接、19近似、2无合适对应；每项附映射原因，表情库可查看/搜索分类和身体名称。\n- 恶心/生病移除担心强配；抱歉改为平静近似，安慰/感谢为平静降级，睡眠emoji仅近似犯困，不执行睡觉动作。\n- 库版本4增量迁移，保留编辑、启停、确认状态和自定义映射；仅增加参考数据，不自动播放或宣称身体同步。",
     "0.3.4": "修复0.3.3的npm包直接使用src/index.ts作为入口，在没有TypeScript加载器的生产环境中报ERR_UNSUPPORTED_NODE_MODULES_TYPE_STRIPPING的问题。不是用户API、模型配置或安装操作错误。\n\n发布包改为预编译的ESM JavaScript入口dist/index.js，只使用Node内置运行模块，无需用户安装tsx、TypeScript、构建工具或额外运行依赖。配套发布dist/ENV_PROMPT.md，保证提示词相对路径正确；浏览器界面仍预先编译。\n\n保留0.3.3的使用引导、分析联动草稿检查、云端/本地模型选项、安慰字符迁移和侧栏状态灯，保持包名、World ID及数据目录。升级保留配置、表情库和表达记录。\n\n验证：78项单元+14项集成（共92项）、类型检查、构建、官方扩展检查通过。新增真实npm打包产物回归：解入全新node_modules，清除加载器环境变量，原生Node关闭TypeScript类型剥离，仍能导入、构造、启动、搜索表情、读取提示词、显示状态灯数据及停止。此测试不依赖开发环境的tsx。\n\nWindows、原版Coopanion0.2.8；保留experimental / high-cost标签。新增云端服务真实账户联调与实际主动使用率仍待验证，不承诺每次检查或采纳，也不保证身体同步与第三方TTS过滤。",
     "0.3.4-dev.0": "- 修复npm包直接以TypeScript为运行入口，导致没有TS加载器的普通Node宿主报ERR_UNSUPPORTED_NODE_MODULES_TYPE_STRIPPING。发布包改用编译好的dist/index.js，仅依赖Node内置模块，并配套发布提示词资产。\n- 增加真实tarball置于全新node_modules、关闭类型剥离且无tsx的原生Node加载回归，覆盖构造/启动、工具、表情库、提示词路径、状态灯和停止。",
     "0.3.3": "新增使用引导：表情库可直接使用，推荐配置分析API，保存、测试并确认数据与费用后开启分析。草稿检查与表达记录分析同步启停，移除独立开关；旧配置原本已开启分析时同步启用，原本暂停的不自动开启。\n\n草稿检查只给建议，不代发、不拦截原生气泡；保留中性冲突、失败或超时保留原稿的保护，主模型需结合当前语境独立判断，不能机械照抄。开启后新发言、草稿及语境可能交给所选云端模型并产生额外用量与等待；共用每小时60次云端请求额度。\n\n云端增加通义千问、Kimi、智谱GLM，连同DeepSeek和OpenAI提供常用模型及手动填写，密钥仍通过宿主官方接口分服务商保存。Ollama检测增加进度、就地结果和模型列表，区分无模型及连接失败，不自动下载。\n\n修复旧表情库已标记升级但安慰仍使用缺字形🫂的迁移遗漏，兼容历史格式，改为💙并保留用户设置。侧栏新增表情库、表达分析、草稿检查三盏原生实时状态灯及悬停说明，监测不额外调用模型。\n\n验证：91项自动化测试、类型检查、构建、官方扩展检查通过。本地原版Coopanion0.2.8安装并加载，真实Ollama模型检测及宿主状态灯接口已验证。新增云端服务仅有模拟协议测试，真实账户兼容性仍待联调；主动使用率没有新的实际行为验收，不承诺每次检查或采纳。保留experimental / high-cost。\n\n保留原npm包名和World ID，保留配置、表情库、记录；适用Windows原版Coopanion0.2.8。无宿主补丁、图片发送或图文富气泡，不保证身体严格同步和第三方TTS过滤。",
