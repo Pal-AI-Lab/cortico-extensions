@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-audio-play",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "describe": {
     "tools": [
       {
@@ -80,6 +80,39 @@
           "zh": "打开或关闭事件音频的自动播放，更换监听的事件类型或播放后端，或查看当前设置；播放新事件里的音频附件。",
           "en": "Turn automatic playback of event audio on or off, change the watched event types or the playback backend, or read the current settings; plays audio attachments on new events."
         }
+      },
+      {
+        "name": "audio_queue",
+        "description": "Read or change the playback queue. list shows what is playing now and what is waiting; skip stops the current item and lets the next one start; remove drops one waiting item by id; clear stops the current item and drops everything waiting. Skipping and clearing are cancellations, not failures: no audio-play.failed event is sent. Manual plays and watched event audio share one queue; ids come from an audio_play receipt or from list.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "skip",
+                "remove",
+                "clear"
+              ],
+              "description": "list = current item and waiting items; skip = stop the current item; remove = drop one waiting item; clear = stop the current item and drop all waiting items."
+            },
+            "id": {
+              "type": "string",
+              "description": "For remove: the queue id to drop, e.g. q7. The current item cannot be removed; use skip."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "查看或调整播放队列：列表、跳过当前这条、按 id 移除排队中的一条、停止当前并清空队列；跳过和清空是取消，不算失败，不发失败事件。",
+          "en": "Read or change the playback queue: list, skip the current item, remove a waiting item by id, or stop the current item and clear the queue; skipping and clearing are cancellations, not failures, so no failure event is sent."
+        }
       }
     ],
     "events": [
@@ -91,9 +124,19 @@
         },
         "trigger": "debounce"
       }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.audio-play.env",
+        "title": "提示词",
+        "role": "envPrompt",
+        "content": ""
+      }
     ]
   },
   "changelog": {
+    "0.4.0": "- 新增「队列」页：实时显示正在播放与排队中的音频，可按条移除、跳过当前、清空队列；页面关闭时不产生轮询。\n- 队列变化通过 WebUI 推送更新；当前条目的已播时长在页面里本地计时。\n- 新增 `cortico.webUiClient`：`dist/webui.js` 是手写的浏览器 bundle，没有构建步骤，也没有新增运行时依赖。\n- 官方 `check:extension` 与自检同步覆盖面板声明、快照接口与推送。",
+    "0.3.0": "- 新增 `audio_queue`：`list` 查看当前与排队条目，`skip` 跳过当前这条，`remove` 按 id 删掉排队中的一条，`clear` 停止当前并清空队列。\n- 队列从 promise 链改成显式条目，每条有 id；`audio_play` 回执带上 id（`q7`）与前面还有几条。\n- 跳过和清空是取消：停掉播放器进程，不发 `audio-play.failed`。\n- 手动播放与事件自动播放共用同一个队列，事件音频也能跳掉；`audio_watch status` 显示当前条目与队列深度。\n- 队列只在内存里，重启应用不保留。",
     "0.2.0": "- 新增 `worlds.audio-play.backend`：选择播放后端。`auto` 保持平台默认，也可以指定 `wpf` / `ffplay` / `mpv` / `vlc` / `afplay` / `paplay` / `aplay`，或用 `custom`。\n- 新增 `worlds.audio-play.command`：后端为 `custom` 时执行自定义命令，`{file}` 与 `{volume}` 是占位符；命令不经过 shell。\n- `audio_watch` 的 `set` 可以更换播放后端，`status` 会显示当前后端与自定义命令。\n- `audio_play` 改为非阻塞：开始播放（或排队）后立刻返回，不再等播放结束。\n- 成功不发事件；播放失败发 `audio-play.failed` 事件，正文带音频来源、音量与原因，默认投递到对话事件流。取消和 World 停止不算失败。\n- 自动播放失败也发同一条事件；连续失败时 30 秒内最多通知一次，避免事件潮。\n- 回执从「播放完了」改为「开始播放 / 已排队」；播放器和自动播放仍然共用一条串行队列。\n- 新增空的「提示词」页（`src/ENV_PROMPT.md`）；默认不往系统前缀加内容，部署者可以补充播放约定。\n- Windows 的 WPF 打不开格式时，错误提示会建议换一个后端。",
     "0.1.1": "- 新增 `worlds.audio-play.autoPlay` 与 `watchEvents`：监听事件库里的指定事件（默认 `tts.voice`），把带音频附件的新事件播放出来；只播打开监听之后的事件，重启不补。\n- 新增 `audio_watch` 工具：桌宠可以 `start` / `stop` / `set` 监听类型 / `status`，改动写入配置。\n- 事件里的音频优先取附件句柄，其次取事件 meta 里的文件路径；与 `audio_play` 共用同一条播放队列。",
     "0.1.0": "- 首个版本：`audio_play` 工具，接受本地音频路径或 `log:` / `mem:` 句柄（比如 `tts_speak` 回执里的路径与附件句柄），在本机扬声器播放并等待结束，只回成功或失败。\n- Windows 用系统自带的 PowerShell + WPF MediaPlayer，macOS 用 `afplay`，Linux 依次尝试 `ffplay` / `mpv` / `paplay` / `aplay`；没有 npm 运行时依赖。\n- 配置 `worlds.audio-play`：`enabled`、`volume`、`timeoutMs`；不需要密钥。\n- 句柄先落成临时文件，播放结束即删；同一时间只放一段，后到的调用排队。"

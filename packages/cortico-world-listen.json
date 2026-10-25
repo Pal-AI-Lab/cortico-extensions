@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-listen",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "describe": {
     "tools": [
       {
@@ -100,6 +100,7 @@
     ]
   },
   "changelog": {
+    "0.5.0": "- 新增 FireRed VAD 流式切分（`vad: firered`）：官方 2.3MB ONNX + kaldi 兼容的 80 维 fbank/CMVN 前端，10ms 帧、带 cache 的流式推理，后处理照官方状态机移植；Silero 与能量门限保持不变。\n- 新增可选依赖 `onnxruntime-node`；模型自动下载到 `listen/firered/`（ONNX + cmvn.ark），也可用 `fireredModel` 指本地文件。\n- 切分器支持异步交付（回调），World 按已处理位置修剪音频缓冲，推理落后时不丢段。\n- 实测同一首歌：FireRed 流式 27 段 / 144 秒，前奏 0 误报；AED 三分类逐帧与官方 Python 实现误差 < 1e-4。\n- 新增 `aedMode`（`off` / `tag` / `voice`）：用 FireRed AED 对每个块区分说话/唱歌/音乐；`voice` 下纯音乐块只归档、不发事件。实测前奏（音乐）人声帧 0%、有词段 singing 97.5%、语音样本 speech 74.4%。\n- 自检 52 项通过。",
     "0.4.1": "- 修复 Electron 下 Silero 切分必报 `External buffers are not allowed`：取段改用 `front(false)`，复制进普通 ArrayBuffer。\n- 「听觉开始监听」日志带上切分类型与当前门限（silero 概率 / energy dBFS）。\n- 默认参数按实测调整：`sileroThreshold` 0.5 → 0.4，`minSpeechMs` 200 → 400，`minUtteranceMs` 400 → 1000（引擎仍默认 energy，零依赖）。\n- 移除配置页里与框架 World 开关重复的「启用」项；World 的启用与停用统一在 World 页。",
     "0.4.0": "- 模型工具合并为 `listen_act`（start / stop）和 `listen_read`（source_list / status / recent），统一结构化 action 参数并保留读写权限区分。source_list 查询有音频会话的应用名称、PID 与窗口标题。\n- 应用列表改为仅列出有 Windows 音频会话的应用，包含暂时未播放的会话；其他软件可手动输入进程名或 PID，查询失败时明确报错。\n- 按进程树合并音频子进程，使用具体 PID 区分独立实例；刷新不再自动覆盖监听目标，并清除空结果的旧列表。",
     "0.3.3": "- 修复详情页顶部徽标未随面板状态和操作结果同步更新的问题。",
