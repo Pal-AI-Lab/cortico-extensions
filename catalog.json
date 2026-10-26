@@ -1921,7 +1921,7 @@
     },
     "cortico-world-bilibili": {
       "kind": "world",
-      "version": "0.2.7",
+      "version": "0.2.8",
       "displayName": "B 站直播间",
       "description": "Cortico World: read-only Bilibili live room — danmaku, gifts, super chats and guard events, with a local transparent overlay",
       "author": "Pal AI Lab",
@@ -1942,8 +1942,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:39.729Z",
-      "published": "2026-10-24T20:22:08.163Z",
-      "versionCount": 19,
+      "published": "2026-10-26T19:35:57.609Z",
+      "versionCount": 20,
       "official": true,
       "isNew": false,
       "tags": [
@@ -2930,6 +2930,85 @@
       "discussion": {
         "number": 15,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/15",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-coo-control": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "控制权回交（Coo Control）",
+      "description": "控制权回交：让 Coopanion 桌宠的点击、摸头与待机默认行为按人设/用户概率策略执行，并给 AI 读写策略的工具。A Cortico World that patches the installed desktop-pet body with a hot-reloadable behavior policy, backups, restore and a safe update path. 作者 funst，QQ 2674459204。",
+      "locales": {
+        "zh": {
+          "displayName": "控制权回交",
+          "description": "让桌宠的点击、摸头与待机默认行为按人设和用户设定的概率执行；AI 可经同意调整策略。会修改已安装的 Coopanion 桌宠 body.js（先备份、可还原），更新后自动重打；不匹配的新代码会拒绝而不是猜。作者 funst，QQ 2674459204，MIT 协议。"
+        },
+        "en": {
+          "displayName": "Coo Control",
+          "description": "Makes the desktop pet's default click, petting and idle behaviour follow a persona/user probability policy, with tools for the AI to read and change it. Patches the installed Coopanion desktop-pet body.js with backups, restore and auto re-apply after app updates; unknown code is refused rather than guessed. Author: funst (QQ 2674459204), MIT."
+        }
+      },
+      "author": "funst",
+      "maintainers": [
+        "funst"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "desktop-pet",
+        "behavior",
+        "persona",
+        "mod"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-coo-control",
+        "repository": "https://github.com/Funst-666606/cortico-world-coo-control",
+        "homepage": "https://github.com/Funst-666606/cortico-world-coo-control#readme",
+        "bugs": "https://github.com/Funst-666606/cortico-world-coo-control/issues"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-10-26T21:06:54.792Z",
+      "published": "2026-10-26T21:11:06.920Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "experimental",
+        "apps",
+        "companion"
+      ],
+      "tags": [
+        "apps",
+        "companion",
+        "experimental"
+      ],
+      "icon": "assets/cortico-world-coo-control/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 6,
+        "events": 0,
+        "toolTokens": 914,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/Funst-666606/cortico-world-coo-control/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 352,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/352",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -4685,7 +4764,7 @@
     },
     "cortico-world-hands": {
       "kind": "world",
-      "version": "0.20.15",
+      "version": "0.20.16",
       "displayName": "手",
       "description": "Cortico World: hands for the desktop pet — looks at the phone screen, then taps, swipes, pinches, drags, types and presses keys through whatever actuator the device actually has",
       "maintainers": [
@@ -4703,8 +4782,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-hands"
       },
       "created": "2026-10-22T14:40:37.506Z",
-      "published": "2026-10-26T18:43:13.650Z",
-      "versionCount": 53,
+      "published": "2026-10-26T18:47:15.077Z",
+      "versionCount": 54,
       "official": false,
       "isNew": true,
       "tags": [
@@ -6157,7 +6236,7 @@
     },
     "cortico-world-minecraft": {
       "kind": "world",
-      "version": "0.2.7",
+      "version": "0.2.8",
       "displayName": "Minecraft",
       "description": "Cortico World: Minecraft Java Edition through a Mineflayer player — observation text, movement, building, combat and an observer client",
       "author": "Pal AI Lab",
@@ -6178,8 +6257,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:42.066Z",
-      "published": "2026-10-24T20:22:38.922Z",
-      "versionCount": 18,
+      "published": "2026-10-26T19:39:53.855Z",
+      "versionCount": 19,
       "official": true,
       "isNew": false,
       "tags": [
@@ -6274,7 +6353,7 @@
     },
     "cortico-world-mouse-polling-fix": {
       "kind": "world",
-      "version": "0.1.7",
+      "version": "0.1.8",
       "displayName": "鼠标回报率修复（Mouse Polling Fix）",
       "description": "性能优化：Coopanion 桌宠鼠标回报率修复。用 Cortico World 关闭逐事件鼠标转发，并把页面 pointermove 合并到每帧，解决 500Hz 以上、尤其 8000Hz 拖动卡顿。安装后重启 Coopanion，启用「鼠标回报率修复」后再重启一次，否则不生效。A Cortico World for Coopanion. 作者 funst，QQ 2674459204。",
       "locales": {
@@ -6301,14 +6380,17 @@
         "performance"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-mouse-polling-fix"
+        "npm": "https://www.npmjs.com/package/cortico-world-mouse-polling-fix",
+        "repository": "https://github.com/Funst-666606/cortico-world-mouse-polling-fix",
+        "homepage": "https://github.com/Funst-666606/cortico-world-mouse-polling-fix#readme",
+        "bugs": "https://github.com/Funst-666606/cortico-world-mouse-polling-fix/issues"
       },
       "os": [
         "win32"
       ],
       "created": "2026-10-26T15:11:47.812Z",
-      "published": "2026-10-26T16:43:17.939Z",
-      "versionCount": 3,
+      "published": "2026-10-26T21:04:53.547Z",
+      "versionCount": 4,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -6333,6 +6415,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.8",
           "0.1.7",
           "0.1.6",
           "0.1.5",
@@ -6342,14 +6425,14 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-mouse-polling-fix@0.1.7/CHANGELOG.md"
+        "url": "https://github.com/Funst-666606/cortico-world-mouse-polling-fix/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 337,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/337",
-        "up": 0,
+        "up": 1,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-music": {
@@ -7435,7 +7518,7 @@
     },
     "cortico-world-qq": {
       "kind": "world",
-      "version": "0.2.7",
+      "version": "0.2.8",
       "displayName": "QQ",
       "description": "Cortico World: QQ group and private chats through a OneBot v11 forward WebSocket, with a draft-and-confirm gate on replies",
       "author": "Pal AI Lab",
@@ -7456,8 +7539,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:41:03.758Z",
-      "published": "2026-10-24T20:22:23.568Z",
-      "versionCount": 17,
+      "published": "2026-10-26T19:41:05.863Z",
+      "versionCount": 18,
       "official": true,
       "isNew": false,
       "tags": [
@@ -10698,7 +10781,7 @@
     },
     "cortico-world-websearch": {
       "kind": "world",
-      "version": "0.2.8-0",
+      "version": "0.2.8",
       "displayName": "WebSearch",
       "description": "Cortico World: a web_search tool backed by the Brave Search API or the DeepSeek Search API",
       "author": "Pal AI Lab",
@@ -10720,8 +10803,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:50.954Z",
-      "published": "2026-10-25T19:06:00.691Z",
-      "versionCount": 19,
+      "published": "2026-10-26T19:36:21.652Z",
+      "versionCount": 20,
       "official": true,
       "isNew": false,
       "tags": [
