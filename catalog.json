@@ -108,7 +108,7 @@
   "packages": {
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.5.3",
+      "version": "0.5.4",
       "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
       "description": "Cortico World for Coopanion: speaks the pet's lines aloud with GPT-SoVITS (V5 on NVIDIA GPUs, a CPU tier otherwise), installing a portable runtime and weights in one click",
       "locales": {
@@ -143,8 +143,8 @@
         "win32"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-10-26T05:21:30.760Z",
-      "versionCount": 14,
+      "published": "2026-10-26T06:28:14.436Z",
+      "versionCount": 15,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -166,10 +166,11 @@
         "tools": 2,
         "events": 2,
         "toolTokens": 242,
-        "envPromptTokens": 207
+        "envPromptTokens": 213
       },
       "changelog": {
         "versions": [
+          "0.5.4",
           "0.5.3",
           "0.5.2",
           "0.5.1",
@@ -357,7 +358,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1",
         "up": 0,
         "down": 0,
-        "comments": 2
+        "comments": 3
       }
     },
     "cortico-bot-memory": {
@@ -424,7 +425,7 @@
       "discussion": {
         "number": 136,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/136",
-        "up": 1,
+        "up": 2,
         "down": 0,
         "comments": 0
       }
@@ -1638,7 +1639,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/115",
         "up": 0,
         "down": 2,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-bili-alont1": {
@@ -4384,7 +4385,7 @@
     },
     "cortico-world-image": {
       "kind": "world",
-      "version": "0.5.4",
+      "version": "0.5.5",
       "displayName": "图片工坊",
       "description": "Image Studio（图片工坊）—— 给 Coopanion 桌宠的 cortico World 扩展：用任意 OpenAI 兼容的图片接口画图/改图、落盘成作品库、把图贴进控制台「对话」页，并自带一套自动重打的自愈补丁。 / A cortico World extension that draws through any OpenAI-compatible image API, keeps pictures on disk and shows them in the console.",
       "author": "lostdegree",
@@ -4409,10 +4410,10 @@
         "bugs": "https://github.com/Lostdegree/cortico-world-image/issues"
       },
       "created": "2026-10-12T05:32:34.365Z",
-      "published": "2026-10-23T12:37:26.872Z",
-      "versionCount": 7,
+      "published": "2026-10-26T05:55:53.341Z",
+      "versionCount": 8,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [
         "creative",
         "requires-key"
@@ -4944,6 +4945,68 @@
         "up": 1,
         "down": 0,
         "comments": 2
+      }
+    },
+    "cortico-world-lofter": {
+      "kind": "world",
+      "version": "0.1.0",
+      "description": "让 Coopanion 读得了 LOFTER：带登录态抓博文、标签流与单篇正文，默认只在对话里按需取，不落盘不订阅",
+      "author": "苏鸿与维基",
+      "maintainers": [
+        "suhong1130"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "lofter",
+        "blog",
+        "reader",
+        "netease"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-lofter",
+        "repository": "https://github.com/suhong11300/cortico-world-lofter",
+        "homepage": "https://github.com/suhong11300/cortico-world-lofter#readme",
+        "bugs": "https://github.com/suhong11300/cortico-world-lofter/issues"
+      },
+      "created": "2026-10-26T06:26:44.330Z",
+      "published": "2026-10-26T06:27:42.449Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "external-setup",
+        "experimental"
+      ],
+      "tags": [
+        "external-setup",
+        "experimental"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 9,
+        "events": 1,
+        "toolTokens": 1055,
+        "envPromptTokens": 86
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/suhong11300/cortico-world-lofter/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 301,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/301",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-majsoul": {
