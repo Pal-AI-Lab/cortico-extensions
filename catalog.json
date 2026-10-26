@@ -114,7 +114,7 @@
   "packages": {
     "@idxlz-0705/cortico-world-wows": {
       "kind": "world",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "displayName": "战舰世界桌宠",
       "description": "截屏看《战舰世界》，让桌宠实时解说战况：击沉夸奖、高光喝彩、逆风打气。解说基调四档可选，费用可控。支持任意 OpenAI 兼容视觉端点（如千问 qwen3-vl-plus、智谱 glm-4v 等）。",
       "author": "IDXLZ",
@@ -136,11 +136,18 @@
         "win32"
       ],
       "created": "2026-10-26T10:38:50.927Z",
-      "published": "2026-10-26T10:39:47.527Z",
-      "versionCount": 2,
+      "published": "2026-10-26T12:13:37.579Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
-      "tags": [],
+      "declaredTags": [
+        "game",
+        "high-cost"
+      ],
+      "tags": [
+        "game",
+        "high-cost"
+      ],
       "downloads": {
         "total": 0,
         "month": 0,
@@ -154,6 +161,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.1",
           "0.3.0",
           "0.2.0-beta.0",
           "0.1.0"
@@ -165,7 +173,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/322",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 2
       }
     },
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
@@ -267,9 +275,9 @@
       "discussion": {
         "number": 228,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-        "up": 7,
+        "up": 6,
         "down": 0,
-        "comments": 16
+        "comments": 18
       }
     },
     "better-cortico-world-netease-companion": {
@@ -366,7 +374,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/214",
         "up": 1,
         "down": 1,
-        "comments": 3
+        "comments": 4
       }
     },
     "cortico-bot-continuity": {
@@ -424,7 +432,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1",
         "up": 0,
         "down": 0,
-        "comments": 3
+        "comments": 4
       }
     },
     "cortico-bot-memory": {
@@ -1706,7 +1714,7 @@
       "discussion": {
         "number": 171,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/171",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -2073,9 +2081,9 @@
     },
     "cortico-world-breezeblue-tts": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "displayName": "BreezeBlue 气泡朗读",
-      "description": "Coopanion BreezeBlue / MiniMax 气泡朗读，支持演绎控制和 Windows 系统语音回退，使用云端api连接",
+      "description": "Coopanion BreezeBlue / MiniMax 气泡朗读，支持演绎控制和 Windows 系统语音回退，使用云端api连接。详细配置请点击GitHub仓库链接。",
       "author": "星云",
       "maintainers": [
         "xingyun010"
@@ -2091,11 +2099,14 @@
         "desktop-pet"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-breezeblue-tts"
+        "npm": "https://www.npmjs.com/package/cortico-world-breezeblue-tts",
+        "repository": "https://github.com/chenhongyuan1/cortico-world-breezeblue-tts",
+        "homepage": "https://github.com/chenhongyuan1/cortico-world-breezeblue-tts#readme",
+        "bugs": "https://github.com/chenhongyuan1/cortico-world-breezeblue-tts/issues"
       },
       "created": "2026-10-26T11:35:49.481Z",
-      "published": "2026-10-26T12:05:36.400Z",
-      "versionCount": 3,
+      "published": "2026-10-26T12:29:07.863Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "tags": [],
@@ -4861,7 +4872,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/23",
         "up": 0,
         "down": 0,
-        "comments": 4
+        "comments": 5
       }
     },
     "cortico-world-image-attach": {
@@ -7185,7 +7196,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/39",
         "up": 12,
         "down": 1,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-qq-all": {
@@ -9919,17 +9930,17 @@
     },
     "cortico-world-warthunder": {
       "kind": "world",
-      "version": "0.1.3",
-      "displayName": "战争雷霆百科",
-      "description": "在对话中提供战争雷霆的本地百科与战局播报。知识库覆盖概念、载具与玩法，可检索、可更新；读取本机 8111 遥测讲解战局、为击毁喝彩、为逆风打气；遥测不可用时可用截图 OCR 兜底；文案可按设定人格改写，模型与花费可配置。",
+      "version": "0.2.0",
+      "displayName": "war thunder安东星助手",
+      "description": "在对话中提供战争雷霆的本地百科、战局播报与对局翻译。知识库覆盖概念、载具与玩法，可检索、可更新；读取本机 8111 遥测讲解战局、为击毁喝彩、为逆风打气，并可翻译对局聊天、代写要发的话；遥测不可用时可用截图 OCR 兜底；文案可按设定人格改写，模型与花费可配置。",
       "locales": {
         "zh": {
-          "displayName": "战争雷霆百科",
-          "description": "在对话中提供战争雷霆的本地百科与战局播报。知识库覆盖概念、载具与玩法，可检索、可更新；读取本机 8111 遥测讲解战局、为击毁喝彩、为逆风打气；遥测不可用时可用截图 OCR 兜底；文案可按设定人格改写，模型与花费可配置。"
+          "displayName": "war thunder安东星助手",
+          "description": "在对话中提供战争雷霆的本地百科、战局播报与对局翻译。知识库覆盖概念、载具与玩法，可检索、可更新；读取本机 8111 遥测讲解战局、为击毁喝彩、为逆风打气，并可翻译对局聊天、代写要发的话；遥测不可用时可用截图 OCR 兜底；文案可按设定人格改写，模型与花费可配置。"
         },
         "en": {
-          "displayName": "War Thunder Codex",
-          "description": "Local War Thunder knowledge plus live battle commentary. A searchable, updatable knowledge base covering concepts, vehicles and play; reads the local 8111 telemetry for sitreps, kill cheers and comeback lines; falls back to screenshot OCR when telemetry is unavailable; copy follows the persona you set, with a configurable model and spend caps."
+          "displayName": "War Thunder Anton Star Helper",
+          "description": "In-chat War Thunder codex, battle caller and match translator. The knowledge base covers concepts, vehicles and gameplay, searchable and updatable; it reads the local 8111 telemetry to call the battle, cheer kills and push back when behind, and can translate in-battle chat plus draft lines to send; screenshot OCR is the fallback when telemetry is unavailable; wording follows the persona you set, and both model and spend are configurable."
         }
       },
       "author": "苏鸿与维基",
@@ -9943,7 +9954,9 @@
         "warthunder",
         "战争雷霆",
         "game",
-        "telemetry"
+        "telemetry",
+        "war-thunder",
+        "translation"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-warthunder",
@@ -9952,8 +9965,8 @@
         "bugs": "https://github.com/suhong11300/cortico-world-warthunder/issues"
       },
       "created": "2026-10-26T12:03:41.166Z",
-      "published": "2026-10-26T12:04:44.582Z",
-      "versionCount": 2,
+      "published": "2026-10-26T12:47:43.364Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -9978,7 +9991,8 @@
       "screenshots": [
         "assets/cortico-world-warthunder/screenshot-1.png",
         "assets/cortico-world-warthunder/screenshot-2.png",
-        "assets/cortico-world-warthunder/screenshot-3.png"
+        "assets/cortico-world-warthunder/screenshot-3.png",
+        "assets/cortico-world-warthunder/screenshot-4.png"
       ],
       "downloads": {
         "total": 0,
@@ -9986,13 +10000,15 @@
         "week": 0
       },
       "summary": {
-        "tools": 9,
+        "tools": 11,
         "events": 7,
-        "toolTokens": 848,
-        "envPromptTokens": 192
+        "toolTokens": 1305,
+        "envPromptTokens": 432
       },
       "changelog": {
         "versions": [
+          "0.2.0",
+          "0.1.4",
           "0.1.3",
           "0.1.2",
           "0.1.1",
