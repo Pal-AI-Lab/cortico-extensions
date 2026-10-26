@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "name": "cortico-world-civ6-assistant-plus",
+  "version": "0.2.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "civ6_observe",
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "description": "观察当前文明六画面。仅当前台窗口标题明确匹配文明六时截图，返回前台标题、截图尺寸、场景说明和 JPEG；前台不是文明六时拒绝截图。截图引擎由 Coopanion 宿主的桌面宠物组件提供，组件缺失时仅此工具不可用。这是内部状态的截图补充，不能替代游戏内数据。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "summary": {
+          "zh": "截取当前文明六画面并附上局势分析所需的信息。",
+          "en": "Captures the current Civilization VI screen with what the model needs to read the situation."
+        }
+      },
+      {
+        "name": "civ6_game_state",
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "description": "读取文明六游戏内只读 Mod 导出的最近本地玩家状态（回合、时代、科技、市政、产出、余额、城市生产、单位位置与状态）。无参数；仅同一 session 心跳不超过 15 秒时返回实时状态。Mod 未运行、数据过期或心跳不匹配时失败，不用截图替代。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "summary": {
+          "zh": "读取游戏内 Mod 导出的文明六本地玩家最近状态。",
+          "en": "Reads the local player state exported by the in-game Civilization VI mod."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "civ6.auto-observation",
+        "description": {
+          "zh": "自动观察到时间了，附文明六截图与策略建议请求。",
+          "en": "An automatic observation is due, with a Civilization VI screenshot and a request for strategy advice."
+        },
+        "trigger": "debounce"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.civ6-assistant.envPrompt",
+        "title": "文明六识别、内部状态与建议提示词",
+        "role": "envPrompt",
+        "content": "# 文明六助手\n\n{{civ6.recognition}}\n\n{{civ6.state}}\n当用户询问当前局面、回合、时代、科技、市政、城市生产或单位位置时，优先调用 `civ6_game_state`，依据工具返回的游戏内 Mod 数据回答。工具失败或数据过期时，明确说明“没有可用的游戏内实时状态”，不要用通用知识补造当前局面。\n\n`civ6_observe` 只是截图补充：只有用户明确要求看画面，或内部数据缺失且用户同意时，才观察画面；不得用截图静默替代缺失的内部数据。\n\n{{civ6.advice}}\n优先给出少量本回合可执行的建议，并说明对应依据。回合、时代、资源、科技、市政、城市生产或单位状态为 null 或未知时，明确写“未知”，不要补造数值。若回执没有实际图像，说明当前模型未收到图片，不能进行画面识别。\n\n此模块只读取与建议，不操作鼠标键盘，不替用户执行游戏动作。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.2.0": "本版基于 `cortico-world-civ6-assistant@0.1.20`（作者 Civ6 Assistant contributors，维护者 tomor1），改动如下。\n\n### 状态导出\n\n- 单行日志被游戏在 2048 字节处截断，导致快照停在旧回合（实测卡在回合 41）：超过 1800 字节时改为 `_CHUNK {seq,part,parts,data}` 分块，读取端按 `seq` 重组；旧单行格式仍兼容。\n- 回合开始事件会被 1 秒去抖吞掉、失焦时 UI tick 又停止：记录 `lastExportedTurn`，回合变化强制导出；`LocalPlayerTurnBegin/End`、`PlayerTurnActivated` 与 `UnitAddedToMap/UnitRemovedFromMap/CityAddedToMap/CityCaptured/CityBuilt` 一律绕过去抖。\n- 新增 `territory`（我方领土地块：坐标/地形/地貌/现有改良/所属城市，上限 60 格，按城市中心 ±4 格扫描）与 `enemies`（视野内敌军：类型/坐标/属主/距离/伤害/战力，上限 40）。\n- 单位新增 `charges`（劳动力）、`tileOwner`、`terrain`、`feature`；城市新增 `queue`（排队项，含位次与剩余回合）。\n- `civ6_game_state` 用引擎回读的回合号交叉校验，导出落后时明确提示；单位优先列开拓者/建造者/商人，展示上限 16 并汇总未展开类型。\n\n### 动作\n\n- 所有可回读动作改为引擎真值复核：建城看城市数、建改良看地块/单位是否消失（建造者被消耗视为成功）、移动看位置或移动力、驻防看 `GetFortifyTurns`、购买看金币、商路看是否离格或 `GetNumOutgoingRoutes` 增加、市政/科技看 `GetProgressingCivic`/`GetResearchingTech`、结束回合轮询 `GetCurrentGameTurn`、升级看单位类型变化。\n- 新增动作：`make_trade_route`（按游戏 `TradeRouteChooser.lua` 的 `PARAM_X0/Y0` 目的地 + `PARAM_X1/Y1` 出发地签名，plot 传 nil）、`send_envoy`（`PlayerOperations.GIVE_INFLUENCE_TOKEN`，逐个派发）。\n- 修复购买：参数改用 `Hash`，先 `CanStartCommand` 预检，被拒时返回游戏给出的原因；dry-run 显示价格并校验地块。\n- 修复生产：`CityOperationTypes.PARAM_*_TYPE` 改用 `Hash`（与游戏 UI 一致），并预检“这座城现在能不能生产”。\n- 修复升级：改用 `UnitCommandTypes.UPGRADE`（原来是 operation，必然被拒），回读单位类型；拒绝时带升级费用。\n- 拒绝原因分级：无移动力 / 无充能 / 领土外 / 已有改良 / 水格 / 森林 / 丘陵 / 苔原 / 无目标 / 前置没满足，并附地形、地貌、属主。\n- 回执截断：FireTuner 会带回该状态自上次调用以来的全部输出，统一截到 200 字并切掉后续日志。\n- `civ6_observe` 接受带 `(DX11)/(DX12)/(Vulkan)` 后缀的窗口标题（真实标题为 `Sid Meier's Civilization VI (DX12)`）。\n\n### 游戏内 Mod\n\n- Mod 版本 15 → 17，新增上述字段与强制导出事件；所有改动仍保持“只读导出、不修改游戏规则”。",
+    "0.1.20": "- **Mod v14：修 `coast` 恒为 0**。实测 `plot:IsCoast()` 在该上下文不存在（调用抛错），\n  被 `SafeBool` 吞掉后永远是 0；改为按 `GetTerrainType() == TERRAIN_COAST` 计数。\n  同点实测：`coast=8 water=11`，与手工探针一致。\n- 城市/开拓者周边的森林、丘陵、河流、资源此前已验证正确（伦敦：森林×4 丘陵×7 河流×2）。",
+    "0.1.19": "- **Mod v13：导出开拓者周边地形**（`COOPANION_CIV6_SETTLER`，每行一个开拓者，最多 2 个）。\n  回合 1 还没有城市，但\"出生点附近是雨林还是沙漠\"恰恰决定第一个科技与建城位置；\n  读取端把它合并到 `units[].around`，渲染为开拓者条目下的「周边：森林×5 丘陵×7 海岸×8 资源 …」。\n- 提示词补一条：没建城时用开拓者的\"周边\"判断建城与首个科技，不得以\"还没有城市\"为由说看不到地形。\n- **修 Mod v12 的静默 bug**：`SafeBool` 定义在 `BuildAroundXY` 之后，Lua 里等于\"全局查找 nil\"，\n  调用报错被 `SafeCall` 吞掉 → 城市 `around` 一直导出成 `null`。已把 `SafeBool` 前移，\n  并加了一个顺序检查脚本（发现前向 local 调用就报错）。\n\n实测（新对局，回合 1）：出生点 68,34 → 森林×5 丘陵×7 海岸×8 河流×2 鹿1 鱼2 大理石1 羊1 石1，无雨林；\n`choose_research` 双向切换 `TECH_MINING` ↔ `TECH_ANIMAL_HUSBANDRY` 均被导出复核通过。\n\n52 项回归测试通过。",
+    "0.1.18": "面向\"按出生点地形做早期决策\"（Mod v12 + 提示词）：\n\n- **Mod v12 导出城市周边 5×5 地块聚合**：`cities[].around = {jungle, forest, marsh, hills, rivers, coast, resources[]}`，\n  渲染为「周边：雨林×3 森林×1 丘陵×2 河流×4 资源 RESOURCE_BANANAS」。\n- **提示词新增地形推理纪律**：雨林多 → 铸铜术优先；森林多 → 伐木场/砍伐节奏；\n  石/大理石 → 石工术；牛/羊/马 → 畜牧；麦/稻/香蕉 → 陶器→灌溉；海岸/鱼 → 航海；\n  并要求选项必须引用 around 的具体计数，区域选址（学院靠山、工业靠矿、港口靠海岸）也要用周边数据。\n\n51 项回归测试通过。",
+    "0.1.17": "- **新增 `spy_mission`**：`SPY_TRAVEL_NEW_CITY` / `SPY_COUNTERSPY`，参数照抄本体\n  `EspionageChooser`（`PARAM_X`/`PARAM_Y` + `Map.GetPlot`），先 `CanStartOperation` 判定。\n- **新增 `lock_citizen`**：`CityCommandTypes.MANAGE` + `PARAM_MANAGE_CITIZEN` + `PARAM_X/Y`，\n  与本体 `PlotInfo.OnClickCitizen` 同一命令（锁定/解锁该格居民）。\n- 两项均在测试中锁定调用形状（防止以后改坏参数）。\n\n**仍未覆盖**：交易（deal）——该上下文没有可直接调用的发送 API，本体走\n`DiploPopup_ShowMakeDeal` + 外交 statement 机制；宗教仅 `found_pantheon`，创教/传教未做。\n\n51 项回归测试通过。",
+    "0.1.16": "- **政策槽类型导出**（Mod v11）：`slots[].type` 为引擎原始值（0 经济 / 1 军事 / 2 外交 / 3 通配），\n  渲染为「槽 1（经济）：POLICY_GOD_KING」，桌宠换卡前即可判断该放哪个槽。\n- **宣战/停战改权威回读**：动作后用 `IsAtWarWith(id)` 回读交战状态；并加 `CanDeclareWarOn` / `CanMakePeaceWith` 预检，\n  被规则拦下时明确报「游戏拒绝：CanMakePeaceWith=false」，不再把\"导出滞后\"误判成成功或失败。\n- **新增 `found_pantheon`**：`PlayerOperations.FOUND_PANTHEON` + `PARAM_BELIEF_TYPE`。\n- 实测：对城邦 13 宣战确实生效（`IsAtWarWith=true`）；重复宣战被 `CanDeclareWarOn=false` 拒绝；\n  停战被 `CanMakePeaceWith=false` 拒绝（规则不允许），工具如实报告。\n\n50 项回归测试通过。",
+    "0.1.15": "- 修 `set_policies` 回读判定的最后一处假阴性：Tuner 回包在文本后面带二进制尾巴，\n  之前用 `[^\\r\\n]*` 取值会把尾巴一起吞进比较 → 明明 `3=3` 却判\"回读不一致\"。\n  现在按数值字符集截取，只比较 `slot:实际=期望`。\n\n实测（真实对局，0.1.15）：\n\n- 槽 1（经济）写 `POLICY_URBAN_PLANNING` → 「已执行并复核：游戏内回读已生效：1:3=3」\n- 槽 1 写回 `POLICY_GOD_KING` → 「已执行并复核：1:2=2」\n- 槽 1 写 `POLICY_SURVEY`（军事政策）→ 「游戏拒绝：slot1=refused-by-engine 不能放进这个槽（类型不匹配，或该政策尚未解锁）」\n\n50 项回归测试通过。",
+    "0.1.14": "修 `set_policies` 的经济槽\"写不进去\"（其实写得进去，是核对方式错了）：\n\n- **根因**：策略写入由引擎在下一 tick 落地，而 `civ6_game_state` 的导出也慢一拍；\n  工具拿\"刚写完立刻读的导出\"去核对，必然判失败，并把已经生效的操作报成\"槽位未生效\"。\n  实测证据：写入调用后引擎内回读为旧值，下一次调用前才变成新值。\n- **改法**：动作执行后用 **Tuner 直接回读槽位**（`GetSlotPolicy` 对比 `GameInfo.Policies[...].Index`）作为权威判定，\n  导出只作为参考；轮询直到成功或超时。\n- **新增槽位类型预检**：先问引擎 `CanSlotPolicy(policyIndex, slot)`，被拒时立刻报\n  「游戏拒绝：slotN 不能放进这个槽（类型不匹配或未解锁）」，不再误报为\"未生效\"。\n- **回执分步**：消息里带 `slotN=queued/refused-by-engine` 与回读值，能看出是游戏拒绝还是回读不一致。\n\n19 项动作测试通过（含新增的权威回读用例）。",
+    "0.1.13": "修掉两个「不可核对」和三个「不可靠字段」（Mod v10 + 读取/校验）：\n\n- **政策可核对**：Mod 每回合额外导出 `COOPANION_CIV6_POLICIES {government, slots[]}`；\n  `set_policies` 按槽位实际政策核对，`change_government` 按当前政体核对，对不上就报「已提交但状态未变」。\n- **停战/宣战可核对**：改用真实 API `IsAtWarWith(id)`（原写成 `IsAtWar` 永远取不到）；\n  动作后比对目标玩家 `atWar`，`make_peace` 仍在下战就明确失败。\n- **见面改权威来源**：用 `GetPlayersMetIDs()`（原来 `HasMet()` 对已见面玩家返回 false）。\n- **删除 `attitude`**：该上下文没有 `GetAttitude`，留着永远是 null。\n\n48 项回归测试通过。",
+    "0.1.12": "按实测结果收紧 `others` 导出（Mod v9）：\n\n- 文明/领袖名改用游戏内本地化文本（原来是 `CIVILIZATION_BYZANTIUM` 这类内部 key，对模型是噪音）。\n- 跳过蛮族（`IsBarbarian`），城邦保留并标记 `isMinor`，渲染为「城邦」。\n- 去掉恒为 null 的 `score` / `cities`：`GetScore()` / `GetNumCities()` 在该上下文不可用，留着只会误导。\n- 实测保留：`military`（真值，如 23/34/43）、`met`、`isMinor`；`atWar` 仍为 null，待找替代 API。\n- 47 项回归测试通过。",
+    "0.1.11": "- **修复 others 把状态撑爆**：Civ6 的日志行在 ~2 KB 处截断，把 others 塞进 state 会让整行 JSON 变成不合法\n  （实测 payload 1973 字符即被截断，读取端报 invalidCount=3、整份状态不可用）。\n- Mod 改为**每个其他文明单独一行** `COOPANION_CIV6_OTHER {...}`（自带 session/seq），state 本体回到小体积。\n- 读取端按 session 合并这些行到对应 state 的 `others[]`，不同 session 的旧行自动忽略。\n- 实测字段可用性：`military` 有真值（23）；`met` 恒 false；`atWar`/`attitude`/`score`/`cities` 为 null——\n  即 `GetAttitude`/`GetScore`/`GetNumCities` 在这条上下文里不可用，后续要么换 API 要么删字段。\n- 47 项回归测试通过。",
+    "0.1.10": "补上缺口 7 的一半：**其他文明状态导出**（Mod v7 + 读取端）。\n\n- Mod v7 新增 `others[]`：id、文明、领袖、是否野蛮人/城邦、是否已见面、是否交战、态度、分数、城市数、军力。\n  每个字段都用 `SafeCall` 包裹——游戏不提供的 API 只会得到 `null`，不会打断整份导出。\n- 读取端把 `others` 作为可选字段解析（旧版 Mod 没有该字段时为空数组，不会解析失败），\n  并在 `civ6_game_state` 文本里渲染成「其他文明（N）」列表。\n- 46 项回归测试通过（新增 others 解析与渲染、以及旧版兼容两组）。",
+    "0.1.9": "补齐政策与外交（缺口 4、6）：\n\n- `set_policies`：`culture:RequestPolicyChanges(clearList, addList)`，按 slot 先清后放，可一次换 1-8 张卡。\n- `change_government`：`culture:RequestChangeGovernment(hash)`，先 `CanChangeGovernmentAtAll()` 判定。\n- `declare_war` / `make_peace`：`UI.RequestPlayerOperation(pid, PlayerOperations.DIPLOMACY_DECLARE_WAR|DIPLOMACY_MAKE_PEACE, {PARAM_PLAYER_ONE, PARAM_PLAYER_TWO})`。\n\n实机情况：换政体在条件不足时正确回 government-change-not-allowed；换卡与停战被引擎接受\n（这两项状态不在导出范围内，暂时只能报\"已执行、不可回读\"）。\n44 项回归测试通过。",
+    "0.1.8": "动作覆盖从 7 个扩到 14 个（对应实测缺口 1/2/3/5/8 的一部分）：\n\n- `end_turn`：`UI.RequestAction(ActionTypes.ACTION_ENDTURN)`，回读回合号核对是否真推进。\n- `attack_unit`：射程单位走 `RANGE_ATTACK`，近战走 `MOVE_TO` + `UnitOperationMoveModifiers.ATTACK`（照抄本体 RequestMoveOperation）。\n- `upgrade_unit`：`UnitOperationTypes.UPGRADE`。\n- `promote_unit`：`UnitManager.RequestCommand(unit, UnitCommandTypes.PROMOTE, { PARAM_PROMOTION_TYPE })`。\n- `purchase_unit` / `purchase_tile`：`CityCommandTypes.PURCHASE`（金币或信仰），回读金币余额核对。\n- `set_city_focus`：`CityCommandTypes.SET_FOCUS`（偏好/忽略某产出）。\n\n仍未覆盖：政策卡更换（Network.SendUpdatePolicies 在该上下文不可用）、外交/交易、其他文明的状态导出。\n43 项回归测试通过。",
+    "0.1.7": "- **修复：civ6_game_state 的文本输出没有 id，导致所有单位/城市动作不可用。**\n  导出 JSON 里一直有 id，但渲染给模型的文本只有名字，模型只能瞎猜 unitId（实测猜 0、1 都被判 unit-not-found）。\n  现在城市与单位列表都渲染为 `#id 名称`，并在列表标题里注明格式。\n- **修复：civ6_observe 报 Cannot find module cortico-world-desktop-pet。**\n  模块解析原来从扩展自身位置锚定（扩展装在 data/extensions，依赖里没有桌宠包），\n  改为多锚点：宿主 Cortico 运行时 → 扩展自身 → 可执行文件，并记录每个锚点的失败原因。\n- 新增引擎解析回归测试；41 项测试通过。",
+    "0.1.6": "- **动作补齐**：新增 `fortify_unit`（驻防）、`found_city`（建城）、\n  `build_improvement`（工人改良，`PARAM_IMPROVEMENT_TYPE`），\n  `set_city_production` 支持 `append: true`（追加到队列末尾，用 `VALUE_APPEND`）。\n- **结果不再\"报喜不报忧\"**：每个动作执行后由工具自己回读导出状态核对，\n  返回 `已执行并复核`（状态确实变了）或 `已提交但状态未变`（游戏没接受，例如市政前置未满足），\n  前者 `verified: true`、后者 `status: unverified` 且 `ok: false`。\n- 实机验证：驻防、队列追加均成功；市政 CIVIC_FOREIGN_TRADE 在解锁后设置成功并被复核为 true。\n- 40 项回归测试通过。",
+    "0.1.5": "- **新增 `move_unit`**：把指定单位移动到目标 plot。使用 `UnitManager.CanStartOperation` 先判定可行性，\n  再用 `UnitManager.RequestOperation(unit, UnitOperationTypes.MOVE_TO, { PARAM_X, PARAM_Y, PARAM_MODIFIERS })`。\n- **实机验证**：勇士 (8,19) → (9,19) 移动成功，移动力 2 → 1，回读状态确认。\n- 动作提示词补充\"移动单位\"，37 项回归测试通过。",
+    "0.1.4": "- **新增写入能力 `civ6_action`**：设置城市生产、选择科技、选择市政。走游戏内 FireTuner（EnableTuner 1，\n  127.0.0.1:4318）调用游戏 API，不点鼠标、不模拟键盘；默认 dryRun，必须 `confirm: true` 才执行；执行后回读核对。\n- 新增 `core/civ6-tuner.ts`：实现 FireTuner 帧格式（uint32 LE 长度 + type=3 + `CMD:<state>:<lua>\\0`）、\n  按能力探测正确的 Lua 上下文（生产在 InGame UI 上下文、研究与市政在 player 上下文）、\n  以及游戏\"一次只接一个客户端\"的退避重连。\n- 新增 `core/civ6-action.ts`：动作白名单、类型名校验（拒绝任何代码注入形态）、预演计划、结果解析。\n- 提示词重写为数字驱动：事实摘要 → 最多 3 条本回合建议（动作—依据数字—预期效果）→ 未知与风险；\n  明确数值推算公式、数据时效提示、禁止编造工具不提供的维度，并加入操作授权纪律。\n- **实机验证**：亚的斯亚贝巴生产 侦察兵 → 纪念碑 通过工具路径切换成功并回读确认；\n  研究目标 TECH_MINING → TECH_ANIMAL_HUSBANDRY 切换成功。\n- 36 项桌面端回归测试通过。Mod 升到 v6（移除已不需要的 gameplay 动作脚本）。",
+    "0.1.3": "- **修复 Mod 只发心跳、永不发状态**：v2 的成员迭代写在 `pcall` 外，游戏在 `lMembersAux`\n  抛 \"Not a valid instance\" 直接中断整份导出（实测 9 条错误、0 条状态）。\n- 新增 `SafePart`：player/era/tech/civic/yields/balances/cities/units 逐部件 `pcall`，\n  一块失败只丢一块，其余照常输出。\n- 新增 `CollectMembers`：把 `collection:Members()` 的整个循环放回 `pcall` 内。\n- 城市/回合事件补绑：`CityAddedToMap`、`CityMadeCapital`、`CityBuilt`、`CityCaptured`、\n  `PlayerTurnActivated`、`LocalPlayerTurnEnd`。\n- 城市诊断：区分 `GetCities() returned nil` 与 `enumerated 0 cities`。\n- 心跳新鲜度上限 15 秒 → 600 秒：Civ6 在窗口失焦时停止 UI 更新，切出去和桌宠说话本是常态，\n  过严门槛会把正常情况误判为过期；返回值仍带 `heartbeatAgeMs` 供模型判断数据新旧。\n- **真实对局验收通过**：回合 2、亚的斯亚贝巴（pop 1、纪念碑 11 回合）、勇士、采矿业 8 回合、\n  法典 14 回合、金币 15.25，状态连续导出 15 条、0 条错误。\n- 25 项桌面端回归测试通过。",
+    "0.1.2": "- 修复游戏内 Mod “有加载、无输出” 的问题：v1 把所有失败都静默吞掉，且心跳排在状态导出之后，\n  任何一步出错都会让 `Lua.log` 完全没有标记，看起来像 Mod 未安装。\n- Mod 升级到 v2：新增 `COOPANION_CIV6_BOOT` 启动探针、`COOPANION_CIV6_READY` 事件注册回执、\n  `COOPANION_CIV6_ERROR` 带 traceback 的限流错误上报。\n- 心跳改为先于状态导出，状态构造失败不再压掉心跳。\n- 加载后立即导出一次状态，tick 同时绑定 `SystemUpdateUI` 与 `UIIdle`，不再依赖单一事件。\n- 修正 `os.date` 的 UTC `!` 前缀可能残留在时间戳里的隐患，并校验 ISO-8601 格式。\n- `Members()` 兼容迭代器、数组与空集合，集合异常不再中断整次导出。\n- 桌面端读取器新增诊断：缺少 BOOT／未完成注册／Mod 自报错误会直接写进失败原因。\n- 25 项桌面端回归测试通过；真实对局验收仍待完成。",
+    "0.1.1": "- 修复干净安装时因 npm 上不存在 `cortico-world-desktop-pet` 而被 404 阻断的问题。\n- 移除该桌宠包的 npm 硬依赖，改为从 Coopanion 宿主的 Cortico 运行时解析截图引擎。\n- 宿主没有截图组件时，`civ6_observe` 明确提示不可用，`civ6_game_state` 不受影响。\n- 新增宿主解析与缺失组件降级测试，共 24 项桌面端回归测试通过；真实对局验收仍待完成。",
+    "0.1.0": "- 首个实验性发布。\n- 新增 `civ6_game_state` 与 `civ6_observe` 两个工具。\n- 新增只读游戏内 Lua Mod `CoopanionCiv6Bridge`。\n- 加入有界日志读取、schema 校验、session 与心跳新鲜度检查、未来时间戳保护。\n- 通过 22 项桌面端回归测试及 Cortico 临时部署检查；真实对局验收仍待完成。"
+  }
+}
