@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-stock",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "describe": {
     "tools": [
       {
@@ -174,6 +174,7 @@
     ]
   },
   "changelog": {
+    "0.2.2": "发布元数据与包体积对齐：\n\n- 补 `LICENSE` 正文并把它加进 `files`，声明 MIT 的同时把许可证随包带上。\n- 补 `author` 字段并统一成「苏鸿与维基 (suhong11300)」，市场卡片与 npm 页面显示作者名，不再回退到 npm 账号名。\n- 市场截图重渲为 1350 宽（等效 1.5×）并做调色板量化：四张合计 2.33 MB → 270 kB，文字与 emoji 仍清晰。\n- 补 `repository` / `homepage` / `bugs`，指向 github.com/suhong11300/cortico-world-stock。\n\n代码与上一版完全一致，不涉及行为变化。",
     "0.2.1": "简介改为正式说明体：先一句定位，再用分号分列能力与边界，去掉口语化措辞与第二人称。\n顶层 `description` 与 `cortico.locales.zh` 取同一句，市场卡片与 npm 页面展示一致；`en` 同步改写。\n代码与 0.2.0 完全一致，不涉及行为变化。",
     "0.2.0": "双市场（A 股 / 美股）、可配指数、播报范围与人格化播报。\n\n- 新增 `market`（`auto` / `cn` / `us`）：`auto` 按本机时区判定，`America/*` 走美股\n- 新增 `indexList` / `usIndex` / `usWindows`：指数清单与播报窗口都可配，A 股默认含科创 50，美股默认道指 / 纳指 / 标普 500\n- 美股 09:30–16:00 连续成交，新增阶段 `trading`（「盘中」）；`ClockInfo` 加 `market` / `marketLabel` / `marketZone`\n- 东财取数加第二条路：批量 `ulist.np/get` 被风控掐断（实测某些网络直接 RST）时逐只走 `stock/get`，两条都带 `fltt=2`；两条都失败才报错\n- 行情层支持美股指数（东财 `100.` 前缀，`DJI`→`DJIA`、`IXIC`→`NDX` 别名）；同花顺遇到美股明确报不支持，不静默给错数\n- 新增 `briefScope`（`both` / `watch` / `account`）：只播关注、或只播持仓盈亏\n- 新增 `personaMode`（`rewrite` / `plain`）：`rewrite` 优先走 `host.cognition`，没有就把真实行情作为素材交给会话模型按人格改写；数字与个股不允许改\n- 账户那行币种跟市场走（`¥` / `$`），盈亏带千分位（`¥+4,950.00`）\n- `envPromptVars` 从 6 键扩到 8 键（新增 `stock.market` / `stock.index`）\n- 新配图两张：`screenshots/us-brief.svg`、`screenshots/persona.svg`\n- 真机装上后补的健壮性修复：启动问候投递失败不再拖垮定时器（宿主 core 还没就绪时 `pushEvent` 会抛错，原来它一抛 tick 就根本没起来），改成失败两秒后补投一次；另加「就绪 / 已播报」两条 info 日志，在宿主 core.log 里能直接看出生效市场、窗口与今日播报次数\n- 测试 81 → **107** 项（时区 19、行情 26、持仓 12、文案 18、整机 32）",
     "0.1.0": "首个版本。\n\n- 六个工具：`stock_setup` / `stock_now` / `stock_brief` / `stock_watch` / `stock_account` / `stock_schedule`\n- 三个事件：`stock.ready` / `stock.brief` / `stock.ask`\n- 双数据源（东方财富批量、同花顺单只分时）加 `auto` 回退；两路都空才报失败\n- 播报窗口打卡落在 `state.json`，同一交易日同一窗口只播一次，跨日清空\n- 持仓三档：`none` / `manual` / `csv`，CSV 支持引号千分位与 GBK 兜底\n- 九档分档文案，`lively` / `calm` 两种风格\n- 时区：市场时钟固定 `Asia/Shanghai`，宿主时区不同才补一行「你那边」\n- 图标与两张示意图（`cortico.icon` / `cortico.screenshots`）\n- 81 项测试覆盖时区、行情解析、持仓、文案与整机装配"

@@ -6123,9 +6123,9 @@
     },
     "cortico-world-music": {
       "kind": "world",
-      "version": "0.2.0",
-      "displayName": "一起感受音乐",
-      "description": "一起感受音乐——在用户明确要求后，和桌宠一起听电脑上的音乐：系统环回采集、播放器曲目信息与完整歌词、云端沉浸式感受；开始会冒“我在听”并每 2 分钟提示状态；换歌先完整总结上一首再报新歌，摇滚会傻乐跑跳、悲伤会安静发呆（只用现有动作）；会结合歌手风格/年代/出处场景理解歌曲，听歌时保持专注不打盹；支持自定义 OpenAI 兼容接口/模型和自己的 Key，听完一首可一直听或停；带一点大肥鱼的傻白甜。只支持 Windows。",
+      "version": "0.2.1",
+      "displayName": "你的音乐搭子",
+      "description": "你的音乐搭子——在用户明确要求后，和桌宠一起听电脑上的音乐：系统环回采集、WASAPI 每进程峰值识别真正发声的应用、播放器曲目信息与完整歌词、云端沉浸式感受；开始会冒“我在听”并每分钟提示状态；换歌先完整总结上一首再报新歌，摇滚会傻乐跑跳、悲伤会安静发呆（只用现有动作）；会结合歌手风格/年代/出处场景理解歌曲，听歌时保持专注不打盹；支持自定义 OpenAI 兼容接口/模型和自己的 Key；没有音乐 30 秒自动停，可自定义每几分钟提醒已听时长；带一点大肥鱼的傻白甜。只支持 Windows。",
       "author": "Sakayume02",
       "maintainers": [
         "sakayume_02"
@@ -6152,8 +6152,8 @@
         "win32"
       ],
       "created": "2026-10-25T15:25:58.658Z",
-      "published": "2026-10-25T15:26:55.173Z",
-      "versionCount": 2,
+      "published": "2026-10-26T12:49:57.299Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -6177,11 +6177,12 @@
       "summary": {
         "tools": 3,
         "events": 6,
-        "toolTokens": 386,
-        "envPromptTokens": 1652
+        "toolTokens": 462,
+        "envPromptTokens": 3961
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0",
           "0.1.0"
         ],
@@ -7950,7 +7951,7 @@
         "number": 58,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/58",
         "up": 2,
-        "down": 0,
+        "down": 1,
         "comments": 0
       }
     },
@@ -8011,7 +8012,7 @@
     },
     "cortico-world-reminder": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "displayName": "提醒",
       "description": "在对话中按设定时间提醒事项。支持重复提醒、提前预告与延后；离线期间错过的提醒在下次启动时补发。",
       "locales": {
@@ -8024,6 +8025,7 @@
           "description": "Reminds you in conversation at the times you set. Supports repeats, early notice and snooze; reminders missed while offline are delivered on the next start."
         }
       },
+      "author": "苏鸿与维基",
       "maintainers": [
         "suhong1130"
       ],
@@ -8034,11 +8036,14 @@
         "reminder"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-reminder"
+        "npm": "https://www.npmjs.com/package/cortico-world-reminder",
+        "repository": "https://github.com/suhong11300/cortico-world-reminder",
+        "homepage": "https://github.com/suhong11300/cortico-world-reminder#readme",
+        "bugs": "https://github.com/suhong11300/cortico-world-reminder/issues"
       },
       "created": "2026-10-26T08:24:46.893Z",
-      "published": "2026-10-26T08:40:10.323Z",
-      "versionCount": 3,
+      "published": "2026-10-26T12:53:10.220Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -8061,10 +8066,11 @@
       },
       "changelog": {
         "versions": [
+          "0.1.2",
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-reminder@0.1.1/CHANGELOG.md"
+        "url": "https://github.com/suhong11300/cortico-world-reminder/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 314,
@@ -9073,7 +9079,7 @@
     },
     "cortico-world-stock": {
       "kind": "world",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "displayName": "拟股喵喵",
       "description": "按本地时区在市场窗口播报行情。覆盖自选股与大盘指数，A 股与美股可切换，指数清单可自定义；接入账户后可选播报持仓盈亏；文案可按设定人格改写。",
       "locales": {
@@ -9086,6 +9092,7 @@
           "description": "Briefs the market in windows of your local time zone. Covers a watchlist and indices, A-share or US, with a configurable index list; optional holdings P&L once an account is connected; copy can be rewritten in the persona you set."
         }
       },
+      "author": "苏鸿与维基",
       "maintainers": [
         "suhong1130"
       ],
@@ -9101,11 +9108,14 @@
         "companion"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-stock"
+        "npm": "https://www.npmjs.com/package/cortico-world-stock",
+        "repository": "https://github.com/suhong11300/cortico-world-stock",
+        "homepage": "https://github.com/suhong11300/cortico-world-stock#readme",
+        "bugs": "https://github.com/suhong11300/cortico-world-stock/issues"
       },
       "created": "2026-10-26T08:24:38.625Z",
-      "published": "2026-10-26T08:40:01.709Z",
-      "versionCount": 3,
+      "published": "2026-10-26T12:50:04.474Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -9136,11 +9146,12 @@
       },
       "changelog": {
         "versions": [
+          "0.2.2",
           "0.2.1",
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-stock@0.2.1/CHANGELOG.md"
+        "url": "https://github.com/suhong11300/cortico-world-stock/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 315,
