@@ -88,6 +88,9 @@
     "cortico-world-speechreview": [
       "sensitive-data"
     ],
+    "cortico-world-steam": [
+      "sensitive-data"
+    ],
     "cortico-world-task-supervisor": [
       "sensitive-data",
       "unsafe"
@@ -105,7 +108,7 @@
   "packages": {
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.5.2",
+      "version": "0.5.3",
       "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
       "description": "Cortico World for Coopanion: speaks the pet's lines aloud with GPT-SoVITS (V5 on NVIDIA GPUs, a CPU tier otherwise), installing a portable runtime and weights in one click",
       "locales": {
@@ -140,8 +143,8 @@
         "win32"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-10-26T05:00:20.187Z",
-      "versionCount": 13,
+      "published": "2026-10-26T05:21:30.760Z",
+      "versionCount": 14,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -167,6 +170,7 @@
       },
       "changelog": {
         "versions": [
+          "0.5.3",
           "0.5.2",
           "0.5.1",
           "0.5.0",
@@ -4092,7 +4096,7 @@
     },
     "cortico-world-hands": {
       "kind": "world",
-      "version": "0.20.11",
+      "version": "0.20.12",
       "displayName": "手",
       "description": "Cortico World: hands for the desktop pet — looks at the phone screen, then taps, swipes, pinches, drags, types and presses keys through whatever actuator the device actually has",
       "maintainers": [
@@ -4110,8 +4114,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-hands"
       },
       "created": "2026-10-22T14:40:37.506Z",
-      "published": "2026-10-26T04:09:51.418Z",
-      "versionCount": 49,
+      "published": "2026-10-26T05:06:04.922Z",
+      "versionCount": 50,
       "official": false,
       "isNew": true,
       "tags": [
@@ -8147,6 +8151,87 @@
         "number": 212,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/212",
         "up": 1,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-steam": {
+      "kind": "world",
+      "version": "1.0.0",
+      "displayName": "Steam",
+      "description": "读本机 Steam：现在在玩什么、每款玩多久、最近两周、成就进度、库里有什么，以及所在区的现价与历史最低价。只读本地记录，不改 Steam 任何文件。",
+      "locales": {
+        "zh": {
+          "displayName": "Steam",
+          "description": "读本机 Steam：账号昵称与在线状态、现在在玩什么、每款玩多久、最近两周玩了什么、库里有什么、成就打到哪了、所在区的现价与历史最低价、好友谁在线（默认关）。只读，不改 Steam 任何文件。"
+        },
+        "en": {
+          "displayName": "Steam",
+          "description": "Reads the local Steam client: account profile, what is being played, playtime, the last two weeks, the library, achievement progress, prices with regional historical lows, and friends online (opt-in). Read-only."
+        }
+      },
+      "author": "云纪",
+      "maintainers": [
+        "unnori"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "steam",
+        "gaming",
+        "playtime",
+        "achievements",
+        "price"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-steam",
+        "repository": "https://github.com/Unnori/cortico-world-steam",
+        "homepage": "https://github.com/Unnori/cortico-world-steam#readme",
+        "bugs": "https://github.com/Unnori/cortico-world-steam/issues"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-10-26T05:18:20.727Z",
+      "published": "2026-10-26T05:19:18.006Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "game",
+        "internet",
+        "external-setup",
+        "sensitive-data"
+      ],
+      "tags": [
+        "game",
+        "internet",
+        "external-setup",
+        "sensitive-data"
+      ],
+      "icon": "assets/cortico-world-steam/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 9,
+        "events": 1,
+        "toolTokens": 1548,
+        "envPromptTokens": 1039
+      },
+      "changelog": {
+        "versions": [
+          "1.0.0"
+        ],
+        "url": "https://github.com/Unnori/cortico-world-steam/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 298,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/298",
+        "up": 0,
         "down": 0,
         "comments": 0
       }
