@@ -2,14 +2,39 @@
   "schema": 1,
   "name": "cortico-world-fatfish",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-  "total": 17,
+  "total": 23,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJMa1",
+      "author": "WANGkong-2",
+      "avatar": "https://avatars.githubusercontent.com/u/348092621?s=64&v=4",
+      "body": "作者你好:因为我是一个小白，这段内容是让鱼帮我总结的\n同样的问题,补一点桌面版的环境和日志,可能是「第 3 层」的复现材料。\n\n**环境**\n- DSH 桌面版(Electron),服务端监听 52663。`GET http://127.0.0.1:52663/coopanion/status` 返回 `{\"ok\":true,\"v\":1,\"pet\":false,\"session\":null}` —— 插件已加载、路由挂上了。\n- connector 已按 0.2.1 装:profile 里是 `\"coopanion-connector-dsh\": \"link:D:/…/coopanion-connector-dsh-main\"`,`package.json` version `0.2.1`,`bundles` 里也有它。\n- Co 侧扩展 `cortico-world-fatfish` 0.6.2。\n\n**日志**(Co 的 `data/logs/core.log`,每十几秒循环一次)\n```\n10:40:29.270 worlds.fatfish  DSH bridge: connect ECONNREFUSED 127.0.0.1:19387\n10:40:29.733 worlds.fatfish  DSH bridge: moved to 127.0.0.1:52663, reconnecting\n10:40:29.733 worlds.fatfish  DSH bridge: socket hang up\n10:40:33.324 worlds.fatfish  DSH bridge: connect ECONNREFUSED 127.0.0.1:19387\n```\n\n**观察**\n1. 端口扫描是好的:它自己从 19387 跳到 52663,0.2.1 那两处修复(port scan 并发、启动锁)在我这台机器上是生效的。\n2. 卡在 WebSocket 升级:挪到 52663 之后立刻 `socket hang up`,然后退回 19387 重来。\n3. 看 connector 的产物 `dist/index.cjs`,里面是 `new WebSocketServer({ noServer: true })`(拿到宿主 server 时走 `opts.server ?? …`),但全文搜不到 `upgrade` 这个词。也就是宿主 HTTP server 上没挂 `upgrade` 监听,Node 在没人接的情况下会直接关掉 socket,客户端看到的就是零字节断开 / socket hang up。\n\n如果这个判断对,要补的是这里:apply 里对宿主 server 注册一次 `server.on('upgrade', …)`,把 `/coopanion/pet` 交给 `handleUpgrade`,其它路径 `destroy()` 或留给下一个监听者。\n\n需要 DSH 侧启动日志或 `dsh plugin list` 我再补。",
+      "createdAt": "2026-10-26T02:57:30Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJMhm",
+          "author": "blacksunshy",
+          "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
+          "body": "@WANGkong-2 好，我也用 DSH 桌面版 0.2.1 验证过——**桌面版本身 `registerUpgrade` 是存在且正常工作的**（我刚卸载重装就能通，不需要任何 link 手动挂载）。我本地桌面版 0.2.1 就通，是因为我这边启动时 DSH 自动恢复了上次的会话 → `agent/created` 事件触发 → connector 的 `AgentRegistry.facts()` 返回非 null → 0.2.1 旧代码里的 `welcome()` 检查通过 → 走 `handleUpgrade` → HTTP 101 正常握手。\n\n所以你的情况：**桌面版启动后没有恢复会话**（status 里 `session:null` 就是证据） → `facts()` 返回 null → 0.2.1 旧代码的 upgrade handler 写了 HTTP 503。你看到的 `socket hang up` 可能是 Fatfish 总结后漏掉了关键的 `upgrade rejected: HTTP 503` 那行日志（0.6.2 专门补了这条诊断日志，收到非 101 响应一定会打出来），方便的话确认一下 core.log 里有没有 `HTTP 503` 这几个字。\n\n## 修复\n\nconnector-dsh commit ca72658（已 push main）：upgrade handler 不再因\"没有会话\"而写 503——永远接受 WebSocket 升级，让 pet 保持连接等会话出现；`agent/created` 触发时立刻补一个 ready 帧。协议版本不变（PROTOCOL_VERSION 还是 1），Fatfish 不需要更新。\n\n## 你现在怎么试\n\n```\ndsh plugin --profile desktop remove coopanion-connector-dsh\n# 注意：桌面版官方说 CLI 不碰 desktop profile，所以上面这条如果报 error 正常。\n# 直接用 DSH 桌面应用内置的插件市场重新装，来源贴 main 地址：\n# https://github.com/blacksunshy/coopanion-connector-dsh\n# （如果插件市场还缓存着旧的 0.2.1，就直接 link: 到你本地 clone 的目录）\n```\n\n装完重启 DSH 桌面版：\n1. **不要创建任何会话**，让 Fatfish 先连 → 现在应该是 HTTP 101 + 保持连接（不再是 503 / hang up）\n2. 在 DSH 里手动创建一个会话 → Fatfish 立刻收到 ready，status 里的 session 从 null 变成实际 id\n\n## 关于你在 dist/index.cjs 里搜不到 `upgrade` 这个词\n\n那是正常的——registerUpgrade 不是一个字符串，是插件加载时 DSH 注入的 API，源码里的 `registerUpgrade` 也在 TypeScript interface 里定义、被 bundler 打包后可能变成方法调用（build.mjs 用的是 esbuild，不会保留接口名字符串）。关键是 upgrade 路径被调到了（0.2.1 下能收到 HTTP 503 就说明它被调到了）。",
+          "createdAt": "2026-10-26T03:38:38Z"
+        }
+      ]
+    },
     {
       "id": "DC_kwDOVLPtGM4BJLIx",
       "author": "xlc4560",
       "avatar": "https://avatars.githubusercontent.com/u/106859420?s=64&u=d9fba154d96b3d8b7f6f84516eee331c1b9d3e9b&v=4",
       "body": "作者你好，当我成功建立连接之后，dsh那边有多个会话，coopanion这边的消息怎么转发到dsh那边指定的对话上呢？",
-      "createdAt": "2026-10-25T18:31:01Z"
+      "createdAt": "2026-10-25T18:31:01Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJMOa",
+          "author": "blacksunshy",
+          "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
+          "body": "eemmmm，dsh切到你想对话的那个会话 和co聊天的时候就是那个会话，会自动切过去的，可以试一下",
+          "createdAt": "2026-10-26T01:38:42Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BJKyC",
@@ -62,7 +87,23 @@
       "author": "blacksunshy",
       "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
       "body": "@2016244301 感谢把这个报出来，尤其是环境版本、复现步骤和试过的方法都列全了——正是这些细节让我直接定位到根因：是我们连接器自己的 `peerDependencies` 把 `@deepseek-ai/dsh-llm@0.0.1-rc.1` 拖进了 profile，被 DSH 0.2.x 的版本校验判成 incompatible。不是你装错了，也不是 DSH 的问题。\r\n\r\n已经修好并发布 **coopanion-connector-dsh 0.2.1**（commit `6713dea`，tag `v0.2.1`），可以更新了：\r\n\r\n```\r\ndsh plugin --profile web remove coopanion-connector-dsh\r\ndsh plugin --profile web add github:blacksunshy/coopanion-connector-dsh\r\n```\r\n\r\n更新完记得把之前被自动装进来的那个老包删掉（`%USERPROFILE%\\.dsh\\profiles\\web\\node_modules\\@deepseek-ai\\dsh-llm`）——它还在 profile 里的话，照样会被禁用。\r\n\r\n如果更新后还有问题，把 `dsh web` 的启动日志贴一段上来，我继续跟。\r\n",
-      "createdAt": "2026-10-25T10:46:25Z"
+      "createdAt": "2026-10-25T10:46:25Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJMSl",
+          "author": "2016244301",
+          "avatar": "https://avatars.githubusercontent.com/u/347748734?s=64&v=4",
+          "body": "作者感谢您的回复,我本人完全对这些一窍不通，我让ai给您生成了一段总结回复，按你说的重装 + 清理都做了,ws://127.0.0.1:19387/coopanion/pet 仍然 503。把证据和 dsh web 启动日志一并贴上:\n\n**环境**:dsh 0.2.1-rc.2(npm latest,无更新)、coopanion-connector-dsh 0.2.1(GitHub 装的)、cortico-world-fatfish 0.6.2(已加载)。启动方式是 CLI:\n```\ndsh web --no-open --port 19387\n```\n\n**照你的步骤做的**\n```\ndsh plugin --profile web remove coopanion-connector-dsh\n→ removed dependencies: coopanion-connector-dsh@0.2.1\ndsh plugin --profile web add github:blacksunshy/coopanion-connector-dsh\n→ Packages: +2, resolved 2, reused 2, added 2, done\n→ + coopanion-connector-dsh 0.2.1 (Done in 5.2s using npm v12.15.0)\n```\n老包确认已经不在:Test-Path %USERPROFILE%\\.dsh\\profiles\\web\\node_modules\\@deepseek-ai\\dsh-llm → **False**;profiles\\web\\node_modules 里只有 coopanion-connector-dsh、.modules.yaml、pnpm-workspace-state-v1.json。\n\n**dsh web 启动日志(全部输出,没有任何报错或告警)**\n```\nPS C:\\WINDOWS\\system32> & \"$env:APPDATA\\npm\\dsh.cmd\" web --no-open --port 19387\ndsh web: http://127.0.0.1:19387/?token=***\nPS C:\\Users\\Administrator>\n```\n.dsh\\logs 下最新的 startup 日志还是 2026-10-25T12-42 那个(CLI 启动不写新日志),里面搜 coopanion / incompat / upgrade 一条都没有;控制台也从没出现过 bridge listening on /coopanion/pet。\n\n**现象**\n- GET /coopanion/status → {\"ok\":true,\"v\":1,\"pet\":false,\"session\":null}(连接器确实加载了,普通路由正常)\n- ws://127.0.0.1:19387/coopanion/pet → WebSocketException:远程服务器返回错误: (503) 服务器不可用,$c.State = Closed\n- curl 原始响应:HTTP/1.1 503、Content-Length: 0、body 为空(不是连接器自己那段 Content-Length: 9)\n- core.log 每 10 秒一条:upgrade rejected: HTTP 503 与 WebSocket was closed before the connection was established 交替出现\n\n**想问的**:这个 503 是 DSH 网关在 upgrade 阶段直接回的,请求似乎没进到插件的 upgrade 钩子。是 CLI 起的 dsh web 没给插件挂上 webServer 服务,还是 registerUpgrade 在这条路径上没生效?需要换启动方式,还是少了哪一步?谢谢。",
+          "createdAt": "2026-10-26T02:03:25Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BJMfh",
+          "author": "blacksunshy",
+          "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
+          "body": "@2016244301 已修复可以试着更新一下 coopanion-connector-dsh\nv0.2.1 具体在另外一条你的评论中回了",
+          "createdAt": "2026-10-26T03:24:07Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BJJzu",
@@ -84,6 +125,13 @@
           "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
           "body": "非常感谢提出宝贵意见，已进行修复，原因也写在评论区了，可以根据评论内容进行版本更新",
           "createdAt": "2026-10-25T10:49:30Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BJMeL",
+          "author": "blacksunshy",
+          "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
+          "body": "@2016244301 好消息：根因找到了，已经修好并推到 main，你本地双向桥接通了就是验证。\n\n## 真相：那个 503 是 connector-dsh 自己写出来的，不是 DSH 网关拒的\n\n你贴的证据里 curl 显示 Content-Length: 0、body 为空——这不是 DSH 网关的错误页面，是 connector-dsh 插件自己的 upgrade handler 写死的：\n\n```\n// pet-hub.ts upgrade handler (旧代码)\nif (!this.opts.welcome()) {\n  socket.end('HTTP/1.1 503 Service Unavailable ...');  // ← 就是这里\n  return;\n}\n```\n\nwelcome() 内部调 AgentRegistry.facts()，而它只有在 DSH 发出 agent/created 事件后才返回非 null 的值。CLI 模式 dsh web --no-open 启动时浏览器没打开、没创建任何会话 → agent/created 永远不会触发 → facts() 永远返回 null → 每次 upgrade 都直接 503。\n\nGET /coopanion/status 返回 {\"session\":null} 也是同一个原因。\n\n## 修复\n\nconnector-dsh commit ca72658（已经 push 到 main）：\n\n1. **upgrade handler 永远接受**（去掉那段写死的 503），让 pet 拿到 HTTP 101 保持连接\n2. hello 帧处理：有会话 → 立即发 ready；没会话 → 保持连接等\n3. agent/created 事件触发时，如果 pet 正在等，立刻补一个 ready 帧\n4. session dispose 时，如果是 owner，自动补发新 owner 的 ready\n\n协议版本不变（PROTOCOL_VERSION 还是 1），Fatfish 客户端不需要更新。\n\n## 怎么装\n\n```\n# 如果旧的 profile web 是 CLI 模式（不是桌面端的 desktop profile）\ndsh plugin --profile web remove coopanion-connector-dsh\ndsh plugin --profile web add github:blacksunshy/coopanion-connector-dsh\n```\n\n验证步骤：\n1. dsh web --no-open --port 19387 — 不要创建任何会话\n2. 让 Fatfish 连 ws://127.0.0.1:19387/coopanion/pet → 现在应该是 HTTP 101 + 保持连接（不再是 503），Fatfish 日志里不会再出现 upgrade rejected: HTTP 503\n3. 在浏览器里打开 dsh web、手动创建一个会话 → 立刻收到 ready，GET /coopanion/status 的 session 从 null 变成实际 id\n\n## 关于我之前 changelog 里那句错话\n\n0.6.2 changelog 里写的\"503 通常意味着 DSH 的 web server 在、但插件没接管这条升级\"——这句话不对。503 分两种：\n- connector-dsh 自己写的 → Content-Length: 0、body 空（没有错误页面）\n- DSH 网关拒的 → 有 DSH 自己的错误页面 body\n\n你贴的 curl 是第一种，我当时误判成第二种了。抱歉让你多查了一轮。",
+          "createdAt": "2026-10-26T03:14:48Z"
         }
       ]
     },

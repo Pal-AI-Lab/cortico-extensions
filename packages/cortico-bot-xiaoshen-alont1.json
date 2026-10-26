@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-bot-xiaoshen-alont1",
-  "version": "0.1.4",
+  "version": "0.2.1",
   "describe": {
     "tools": [
       {
@@ -279,6 +279,84 @@
         }
       },
       {
+        "name": "recent_append",
+        "description": "Record an exact quote from observed private-message material, or a pending note. textBasis distinguishes normalized message text from a legacy formatted event that may contain labels and notes. A matching source proves the quote exists, not its truth or speaker attribution. Dates come from the original event.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "quote",
+                "pending"
+              ]
+            },
+            "quote": {
+              "type": "string",
+              "description": "Exact source substring for kind=quote."
+            },
+            "text": {
+              "type": "string",
+              "description": "Unverified note for kind=pending."
+            },
+            "source": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "cursor": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "senderKey": {
+                  "type": "string"
+                },
+                "messageId": {
+                  "type": "string",
+                  "description": "Select one original message when a cursor contains multiple matching aggregated messages."
+                }
+              },
+              "required": [
+                "cursor",
+                "senderKey"
+              ]
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "保存带来源的逐字引用或待核笔记；日期来自原始消息。",
+          "en": "Records a source quote or pending note, using the source date."
+        }
+      },
+      {
+        "name": "recent_read",
+        "description": "Read bounded recent quote records and pending notes. Legacy RECENT text remains explicitly unsourced. A source date is distinct from when this note was recorded.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读取近期台账；区分来源匹配、待核及旧的无来源记录。",
+          "en": "Reads recent records with source status and unsourced legacy notes."
+        }
+      },
+      {
         "name": "end_turn",
         "description": "End this turn: nothing more you want to say or do right now. New events or the heartbeat will wake you again. This is the normal way to finish a turn — do not idle with empty actions.",
         "parameters": {
@@ -321,6 +399,8 @@
     ]
   },
   "changelog": {
+    "0.2.1": "- 工作区刷新失败显示错误；保存中切换或重新打开文件时，旧回执不会更新新文件的状态或内容。\n- 保存中继续编辑会保留未保存草稿，避免重复提交；卸载后忽略回执。\n\n迁移：升级后刷新控制台页面。\n\n<!-- Owner: package source and Persona/World contracts -->",
+    "0.2.0": "- 私聊原文优先进入交接，以原始时间、来源游标与消息编号呈现；缓存有窗口、条数和长度限制。\n- RECENT 改为来源台账；逐字引用与待核笔记分开，旧 RECENT 原位保留为无来源材料；原文不直接进入系统前缀。\n- 主动候选与重启按单会话补回缺失的对话；增加可关闭的有限重复短问句 fallback。\n- 缓存和台账有独立存储清除入口，中文教程与配置由 Persona 自己声明。\n\n迁移：停止实例并备份工作区后更新。既有 RECENT.md 不自动转换；使用 recent_read 查看旧材料，用 recent_append 新增可核对来源的引用或 pending。来源只含更新后实际观察到的保留事件；如需指定交接对象，填写 handoff.prioritizeSenderKeys（private:号码，逗号分隔），否则装配时可沿用显式 worlds.qqbot.ownerQQ/qq.ownerQQ，均无值时只选最近一个私聊。第三方 Worlds 均非必装；旧 QQ 事件可能只含格式化文字，不能当作纯用户原话。\n\n<!-- Owner: package.json and packaged source -->",
     "0.1.4": "- 深拷贝全部默认配置，隔离不同部署实例；只声明 Core 内建终端，不要求安装第三方 World。\n- 无效心跳值暂停调度，超大间隔不再回退成毫秒循环；原 Persona 数据位置不变，无需迁移。\n- 按 Cortico 0.2.7 的 World API 6 / Bot API 7 检查适用契约；单包产物不引入其他扩展。"
   }
 }
