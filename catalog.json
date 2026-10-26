@@ -108,7 +108,7 @@
   "packages": {
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.5.4",
+      "version": "0.5.5",
       "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
       "description": "Cortico World for Coopanion: speaks the pet's lines aloud with GPT-SoVITS (V5 on NVIDIA GPUs, a CPU tier otherwise), installing a portable runtime and weights in one click",
       "locales": {
@@ -143,8 +143,8 @@
         "win32"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-10-26T06:28:14.436Z",
-      "versionCount": 15,
+      "published": "2026-10-26T06:56:31.574Z",
+      "versionCount": 16,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -170,6 +170,7 @@
       },
       "changelog": {
         "versions": [
+          "0.5.5",
           "0.5.4",
           "0.5.3",
           "0.5.2",
@@ -3639,6 +3640,74 @@
         "up": 0,
         "down": 0,
         "comments": 1
+      }
+    },
+    "cortico-world-emotive-sticker": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "情绪表情",
+      "description": "Coopanion 表情包 World：把你自己收藏的表情包接进 QQ 聊天，按情绪挑图、限速防刷屏，聊天更像真人",
+      "locales": {
+        "zh": {
+          "displayName": "情绪表情",
+          "description": "把你自己收藏的表情包接进聊天：按情绪和 Coo 当前心情挑一张配上，私聊与群聊各一套规则，逐条可开关。图片只存本地，不联网。"
+        },
+        "en": {
+          "displayName": "Emotive Stickers",
+          "description": "Brings your own sticker folder into chat: picks one that fits the mood, in groups and private chats, with rate limits and quiet hours so it never spams. Images stay on this machine."
+        }
+      },
+      "maintainers": [
+        "ycayuri"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "sticker",
+        "emoji",
+        "qq"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-emotive-sticker"
+      },
+      "created": "2026-10-26T06:43:02.968Z",
+      "published": "2026-10-26T06:54:41.441Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion"
+      ],
+      "tags": [
+        "qq",
+        "companion"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 5,
+        "events": 1,
+        "toolTokens": 1482,
+        "envPromptTokens": 526
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-emotive-sticker@0.1.1/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 305,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/305",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-fatfish": {
@@ -9419,7 +9488,7 @@
       "discussion": {
         "number": 68,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/68",
-        "up": 2,
+        "up": 3,
         "down": 0,
         "comments": 4
       }
