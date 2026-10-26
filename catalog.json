@@ -205,7 +205,7 @@
       "discussion": {
         "number": 228,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-        "up": 5,
+        "up": 6,
         "down": 0,
         "comments": 16
       }
@@ -303,7 +303,7 @@
         "number": 214,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/214",
         "up": 1,
-        "down": 0,
+        "down": 1,
         "comments": 2
       }
     },
@@ -915,6 +915,79 @@
       "discussion": {
         "number": 5,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/5",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-provider-deepseek-web": {
+      "kind": "provider",
+      "version": "0.4.0",
+      "displayName": "DeepSeek Web（网页版）",
+      "description": "DeepSeek Web (chat.deepseek.com) as a Cortico provider: chat and image understanding through the browser web session, no API key and no local proxy process",
+      "locales": {
+        "zh": {
+          "displayName": "DeepSeek Web（网页版）",
+          "description": "用浏览器里的 DeepSeek 网页会话直接对话与识图，不需要 API Key，也不需要本地反代进程。"
+        }
+      },
+      "maintainers": [
+        "lian0721"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-provider",
+        "cortico",
+        "deepseek",
+        "deepseek-web",
+        "web-session"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-provider-deepseek-web"
+      },
+      "created": "2026-10-26T08:51:28.991Z",
+      "published": "2026-10-26T08:54:07.304Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "experimental",
+        "unofficial-api"
+      ],
+      "tags": [
+        "experimental",
+        "unofficial-api"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "protocols": [
+          "deepseek-web"
+        ],
+        "auth": [
+          "web-session"
+        ],
+        "input": [
+          "text",
+          "image"
+        ],
+        "local": false
+      },
+      "changelog": {
+        "versions": [
+          "0.4.0",
+          "0.3.0",
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-provider-deepseek-web@0.4.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 319,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/319",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -1813,7 +1886,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/12",
         "up": 4,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-bilibili-video-alont1": {
@@ -2136,7 +2209,7 @@
       "discussion": {
         "number": 189,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/189",
-        "up": 6,
+        "up": 8,
         "down": 0,
         "comments": 0
       }
@@ -2958,6 +3031,66 @@
         "comments": 2
       }
     },
+    "cortico-world-devtools": {
+      "kind": "world",
+      "version": "0.0.3",
+      "displayName": "开发工具",
+      "description": "给 Coopanion 桌宠一双手：跑命令、读写文件、抓网页，不用再截图点鼠标。",
+      "locales": {
+        "zh": {
+          "displayName": "开发工具",
+          "description": "跑命令、读写文件、抓网页——让桌宠不用截图也能干活。"
+        },
+        "en": {
+          "displayName": "Dev Tools",
+          "description": "Run shell commands, read and write files, fetch the web — no screenshots needed."
+        }
+      },
+      "author": "luoluo",
+      "maintainers": [
+        "a_twisted_dog"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "world",
+        "devtools",
+        "terminal",
+        "shell",
+        "powershell",
+        "filesystem",
+        "fetch"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-devtools"
+      },
+      "created": "2026-10-26T09:06:14.231Z",
+      "published": "2026-10-26T09:55:08.422Z",
+      "versionCount": 4,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "icon": "assets/cortico-world-devtools/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 0,
+        "toolTokens": 422,
+        "envPromptTokens": 0
+      },
+      "discussion": {
+        "number": 320,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/320",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-diary": {
       "kind": "world",
       "version": "0.1.0",
@@ -3424,7 +3557,7 @@
     },
     "cortico-world-eat": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "displayName": "吃饭",
       "description": "吃饭（Eat）—— 给 Coopanion 桌宠的 cortico World 扩展：饱食度、米仓、电饭煲，外加一块水稻田、一个水池和虫灾鸟灾；桌宠用工具做饭、吃饭、种田、立稻草人，主人在控制台厨房/稻田面板直接操作；煮饭和水稻都要时间，下雨会替田里浇水，鸟先吃虫再吃稻子。 / A cortico World extension with satiety, a rice bin, a rice cooker, one rice paddy, a water pool, pests and birds: t",
       "author": "AqualCross",
@@ -3461,8 +3594,8 @@
         "bugs": "https://github.com/AqualCross/cortico-world-eat/issues"
       },
       "created": "2026-10-21T09:34:44.190Z",
-      "published": "2026-10-21T09:43:29.697Z",
-      "versionCount": 3,
+      "published": "2026-10-26T09:05:09.712Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3479,11 +3612,12 @@
       "summary": {
         "tools": 9,
         "events": 2,
-        "toolTokens": 835,
+        "toolTokens": 827,
         "envPromptTokens": 162
       },
       "changelog": {
         "versions": [
+          "0.2.0",
           "0.1.1"
         ],
         "url": "https://github.com/AqualCross/cortico-world-eat/blob/HEAD/CHANGELOG.md"
@@ -3491,7 +3625,7 @@
       "discussion": {
         "number": 172,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/172",
-        "up": 1,
+        "up": 2,
         "down": 0,
         "comments": 0
       }
@@ -3804,9 +3938,9 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 41,
+        "up": 44,
         "down": 5,
-        "comments": 25
+        "comments": 29
       }
     },
     "cortico-world-figure-persona": {
@@ -4708,6 +4842,69 @@
       "discussion": {
         "number": 267,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/267",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-keyhold": {
+      "kind": "world",
+      "version": "1.0.0",
+      "displayName": "按键按住",
+      "description": "Coopanion World: real key-down / key-up tools over Win32 SendInput — pet_key_down, pet_key_up, pet_key_hold and pet_key_release_all let the desktop pet hold an arrow key in a browser game instead of tapping it. 给 Coopanion 桌宠的「按住」扩展：把按下和松开拆开，方向键能一直按着走。",
+      "locales": {
+        "zh": {
+          "displayName": "按键按住",
+          "description": "给桌宠一对真正能「按住」的按键工具：pet_key_down / pet_key_up / pet_key_hold，用 Win32 SendInput 发按下与松开，方向键可以一直按着让浏览器游戏里的人物持续移动。"
+        },
+        "en": {
+          "displayName": "Key Hold",
+          "description": "Real key-down / key-up tools for Coopanion: pet_key_down, pet_key_up and pet_key_hold send Win32 SendInput events, so an arrow key can stay down and the character keeps moving in a browser game."
+        }
+      },
+      "maintainers": [
+        "yuyuyu0417"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "desktop-pet",
+        "keyboard",
+        "key-hold",
+        "hold-key",
+        "sendinput",
+        "win32"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-keyhold"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-10-26T10:32:42.584Z",
+      "published": "2026-10-26T10:33:45.148Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "icon": "assets/cortico-world-keyhold/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "changelog": {
+        "versions": [
+          "1.0.0",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-keyhold@1.0.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 321,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/321",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -5786,7 +5983,7 @@
     },
     "cortico-world-music-abc": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "ABC 音乐",
       "description": "让Coo用ABC谱创作音乐。",
       "author": "AqualCross",
@@ -5810,8 +6007,8 @@
         "bugs": "https://github.com/AqualCross/cortico-world-music-abc/issues"
       },
       "created": "2026-10-26T07:24:50.089Z",
-      "published": "2026-10-26T07:25:46.309Z",
-      "versionCount": 2,
+      "published": "2026-10-26T09:02:22.061Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5833,6 +6030,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.1",
           "0.1.0"
         ],
         "url": "https://github.com/AqualCross/cortico-world-music-abc/blob/HEAD/CHANGELOG.md"
@@ -6082,7 +6280,7 @@
     },
     "cortico-world-onebot": {
       "kind": "world",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "displayName": "OneBot",
       "description": "让TA使用QQ。连接到你的napcat或者snowluma，然后在QQ上和TA聊天吧。就像直接用QQ一样，使用几乎所有功能。",
       "author": "AqualCross",
@@ -6109,8 +6307,8 @@
         "bugs": "https://github.com/AqualCross/cortico-world-onebot/issues"
       },
       "created": "2026-10-20T16:13:35.429Z",
-      "published": "2026-10-24T07:26:00.028Z",
-      "versionCount": 5,
+      "published": "2026-10-26T09:02:44.955Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -6136,6 +6334,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.1",
           "0.3.0",
           "0.2.0",
           "0.1.1",
@@ -7906,7 +8105,7 @@
     },
     "cortico-world-shell": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "Shell",
       "description": "Shell —— 给 Coopanion 桌宠的 cortico World 扩展：让 Coo 在你的电脑上执行 PowerShell 命令，是否先问、多久问一次都由你掌握。 / A cortico World extension that lets Coo run PowerShell commands on your PC, with approval under your control.",
       "author": "AqualCross",
@@ -7936,13 +8135,14 @@
         "win32"
       ],
       "created": "2026-10-22T08:43:17.136Z",
-      "published": "2026-10-22T08:44:55.733Z",
-      "versionCount": 2,
+      "published": "2026-10-26T09:03:22.929Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "tags": [
         "unsafe"
       ],
+      "icon": "assets/cortico-world-shell/icon.svg",
       "downloads": {
         "total": 277,
         "month": 277,
@@ -7956,6 +8156,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.1",
           "0.1.0"
         ],
         "url": "https://github.com/AqualCross/cortico-world-shell/blob/HEAD/CHANGELOG.md"
@@ -8598,7 +8799,7 @@
         "number": 298,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/298",
         "up": 0,
-        "down": 1,
+        "down": 0,
         "comments": 0
       }
     },

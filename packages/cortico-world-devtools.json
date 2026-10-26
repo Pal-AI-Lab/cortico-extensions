@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "name": "cortico-world-devtools",
+  "version": "0.0.3",
+  "describe": {
+    "tools": [
+      {
+        "name": "sh",
+        "description": "在本机跑一条 PowerShell 命令，返回输出。用来查文件、装东西、跑脚本。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "command": {
+              "type": "string",
+              "description": "要执行的命令"
+            },
+            "cwd": {
+              "type": "string",
+              "description": "可选，工作目录"
+            },
+            "timeoutMs": {
+              "type": "integer",
+              "description": "可选，超时毫秒，默认 60000"
+            }
+          },
+          "required": [
+            "command"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "fs_read",
+        "description": "读一个文本文件，按行返回。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "文件路径"
+            },
+            "offset": {
+              "type": "integer",
+              "description": "可选，从第几行开始（1 起）"
+            },
+            "limit": {
+              "type": "integer",
+              "description": "可选，读多少行，默认 200"
+            }
+          },
+          "required": [
+            "path"
+          ]
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "fs_write",
+        "description": "写一个文本文件（会覆盖）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "文件路径"
+            },
+            "content": {
+              "type": "string",
+              "description": "内容"
+            }
+          },
+          "required": [
+            "path",
+            "content"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "web_fetch",
+        "description": "抓一个网页/接口，返回正文文本。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "网址"
+            },
+            "maxChars": {
+              "type": "integer",
+              "description": "可选，最多返回多少字，默认 8000"
+            }
+          },
+          "required": [
+            "url"
+          ]
+        },
+        "tags": [
+          "read"
+        ]
+      }
+    ],
+    "events": []
+  }
+}

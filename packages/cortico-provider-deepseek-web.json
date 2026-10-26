@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "name": "cortico-provider-deepseek-web",
+  "version": "0.4.0",
+  "describe": {
+    "provider": {
+      "protocols": [
+        "deepseek-web"
+      ],
+      "auth": [
+        "web-session"
+      ],
+      "local": false,
+      "input": [
+        "text",
+        "image"
+      ],
+      "title": "DeepSeek Web（网页版）",
+      "description": "用浏览器里的 DeepSeek 网页会话直接对话与识图，不需要本地反代进程。工具调用靠提示词模拟（网页版没有原生 function calling），默认全部放行，可在端点配置里用白名单收窄。",
+      "reasoningTiers": [
+        {
+          "id": "off",
+          "label": "关闭深度思考",
+          "thinking": false
+        },
+        {
+          "id": "on",
+          "label": "开启深度思考（DeepThink）",
+          "thinking": true,
+          "effort": "on",
+          "note": "DeepSeek 网页版只有开与关，没有强度档位。"
+        }
+      ]
+    }
+  },
+  "changelog": {
+    "0.4.0": "自动登录，以及三处会让对话「接不上」的根因修复。\n\n- **自动登录**：点「自动登录」起一个独立配置的浏览器（Edge 优先），你在里面登录后，\n  扩展经 CDP 自己读 `userToken` 与 cookie，验活后原子写入。不再需要手工复制 cURL。\n  判据用 `localStorage['userToken']`，**不用 `ds_session_id`**——后者未登录时也存在，\n  会造成「检测到已登录」的假阳性。\n- 凭证新增 `deviceId`（取网页里的真值，取不到才由 token 派生），请求头对齐实测：\n  `x-client-version: 2.7.0`、`x-client-bundle-id`、`x-device-id`；`model_type` 改为 `null`。\n- **修「每轮重建会话」**：曾经按 80,000 **字符**判会话超限，而 Core 是按 **token** 记账，\n  两套账打架 → 每轮都重建 chat → 模型每轮丢掉上下文 → 表现成永远接不上话。\n  现在字符预算只用于**单次请求**（超了截中间），会话重建阈值是 240,000 字符，两者分开。\n- **修「它回了但你看不到」**：`continue` 模式只发增量，不带工具说明书，模型会逐渐偏离\n  协议改用纯文本（反代 issue #30）。现在每轮追加一句 `[Tool reminder]`；同时删掉提醒里\n  `Otherwise answer normally.` 这句——在只显示工具输出的世界里，它等于允许模型用看不见的\n  正文作答。\n- 历史里的工具回执截到 500 字、助手回复截到 2,000 字，避免十几万字把 prompt 挤爆。\n- 登录面板在凭证已存在时正确显示「已登录」（之前进程重启后面板一律显示「尚未登录」）。\n- **防风控三件套**（依据 `dsh-deepseek-web-login` 的实测结论）：\n  - **请求闸门**：所有请求串行（同一账号同时只能生成一条，并发会触发账号级限流），\n    两次之间隔 2~4 秒**随机**（固定间隔方差≈0，是最明显的定时器特征）；\n    另有连续 15 次后强制长休、以及「30 分钟最多 20 次」的滚动窗口。\n  - **图片引用上限**：单次最多 24 份。上游超限会让整轮被拒、且该会话此后每轮都失败。\n  - **重建时删掉旧会话**：不再在账号里堆废弃的 chat。\n- 新增 `pnpm check:publish`：官方 dry-mount + describe 一致性检查 + 发布前清单。",
+    "0.3.0": "登录面板。\n\n- 端点页新增「登录」面板：点一下起一个只监听 `127.0.0.1` 的一次性页面，用系统浏览器打开；\n  在 DeepSeek 登录后把 `Copy as cURL` 整段粘回去即可。页面带随机 token、10 分钟过期、\n  CSP 禁止被套壳。\n- 凭证**先验活再落盘**：拿一次 PoW 挑战，拿得到才写 `deepseek-auth.json`（原子写）。\n- 面板每 2 秒轮询状态，登录完成自动变「已登录」并显示账号指纹（token 的 sha 前 8 位，不显示原值）。",
+    "0.2.0": "识图与工具调用接通。\n\n- **识图**：图片先上传换 `file_id`，再用 `ref_file_ids` 引用；处理状态轮询到就绪为止。\n  按内容 sha256 缓存，同一张图不重复上传；单张失败只丢这张，全失败才退回纯文字。\n  支持 png / jpg / webp / gif，其余格式跳过并记日志。\n- **工具调用**：默认全开。工具说明压成短清单写进 prompt，回答里的调用按四种格式解析\n  （标准信封、代码块、`TOOL_CALL:` 行、XML 标签、裸 name+arguments）。\n  正文先缓冲再判定，不是调用就原样当文本。\n- 端点新增 `options.tools`：留空全开，`none` 纯对话，`a,b,c` 白名单。\n- 修 `BATCH` 帧里的子补丁不递归、`quasi_status` 被当成正文追加（回答后面多出 \"FINISHED\"）。\n- 修整条工具调用在缓冲里时被误判成「流是空的」。",
+    "0.1.0": "首个版本：文字链路。\n\n- Provider 模块入口：`kind: provider`，契约 `api: 6`，鉴权方式 `web-session`。\n- 三步握手：PoW 挑战 → 建 chat session → 补全，全部在扩展进程内完成。\n- SSE 分片翻译：THINK / RESPONSE / SEARCH → 标准 Responses 事件。\n- 会话桥：按已知前缀判断续接，历史被改写时重建，重建原因写日志。\n- SHA3 PoW：按 URL 缓存编译后的 WASM 模块，下载失败不缓存。"
+  }
+}

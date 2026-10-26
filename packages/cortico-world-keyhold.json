@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "name": "cortico-world-keyhold",
+  "version": "1.0.0",
+  "changelog": {
+    "1.0.0": "首个可分发版本。\n\n- README 补齐：安装（设置里装本地目录 / `pnpm add` 目录或 tgz）、四个工具的用法与返回、键名表、按住时长上限（`pet_key_hold` 的 `ms` 16–60000，看门狗 `worlds.keyhold.maxHoldMs` 默认 180000 / 范围 5000–600000）、配置、权限与安全、排错、本地自测。\n- `package.json` 补齐：`version` 升到 `1.0.0`；双语 `description`；`keywords` 增加 `cortico-world`（装载器按类别要求的关键字）、`cortico`、`desktop-pet`、`key-hold`、`win32`；新增 `os: [\"win32\"]`、`cortico.icon`、`files`（`src` / `test` / `assets` / 文档）。\n- 新增扩展图标 `assets/icon.png`（256×256 PNG，按键 + 向下箭头）。\n- 新增 `LICENSE`（MIT）与 `CHANGELOG.md`。",
+    "0.1.0": "- 初始版本：`pet_key_down` / `pet_key_up` / `pet_key_hold` / `pet_key_release_all` 四个工具，Win32 `SendInput` 实现，CUA 开关检查、看门狗与退出松开。\n- `test/smoke.mjs` 冒烟测试。"
+  }
+}
