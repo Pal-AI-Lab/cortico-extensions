@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "name": "cortico-world-stardew",
+  "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/212",
+  "total": 1,
+  "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJNMF",
+      "author": "paryself",
+      "avatar": "https://avatars.githubusercontent.com/u/217685478?s=64&v=4",
+      "body": "遇到一个卡死的问题，麻烦作者看一下 🙏\n\n**现象**：客机角色已经进了房主的农场（游戏日志里能看到「鲸鱼娘 (127.0.0.1) 已加入」），但 stardew_observe 永远返回 connected:false。\n\n**已排除**：\n1. 端口/token 两边一致——客机 Mods\\CorticoStardew\\config.json 的 Port/Token 与 app 侧 Data\\stardew\\bridge.json 逐字节相同（都是 24983）。\n2. 不是旧实例占端口，所有 Coopanion.exe 都是同一次启动；整个 app 重启后行为不变。\n3. 不是 HTTP 服务：Invoke-WebRequest http://127.0.0.1:24983/ 报「基础连接已经关闭: 连接被意外关闭」。\n4. 不是方向搞反：客机进程不监听任何端口。\n5. 重启 World（卡片 ↻ → 重启）无效。\n\n**关键证据**：用 PowerShell 假装插件握手，连 127.0.0.1:24983 发 {\"type\":\"hello\",\"protocol\":1,\"token\":...}，连得上但服务端一个字节都没回，ReadLine() 直接 null；把 token 故意改错，结果一模一样 —— 说明根本没走到 token 校验。连上后什么都不发等服务器先开口，5 秒内也没有任何数据。\n\n**怀疑**：listener 活着，但 accept 之后没走到协议 handler，server 侧桥接模块可能没注册/加载（我们这台的 Data\\extensions 里只剩下 pnpm 残留）。\n\n详细复现步骤、完整脚本和排查记录都在 Issue #1：https://github.com/Kpect10086/cortico-world-stardew/issues/1 。想问一句：World 启动时怎么自查 server 侧桥接有没有起来？有没有服务端日志位置？谢谢！",
+      "createdAt": "2026-10-26T07:32:58Z"
+    }
+  ]
+}

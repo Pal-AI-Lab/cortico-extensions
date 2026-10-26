@@ -108,7 +108,7 @@
   "packages": {
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.5.5",
+      "version": "0.5.6",
       "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
       "description": "Cortico World for Coopanion: speaks the pet's lines aloud with GPT-SoVITS (V5 on NVIDIA GPUs, a CPU tier otherwise), installing a portable runtime and weights in one click",
       "locales": {
@@ -143,8 +143,8 @@
         "win32"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-10-26T06:56:31.574Z",
-      "versionCount": 16,
+      "published": "2026-10-26T07:43:33.076Z",
+      "versionCount": 17,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -170,6 +170,7 @@
       },
       "changelog": {
         "versions": [
+          "0.5.6",
           "0.5.5",
           "0.5.4",
           "0.5.3",
@@ -204,7 +205,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
         "up": 5,
         "down": 0,
-        "comments": 15
+        "comments": 16
       }
     },
     "better-cortico-world-netease-companion": {
@@ -426,7 +427,7 @@
       "discussion": {
         "number": 136,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/136",
-        "up": 2,
+        "up": 3,
         "down": 0,
         "comments": 0
       }
@@ -2738,7 +2739,7 @@
         "number": 17,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/17",
         "up": 0,
-        "down": 1,
+        "down": 2,
         "comments": 0
       }
     },
@@ -3644,7 +3645,7 @@
     },
     "cortico-world-emotive-sticker": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "displayName": "情绪表情",
       "description": "Coopanion 表情包 World：把你自己收藏的表情包接进 QQ 聊天，按情绪挑图、限速防刷屏，聊天更像真人",
       "locales": {
@@ -3673,8 +3674,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-emotive-sticker"
       },
       "created": "2026-10-26T06:43:02.968Z",
-      "published": "2026-10-26T06:54:41.441Z",
-      "versionCount": 3,
+      "published": "2026-10-26T07:20:46.348Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3690,17 +3691,19 @@
         "week": 0
       },
       "summary": {
-        "tools": 5,
-        "events": 1,
-        "toolTokens": 1482,
-        "envPromptTokens": 526
+        "tools": 7,
+        "events": 2,
+        "toolTokens": 1866,
+        "envPromptTokens": 729
       },
       "changelog": {
         "versions": [
+          "0.2.0",
+          "0.1.2",
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-emotive-sticker@0.1.1/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-emotive-sticker@0.2.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 305,
@@ -3800,7 +3803,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
         "up": 41,
         "down": 5,
-        "comments": 23
+        "comments": 25
       }
     },
     "cortico-world-figure-persona": {
@@ -5750,6 +5753,67 @@
         "comments": 0
       }
     },
+    "cortico-world-music-abc": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "ABC 音乐",
+      "description": "让Coo用ABC谱创作音乐。",
+      "author": "AqualCross",
+      "maintainers": [
+        "aqualcross"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "music",
+        "abc",
+        "sheet-music",
+        "soundfont"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-music-abc",
+        "repository": "https://github.com/AqualCross/cortico-world-music-abc",
+        "homepage": "https://github.com/AqualCross/cortico-world-music-abc#readme",
+        "bugs": "https://github.com/AqualCross/cortico-world-music-abc/issues"
+      },
+      "created": "2026-10-26T07:24:50.089Z",
+      "published": "2026-10-26T07:25:46.309Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "creative"
+      ],
+      "tags": [
+        "creative"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 1,
+        "toolTokens": 897,
+        "envPromptTokens": 395
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/AqualCross/cortico-world-music-abc/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 307,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/307",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-netease-companion": {
       "kind": "world",
       "version": "0.3.7",
@@ -7315,6 +7379,78 @@
         "comments": 0
       }
     },
+    "cortico-world-qzone": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "Neighbor · QQ 空间",
+      "description": "将 Neighbor 朋友圈同步到 QQ 空间，接收空间评论并发送角色回复",
+      "locales": {
+        "zh": {
+          "displayName": "Neighbor · QQ 空间",
+          "description": "同步朋友圈、图片和 QQ 空间评论回复。"
+        },
+        "en": {
+          "displayName": "Neighbor · Qzone",
+          "description": "Sync Neighbor Moments, images and Qzone comment replies."
+        }
+      },
+      "maintainers": [
+        "lingyu192"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "qzone",
+        "neighbor"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-qzone"
+      },
+      "created": "2026-10-26T07:08:35.729Z",
+      "published": "2026-10-26T07:09:33.015Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "im",
+        "qq",
+        "external-setup",
+        "experimental",
+        "unofficial-api"
+      ],
+      "tags": [
+        "im",
+        "qq",
+        "external-setup",
+        "experimental",
+        "unofficial-api"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 0,
+        "events": 0,
+        "toolTokens": 0,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-qzone@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 308,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/308",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-qzone-alont1": {
       "kind": "world",
       "version": "0.2.1",
@@ -8286,7 +8422,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/212",
         "up": 1,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-steam": {
@@ -8366,7 +8502,7 @@
         "number": 298,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/298",
         "up": 0,
-        "down": 0,
+        "down": 1,
         "comments": 0
       }
     },
@@ -9490,7 +9626,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/68",
         "up": 3,
         "down": 0,
-        "comments": 4
+        "comments": 5
       }
     },
     "cortico-world-wechat": {

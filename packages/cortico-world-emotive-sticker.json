@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-emotive-sticker",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "describe": {
     "tools": [
       {
@@ -47,6 +47,62 @@
         "summary": {
           "zh": "看图库有多少张、有哪些标签、上次扫描和最近发送。",
           "en": "Shows library size, tags, last scan and recent sends."
+        }
+      },
+      {
+        "name": "sticker_open",
+        "description": "Hand one untagged sticker back as an image attachment so you can look at it, then record tags with sticker_tag. Call it repeatedly to tag the library: open one, describe it in one or two Chinese words, tag it, repeat. Pass file to re-open a specific picture.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "file": {
+              "type": "string",
+              "description": "Optional: the picture to open, as shown in sticker_stats. Omit to get the next untagged one."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "把一张没标签的表情包作为图片交出去，供模型看图。",
+          "en": "Hands one untagged sticker back as an image so the model can look at it."
+        }
+      },
+      {
+        "name": "sticker_tag",
+        "description": "Write tags for one sticker (short Chinese words like 累/笑/无语/抱抱/晚安). Use it after looking at the picture from sticker_open. Pass skip=true to mark a picture as reviewed without tags (e.g. text-only pictures). Tags you write here are used by sticker_pick when matching a mood.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "file": {
+              "type": "string",
+              "description": "The picture to tag, as shown by sticker_open."
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "One to four short Chinese words describing the emotion or use."
+            },
+            "skip": {
+              "type": "boolean",
+              "description": "Mark as reviewed but give no tags."
+            }
+          },
+          "required": [
+            "file"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "为一张表情包写入标签（或标记跳过）。",
+          "en": "Writes tags for one sticker, or marks it as reviewed."
         }
       },
       {
@@ -228,6 +284,13 @@
           "zh": "第一次挂载时告诉使用者表情包文件夹在哪。",
           "en": "Tells the user where the sticker folder is, on first mount."
         }
+      },
+      {
+        "type": "sticker.tagRequest",
+        "description": {
+          "zh": "面板上点了「让 Coo 帮忙打标签」：请求模型逐张看图写标签。",
+          "en": "Panel asked the model to look through untagged pictures and tag them."
+        }
       }
     ],
     "prompts": [
@@ -235,11 +298,13 @@
         "key": "worlds.sticker.envPrompt",
         "title": "表情包 · 环境提示词",
         "role": "envPrompt",
-        "content": "表情包：这台电脑上有一个表情包文件夹，你可以在聊天里配图。**配图是你说话方式的一部分，不是特殊功能。**\n\n## 硬规则：出现下面这些信号，先调 `sticker_pick`，再回话\n\n- 使用者话里有情绪词：累、困、笑死、哈哈、无语、离谱、气、烦、难过、emo、委屈、开心、好耶、夸我、救命、晚安、睡了。\n- 使用者在逗你、怼你、调侃你，或者你在撒娇、撒赖、卖萌。\n- 使用者让你发表情、发张图、比个心、来点反应。\n- **使用者说“在测试/试试看”时更是必配**——他要的就是看到效果，别只回文字。\n\n平淡陈述、正经问答、工作事务、第一次对话、刚配过图（同会话 15 分钟内），都不配。**一次只配一张。**\n\n## 怎么用\n\n1. 调 `sticker_pick`，参数：\n   - `emotion`：一个短中文词（累/笑/无语/撒娇/赞/惊/晚安…）\n   - `mood`：**你自己现在的心情**（开心/撒娇/累/困/难过/生气/平静…），它会影响这次发不发的概率和挑图的偏好。\n   - `conversation`：原样复制这条消息事件里的会话标识（`group:<群号>` 或 `private:<QQ号>`），私聊和群聊各有一套规则。\n2. 回执里会带一张图，并告诉你用哪种写法发：\n   - 回执写了「正文里写 `[表情包:文件名]`」→ 就把这个标记放进你 `qq_send` 的正文里（图已经复制到 QQ 世界的表情包目录）；\n   - 回执提到 image 句柄 → 把句柄填进渠道工具的 `image` 参数。\n3. 回执说「这次不发图」「这次先不配图」→ 直接不发，正常说话，别追问、别换个工具重试。\n\n## 别绕\n\n- 不要自己编文件名，不要去读文件夹，不要拿 `sticker_stats` 编一张图出来——只有 `sticker_pick` 给的才发得出去。\n- 图片不进你的视野，你只需按回执的写法发出去，不要描述图的内容。\n- 配图要配在话里：文字照常说，图作为**同一条消息**的附加，或者紧接着一条。别为了配图而配图。\n\n## 私聊也一样\n\n私聊里聊得轻松时配图最自然，不要因为是私聊就收着。\n\n## 使用者想调\n\n- 「以后别在群里发」「多发点」「一天最多三张」「晚上别发」→ 调 `sticker_policy`，改完用一句话复述现在的设置。\n- 问怎么用、图库在哪、为什么没图 → 调 `sticker_guide`，把原文答给他，别自己猜。\n\r\n"
+        "content": "表情包：这台电脑上有一个表情包文件夹，你可以在聊天里配图。**配图是你说话方式的一部分，不是特殊功能。**\n\n## 硬规则：出现下面这些信号，先调 `sticker_pick`，再回话\n\n- 使用者话里有情绪词：累、困、笑死、哈哈、无语、离谱、气、烦、难过、emo、委屈、开心、好耶、夸我、救命、晚安、睡了。\n- 使用者在逗你、怼你、调侃你，或者你在撒娇、撒赖、卖萌。\n- 使用者让你发表情、发张图、比个心、来点反应。\n- **使用者说“在测试/试试看”时更是必配**——他要的就是看到效果，别只回文字。\n\n平淡陈述、正经问答、工作事务、第一次对话、刚配过图（同会话 15 分钟内），都不配。**一次只配一张。**\n\n## 怎么用\n\n1. 调 `sticker_pick`，参数：\n   - `emotion`：一个短中文词（累/笑/无语/撒娇/赞/惊/晚安…）\n   - `mood`：**你自己现在的心情**（开心/撒娇/累/困/难过/生气/平静…），它会影响这次发不发的概率和挑图的偏好。\n   - `conversation`：原样复制这条消息事件里的会话标识（`group:<群号>` 或 `private:<QQ号>`），私聊和群聊各有一套规则。\n2. 回执里会带一张图，并告诉你用哪种写法发：\n   - 回执写了「正文里写 `[表情包:文件名]`」→ 就把这个标记放进你 `qq_send` 的正文里（图已经复制到 QQ 世界的表情包目录）；\n   - 回执提到 image 句柄 → 把句柄填进渠道工具的 `image` 参数。\n3. 回执说「这次不发图」「这次先不配图」→ 直接不发，正常说话，别追问、别换个工具重试。\n\n## 别绕\n\n- 不要自己编文件名，不要去读文件夹，不要拿 `sticker_stats` 编一张图出来——只有 `sticker_pick` 给的才发得出去。\n- 图片不进你的视野，你只需按回执的写法发出去，不要描述图的内容。\n- 配图要配在话里：文字照常说，图作为**同一条消息**的附加，或者紧接着一条。别为了配图而配图。\n\n## 私聊也一样\n\n私聊里聊得轻松时配图最自然，不要因为是私聊就收着。\n\n## 使用者想调\n\n- 「以后别在群里发」「多发点」「一天最多三张」「晚上别发」→ 调 `sticker_policy`，改完用一句话复述现在的设置。\n- 问怎么用、图库在哪、为什么没图 → 调 `sticker_guide`，把原文答给他，别自己猜。\n\n## 给表情包打标签（使用者要求时）\n\n图库的标签默认从文件夹名和文件名猜；如果文件名没意义（`sticker-0095.jpg`），就需要你看着图打标签。\n\n流程：\n\n1. 调 `sticker_open`（不带参数）→ 回执里带一张图，告诉你文件名和还剩多少张没打标签。\n2. 看图，想 1–4 个短中文词（累/笑/无语/抱抱/晚安/赞/惊/吃/撒娇…），调 `sticker_tag`：\n   - `file`：原样抄回执里的文件名；\n   - `tags`：刚才想的词；\n   - 纯文字图、看不清的图，传 `skip: true` 跳过。\n3. 重复 1–2，**一次最多连着打 20 张**，然后跟使用者报一句「这次标了 20 张，还剩 N 张，要继续吗」。\n4. 面板上点了「让 Coo 帮忙打标签」会给你一条 `sticker.tagRequest` 事件，就是让你开始这个流程。\n\n打标签会消耗视觉额度：先跟使用者说一声再开始大批量打。\r\n"
       }
     ]
   },
   "changelog": {
+    "0.2.0": "- 新增 `sticker_open` / `sticker_tag`：模型可以逐张看图、写回标签，不再依赖文件名。\n- 面板「图库」新增未打标签计数与「让 Coo 帮忙打标签」按钮（推 `sticker.tagRequest` 事件）。\n- 档位说明表精简成三行（私聊、群聊各一列），不再一档两行看着像重复。\n- 标签只作为匹配提示：没标签的图照样能发。",
+    "0.1.2": "- 档位表真的换成新默认值了（0.1.1 那次的替换没命中，表还是旧的）。\n- 使用说明里的粗体与引用块现在正确去掉标记（0.1.1 的正则写错，`**` 仍会露出）。",
     "0.1.1": "- 显示名统一为「情绪表情」，面板、世界卡片、存储项一致。\n- 修复面板状态行在改成私聊/群聊两套规则后显示 `0/undefined` 的问题。\n- 使用说明支持粗体与引用块，不再露出 `**`。\n- 说明里的档位表按新的默认值重写，并区分私聊 / 群聊。",
     "0.1.0": "第一个可用版本：把本地表情包接进聊天。\n\n- `sticker_pick`：按情绪挑图，返回图片附件；同一会话冷却、同图不重复、命中概率三层限速。\n- `sticker_stats` / `sticker_reload` / `sticker_policy` / `sticker_guide` 四个配套工具。\n- 图库：递归扫描子目录，目录名与文件名当标签；支持任意盘符与网络路径；只收 gif/jpg/png/webp，单张 ≤10MB。\n- 上限 500 张（可调），按使用次数淘汰，**不删磁盘文件**；招牌图永不淘汰。\n- 三档预设（安静/正常/活泼）只是起点：面板「高级」里能改冷却、上限、概率、静音、白名单、索引上限等全部细节，改完自动变「自定义」档。设置页仍只露开关、目录、档位三项。\n- WebUI 面板：使用说明（渲染 GUIDE）、图库缩略图、档位切换、重新扫描、打开文件夹、换目录、试一张、状态行。\n- 首次挂载推一条提示，告诉使用者图库在哪。\n- 自动探测只认 [表情包:文件名] 的 QQ 世界表情包目录（botDir\\emoji、bots\\*\\emoji 等）。\n- 包内 `GUIDE.md`，面板与 `sticker_guide` 共用同一份说明，随版本更新。"
   }
