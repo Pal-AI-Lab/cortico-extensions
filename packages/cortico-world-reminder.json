@@ -1,0 +1,170 @@
+{
+  "schema": 1,
+  "name": "cortico-world-reminder",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "reminder_add",
+        "description": "Add a reminder that wakes the conversation when it comes due. Give either in_minutes or at, not both.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "What to be reminded of, in the user's own words."
+            },
+            "in_minutes": {
+              "type": "number",
+              "description": "Minutes from now, 1 to 10080."
+            },
+            "at": {
+              "type": "string",
+              "description": "Absolute time in ISO 8601 with a timezone offset, e.g. 2026-10-27T18:30:00+08:00."
+            },
+            "repeat_minutes": {
+              "type": "number",
+              "description": "Repeat every N minutes after it comes due until handled; omit to remind once."
+            }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "记一条提醒,到点由 World 主动唤醒会话。",
+          "en": "Record a reminder that wakes the conversation when due."
+        }
+      },
+      {
+        "name": "reminder_list",
+        "description": "List the open reminders in due order, with their times and remaining time.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "include_closed": {
+              "type": "boolean",
+              "description": "Also list the most recent finished or cancelled reminders."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "按时间顺序列出待提醒。",
+          "en": "List open reminders in due order."
+        }
+      },
+      {
+        "name": "reminder_done",
+        "description": "Mark one reminder as handled, so it stops repeating.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Reminder id from reminder_list."
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "把一条提醒标成已处理。",
+          "en": "Mark one reminder as handled."
+        }
+      },
+      {
+        "name": "reminder_cancel",
+        "description": "Cancel one open reminder without marking it as handled.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Reminder id from reminder_list."
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "取消一条提醒。",
+          "en": "Cancel one open reminder."
+        }
+      },
+      {
+        "name": "reminder_snooze",
+        "description": "Push one open reminder further out by N minutes and clear its fired count.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Reminder id from reminder_list."
+            },
+            "minutes": {
+              "type": "number",
+              "description": "How many minutes to push it out, 1 to 10080."
+            }
+          },
+          "required": [
+            "id",
+            "minutes"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "把一条提醒往后推若干分钟。",
+          "en": "Push one reminder further out."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "reminder.ready",
+        "description": {
+          "zh": "World 挂载完成,附带待提醒条数。",
+          "en": "The World was mounted, with the number of open reminders."
+        }
+      },
+      {
+        "type": "reminder.due",
+        "description": {
+          "zh": "一条提醒到点、预告或需要重复提醒。",
+          "en": "A reminder came due, is due soon, or needs repeating."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.reminder.envPrompt",
+        "title": "提醒 · 环境提示词",
+        "role": "envPrompt",
+        "content": "这是一个本地提醒 World:待办存在本机,到点由它主动推事件叫你,不需要轮询。\n当前时间 {{reminder.now}};{{reminder.summary}};下一条是 {{reminder.next}}。\n用户说「几分钟后提醒我」「明天几点叫我」这类请求时,用 reminder_add 记下来(in_minutes 与 at 只给一个);到点事件来了就照着办,办完用 reminder_done 收尾,需要延后用 reminder_snooze。\n不要替用户代办「提醒」以外的决定,也不要把同一件事重复记多条。"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "- 首个版本:本地提醒落盘,到点由 World 推 `reminder.due` 唤醒会话。\n- 五个工具 `reminder_add` / `reminder_list` / `reminder_done` / `reminder_cancel` / `reminder_snooze`。\n- 两个事件 `reminder.ready` 与 `reminder.due`,origin 均为 `internal`。\n- 五项热改配置:投递方式、待办上限、提前预告、重复间隔、重复次数。\n- **挂载顺序加固**:先建 15 秒轮询,再投就绪事件。宿主 core 还没就绪时 `pushEvent` 会抛,\n  按老写法一抛 `start()` 就中断、定时器根本没建,World 看着「已启动」却永远不会提醒;\n  现在抛错只补投一次(2 秒后重试),轮询照旧。\n- 市场卡片:新增 `icon.svg`(深底铃铛 + 两侧响铃弧 + 金色铃锤),写进 `cortico.icon` 与 `files`,\n  并补 `cortico.locales.zh/en`(提醒 / Reminder)。\n- 标签:`companion`(sense of time / daily routine)。\n- 测试 26 项(store 11 + world 15),含两条挂载容错:就绪事件抛错仍能投出到点的提醒、\n  连续抛错也不会让 `start()` 挂住。"
+  }
+}

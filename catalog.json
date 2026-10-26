@@ -2134,7 +2134,7 @@
       "discussion": {
         "number": 189,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/189",
-        "up": 5,
+        "up": 6,
         "down": 0,
         "comments": 0
       }
@@ -3809,8 +3809,19 @@
     },
     "cortico-world-figure-persona": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
+      "displayName": "形象人格",
       "description": "给 Coopanion 形象包挂上多档人设：一个形象几档人格，一键切换，形象包更新不冲掉",
+      "locales": {
+        "zh": {
+          "displayName": "形象人格",
+          "description": "给一个形象挂多档人设:切换人设不用重装形象包,形象包更新也不冲掉你写的人格。"
+        },
+        "en": {
+          "displayName": "Figure Persona",
+          "description": "Several personas per figure: switch without touching the figure pack, and keep your wording when the pack updates."
+        }
+      },
       "author": "苏鸿与维基",
       "maintainers": [
         "suhong1130"
@@ -3833,18 +3844,19 @@
         "bugs": "https://github.com/suhong11300/cortico-world-figure-persona/issues"
       },
       "created": "2026-10-24T11:16:15.780Z",
-      "published": "2026-10-26T06:34:59.634Z",
-      "versionCount": 3,
+      "published": "2026-10-26T08:25:18.586Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
-        "external-setup",
-        "experimental"
+        "companion",
+        "internal-state"
       ],
       "tags": [
-        "external-setup",
-        "experimental"
+        "companion",
+        "internal-state"
       ],
+      "icon": "assets/cortico-world-figure-persona/icon.svg",
       "downloads": {
         "total": 0,
         "month": 0,
@@ -3858,6 +3870,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0",
           "0.1.0"
         ],
@@ -5024,8 +5037,19 @@
     },
     "cortico-world-lofter": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
+      "displayName": "LOFTER 阅读",
       "description": "让 Coopanion 读得了 LOFTER：带登录态抓博文、标签流与单篇正文，默认只在对话里按需取，不落盘不订阅",
+      "locales": {
+        "zh": {
+          "displayName": "LOFTER 阅读",
+          "description": "带自己的登录态读 LOFTER:热榜、单篇正文与配图,按需取用不落盘,读不到会直说。"
+        },
+        "en": {
+          "displayName": "LOFTER Reader",
+          "description": "Reads LOFTER with your own login: hot posts, single articles and images, fetched on demand and never archived behind your back."
+        }
+      },
       "author": "苏鸿与维基",
       "maintainers": [
         "suhong1130"
@@ -5047,18 +5071,19 @@
         "bugs": "https://github.com/suhong11300/cortico-world-lofter/issues"
       },
       "created": "2026-10-26T06:26:44.330Z",
-      "published": "2026-10-26T06:27:42.449Z",
-      "versionCount": 2,
+      "published": "2026-10-26T08:27:05.414Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
-        "external-setup",
-        "experimental"
+        "internet",
+        "requires-key"
       ],
       "tags": [
-        "external-setup",
-        "experimental"
+        "internet",
+        "requires-key"
       ],
+      "icon": "assets/cortico-world-lofter/icon.svg",
       "downloads": {
         "total": 0,
         "month": 0,
@@ -5072,6 +5097,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.1",
           "0.1.0"
         ],
         "url": "https://github.com/suhong11300/cortico-world-lofter/blob/HEAD/CHANGELOG.md"
@@ -7566,6 +7592,70 @@
         "comments": 0
       }
     },
+    "cortico-world-reminder": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "提醒",
+      "description": "Cortico World: local reminders that wake the conversation when they come due",
+      "locales": {
+        "zh": {
+          "displayName": "提醒",
+          "description": "到点自己开口叫你:提前预告、重复提醒都能配,关机错过的下次开机补上。"
+        },
+        "en": {
+          "displayName": "Reminder",
+          "description": "Speaks up when a reminder comes due: lead time, repeats, and a catch-up pass for what was missed while the bot was off."
+        }
+      },
+      "maintainers": [
+        "suhong1130"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "reminder"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-reminder"
+      },
+      "created": "2026-10-26T08:24:46.893Z",
+      "published": "2026-10-26T08:25:22.095Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion"
+      ],
+      "tags": [
+        "companion"
+      ],
+      "icon": "assets/cortico-world-reminder/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 5,
+        "events": 2,
+        "toolTokens": 605,
+        "envPromptTokens": 116
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-reminder@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 314,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/314",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-ritual-alont1": {
       "kind": "world",
       "version": "0.1.5",
@@ -8556,6 +8646,84 @@
       "discussion": {
         "number": 247,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/247",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-stock": {
+      "kind": "world",
+      "version": "0.2.0",
+      "displayName": "拟股喵喵",
+      "description": "Cortico World: market briefs for a desktop companion — A-share and US indices, a configurable index list, optional holdings P&L, and copy rewritten in the persona you set",
+      "locales": {
+        "zh": {
+          "displayName": "拟股喵喵",
+          "description": "盯住你关注的市场:先按当地时区定好时间,早盘尾盘按窗口播报涨跌;A 股或美股指数清单都能自己配,接上账户还能只播盈亏,播报文案按你设的人格重写。"
+        },
+        "en": {
+          "displayName": "Stock Meow",
+          "description": "Watches the market you actually live in: A-share or US indices with a list you own, optional holdings P&L, and briefs rewritten in the persona you gave the companion."
+        }
+      },
+      "maintainers": [
+        "suhong1130"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "stock",
+        "market",
+        "index",
+        "ashare",
+        "us-stock",
+        "companion"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-stock"
+      },
+      "created": "2026-10-26T08:24:38.625Z",
+      "published": "2026-10-26T08:25:35.848Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion",
+        "internet"
+      ],
+      "tags": [
+        "internet",
+        "companion"
+      ],
+      "icon": "assets/cortico-world-stock/icon.svg",
+      "screenshots": [
+        "assets/cortico-world-stock/screenshot-1.png",
+        "assets/cortico-world-stock/screenshot-2.png",
+        "assets/cortico-world-stock/screenshot-3.png",
+        "assets/cortico-world-stock/screenshot-4.png"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 6,
+        "events": 3,
+        "toolTokens": 692,
+        "envPromptTokens": 153
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-stock@0.2.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 315,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/315",
         "up": 0,
         "down": 0,
         "comments": 0

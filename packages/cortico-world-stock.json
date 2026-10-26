@@ -1,0 +1,180 @@
+{
+  "schema": 1,
+  "name": "cortico-world-stock",
+  "version": "0.2.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "stock_setup",
+        "description": "Report the resolved time zone, current time, which market is in effect (A-share or US), session phase, index list, brief windows, watchlist and account mode. Use it first when you are unsure what time the market clock is at.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "报时区、当前时间、市场状态、播报窗口、关注列表与账户模式。",
+          "en": "Reports the resolved clock, session phase, brief windows, watchlist and account mode."
+        }
+      },
+      {
+        "name": "stock_now",
+        "description": "Fetch quotes for the watchlist (plus the configured index list) and return a briefing without pushing any event.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "立刻取一次行情并给出播报文案,不推送事件。",
+          "en": "Fetches quotes and returns a briefing without pushing an event."
+        }
+      },
+      {
+        "name": "stock_brief",
+        "description": "Do a full briefing on demand: fetch quotes, push the stock.brief event, then the \"want to see it?\" follow-up. Same text the scheduled briefing would produce.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "完整播报一次:推 stock.brief 与追问事件。",
+          "en": "Runs a full briefing and pushes the brief and follow-up events."
+        }
+      },
+      {
+        "name": "stock_watch",
+        "description": "Read or change the watchlist: list, add, remove, or set it outright. A-share codes and US index codes such as DJIA or NDX are both accepted.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "add",
+                "remove",
+                "set"
+              ],
+              "description": "What to do."
+            },
+            "symbols": {
+              "type": "string",
+              "description": "Comma separated codes (600519, sz000001, DJIA); required for add, remove and set."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "查看或增删关注列表。",
+          "en": "Reads or changes the watchlist."
+        }
+      },
+      {
+        "name": "stock_account",
+        "description": "Inspect or switch how your holdings are supplied: off, hand-filled, or a file exported from a broker. Never logs in anywhere.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "show",
+                "off",
+                "manual",
+                "csv"
+              ],
+              "description": "show leaves it unchanged."
+            },
+            "holdings": {
+              "type": "string",
+              "description": "For manual: code:shares:cost, comma separated."
+            },
+            "file": {
+              "type": "string",
+              "description": "For csv: absolute path of the exported holdings table."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "查看或切换持仓来源(关/手填/文件),不登录任何券商。",
+          "en": "Inspects or switches the holdings source; never logs in to a broker."
+        }
+      },
+      {
+        "name": "stock_schedule",
+        "description": "Report the brief windows for the market in effect, what already fired today and when the next one is due.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "报播报窗口、今天播过几次、下一段什么时候。",
+          "en": "Reports brief windows, what fired today and when the next one is due."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "stock.ready",
+        "description": {
+          "zh": "挂载或跨日时先对表:报出时区、北京时间与市场状态。",
+          "en": "On mount or on a new day, fixes the time zone, Beijing time and session phase."
+        }
+      },
+      {
+        "type": "stock.brief",
+        "description": {
+          "zh": "收盘时段的涨跌播报,正文就是完整文案。",
+          "en": "The closing-window briefing; its text is the whole message."
+        }
+      },
+      {
+        "type": "stock.ask",
+        "description": {
+          "zh": "播报后的追问「请问(称呼),需要查看吗?」。",
+          "en": "The follow-up question asked right after a briefing."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.stock.envPrompt",
+        "title": "拟股喵喵 · 环境提示词",
+        "role": "envPrompt",
+        "content": "拟股喵喵(stock)负责盯 {{stock.market}}:现在是 {{stock.now}},你那边 {{stock.zone}},市场状态 {{stock.phase}};大盘指数 {{stock.index}},关注列表 {{stock.watch}},账户数据 {{stock.account}}。\n\n收盘时段会自动播报涨跌(时段一律按 {{stock.market}} 的交易所时区判定),播完会追问一句「请问{{stock.user}},需要查看吗?」——被追问时直接调用 stock_now 把行情拿出来,不要凭记忆复述旧数字。播报文案会按你的人格改写,但里面的价格与涨跌幅是真实行情,不要改动。\n\n要改关注列表用 stock_watch,要看时区、生效市场与播报窗口用 stock_setup。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.2.0": "双市场（A 股 / 美股）、可配指数、播报范围与人格化播报。\n\n- 新增 `market`（`auto` / `cn` / `us`）：`auto` 按本机时区判定，`America/*` 走美股\n- 新增 `indexList` / `usIndex` / `usWindows`：指数清单与播报窗口都可配，A 股默认含科创 50，美股默认道指 / 纳指 / 标普 500\n- 美股 09:30–16:00 连续成交，新增阶段 `trading`（「盘中」）；`ClockInfo` 加 `market` / `marketLabel` / `marketZone`\n- 东财取数加第二条路：批量 `ulist.np/get` 被风控掐断（实测某些网络直接 RST）时逐只走 `stock/get`，两条都带 `fltt=2`；两条都失败才报错\n- 行情层支持美股指数（东财 `100.` 前缀，`DJI`→`DJIA`、`IXIC`→`NDX` 别名）；同花顺遇到美股明确报不支持，不静默给错数\n- 新增 `briefScope`（`both` / `watch` / `account`）：只播关注、或只播持仓盈亏\n- 新增 `personaMode`（`rewrite` / `plain`）：`rewrite` 优先走 `host.cognition`，没有就把真实行情作为素材交给会话模型按人格改写；数字与个股不允许改\n- 账户那行币种跟市场走（`¥` / `$`），盈亏带千分位（`¥+4,950.00`）\n- `envPromptVars` 从 6 键扩到 8 键（新增 `stock.market` / `stock.index`）\n- 新配图两张：`screenshots/us-brief.svg`、`screenshots/persona.svg`\n- 真机装上后补的健壮性修复：启动问候投递失败不再拖垮定时器（宿主 core 还没就绪时 `pushEvent` 会抛错，原来它一抛 tick 就根本没起来），改成失败两秒后补投一次；另加「就绪 / 已播报」两条 info 日志，在宿主 core.log 里能直接看出生效市场、窗口与今日播报次数\n- 测试 81 → **107** 项（时区 19、行情 26、持仓 12、文案 18、整机 32）",
+    "0.1.0": "首个版本。\n\n- 六个工具：`stock_setup` / `stock_now` / `stock_brief` / `stock_watch` / `stock_account` / `stock_schedule`\n- 三个事件：`stock.ready` / `stock.brief` / `stock.ask`\n- 双数据源（东方财富批量、同花顺单只分时）加 `auto` 回退；两路都空才报失败\n- 播报窗口打卡落在 `state.json`，同一交易日同一窗口只播一次，跨日清空\n- 持仓三档：`none` / `manual` / `csv`，CSV 支持引号千分位与 GBK 兜底\n- 九档分档文案，`lively` / `calm` 两种风格\n- 时区：市场时钟固定 `Asia/Shanghai`，宿主时区不同才补一行「你那边」\n- 图标与两张示意图（`cortico.icon` / `cortico.screenshots`）\n- 81 项测试覆盖时区、行情解析、持仓、文案与整机装配"
+  }
+}
