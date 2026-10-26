@@ -281,7 +281,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
         "up": 8,
         "down": 0,
-        "comments": 23
+        "comments": 25
       }
     },
     "better-cortico-world-netease-companion": {
@@ -6274,13 +6274,13 @@
     },
     "cortico-world-mouse-polling-fix": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.1.7",
       "displayName": "鼠标回报率修复（Mouse Polling Fix）",
-      "description": "Coopanion 桌宠鼠标回报率修复：用 Cortico World 关闭逐事件鼠标转发，并把页面 pointermove 合并到每帧，解决 500Hz 以上、尤其 8000Hz 拖动卡顿。安装后重启 Coopanion，启用「鼠标回报率修复」后再重启一次，否则不生效。A Cortico World for Coopanion. 作者 funst，QQ 2674459204。",
+      "description": "性能优化：Coopanion 桌宠鼠标回报率修复。用 Cortico World 关闭逐事件鼠标转发，并把页面 pointermove 合并到每帧，解决 500Hz 以上、尤其 8000Hz 拖动卡顿。安装后重启 Coopanion，启用「鼠标回报率修复」后再重启一次，否则不生效。A Cortico World for Coopanion. 作者 funst，QQ 2674459204。",
       "locales": {
         "zh": {
           "displayName": "鼠标回报率修复",
-          "description": "解决 Coopanion 桌宠在高鼠标回报率下的卡顿：关闭全局逐事件鼠标转发，并把桌宠页面的 pointermove 合并到每帧。安装后重启，启用后再重启一次，否则不生效。作者 funst，QQ 2674459204，MIT 协议。"
+          "description": "性能优化：解决 Coopanion 桌宠在高鼠标回报率下的卡顿。关闭全局逐事件鼠标转发，并把桌宠页面的 pointermove 合并到每帧。安装后重启，启用后再重启一次，否则不生效。作者 funst，QQ 2674459204，MIT 协议。"
         },
         "en": {
           "displayName": "Mouse Polling Fix",
@@ -6307,8 +6307,8 @@
         "win32"
       ],
       "created": "2026-10-26T15:11:47.812Z",
-      "published": "2026-10-26T15:13:07.343Z",
-      "versionCount": 2,
+      "published": "2026-10-26T16:43:17.939Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -6328,16 +6328,21 @@
       "summary": {
         "tools": 3,
         "events": 0,
-        "toolTokens": 412,
+        "toolTokens": 416,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.1.7",
+          "0.1.6",
+          "0.1.5",
+          "0.1.4",
+          "0.1.3",
           "0.1.2",
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-mouse-polling-fix@0.1.2/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-mouse-polling-fix@0.1.7/CHANGELOG.md"
       },
       "discussion": {
         "number": 337,
@@ -7676,7 +7681,7 @@
     },
     "cortico-world-qq-final": {
       "kind": "world",
-      "version": "0.6.26",
+      "version": "0.6.27",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -7695,8 +7700,8 @@
         "bugs": "https://github.com/hth768/cortico-world-qq-final/issues"
       },
       "created": "2026-10-06T07:39:25.866Z",
-      "published": "2026-10-26T15:31:27.488Z",
-      "versionCount": 59,
+      "published": "2026-10-26T16:22:08.561Z",
+      "versionCount": 60,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -7722,10 +7727,11 @@
         "tools": 14,
         "events": 8,
         "toolTokens": 4077,
-        "envPromptTokens": 753
+        "envPromptTokens": 757
       },
       "changelog": {
         "versions": [
+          "0.6.27",
           "0.6.26",
           "0.6.25",
           "0.6.24",
