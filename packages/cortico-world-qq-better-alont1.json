@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-better-alont1",
-  "version": "0.2.0",
+  "version": "0.3.1",
   "describe": {
     "tools": [
       {
         "name": "qqbot_send",
-        "description": "回复 QQ 消息事件的唯一渠道：发送一条发往 QQ 群或私聊的消息（不要用 terminal_send，那只会发到控制台终端）。调用即直接发送，无需再确认。to 填事件行方括号里的会话标号——群是 \"group:<群号>\"，私聊是 \"private:<QQ号>\"，照抄那一行的号码，不要自己改、不要凭记忆写；不确定就先调 qqbot_conversations 看清单。",
+        "description": "回复 QQ 消息事件的唯一渠道：发送一条发往 QQ 群或私聊的消息（不要用 terminal_send，那只会发到控制台终端）。调用即直接发送，无需再确认。to 填事件行方括号里的会话标号——群是 \"group:<群号>\"，私聊是 \"private:<QQ号>\"，照抄那一行的号码，不要自己改、不要凭记忆写；不确定就先调 qqbot_conversations 看清单。私聊默认合并，条数超限整次拒绝。按回执区分已受理、结果未确认和未尝试；部分失败会停止，不得自动整条重发。已受理不是已读。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -932,6 +932,16 @@
     ],
     "events": [
       {
+        "type": "qq.sent",
+        "tags": [
+          "speak"
+        ],
+        "description": {
+          "zh": "一段发送已被服务受理，含会话、时间、原文和可用的消息编号；不表示对方已读。",
+          "en": "A sent segment accepted by the service, with conversation, time, text and available message id; not a read receipt."
+        }
+      },
+      {
         "type": "qq.proactive",
         "description": {
           "zh": "监听会话候选时段，不自动发送。",
@@ -1019,6 +1029,8 @@
     ]
   },
   "changelog": {
+    "0.3.1": "- 详情配置不再包含宿主启用总开关，避免过期表单保存其他设置时意外关闭扩展。\n- 启用/停用统一使用宿主卡片；真实业务子开关仍可配置，中文教程明确保存与重新挂载的区别。\n\n迁移：升级后重载宿主并刷新控制台页面；如果旧版已把总开关保存为 false，请在宿主卡片重新激活一次。若旧实例仍显示在线，可先停用再激活。修复不会猜测或覆盖用户已有停用选择。\n\n<!-- Owner: package source and Persona/World contracts -->",
+    "0.3.0": "- 私聊默认不按句/段拆分，短句合并，单次默认最多两条；无法完整装入时发送前整次拒绝。\n- 首个未确认结果停止后续段落；回执分别计数服务已受理、结果未确认及未尝试，停止/取消不会继续发送后续条。\n- 新增 qq.sent 外部事件，仅记录服务受理的具体段；没有 message_id 就明确未知，受理不等于对方收到或已读。\n- 入站保留规范化正文与聚合子消息原始时间/编号；排除展开引用、频道说明和联系人备注，避免误归因。\n\n迁移：备份后升级，保留 0.2.0 的 qqbot_ 工具名及 dataDir/qqbot 目录。检查 splitPrivateReplies、splitMinChars、splitReplyMaxMessages、coalesceShortSentences；默认私聊合并，单次最多两条。旧配置需要大量分条时显式提高上限。超长消息会整次拒绝，不截断、不追加“第3条”。没有升级 Persona 也能独立使用；qq.sent/messageText 为额外事件元数据，不读取或写入 Persona 记忆。\n\n<!-- Owner: package.json and packaged source -->",
     "0.2.0": "- 42 个工具统一 qqbot_ 命名空间，运行时与自描述复用声明，避免与 Core 内建 QQ 冲突。\n- 后台私聊与空间自动生成改为候选事件，由 Persona 决定显式发送；不读 RECENT 或其他 provider 密钥文件。\n- 公开帖必须显式提供正文，配图可省略且只接受显式参数；不取私聊上下文或最近图片。\n- 状态隔离到 dataDir/qqbot，默认图库不再与独立 qzone 共享。\n- 未连接、空发送或回执丢失不再报告成功；修复好友审批未连接假成功与 OneBot 已解包的空间 tid/列表读取。\n- 面板保留快速交替启停的最终停止，显示执行中调用与耗时，按 failed:true 统计失败；面板代码随包内置。\n- 按 Cortico 0.2.7 的 World API 6 / Bot API 7 检查适用契约；单包产物不引入其他扩展。\n\n迁移：工具按 README 映射到 qqbot_；自定义提示词手动合并。状态改到 dataDir/qqbot，仅手动迁移 README 列出的本包文件；旧共享 stickers 不自动读取。候选事件不自动发言。"
   }
 }
