@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-  "total": 25,
+  "total": 26,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJPkl",
+      "author": "NighyRe",
+      "avatar": "https://avatars.githubusercontent.com/u/113569938?s=64&v=4",
+      "body": "它的语音由「语义判定」触发（对方明确要语音时才发），判定需要一个 LLM 密钥：填「判定端点」https://api.deepseek.com、「判定密钥名」（在部署目录 .env 里放好同名密钥）、「判定模型」deepseek-chat。不填就不会发语音（语音收发开关开着也不发）。\n\n这个在哪配置啊，怎么调QQ那边都发不出语音",
+      "createdAt": "2026-10-26T16:57:09Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJPc5",
       "author": "wtmdbyd",

@@ -2,21 +2,39 @@
   "schema": 1,
   "name": "cortico-world-social-media",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/204",
-  "total": 2,
+  "total": 4,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BJNaR",
       "author": "2565828022",
       "avatar": "https://avatars.githubusercontent.com/u/284919412?s=64&v=4",
       "body": "你好，请问可以加上私信、动态和主动@特别关注的功能吗",
-      "createdAt": "2026-10-26T08:32:57Z"
+      "createdAt": "2026-10-26T08:32:57Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJPvF",
+          "author": "PeiKun123",
+          "avatar": "https://avatars.githubusercontent.com/u/200584930?s=64&v=4",
+          "body": "谢谢建议，已经开始按 B站场景来做啦！这轮先补动态读取和主动 @ 特别关注，动态发布会先从纯文字验证起步；私信收发涉及独立会话与隐私隔离，暂时不加。公开发送会保留目标核对、回执和防重复处理，验证通过后再随新版更新，尽量不影响现在已有的评论体验。",
+          "createdAt": "2026-10-26T17:26:52Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BJKEK",
       "author": "yuan1000-oss",
       "avatar": "https://avatars.githubusercontent.com/u/336454173?s=64&v=4",
       "body": "你好，请问可以支持一下海外版的bilibili扫码登陆吗？我的鲸鱼娘是用的海外版账号",
-      "createdAt": "2026-10-25T12:28:05Z"
+      "createdAt": "2026-10-25T12:28:05Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJPvG",
+          "author": "PeiKun123",
+          "avatar": "https://avatars.githubusercontent.com/u/200584930?s=64&v=4",
+          "body": "谢谢反馈，海外版扫码兼容会优先排查！想先确认你用的是 Google Play 上的哔哩哔哩，还是 Bstation／bilibili.tv。方便的话请提供应用商店链接、App版本和扫码时的错误提示，不需要提供密码、Cookie或验证码。当前扩展使用 bilibili.com 的网页登录，这几种客户端的扫码方式可能不同，需要确认具体版本后验证，避免加了入口却还是登录不了。",
+          "createdAt": "2026-10-26T17:26:54Z"
+        }
+      ]
     }
   ]
 }
