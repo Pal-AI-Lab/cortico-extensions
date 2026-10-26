@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "describe": {
     "tools": [
       {
@@ -69,11 +69,12 @@
         "key": "worlds.gpt-sovits.envPrompt",
         "title": "GPTSovits 语音 · 环境提示词",
         "role": "envPrompt",
-        "content": "## 语音\r\n\r\n`sovits_speak` 把一句话用你的声音从对方电脑的扬声器念出来。\r\n\r\n语音语言：{{sovits.language}}（这条优先于你以前的习惯或记忆；之后切换会收到 `[gpt-sovits.language]` 事件）\r\n\r\n每次调用 `pet_say` 之前，在同一次回复里先调用 `sovits_speak`，text 按上面的「语音语言」规则写，紧接着调用 `pet_say`。气泡文字不受语音语言影响。两个调用在同一次回复里连着发出，不要等 `sovits_speak` 的回执;这样气泡会在声音开始时出现。`pet_ask` 的问题不用念。\r\n\r\n{{sovits.share}}\r\n\r\n对方让你安静，或者你要长时间专心做事时，调用 `sovits_hush` 停下声音;气泡不受影响。\r\n\r\n语音在这段提示词写下时：{{sovits.state}}。之后变为可用或不可用会以 `[gpt-sovits.state]` 事件告诉你，以最新的为准。不可用时只用 `pet_say`;被问起时如实说明。\r\n"
+        "content": "## 语音\r\n\r\n`sovits_speak` 把一句话用你的声音从对方电脑的扬声器念出来。\r\n\r\n语音语言：{{sovits.language}}（这条优先于你以前的习惯或记忆；之后切换会收到 `[gpt-sovits.language]` 事件）\r\n\r\n每次要说台词时，先调用 `pet_say` 让气泡先出现，紧接着在同一次回复里调用 `sovits_speak` 念同一段文字（text 按上面的「语音语言」规则写）。气泡文字不受语音语言影响。两个调用在同一次回复里连着发出，不要等 `sovits_speak` 的回执：工具按顺序执行，`sovits_speak` 要等第一块音频才返回，先发 `pet_say` 才能让文字先出现、声音随后响起。`pet_ask` 的问题不用念。\r\n\r\n{{sovits.share}}\r\n\r\n{{sovits.channel}}\r\n\r\n对方让你安静，或者你要长时间专心做事时，调用 `sovits_hush` 停下声音;气泡不受影响。\r\n\r\n语音在这段提示词写下时：{{sovits.state}}。之后变为可用或不可用会以 `[gpt-sovits.state]` 事件告诉你，以最新的为准。不可用时只用 `pet_say`;被问起时如实说明。\r\n"
       }
     ]
   },
   "changelog": {
+    "0.5.7": "- **先气泡、后语音**：工具按顺序执行，`sovits_speak` 要等第一块音频才返回，原来提示词要求它排在\n  `pet_say` 前面，导致「还没看到文字，声音就冒出来了」。现在提示词与 `sovits_speak` 的说明都改成\n  **先 `pet_say`、再 `sovits_speak`**，文字先出现、声音随后响起。\n- **新增本地语音接口**（`httpApi` / `httpPort` / `httpToken`，默认关）：在 `127.0.0.1:<端口>` 上开\n  `GET /health`、OpenAI 兼容的 `POST /audio/speech`、VoxCPM 形状的 `POST /tts`，让\n  **cortico-world-qq-final** 这类自己合成语音的插件把声音来源指向本插件；合成不播放、请求串行排队。\n  `voice` / `voice_desc` 可点名音色（预设或自定义音色），不填用当前音色。\n- **新增「其他渠道的语音交给对方插件」**（`channelVoice`，默认关）：开启后环境提示词告诉 bot 在\n  QQ 这类由对方插件出语音的渠道不要调用 `sovits_speak`，免得同一句在本机又念一遍；本机对话页照常出声，\n  配合本地语音接口即可把 QQ 语音切到 qq-final，同时保留本地外放。",
     "0.5.6": "- **新增「本机外放」开关**（`playLocally`，默认开＝照常出声）：关掉后语音只合成、不在本机出声，\n  适合语音只发 QQ 的场景；桌宠气泡不受影响。\n- **`sovits_speak` 新增 `silent` 参数**：某一句只想发给别的渠道（QQ 语音）而不想本机外放时带上它。\n  开启「把整句语音交给其他插件」时，环境提示词会告诉 bot 发 QQ 的那句用 `silent: true`。",
     "0.5.5": "- **修复交给其他插件的音频是裸 PCM**：0.5.4 的附件模式把没有 RIFF 头的 PCM 当成 `audio/wav` 交出去，\n  QQ 语音转码会报「Invalid data found when processing input」。现在一律补上 44 字节 WAV 头再交出去，\n  文件与附件是同一段音频、同一增益。",
     "0.5.4": "- **新增「语音文件保留时长」**（`saveKeepHours`，默认 `0`＝一直留着）：保存新语音时顺手清掉超过 N 小时的\n  `line-*.wav`；只认本插件写出的文件名，目录里别的文件不动。\n- **新增「把整句语音交给其他插件」**（`shareAudio`，默认关）：开启后 `sovits_speak` 把整句音频作为回执附件\n  交出去，宿主存成 `log:` 句柄；QQ 等插件可以直接把 `[blob …]` 句柄填给发送工具，不必读文件，也不需要落盘。\n  代价是这句台词要等整句合成完才回执，气泡会比往常晚一点出现（最多等 45 秒，超时只回执文字）。\n- 环境提示词新增 `{{sovits.share}}`：开启附件模式时告诉 bot 用哪个句柄发送同一段音频。",
