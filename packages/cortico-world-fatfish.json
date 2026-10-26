@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-fatfish",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "describe": {
     "tools": [
       {
@@ -88,6 +88,8 @@
     ]
   },
   "changelog": {
+    "0.6.5": "- 补上 DSH 侧的版本要求：**「固定到当前会话」与 `dsh_pick_session` 需要 Host 侧插件 `coopanion-connector-dsh` ≥ 0.2.4**\n- 该 Host 插件**只在 GitHub 分发**（`https://github.com/blacksunshy/coopanion-connector-dsh`），**没有发布到 npm**——DSH 插件市场里来源要填仓库地址，不要填 npm 包名；两边版本要配对，桌宠侧用本版（0.6.5）\n- 补回 0.6.4 的说明：0.6.4 的 npm 包内 CHANGELOG.md 漏了 0.6.4 段，所以市场详情页当时读不到，这次随 0.6.5 一并带上",
+    "0.6.4": "- 补上 `package.json` 里缺失的 `homepage` 与 `bugs` 字段：Co 扩展市场卡片现在能显示「项目主页」和「问题反馈」两个链接（此前只有 fatfish 没有，其它扩展都有）\n- 扩写市场里的简介文案，中英双语：说明这是「DSH 对话 + 语音朗读」的复合包，以及桥接这半边需要先装 DSH Host 插件（`coopanion-connector-dsh`）\n- 补 `keywords`，方便在扩展市场里被搜到（tts / voice / edge-tts / dsh / bridge / desktop-pet）",
     "0.6.3": "- 新增 DSH 桥接面板：「固定到当前会话 / 解除固定 / 刷新测试」三颗按钮，详情见 README 的「桥接面板」段\n- 固定会话后，DSH 默认 owner 切到别的会话时桌宠自动 `pick` 回来，不跟着跑\n- 刷新测试按钮强制读一次 bridge 状态，标注 session id / model 是否有变化\n- 修复面板按钮永远灰色：此前 `setAttribute('disabled', …)` 两个分支都返回空串，等于无条件禁用；改为 `toggleAttribute('disabled', 布尔值)`\n- 修复 invoke 期间 3 秒轮询把按钮状态刷回去的竞态：bind/unbind 期间 `show()` 跳过按钮刷新\n\n> ⚠️ 固定会话功能**仅在 DSH 桌面版（Electron）里可靠**，CLI 模式（`dsh web --no-open`）会话重启即丢，固定的 session id 会失效。",
     "0.6.2": "- 修复 DSH 换了端口后要等很久才连上：此前只在「连接失败」后才扫端口，且扫空了要等 20 秒冷却，实测能空等 80 秒。现在启动时先扫一次（不再等第一次连接失败），扫空了按 3 秒起步、翻倍到 30 秒重试，找到就立刻重连\n- 记住上次连上的端口（`<dataDir>/fatfish-bridge.json`）：Co 重启而 DSH 没重启时直接连旧端口，不再扫一遍；DSH 重启后该端口失效，回落到扫描，只多一条连接被拒的日志\n- 全段扫描的并发从 512 降到 64：本机实测扫描耗时几乎不变，但避免部分 Windows 环境因瞬间句柄/临时端口耗尽而整个扫描失败\n- 升级握手被 DSH 拒绝时补一条日志：`DSH bridge upgrade rejected: HTTP <状态码>`（503 通常意味着 DSH 的 web server 在、但插件没接管这条升级），不再只表现为一句 socket 断开",
     "0.6.1": "- 修复 `dsh_pick_session` 没有写进自描述：运行时一直提示「工具不在 describe.tools 里」，World 页的工具列表也看不到它。现在和 `dsh_send`、`tts_hush` 一样正常列出\n- 修复网络抖动后一直没声音：合成失败（如 Edge TTS 连接超时）后不再复用那条坏掉的 WebSocket，会自动换新连接重试一次，仍失败才跳过这句并进入冷却；此前坏连接会一直留在手里，往往要等 World 重启才恢复\n- 语音包下拉在英文界面显示英文标签\n- 语音包说明写明：「自定义」沿用你现有的音色、语速、音高与音量，升级不会改动它们",
