@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-figure-persona",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "describe": {
     "tools": [
       {
         "name": "figure_persona_current",
-        "description": "Report which figure pack the host is showing and whether it carries persona text.",
+        "description": "Report the figure pack the host is showing, the persona profile in effect, and how many profiles exist.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -17,8 +17,34 @@
           "read"
         ],
         "summary": {
-          "zh": "报当前正在显示的形象包,以及它有没有携带人格文本。",
-          "en": "Reports the figure pack the host is showing and whether it carries persona text."
+          "zh": "报当前正在显示的形象包、生效的人设档,以及这个形象一共有几档。",
+          "en": "Reports the figure pack in use, the persona profile in effect, and how many profiles the figure has."
+        }
+      },
+      {
+        "name": "figure_persona_switch",
+        "description": "Switch to another persona profile of the current figure pack, or to another installed figure, then reload the system prefix.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "figure": {
+              "type": "string",
+              "description": "Figure pack id; omit to keep the current one."
+            },
+            "profile": {
+              "type": "string",
+              "description": "Persona profile name; omit to use the profile already in effect."
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "切到当前形象的另一档人设,或换一个已装形象,然后重载系统前缀。",
+          "en": "Switches to another persona profile of the current figure, or to another installed figure, then reloads the system prefix."
         }
       }
     ],
@@ -36,11 +62,12 @@
         "key": "worlds.figure-persona.envPrompt",
         "title": "形象人格 · 环境提示词",
         "role": "envPrompt",
-        "content": "你现在的外形是「{{figure_persona.name}}」(形象包 id:{{figure_persona.figure}})。外形只说明你此刻的样子,不改变你是谁。\n{{figure_persona.persona | 这个形象包没有携带人格文本,保持你原本的人设即可。}}\n"
+        "content": "你现在的外形是「{{figure_persona.name}}」(形象包 id:{{figure_persona.figure}})。外形只说明你此刻的样子,不改变你是谁。\n{{figure_persona.persona | 这个形象包没有携带人格文本,保持你原本的人设即可。}}\n当前人设档:{{figure_persona.profile | 未设档}}(全部档:{{figure_persona.profiles | 无}})。换档只换说话的样子,不换你是谁。\n"
       }
     ]
   },
   "changelog": {
+    "0.2.0": "**人格不再写在形象包里。** 0.1.0 把人格写回 `figure.json`，形象包整目录更新时人设跟着被覆盖清空；\n0.2.0 起人格存进独立的档位仓库 `<data>/figure-persona/personas.json`，`figure.json` 只读不写。\n\n- **一个形象挂多档人设**：日常版 / 工作版 / 深夜版……按形象分开存，面板里下拉切换。\n- **一键切换**：面板「切到这一档」只改 active 档并重载系统前缀，不用重开面板或重启宿主。\n- **新建 / 删除档**：新档名最多 24 字符、空白归一；删当前档自动顺位到下一档，删空则清掉该形象的记录。\n- **新工具 `figure_persona_switch`**：模型可以自己切档（说「换成工作版」就行），档不存在时回执列出有哪些档。\n- **环境段多一行**：告诉模型当前档与全部档，换档只换说话的样子。\n- **升级自动收编**：旧版写进 `figure.json` 的人格，第一次保存该形象时自动变成「默认」档，不丢内容。\n- **面板改版**：形象 / 人设档两个下拉 + 新档名 + 新建档 / 删除此档 + 保存并生效 / 切到这一档，底部显示档位仓库路径。\n- **存储是原子的**：先写 `.tmp` 再 rename；文件坏了、形状不对只当没有档位，退回形象包默认值。\n\n测试从 16 项加到 34 项（含「形象包换新版本覆盖 `figure.json` 后人设档还在」「apply 不写 `figure.json`，前后字节相等」）。",
     "0.1.0": "首个版本：读宿主配置里的当前形象，把该形象包携带的人格注入环境提示词。\n\n图形面板：World 详情页里选形象、改人格文本，点「确定并生效」写回 figure.json 并立刻重载系统前缀。"
   }
 }
