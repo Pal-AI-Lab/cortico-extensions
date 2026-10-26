@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
-  "version": "0.5.7",
+  "version": "0.5.8",
   "describe": {
     "tools": [
       {
@@ -74,6 +74,7 @@
     ]
   },
   "changelog": {
+    "0.5.8": "- **设置页拆成可折叠的四组**（参考「听搭子」的做法）：① 音色与台词、② 输出与保存、③ 与其他插件联动\n  （QQ 语音）、④ 推理服务；配置太长的问题解决了，值仍是 `worlds.gpt-sovits.*`，老配置不受影响。\n- **README 补全 QQ 用法**：写清支持的两类 QQ 插件（新 `cortico-world-qq-final` 走本地语音接口、\n  老 `cortico-world-qq` 走附件句柄）、二选一的注意事项、qq-final 的完整填写步骤（含语音语义判定需要密钥、\n  不填就不发语音）、可点名的音色清单。\n- 市场简介（中英）更新到当前功能：官模音色、自定义音色、闲置停服、按需加载省显存、语音落盘与保留期、\n  本地语音接口与 QQ 联动。",
     "0.5.7": "- **先气泡、后语音**：工具按顺序执行，`sovits_speak` 要等第一块音频才返回，原来提示词要求它排在\n  `pet_say` 前面，导致「还没看到文字，声音就冒出来了」。现在提示词与 `sovits_speak` 的说明都改成\n  **先 `pet_say`、再 `sovits_speak`**，文字先出现、声音随后响起。\n- **新增本地语音接口**（`httpApi` / `httpPort` / `httpToken`，默认关）：在 `127.0.0.1:<端口>` 上开\n  `GET /health`、OpenAI 兼容的 `POST /audio/speech`、VoxCPM 形状的 `POST /tts`，让\n  **cortico-world-qq-final** 这类自己合成语音的插件把声音来源指向本插件；合成不播放、请求串行排队。\n  `voice` / `voice_desc` 可点名音色（预设或自定义音色），不填用当前音色。\n- **新增「其他渠道的语音交给对方插件」**（`channelVoice`，默认关）：开启后环境提示词告诉 bot 在\n  QQ 这类由对方插件出语音的渠道不要调用 `sovits_speak`，免得同一句在本机又念一遍；本机对话页照常出声，\n  配合本地语音接口即可把 QQ 语音切到 qq-final，同时保留本地外放。",
     "0.5.6": "- **新增「本机外放」开关**（`playLocally`，默认开＝照常出声）：关掉后语音只合成、不在本机出声，\n  适合语音只发 QQ 的场景；桌宠气泡不受影响。\n- **`sovits_speak` 新增 `silent` 参数**：某一句只想发给别的渠道（QQ 语音）而不想本机外放时带上它。\n  开启「把整句语音交给其他插件」时，环境提示词会告诉 bot 发 QQ 的那句用 `silent: true`。",
     "0.5.5": "- **修复交给其他插件的音频是裸 PCM**：0.5.4 的附件模式把没有 RIFF 头的 PCM 当成 `audio/wav` 交出去，\n  QQ 语音转码会报「Invalid data found when processing input」。现在一律补上 44 字节 WAV 头再交出去，\n  文件与附件是同一段音频、同一增益。",

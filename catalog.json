@@ -108,17 +108,17 @@
   "packages": {
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.5.7",
+      "version": "0.5.8",
       "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
       "description": "Cortico World for Coopanion: speaks the pet's lines aloud with GPT-SoVITS (V5 on NVIDIA GPUs, a CPU tier otherwise), installing a portable runtime and weights in one click",
       "locales": {
         "zh": {
           "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
-          "description": "支持星落落语音包！欢迎来尝试！给桌宠配上真实的 GPT-SoVITS 语音：全程在本机合成，从声卡出声，不上传任何录音。一键安装运行时与模型，装好即用；支持预设音色、自定义音色（参考音频+台本+可选自备权重）。"
+          "description": "支持星落落语音包！欢迎来尝试！给桌宠配上真实的 GPT-SoVITS 语音：全程在本机合成、从声卡出声，不上传任何录音，一键装好运行时与模型。内置「大肥鱼_星落落版本」官模音色与日中英三种参考；支持自定义音色（参考音频+台本+可选自备权重）。自带闲置停服（省显存）、按需加载（最多省约 810 MB 显存）、语音落盘与保留期。还能把声音交给 QQ 插件：新版 cortico-world-qq-final 直接取本机语音接口，老版 cortico-world-qq 走句柄，QQ 语音就是桌宠的声音。"
         },
         "en": {
           "displayName": "Better GPTSovits Voice — Fatfish",
-          "description": "Supports the Xll voice pack! Come and try it! Gives the desktop pet a real GPT-SoVITS voice: synthesized on your own machine, nothing uploaded. One-click runtime and weights, works out of the box; presets plus custom voices (reference audio + transcript + optional own weights)."
+          "description": "Supports the Xll voice pack! Come and try it! Gives the desktop pet a real GPT-SoVITS voice: synthesized on your own machine, nothing uploaded, one-click runtime and weights. Ships the official \"Fatfish Xll\" voice plus Chinese/English/Japanese references, and supports custom voices (reference audio + transcript + optional own weights). Includes stop-when-idle, on-demand model loading (up to ~810 MB VRAM saved), speech files with a retention window, and a local voice API so QQ plugins (cortico-world-qq-final / cortico-world-qq) can send voice in the pet's own voice."
         }
       },
       "author": "wocwang",
@@ -143,8 +143,8 @@
         "win32"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-10-26T08:07:51.201Z",
-      "versionCount": 18,
+      "published": "2026-10-26T08:39:31.913Z",
+      "versionCount": 19,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -170,6 +170,7 @@
       },
       "changelog": {
         "versions": [
+          "0.5.8",
           "0.5.7",
           "0.5.6",
           "0.5.5",
@@ -3809,17 +3810,17 @@
     },
     "cortico-world-figure-persona": {
       "kind": "world",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "displayName": "形象人格",
-      "description": "给 Coopanion 形象包挂上多档人设：一个形象几档人格，一键切换，形象包更新不冲掉",
+      "description": "为一个形象挂载多档人设。切换无需重装形象包；人设独立存储，更新形象不覆盖；切换后即时生效。",
       "locales": {
         "zh": {
           "displayName": "形象人格",
-          "description": "给一个形象挂多档人设:切换人设不用重装形象包,形象包更新也不冲掉你写的人格。"
+          "description": "为一个形象挂载多档人设。切换无需重装形象包；人设独立存储，更新形象不覆盖；切换后即时生效。"
         },
         "en": {
           "displayName": "Figure Persona",
-          "description": "Several personas per figure: switch without touching the figure pack, and keep your wording when the pack updates."
+          "description": "Attaches multiple personas to a single figure. Switching needs no reinstall; personas are stored outside the figure pack and survive pack updates; changes take effect immediately."
         }
       },
       "author": "苏鸿与维基",
@@ -3844,8 +3845,8 @@
         "bugs": "https://github.com/suhong11300/cortico-world-figure-persona/issues"
       },
       "created": "2026-10-24T11:16:15.780Z",
-      "published": "2026-10-26T08:25:18.586Z",
-      "versionCount": 4,
+      "published": "2026-10-26T08:39:43.622Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3870,6 +3871,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.2",
           "0.2.1",
           "0.2.0",
           "0.1.0"
@@ -5037,17 +5039,17 @@
     },
     "cortico-world-lofter": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "displayName": "LOFTER 阅读",
-      "description": "让 Coopanion 读得了 LOFTER：带登录态抓博文、标签流与单篇正文，默认只在对话里按需取，不落盘不订阅",
+      "description": "以自有登录态读取 LOFTER 内容。支持热榜、单篇正文与配图；按需取用，不落盘、不订阅；失败时明确报错。",
       "locales": {
         "zh": {
           "displayName": "LOFTER 阅读",
-          "description": "带自己的登录态读 LOFTER:热榜、单篇正文与配图,按需取用不落盘,读不到会直说。"
+          "description": "以自有登录态读取 LOFTER 内容。支持热榜、单篇正文与配图；按需取用，不落盘、不订阅；失败时明确报错。"
         },
         "en": {
           "displayName": "LOFTER Reader",
-          "description": "Reads LOFTER with your own login: hot posts, single articles and images, fetched on demand and never archived behind your back."
+          "description": "Reads LOFTER with your own login session. Covers hot posts, single articles and images; fetched on demand, never archived or subscribed; failures are reported explicitly."
         }
       },
       "author": "苏鸿与维基",
@@ -5071,8 +5073,8 @@
         "bugs": "https://github.com/suhong11300/cortico-world-lofter/issues"
       },
       "created": "2026-10-26T06:26:44.330Z",
-      "published": "2026-10-26T08:27:05.414Z",
-      "versionCount": 3,
+      "published": "2026-10-26T08:39:52.946Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5097,6 +5099,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.2",
           "0.1.1",
           "0.1.0"
         ],
@@ -7594,17 +7597,17 @@
     },
     "cortico-world-reminder": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "提醒",
-      "description": "Cortico World: local reminders that wake the conversation when they come due",
+      "description": "在对话中按设定时间提醒事项。支持重复提醒、提前预告与延后；离线期间错过的提醒在下次启动时补发。",
       "locales": {
         "zh": {
           "displayName": "提醒",
-          "description": "到点自己开口叫你:提前预告、重复提醒都能配,关机错过的下次开机补上。"
+          "description": "在对话中按设定时间提醒事项。支持重复提醒、提前预告与延后；离线期间错过的提醒在下次启动时补发。"
         },
         "en": {
           "displayName": "Reminder",
-          "description": "Speaks up when a reminder comes due: lead time, repeats, and a catch-up pass for what was missed while the bot was off."
+          "description": "Reminds you in conversation at the times you set. Supports repeats, early notice and snooze; reminders missed while offline are delivered on the next start."
         }
       },
       "maintainers": [
@@ -7620,8 +7623,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-reminder"
       },
       "created": "2026-10-26T08:24:46.893Z",
-      "published": "2026-10-26T08:25:22.095Z",
-      "versionCount": 2,
+      "published": "2026-10-26T08:40:10.323Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -7644,9 +7647,10 @@
       },
       "changelog": {
         "versions": [
+          "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-reminder@0.1.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-reminder@0.1.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 314,
@@ -8317,7 +8321,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/204",
         "up": 0,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-soft-voice": {
@@ -8653,17 +8657,17 @@
     },
     "cortico-world-stock": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "displayName": "拟股喵喵",
-      "description": "Cortico World: market briefs for a desktop companion — A-share and US indices, a configurable index list, optional holdings P&L, and copy rewritten in the persona you set",
+      "description": "按本地时区在市场窗口播报行情。覆盖自选股与大盘指数，A 股与美股可切换，指数清单可自定义；接入账户后可选播报持仓盈亏；文案可按设定人格改写。",
       "locales": {
         "zh": {
           "displayName": "拟股喵喵",
-          "description": "盯住你关注的市场:先按当地时区定好时间,早盘尾盘按窗口播报涨跌;A 股或美股指数清单都能自己配,接上账户还能只播盈亏,播报文案按你设的人格重写。"
+          "description": "按本地时区在市场窗口播报行情。覆盖自选股与大盘指数，A 股与美股可切换，指数清单可自定义；接入账户后可选播报持仓盈亏；文案可按设定人格改写。"
         },
         "en": {
           "displayName": "Stock Meow",
-          "description": "Watches the market you actually live in: A-share or US indices with a list you own, optional holdings P&L, and briefs rewritten in the persona you gave the companion."
+          "description": "Briefs the market in windows of your local time zone. Covers a watchlist and indices, A-share or US, with a configurable index list; optional holdings P&L once an account is connected; copy can be rewritten in the persona you set."
         }
       },
       "maintainers": [
@@ -8684,8 +8688,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-stock"
       },
       "created": "2026-10-26T08:24:38.625Z",
-      "published": "2026-10-26T08:25:35.848Z",
-      "versionCount": 2,
+      "published": "2026-10-26T08:40:01.709Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -8716,10 +8720,11 @@
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-stock@0.2.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-stock@0.2.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 315,
