@@ -94,6 +94,9 @@
     "cortico-world-steam": [
       "sensitive-data"
     ],
+    "cortico-world-sysmon": [
+      "sensitive-data"
+    ],
     "cortico-world-task-supervisor": [
       "sensitive-data",
       "unsafe"
@@ -275,16 +278,16 @@
       "discussion": {
         "number": 228,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-        "up": 6,
+        "up": 8,
         "down": 0,
-        "comments": 18
+        "comments": 20
       }
     },
     "better-cortico-world-netease-companion": {
       "kind": "world",
-      "version": "1.9.1",
+      "version": "1.10.0",
       "displayName": "听搭子",
-      "description": "读取网易云与 QQ 音乐曲目，切歌后让桌宠参考评论区、歌曲百科、歌手资料与官方歌词主动陪听，并记录听歌记忆和听歌排名。",
+      "description": "读取网易云与 QQ 音乐曲目，需在音乐软件中开启 SMTC（系统媒体传输控件）；切歌后让桌宠参考评论区、歌曲百科、歌手资料与官方歌词主动陪听，并记录听歌记忆和听歌排名。",
       "author": "wocwang",
       "maintainers": [
         "wocwang"
@@ -306,8 +309,8 @@
         "win32"
       ],
       "created": "2026-10-23T17:18:51.610Z",
-      "published": "2026-10-26T04:45:02.880Z",
-      "versionCount": 13,
+      "published": "2026-10-26T14:25:32.978Z",
+      "versionCount": 14,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -340,6 +343,7 @@
       },
       "changelog": {
         "versions": [
+          "1.10.0",
           "1.9.1",
           "1.9.0",
           "1.8.0",
@@ -372,9 +376,9 @@
       "discussion": {
         "number": 214,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/214",
-        "up": 1,
+        "up": 2,
         "down": 1,
-        "comments": 4
+        "comments": 5
       }
     },
     "cortico-bot-continuity": {
@@ -992,7 +996,7 @@
     },
     "cortico-provider-deepseek-web": {
       "kind": "provider",
-      "version": "0.4.0",
+      "version": "0.6.0",
       "displayName": "DeepSeek Web（网页版）",
       "description": "DeepSeek Web (chat.deepseek.com) as a Cortico provider: chat and image understanding through the browser web session, no API key and no local proxy process",
       "locales": {
@@ -1016,8 +1020,8 @@
         "npm": "https://www.npmjs.com/package/cortico-provider-deepseek-web"
       },
       "created": "2026-10-26T08:51:28.991Z",
-      "published": "2026-10-26T08:54:07.304Z",
-      "versionCount": 2,
+      "published": "2026-10-26T14:29:00.026Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1048,12 +1052,14 @@
       },
       "changelog": {
         "versions": [
+          "0.6.0",
+          "0.5.0",
           "0.4.0",
           "0.3.0",
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-provider-deepseek-web@0.4.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-provider-deepseek-web@0.6.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 319,
@@ -4067,7 +4073,7 @@
         "number": 173,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/173",
         "up": 1,
-        "down": 1,
+        "down": 2,
         "comments": 2
       }
     },
@@ -5905,7 +5911,7 @@
       "discussion": {
         "number": 28,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/28",
-        "up": 2,
+        "up": 3,
         "down": 0,
         "comments": 0
       }
@@ -6257,6 +6263,81 @@
         "number": 127,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/127",
         "up": 1,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-mouse-polling-fix": {
+      "kind": "world",
+      "version": "0.1.2",
+      "displayName": "鼠标回报率修复（Mouse Polling Fix）",
+      "description": "Coopanion 桌宠鼠标回报率修复：用 Cortico World 关闭逐事件鼠标转发，并把页面 pointermove 合并到每帧，解决 500Hz 以上、尤其 8000Hz 拖动卡顿。安装后重启 Coopanion，启用「鼠标回报率修复」后再重启一次，否则不生效。A Cortico World for Coopanion. 作者 funst，QQ 2674459204。",
+      "locales": {
+        "zh": {
+          "displayName": "鼠标回报率修复",
+          "description": "解决 Coopanion 桌宠在高鼠标回报率下的卡顿：关闭全局逐事件鼠标转发，并把桌宠页面的 pointermove 合并到每帧。安装后重启，启用后再重启一次，否则不生效。作者 funst，QQ 2674459204，MIT 协议。"
+        },
+        "en": {
+          "displayName": "Mouse Polling Fix",
+          "description": "Fixes Coopanion's high-polling-rate mouse lag by removing per-event mouse forwarding and coalescing the pet page's pointermove to one per frame. Restart after install, then restart again after enabling. Author: funst (QQ 2674459204), MIT."
+        }
+      },
+      "author": "funst",
+      "maintainers": [
+        "funst"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "mouse",
+        "polling",
+        "performance"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-mouse-polling-fix"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-10-26T15:11:47.812Z",
+      "published": "2026-10-26T15:13:07.343Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "experimental",
+        "apps"
+      ],
+      "tags": [
+        "apps",
+        "experimental"
+      ],
+      "icon": "assets/cortico-world-mouse-polling-fix/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 0,
+        "toolTokens": 412,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-mouse-polling-fix@0.1.2/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 337,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/337",
+        "up": 0,
         "down": 0,
         "comments": 0
       }
@@ -7535,7 +7616,7 @@
     },
     "cortico-world-qq-final": {
       "kind": "world",
-      "version": "0.6.24",
+      "version": "0.6.25",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -7554,8 +7635,8 @@
         "bugs": "https://github.com/hth768/cortico-world-qq-final/issues"
       },
       "created": "2026-10-06T07:39:25.866Z",
-      "published": "2026-10-24T10:26:31.985Z",
-      "versionCount": 57,
+      "published": "2026-10-26T14:33:54.363Z",
+      "versionCount": 58,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -7578,13 +7659,14 @@
         "week": 5458
       },
       "summary": {
-        "tools": 13,
+        "tools": 14,
         "events": 8,
-        "toolTokens": 3716,
-        "envPromptTokens": 508
+        "toolTokens": 4077,
+        "envPromptTokens": 730
       },
       "changelog": {
         "versions": [
+          "0.6.25",
           "0.6.24",
           "0.6.23",
           "0.6.22",
@@ -7753,7 +7835,7 @@
       "published": "2026-10-22T06:03:36.720Z",
       "versionCount": 32,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [
         "im",
         "qq",
@@ -9577,6 +9659,81 @@
         "comments": 0
       }
     },
+    "cortico-world-sysmon": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "系统监控",
+      "description": "System monitor World for Cortico: CPU/GPU/memory/disk/temperature snapshots, top processes, and anomaly alerts (sustained CPU/GPU load, disk scanning, disk drop, suspicious processes, new autostart entries and restarts)",
+      "locales": {
+        "zh": {
+          "displayName": "系统监控",
+          "description": "查看本机 CPU、显卡、内存、磁盘与温度,并监控持续高负载、扫盘、磁盘骤降、可疑进程、新增自启动等异常。"
+        },
+        "en": {
+          "displayName": "System Monitor",
+          "description": "Read CPU, GPU, memory, disk and temperature on this machine, and watch for sustained load, disk scanning, disk drops, suspicious processes and new autostart entries."
+        }
+      },
+      "author": "近人可读",
+      "maintainers": [
+        "zhangyc27"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "system-monitor",
+        "monitoring",
+        "windows"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-sysmon",
+        "repository": "https://github.com/zyc0327/cortico-world-sysmon",
+        "homepage": "https://github.com/zyc0327/cortico-world-sysmon#readme",
+        "bugs": "https://github.com/zyc0327/cortico-world-sysmon/issues"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-10-26T14:31:55.428Z",
+      "published": "2026-10-26T14:32:52.832Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "experimental",
+        "sensitive-data"
+      ],
+      "tags": [
+        "experimental",
+        "sensitive-data"
+      ],
+      "icon": "assets/cortico-world-sysmon/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 3,
+        "toolTokens": 349,
+        "envPromptTokens": 473
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/zyc0327/cortico-world-sysmon/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 338,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/338",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-task-supervisor": {
       "kind": "world",
       "version": "0.1.0-preview.3",
@@ -9767,7 +9924,7 @@
       "discussion": {
         "number": 85,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/85",
-        "up": 9,
+        "up": 10,
         "down": 2,
         "comments": 6
       }
@@ -10176,7 +10333,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/326",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 2
       }
     },
     "cortico-world-weather-alont1": {

@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "name": "cortico-world-mouse-polling-fix",
+  "version": "0.1.2",
+  "describe": {
+    "tools": [
+      {
+        "name": "mouse_fix_status",
+        "description": "Report whether the Coopanion desktop-pet host is patched to stop per-event mouse forwarding: Coopanion version, host package version, each patched file and its state, backup location, and the last error. Read-only.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查看桌宠的鼠标转发补丁是否已生效、备份在哪里、上次失败的原因。",
+          "en": "Reports whether the desktop-pet mouse-forwarding patch is in effect, where its backups are, and the last error."
+        }
+      },
+      {
+        "name": "mouse_fix_apply",
+        "description": "Patch the installed Coopanion desktop-pet host now: force setIgnoreMouseEvents(..., { forward: false }) in the host and lease, set the cursor poll interval, and wrap the page pointermove handler so it runs at most once per animation frame. Idempotent; writes backups first. Restart Coopanion if the pet window is already running. Use this after a Coopanion update, or when auto-apply is off.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "poll_ms": {
+              "type": "integer",
+              "minimum": 8,
+              "maximum": 100,
+              "description": "Cursor poll interval in milliseconds; 16 by default. Lower is more responsive, higher is cheaper."
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "给当前安装的 Coopanion 桌宠打补丁：关闭逐事件鼠标转发，把光标轮询调到 16ms，并让页面 pointermove 每帧只处理一次；先备份，可重复执行。",
+          "en": "Patches the installed Coopanion pet host: disables per-event mouse forwarding, moves the cursor poll to 16 ms, and coalesces the page pointermove to one per frame; backs up first, idempotent."
+        }
+      },
+      {
+        "name": "mouse_fix_restore",
+        "description": "Restore the desktop-pet host files from the backups this extension made, undoing the patch. Restart Coopanion afterwards. Refuses when the current files no longer match the patched state.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "用本扩展留下的备份还原桌宠宿主文件，撤销补丁；需要重启 Coopanion。",
+          "en": "Restores the desktop-pet host files from this extension’s backups; restart Coopanion afterwards."
+        }
+      }
+    ],
+    "events": []
+  },
+  "changelog": {
+    "0.1.2": "- npm/市场元数据：作者 funst（QQ 2674459204），MIT；主标题与介绍带中文，并补英文 locale。\n- README / IMPLEMENTATION 明确“两次重启”激活流程：安装后重启，启用后再重启，否则不生效。\n- 新增 `IMPLEMENTATION.md`（代码详细步骤与思路）。\n- 0.1.1 的 host/page 补丁不变。",
+    "0.1.1": "- Fixes the remaining **drag stutter at 8000 Hz**. The desktop-pet page (`web/pet-app.js`) now\n  records the latest `pointermove` and runs the original handler once per animation frame,\n  instead of once per physical event; `body.pointer('move')` into the figure iframe is likewise\n  at most once per frame. Pending moves are cleared on `pointerup`/`pointercancel`/`pointerleave`.\n- The page patch is optional: if a future Coopanion changes that block, the host patch still\n  applies and `mouse_fix_status` reports `pet-app.js: skipped`.\n- `mouse_fix_status` now reports all three files.",
+    "0.1.0": "- First release.\n- Patches the Coopanion desktop-pet host (`cortico-world-desktop-pet` 0.2.0, shipped with Coopanion 0.2.10/0.2.11) to call `setIgnoreMouseEvents(..., { forward: false })` and poll the cursor every 16 ms.\n- Backups (`sha256`, content-addressed), state file, idempotent apply, exact-byte restore, and refusal on unknown host code.\n- Tools: `mouse_fix_status`, `mouse_fix_apply`, `mouse_fix_restore`.\n- Windows only."
+  }
+}
