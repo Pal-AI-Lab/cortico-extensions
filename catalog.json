@@ -1664,6 +1664,71 @@
         "comments": 0
       }
     },
+    "cortico-world-astrbot": {
+      "kind": "world",
+      "version": "1.0.0",
+      "displayName": "AstrBot · QQ",
+      "description": "Cortico World: join QQ conversations through an AstrBot bridge, so the bot keeps AstrBot's plugins while a Cortico persona drives the talking",
+      "author": "as124da1231",
+      "maintainers": [
+        "lian0721"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "astrbot",
+        "qq",
+        "bridge"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-astrbot",
+        "repository": "https://github.com/as124da1231/cortico-world-astrbot",
+        "homepage": "https://github.com/as124da1231/cortico-world-astrbot#readme",
+        "bugs": "https://github.com/as124da1231/cortico-world-astrbot/issues"
+      },
+      "created": "2026-10-26T13:38:37.862Z",
+      "published": "2026-10-26T13:40:48.163Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "apps",
+        "external-setup",
+        "unofficial-api"
+      ],
+      "tags": [
+        "qq",
+        "apps",
+        "external-setup",
+        "unofficial-api"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 4,
+        "toolTokens": 662,
+        "envPromptTokens": 456
+      },
+      "changelog": {
+        "versions": [
+          "1.0.0",
+          "0.1.0"
+        ],
+        "url": "https://github.com/as124da1231/cortico-world-astrbot/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 333,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/333",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-audio": {
       "kind": "world",
       "version": "0.2.0",
@@ -3485,6 +3550,78 @@
       "discussion": {
         "number": 244,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/244",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-douyin": {
+      "kind": "world",
+      "version": "0.4.0",
+      "displayName": "抖音",
+      "description": "Coopanion 抖音 World：让她像人一样刷抖音、挑视频分享给你，也能看你发来的链接并说出自己的看法（只读，需自备本地桥）",
+      "locales": {
+        "zh": {
+          "displayName": "抖音",
+          "description": "接入本地抖音桥后，她可以像人一样刷视频、挑有意思的分享给白名单里的人；你把链接发给她，她会打开看完再回自己的看法。只读，不点赞不评论，需要你在本机跑一个桥。"
+        },
+        "en": {
+          "displayName": "Douyin",
+          "description": "With a local Douyin bridge, she can scroll videos, share the good ones with a whitelist, and watch links you send her before replying with her own take. Read-only; needs a bridge running on this machine."
+        }
+      },
+      "maintainers": [
+        "ycayuri"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "douyin",
+        "tiktok",
+        "qq"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-douyin"
+      },
+      "created": "2026-10-26T13:35:01.580Z",
+      "published": "2026-10-26T13:35:59.783Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion",
+        "unofficial-api"
+      ],
+      "tags": [
+        "qq",
+        "companion",
+        "unofficial-api"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 7,
+        "events": 1,
+        "toolTokens": 1326,
+        "envPromptTokens": 541
+      },
+      "changelog": {
+        "versions": [
+          "0.4.0",
+          "0.3.0",
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-douyin@0.4.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 334,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/334",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -5445,14 +5582,14 @@
       "discussion": {
         "number": 169,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/169",
-        "up": 1,
+        "up": 2,
         "down": 0,
         "comments": 2
       }
     },
     "cortico-world-lofter": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "displayName": "LOFTER 阅读",
       "description": "以自有登录态读取 LOFTER 内容。支持热榜、单篇正文与配图；按需取用，不落盘、不订阅；失败时明确报错。",
       "locales": {
@@ -5486,8 +5623,8 @@
         "bugs": "https://github.com/suhong11300/cortico-world-lofter/issues"
       },
       "created": "2026-10-26T06:26:44.330Z",
-      "published": "2026-10-26T12:07:03.650Z",
-      "versionCount": 5,
+      "published": "2026-10-26T13:56:11.231Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5512,6 +5649,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.4",
           "0.1.3",
           "0.1.2",
           "0.1.1",
@@ -9160,7 +9298,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/315",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-streamvoice": {
@@ -9943,7 +10081,7 @@
     },
     "cortico-world-warthunder": {
       "kind": "world",
-      "version": "0.2.2",
+      "version": "0.2.4",
       "displayName": "war thunder安东星助手",
       "description": "在对话中提供战争雷霆的本地百科、战局播报与对局翻译。知识库覆盖概念、载具与玩法，可检索、可更新；读取本机 8111 遥测讲解战局、为击毁喝彩、为逆风打气，并可翻译对局聊天、代写要发的话；遥测不可用时可用截图 OCR 兜底；文案可按设定人格改写，模型与花费可配置。",
       "locales": {
@@ -9978,8 +10116,8 @@
         "bugs": "https://github.com/suhong11300/cortico-world-warthunder/issues"
       },
       "created": "2026-10-26T12:03:41.166Z",
-      "published": "2026-10-26T13:17:50.114Z",
-      "versionCount": 5,
+      "published": "2026-10-26T13:51:02.177Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10020,6 +10158,8 @@
       },
       "changelog": {
         "versions": [
+          "0.2.4",
+          "0.2.3",
           "0.2.2",
           "0.2.1",
           "0.2.0",
@@ -10273,7 +10413,7 @@
       "discussion": {
         "number": 76,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/76",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }

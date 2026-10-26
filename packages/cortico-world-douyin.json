@@ -1,0 +1,244 @@
+{
+  "schema": 1,
+  "name": "cortico-world-douyin",
+  "version": "0.4.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "douyin_status",
+        "description": "Check the local Douyin bridge: whether it is running, whether the user is logged in, and how many shares are left today. Call it before scrolling if you are unsure the bridge is up.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查本地抖音桥：在不在、登录没登录、今天还能发几条。",
+          "en": "Checks the local Douyin bridge: running, logged in, shares left today."
+        }
+      },
+      {
+        "name": "douyin_feed",
+        "description": "Scroll Douyin and return a few candidate videos (title, author, duration, likes, link). Nothing is liked, shared or written on Douyin. Pick at most one or two worth sharing; most of the time you share nothing.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "n": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20,
+              "description": "How many candidates to read (default 8)."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "刷几条抖音候选（标题/作者/时长/点赞/链接），只读。",
+          "en": "Scrolls Douyin and returns a few candidate videos. Read-only."
+        }
+      },
+      {
+        "name": "douyin_watch",
+        "description": "Open one Douyin video and actually look at it: title, author, duration, like counts, top comments, and a few frames as images. Works for a video the user sent you (pass url or id) or one from douyin_feed. Use it before giving an opinion or sharing.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Video id (all digits) from douyin_feed."
+            },
+            "url": {
+              "type": "string",
+              "description": "A Douyin link the user sent; the id is extracted automatically."
+            },
+            "frames": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 6,
+              "description": "How many frames to look at (default from config)."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "打开一条视频：标题、作者、点赞、热评和前几帧画面。",
+          "en": "Opens one video: title, author, likes, top comments and a few frames."
+        }
+      },
+      {
+        "name": "douyin_share",
+        "description": "Book one share to a whitelisted person before you send it in QQ. It checks the whitelist, the daily caps, quiet hours and duplicates, and records the share so limits cannot be bypassed. The receipt gives you the exact link to send with your chat tool.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "to": {
+              "type": "string",
+              "description": "Who receives it: a QQ number or the name shown in the whitelist."
+            },
+            "id": {
+              "type": "string",
+              "description": "Video id from douyin_feed."
+            },
+            "note": {
+              "type": "string",
+              "description": "One short line: why this person would like it. Sent together with the link."
+            }
+          },
+          "required": [
+            "to",
+            "id"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "分享前记账：检查白名单/上限/静音/重复，返回要发的链接。",
+          "en": "Books a share: checks whitelist, caps, quiet hours and duplicates, returns the link."
+        }
+      },
+      {
+        "name": "douyin_setup",
+        "description": "Walk the user through the one-time setup, one step at a time, in plain Chinese. Call it whenever anything Douyin-related fails, or the user asks how to set this up. It reports which step is missing and the exact next action.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "一步步检查：桥开没开、登录没登录、白名单有没有，并给出下一步该做什么。",
+          "en": "Checks the one-time setup step by step and tells the user exactly what to do next."
+        }
+      },
+      {
+        "name": "douyin_policy",
+        "description": "Read or change the Douyin rules: whitelist, per-person and daily share caps, quiet hours, inbound cooldown, frames per video, timeout. Without arguments it reports the current settings and today’s usage.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "whitelist": {
+              "type": "string",
+              "description": "Comma-separated QQ numbers allowed to receive shares."
+            },
+            "perUserPerDay": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10,
+              "description": "Max shares per person per day."
+            },
+            "totalPerDay": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 30,
+              "description": "Max shares per day in total."
+            },
+            "quietFrom": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 23,
+              "description": "Quiet hours start."
+            },
+            "quietTo": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 23,
+              "description": "Quiet hours end."
+            },
+            "inboundCooldownMinutes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 240,
+              "description": "Same person may send at most one link per this many minutes."
+            },
+            "frames": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 6,
+              "description": "How many frames to look at per video."
+            },
+            "bridgeUrl": {
+              "type": "string",
+              "description": "External bridge URL. Leave empty to use the bridge built into the extension."
+            },
+            "autoScrollEnabled": {
+              "type": "boolean",
+              "description": "Let her scroll Douyin on her own on a schedule (default off)."
+            },
+            "autoScrollEveryHours": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 24,
+              "description": "Roughly how often she wakes up to scroll."
+            },
+            "autoScrollMaxPerDay": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 12,
+              "description": "Maximum scrolling sessions per day."
+            }
+          }
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "读/改白名单、每日上限、静音、冷却、帧数、桥地址。",
+          "en": "Reads or changes whitelist, caps, quiet hours, cooldown, frames and bridge URL."
+        }
+      },
+      {
+        "name": "douyin_guide",
+        "description": "Read the built-in Douyin guide (the same text the panel shows): how the bridge works, what is read-only, what the limits are.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读内置使用说明（和面板同一份）。",
+          "en": "Reads the built-in guide."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "douyin.hint",
+        "description": {
+          "zh": "第一次挂载时提醒使用者还需要做哪三件事（开桥、扫码、白名单）。",
+          "en": "Reminds the user what is still needed on first mount: bridge, login, whitelist."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.douyin.envPrompt",
+        "title": "抖音 · 环境提示词",
+        "role": "envPrompt",
+        "content": "抖音：这台电脑上跑着一个本地抖音桥（`worlds.douyin.bridgeUrl`），你可以真的去刷、去看。\n\n## 什么时候刷\n\n- 你自己闲着、想找点东西分享的时候；或者使用者说「刷会儿抖音」「看到好玩的发我」。\n- 顺序：`douyin_status` 看桥通不通 → `douyin_feed` 刷 6–8 条 → 挑 **最多一两条** → `douyin_watch` 看一眼 → 决定发不发。\n\n## 什么时候看\n\n- 使用者发来抖音链接 → `douyin_watch`（参数 `url` 直接用他给的链接）→ 看完再回话。\n- 别人在群里发链接也一样；只有白名单里的人值得你认真看。\n\n## 看视频的要求\n\n回执里有：标题、作者、时长、点赞、热评前几条、以及几帧画面（图已经附上，你自己看）。\n\n- 说**具体**的：画面里在干什么、评论在笑什么、这条值不值得看。\n- 不要复述标题，不要说\"看起来很热闹\"这种空话。\n- 听不到声音是正常的（网页只给了画面和弹幕/评论），别假装听见了台词。\n\n## 分享的规矩\n\n1. 先 `douyin_share`（参数 `to` 白名单里的人、`id` 视频 id、`note` 一句为什么想到他）。\n2. 回执会给你链接和记账结果；**被拒绝了就别发**，换一条或干脆不发。\n3. 拿到链接后用 QQ 世界的发送工具发出去，正文带上你那句 note + 链接。\n4. 一天可能一条都不发，这才正常；连着甩链接像机器人。\n\n## 别说\n\n- 不要说\"我打不开抖音\"——先看 `douyin_status`，桥挂了就直说\"桥没开\"并告诉使用者怎么开。\n- 不要自己编视频 id 或链接。\n- 不要把抖音链接发到白名单以外的人。\n\n## 出问题的时候\n\n任何抖音相关的操作失败、或者使用者问「怎么装/怎么用/为什么不行」，**先调 `douyin_setup`**。\n\n它会把当前缺哪一步、下一步该点哪里，用大白话列出来；你照着念给使用者就行，别自己猜也别让他去翻文档。\n\n## 你自己想刷的时候\n\n你会收到 `douyin.routine` 事件，那是「你自己想刷会儿抖音了」。收到后：\n\n1. `douyin_feed` 刷 6–8 条；\n2. 挑最多一条，`douyin_watch` 看一眼；\n3. 真觉得好，`douyin_share` 记账，再用 QQ 世界的工具发出去，带一句为什么想到他；\n4. 没有好的就**什么都不发、也别说话**——这次就当自己刷过去了。\n\n一天最多被叫醒几次由设置决定；不想被打扰就让使用者关掉「允许她自己定时刷」。\r\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.4.0": "- 新增**定时自己刷**（默认关）：面板里勾「允许她自己定时刷」，按「大约每几小时」「每天最多几次」随机醒，静音时段不醒。\n- 醒后推 `douyin.routine` 事件，她刷几条、挑一条看、值得才分享；没好的就安静过去。\n- 面板显示「今天已刷几次、下次大概什么时候」。",
+    "0.3.0": "- **桥内置进扩展**：不再需要命令行和 `npx`。装上后点面板里的「启动抖音桥并登录」即可，桥随 Coo 一起启动、退出。\n- 面板顶部**红色提示封号风险**，GUIDE 里也写清使用建议。\n- 配置里「抖音桥地址」留空 = 用内置桥；填了 = 用你自己跑的外部桥。\n- 登录态存放在部署数据目录的 `douyin-profile/`，重启不用重扫。",
+    "0.2.0": "- 新增 WebUI 面板：第一屏就是「照着做三步」的新手教程，下面是桥状态、白名单、限速。\n- 首次挂载推一条提示，直接说清还差哪三件事（开桥、扫码、白名单）。\n- 手机分享的短链（`v.douyin.com/xxx`）和整段分享文案都能解析了：桥会从文案里抠链接、跟跳转、拿数字 id。\n- 面板里可以一键「检查连接」，看到桥在不在、登录没登录。",
+    "0.1.0": "- 首个版本：通过本地桥只读访问抖音。\n- `douyin_feed` 刷候选、`douyin_watch` 看一条（标题/作者/点赞/热评 + 3 帧画面）。\n- `douyin_share` 分享前记账：白名单、每人/每日上限、静音时段、重复检查都在代码里。\n- `douyin_status` / `douyin_policy` / `douyin_guide` 配套工具。\n- 桥不可用时优雅降级，不影响 Coo 其他功能。\n- 不含任何抖音凭证；所有视频只在本机浏览器打开。"
+  }
+}
