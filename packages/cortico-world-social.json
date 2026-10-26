@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "name": "cortico-world-social",
+  "version": "0.5.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "social_diag",
+        "description": "自检：协议端能不能连、事件通道通不通、申请列表里到底有没有东西。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "social_pending",
+        "description": "列出还没处理的好友申请和群邀请（带 flag）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "social_resolve",
+        "description": "同意或拒绝一条申请。flag 来自 social_pending。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "flag": {
+              "type": "string",
+              "description": "social_pending 里那条的 flag。"
+            },
+            "approve": {
+              "type": "boolean",
+              "description": "true 同意，false 拒绝。"
+            },
+            "reason": {
+              "type": "string",
+              "description": "可选，拒绝理由。"
+            }
+          },
+          "required": [
+            "flag",
+            "approve"
+          ]
+        },
+        "tags": [
+          "act"
+        ]
+      },
+      {
+        "name": "social_refresh",
+        "description": "立刻去协议端捞一次新的申请（不等轮询）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "act"
+        ]
+      },
+      {
+        "name": "social_friends",
+        "description": "列出好友（QQ 号 + 昵称/备注）。删好友之前用它确认号码。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "social_groups",
+        "description": "列出已加入的群（群号 + 群名）。退群之前用它确认群号。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "social_delete_friend",
+        "description": "删掉一个好友。user_id 是 QQ 号，先用 social_friends 核对。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "user_id": {
+              "type": "integer",
+              "description": "要删的 QQ 号。"
+            },
+            "block": {
+              "type": "boolean",
+              "description": "可选：删的同时拉黑。"
+            }
+          },
+          "required": [
+            "user_id"
+          ]
+        },
+        "tags": [
+          "act"
+        ]
+      },
+      {
+        "name": "social_leave_group",
+        "description": "退出一个群。group_id 是群号，先用 social_groups 核对。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "group_id": {
+              "type": "integer",
+              "description": "要退的群号。"
+            }
+          },
+          "required": [
+            "group_id"
+          ]
+        },
+        "tags": [
+          "act"
+        ]
+      }
+    ],
+    "events": [
+      {
+        "type": "social.pending",
+        "description": {
+          "zh": "有新的待处理好友申请/群邀请。",
+          "en": "New pending friend or group request."
+        }
+      }
+    ],
+    "prompts": {
+      "key": "worlds.social.envPrompt",
+      "title": "社交杂务 · 环境提示词",
+      "role": "envPrompt",
+      "content": "你有「社交杂务」这一摊事：加好友的、拉你进群的，还有删人退群这类动作。\n\n## 现在的情况\n\n- 待处理的申请：**{{social.pending}} 条**。\n- 好友申请：{{social.friendAuto}}。\n- 群邀请：{{social.groupAuto}}。\n\n配置是「秒通过」或「N 分钟内自动通过」的时候，**系统会自己放行**，你不会收到提醒；\n配置是「只通知」的时候，会有一条 `social.pending` 事件找上你——那说明**现在得你决定**。\n\n## 怎么处理一条申请\n\n1. `social_pending` 看清单：谁、QQ 号多少、有没有留言、是好友还是群，每条后面带 `flag`。\n2. 想清楚，再 `social_resolve`：给 `flag`，`approve=true` 通过、`false` 拒绝（可带理由）。\n\n判断的尺子不是\"多一个好友更好\"：\n\n- **有留言、说得清是谁**、或者来自你认识的群、共同好友多——可以过。\n- **空留言、号很新、上来就发广告或链接**——别过，宁可错过。\n- **群邀请**先看群名和邀请人：像是你待过的圈子、有人明确邀请，可以进；来路不明的群先别进，问一句更稳。\n- 拿不准就别自己拍板，跟对方说一声\"这个我不确定\"，让人来定。放着不处理不会消失，别因为不好意思而放行。\n\n## 删好友、退群：破坏性动作\n\n这两个**删了就回不来**（退群还得有人重新拉你）。所以：\n\n1. 先用 `social_friends` / `social_groups` 核对号码——**别凭记忆报号码**。\n2. 原则上要人点头。除非对方明确说了\"把谁删了\"\"退了那个群\"，否则先问。\n3. 群里有讨论、有人问过你事儿的，退之前想一想；悄悄退掉比说一句\"我先退了\"更伤人。\n\n## 做不到的事\n\n你**不能主动加好友、主动申请进群**——协议端没有这个能力。有人让你\"去加一下谁\"、\n\"帮我进个群\"，直接说做不到，别试、也别假装做了。\n\n## 排查\n\n怀疑\"申请看不见\"时先跑 `social_diag`：它会告诉你协议端通不通、事件通道连没连、\n累计收到多少条事件/申请、本地攒了几条。别凭感觉猜。\n\n## 边界\n\n- 别拿这些工具开玩笑：不要为了测试就通过陌生人、也不要一口气拒一堆。\n- `flag` 只在待处理列表里有效，处理过就失效，别记下来反复用。\n- 处理完不用特意汇报，除非对方问起，或者你拒绝了某个看起来挺认真的人。\n"
+    }
+  }
+}

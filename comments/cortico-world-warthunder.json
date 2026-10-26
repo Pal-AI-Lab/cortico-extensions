@@ -2,7 +2,7 @@
   "schema": 1,
   "name": "cortico-world-warthunder",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/326",
-  "total": 2,
+  "total": 3,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BJO6f",
@@ -17,6 +17,13 @@
           "avatar": "https://avatars.githubusercontent.com/u/348357636?s=64&v=4",
           "body": "现在正常了",
           "createdAt": "2026-10-26T15:15:39Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BJPSh",
+          "author": "suhong11300",
+          "avatar": "https://avatars.githubusercontent.com/u/138193395?s=64&u=944df080cfa2fc65d6af6d5eb90691fbb7d55b32&v=4",
+          "body": "目前已知的问题是src/world.ts 中，start() 先启动轮询计时器，再执行 greet()。因为 online 初始为 false，第一次 wt.ready 事件可能报告遥测未连接，即使游戏的 8111 已经可以访问。\n等待明天修bug qwq\n",
+          "createdAt": "2026-10-26T15:49:08Z"
         }
       ]
     }
