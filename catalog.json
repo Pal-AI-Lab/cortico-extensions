@@ -181,17 +181,17 @@
     },
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.5.8",
+      "version": "0.5.9",
       "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
       "description": "Cortico World for Coopanion: speaks the pet's lines aloud with GPT-SoVITS (V5 on NVIDIA GPUs, a CPU tier otherwise), installing a portable runtime and weights in one click",
       "locales": {
         "zh": {
           "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
-          "description": "支持星落落语音包！欢迎来尝试！给桌宠配上真实的 GPT-SoVITS 语音：全程在本机合成、从声卡出声，不上传任何录音，一键装好运行时与模型。内置「大肥鱼_星落落版本」官模音色与日中英三种参考；支持自定义音色（参考音频+台本+可选自备权重）。自带闲置停服（省显存）、按需加载（最多省约 810 MB 显存）、语音落盘与保留期。还能把声音交给 QQ 插件：新版 cortico-world-qq-final 直接取本机语音接口，老版 cortico-world-qq 走句柄，QQ 语音就是桌宠的声音。"
+          "description": "支持星落落语音包！欢迎来尝试！给桌宠配上真实的 GPT-SoVITS 语音：全程在本机合成、从声卡出声，不上传任何录音，一键装好运行时与模型。内置「大肥鱼_星落落版本」参考音色（官方底模零样本）与日中英三种参考；支持自定义音色（参考音频+台本+可选自备权重）。自带闲置停服（省显存）、按需加载（最多省约 810 MB 显存）、语音落盘与保留期。还能把声音交给 QQ 插件：新版 cortico-world-qq-final 直接取本机语音接口，老版 cortico-world-qq 走句柄，QQ 语音就是桌宠的声音。"
         },
         "en": {
           "displayName": "Better GPTSovits Voice — Fatfish",
-          "description": "Supports the Xll voice pack! Come and try it! Gives the desktop pet a real GPT-SoVITS voice: synthesized on your own machine, nothing uploaded, one-click runtime and weights. Ships the official \"Fatfish Xll\" voice plus Chinese/English/Japanese references, and supports custom voices (reference audio + transcript + optional own weights). Includes stop-when-idle, on-demand model loading (up to ~810 MB VRAM saved), speech files with a retention window, and a local voice API so QQ plugins (cortico-world-qq-final / cortico-world-qq) can send voice in the pet's own voice."
+          "description": "Supports the Xll voice pack! Come and try it! Gives the desktop pet a real GPT-SoVITS voice: synthesized on your own machine, nothing uploaded, one-click runtime and weights. Ships the \"Fatfish Xll\" reference voice (zero-shot base model) plus Chinese/English/Japanese references, and supports custom voices (reference audio + transcript + optional own weights). Includes stop-when-idle, on-demand model loading (up to ~810 MB VRAM saved), speech files with a retention window, and a local voice API so QQ plugins (cortico-world-qq-final / cortico-world-qq) can send voice in the pet's own voice."
         }
       },
       "author": "wocwang",
@@ -216,8 +216,8 @@
         "win32"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-10-26T08:39:31.913Z",
-      "versionCount": 19,
+      "published": "2026-10-26T15:35:03.225Z",
+      "versionCount": 20,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -243,6 +243,7 @@
       },
       "changelog": {
         "versions": [
+          "0.5.9",
           "0.5.8",
           "0.5.7",
           "0.5.6",
@@ -6419,7 +6420,7 @@
     },
     "cortico-world-music-abc": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "displayName": "ABC 音乐",
       "description": "让Coo用ABC谱创作音乐。",
       "author": "AqualCross",
@@ -6443,8 +6444,8 @@
         "bugs": "https://github.com/AqualCross/cortico-world-music-abc/issues"
       },
       "created": "2026-10-26T07:24:50.089Z",
-      "published": "2026-10-26T09:02:22.061Z",
-      "versionCount": 3,
+      "published": "2026-10-26T15:33:04.600Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -6462,10 +6463,11 @@
         "tools": 3,
         "events": 1,
         "toolTokens": 897,
-        "envPromptTokens": 395
+        "envPromptTokens": 17
       },
       "changelog": {
         "versions": [
+          "0.1.2",
           "0.1.1",
           "0.1.0"
         ],
@@ -7670,7 +7672,7 @@
     },
     "cortico-world-qq-final": {
       "kind": "world",
-      "version": "0.6.25",
+      "version": "0.6.26",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -7689,8 +7691,8 @@
         "bugs": "https://github.com/hth768/cortico-world-qq-final/issues"
       },
       "created": "2026-10-06T07:39:25.866Z",
-      "published": "2026-10-26T14:33:54.363Z",
-      "versionCount": 58,
+      "published": "2026-10-26T15:31:27.488Z",
+      "versionCount": 59,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -7716,10 +7718,11 @@
         "tools": 14,
         "events": 8,
         "toolTokens": 4077,
-        "envPromptTokens": 730
+        "envPromptTokens": 753
       },
       "changelog": {
         "versions": [
+          "0.6.26",
           "0.6.25",
           "0.6.24",
           "0.6.23",
