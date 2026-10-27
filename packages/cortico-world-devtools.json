@@ -1,19 +1,23 @@
 {
   "schema": 1,
   "name": "cortico-world-devtools",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "describe": {
     "tools": [
       {
         "name": "sh",
-        "description": "在本机跑一条 PowerShell 命令，返回输出。用来查文件、装东西、跑脚本。",
+        "description": "在本机跑一条 PowerShell 命令（或 .ps1），返回输出。输出只留头 120 行 + 尾 40 行。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "command": {
               "type": "string",
-              "description": "要执行的命令"
+              "description": "要执行的命令（和 scriptPath 二选一）"
+            },
+            "scriptPath": {
+              "type": "string",
+              "description": "可选，.ps1 的绝对路径；给了就忽略 command"
             },
             "cwd": {
               "type": "string",
@@ -24,9 +28,7 @@
               "description": "可选，超时毫秒，默认 60000"
             }
           },
-          "required": [
-            "command"
-          ]
+          "required": []
         },
         "tags": [
           "write"
@@ -34,7 +36,7 @@
       },
       {
         "name": "fs_read",
-        "description": "读一个文本文件，按行返回。",
+        "description": "读一个文本文件，按行返回；没变就不重发。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -50,6 +52,14 @@
             "limit": {
               "type": "integer",
               "description": "可选，读多少行，默认 200"
+            },
+            "maxBytes": {
+              "type": "integer",
+              "description": "可选，最多给多少字节，默认 16000"
+            },
+            "force": {
+              "type": "boolean",
+              "description": "可选，没变也重发全文"
             }
           },
           "required": [

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-civ6-assistant-plus",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "describe": {
     "tools": [
       {
@@ -31,7 +31,12 @@
         "description": "读取文明六游戏内只读 Mod 导出的最近本地玩家状态（回合、时代、科技、市政、产出、余额、城市生产、单位位置与状态）。无参数；仅同一 session 心跳不超过 15 秒时返回实时状态。Mod 未运行、数据过期或心跳不匹配时失败，不用截图替代。",
         "parameters": {
           "type": "object",
-          "properties": {},
+          "properties": {
+            "unitType": {
+              "type": "string",
+              "description": "只看某一兵种（如 UNIT_ARCHER / UNIT_BUILDER），返回该兵种的全部 id（最多 48 个）。单位很多时用它拿全 id；不传则列 24 个，开拓者/建造者优先、其余新造的在前。"
+            }
+          },
           "required": [],
           "additionalProperties": false
         },
@@ -61,6 +66,7 @@
     ]
   },
   "changelog": {
+    "0.2.1": "- 修复“刚造好的单位看不见、桌宠不派出去”：`civ6_game_state` 的单位列表原来是固定 16 行、按 id 升序，单位一多（实测 36 个）新造的兵正好被挤出窗口。\n  - 现在同一优先级内**按 id 降序**（新造的在前），默认列 24 个；开拓者/建造者/商人仍然排最前；\n  - 超出部分按兵种汇总，并提示用新增参数查看某一类的全部 id。\n- 新增 `civ6_game_state` 可选参数 `unitType`：只看某一兵种（如 `UNIT_ARCHER`），最多返回 48 个，附总数。",
     "0.2.0": "本版基于 `cortico-world-civ6-assistant@0.1.20`（作者 Civ6 Assistant contributors，维护者 tomor1），改动如下。\n\n### 状态导出\n\n- 单行日志被游戏在 2048 字节处截断，导致快照停在旧回合（实测卡在回合 41）：超过 1800 字节时改为 `_CHUNK {seq,part,parts,data}` 分块，读取端按 `seq` 重组；旧单行格式仍兼容。\n- 回合开始事件会被 1 秒去抖吞掉、失焦时 UI tick 又停止：记录 `lastExportedTurn`，回合变化强制导出；`LocalPlayerTurnBegin/End`、`PlayerTurnActivated` 与 `UnitAddedToMap/UnitRemovedFromMap/CityAddedToMap/CityCaptured/CityBuilt` 一律绕过去抖。\n- 新增 `territory`（我方领土地块：坐标/地形/地貌/现有改良/所属城市，上限 60 格，按城市中心 ±4 格扫描）与 `enemies`（视野内敌军：类型/坐标/属主/距离/伤害/战力，上限 40）。\n- 单位新增 `charges`（劳动力）、`tileOwner`、`terrain`、`feature`；城市新增 `queue`（排队项，含位次与剩余回合）。\n- `civ6_game_state` 用引擎回读的回合号交叉校验，导出落后时明确提示；单位优先列开拓者/建造者/商人，展示上限 16 并汇总未展开类型。\n\n### 动作\n\n- 所有可回读动作改为引擎真值复核：建城看城市数、建改良看地块/单位是否消失（建造者被消耗视为成功）、移动看位置或移动力、驻防看 `GetFortifyTurns`、购买看金币、商路看是否离格或 `GetNumOutgoingRoutes` 增加、市政/科技看 `GetProgressingCivic`/`GetResearchingTech`、结束回合轮询 `GetCurrentGameTurn`、升级看单位类型变化。\n- 新增动作：`make_trade_route`（按游戏 `TradeRouteChooser.lua` 的 `PARAM_X0/Y0` 目的地 + `PARAM_X1/Y1` 出发地签名，plot 传 nil）、`send_envoy`（`PlayerOperations.GIVE_INFLUENCE_TOKEN`，逐个派发）。\n- 修复购买：参数改用 `Hash`，先 `CanStartCommand` 预检，被拒时返回游戏给出的原因；dry-run 显示价格并校验地块。\n- 修复生产：`CityOperationTypes.PARAM_*_TYPE` 改用 `Hash`（与游戏 UI 一致），并预检“这座城现在能不能生产”。\n- 修复升级：改用 `UnitCommandTypes.UPGRADE`（原来是 operation，必然被拒），回读单位类型；拒绝时带升级费用。\n- 拒绝原因分级：无移动力 / 无充能 / 领土外 / 已有改良 / 水格 / 森林 / 丘陵 / 苔原 / 无目标 / 前置没满足，并附地形、地貌、属主。\n- 回执截断：FireTuner 会带回该状态自上次调用以来的全部输出，统一截到 200 字并切掉后续日志。\n- `civ6_observe` 接受带 `(DX11)/(DX12)/(Vulkan)` 后缀的窗口标题（真实标题为 `Sid Meier's Civilization VI (DX12)`）。\n\n### 游戏内 Mod\n\n- Mod 版本 15 → 17，新增上述字段与强制导出事件；所有改动仍保持“只读导出、不修改游戏规则”。",
     "0.1.20": "- **Mod v14：修 `coast` 恒为 0**。实测 `plot:IsCoast()` 在该上下文不存在（调用抛错），\n  被 `SafeBool` 吞掉后永远是 0；改为按 `GetTerrainType() == TERRAIN_COAST` 计数。\n  同点实测：`coast=8 water=11`，与手工探针一致。\n- 城市/开拓者周边的森林、丘陵、河流、资源此前已验证正确（伦敦：森林×4 丘陵×7 河流×2）。",
     "0.1.19": "- **Mod v13：导出开拓者周边地形**（`COOPANION_CIV6_SETTLER`，每行一个开拓者，最多 2 个）。\n  回合 1 还没有城市，但\"出生点附近是雨林还是沙漠\"恰恰决定第一个科技与建城位置；\n  读取端把它合并到 `units[].around`，渲染为开拓者条目下的「周边：森林×5 丘陵×7 海岸×8 资源 …」。\n- 提示词补一条：没建城时用开拓者的\"周边\"判断建城与首个科技，不得以\"还没有城市\"为由说看不到地形。\n- **修 Mod v12 的静默 bug**：`SafeBool` 定义在 `BuildAroundXY` 之后，Lua 里等于\"全局查找 nil\"，\n  调用报错被 `SafeCall` 吞掉 → 城市 `around` 一直导出成 `null`。已把 `SafeBool` 前移，\n  并加了一个顺序检查脚本（发现前向 local 调用就报错）。\n\n实测（新对局，回合 1）：出生点 68,34 → 森林×5 丘陵×7 海岸×8 河流×2 鹿1 鱼2 大理石1 羊1 石1，无雨林；\n`choose_research` 双向切换 `TECH_MINING` ↔ `TECH_ANIMAL_HUSBANDRY` 均被导出复核通过。\n\n52 项回归测试通过。",

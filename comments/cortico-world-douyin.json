@@ -2,14 +2,46 @@
   "schema": 1,
   "name": "cortico-world-douyin",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/334",
-  "total": 3,
+  "total": 7,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJT1r",
+      "author": "ChaiXiaoXiang",
+      "avatar": "https://avatars.githubusercontent.com/u/348788796?s=64&v=4",
+      "body": "现在比较恶心的一点是我点击那个启动抖音桥没有反应不会给我跳转浏览器\r\n\r\n\r\n2667569677\r\n***@***.***\r\n\r\n\r\n\r\n        \r\n\r\n\r\n\r\n         原始邮件\r\n         \r\n       \r\n发件人：hoov666 ***@***.***&gt;\r\n发件时间：2026年10月27日 21:22\r\n收件人：Pal-AI-Lab/cortico-extensions ***@***.***&gt;\r\n抄送：ChaiXiaoXiang ***@***.***&gt;, Comment ***@***.***&gt;\r\n主题：Re: [Pal-AI-Lab/cortico-extensions] cortico-world-douyin (Discussion #334)\r\n\r\n\r\n\r\n\r\n【抖音桥连不上的解决步骤】\r\n\r\n打开 Coo → 设置 →「抖音」那一页。\r\n\r\n点「启动抖音桥」,会弹出一个浏览器窗口——那个就是桥。\r\n\r\n在弹出来的窗口里点右上角「登录」,用手机抖音扫码。\r\n\r\n回设置页,把面板上的「内置桥 http://127.0.0.1:xxxxx」整串复制,填进「桥地址」。\r\n\r\n保存,再刷一次。\r\n\r\n注意三条:\r\n · 别在命令行跑 npx -y cortico-douyin-bridge,npm 上没有这个包,那句提示是老版本留下的错误。\r\n · 弹出的浏览器窗口别关,关了桥就断。\r\n · 端口每次重启都会变,以面板上最新的数字为准,填错会报 fetch failed。\r\n\r\n—\r\nReply to this email directly, view it on GitHub, or unsubscribe.\r\nTriage notifications, keep track of coding agent tasks and review pull requests on the go with GitHub Mobile for iOS&nbsp;and Android. Download it today! \r\nYou are receiving this because you commented.",
+      "createdAt": "2026-10-27T13:26:01Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJT2d",
+          "author": "hoov666",
+          "avatar": "https://avatars.githubusercontent.com/u/313516935?s=64&v=4",
+          "body": "我也有这个问题，我的解决方法是重启抖音的扩展，之后再把后缀的数字丢给🐟就好了",
+          "createdAt": "2026-10-27T13:29:02Z"
+        }
+      ]
+    },
     {
       "id": "DC_kwDOVLPtGM4BJTyq",
       "author": "ChaiXiaoXiang",
       "avatar": "https://avatars.githubusercontent.com/u/348788796?s=64&v=4",
       "body": "C:\\Users\\柴小向>npx -y cortico-douyin-bridge\r\nnpm error code E404\r\nnpm error 404 Not Found - GET https://registry.npmjs.org/cortico-douyin-bridge - Not found\r\nnpm error 404\r\nnpm error 404  The requested resource 'cortico-douyin-bridge@*' could not be found or you do not have permission to access it.\r\nnpm error 404\r\nnpm error 404 Note that you can also install from a\r\nnpm error 404 tarball, folder, http url, or git url.\r\nnpm error A complete log of this run can be found in: C:\\Users\\柴小向\\AppData\\Local\\npm-cache\\_logs\\2026-10-27T13_16_09_581Z-debug-0.log\r\n\r\n我输入完npx -y cortico-douyin-bridge 会报这个错误 是因为什么 有哪位大佬知道的吗\r\n",
-      "createdAt": "2026-10-27T13:17:59Z"
+      "createdAt": "2026-10-27T13:17:59Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJTzs",
+          "author": "hoov666",
+          "avatar": "https://avatars.githubusercontent.com/u/313516935?s=64&v=4",
+          "body": "可以丢给鲸鱼问问，我也有这个问题，后面是在QQ里截图丢给鲸鱼一步步弄的",
+          "createdAt": "2026-10-27T13:21:08Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BJT0Q",
+          "author": "hoov666",
+          "avatar": "https://avatars.githubusercontent.com/u/313516935?s=64&v=4",
+          "body": "【抖音桥连不上的解决步骤】\n1. 打开 Coo → 设置 →「抖音」那一页。\n2. 点「启动抖音桥」,会弹出一个浏览器窗口——那个就是桥。\n3. 在弹出来的窗口里点右上角「登录」,用手机抖音扫码。\n4. 回设置页,把面板上的「内置桥 http://127.0.0.1:xxxxx」整串复制,填进「桥地址」。\n5. 保存,再刷一次。\n\n注意三条:\n· 别在命令行跑 npx -y cortico-douyin-bridge,npm 上没有这个包,那句提示是老版本留下的错误。\n· 弹出的浏览器窗口别关,关了桥就断。\n· 端口每次重启都会变,以面板上最新的数字为准,填错会报 fetch failed。",
+          "createdAt": "2026-10-27T13:22:31Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BJS8h",
