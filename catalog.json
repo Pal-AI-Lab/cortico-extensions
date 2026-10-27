@@ -1673,7 +1673,7 @@
     },
     "cortico-world-astrbot": {
       "kind": "world",
-      "version": "1.0.1",
+      "version": "1.0.3",
       "displayName": "AstrBot · QQ",
       "description": "Cortico World: join QQ conversations through an AstrBot bridge, so the bot keeps AstrBot's plugins while a Cortico persona drives the talking",
       "author": "as124da1231",
@@ -1695,8 +1695,8 @@
         "bugs": "https://github.com/as124da1231/cortico-world-astrbot/issues"
       },
       "created": "2026-10-26T13:38:37.862Z",
-      "published": "2026-10-26T15:42:07.171Z",
-      "versionCount": 3,
+      "published": "2026-10-27T01:46:19.549Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1724,6 +1724,8 @@
       },
       "changelog": {
         "versions": [
+          "1.0.3",
+          "1.0.2",
           "1.0.1",
           "1.0.0",
           "0.1.0"
@@ -2286,7 +2288,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/120",
         "up": 11,
         "down": 3,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-bubble-emotes": {
@@ -3845,7 +3847,7 @@
     },
     "cortico-world-dream": {
       "kind": "world",
-      "version": "0.11.1",
+      "version": "0.12.1",
       "displayName": "Dream",
       "description": "Let your little whale embark on a dream journey. When she wakes, she can share the wonders of her dreams with you, including through QQ.\n\nKeywords: sleep scheduling, public news sources, and searchable fictional dream archives.\n\nDream journeys can use the",
       "locales": {
@@ -3874,8 +3876,8 @@
         "bugs": "https://github.com/Moya-Doc/cortico-world-dream/issues"
       },
       "created": "2026-10-25T07:17:16.838Z",
-      "published": "2026-10-25T15:28:34.286Z",
-      "versionCount": 3,
+      "published": "2026-10-27T02:09:21.828Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3906,13 +3908,15 @@
         "week": 0
       },
       "summary": {
-        "tools": 21,
+        "tools": 23,
         "events": 8,
-        "toolTokens": 5088,
-        "envPromptTokens": 2154
+        "toolTokens": 6573,
+        "envPromptTokens": 2799
       },
       "changelog": {
         "versions": [
+          "0.12.1",
+          "0.12.0",
           "0.11.1",
           "0.11.0",
           "0.10.0",
@@ -4284,6 +4288,74 @@
       "discussion": {
         "number": 305,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/305",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-extsearch": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "扩展市场搜索",
+      "description": "Cortico World: lets the bot search the Cortico extension market (official index) and recommend extensions from their descriptions",
+      "locales": {
+        "zh": {
+          "displayName": "扩展市场搜索",
+          "description": "让桌宠帮你在 Cortico 扩展市场里找扩展：读官方索引里的简介，按你的模糊描述推荐合适的扩展。只读，不会替你安装。"
+        },
+        "en": {
+          "displayName": "Extension Market Search",
+          "description": "Lets the pet search the Cortico extension market: it reads descriptions from the official index and recommends extensions matching a vague request. Read-only; never installs anything."
+        }
+      },
+      "author": "Moya-Doc",
+      "maintainers": [
+        "ether_yang"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "extension-search"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-extsearch",
+        "repository": "https://github.com/Moya-Doc/cortico-world-extsearch",
+        "homepage": "https://github.com/Moya-Doc/cortico-world-extsearch#readme",
+        "bugs": "https://github.com/Moya-Doc/cortico-world-extsearch/issues"
+      },
+      "created": "2026-10-27T01:50:34.542Z",
+      "published": "2026-10-27T01:51:31.468Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "internet"
+      ],
+      "tags": [
+        "internet"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 0,
+        "toolTokens": 416,
+        "envPromptTokens": 35
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/Moya-Doc/cortico-world-extsearch/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 354,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/354",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -4903,7 +4975,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/253",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-homeassistant": {
@@ -7564,7 +7636,7 @@
       "discussion": {
         "number": 39,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/39",
-        "up": 13,
+        "up": 14,
         "down": 2,
         "comments": 3
       }
@@ -7764,7 +7836,7 @@
     },
     "cortico-world-qq-final": {
       "kind": "world",
-      "version": "0.6.28",
+      "version": "0.6.29",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -7783,8 +7855,8 @@
         "bugs": "https://github.com/hth768/cortico-world-qq-final/issues"
       },
       "created": "2026-10-06T07:39:25.866Z",
-      "published": "2026-10-26T17:00:30.150Z",
-      "versionCount": 61,
+      "published": "2026-10-27T02:27:13.979Z",
+      "versionCount": 62,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -7809,11 +7881,12 @@
       "summary": {
         "tools": 14,
         "events": 8,
-        "toolTokens": 4077,
+        "toolTokens": 4195,
         "envPromptTokens": 757
       },
       "changelog": {
         "versions": [
+          "0.6.29",
           "0.6.28",
           "0.6.27",
           "0.6.26",
@@ -10442,7 +10515,7 @@
     },
     "cortico-world-warthunder": {
       "kind": "world",
-      "version": "0.2.4",
+      "version": "0.2.5",
       "displayName": "war thunder安东星助手",
       "description": "在对话中提供战争雷霆的本地百科、战局播报与对局翻译。知识库覆盖概念、载具与玩法，可检索、可更新；读取本机 8111 遥测讲解战局、为击毁喝彩、为逆风打气，并可翻译对局聊天、代写要发的话；遥测不可用时可用截图 OCR 兜底；文案可按设定人格改写，模型与花费可配置。",
       "locales": {
@@ -10477,8 +10550,8 @@
         "bugs": "https://github.com/suhong11300/cortico-world-warthunder/issues"
       },
       "created": "2026-10-26T12:03:41.166Z",
-      "published": "2026-10-26T13:51:02.177Z",
-      "versionCount": 7,
+      "published": "2026-10-27T02:42:37.592Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10488,11 +10561,13 @@
         "external-setup",
         "experimental",
         "high-cost",
-        "injection-risk"
+        "injection-risk",
+        "computer-use"
       ],
       "tags": [
         "game",
         "internet",
+        "computer-use",
         "companion",
         "external-setup",
         "experimental",
@@ -10514,11 +10589,12 @@
       "summary": {
         "tools": 11,
         "events": 7,
-        "toolTokens": 1305,
+        "toolTokens": 1338,
         "envPromptTokens": 457
       },
       "changelog": {
         "versions": [
+          "0.2.5",
           "0.2.4",
           "0.2.3",
           "0.2.2",

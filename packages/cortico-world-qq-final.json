@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-final",
-  "version": "0.6.28",
+  "version": "0.6.29",
   "describe": {
     "tools": [
       {
@@ -33,7 +33,7 @@
       },
       {
         "name": "qq_send",
-        "description": "回复 QQ 消息事件的唯一渠道：发送一条发往 QQ 群或私聊的消息（不要用 terminal_send，那只会发到控制台终端）。调用即直接发送，无需再确认。to 直接填事件 meta 里的 conv 字段：群聊为 \"group:<群号>\"，私聊为 \"private:<QQ号>\"。\n【私聊分流】当对话话题涉及隐私、秘密、尴尬、暧昧、个人账目/健康/情感等不宜在群内公开的内容时，应把回复改为私聊发给当事人，而非发在群里：先在群里说一句\"这个我私聊你～\"，再调用本工具 to=事件 meta 里的 senderPrivate 字段（形如 \"private:<QQ号>\"）把真正的内容私发过去。反之普通闲聊就直接发回当前群即可。",
+        "description": "回复 QQ 消息事件的唯一渠道：发送一条发往 QQ 群或私聊的消息（不要用 terminal_send，那只会发到控制台终端）。调用即直接发送，无需再确认。to 直接填事件 meta 里的 conv 字段：群聊为 \"group:<群号>\"，私聊为 \"private:<QQ号>\"。\n【私聊分流】当对话话题涉及隐私、秘密、尴尬、暧昧、个人账目/健康/情感等不宜在群内公开的内容时，应把回复改为私聊发给当事人，而非发在群里：先在群里说一句\"这个我私聊你～\"，再调用本工具 to=事件 meta 里的 senderPrivate 字段（形如 \"private:<QQ号>\"）把真正的内容私发过去。反之普通闲聊就直接发回当前群即可。\n【语音】是否发语音由你这个主模型结合当前上下文直接判断：对方明确要求语音、朗读或用声音回复，或语境明显需要语音时把 voice=true；普通回复省略 voice 或设为 false。这里不再调用额外的语义判定模型。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -44,6 +44,10 @@
             "text": {
               "type": "string",
               "description": "要发送的消息正文。可用 #编号 引用回复某条消息。"
+            },
+            "voice": {
+              "type": "boolean",
+              "description": "可选：是否把这条回复合成为 QQ 语音。由主模型根据上下文直接决定；对方明确要求语音/朗读/用声音回复，或语境明显需要语音时设为 true，普通回复省略或设为 false。"
             },
             "reply_message_id": {
               "type": "number",
@@ -66,8 +70,8 @@
           "speak"
         ],
         "summary": {
-          "zh": "回复 QQ 消息的唯一渠道:往群或私聊发一条消息,可引用回复、@人。",
-          "en": "The only way to answer a QQ message: send one to a group or private chat, with quoting and mentions."
+          "zh": "回复 QQ 消息的唯一渠道:往群或私聊发一条消息,可引用回复、@人,由主模型决定是否转成语音。",
+          "en": "The only way to answer a QQ message: send one to a group or private chat, with quoting, mentions, and an optional voice reply chosen by the main model."
         }
       },
       {
@@ -620,6 +624,7 @@
     ]
   },
   "changelog": {
+    "0.6.29": "- 语音发送不再调用额外的语义判定模型；主模型通过 `qq_send` 的 `voice=true` 直接决定是否发送语音，移除语义判定模型的端点、密钥和模型配置。",
     "0.6.28": "- 新增发布构建：维护版继续保留可读 `src/`，发布副本使用压缩并改名后的 `dist/index.js`，保留 Cortico、工具、配置和控制台契约名称。",
     "0.6.27": "- 群聊入站消息正文现在同时带群名和群号，模型无需依赖未展开的事件元数据即可区分当前群聊；`meta.conv` 回复地址保持不变。",
     "0.6.26": "- 视频理解改为按时间窗持续处理：每段画面拼图与同一时间范围的 ASR 转写一起进入一次模型上下文，支持直到视频结束的分段理解。",

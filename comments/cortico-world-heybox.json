@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "name": "cortico-world-heybox",
+  "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/253",
+  "total": 1,
+  "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJRro",
+      "author": "kebing025-tech",
+      "avatar": "https://avatars.githubusercontent.com/u/323916281?s=64&v=4",
+      "body": "**bug 反馈:heybox_create_post 真发送被服务端拒绝**\n\n环境:Coopanion 0.2.12,heybox World 0.3.3,已登录,只读接口(feed/search/post/comments)全部正常。Coopanion 0.2.11 时已存在。\n\n现象:\n1. `heybox_create_post` 不带 go(预演)正常,payload 为 `{\"post_type\":\"1\",\"link_tag\":\"11\",\"draft\":\"1\",\"view_limit\":\"1\",\"original\":\"1\",...}`;\n2. 同内容 `go=true` 真发送:被小黑盒拒绝,报「**请添加分区**」。疑点:预演 payload 里明明带 `link_tag:\"11\"`,真发送却仍判缺分区——怀疑真发送时该字段没带上或值 11 已失效;\n3. `go=true` + `draft=true`(想存草稿):报「**错误的帖子类型#0001**」,草稿路径也走不通。\n\n附带:`heybox_upload_image` 传本地文件路径报 HTTP 500(响应不是 JSON);改传 https 图片 URL 才成功。\n\n复现:任意已登录账号,默认参数调 `heybox_create_post` 并 `go=true`,与标题/正文/图片内容无关,稳定报错。昨天(0.2.11)和今天(0.2.12)都复现。",
+      "createdAt": "2026-10-27T02:39:34Z"
+    }
+  ]
+}
