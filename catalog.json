@@ -286,7 +286,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
         "up": 9,
         "down": 0,
-        "comments": 26
+        "comments": 27
       }
     },
     "better-cortico-world-netease-companion": {
@@ -1679,7 +1679,7 @@
     },
     "cortico-world-astrbot": {
       "kind": "world",
-      "version": "1.1.5",
+      "version": "1.2.5",
       "displayName": "AstrBot · QQ",
       "description": "Cortico World: join QQ conversations through an AstrBot bridge, so the bot keeps AstrBot's plugins while a Cortico persona drives the talking",
       "author": "as124da1231",
@@ -1701,8 +1701,8 @@
         "bugs": "https://github.com/as124da1231/cortico-world-astrbot/issues"
       },
       "created": "2026-10-26T13:38:37.862Z",
-      "published": "2026-10-27T08:12:10.706Z",
-      "versionCount": 12,
+      "published": "2026-10-27T10:44:05.669Z",
+      "versionCount": 13,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1725,11 +1725,12 @@
       "summary": {
         "tools": 4,
         "events": 4,
-        "toolTokens": 884,
-        "envPromptTokens": 573
+        "toolTokens": 973,
+        "envPromptTokens": 614
       },
       "changelog": {
         "versions": [
+          "1.2.5",
           "1.1.5",
           "1.1.4",
           "1.1.3",
@@ -2767,7 +2768,7 @@
       "discussion": {
         "number": 325,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/325",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -3583,6 +3584,92 @@
         "comments": 0
       }
     },
+    "cortico-world-diary-recall": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "记忆回查",
+      "description": "只读记忆/日记关键词检索 World：给 Coopanion 的 Coo 一个 recall_search 工具，按关键词翻旧日记、只取命中片段，不必整篇读 handoffs。",
+      "locales": {
+        "zh": {
+          "displayName": "记忆回查",
+          "description": "给 Coo 一个只读的「翻旧日记」工具：在 workspace / handoffs / 日志里按关键词找原话，只把命中行和上下文交给模型，省上下文也省 token；不写记忆、不联网。"
+        },
+        "en": {
+          "displayName": "Memory Recall",
+          "description": "A read-only recall tool for Coo: keyword-search the workspace/handoffs logs and return only matching lines with path:line, so old memories can be recalled without loading whole files. Writes nothing, no network."
+        }
+      },
+      "author": "飓风号",
+      "maintainers": [
+        "shusfgrs"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "world",
+        "memory",
+        "diary",
+        "search",
+        "recall",
+        "long-term-memory"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-diary-recall",
+        "repository": "https://github.com/shusfgrs/cortico-world-diary-recall",
+        "homepage": "https://github.com/shusfgrs/cortico-world-diary-recall#readme",
+        "bugs": "https://github.com/shusfgrs/cortico-world-diary-recall/issues"
+      },
+      "os": [
+        "win32",
+        "darwin",
+        "linux"
+      ],
+      "created": "2026-10-27T10:49:50.063Z",
+      "published": "2026-10-27T10:50:47.539Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "memory",
+        "local"
+      ],
+      "tags": [
+        "memory",
+        "local"
+      ],
+      "icon": "assets/cortico-world-diary-recall/icon.png",
+      "screenshots": [
+        "assets/cortico-world-diary-recall/screenshot-1.png",
+        "assets/cortico-world-diary-recall/screenshot-2.png"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 0,
+        "toolTokens": 623,
+        "envPromptTokens": 258
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/shusfgrs/cortico-world-diary-recall/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 366,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/366",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-doubao-tts": {
       "kind": "world",
       "version": "0.2.1",
@@ -4237,7 +4324,7 @@
       "discussion": {
         "number": 209,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/209",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 2
       }
@@ -6263,7 +6350,7 @@
       "discussion": {
         "number": 28,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/28",
-        "up": 3,
+        "up": 4,
         "down": 0,
         "comments": 0
       }
@@ -7014,7 +7101,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/199",
         "up": 1,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-nmem": {
@@ -7197,7 +7284,7 @@
       "discussion": {
         "number": 162,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/162",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -7889,7 +7976,7 @@
       "discussion": {
         "number": 284,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/284",
-        "up": 2,
+        "up": 3,
         "down": 0,
         "comments": 2
       }
@@ -8146,7 +8233,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/46",
         "up": 6,
         "down": 0,
-        "comments": 1
+        "comments": 3
       }
     },
     "cortico-world-qq-final-beta": {
@@ -8467,7 +8554,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/87",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-qzone": {
@@ -9038,7 +9125,7 @@
       "discussion": {
         "number": 184,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/184",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -9423,17 +9510,17 @@
     },
     "cortico-world-social-media": {
       "kind": "world",
-      "version": "0.6.2",
+      "version": "0.6.3",
       "displayName": "社交视窗",
-      "description": "让 Bot 带着兴趣逛 B站：读字幕、看画面、接评论，闲时探索话题，也能优先参与主人的新作品。发言与频率可控，交流按视频归档；沿用现有模型，无需 Browser World。",
+      "description": "社交视窗：B站视频、动态读写与评论，实验接入抖音、快手；按作品归档互动，分平台设置特别关注与闲逛，B站可选主动@关注、抖音可监听指定群。快手暂不支持图文发评与群聊。沿用现有模型。",
       "locales": {
         "zh": {
           "displayName": "社交视窗",
-          "description": "让 Bot 带着兴趣逛 B站：读字幕、看画面、接评论，闲时探索话题，也能优先参与主人的新作品。发言与频率可控，交流按视频归档；沿用现有模型，无需 Browser World。"
+          "description": "社交视窗：B站视频、动态读写与评论，实验接入抖音、快手；按作品归档互动，分平台设置特别关注与闲逛，B站可选主动@关注、抖音可监听指定群。快手暂不支持图文发评与群聊。沿用现有模型。"
         },
         "en": {
           "displayName": "Social Window",
-          "description": "Let your bot explore Bilibili, read subtitles, sample video frames and join comment threads. Optional idle browsing and owner focus, adjustable limits and a per-video timeline; uses your existing model."
+          "description": "Social Window: Bilibili videos, text dynamics and comments, with experimental Douyin and Kuaishou adapters. Per-work records, owner focus and roaming; opt-in Bilibili focus mentions and allowlisted Douyin groups. No Kuaishou image-post comments or group chats. Uses your existing model."
         }
       },
       "author": "peikun123",
@@ -9448,21 +9535,25 @@
         "social-media",
         "video",
         "comments",
-        "companion"
+        "companion",
+        "douyin",
+        "kuaishou"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-social-media"
+        "npm": "https://www.npmjs.com/package/cortico-world-social-media",
+        "repository": "https://github.com/PeiKun123/cortico-world-social-media",
+        "homepage": "https://github.com/PeiKun123/cortico-world-social-media#readme",
+        "bugs": "https://github.com/PeiKun123/cortico-world-social-media/issues"
       },
       "created": "2026-10-23T02:10:56.290Z",
-      "published": "2026-10-23T05:25:45.712Z",
-      "versionCount": 3,
+      "published": "2026-10-27T09:53:57.890Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
         "video",
         "browser",
         "internet",
-        "requires-key",
         "external-setup",
         "experimental",
         "unofficial-api"
@@ -9473,7 +9564,6 @@
         "video",
         "companion",
         "external-setup",
-        "requires-key",
         "experimental",
         "unofficial-api"
       ],
@@ -9488,13 +9578,33 @@
         "week": 0
       },
       "summary": {
-        "tools": 10,
-        "events": 2,
-        "toolTokens": 3038,
-        "envPromptTokens": 1199
+        "tools": 13,
+        "events": 5,
+        "toolTokens": 5577,
+        "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.6.3",
+          "0.7.0-beta.20",
+          "0.7.0-beta.19",
+          "0.7.0-beta.17",
+          "0.7.0-beta.16",
+          "0.7.0-beta.15",
+          "0.7.0-beta.14",
+          "0.7.0-beta.13",
+          "0.7.0-beta.12",
+          "0.7.0-beta.11",
+          "0.7.0-beta.10",
+          "0.7.0-beta.9",
+          "0.7.0-beta.8",
+          "0.7.0-beta.7",
+          "0.7.0-beta.6",
+          "0.7.0-beta.5",
+          "0.7.0-beta.4",
+          "0.7.0-beta.3",
+          "0.7.0-beta.2",
+          "0.7.0-beta.1",
           "0.6.2",
           "0.6.1",
           "0.6.0",
@@ -9512,7 +9622,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-social-media@0.6.2/CHANGELOG.md"
+        "url": "https://github.com/PeiKun123/cortico-world-social-media/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 204,
@@ -10482,9 +10592,9 @@
       "discussion": {
         "number": 85,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/85",
-        "up": 11,
+        "up": 12,
         "down": 3,
-        "comments": 6
+        "comments": 7
       }
     },
     "cortico-world-timetable": {
@@ -11186,9 +11296,9 @@
       "discussion": {
         "number": 68,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/68",
-        "up": 3,
+        "up": 4,
         "down": 0,
-        "comments": 5
+        "comments": 6
       }
     },
     "cortico-world-wechat": {
@@ -11518,7 +11628,7 @@
       "discussion": {
         "number": 292,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/292",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
