@@ -186,17 +186,17 @@
     },
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.5.9",
+      "version": "0.5.12",
       "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
-      "description": "Cortico World for Coopanion: speaks the pet's lines aloud with GPT-SoVITS (V5 on NVIDIA GPUs, a CPU tier otherwise), installing a portable runtime and weights in one click",
+      "description": "Cortico World for Coopanion: speaks the pet's lines aloud with GPT-SoVITS (V5 on NVIDIA GPUs, a CPU tier otherwise; AMD GPU users can use the CPU tier), installing a portable runtime and weights in one click",
       "locales": {
         "zh": {
           "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
-          "description": "支持星落落语音包！欢迎来尝试！给桌宠配上真实的 GPT-SoVITS 语音：全程在本机合成、从声卡出声，不上传任何录音，一键装好运行时与模型。内置「大肥鱼_星落落版本」参考音色（官方底模零样本）与日中英三种参考；支持自定义音色（参考音频+台本+可选自备权重）。自带闲置停服（省显存）、按需加载（最多省约 810 MB 显存）、语音落盘与保留期。还能把声音交给 QQ 插件：新版 cortico-world-qq-final 直接取本机语音接口，老版 cortico-world-qq 走句柄，QQ 语音就是桌宠的声音。"
+          "description": "支持星落落语音包！欢迎来尝试！给桌宠配上真实的 GPT-SoVITS 语音：全程在本机合成、从声卡出声，不上传任何录音，一键装好运行时与模型。内置「大肥鱼_星落落版本」参考音色（官方底模零样本）与日中英三种参考；支持自定义音色（参考音频+台本+可选自备权重）。自带闲置停服（省显存）、按需加载（最多省约 810 MB 显存）、语音落盘与保留期。还能把声音交给 QQ 插件：新版 cortico-world-qq-final 直接取本机语音接口，老版 cortico-world-qq 走句柄，QQ 语音就是桌宠的声音。新版 QQ 插件（0.6.29 起）已移除语音判定模型，不需要任何密钥，是否发语音由主模型自己决定。AMD 显卡用户可使用 CPU 推理档（速度较慢但可用）。"
         },
         "en": {
           "displayName": "Better GPTSovits Voice — Fatfish",
-          "description": "Supports the Xll voice pack! Come and try it! Gives the desktop pet a real GPT-SoVITS voice: synthesized on your own machine, nothing uploaded, one-click runtime and weights. Ships the \"Fatfish Xll\" reference voice (zero-shot base model) plus Chinese/English/Japanese references, and supports custom voices (reference audio + transcript + optional own weights). Includes stop-when-idle, on-demand model loading (up to ~810 MB VRAM saved), speech files with a retention window, and a local voice API so QQ plugins (cortico-world-qq-final / cortico-world-qq) can send voice in the pet's own voice."
+          "description": "Supports the Xll voice pack! Come and try it! Gives the desktop pet a real GPT-SoVITS voice: synthesized on your own machine, nothing uploaded, one-click runtime and weights. Ships the \"Fatfish Xll\" reference voice (zero-shot base model) plus Chinese/English/Japanese references, and supports custom voices (reference audio + transcript + optional own weights). Includes stop-when-idle, on-demand model loading (up to ~810 MB VRAM saved), speech files with a retention window, and a local voice API so QQ plugins (cortico-world-qq-final / cortico-world-qq) can send voice in the pet's own voice. Newer QQ plugins (0.6.29+) need no key at all: the main model decides when to speak. AMD GPU users can use the CPU inference tier (slower but works)."
         }
       },
       "author": "wocwang",
@@ -221,8 +221,8 @@
         "win32"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-10-26T15:35:03.225Z",
-      "versionCount": 20,
+      "published": "2026-10-27T11:18:56.134Z",
+      "versionCount": 21,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -248,6 +248,9 @@
       },
       "changelog": {
         "versions": [
+          "0.5.12",
+          "0.5.11",
+          "0.5.10",
           "0.5.9",
           "0.5.8",
           "0.5.7",
@@ -384,7 +387,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/214",
         "up": 2,
         "down": 1,
-        "comments": 5
+        "comments": 6
       }
     },
     "cortico-bot-continuity": {
@@ -2300,7 +2303,7 @@
         "number": 120,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/120",
         "up": 11,
-        "down": 4,
+        "down": 5,
         "comments": 1
       }
     },
@@ -4633,7 +4636,7 @@
     },
     "cortico-world-feiyu-little-days": {
       "kind": "world",
-      "version": "0.1.0-beta.1",
+      "version": "0.1.0-beta.3",
       "displayName": "肥鱼的小日子",
       "description": "给桌面伙伴一个可以回去的小家。推门进屋，吃饭存粮、沙发休息、盖被睡觉；再把每日待办写在门口的记事板上，一起过有饭吃、有觉睡的小屋生活。",
       "locales": {
@@ -4666,8 +4669,8 @@
         "win32"
       ],
       "created": "2026-10-27T09:38:41.970Z",
-      "published": "2026-10-27T09:40:52.888Z",
-      "versionCount": 2,
+      "published": "2026-10-27T11:50:23.559Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4717,6 +4720,8 @@
       },
       "changelog": {
         "versions": [
+          "0.1.0-beta.3",
+          "0.1.0-beta.2",
           "0.1.0-beta.1",
           "0.12.0-beta.5",
           "0.12.0-beta.4",
@@ -7345,6 +7350,74 @@
         "comments": 0
       }
     },
+    "cortico-world-pasture": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "牧场",
+      "description": "Coopanion World：连接《动物栏：桌面牧场》，让桌宠查看、喂食、抚摸、买卖动物并写牧场小时报。",
+      "locales": {
+        "zh": {
+          "displayName": "牧场"
+        },
+        "en": {
+          "displayName": "Pasture"
+        }
+      },
+      "author": "Coopanion Tiny Pasture Bridge contributors",
+      "maintainers": [
+        "jiwangxu"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "tiny-pasture",
+        "desktop-pet",
+        "game"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-pasture",
+        "repository": "https://github.com/lingjue1/pet",
+        "homepage": "https://github.com/lingjue1/pet#readme",
+        "bugs": "https://github.com/lingjue1/pet/issues"
+      },
+      "created": "2026-10-27T11:21:25.604Z",
+      "published": "2026-10-27T11:26:53.785Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "game"
+      ],
+      "tags": [
+        "game"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 13,
+        "events": 6,
+        "toolTokens": 1409,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/lingjue1/pet/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 368,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/368",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-perch": {
       "kind": "world",
       "version": "0.2.8",
@@ -8119,7 +8192,7 @@
     },
     "cortico-world-qq-final": {
       "kind": "world",
-      "version": "0.6.33",
+      "version": "0.6.35",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -8138,8 +8211,8 @@
         "bugs": "https://github.com/hth768/cortico-world-qq-final/issues"
       },
       "created": "2026-10-06T07:39:25.866Z",
-      "published": "2026-10-27T05:27:06.716Z",
-      "versionCount": 66,
+      "published": "2026-10-27T11:52:57.272Z",
+      "versionCount": 68,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -8162,13 +8235,15 @@
         "week": 0
       },
       "summary": {
-        "tools": 14,
-        "events": 8,
-        "toolTokens": 4195,
+        "tools": 15,
+        "events": 9,
+        "toolTokens": 4534,
         "envPromptTokens": 757
       },
       "changelog": {
         "versions": [
+          "0.6.35",
+          "0.6.34",
           "0.6.33",
           "0.6.32",
           "0.6.31",
