@@ -193,7 +193,7 @@
     },
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.5.12",
+      "version": "0.5.16",
       "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
       "description": "Cortico World for Coopanion: speaks the pet's lines aloud with GPT-SoVITS (V5 on NVIDIA GPUs, a CPU tier otherwise; AMD GPU users can use the CPU tier), installing a portable runtime and weights in one click",
       "locales": {
@@ -228,8 +228,8 @@
         "win32"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-10-27T11:18:56.134Z",
-      "versionCount": 21,
+      "published": "2026-10-27T16:12:32.391Z",
+      "versionCount": 22,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -255,6 +255,10 @@
       },
       "changelog": {
         "versions": [
+          "0.5.16",
+          "0.5.15",
+          "0.5.14",
+          "0.5.13",
           "0.5.12",
           "0.5.11",
           "0.5.10",
@@ -296,7 +300,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
         "up": 9,
         "down": 0,
-        "comments": 28
+        "comments": 33
       }
     },
     "better-cortico-world-netease-companion": {
@@ -400,13 +404,13 @@
     },
     "coopani-world-music": {
       "kind": "world",
-      "version": "0.3.2",
+      "version": "0.3.7",
       "displayName": "一起听歌",
-      "description": "陪着你听歌：读 Windows 的媒体会话，知道 QQ音乐 / 网易云音乐在放什么——换歌必说一句，一首歌里分几段接话，能看到当前这一段的歌词、就着词说两句，表情和动作跟着曲风与段落变，为听歌另做了律动、打拍子、闭眼听、蹦迪四个小动作（宿主没有时会自动降级）；记得住你听过什么，能替你按暂停、切下一首，也能自己去曲库里搜一首想听的挑给你。",
+      "description": "陪着你听歌：读 Windows 的媒体会话，知道 QQ音乐 / 网易云音乐在放什么——换歌必说一句，一首歌里分几段接话，能看到当前这一段的歌词、就着词说两句，表情和动作跟着曲风与段落变，为听歌另做了律动、打拍子、闭眼听、蹦迪四个小动作（宿主没有时会自动降级）；记得住你听过什么，能替你按暂停、切下一首，也能自己去曲库里搜一首想听的挑给你。和「陪打炉石」一起装着会更有意思——你在打牌时听的每一首她都知道，偶尔会把牌局和歌说到一块儿去。嫌吵就让其中一个先安静，一个开关的事，默认各说各的。",
       "locales": {
         "en": {
           "displayName": "Listen With Me",
-          "description": "Listens along with you: reads Windows media sessions to know what QQ Music or NetEase Cloud Music is playing, says a line on every track change, talks along each passage, reads the lyrics of the passage being sung and reacts to the words, matches her face and motion to the music — including four moves built for listening (groove, tap along, eyes closed, full bounce), falling back to stock moves when the host lacks them — remembers what you played, can pause or skip for you, and can go search the catalogue and pick a track she wants you to hear."
+          "description": "Listens along with you: reads Windows media sessions to know what QQ Music or NetEase Cloud Music is playing, says a line on every track change, talks along each passage, reads the lyrics of the passage being sung and reacts to the words, matches her face and motion to the music — including four moves built for listening (groove, tap along, eyes closed, full bounce), falling back to stock moves when the host lacks them — remembers what you played, can pause or skip for you, and can go search the catalogue and pick a track she wants you to hear. Install it alongside “Hearthstone Companion” and it gets more interesting: she knows every track you play while you are in a match, and the two often end up in the same sentence. If it gets noisy, let one of them stand down — one switch, and by default both talk."
         }
       },
       "author": "Mr.Q",
@@ -430,8 +434,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-10-27T14:08:53.120Z",
-      "versionCount": 3,
+      "published": "2026-10-27T15:52:13.666Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -439,14 +443,16 @@
         "companion",
         "sensitive-data",
         "high-cost",
-        "injection-risk"
+        "injection-risk",
+        "unofficial-api"
       ],
       "tags": [
         "apps",
         "companion",
         "high-cost",
         "sensitive-data",
-        "injection-risk"
+        "injection-risk",
+        "unofficial-api"
       ],
       "icon": "assets/coopani-world-music/icon.png",
       "downloads": {
@@ -462,13 +468,17 @@
       },
       "changelog": {
         "versions": [
+          "0.3.7",
+          "0.3.6",
+          "0.3.5",
+          "0.3.4",
           "0.3.2",
           "0.3.1",
           "0.3.0",
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-music@0.3.2/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-music@0.3.7/CHANGELOG.md"
       },
       "discussion": {
         "number": 384,
@@ -532,7 +542,7 @@
         "number": 1,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1",
         "up": 0,
-        "down": 1,
+        "down": 0,
         "comments": 4
       }
     },
@@ -2102,6 +2112,81 @@
         "comments": 0
       }
     },
+    "cortico-world-bili-video-pro": {
+      "kind": "world",
+      "version": "0.1.6",
+      "displayName": "B站刷视频特化测试版",
+      "description": "B站刷视频特化测试版：主人陪着看用浏览器窗口；没人陪时她自己按排程抽帧看片（可关）。",
+      "author": "白菜和他的小汐小槿",
+      "maintainers": [
+        "baicai-xiaoxi-xiaojin"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "bilibili",
+        "video",
+        "subtitle",
+        "danmaku"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-bili-video-pro"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-10-27T15:34:22.238Z",
+      "published": "2026-10-27T15:45:20.052Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "video",
+        "internet",
+        "browser",
+        "experimental",
+        "high-cost",
+        "unofficial-api"
+      ],
+      "tags": [
+        "internet",
+        "browser",
+        "video",
+        "experimental",
+        "high-cost",
+        "unofficial-api"
+      ],
+      "icon": "assets/cortico-world-bili-video-pro/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 15,
+        "events": 4,
+        "toolTokens": 1376,
+        "envPromptTokens": 1656
+      },
+      "changelog": {
+        "versions": [
+          "0.1.5",
+          "0.1.4",
+          "0.1.3",
+          "0.1.2",
+          "0.1.1"
+        ],
+        "url": "https://unpkg.com/cortico-world-bili-video-pro@0.1.6/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 389,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/389",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-bilibili": {
       "kind": "world",
       "version": "0.2.8",
@@ -2581,9 +2666,9 @@
       "discussion": {
         "number": 189,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/189",
-        "up": 9,
+        "up": 10,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-buckshot": {
@@ -4502,7 +4587,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/173",
         "up": 2,
         "down": 2,
-        "comments": 2
+        "comments": 3
       }
     },
     "cortico-world-emote-pics": {
@@ -5467,13 +5552,13 @@
     },
     "cortico-world-hearthstone": {
       "kind": "world",
-      "version": "0.3.1",
+      "version": "0.3.4",
       "displayName": "炉石陪打",
-      "description": "Cortico World: 陪打炉石 —— 读对局日志,知道双方的血量、场面、手牌与水晶,在关键节点开口。只看不动游戏,不代打。需要先打开炉石的 Power 日志。",
+      "description": "Cortico World: 陪打炉石 —— 读对局日志,知道双方的血量、场面、手牌与水晶,在关键节点开口,打完告诉你输赢。只看不动游戏,不代打。需要先打开炉石的 Power 日志。和「一起听歌」一起装着会更有意思:她一边看牌一边听得见你在听什么,两件事常常顺手落到同一句话里(\"这回合稳了,这首正好\")。嫌吵就让其中一个先安静——一个开关的事,默认是各说各的。",
       "locales": {
         "en": {
           "displayName": "Hearthstone Companion",
-          "description": "Cortico World: watches your Hearthstone match by reading the game's Power log, so she knows both heroes' health, the board, hand sizes and mana, and speaks up at the moments that matter. Read-only: she never plays for you."
+          "description": "Cortico World: watches your Hearthstone match by reading the game's Power log, so she knows both heroes' health, the board, hand sizes and mana, speaks up at the moments that matter, and tells you how it ended. Read-only: she never plays for you. Install it alongside “Listen With Me” and it gets more interesting: while she reads the board she also hears what you are playing, and the two often land in the same sentence (“this turn is safe — and this song fits”). If it gets noisy, let one of them stand down — one switch, and by default both talk."
         }
       },
       "author": "Mr.Q",
@@ -5495,8 +5580,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:42:43.161Z",
-      "published": "2026-10-27T14:31:06.870Z",
-      "versionCount": 3,
+      "published": "2026-10-27T15:24:12.365Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5522,10 +5607,13 @@
       },
       "changelog": {
         "versions": [
+          "0.3.4",
+          "0.3.3",
+          "0.3.2",
           "0.3.1",
           "0.3.0"
         ],
-        "url": "https://unpkg.com/cortico-world-hearthstone@0.3.1/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-hearthstone@0.3.4/CHANGELOG.md"
       },
       "discussion": {
         "number": 382,
@@ -6374,17 +6462,17 @@
     },
     "cortico-world-live-comments": {
       "kind": "world",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "displayName": "直播互动助手",
-      "description": "直播互动助手：读直播软件互动栏的弹幕、礼物、关注和进场，交给当前 Coo 人格回复，自带 Edge 语音朗读与可删改的弹幕记忆。",
+      "description": "支持 B 站直播姬和抖音直播伴侣：读取直播评论、礼物与关注，由当前 Coo 人格回复；自带 Edge 语音朗读和可编辑弹幕记忆。",
       "locales": {
         "zh": {
           "displayName": "直播互动助手",
-          "description": "读直播软件的弹幕、礼物与关注，用当前 Coo 人格回复并朗读，附带可删改的弹幕记忆。"
+          "description": "支持 B 站直播姬与抖音直播伴侣；读弹幕、礼物和关注，用当前 Coo 人格回复并朗读，附带可删改的弹幕记忆。"
         },
         "en": {
           "displayName": "Live Comments",
-          "description": "Reads the comment panel of your streaming app, replies with the current Coo persona, speaks the reply with its own Edge TTS engine, and keeps an editable comment memory."
+          "description": "Supports Bilibili Live Studio and Douyin Live Companion. Reads comments, gifts, and follows, replies with the current Coo persona, speaks replies with its own Edge TTS engine, and keeps an editable comment memory."
         }
       },
       "author": "yangcy123456",
@@ -6399,6 +6487,8 @@
         "streaming",
         "danmaku",
         "bilibili",
+        "douyin",
+        "抖音",
         "tts",
         "ocr"
       ],
@@ -6409,8 +6499,8 @@
         "bugs": "https://github.com/yangcy123456/cortico-world-live-comments/issues"
       },
       "created": "2026-10-27T13:54:38.075Z",
-      "published": "2026-10-27T13:55:34.846Z",
-      "versionCount": 2,
+      "published": "2026-10-27T15:20:20.093Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [

@@ -2,8 +2,38 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-  "total": 28,
+  "total": 33,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJUtA",
+      "author": "wocwang",
+      "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+      "body": "@wtmdbyd 找到原因了：你的运行时解压不完整，缺 `GPT_SoVITS/AR`——`TTS_infer_pack/TTS.py` 里的 `from AR.models...` 靠它，缺了 `api_v2.py` 一启动就 `ModuleNotFoundError: No module named 'AR'`。这不是配置问题。\n\n**已修（0.5.16）**\n- 插件在拉起推理前会检查 `GPT_SoVITS/AR`，缺了就用包内自带的一份（上游同 commit、49 个文件、约 390 KB）自动补上。升级到 0.5.16 后重启即可，不用重下几 GB 运行时。\n- 构建脚本也加了归档校验，以后重打的运行时不会再缺。\n\n**急着用旧版的话**\n从任意一份完整的 GPT-SoVITS 整包（与你运行时同版本）里，把 `GPT_SoVITS/AR` 整个目录复制到你的运行时目录：\n\n```\nD:\\Coopanion\\data\\home\\runtimes\\gpt-sovits\\e91506f-1\\cuda\\GPT_SoVITS\\AR\n```\n\n（路径按你贴的 traceback；复制后重启 Coopanion。）\n\n另外你之前问的 QQ 发语音：新版 `cortico-world-qq-final` 0.6.29 起不需要判定密钥，按本插件「与其他插件联动 → QQ 语音对接 → 一键写入」配置，重启即可。\n",
+      "createdAt": "2026-10-27T16:00:34Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BJUlY",
+      "author": "wocwang",
+      "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+      "body": "@azkwsl 补充一下：如果你说的是「启动训练 WebUI」或「安装训练依赖」时提示缺少 `tools/asr`（或 `tools/uvr5`），这是当前运行时包的已知问题——训练要用的这两个上游目录还没打进运行时包，不是你的安装坏了。\n\n- 只做推理（桌宠说话）不需要这两个目录，不受影响。\n- 要用训练面板：从 GPT-SoVITS 上游整包（与你当前运行时同版本）里把 `tools/asr`、`tools/uvr5` 复制到运行时的同名目录，再点「启动训练 WebUI」。\n- 下一个运行时版本会把这两个目录带上，到时重装运行时即可。\n\n如果报错原文不是 `tools/asr`，麻烦贴一下完整提示（截图或日志），我按原文定位。\n",
+      "createdAt": "2026-10-27T15:40:31Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJUmq",
+          "author": "wtmdbyd",
+          "avatar": "https://avatars.githubusercontent.com/u/348408566?s=64&v=4",
+          "body": "\r\n<img width=\"1926\" height=\"1182\" alt=\"image\" src=\"https://github.com/user-attachments/assets/2eb40d63-df27-45f5-8350-943253eb8b06\" />\r\n\r\nTraceback (most recent call last):\r\n  File \"D:\\Coopanion\\data\\home\\runtimes\\gpt-sovits\\e91506f-1\\cuda\\api_v2.py\", line 128, in <module>\r\n    from GPT_SoVITS.TTS_infer_pack.TTS import TTS, TTS_Config\r\n  File \"D:\\Coopanion\\data\\home\\runtimes\\gpt-sovits\\e91506f-1\\cuda\\GPT_SoVITS\\TTS_infer_pack\\__init__.py\", line 1, in <module>\r\n    from . import TTS, text_segmentation_method\r\n  File \"D:\\Coopanion\\data\\home\\runtimes\\gpt-sovits\\e91506f-1\\cuda\\GPT_SoVITS\\TTS_infer_pack\\TTS.py\", line 29, in <module>\r\n    from AR.models.t2s_lightning_module import Text2SemanticLightningModule\r\nModuleNotFoundError: No module named 'AR'\r\n",
+          "createdAt": "2026-10-27T15:44:02Z"
+        }
+      ]
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BJUi7",
+      "author": "wocwang",
+      "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+      "body": "统一回复一下这帖里的问题。先说结论：0.5.15 已修好两个 GitHub issue，其余大多是配置或版本问题。\n\n**已修（0.5.15，源码已提交）**\n- 系统默认输出设备切换后不跟随（issue #3）：以前「输出设备」留空时，声音会一直停在第一次打开的端点，切到耳机后仍从扬声器出声；现在会自动跟随，不用重启。\n- 旧 QQ 插件发不了语音条（issue #2）：`sovits_speak(silent: true)` 现在会带回 `[blob …]` 音频句柄，可直接填给 `qq_draft` 的 voice，不需要再开「把整句语音交给其他插件」。\n- 另外 0.5.14 给本地语音接口补了 `GET /models`，qq-final / QQ-ProMAX 的 `local` 供应商探活不会再误判「未就绪」。\n\n**AMD / 1660Ti / 电流音**\n- AMD 显卡：本插件不跑 AMD 加速，但 0.5.x 有 CPU 推理档（「推理档」选 CPU；auto 检测不到 NVIDIA 时也会自动走 CPU）。速度慢一些，但能用；CPU 档用的是 v2ProPlus 权重。\n- 1660Ti（6 GB）合成没声音：v5turbo 档显存可能不够，先切 CPU 档试试；如果 CPU 档正常，就是显存不够。\n- 嘶嘶电流音：先换一个输出设备，把系统音效增强/空间音效关掉，再把「音量」降到 0.8 左右试。仍然存在的话，请把当时的日志和参考音频发我，好判断是参考音频还是输出链路的问题。\n\n**「设备 ID 流参数无效」**\n- 把「输出设备」留空（用系统默认）；0.5.15 会跟随系统默认设备的切换。\n- 如果指定了设备名，拔插耳机/驱动重排后名字可能失效，插件会尝试回退到默认设备；仍报错的话请把日志发我。\n\n**QQ 发不出语音**\n- 新版 `cortico-world-qq-final` 0.6.29 起已删除语音语义判定，**不需要任何判定端点或密钥**；帖子里引用的 DeepSeek 判定配置是旧版（<0.6.29）的做法。\n- 正确步骤：本插件「与其他插件联动」→ 打开「开放本地语音接口」（默认 9880）和「其他渠道的语音交给对方插件」→ 同一页「QQ 语音对接」点「一键写入」→ 重启 Coopanion。\n- 再检查三件事：推理服务就绪（面板灯绿）、端口一致、接口 Token 留空。\n- 新插件由主模型调 `qq_send(voice=true)` 决定发语音；旧插件走 `qq_draft` + 本插件回执里的音频句柄。\n\n**其他**\n- 输出语言（中/英/日）与「突然说日语」：0.4.2 起已有「语音语言」选项并默认中文优先，升级到 0.5.15 即可。\n- 声音落盘给机器人：配置里打开「把语音保存成文件」即可，QQ 机器人读目录发送。\n- @azkwsl 的「没有 AR」我没看懂，麻烦补充一下具体现象（是没有 ASR 语音识别，还是别的）。\n\n升级方式：等市场 / npm 更新到 0.5.15 后覆盖安装即可；这次只改了输出设备与语音句柄，不需要重装运行时或权重。\n",
+      "createdAt": "2026-10-27T15:36:21Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJTIw",
       "author": "azkwsl",
@@ -17,6 +47,13 @@
           "avatar": "https://avatars.githubusercontent.com/u/348209565?s=64&v=4",
           "body": "我也是，解压出来差个ar",
           "createdAt": "2026-10-27T15:04:16Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BJUj3",
+          "author": "wocwang",
+          "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+          "body": "请问能具体说说吗，能提issue的话就更好了！",
+          "createdAt": "2026-10-27T15:37:58Z"
         }
       ]
     },
