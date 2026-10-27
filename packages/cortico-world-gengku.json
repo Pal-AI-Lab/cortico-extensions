@@ -1,0 +1,183 @@
+{
+  "schema": 1,
+  "name": "cortico-world-gengku",
+  "version": "0.7.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "gengku_lookup",
+        "description": "查梗：先在本地全量梗库里找（4600 多条，来自 B站/贴吧/萌娘百科），名字精确命中优先，其次名字包含、正文包含。回的是别人写的材料：含义、用法、出处。查到我以前记过的用法会排在最前。查不到时会说还能联网查几次。不给 q 就随机抽三条。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "q": {
+              "type": "string",
+              "maxLength": 60,
+              "description": "词、缩写或一句话。例如「尊嘟假嘟」「搜打撤」。"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5,
+              "description": "最多几条，默认 3。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "meme",
+          "chat"
+        ],
+        "summary": {
+          "zh": "查梗：本地全量词库，先看我记过的用法。",
+          "en": "Look a slang term up in the local dictionary."
+        }
+      },
+      {
+        "name": "gengku_search",
+        "description": "联网查一个词：本地库里没有、或者想要更近的用法时用。去 360 / 搜狗 / Bing / DuckDuckGo 搜，回标题、摘要和来源地址（网上别人写的，不是事实保证）。给 save=true 就把结果收成一条新词条进扩展库，下次 gengku_lookup 直接命中。每天有次数上限，回执会说还剩几次。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "q": {
+              "type": "string",
+              "maxLength": 80,
+              "description": "查询词。带上「怎么用」「什么梗」更容易搜到能接话的材料。"
+            },
+            "maxResults": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10,
+              "description": "最多几条，默认 5。"
+            },
+            "save": {
+              "type": "boolean",
+              "description": "true = 把这次的结果整理成一条新词条写进扩展库（同名词会覆盖）。"
+            },
+            "tags": {
+              "type": "string",
+              "maxLength": 60,
+              "description": "save 时可选：给这条词条打标签，比如「文字梗、调侃」。"
+            }
+          },
+          "required": [
+            "q"
+          ]
+        },
+        "tags": [
+          "meme",
+          "chat",
+          "web"
+        ],
+        "summary": {
+          "zh": "联网查词，查到的可以顺手收进库。",
+          "en": "Look a term up online; optionally save it into the library."
+        }
+      },
+      {
+        "name": "gengku_add",
+        "description": "手动往扩展词库里加一条（不联网）。适合把读到的材料自己整理进库，或者记一个本地全量库里没有的词。同名会覆盖。词条要和原来那份一个形状：标签 | 用法 | 出处。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "word": {
+              "type": "string",
+              "maxLength": 60,
+              "description": "词本身；同一词的别名用空格分开。"
+            },
+            "usage": {
+              "type": "string",
+              "maxLength": 600,
+              "description": "怎么用：场合、语气、接法。"
+            },
+            "tags": {
+              "type": "string",
+              "maxLength": 60,
+              "description": "可选：标签，比如「文字梗、调侃」。"
+            },
+            "origin": {
+              "type": "string",
+              "maxLength": 300,
+              "description": "可选：出处。"
+            },
+            "forget": {
+              "type": "boolean",
+              "description": "true = 把扩展库里的这个词删掉。"
+            }
+          },
+          "required": [
+            "word"
+          ]
+        },
+        "tags": [
+          "meme"
+        ],
+        "summary": {
+          "zh": "手动加一条词条进扩展库。",
+          "en": "Add one entry to the extension dictionary by hand."
+        }
+      },
+      {
+        "name": "gengku_note",
+        "description": "记一条词在「我们这儿」怎么用：什么时候抛、什么语气、能不能阴阳、怎么接。记过之后 gengku_lookup 会先给这条。同一个词再记会覆盖。forget=true 删掉。重点不是抄释义，是用法。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "word": {
+              "type": "string",
+              "maxLength": 60,
+              "description": "词本身。"
+            },
+            "usage": {
+              "type": "string",
+              "maxLength": 400,
+              "description": "在你们这儿怎么用：场合、语气、能不能阴阳、一句能直接发的话。"
+            },
+            "meaning": {
+              "type": "string",
+              "maxLength": 200,
+              "description": "可选：它是什么意思（一句话）。"
+            },
+            "forget": {
+              "type": "boolean",
+              "description": "true = 删掉这个词的旧笔记。"
+            }
+          },
+          "required": [
+            "word"
+          ]
+        },
+        "tags": [
+          "meme",
+          "chat"
+        ],
+        "summary": {
+          "zh": "记一条「在我们这儿怎么用」。",
+          "en": "Write down how we actually use this word."
+        }
+      },
+      {
+        "name": "gengku_stats",
+        "description": "看看梗库：全量词库多少条、扩展库收了几条、我自己记了多少条、今天还能联网查几次。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "meme"
+        ],
+        "summary": {
+          "zh": "梗库有多大，我记了几条。",
+          "en": "How big the dictionary is and how many notes I keep."
+        }
+      }
+    ],
+    "events": []
+  }
+}

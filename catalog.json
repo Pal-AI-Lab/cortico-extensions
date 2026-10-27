@@ -400,7 +400,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/214",
         "up": 2,
         "down": 1,
-        "comments": 6
+        "comments": 7
       }
     },
     "coopani-world-music": {
@@ -542,7 +542,7 @@
       "discussion": {
         "number": 1,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 4
       }
@@ -2171,7 +2171,7 @@
     },
     "cortico-world-bilibili": {
       "kind": "world",
-      "version": "0.2.8",
+      "version": "0.2.9",
       "displayName": "B 站直播间",
       "description": "Cortico World: read-only Bilibili live room — danmaku, gifts, super chats and guard events, with a local transparent overlay",
       "author": "Pal AI Lab",
@@ -2192,8 +2192,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:39.729Z",
-      "published": "2026-10-26T19:35:57.609Z",
-      "versionCount": 20,
+      "published": "2026-10-27T22:13:01.325Z",
+      "versionCount": 21,
       "official": true,
       "isNew": false,
       "tags": [
@@ -3979,7 +3979,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/244",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-douyin": {
@@ -5268,7 +5268,8 @@
       "description": "陪玩 World：读前台窗口知道你（主人）在玩哪款游戏、玩了多久，还能定期看一眼游戏画面——一局打完、局中击杀或买到新装备时递一句给你，平时安静地看着",
       "author": "ALonT1",
       "maintainers": [
-        "alont1"
+        "alont1",
+        "phantivia"
       ],
       "license": "MIT",
       "keywords": [
@@ -5366,6 +5367,62 @@
       "discussion": {
         "number": 21,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/21",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-gengku": {
+      "kind": "world",
+      "version": "0.7.1",
+      "displayName": "梗库 · 本地全量字典",
+      "description": "Cortico World: 本地全量梗库（4573 条）+ 联网查 + 标签 + 配图 + 我自己的用法笔记（只读本地文件；联网查是可选功能，有每日额度）",
+      "locales": {
+        "zh": {
+          "displayName": "梗库 · 本地全量字典",
+          "description": "把 4573 条梗百科词条搬进本地，查一个词毫秒级、不联网也能用；查不到再联网（每天有额度）。查到的能收进自己的词条本、打标签、配图，再叠一层「在我们这儿怎么用」的笔记——接梗时不光懂意思，还知道场合。"
+        },
+        "en": {
+          "displayName": "Slang Library",
+          "description": "Bundles 4,573 slang entries locally, so lookups take milliseconds and work offline; web search is a fallback with a daily quota. Save what you find, tag entries, attach pictures, and keep notes on how your group actually uses each word."
+        }
+      },
+      "author": "gengku contributors",
+      "maintainers": [
+        "wwwwwong"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "meme",
+        "slang",
+        "chat"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-gengku"
+      },
+      "created": "2026-10-27T19:18:41.333Z",
+      "published": "2026-10-27T19:31:04.677Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 5,
+        "events": 0,
+        "toolTokens": 921,
+        "envPromptTokens": 0
+      },
+      "discussion": {
+        "number": 392,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/392",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -5807,7 +5864,8 @@
       "description": "交情、学习、作息、时间、共同经历与惦记；提供记录写入和只读桌面及用量观察，外部材料与内部调度分别投递",
       "author": "ALonT1",
       "maintainers": [
-        "alont1"
+        "alont1",
+        "phantivia"
       ],
       "license": "MIT",
       "keywords": [
@@ -6817,7 +6875,8 @@
       "description": "网络梗扩展：本地梗库 + 联网搜梗兜底，支持接龙真假判定与频率限制，让 bot 会接梗、不硬编、不刷屏",
       "author": "ALonT1",
       "maintainers": [
-        "alont1"
+        "alont1",
+        "phantivia"
       ],
       "license": "MIT",
       "keywords": [
@@ -7154,7 +7213,7 @@
     },
     "cortico-world-minecraft": {
       "kind": "world",
-      "version": "0.2.8",
+      "version": "0.2.9",
       "displayName": "Minecraft",
       "description": "Cortico World: Minecraft Java Edition through a Mineflayer player — observation text, movement, building, combat and an observer client",
       "author": "Pal AI Lab",
@@ -7175,8 +7234,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:42.066Z",
-      "published": "2026-10-26T19:39:53.855Z",
-      "versionCount": 19,
+      "published": "2026-10-27T22:11:49.799Z",
+      "versionCount": 20,
       "official": true,
       "isNew": false,
       "tags": [
@@ -8507,7 +8566,7 @@
     },
     "cortico-world-qq": {
       "kind": "world",
-      "version": "0.2.8",
+      "version": "0.2.9",
       "displayName": "QQ",
       "description": "Cortico World: QQ group and private chats through a OneBot v11 forward WebSocket, with a draft-and-confirm gate on replies",
       "author": "Pal AI Lab",
@@ -8528,8 +8587,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:41:03.758Z",
-      "published": "2026-10-26T19:41:05.863Z",
-      "versionCount": 18,
+      "published": "2026-10-27T22:11:55.446Z",
+      "versionCount": 19,
       "official": true,
       "isNew": false,
       "tags": [
@@ -9026,7 +9085,8 @@
       },
       "author": "leafliber",
       "maintainers": [
-        "leafiber"
+        "leafiber",
+        "phantivia"
       ],
       "license": "AGPL-3.0-or-later",
       "keywords": [
@@ -11705,6 +11765,59 @@
         "comments": 0
       }
     },
+    "cortico-world-video-storyboard": {
+      "kind": "world",
+      "version": "0.3.3",
+      "displayName": "短视频分镜",
+      "description": "用更少的 token 就能读懂一段短视频:把片子压成带时间戳的分镜图,并附字幕/语音识别文字与底部音频波形,不用一帧帧看。目标最长 15 分钟左右的短视频;思路移植自 dsh-video-storyboard(SAOS-3624)。",
+      "author": "花泽",
+      "maintainers": [
+        "huahuahuaze"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "desktop-pet",
+        "video",
+        "storyboard",
+        "subtitle",
+        "asr",
+        "sherpa-onnx",
+        "paraformer",
+        "sensevoice"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-video-storyboard",
+        "homepage": "https://github.com/SAOS-3624/dsh-video-storyboard"
+      },
+      "created": "2026-10-27T22:09:49.927Z",
+      "published": "2026-10-27T22:26:24.322Z",
+      "versionCount": 4,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "video",
+        "internet"
+      ],
+      "tags": [
+        "internet",
+        "video"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 393,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/393",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-warthunder": {
       "kind": "world",
       "version": "0.2.10",
@@ -12055,7 +12168,7 @@
     },
     "cortico-world-websearch": {
       "kind": "world",
-      "version": "0.2.8",
+      "version": "0.2.9",
       "displayName": "WebSearch",
       "description": "Cortico World: a web_search tool backed by the Brave Search API or the DeepSeek Search API",
       "author": "Pal AI Lab",
@@ -12077,8 +12190,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:50.954Z",
-      "published": "2026-10-26T19:36:21.652Z",
-      "versionCount": 20,
+      "published": "2026-10-27T22:11:53.649Z",
+      "versionCount": 21,
       "official": true,
       "isNew": false,
       "tags": [
