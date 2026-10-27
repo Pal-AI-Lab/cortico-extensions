@@ -2046,7 +2046,7 @@
       "discussion": {
         "number": 12,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/12",
-        "up": 4,
+        "up": 5,
         "down": 0,
         "comments": 1
       }
@@ -4048,6 +4048,77 @@
         "comments": 0
       }
     },
+    "cortico-world-dsh": {
+      "kind": "world",
+      "version": "0.1.3",
+      "displayName": "DSH 启动器",
+      "description": "Cortico World: DSH 启动器 — 替你把 DeepSeek Harness 的 dsh web 拉起来、打开、或者关掉。",
+      "locales": {
+        "en": {
+          "displayName": "DSH launcher",
+          "description": "Starts, opens and stops the DeepSeek Harness web UI (dsh web) for your companion."
+        }
+      },
+      "author": "Uesugikumo",
+      "maintainers": [
+        "uesugikumo"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "dsh",
+        "deepseek-harness",
+        "launcher"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-dsh",
+        "repository": "https://github.com/Uesugikumo/cortico-world-dsh",
+        "homepage": "https://github.com/Uesugikumo/cortico-world-dsh#readme",
+        "bugs": "https://github.com/Uesugikumo/cortico-world-dsh/issues"
+      },
+      "created": "2026-10-27T12:15:54.504Z",
+      "published": "2026-10-27T12:16:52.041Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "external-setup",
+        "apps"
+      ],
+      "tags": [
+        "apps",
+        "external-setup"
+      ],
+      "icon": "assets/cortico-world-dsh/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 1,
+        "toolTokens": 324,
+        "envPromptTokens": 434
+      },
+      "changelog": {
+        "versions": [
+          "0.1.3",
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/Uesugikumo/cortico-world-dsh/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 373,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/373",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-dungeon": {
       "kind": "world",
       "version": "0.2.0",
@@ -4262,7 +4333,7 @@
       "discussion": {
         "number": 173,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/173",
-        "up": 1,
+        "up": 2,
         "down": 2,
         "comments": 2
       }
@@ -4822,9 +4893,9 @@
     },
     "cortico-world-frame-extract": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "displayName": "抽帧",
-      "description": "抽帧（Frame Extraction）—— 给 Coopanion 桌宠的 cortico World 扩展：用本机 ffmpeg 把视频或动图按时间拆成带时间戳的 JPEG 帧，作为图片交给模型；取样帧数、间隔、范围、长边与质量可配置，也能被桌宠的调用参数临时覆盖。 / A cortico World extension that turns a video or animated image into timestamped JPEG frames with local ffmpeg and ret",
+      "description": "视频抽帧、轻量变化检测与本地中文语义检索；缓存图文向量索引，返回时间戳和 JPEG。 / Video frame extraction, lightweight change detection and local Chinese text-to-frame search with cached embeddings and timestamped JPEG results.",
       "author": "AqualCross",
       "maintainers": [
         "aqualcross"
@@ -4850,8 +4921,8 @@
         "bugs": "https://github.com/AqualCross/cortico-world-frame-extract/issues"
       },
       "created": "2026-10-24T14:59:12.777Z",
-      "published": "2026-10-24T14:59:47.727Z",
-      "versionCount": 2,
+      "published": "2026-10-27T12:13:18.146Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4870,13 +4941,14 @@
         "week": 0
       },
       "summary": {
-        "tools": 2,
+        "tools": 4,
         "events": 0,
-        "toolTokens": 851,
+        "toolTokens": 1771,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.2.0",
           "0.1.0"
         ],
         "url": "https://github.com/AqualCross/cortico-world-frame-extract/blob/HEAD/CHANGELOG.md"
@@ -5163,9 +5235,9 @@
     },
     "cortico-world-heybox": {
       "kind": "world",
-      "version": "0.3.3",
+      "version": "0.5.8",
       "displayName": "小黑盒",
-      "description": "小黑盒 Coopanion World：扫码/手机号登录、帖子/评论、表情、图片上传与视觉附件、主人偏好、待确认操作与夜间汇报。 / Xiaoheihe (Heybox) for Coopanion: QR/phone login, posts/comments, emoji, image upload and vision blobs, owner preferences, approval queue and nightly reports.",
+      "description": "小黑盒 Coopanion World：扫码/手机号登录、帖子/评论、表情、图片与视觉；100 条/日基础刷帖 + 上午/中午/晚上热点额度；兴趣阶段与衰减、评论质检、审计、发帖/评论内容面板。 / Xiaoheihe (Heybox) for Coopanion: login, feed/posts/comments, emoji, media/vision, 100/day browsing plus morning/noon/evening hot-spot budgets, staged/deca",
       "locales": {
         "zh": {
           "displayName": "小黑盒",
@@ -5194,8 +5266,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-heybox"
       },
       "created": "2026-10-24T14:30:19.968Z",
-      "published": "2026-10-25T02:24:03.304Z",
-      "versionCount": 4,
+      "published": "2026-10-27T12:47:22.535Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5221,13 +5293,30 @@
         "week": 0
       },
       "summary": {
-        "tools": 24,
+        "tools": 34,
         "events": 1,
-        "toolTokens": 1630,
+        "toolTokens": 2261,
         "envPromptTokens": 66
       },
       "changelog": {
         "versions": [
+          "0.5.8",
+          "0.5.7",
+          "0.5.6",
+          "0.5.5",
+          "0.5.4",
+          "0.5.3",
+          "0.5.2",
+          "0.5.1",
+          "0.5.0",
+          "0.4.2",
+          "0.4.1",
+          "0.4.0",
+          "0.3.8",
+          "0.3.7",
+          "0.3.6",
+          "0.3.5",
+          "0.3.4",
           "0.3.3",
           "0.3.2",
           "0.3.1",
@@ -5253,7 +5342,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-heybox@0.3.3/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-heybox@0.5.8/CHANGELOG.md"
       },
       "discussion": {
         "number": 253,
@@ -5409,7 +5498,7 @@
     },
     "cortico-world-image": {
       "kind": "world",
-      "version": "0.5.5",
+      "version": "0.5.8",
       "displayName": "图片工坊",
       "description": "Image Studio（图片工坊）—— 给 Coopanion 桌宠的 cortico World 扩展：用任意 OpenAI 兼容的图片接口画图/改图、落盘成作品库、把图贴进控制台「对话」页，并自带一套自动重打的自愈补丁。 / A cortico World extension that draws through any OpenAI-compatible image API, keeps pictures on disk and shows them in the console.",
       "author": "lostdegree",
@@ -5434,8 +5523,8 @@
         "bugs": "https://github.com/Lostdegree/cortico-world-image/issues"
       },
       "created": "2026-10-12T05:32:34.365Z",
-      "published": "2026-10-26T05:55:53.341Z",
-      "versionCount": 8,
+      "published": "2026-10-27T12:20:08.716Z",
+      "versionCount": 9,
       "official": false,
       "isNew": false,
       "tags": [
@@ -5451,7 +5540,33 @@
         "tools": 4,
         "events": 0,
         "toolTokens": 967,
-        "envPromptTokens": 695
+        "envPromptTokens": 745
+      },
+      "changelog": {
+        "versions": [
+          "0.5.8",
+          "0.5.7",
+          "0.5.6",
+          "0.5.5",
+          "0.5.4",
+          "0.5.3",
+          "0.5.2",
+          "0.5.1",
+          "0.5.0",
+          "0.4.2",
+          "0.4.1",
+          "0.4.0",
+          "0.3.1",
+          "0.3.0",
+          "0.2.2",
+          "0.2.1",
+          "0.2.0",
+          "0.1.4",
+          "0.1.3",
+          "0.1.2",
+          "0.1.1"
+        ],
+        "url": "https://github.com/Lostdegree/cortico-world-image/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 23,
@@ -10983,7 +11098,7 @@
     },
     "cortico-world-warthunder": {
       "kind": "world",
-      "version": "0.2.6",
+      "version": "0.2.7",
       "displayName": "war thunder安东星助手",
       "description": "在对话中提供战争雷霆的本地百科、战局播报与对局翻译。知识库覆盖概念、载具与玩法，可检索、可更新；读取本机 8111 遥测讲解战局、为击毁喝彩、为逆风打气，并可翻译对局聊天、代写要发的话；遥测不可用时可用截图 OCR 兜底；文案可按设定人格改写，模型与花费可配置。",
       "locales": {
@@ -11020,8 +11135,8 @@
         "bugs": "https://github.com/suhong11300/cortico-world-warthunder/issues"
       },
       "created": "2026-10-26T12:03:41.166Z",
-      "published": "2026-10-27T04:53:27.800Z",
-      "versionCount": 9,
+      "published": "2026-10-27T12:43:47.069Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11064,6 +11179,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.7",
           "0.2.6",
           "0.2.5",
           "0.2.4",

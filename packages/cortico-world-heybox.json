@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-heybox",
-  "version": "0.3.3",
+  "version": "0.5.8",
   "describe": {
     "tools": [
       {
@@ -54,6 +54,58 @@
         "tags": [
           "read",
           "snapshot"
+        ]
+      },
+      {
+        "name": "heybox_autobrowse",
+        "description": "按间隔自动刷信息流（只读）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "run": {
+              "type": "boolean"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "heybox_interest",
+        "description": "查看自动刷帖学到的兴趣词。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "heybox_inspiration",
+        "description": "查看兴趣发帖灵感与冷却。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "heybox_style",
+        "description": "查看小黑盒社区语感统计。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "reset": {
+              "type": "boolean"
+            }
+          }
+        },
+        "tags": [
+          "read"
         ]
       },
       {
@@ -229,6 +281,9 @@
               "items": {
                 "type": "string"
               }
+            },
+            "auto": {
+              "type": "boolean"
             }
           },
           "required": [
@@ -285,11 +340,14 @@
       },
       {
         "name": "heybox_games",
-        "description": "查看游戏库或搜索游戏。",
+        "description": "查看自己或指定用户的公开游戏库，或搜索游戏。",
         "parameters": {
           "type": "object",
           "properties": {
             "query": {
+              "type": "string"
+            },
+            "userId": {
               "type": "string"
             }
           }
@@ -442,6 +500,9 @@
               "items": {
                 "type": "string"
               }
+            },
+            "auto": {
+              "type": "boolean"
             }
           },
           "required": [
@@ -454,8 +515,29 @@
         ]
       },
       {
+        "name": "heybox_communities",
+        "description": "搜索发帖分区/社区。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string"
+            },
+            "limit": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "query"
+          ]
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
         "name": "heybox_create_post",
-        "description": "发帖预演/确认。",
+        "description": "图文/文章发帖：多分区、话题、图片、草稿/编辑，默认预演。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -476,6 +558,15 @@
               "items": {
                 "type": "string"
               }
+            },
+            "community": {
+              "type": "string"
+            },
+            "communityId": {
+              "type": "string"
+            },
+            "seedLinkId": {
+              "type": "string"
             }
           },
           "required": [
@@ -513,6 +604,92 @@
         "tags": [
           "read"
         ]
+      },
+      {
+        "name": "heybox_owner_radar",
+        "description": "主人公开动态雷达；浏览记录只能由主人主动分享。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "heybox_taste",
+        "description": "自己的兴趣档案与游戏雷达；参考主人但不照搬。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string"
+            },
+            "topic": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "heybox_saved",
+        "description": "本地收藏/稍后读。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "heybox_performance",
+        "description": "回看自己评论/发帖的表现。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "heybox_audit",
+        "description": "只读审查兴趣阶段、发帖预算和内容记录一致性。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ]
       }
     ],
     "events": [
@@ -531,6 +708,23 @@
     ]
   },
   "changelog": {
+    "0.5.8": "### 中文\n\n- 自动刷帖改为每日 100 条基础额度 + 上午/中午/晚上各 10 条热点额度；静音 23:00–08:00，落后时自动追赶，超前时放慢。\n- 兴趣升级为「触发→维持→开始主动→稳定喜欢→沉睡」阶段，带 45/14/90/180 天半衰衰减；只有开始主动/稳定喜欢可用于发帖。\n- 新增评论质检（短/套话/重复拦截）、兴趣情景证据、每日审计、发帖/评论活动记录。\n- Coopanion 新增「发帖内容」「评论内容」两个独立面板。\n\n### English\n\n- Auto browsing now uses a 100/day base budget plus 10-item morning/noon/evening hot-spot budgets, with 23:00–08:00 quiet hours and adaptive catch-up/throttling.\n- Interests now progress through triggered → maintained → emerging → developed → dormant with 45/14/90/180-day half-life decay; only emerging/developed interests can seed posts.\n- Added comment quality gates, interest episodes, daily audit and post/comment activity records.\n- Added separate Posts and Comments panels in Coopanion.",
+    "0.5.7": "### 中文\n\n- `heybox_games` 支持 `userId` 读取自己或指定用户的公开游戏库；主人库存优先用 `heybox_owner`。\n- 公开库存为空时明确说明“可能未公开/未绑定/为空”，不再误判为没有游戏；提示需要口味时请对方报 2–3 款。\n\n### English\n\n- `heybox_games` now accepts `userId` to read the current or another user’s public library; use `heybox_owner` for the owner.\n- Empty public libraries are reported as possibly private/unbound/empty, not as “no games”; ask for 2–3 games when needed.",
+    "0.5.6": "### 中文\n\n- 改回小黑盒原生表情 token：合法 `[cube_*]` 保留，`笑哭` 等别名自动修正为真实 code（如 `[cube_笑cry]`），无效 token 丢弃。\n- `heybox_emoji` 继续返回原生 token；不再把所有表情统一转成 Unicode。\n\n### English\n\n- Restored native Heybox emoji tokens: valid `[cube_*]` are preserved, aliases such as `笑哭` are repaired to real codes (e.g. `[cube_笑cry]`), invalid tokens are dropped.\n- `heybox_emoji` returns native tokens again; emoji are no longer converted wholesale to Unicode.",
+    "0.5.5": "### 中文\n\n- 修复评论/回复里裸露 `[cube_*]` 文本的问题：发送前把已知小黑盒表情转换成 Unicode 表情。\n- 帖子正文和模型直接写进文本的表情 token 也会被清理；`heybox_emoji` 现在同时显示 token 和 Unicode。\n\n### English\n\n- Fixed raw `[cube_*]` text in comments/replies by converting known Heybox emoji to Unicode before sending.\n- Post bodies and tokens written directly into text are sanitized too; `heybox_emoji` now shows both token and Unicode.",
+    "0.5.4": "### 中文\n\n- 修正语感采样口径：只统计评论，不再把帖子正文/描述计入评论语感，避免长文拉偏平均长度。\n\n### English\n\n- Fixed style sampling scope: only comments are counted; post bodies/descriptions no longer skew the comment-style averages.",
+    "0.5.3": "### 中文\n\n- 语感学习增加采样控制：每次最多采样 10 条评论，达到 20 条才算初步可信；样本不足时只做弱参考。\n- 自动刷帖多采评论但事件仍只带 3 条，避免上下文膨胀；新增独立「语感学习」配置组。\n\n### English\n\n- Added style sampling controls: up to 10 comments per observation, 20 samples for initial confidence; sparse samples are a weak hint only.\n- Auto-browse samples more comments while the event still carries only 3, avoiding context bloat; added a dedicated Style settings group.",
+    "0.5.2": "### 中文\n\n- 自动刷帖面板新增社区语感卡片：样本数、平均字数、短句/表情比例和常见社区词。\n\n### English\n\n- Added a community-style card to the Auto-browse panel with sample count, average length, short/emoji ratios and common terms.",
+    "0.5.1": "### 中文\n\n- 新增小黑盒社区语感学习：从实际读到的评论/正文聚合句长、短句比例、提问、表情和社区词，不保存原文或昵称。\n- 语感档案注入环境提示词，影响评论和发帖语气；新增 `heybox_style` 查看/清空。\n- 补充社区语言逻辑：评论短而具体，帖子不写 SEO/攻略模板，梗不硬凹，不复制他人原句。\n\n### English\n\n- Added aggregate community-style learning from comments/posts: sentence length, short replies, questions, emoji and community terms; raw text and names are not stored.\n- Injected the style profile into the environment prompt; added `heybox_style` to inspect/reset.\n- Added community-language rules: specific short comments, no SEO/template posts, no forced slang, no copying others’ wording.",
+    "0.5.0": "### 中文\n\n- 新增兴趣发帖灵感：自动刷帖命中高兴趣分时，给 Persona 一个“可以写点什么”的内部邀请，不代写、不强行发布。\n- 独立发帖频率：每日上限、冷却、最低兴趣分；发帖用 `seedLinkId` 记账，避免同一帖子反复触发。\n- 新增 `heybox_inspiration` 查看当前灵感；自动刷帖面板同步展示。\n\n### English\n\n- Added interest-driven post inspiration: high-interest auto-browse finds can invite the Persona to write, without generating or force-publishing text.\n- Separate post pacing: daily limit, cooldown and minimum interest score; `seedLinkId` records the source and prevents repeats.\n- Added `heybox_inspiration` and automation-panel status.",
+    "0.4.2": "### 中文\n\n- 修复发帖缺少分区：新增 `heybox_communities` 搜索社区/分区。\n- `heybox_create_post` 支持 `community` / `communityId`，自动写入 `topic_ids` 和对应 `link_tag`；未指定时使用综合分区 58144。\n\n### English\n\n- Fixed missing post section: added `heybox_communities` to search communities/sections.\n- `heybox_create_post` accepts `community` / `communityId`, writes `topic_ids` and the matching `link_tag`; defaults to 58144 when omitted.",
+    "0.4.1": "### 中文\n\n- 配置页拆成四组：浏览与夜间、主人偏好、自动刷帖、写操作与回复。\n- 数字项补充单位后缀，标题和说明更短更清楚。\n\n### English\n\n- Split settings into four groups: browsing/night, owner preferences, auto-browse, and writes/replies.\n- Added unit suffixes and clearer titles/descriptions.",
+    "0.4.0": "### 中文\n\n- 全部面板 UI 重做：渐变品牌区、状态徽章、二维码倒计时、玻璃卡片、流畅按钮和响应式布局。\n- 新增「自动刷帖」面板：状态、间隔、上次候选、兴趣词、立即刷一次。\n- 写操作面板保留四个独立免确认开关，并增加分区标题。\n\n### English\n\n- Redesigned all panels: gradient brand area, status badges, QR countdown, glass cards, smoother buttons and responsive layout.\n- Added an Auto-browse panel with status, interval, last candidates, interest terms and a run-now action.\n- Kept the four independent no-confirm switches with clearer section headings.",
+    "0.3.8": "### 中文\n\n- 同一帖子只自动/手动评论一次，同一评论只回复一次；记录在本地 `heybox-commented.json`。\n- 自动评论连续失败达到阈值后熔断，冷却期内不再自动评论；手动评论不受影响。\n- 已读去重、自动读正文/评论/图片、兴趣评分保持启用。\n\n### English\n\n- A post is commented only once and a comment is replied only once; tracked locally in `heybox-commented.json`.\n- Auto comments pause after the configured consecutive-failure limit; manual comments are unaffected.\n- Seen-post dedupe, post body/comment/image context and interest scoring remain enabled.",
+    "0.3.7": "### 中文\n\n- 移除好感度数值系统。她只需要对主人一直亲近，不需要一个会下降的关系条。\n- 环境提示词改为固定的亲近语气；状态页不再显示关系分。\n\n### English\n\n- Removed the numeric affinity system. She should always be close to the owner; no falling relationship bar is needed.\n- Replaced it with a fixed close tone in the environment prompt; status no longer shows a relationship score.",
+    "0.3.6": "### 中文\n\n- 新增好感度/关系分（0-100，本地 `heybox-affinity.json`），影响她的说话分寸与亲近程度。\n- 新增 `heybox_affinity` 查看/调整，支持记录原因；不会写入任何账号 ID 或昵称到包内。\n- 打包前做隐私扫描，确认包里没有主人的昵称、heybox_id、Cookie 或本机路径。\n\n### English\n\n- Added an affinity/relationship score (0-100, local `heybox-affinity.json`) that shapes tone and closeness.\n- Added `heybox_affinity` to view/adjust with optional reasons; no account IDs or nicknames are packaged.\n- Added a pre-pack privacy audit for personal names, heybox IDs, cookies and local paths.",
+    "0.3.5": "### 中文\n\n- 自动刷帖加入兴趣评分：结合主人游戏、最近游玩、类型、关键词和反馈排序候选。\n- 新增 `heybox_interest`，自动累积兴趣词，供后续筛选和学习。\n- 自动刷帖可通过 snapshot/internal 事件邀请 Persona 读帖并在感兴趣时评论；仍受免确认开关和额度约束。\n\n### English\n\n- Auto-browse now ranks candidates using owner games, recent play, genres, keywords and feedback.\n- Added `heybox_interest` to accumulate interest terms for later ranking and learning.\n- Auto-browse can invite the Persona to read/comment via an internal event; no-confirm switches and quotas still apply.",
+    "0.3.4": "### 中文\n\n- 新增独立自动刷帖：`autoBrowse.enabled`、间隔、每次条数、可选 snapshot 简报。\n- 自动刷帖只读信息流，不占夜间闲逛、不发夜间汇报、不公开写操作。\n- 新增 `heybox_autobrowse` 查看状态或立即执行。\n\n### English\n\n- Added separate auto-browse with interval, batch size and optional snapshot notification.\n- Auto-browse is read-only, does not use the nightly schedule/report and never writes publicly.\n- Added `heybox_autobrowse` for status or an immediate run.\n\nChinese and English notes are kept together. / 中英文说明并列。",
     "0.3.3": "### 中文\n\n- 包说明、README、CHANGELOG 改为中英双语，并补充图片/表情/视觉/登录/回复能力说明。\n- 新增 `README.en.md`，同步英文功能、安装、权限边界和已知限制。\n\n### English\n\n- Package description, README and CHANGELOG are now bilingual; added notes for images, emoji, vision, login and replies.\n- Added `README.en.md` with the English feature overview, install steps, safety gates and known limitations.",
     "0.3.2": "### 中文\n\n- 清理评论、评论摘要、回复和搜索标题中的 HTML 标签/实体。\n- 回归测试图片提取、媒体 blobs、表情、上传和写接口签名。\n\n### English\n\n- Cleaned HTML tags/entities from comments, digests, replies and search titles.\n- Regression-tested image extraction, media blobs, emoji, uploads and write signatures.",
     "0.3.1": "### 中文\n\n- 修复从 `link.text` 提取图片：支持编辑器 JSON 图片块、HTML `<img data-original>` 和直接 URL 数组。\n- `heybox_post` 现在显示从该结构提取的图片 URL；`heybox_media attach` 可用于真实图片帖。\n\n### English\n\n- Fixed image extraction from `link.text`: editor JSON image blocks, HTML `<img data-original>` and direct URL arrays are now supported.\n- `heybox_post` now shows image URLs from that structure; `heybox_media attach` works for real image posts.",

@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-frame-extract",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "describe": {
     "tools": [
       {
         "name": "frame_extract",
-        "description": "Extract timestamped frames from a video or animated image (GIF, APNG, WebP, MP4, WebM, MKV, MOV and other formats ffmpeg reads). The frames come back as images in chronological order; the text lists each frame time, and every image file name carries it too. Pick one sampling mode: frames = evenly spaced across the range (default), interval = one frame every N seconds, or times = explicit timestamps in seconds. start and end limit the range in seconds. Use it when motion, timing or what changes across a clip matters.",
+        "description": "Extract timestamped JPEG frames from a video or animated image. Time sampling supports evenly spaced frames (default), interval in seconds, or explicit times. mode=changes scans downscaled frames with local ffmpeg and returns the strongest visual changes, subject to threshold, scanFps and minGapSec. Change scores measure visual differences; they do not identify semantic events. Frames are returned chronologically. Use frame_search for text-to-frame semantic retrieval.",
         "parameters": {
           "type": "object",
           "properties": {
@@ -14,11 +14,19 @@
               "type": "string",
               "description": "Video or animated image: an absolute path, a path relative to the bot workspace, or a log:/mem: handle."
             },
+            "mode": {
+              "type": "string",
+              "enum": [
+                "time",
+                "changes"
+              ],
+              "description": "time (default) samples by time; changes selects visual changes without a model."
+            },
             "frames": {
               "type": "integer",
               "minimum": 1,
               "maximum": 48,
-              "description": "Evenly spaced frame count across the range; omit to use the configured default. Do not combine with interval or times."
+              "description": "Evenly spaced frame count, or maximum results in changes mode. Omit for the configured default. Do not combine with interval or times."
             },
             "interval": {
               "type": "number",
@@ -32,12 +40,29 @@
             "start": {
               "type": "number",
               "minimum": 0,
-              "description": "Range start in seconds; only for frames or interval. Default 0."
+              "description": "Range start in seconds, including changes mode. Cannot combine with times. Default 0."
             },
             "end": {
               "type": "number",
               "minimum": 0,
-              "description": "Range end in seconds; only for frames or interval. Default the clip duration."
+              "description": "Range end in seconds, including changes mode. Cannot combine with times. Default the clip duration."
+            },
+            "threshold": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 100,
+              "description": "Changes mode only: ffmpeg scdet threshold in percent, default 8. Lower values include smaller changes."
+            },
+            "scanFps": {
+              "type": "number",
+              "minimum": 0.1,
+              "maximum": 30,
+              "description": "Changes mode only: analysis frames per second, default 2. Brief events between samples may be missed."
+            },
+            "minGapSec": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Changes mode only: minimum seconds between selected changes, default 1."
             },
             "maxSize": {
               "type": "integer",
@@ -60,8 +85,8 @@
           "read"
         ],
         "summary": {
-          "zh": "把视频或动图按时间拆成帧，作为图片交给模型：可以均匀取样、按间隔取样或指定时间点；每帧的时间写在回执、文件名和附件说明里。",
-          "en": "Split a video or animated image into timestamped frames and return them as images: evenly spaced, every N seconds, or at explicit times; each frame time appears in the text, its file name and its attachment line."
+          "zh": "按时间或画面变化抽取视频帧，返回带时间戳的 JPEG。变化检测支持阈值、扫描帧率和最小时间间隔。",
+          "en": "Extract timestamped JPEGs by time or visual change, with a change threshold, scan frame rate and minimum spacing."
         }
       },
       {
@@ -120,6 +145,98 @@
           "zh": "查看或修改默认取帧设置（帧数、单次上限、长边、JPEG 质量、超时）；改动写入配置。引擎路径只在配置页改。",
           "en": "Read or change the default extraction settings (frame count, cap, long edge, JPEG quality, timeout); set saves them to the config. Engine paths are operator-only."
         }
+      },
+      {
+        "name": "frame_search",
+        "description": "Search a local video or animated image with a text query. Supports multilingual queries, including Chinese. Builds a persistent sampled-frame embedding index on first use and reuses it for later queries. First use may download required resources; media and queries are processed locally. Returns highest cosine-similarity frames in rank order with timestamps and JPEG attachments. Scores are not probabilities and a high rank does not prove an event occurred. Short events between samples can be missed; inspect nearby times with frame_extract. The receipt reports coverage and indexId; frame_index lists or deletes cached indexes.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "description": "Local video/image path or log:/mem: handle, as in frame_extract."
+            },
+            "query": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Visual content to retrieve; supports Chinese and other languages, e.g. 红色汽车 or a person entering a room."
+            },
+            "frames": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 48,
+              "description": "Maximum search results, default 4; also limited by maxFrames."
+            },
+            "intervalSec": {
+              "type": "number",
+              "minimum": 0.1,
+              "maximum": 3600,
+              "description": "Target index sampling interval in seconds. Defaults to semanticIntervalSec; the index cap may reduce density across the full range."
+            },
+            "start": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Indexed range start in seconds, default 0."
+            },
+            "end": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Indexed range end in seconds, default the clip duration."
+            },
+            "minGapSec": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Minimum seconds between returned matches, default 1."
+            },
+            "minScore": {
+              "type": "number",
+              "minimum": -1,
+              "maximum": 1,
+              "description": "Optional cosine similarity floor. No universal threshold guarantees a match."
+            }
+          },
+          "required": [
+            "source",
+            "query"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "按文字检索视频帧，支持中文等多语言；首次建立索引，后续查询复用，返回时间戳、相似度和图片。",
+          "en": "Search video frames with text in Chinese and other languages. Reuse cached indexes and return ranked timestamps, similarities and JPEGs."
+        }
+      },
+      {
+        "name": "frame_index",
+        "description": "List or delete persistent semantic video indexes. list reports indexId, source, frame count and creation time. delete removes one index and its sampled JPEGs; downloaded search resources are retained. Indexes are built automatically by frame_search.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "delete"
+              ]
+            },
+            "indexId": {
+              "type": "string",
+              "description": "Required for delete. Copy the full indexId from frame_search or frame_index list."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "列出或删除语义检索索引及其采样帧；保留已下载的检索资源。",
+          "en": "List or delete semantic indexes and their sampled frames; retain downloaded search resources."
+        }
       }
     ],
     "events": [],
@@ -133,6 +250,7 @@
     ]
   },
   "changelog": {
+    "0.2.0": "- 新增 `semanticPreset` 配置，提供默认的 `CLIP-CPU` 和 `Gemma2-GPU`。首次使用时加载并复用模型；推理请求排队，切换预设或停用 World 时释放原进程。不同模型分别缓存索引。\n- Add default `CLIP-CPU` and optional `Gemma2-GPU` search presets with resident models, queued inference and model-specific indexes. Switching presets or stopping the World releases the previous worker.\n\n- 进度消息由调用方明确订阅，避免运行中的工具把更新后的子进程进度误作结果；校验查询和全部采样帧的向量后才保存索引。\n- Require explicit progress subscription for worker compatibility and validate query and frame vectors before saving an index.\n\n- 检索状态与日志显示资源准备、下载、采样和画面分析进度；下载连接或传输停滞时返回失败。\n- Show resource preparation, downloads, sampling and frame analysis in search status and logs; fail stalled download connections and transfers.\n\n- 新增「工具」页：查看与编辑四个工具及参数说明，支持筛选、保存、单字段或全部恢复默认，以及未保存修改提示。覆盖按 bot 包和部署分层，保存时检查版本；不改变参数约束和执行行为。\n- Add a Tools page for filtering and editing tool/schema text, restoring inherited defaults and protecting unsaved or concurrent edits. Overrides are scoped to the bot package and deployment; execution contracts remain unchanged.\n\n- `frame_extract` 新增 `mode: \"changes\"`：本地 ffmpeg 扫描画面变化，支持阈值、扫描帧率、时间范围和最小时间间隔；回执显示时间戳与变化分数。\n- `frame_search` 按文字检索视频帧，支持中文等多语言；按视频内容与采样设置缓存索引，后续查询复用图像向量。\n- `frame_index` 列出或删除索引和采样帧。检索资源首次使用时自动下载到扩展数据目录，可关闭下载以离线运行；检索支持取消与超时。\n- `frame_extract` adds local ffmpeg change detection with thresholds, scan rate, time ranges, spacing and change scores.\n- `frame_search` adds local multilingual text-to-frame retrieval with reusable image embeddings; `frame_index` lists and deletes indexes. Required resources download automatically on first use. Downloads are configurable, and searches support cancellation and deadlines.",
     "0.1.0": "- 首个版本：`frame_extract` 工具，接受本地视频 / 动图路径或 `log:` / `mem:` 句柄，用本机 ffmpeg 拆成 JPEG 帧，作为图片附件交回模型。\n- 三种取样方式：均匀取 `frames` 帧（默认）、每 `interval` 秒一帧、按 `times` 指定时间点；`start` / `end` 限定范围。\n- 每帧的时间写进回执、图片文件名与附件说明；`maxSize` 限制长边，`quality` 控制 JPEG 质量。\n- 新增 `frame_config` 工具：桌宠可以查看或修改默认帧数、单次上限、长边、质量与超时，改动写入配置；ffmpeg / ffprobe 路径只在配置页改，桌宠不能把引擎指向任意程序。\n- 没有 npm 运行时依赖；本机需要 `ffmpeg` 与 `ffprobe`。取帧可被 interrupt 取消，句柄临时文件与帧目录在调用结束后删除。"
   }
 }
