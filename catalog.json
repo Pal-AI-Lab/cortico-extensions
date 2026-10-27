@@ -116,6 +116,9 @@
     "cortico-world-warthunder": [
       "injection-risk"
     ],
+    "cortico-world-watch-window": [
+      "sensitive-data"
+    ],
     "cortico-world-wechat": [
       "sensitive-data"
     ],
@@ -11925,6 +11928,86 @@
         "up": 0,
         "down": 0,
         "comments": 3
+      }
+    },
+    "cortico-world-watch-window": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "Watch Window",
+      "description": "Cortico World: watch one window on the desktop as a video stream. Frames from the window arrive in the main conversation as a timed grid, and the window's edge flashes white when it is picked.",
+      "locales": {
+        "zh": {
+          "displayName": "盯盯窗口",
+          "description": "把桌面上的一个窗口当成视频流给 Coo 看：窗口画面按时间拼成分镜图，定时送进主会话，由 Coo 自己决定说不说。选中窗口时窗口边缘闪一圈白光。用户在 World 页签里点选窗口,Coo 也能自己挑。支持 Windows 与 macOS。"
+        },
+        "en": {
+          "displayName": "Watch Window",
+          "description": "Lets Coo watch one desktop window as a video stream: frames from the window are laid out as a timed grid and delivered to the main conversation, and Coo decides whether to say anything. The window's edge flashes white when it is picked. Pick the window from the World tab, or let Coo pick one. Windows and macOS."
+        }
+      },
+      "author": "Phantivia",
+      "maintainers": [
+        "phantivia"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "screen",
+        "window",
+        "game"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-watch-window"
+      },
+      "os": [
+        "win32",
+        "darwin"
+      ],
+      "created": "2026-10-27T23:34:29.828Z",
+      "published": "2026-10-27T23:36:58.923Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "game",
+        "video",
+        "high-cost",
+        "sensitive-data",
+        "experimental"
+      ],
+      "tags": [
+        "game",
+        "video",
+        "experimental",
+        "high-cost",
+        "sensitive-data"
+      ],
+      "icon": "assets/cortico-world-watch-window/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 2,
+        "toolTokens": 347,
+        "envPromptTokens": 192
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-watch-window@0.1.1/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 395,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/395",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-weather-alont1": {
