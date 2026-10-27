@@ -4,6 +4,10 @@
     "better-cortico-world-netease-companion": [
       "sensitive-data"
     ],
+    "coopani-world-music": [
+      "injection-risk",
+      "sensitive-data"
+    ],
     "cortico-bot-weighted-memory": [
       "sensitive-data"
     ],
@@ -391,6 +395,86 @@
         "up": 2,
         "down": 1,
         "comments": 6
+      }
+    },
+    "coopani-world-music": {
+      "kind": "world",
+      "version": "0.3.2",
+      "displayName": "一起听歌",
+      "description": "陪着你听歌：读 Windows 的媒体会话，知道 QQ音乐 / 网易云音乐在放什么——换歌必说一句，一首歌里分几段接话，能看到当前这一段的歌词、就着词说两句，表情和动作跟着曲风与段落变，为听歌另做了律动、打拍子、闭眼听、蹦迪四个小动作（宿主没有时会自动降级）；记得住你听过什么，能替你按暂停、切下一首，也能自己去曲库里搜一首想听的挑给你。",
+      "locales": {
+        "en": {
+          "displayName": "Listen With Me",
+          "description": "Listens along with you: reads Windows media sessions to know what QQ Music or NetEase Cloud Music is playing, says a line on every track change, talks along each passage, reads the lyrics of the passage being sung and reacts to the words, matches her face and motion to the music — including four moves built for listening (groove, tap along, eyes closed, full bounce), falling back to stock moves when the host lacks them — remembers what you played, can pause or skip for you, and can go search the catalogue and pick a track she wants you to hear."
+        }
+      },
+      "author": "Mr.Q",
+      "maintainers": [
+        "fatessd"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "music",
+        "qqmusic",
+        "netease",
+        "search",
+        "lyrics"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/coopani-world-music"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-10-27T13:51:58.308Z",
+      "published": "2026-10-27T14:08:53.120Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "apps",
+        "companion",
+        "sensitive-data",
+        "high-cost",
+        "injection-risk"
+      ],
+      "tags": [
+        "apps",
+        "companion",
+        "high-cost",
+        "sensitive-data",
+        "injection-risk"
+      ],
+      "icon": "assets/coopani-world-music/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 8,
+        "events": 7,
+        "toolTokens": 1525,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.3.2",
+          "0.3.1",
+          "0.3.0",
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/coopani-world-music@0.3.2/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 384,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/384",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-bot-continuity": {
@@ -1760,7 +1844,7 @@
     },
     "cortico-world-astrbot": {
       "kind": "world",
-      "version": "1.2.5",
+      "version": "1.2.6",
       "displayName": "AstrBot · QQ",
       "description": "Cortico World: join QQ conversations through an AstrBot bridge, so the bot keeps AstrBot's plugins while a Cortico persona drives the talking",
       "author": "as124da1231",
@@ -1782,8 +1866,8 @@
         "bugs": "https://github.com/as124da1231/cortico-world-astrbot/issues"
       },
       "created": "2026-10-26T13:38:37.862Z",
-      "published": "2026-10-27T10:44:05.669Z",
-      "versionCount": 13,
+      "published": "2026-10-27T14:05:40.583Z",
+      "versionCount": 14,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1806,11 +1890,13 @@
       "summary": {
         "tools": 4,
         "events": 4,
-        "toolTokens": 973,
-        "envPromptTokens": 614
+        "toolTokens": 1101,
+        "envPromptTokens": 1034
       },
       "changelog": {
         "versions": [
+          "1.3.0",
+          "1.2.6",
           "1.2.5",
           "1.1.5",
           "1.1.4",
@@ -4712,7 +4798,7 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 49,
+        "up": 50,
         "down": 5,
         "comments": 34
       }
@@ -6277,6 +6363,73 @@
       "discussion": {
         "number": 26,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/26",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-live-comments": {
+      "kind": "world",
+      "version": "1.0.0",
+      "displayName": "直播互动助手",
+      "description": "直播互动助手：读直播软件互动栏的弹幕、礼物、关注和进场，交给当前 Coo 人格回复，自带 Edge 语音朗读与可删改的弹幕记忆。",
+      "locales": {
+        "zh": {
+          "displayName": "直播互动助手",
+          "description": "读直播软件的弹幕、礼物与关注，用当前 Coo 人格回复并朗读，附带可删改的弹幕记忆。"
+        },
+        "en": {
+          "displayName": "Live Comments",
+          "description": "Reads the comment panel of your streaming app, replies with the current Coo persona, speaks the reply with its own Edge TTS engine, and keeps an editable comment memory."
+        }
+      },
+      "author": "yangcy123456",
+      "maintainers": [
+        "yangcy123456"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "live",
+        "streaming",
+        "danmaku",
+        "bilibili",
+        "tts",
+        "ocr"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-live-comments",
+        "repository": "https://github.com/yangcy123456/cortico-world-live-comments",
+        "homepage": "https://github.com/yangcy123456/cortico-world-live-comments#readme",
+        "bugs": "https://github.com/yangcy123456/cortico-world-live-comments/issues"
+      },
+      "created": "2026-10-27T13:54:38.075Z",
+      "published": "2026-10-27T13:55:34.846Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "streaming"
+      ],
+      "tags": [
+        "streaming"
+      ],
+      "icon": "assets/cortico-world-live-comments/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 1,
+        "toolTokens": 358,
+        "envPromptTokens": 384
+      },
+      "discussion": {
+        "number": 385,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/385",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -11409,7 +11562,7 @@
     },
     "cortico-world-warthunder": {
       "kind": "world",
-      "version": "0.2.9",
+      "version": "0.2.10",
       "displayName": "war thunder安东星助手",
       "description": "在对话中提供战争雷霆的本地百科、战局播报与对局翻译。知识库覆盖概念、载具与玩法，可检索、可更新；读取本机 8111 遥测讲解战局、为击毁喝彩、为逆风打气，并可翻译对局聊天、代写要发的话；遥测不可用时可用截图 OCR 兜底；文案可按设定人格改写，模型与花费可配置。",
       "locales": {
@@ -11446,8 +11599,8 @@
         "bugs": "https://github.com/suhong11300/cortico-world-warthunder/issues"
       },
       "created": "2026-10-26T12:03:41.166Z",
-      "published": "2026-10-27T13:55:42.336Z",
-      "versionCount": 12,
+      "published": "2026-10-27T14:15:17.130Z",
+      "versionCount": 13,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11490,6 +11643,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.10",
           "0.2.9",
           "0.2.8",
           "0.2.6",
