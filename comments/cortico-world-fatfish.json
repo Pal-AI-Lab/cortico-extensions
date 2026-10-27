@@ -2,14 +2,30 @@
   "schema": 1,
   "name": "cortico-world-fatfish",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-  "total": 32,
+  "total": 34,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJS8e",
+      "author": "blacksunshy",
+      "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
+      "body": "@AlbertJason 收到，这两条我先说明一下：\n\n**问题 1（DSH 切换旧会话后桌宠刷新拿不到）—— 已修好，发了 coopanion-connector-dsh **0.2.5**（刚刚，https://github.com/blacksunshy/coopanion-connector-dsh/releases/tag/v0.2.5）。\n\n根因在 AgentRegistry 的 ownerId 只有两种改法：① agent/created（新建会话）② 桌宠显式 pick。你在 DSH 里切 tab 到一个**已经存在的旧会话**并说话，DSH 会发 session/event，但插件里 `if (ownerSession !== id) return;` 那行把非 owner 的事件全跳过了——所以 owner 永远停在\"最近创建的那个会话\"上。我本地之所以一直没问题，是因为测试时都是新建会话（触发 agent/created 自然切）或手动 pick 过固定会话，从来没试过\"切 tab 到旧会话不新建、说一句就刷新桌宠状态\"这种路径。\n\n修复：在 session/event 里，活跃事件（user/message、assistant/message、turn/start、turn/end、tool/call、approval/asked）来自一个 live 的非子代理会话时，forceOwner 把 ownerId 切过去；已 pinned（桌宠显式固定了一个会话）则不动。切过去后立刻补一个 ready 帧给桌宠，status 和转发目标都对齐。协议版本还是 1，fatfish 不需要升级。\n\n**问题 2（DSH 任意会话完成任务时桌宠提醒）—— 其实 Co 已经会做。** connector 一直在发 turn-end、tool/call、approval/asked、reply 这些帧（session/event 里的 noticeOf + assistant/message + tool/call），fatfish 也在转发，Coopanion 本体收到后会自动触发桌宠说话/提醒。你直接和 Co 说一句\"帮我在 DSH 完成任务时发个通知提醒我\"就行——Co 有规则记忆，会自己做的。我之前没单独加一个\"跨会话\"的 DSH→Co 转发开关就是这个原因，有任何问题告诉我。\n\n更新方式：DSH 插件市场里来源重新装一下 main（或走自更新 GET /coopanion/check-update + POST /coopanion/update），重启 DSH 生效。\n",
+      "createdAt": "2026-10-27T09:42:20Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJSwb",
       "author": "AlbertJason",
       "avatar": "https://avatars.githubusercontent.com/u/28864818?s=64&u=262f31d4ccad34884c6d58a91dd0c80699dd1f56&v=4",
       "body": "作者你好，更新了0.6.5之后，当前连接的会话只能通过dsh新建会话刷新，我在dsh切换到旧会话时，鱼这边刷新会话无法获取到旧会话。还有，能不能实现一下当dsh任意会话完成任务时，通过桌宠提醒",
-      "createdAt": "2026-10-27T08:55:18Z"
+      "createdAt": "2026-10-27T08:55:18Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJS9N",
+          "author": "blacksunshy",
+          "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
+          "body": "感谢给出的宝贵意见，已修复需要更新一下dsh那边的插件到0.2.5",
+          "createdAt": "2026-10-27T09:45:39Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BJNnZ",
