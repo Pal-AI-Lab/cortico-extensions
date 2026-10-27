@@ -296,14 +296,14 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
         "up": 9,
         "down": 0,
-        "comments": 27
+        "comments": 28
       }
     },
     "better-cortico-world-netease-companion": {
       "kind": "world",
-      "version": "1.10.0",
+      "version": "1.11.0",
       "displayName": "听搭子",
-      "description": "读取网易云与 QQ 音乐曲目，需在音乐软件中开启 SMTC（系统媒体传输控件）；切歌后让桌宠参考评论区、歌曲百科、歌手资料与官方歌词主动陪听，并记录听歌记忆和听歌排名。",
+      "description": "读取网易云与 QQ 音乐曲目，需在音乐软件中开启 SMTC（系统媒体传输控件）；切歌后让桌宠参考评论区、歌曲百科、歌手资料与歌词主动陪听，并记录听歌记忆和听歌排名。",
       "author": "wocwang",
       "maintainers": [
         "wocwang"
@@ -325,8 +325,8 @@
         "win32"
       ],
       "created": "2026-10-23T17:18:51.610Z",
-      "published": "2026-10-26T14:25:32.978Z",
-      "versionCount": 14,
+      "published": "2026-10-27T15:03:37.447Z",
+      "versionCount": 15,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -354,11 +354,12 @@
       "summary": {
         "tools": 8,
         "events": 2,
-        "toolTokens": 1228,
-        "envPromptTokens": 2965
+        "toolTokens": 1252,
+        "envPromptTokens": 3242
       },
       "changelog": {
         "versions": [
+          "1.11.0",
           "1.10.0",
           "1.9.1",
           "1.9.0",
@@ -4506,9 +4507,9 @@
     },
     "cortico-world-emote-pics": {
       "kind": "world",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "displayName": "对话表情包",
-      "description": "让桌宠发文字消息时也能带图。你只需按情绪建立文件夹（如「开心」「眨眼」），在面板里为 19 种表情各自绑定文件夹。当桌宠表达对应情绪时，会根据你设定的概率和冷却时间，从对应情绪文件夹内随机挑一张图跟着文字发出。纯本地读取（支持常见图片格式，单张≤5MiB），发出的图片在对话页和桌面窗口均可显示，桌面弹出的图片可以跟随桌宠位置，但仅限Windows平台。（建议和大肥鱼表情包配合食用）",
+      "description": "让桌宠发文字消息时也能带图。你只需按情绪建立文件夹（如「开心」「眨眼」），在面板里为 19 种表情各自绑定文件夹。当桌宠表达对应情绪时，会根据你设定的概率和冷却时间，从对应情绪文件夹内随机挑一张图跟着文字发出。纯本地读取（支持常见图片格式，单张≤5MiB），发出的图片在对话页和桌面窗口均可显示。（建议和大肥鱼表情包配合食用）",
       "maintainers": [
         "black-fencer"
       ],
@@ -4524,8 +4525,8 @@
         "win32"
       ],
       "created": "2026-10-23T09:09:50.168Z",
-      "published": "2026-10-27T09:02:52.168Z",
-      "versionCount": 6,
+      "published": "2026-10-27T14:58:22.601Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4548,6 +4549,7 @@
       },
       "changelog": {
         "versions": [
+          "0.4.1",
           "0.4.0",
           "0.3.1",
           "0.3.0",
@@ -4559,7 +4561,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-emote-pics@0.4.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-emote-pics@0.4.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 209,
@@ -4800,7 +4802,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
         "up": 50,
         "down": 5,
-        "comments": 34
+        "comments": 35
       }
     },
     "cortico-world-feeding": {

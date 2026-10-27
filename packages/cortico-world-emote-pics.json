@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-emote-pics",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "describe": {
     "tools": [
       {
@@ -132,6 +132,7 @@
     ]
   },
   "changelog": {
+    "0.4.1": "- 面板关掉「跟随桌宠」或「弹图」时释放常驻截屏通道,不再留下一个用不到的 `powershell.exe`;\n  开关开回来时下一次截屏会自动重建通道。\n- `PetScreenPositionSource.dispose()` 同时清掉 2.5 秒结果缓存,并让关闭前还在跑的旧 capture\n  结果失效;避免刚开回来时复用旧位置或旧失败。\n- 测试覆盖关掉跟随/弹图后重建,以及 dispose 后重新截屏;共 69 个测试。\n- 跟随截屏改为一个常驻 `powershell.exe`:DPI P/Invoke 和 `Add-Type` 只在进程启动时准备一次,\n  之后每次截屏只走 `CopyFromScreen`;不再每张图启动新进程/重新编译 C#。\n- `PetScreenPositionSource` 加单飞:并发弹图复用同一个 capture;成功和失败都缓存 2.5 秒,\n  失败不再立即重试。\n- `PetPositionResolver` 先读 config 的 mtime+size 缓存;config 在一分钟内写过才直接信它,\n  更旧就先截屏校正,避免重新跟一个过期位置。screen 失败才走 config/固定位置。\n- 常驻通道在 World 停止、关掉弹图或跟随时 `taskkill /T /F`;超时会杀掉并只在下一次重开一个。\n- 当前 Core 是 `ELECTRON_RUN_AS_NODE` 模式,`require('electron')` 不可用,所以没有走\n  `desktopCapturer`;这是实测结果。",
     "0.4.0": "- 包限定 Windows(`os: [\"win32\"]`):跟随截屏依赖 PowerShell/System.Drawing。\n- 跟随位置改为截屏识别:截主屏工作区底部,PowerShell 按物理像素截取(PerMonitorV2 + GetDpiForSystem),\n  Node 解码 BMP;块坐标按 dpr 转回 CSS。截图失败按 3 秒内上次成功值 → `config.petX` → 固定位置退回。\n- 横向以 `petX` 为主锚(`PETX` 先转数字),块中心只在偏差超过 80px 时兜底;半宽 48。\n- 纵向固定地面线 `min(innerHeight, availBottom) - OFFSETY`,`slot` 恒 0,不受窗口存活/块高影响。\n- 块必须落在条带底部 70% 内;no-block 不误用旧位置。\n- 日常默认:跟随开、间距 20、底部偏移 20、缩放 0.25、圆角 20、停留 3 秒。\n- 旧内置默认值迁移:offsetY 8→20、scale 1→0.25、radius 16→20、followPet false→true;\n  gap 20 / duration 3 不变,自定义值保留。\n- 删除调试导出和面板日志入口,保留运行日志。",
     "0.3.1": "- 桌面弹图新增“跟随桌宠上次停下的位置”:读取部署 `config.json` 的\n  `worlds.desktop-pet.petX`,每次弹图读一次,不轮询、不起子进程、不改 Coopanion 安装目录。\n- 新增 `popupFollowPet`(默认 false)、`popupFollowSide`(auto/left/right)、`popupFollowGap` 20px、\n  `popupFollowOffsetY` 8px;开启跟随后固定坐标不生效,读不到位置时退回固定位置并在面板报错。\n- 面板写明限制:跟随的是上次停下的位置,走动时会滞后,只在同一块屏幕有效,图可能被桌宠挡住。\n- `popupFollowPet` 关着时 `popupHtml` 输出与上一版逐字节一致。",
     "0.3.0": "- 桌面弹图收口:每张图一个本地 http 页面 + 一个 `--pet-host` 窗口,独立「桌面弹图」页、运行状态、\n  文件日志与 `emote_popup_test` 测试工具。\n- 弹图圆角:`worlds.emote-pics.popup.radius`(px,0–64,默认 16)。圆角同时落在容器和\n  `<img>` 上,容器 `overflow:hidden`;半径按长边 12%、短边 25% 封顶,小图不会变圆球。\n- 「桌面弹图」页加「圆角(px)」输入,改完立即生效,不用重启。\n- 对话页 `pet_say.images` 的缩略图仍由宿主 `.chat-thumb` 固定 `border-radius:10px` 渲染;\n  扩展没有样式元数据入口,这一项要改宿主,不在本包改。",
