@@ -1066,7 +1066,7 @@
       "discussion": {
         "number": 319,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/319",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -1674,7 +1674,7 @@
     },
     "cortico-world-astrbot": {
       "kind": "world",
-      "version": "1.1.3",
+      "version": "1.1.5",
       "displayName": "AstrBot · QQ",
       "description": "Cortico World: join QQ conversations through an AstrBot bridge, so the bot keeps AstrBot's plugins while a Cortico persona drives the talking",
       "author": "as124da1231",
@@ -1696,8 +1696,8 @@
         "bugs": "https://github.com/as124da1231/cortico-world-astrbot/issues"
       },
       "created": "2026-10-26T13:38:37.862Z",
-      "published": "2026-10-27T06:37:51.362Z",
-      "versionCount": 10,
+      "published": "2026-10-27T08:12:10.706Z",
+      "versionCount": 12,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1725,6 +1725,8 @@
       },
       "changelog": {
         "versions": [
+          "1.1.5",
+          "1.1.4",
           "1.1.3",
           "1.1.2",
           "1.1.1",
@@ -3852,17 +3854,17 @@
     },
     "cortico-world-dream": {
       "kind": "world",
-      "version": "0.12.1",
+      "version": "0.12.3",
       "displayName": "Dream",
       "description": "Let your little whale embark on a dream journey. When she wakes, she can share the wonders of her dreams with you, including through QQ.\n\nKeywords: sleep scheduling, public news sources, and searchable fictional dream archives.\n\nDream journeys can use the",
       "locales": {
         "zh": {
           "displayName": "梦境",
-          "description": "让你的大肥鱼完成一次梦境之旅，在梦醒之后她会向你分享奇妙的梦境见闻，还可以通过QQ向你进行汇报。\n\n关键词：睡眠调度、公开新闻素材与可查询的虚构梦境档案\n\n梦境之旅可通过默认浏览器完成，也可选配ego浏览器、tavily，体验更加。\n\n关于QQ梦话，当前仅测试过Cortico官方QQ插件，若有其他需要，欢迎反馈。"
+          "description": "让你的大肥鱼完成一次梦境之旅，在梦醒之后她会向你分享奇妙的梦境见闻，还可以通过QQ向你进行汇报。\n\n关键词：睡眠调度、公开新闻素材与可查询的虚构梦境档案\n\n梦境之旅可通过默认浏览器完成，也可选配ego浏览器、tavily，体验更加。\n\n关于 QQ 梦话，现已适配 Cortico 官方 QQ 基础版、QQ Final 和 QQ ProMAX。若有其他需要，欢迎反馈。"
         },
         "en": {
           "displayName": "Dream",
-          "description": "Let your little whale embark on a dream journey. When she wakes, she can share the wonders of her dreams with you, including through QQ.\n\nKeywords: sleep scheduling, public news sources, and searchable fictional dream archives.\n\nDream journeys can use the default browser, with optional support for ego browser and Tavily for more collection options.\n\nQQ dream sharing has currently been tested only with the official Cortico QQ plugin. Feedback and requests for other integrations are welcome."
+          "description": "Let your little whale embark on a dream journey. When she wakes, she can share the wonders of her dreams with you, including through QQ.\n\nKeywords: sleep scheduling, public news sources, and searchable fictional dream archives.\n\nDream journeys can use the default browser, with optional support for ego browser and Tavily for more collection options.\n\nQQ dream sharing supports the official Cortico QQ plugin, QQ Final and QQ ProMAX. Feedback and requests for other integrations are welcome."
         }
       },
       "author": "Moya-Doc",
@@ -3881,8 +3883,8 @@
         "bugs": "https://github.com/Moya-Doc/cortico-world-dream/issues"
       },
       "created": "2026-10-25T07:17:16.838Z",
-      "published": "2026-10-27T02:09:21.828Z",
-      "versionCount": 4,
+      "published": "2026-10-27T08:46:05.033Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3914,12 +3916,14 @@
       },
       "summary": {
         "tools": 23,
-        "events": 8,
-        "toolTokens": 6573,
-        "envPromptTokens": 2799
+        "events": 10,
+        "toolTokens": 6738,
+        "envPromptTokens": 3108
       },
       "changelog": {
         "versions": [
+          "0.12.3",
+          "0.12.2",
           "0.12.1",
           "0.12.0",
           "0.11.1",
@@ -4170,9 +4174,9 @@
     },
     "cortico-world-emote-pics": {
       "kind": "world",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "displayName": "对话表情包",
-      "description": "让桌宠发文字消息时也能带图。你只需按情绪建立文件夹（如「开心」「眨眼」），在面板里为 19 种表情各自绑定文件夹。当桌宠表达对应情绪时，会根据你设定的概率和冷却时间，从对应情绪文件夹内随机挑一张图跟着文字发出。纯本地读取（支持常见图片格式，单张≤5MiB），发出的图片在对话页和桌面窗口均可显示。（建议和大肥鱼表情包配合食用）",
+      "description": "让桌宠发文字消息时也能带图。你只需按情绪建立文件夹（如「开心」「眨眼」），在面板里为 19 种表情各自绑定文件夹。当桌宠表达对应情绪时，会根据你设定的概率和冷却时间，从对应情绪文件夹内随机挑一张图跟着文字发出。纯本地读取（支持常见图片格式，单张≤5MiB），发出的图片在对话页和桌面窗口均可显示，桌面弹出的图片可以跟随桌宠位置，但仅限Windows平台。（建议和大肥鱼表情包配合食用）",
       "maintainers": [
         "black-fencer"
       ],
@@ -4184,9 +4188,12 @@
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-emote-pics"
       },
+      "os": [
+        "win32"
+      ],
       "created": "2026-10-23T09:09:50.168Z",
-      "published": "2026-10-24T23:03:22.278Z",
-      "versionCount": 5,
+      "published": "2026-10-27T09:02:52.168Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4209,6 +4216,8 @@
       },
       "changelog": {
         "versions": [
+          "0.4.0",
+          "0.3.1",
           "0.3.0",
           "0.2.4",
           "0.2.3",
@@ -4218,7 +4227,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-emote-pics@0.3.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-emote-pics@0.4.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 209,
@@ -4457,9 +4466,9 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 46,
+        "up": 47,
         "down": 5,
-        "comments": 31
+        "comments": 32
       }
     },
     "cortico-world-figure-persona": {
@@ -6078,7 +6087,7 @@
       "discussion": {
         "number": 28,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/28",
-        "up": 2,
+        "up": 3,
         "down": 0,
         "comments": 0
       }
@@ -9046,6 +9055,76 @@
         "comments": 0
       }
     },
+    "cortico-world-slim": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "上下文瘦身",
+      "description": "给大肥鱼用的上下文瘦身包：把工作区里越堆越厚的交接笔记折成一份摘要，旧笔记移到工作区外的归档目录，每轮自动维护——少读原文，少花 token。Fold ever-growing handoff notes into one digest and archive the old ones outside the workspace.",
+      "locales": {
+        "zh": {
+          "displayName": "上下文瘦身",
+          "description": "把工作区里越堆越厚的交接笔记折成一份摘要，旧笔记移出工作区归档；每轮对话后自动检查，读摘要就能接上之前的事，不必把旧笔记原文再读一遍。"
+        },
+        "en": {
+          "displayName": "Slim Context",
+          "description": "Folds the ever-growing handoff notes in the workspace into one digest, archives the old ones outside the workspace, and keeps it current after every turn — so catching up costs a short read instead of the whole pile."
+        }
+      },
+      "author": "LFY-sys",
+      "maintainers": [
+        "lfy-sys"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "context",
+        "memory",
+        "tokens",
+        "handoff",
+        "digest",
+        "desktop-pet",
+        "coopanion"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-slim",
+        "repository": "https://github.com/LFY-sys/cortico-world-slim",
+        "homepage": "https://github.com/LFY-sys/cortico-world-slim#readme",
+        "bugs": "https://github.com/LFY-sys/cortico-world-slim/issues"
+      },
+      "created": "2026-10-27T09:13:22.419Z",
+      "published": "2026-10-27T09:14:19.578Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [
+        "memory"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 0,
+        "toolTokens": 259,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/LFY-sys/cortico-world-slim/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 359,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/359",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-snowluma": {
       "kind": "world",
       "version": "0.1.0",
@@ -9264,7 +9343,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/204",
         "up": 0,
         "down": 0,
-        "comments": 4
+        "comments": 6
       }
     },
     "cortico-world-soft-voice": {

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-emote-pics",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "describe": {
     "tools": [
       {
@@ -132,6 +132,8 @@
     ]
   },
   "changelog": {
+    "0.4.0": "- 包限定 Windows(`os: [\"win32\"]`):跟随截屏依赖 PowerShell/System.Drawing。\n- 跟随位置改为截屏识别:截主屏工作区底部,PowerShell 按物理像素截取(PerMonitorV2 + GetDpiForSystem),\n  Node 解码 BMP;块坐标按 dpr 转回 CSS。截图失败按 3 秒内上次成功值 → `config.petX` → 固定位置退回。\n- 横向以 `petX` 为主锚(`PETX` 先转数字),块中心只在偏差超过 80px 时兜底;半宽 48。\n- 纵向固定地面线 `min(innerHeight, availBottom) - OFFSETY`,`slot` 恒 0,不受窗口存活/块高影响。\n- 块必须落在条带底部 70% 内;no-block 不误用旧位置。\n- 日常默认:跟随开、间距 20、底部偏移 20、缩放 0.25、圆角 20、停留 3 秒。\n- 旧内置默认值迁移:offsetY 8→20、scale 1→0.25、radius 16→20、followPet false→true;\n  gap 20 / duration 3 不变,自定义值保留。\n- 删除调试导出和面板日志入口,保留运行日志。",
+    "0.3.1": "- 桌面弹图新增“跟随桌宠上次停下的位置”:读取部署 `config.json` 的\n  `worlds.desktop-pet.petX`,每次弹图读一次,不轮询、不起子进程、不改 Coopanion 安装目录。\n- 新增 `popupFollowPet`(默认 false)、`popupFollowSide`(auto/left/right)、`popupFollowGap` 20px、\n  `popupFollowOffsetY` 8px;开启跟随后固定坐标不生效,读不到位置时退回固定位置并在面板报错。\n- 面板写明限制:跟随的是上次停下的位置,走动时会滞后,只在同一块屏幕有效,图可能被桌宠挡住。\n- `popupFollowPet` 关着时 `popupHtml` 输出与上一版逐字节一致。",
     "0.3.0": "- 桌面弹图收口:每张图一个本地 http 页面 + 一个 `--pet-host` 窗口,独立「桌面弹图」页、运行状态、\n  文件日志与 `emote_popup_test` 测试工具。\n- 弹图圆角:`worlds.emote-pics.popup.radius`(px,0–64,默认 16)。圆角同时落在容器和\n  `<img>` 上,容器 `overflow:hidden`;半径按长边 12%、短边 25% 封顶,小图不会变圆球。\n- 「桌面弹图」页加「圆角(px)」输入,改完立即生效,不用重启。\n- 对话页 `pet_say.images` 的缩略图仍由宿主 `.chat-thumb` 固定 `border-radius:10px` 渲染;\n  扩展没有样式元数据入口,这一项要改宿主,不在本包改。",
     "0.2.4": "- 修复「桌面弹图」面板 `unknown panel: popup`:面板声明了 `popup`,但 `invoke` 仍只认\n  `folders`;现在两个 id 都接受,启动时把已注册的 panel id 写一行日志。\n- 新增不依赖面板的 `emote_popup_test` 工具:从当前表情目录随机弹一张,面板坏了也能测。\n- 弹图页图片在 `reveal()` 前保持不可见,算完尺寸/位置后再显示,避免露脸瞬间出现在左上角\n  或整屏;`followCursor()` 超时不影响显示,位置留在当前屏的 `0.86/0.66`。",
     "0.2.3": "- 弹图页面不再等 `followCursor()`:图先按当前工作区摆好并显示,换屏调用最多等 350ms,\n  回来或超时都重算位置;窗口 `resize` 也重算,避免“页面卡住 → 窗口一直透明”。\n- 默认位置改成 `(0.86, 0.66)`,并按“可用空间”定位:`left=(workW-w)*x`、\n  `top=(workH-h)*y`,再 clamp,大图不会被顶出屏幕/贴任务栏。\n- 每次弹图写 `data/emote-pics-popup.log`:spawn 参数与 pid、HTTP 请求路径/状态码、子进程\n  stdout/stderr(含页面 console、`did-fail-load`、`img-error`)、页面算出的 bounds、退出码、\n  关闭原因与存活时间;`ready-to-show`/`isVisible`/`getBounds` 是宿主窗口内部状态,扩展拿不到,\n  只能由页面日志和进程退出侧写。\n- 关闭改成 `kill` 后 1.2s 还在就 `taskkill /T /F`;server close、临时 profile 500ms 后删除都\n  在收尾里做,日志记录关闭原因。\n- 面板按钮改名「立即弹一张测试图」,并显示日志路径;GIF 动画在 0.2.8 上仍标未验证。",
