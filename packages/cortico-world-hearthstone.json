@@ -1,0 +1,270 @@
+{
+  "schema": 1,
+  "name": "cortico-world-hearthstone",
+  "version": "0.3.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "hearthstone_state",
+        "description": "Current Hearthstone match as the game itself logged it: both heroes (class, health, armor), every minion on the board with attack/health and keywords, hand and deck counts, mana, turn number, whose turn it is, and whether the match has ended. Also reports whether the game log is being read at all. Use this whenever you need to know what is happening right now.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "读当前这局的完整局面:双方血量护甲、场面随从、手牌与牌库、水晶、回合归属。",
+          "en": "Reads the current match in full: both sides' health and armor, the board, hand and deck counts, mana and whose turn it is."
+        }
+      },
+      {
+        "name": "hearthstone_advice",
+        "description": "Everything needed to decide what to play this turn, in one call: the board on both sides, every card in hand by name with its cost and a short note on what it does (only the cards actually affordable are marked), the lethal math through taunts, every minion trade available with who survives, what the opponent could hit for next turn, and any board clear sitting in hand. The last block is a mechanical ranking by fixed rules, not a plan. Use this when the person asks what to play, whether they can kill, or how to handle the board.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "full": {
+              "type": "boolean",
+              "description": "Also list every card in hand, including the ones that cost too much this turn. Defaults to true."
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "这回合怎么打:手牌、斩杀、能做的交换、对面下回合的威胁。",
+          "en": "What to play this turn: hand by name, lethal math, available trades, and next-turn threat."
+        }
+      },
+      {
+        "name": "hearthstone_draft",
+        "description": "Arena draft help. Pass the two or three cards offered as `options` (Chinese card names) and it returns each one parsed from the card table (cost, stats, effect summary), a heuristic score for each, the current drafted deck's curve and gaps, and a mechanical ranking. Pass `pick` to record the card actually taken, `reset` to start a new run. Arena draft choices are NOT in the game log, so the cards have to come from the person — ask them to read the three off the screen.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "options": {
+              "type": "array",
+              "description": "The 2–3 cards offered this pick, by Chinese name (or card id).",
+              "items": {
+                "type": "string"
+              }
+            },
+            "pick": {
+              "type": "string",
+              "description": "The card the person took. Recorded into the drafted deck."
+            },
+            "reset": {
+              "type": "boolean",
+              "description": "Clear the recorded draft deck and start over."
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "竞技场选牌:给候选牌打分、看牌组曲线缺口。",
+          "en": "Arena draft: score the offered cards and show the deck curve gaps."
+        }
+      },
+      {
+        "name": "hearthstone_meta",
+        "description": "Store and read back your own \"how to win with this class\" notes for arena. The game log has no arena data and the card table has no win-rate knowledge, so the only way to know what actually wins is to look it up and write it down. Workflow: when a draft starts for a class you have no notes for, use browser_search (hooks: \"<current Hearthstone patch> arena <class> tier list\" or Chinese \"炉石 竞技场 <职业> 选牌\"), distil 3-6 concrete bullets (which cards to prioritise, what the deck wants to do, what to avoid), then save them here. Every later pick reads them back instead of searching again. Read first — do not search again if notes already exist.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "read",
+                "save",
+                "clear"
+              ],
+              "description": "read (default) shows the notes; save stores them; clear drops them."
+            },
+            "heroClass": {
+              "type": "string",
+              "description": "Class name in Chinese, e.g. 德鲁伊 / 法师 / 术士."
+            },
+            "notes": {
+              "type": "string",
+              "description": "For action=save: the distilled bullets. Keep it short and actionable."
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "竞技场打法笔记：先读，没有再用联网搜索补一份。",
+          "en": "Arena class notes: read what you saved, search only when there is nothing."
+        }
+      },
+      {
+        "name": "hearthstone_plan",
+        "description": "Ask a model to reason about how THIS drafted arena deck actually wins. It gets the full card list plus a written summary of the rules, and answers with an archetype (aggro/midrange/control), 2-3 concrete win lines that name real cards in the deck, and what the deck is afraid of. Costs one model call, so: read first, and only re-generate when the deck changed (a fresh draft, a swap) — never once per pick.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "read",
+                "generate",
+                "clear"
+              ],
+              "description": "read (default) shows the saved plan; generate reasons about the current deck; clear drops it."
+            },
+            "heroClass": {
+              "type": "string",
+              "description": "Optional. The class being drafted, e.g. 德鲁伊."
+            },
+            "force": {
+              "type": "boolean",
+              "description": "For action=generate: re-run even if a plan already exists for this exact deck."
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "write",
+          "flow"
+        ],
+        "summary": {
+          "zh": "推演这套牌靠什么赢（模型算，卡表算不出来）。",
+          "en": "How this deck actually wins, reasoned by a model."
+        }
+      },
+      {
+        "name": "hearthstone_recent",
+        "description": "The last few things that happened in the match, oldest first: cards played, attacks, minions that died, each tagged with the turn it happened on and who did it. Use it to remember the run of play rather than guess.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "description": "How many actions to return, 1-50. Defaults to 20.",
+              "minimum": 1,
+              "maximum": 50
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "最近发生的事:谁打了什么牌、谁攻击了谁、谁阵亡了,按回合标好。",
+          "en": "The last plays, attacks and deaths, each tagged with its turn."
+        }
+      },
+      {
+        "name": "hearthstone_last_game",
+        "description": "The match that just finished, for reviewing how it went: both heroes, the final life totals, one line per turn (life, hand size, board on each side), then every play, attack and death in order. Use it when the person asks how they played, what they did wrong, or why they lost.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "actions": {
+              "type": "boolean",
+              "description": "Include the play-by-play. Defaults to true; turn off for just the per-turn summary."
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "上一局的复盘:每回合双方血量与场面,加上全部出牌和攻击。",
+          "en": "The last finished match as a review: per-turn life and board, plus every play and attack."
+        }
+      },
+      {
+        "name": "hearthstone_watch",
+        "description": "Turn your own commentary on or off. \"quiet\" keeps reading the match but stops pushing turn and moment events, so you only speak when asked; \"normal\" resumes speaking up by yourself. Use it when the person asks you to shush, or to start commentating again.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "mode": {
+              "type": "string",
+              "description": "quiet = stop speaking up on your own; normal = speak up again.",
+              "enum": [
+                "quiet",
+                "normal"
+              ]
+            }
+          },
+          "required": [
+            "mode"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "把自动开口关掉或打开(安静看 / 恢复解说)。",
+          "en": "Turns your own commentary off or on again."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "hearthstone.game.start",
+        "description": {
+          "zh": "一局开始:双方职业与先后手。",
+          "en": "A match started: both classes and who goes first."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "hearthstone.turn",
+        "description": {
+          "zh": "轮到本地玩家行动,附当前双方状态。",
+          "en": "It is the operator's turn, with both sides' state."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "hearthstone.alert",
+        "description": {
+          "zh": "关键节点:残血、被铺场、进入斩杀线、牌库见底之类。",
+          "en": "A moment that matters: low health, being swarmed, lethal range, running out of cards."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "hearthstone.game.end",
+        "description": {
+          "zh": "这局结束和结果。",
+          "en": "The match ended, and how."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "hearthstone.ask",
+        "description": {
+          "zh": "他在扩展页上点了「让她看这回合」,附当前局面与机械建议。",
+          "en": "The operator clicked \"ask about this turn\" on the panel, with the board and the mechanical advice."
+        },
+        "trigger": "flush"
+      }
+    ]
+  },
+  "changelog": {
+    "0.3.0": "首个公开发布版本。\n\n**读日志**\n- 打开炉石的 `log.config` 后自动定位最新的 `Power.log`，增量读，不改游戏。\n- 日志到 10MB 会停笔（一份只装四局，之后整局数据全丢）。现在启动时自动把炉石自己的上限关掉\n  （`client.config` 的 `Log.FileSizeLimit.Int=-1`，改前留备份），改完重启一次炉石即永久生效。\n- 日志断供（对局中五分钟没写）会明说，而不是拿旧数字继续答。\n\n**局面**\n- 双方血量护甲、场面、手牌（本地玩家逐张带卡名与费用）、牌库、水晶、武器、疲劳。\n- 场上随从分「这回合能打」和「打不出来」两类：休眠、无法攻击的不算进对面场攻。武器要是不能攻击英雄，也不算打脸伤害。\n- 斩杀账过嘲讽墙；每个随从能换掉谁；对面下回合能砸多少。\n- 武器效果、疲劳层数单列 —— 这两样不占场面，但每回合都在扣血。\n\n**建议**\n- 按费打、能斩就说斩、挡不住就直说挡不住（只有嘲讽算墙，且要算清挡完还剩几点打脸）。\n- 战吼 / 快枪打出去那一下的伤害算进来；对面空场时不再推荐战吼落空的牌。\n- 法强计入群伤：有法强时先算清一发能带走几只，不按牌面数字低估。\n- 群伤牌只用于清场，不再被当成 1 点直伤劝你去点脸。\n- 对面没嘲讽时，吸血随从会算成「换掉一只、回 N 血」，而不是只报噩耗。\n- 卡面词条（锻造、预备、可交易、注入、泰坦、巨型等 39 种）与「已锻造 / 已预备」状态分开判断。\n- 疲劳在追杀时给倒计时，并说清架墙无效。\n\n**扩展页**\n- 一块面板：看局面、点一下让她说这回合怎么打、三个开关。配置页只留接入与高级两组。\n\n**她**\n- 关键节点开口（残血、被铺场、进斩杀线、牌库见底），三种紧迫度配不同表情。\n- 对手打出跨职业 / 提前登场 / 超大身材的牌时会惊讶一次（一回合最多一次）。\n- 赢了会跳。\n\n**已知限制**\n- 只管 Windows（安装目录探测是 `C://Program Files (x86)\\Hearthstone` 这类路径）。\n- 竞技场选牌得靠你把三张候选念出来 —— 日志里没有。\n- 需要先手动打开炉石的 Power 日志并关掉日志上限，所以标了「需额外安装」。"
+  }
+}
