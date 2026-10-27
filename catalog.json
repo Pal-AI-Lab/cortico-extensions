@@ -279,7 +279,7 @@
       "discussion": {
         "number": 228,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-        "up": 8,
+        "up": 9,
         "down": 0,
         "comments": 26
       }
@@ -997,7 +997,7 @@
     },
     "cortico-provider-deepseek-web": {
       "kind": "provider",
-      "version": "0.6.0",
+      "version": "0.6.1",
       "displayName": "DeepSeek Web（网页版）",
       "description": "DeepSeek Web (chat.deepseek.com) as a Cortico provider: chat and image understanding through the browser web session, no API key and no local proxy process",
       "locales": {
@@ -1021,8 +1021,8 @@
         "npm": "https://www.npmjs.com/package/cortico-provider-deepseek-web"
       },
       "created": "2026-10-26T08:51:28.991Z",
-      "published": "2026-10-26T14:29:00.026Z",
-      "versionCount": 3,
+      "published": "2026-10-27T03:29:32.144Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1053,6 +1053,7 @@
       },
       "changelog": {
         "versions": [
+          "0.6.1",
           "0.6.0",
           "0.5.0",
           "0.4.0",
@@ -1060,7 +1061,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-provider-deepseek-web@0.6.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-provider-deepseek-web@0.6.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 319,
@@ -1673,7 +1674,7 @@
     },
     "cortico-world-astrbot": {
       "kind": "world",
-      "version": "1.0.3",
+      "version": "1.1.3",
       "displayName": "AstrBot · QQ",
       "description": "Cortico World: join QQ conversations through an AstrBot bridge, so the bot keeps AstrBot's plugins while a Cortico persona drives the talking",
       "author": "as124da1231",
@@ -1695,8 +1696,8 @@
         "bugs": "https://github.com/as124da1231/cortico-world-astrbot/issues"
       },
       "created": "2026-10-26T13:38:37.862Z",
-      "published": "2026-10-27T01:46:19.549Z",
-      "versionCount": 5,
+      "published": "2026-10-27T06:37:51.362Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1717,13 +1718,17 @@
         "week": 0
       },
       "summary": {
-        "tools": 3,
+        "tools": 4,
         "events": 4,
-        "toolTokens": 662,
-        "envPromptTokens": 456
+        "toolTokens": 884,
+        "envPromptTokens": 573
       },
       "changelog": {
         "versions": [
+          "1.1.3",
+          "1.1.2",
+          "1.1.1",
+          "1.0.4",
           "1.0.3",
           "1.0.2",
           "1.0.1",
@@ -2287,7 +2292,7 @@
         "number": 120,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/120",
         "up": 11,
-        "down": 3,
+        "down": 4,
         "comments": 1
       }
     },
@@ -4452,14 +4457,14 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 44,
+        "up": 46,
         "down": 5,
         "comments": 31
       }
     },
     "cortico-world-figure-persona": {
       "kind": "world",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "displayName": "形象人格",
       "description": "为一个形象挂载多档人设。切换无需重装形象包；人设独立存储，更新形象不覆盖；切换后即时生效。",
       "locales": {
@@ -4485,7 +4490,9 @@
         "figure-pack",
         "persona",
         "persona-profiles",
-        "system-prompt"
+        "system-prompt",
+        "persona-switch",
+        "figure-json"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-figure-persona",
@@ -4494,8 +4501,8 @@
         "bugs": "https://github.com/suhong11300/cortico-world-figure-persona/issues"
       },
       "created": "2026-10-24T11:16:15.780Z",
-      "published": "2026-10-26T08:39:43.622Z",
-      "versionCount": 5,
+      "published": "2026-10-27T04:56:01.372Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4521,6 +4528,7 @@
       "changelog": {
         "versions": [
           "0.2.2",
+          "0.2.3",
           "0.2.1",
           "0.2.0",
           "0.1.0"
@@ -5751,7 +5759,7 @@
     },
     "cortico-world-lofter": {
       "kind": "world",
-      "version": "0.1.4",
+      "version": "0.1.5",
       "displayName": "LOFTER 阅读",
       "description": "以自有登录态读取 LOFTER 内容。支持热榜、单篇正文与配图；按需取用，不落盘、不订阅；失败时明确报错。",
       "locales": {
@@ -5776,7 +5784,9 @@
         "lofter",
         "blog",
         "reader",
-        "netease"
+        "netease",
+        "blog-reader",
+        "cookie-session"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-lofter",
@@ -5785,8 +5795,8 @@
         "bugs": "https://github.com/suhong11300/cortico-world-lofter/issues"
       },
       "created": "2026-10-26T06:26:44.330Z",
-      "published": "2026-10-26T13:56:11.231Z",
-      "versionCount": 6,
+      "published": "2026-10-27T04:55:04.813Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5812,6 +5822,7 @@
       "changelog": {
         "versions": [
           "0.1.4",
+          "0.1.5",
           "0.1.3",
           "0.1.2",
           "0.1.1",
@@ -6355,7 +6366,7 @@
       "discussion": {
         "number": 31,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/31",
-        "up": 4,
+        "up": 5,
         "down": 0,
         "comments": 1
       }
@@ -7836,7 +7847,7 @@
     },
     "cortico-world-qq-final": {
       "kind": "world",
-      "version": "0.6.30",
+      "version": "0.6.33",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -7855,8 +7866,8 @@
         "bugs": "https://github.com/hth768/cortico-world-qq-final/issues"
       },
       "created": "2026-10-06T07:39:25.866Z",
-      "published": "2026-10-27T02:45:55.948Z",
-      "versionCount": 63,
+      "published": "2026-10-27T05:27:06.716Z",
+      "versionCount": 66,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -7886,6 +7897,9 @@
       },
       "changelog": {
         "versions": [
+          "0.6.33",
+          "0.6.32",
+          "0.6.31",
           "0.6.30",
           "0.6.29",
           "0.6.28",
@@ -7945,7 +7959,7 @@
       "discussion": {
         "number": 46,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/46",
-        "up": 4,
+        "up": 5,
         "down": 0,
         "comments": 1
       }
@@ -8398,7 +8412,7 @@
         "number": 58,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/58",
         "up": 2,
-        "down": 1,
+        "down": 2,
         "comments": 0
       }
     },
@@ -8459,7 +8473,7 @@
     },
     "cortico-world-reminder": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "displayName": "提醒",
       "description": "在对话中按设定时间提醒事项。支持重复提醒、提前预告与延后；离线期间错过的提醒在下次启动时补发。",
       "locales": {
@@ -8480,7 +8494,14 @@
       "keywords": [
         "cortico-world",
         "cortico",
-        "reminder"
+        "reminder",
+        "coopanion",
+        "desktop-pet",
+        "companion",
+        "schedule",
+        "notification",
+        "reminder-tool",
+        "time"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-reminder",
@@ -8489,8 +8510,8 @@
         "bugs": "https://github.com/suhong11300/cortico-world-reminder/issues"
       },
       "created": "2026-10-26T08:24:46.893Z",
-      "published": "2026-10-26T12:53:10.220Z",
-      "versionCount": 4,
+      "published": "2026-10-27T04:53:01.536Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -8514,6 +8535,7 @@
       "changelog": {
         "versions": [
           "0.1.2",
+          "0.1.3",
           "0.1.1",
           "0.1.0"
         ],
@@ -9578,7 +9600,7 @@
     },
     "cortico-world-stock": {
       "kind": "world",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "displayName": "拟股喵喵",
       "description": "按本地时区在市场窗口播报行情。覆盖自选股与大盘指数，A 股与美股可切换，指数清单可自定义；接入账户后可选播报持仓盈亏；文案可按设定人格改写。",
       "locales": {
@@ -9604,7 +9626,9 @@
         "index",
         "ashare",
         "us-stock",
-        "companion"
+        "companion",
+        "market-brief",
+        "quote"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-stock",
@@ -9613,8 +9637,8 @@
         "bugs": "https://github.com/suhong11300/cortico-world-stock/issues"
       },
       "created": "2026-10-26T08:24:38.625Z",
-      "published": "2026-10-26T12:50:04.474Z",
-      "versionCount": 4,
+      "published": "2026-10-27T04:54:39.333Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -9645,6 +9669,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.3",
           "0.2.2",
           "0.2.1",
           "0.2.0",
@@ -10203,7 +10228,7 @@
         "number": 85,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/85",
         "up": 11,
-        "down": 2,
+        "down": 3,
         "comments": 6
       }
     },
@@ -10516,7 +10541,7 @@
     },
     "cortico-world-warthunder": {
       "kind": "world",
-      "version": "0.2.5",
+      "version": "0.2.6",
       "displayName": "war thunder安东星助手",
       "description": "在对话中提供战争雷霆的本地百科、战局播报与对局翻译。知识库覆盖概念、载具与玩法，可检索、可更新；读取本机 8111 遥测讲解战局、为击毁喝彩、为逆风打气，并可翻译对局聊天、代写要发的话；遥测不可用时可用截图 OCR 兜底；文案可按设定人格改写，模型与花费可配置。",
       "locales": {
@@ -10542,7 +10567,9 @@
         "game",
         "telemetry",
         "war-thunder",
-        "translation"
+        "translation",
+        "local-llm",
+        "ocr"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-warthunder",
@@ -10551,8 +10578,8 @@
         "bugs": "https://github.com/suhong11300/cortico-world-warthunder/issues"
       },
       "created": "2026-10-26T12:03:41.166Z",
-      "published": "2026-10-27T02:42:37.592Z",
-      "versionCount": 8,
+      "published": "2026-10-27T04:53:27.800Z",
+      "versionCount": 9,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10595,6 +10622,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.6",
           "0.2.5",
           "0.2.4",
           "0.2.3",
@@ -10981,7 +11009,7 @@
       "discussion": {
         "number": 77,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/77",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
