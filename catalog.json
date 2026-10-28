@@ -193,9 +193,19 @@
     },
     "@lily-cooperative/custom-farm": {
       "kind": "world",
-      "version": "0.33.6",
+      "version": "0.34.0",
       "displayName": "自定义农场",
-      "description": "自定义农场（Custom Farm）—— 给 Coopanion 桌宠的种田扩展：18 种作物、浇水/生长/收割/卖钱，确定性 tick（纯代码，不唤模型），并把渲染用的 state.json 写给桌面图层。",
+      "description": "自定义农场（Custom Farm）—— 给 Coopanion 桌宠的种田扩展：18 种作物只是起点。农作物、杂草、装饰物、天气、状态、道具、合成表和贴图都能在面板里完全自定义；种、浇、收、吃、买卖全部本地确定性运行，不唤模型。",
+      "locales": {
+        "zh": {
+          "displayName": "自定义农场",
+          "description": "18 种作物只是起点：农作物、杂草、装饰物、天气、状态、道具、合成表和贴图都能在面板里完全自定义，想种什么、长什么样、吃什么补什么，全由你决定。种、浇、收、吃、买卖全部本地确定性运行，不唤模型。"
+        },
+        "en": {
+          "displayName": "Custom Farm",
+          "description": "18 crops are just the beginning: crops, weeds, decorations, weather, states, items, recipes and sprites are all fully customizable in the panel. Plant, water, harvest, eat and trade locally with deterministic ticks — no model calls."
+        }
+      },
       "author": "lily_cooperative",
       "maintainers": [
         "lily_cooperative"
@@ -203,9 +213,11 @@
       "license": "MIT",
       "keywords": [
         "cortico-world",
+        "coopanion",
         "farm",
         "种田",
-        "自定义农场"
+        "自定义农场",
+        "customizable"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/@lily-cooperative/custom-farm",
@@ -219,8 +231,8 @@
         "linux"
       ],
       "created": "2026-10-28T10:41:49.268Z",
-      "published": "2026-10-28T11:09:09.000Z",
-      "versionCount": 5,
+      "published": "2026-10-28T11:47:28.587Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1610,7 +1622,7 @@
     },
     "cortico-world-absolute-solver": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "displayName": "Absolute Solver 服务目录",
       "description": "Cortico World showing the Absolute Solver LAN projection page, usage guidance, and service directory.",
       "maintainers": [
@@ -1631,8 +1643,8 @@
         "bugs": "https://github.com/zhzaill/absolute-solver/issues"
       },
       "created": "2026-10-28T06:18:34.033Z",
-      "published": "2026-10-28T11:31:42.885Z",
-      "versionCount": 3,
+      "published": "2026-10-28T11:48:34.572Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "tags": [],
@@ -12280,7 +12292,7 @@
     },
     "cortico-world-wardrobe": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "displayName": "换装",
       "description": "非官方换装 World：给 Coopanion 的鲸鱼加上新增衣服、新增头发，并附带基础模型。不是 Pal AI Lab 的桌宠包。",
       "author": "Kwan443",
@@ -12296,8 +12308,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-wardrobe"
       },
       "created": "2026-10-28T11:12:54.697Z",
-      "published": "2026-10-28T11:31:50.894Z",
-      "versionCount": 4,
+      "published": "2026-10-28T11:45:30.319Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
