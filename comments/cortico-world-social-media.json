@@ -2,14 +2,23 @@
   "schema": 1,
   "name": "cortico-world-social-media",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/204",
-  "total": 7,
+  "total": 8,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BJXbx",
       "author": "JustsuperIED",
       "avatar": "https://avatars.githubusercontent.com/u/346342924?s=64&v=4",
       "body": "你好， 我连接上抖音的刷视频功能、群聊功能、关注主人账号功能，但是没办法打开连接选项中的抖音浏览器后台运行，登陆状态是正常的，但是打开后台运行小肥鱼没办法刷视频，说是在后台没办法刷，取消勾选抖音浏览器后台运行，就可以刷了，但是会有窗口一直在，能问一下怎么解决吗，十分感谢！\r\n<img width=\"667\" height=\"401\" alt=\"屏幕截图 2026-10-28 110722\" src=\"https://github.com/user-attachments/assets/90ee08f7-719b-43bd-97cf-36b49c2f6074\" />\r\n",
-      "createdAt": "2026-10-28T03:09:02Z"
+      "createdAt": "2026-10-28T03:09:02Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJY-S",
+          "author": "PeiKun123",
+          "avatar": "https://avatars.githubusercontent.com/u/200584930?s=64&v=4",
+          "body": "谢谢详细反馈和截图！已复现后台进入推荐流时遇到官网验证页、却被笼统提示“没切到新视频”的问题。登录正常与推荐流在后台能否加载需要分开检查，不用反复扫码碰运气。目前在修冷启动初始化、明确的人工验证提示，并增加配置页的“检查抖音推荐流”。另补一个默认关闭的Windows兼容后台选项：使用普通Edge渲染，把独立窗口放到屏幕外，任务结束仍释放；这与真正无窗口模式分别选择，不会自动弹窗或代做验证。修复正在本地验证，尚未发布；当前可先关闭后台运行临时使用，后续补丁会说明具体开关位置。官网若继续要求验证，仍需手动处理，不承诺所有设备都能免验证。",
+          "createdAt": "2026-10-28T09:41:15Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BJShp",

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-heybox",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "describe": {
     "tools": [
       {
@@ -537,7 +537,7 @@
       },
       {
         "name": "heybox_create_post",
-        "description": "图文/文章发帖：多分区、话题、图片、草稿/编辑，默认预演。",
+        "description": "图文/文章发帖：必须指定真实社区/topic_id；默认预演，go=true 才发送。小黑盒接口不支持服务端草稿，draft=true 仅保存本地草稿。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -551,7 +551,8 @@
               "type": "boolean"
             },
             "draft": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "仅保存到 Coopanion 本地草稿；不要发送 draft=1 到小黑盒。"
             },
             "images": {
               "type": "array",
@@ -708,6 +709,7 @@
     ]
   },
   "changelog": {
+    "0.5.9": "### 中文\n\n- 修复 `heybox_create_post` 真实发送被拒「请添加分区」：图文统一 `link_tag=27`、文章 `11`，不再使用不可靠的 `58144 + 28/21` 默认组合；新帖必须指定真实 `community` / `communityId` 并写入 `topic_ids`。\n- 修复 `draft=true` 被服务端判「错误的帖子类型」：小黑盒当前接口没有服务端草稿语义，改为保存到 Coopanion 本地草稿，不再发送非法 `draft=1`。\n- 补齐 `desc`、`schedule_ts`、`declaration` 等发帖字段。\n- 修复本地图片工具相对路径按进程目录解析的问题；本地图片上传已实测通过。\n\n### English\n\n- Fixed `heybox_create_post` being rejected with “please add a community”: image-text now uses `link_tag=27`, articles `11`, and real `topic_ids`; the invalid `58144 + 28/21` defaults are gone. New posts require an explicit community.\n- Fixed `draft=true` being rejected as an invalid post type: the Heybox endpoint has no server-side draft semantics, so drafts are stored locally instead of sending `draft=1`.\n- Added missing `desc`, `schedule_ts` and `declaration` fields.\n- Fixed local image paths resolving against the process cwd; local upload was verified against the live image host.",
     "0.5.8": "### 中文\n\n- 自动刷帖改为每日 100 条基础额度 + 上午/中午/晚上各 10 条热点额度；静音 23:00–08:00，落后时自动追赶，超前时放慢。\n- 兴趣升级为「触发→维持→开始主动→稳定喜欢→沉睡」阶段，带 45/14/90/180 天半衰衰减；只有开始主动/稳定喜欢可用于发帖。\n- 新增评论质检（短/套话/重复拦截）、兴趣情景证据、每日审计、发帖/评论活动记录。\n- Coopanion 新增「发帖内容」「评论内容」两个独立面板。\n\n### English\n\n- Auto browsing now uses a 100/day base budget plus 10-item morning/noon/evening hot-spot budgets, with 23:00–08:00 quiet hours and adaptive catch-up/throttling.\n- Interests now progress through triggered → maintained → emerging → developed → dormant with 45/14/90/180-day half-life decay; only emerging/developed interests can seed posts.\n- Added comment quality gates, interest episodes, daily audit and post/comment activity records.\n- Added separate Posts and Comments panels in Coopanion.",
     "0.5.7": "### 中文\n\n- `heybox_games` 支持 `userId` 读取自己或指定用户的公开游戏库；主人库存优先用 `heybox_owner`。\n- 公开库存为空时明确说明“可能未公开/未绑定/为空”，不再误判为没有游戏；提示需要口味时请对方报 2–3 款。\n\n### English\n\n- `heybox_games` now accepts `userId` to read the current or another user’s public library; use `heybox_owner` for the owner.\n- Empty public libraries are reported as possibly private/unbound/empty, not as “no games”; ask for 2–3 games when needed.",
     "0.5.6": "### 中文\n\n- 改回小黑盒原生表情 token：合法 `[cube_*]` 保留，`笑哭` 等别名自动修正为真实 code（如 `[cube_笑cry]`），无效 token 丢弃。\n- `heybox_emoji` 继续返回原生 token；不再把所有表情统一转成 Unicode。\n\n### English\n\n- Restored native Heybox emoji tokens: valid `[cube_*]` are preserved, aliases such as `笑哭` are repaired to real codes (e.g. `[cube_笑cry]`), invalid tokens are dropped.\n- `heybox_emoji` returns native tokens again; emoji are no longer converted wholesale to Unicode.",
