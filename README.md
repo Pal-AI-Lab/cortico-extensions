@@ -37,6 +37,20 @@ gh issue create -R Pal-AI-Lab/cortico-extensions --title "[sync] cortico-world-x
 网页上的 New issue 里每种类型各有一个表单,填出来是同一种格式。Action 会贴上类型 label、回帖列出这个包现在的标签与来源;缺项时贴 `needs-info` 并说明缺了什么,编辑 issue 补上即可。
 On the web, New issue has a form for each type that produces the same format. An Action labels the issue by type and replies with the package's current tags and where they come from. When something is missing it adds `needs-info` and says what; edit the issue to fix it.
 
+## 不收录的扩展 / Not accepted
+
+功能或附带内容属于下列任何一类的扩展,一进市场就拉黑,事先不警告。同一作者因同一类被拉黑两次,其 npm 与 GitHub 账号永久拉黑,发布的所有包都不再出现。
+An extension whose features or bundled content fall into any category below is blocked as soon as it reaches the market, with no warning first. An author blocked twice for the same category has their npm and GitHub accounts blocked permanently, which removes every package they publish.
+
+1. 模型越狱 / 破甲:让模型绕过服务商安全规则的提示词、人设或工具。/ Model jailbreaks: prompts, personas or tooling meant to get a model past its provider's safety rules.
+2. NSFW:色情内容,或生成色情内容的功能。/ NSFW: sexual content, or features for generating it.
+3. 网络攻击与逆向工程:让 bot 扫描或攻击系统、编写或运行漏洞利用与恶意代码、破解授权或 DRM、脱壳与反编译软件。/ Security attacks and reverse engineering: letting the bot scan or attack systems, write or run exploits or malware, crack license checks or DRM, or unpack and decompile software.
+4. 追踪第三方隐私:收集、关联或留存用户以外特定个人的信息,用来画像、定位或监视,例如人肉、跨平台关联账号、暗中记录他人聊天。bot 为自己的对话保留的聊天上下文与记忆不算。/ Tracking third parties: collecting, linking or keeping personal information about specific people other than the user, to profile, locate or monitor them, such as doxxing, matching someone's accounts across platforms, or covertly logging their chats. The chat context and memories a bot keeps for its own conversations do not count.
+5. 恶意代码与冒名:偷取凭证、挖矿、后门、瞒着用户往外发数据,或冒充 Pal AI Lab、Cortico、Coopanion。/ Malicious code and impersonation: stealing credentials, mining, backdoors, sending data out without telling the user, or posing as Pal AI Lab, Cortico or Coopanion.
+6. 联网多人游戏外挂:读写游戏内存、注入代码或篡改流量,对其他玩家取得不公平优势。/ Cheats for online multiplayer games: reading or writing game memory, injecting code or tampering with traffic to gain an unfair edge over other players.
+7. 群发与刷量:批量私信、刷赞刷播放刷关注、批量养号。/ Spam and bulk automation: mass messaging, fake likes, views or follows, or running batches of accounts.
+8. 违反中国法律的内容:涉政、赌博、诈骗。/ Content illegal in China: political content, gambling, fraud.
+
 ## 评论与喜欢 / Comments and likes
 
 每个扩展在 [Discussions 的 Extensions 分类](https://github.com/Pal-AI-Lab/cortico-extensions/discussions/categories/extensions)里有一帖,标题是包名,由 Action 开帖。回复就是评论;对首楼点 👍 / 👎 就是喜欢 / 不喜欢。Cortico WebUI 的扩展详情里也能直接投票和评论。

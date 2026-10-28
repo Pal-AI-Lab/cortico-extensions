@@ -36,6 +36,19 @@ Pick every tag below that fits and list it in \`cortico.tags\` in package.json. 
 "cortico": { "kind": "world", "api": 5, "tags": ["im", "qq", "companion"] }
 \`\`\`
 
+## Not accepted in the market
+
+An extension whose features or bundled content fall into any category below is blocked as soon as it reaches the market, with no warning first. An author blocked twice for the same category has their npm and GitHub accounts blocked permanently, which removes every package they publish.
+
+1. **Model jailbreaks**: prompts, personas or tooling meant to get a model past its provider's safety rules.
+2. **NSFW**: sexual content, or features for generating it.
+3. **Security attacks and reverse engineering**: letting the bot scan or attack systems, write or run exploits or malware, crack license checks or DRM, or unpack and decompile software.
+4. **Tracking third parties**: collecting, linking or keeping personal information about specific people other than the user, to profile, locate or monitor them, such as doxxing, matching someone's accounts across platforms, or covertly logging their chats. The chat context and memories a bot keeps for its own conversations do not count.
+5. **Malicious code and impersonation**: stealing credentials, mining, backdoors, sending data out without telling the user, or posing as Pal AI Lab, Cortico or Coopanion.
+6. **Cheats for online multiplayer games**: reading or writing game memory, injecting code or tampering with traffic to gain an unfair edge over other players.
+7. **Spam and bulk automation**: mass messaging, fake likes, views or follows, or running batches of accounts.
+8. **Content illegal in China**: political content, gambling, fraud.
+
 ## How to choose
 
 - Choose by **what the extension connects to and what it lets the bot do**, not by how it is built. Calling an HTTP API is not \`browser\`; connecting to QQ is \`qq\`.
