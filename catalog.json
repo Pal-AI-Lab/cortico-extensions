@@ -193,7 +193,7 @@
     },
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.5.16",
+      "version": "0.5.18",
       "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
       "description": "Cortico World for Coopanion: speaks the pet's lines aloud with GPT-SoVITS (V5 on NVIDIA GPUs, a CPU tier otherwise; AMD GPU users can use the CPU tier), installing a portable runtime and weights in one click",
       "locales": {
@@ -228,8 +228,8 @@
         "win32"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-10-27T16:12:32.391Z",
-      "versionCount": 22,
+      "published": "2026-10-28T08:13:53.007Z",
+      "versionCount": 23,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -255,6 +255,8 @@
       },
       "changelog": {
         "versions": [
+          "0.5.18",
+          "0.5.17",
           "0.5.16",
           "0.5.15",
           "0.5.14",
@@ -305,7 +307,7 @@
     },
     "better-cortico-world-netease-companion": {
       "kind": "world",
-      "version": "1.15.1",
+      "version": "1.15.2",
       "displayName": "听搭子",
       "description": "和表达助手插件一起使用有奇效！读取网易云音乐、QQ 音乐、酷狗音乐、酷我音乐与 Spotify 曲目（优先 SMTC，必要时窗口标题），设置中按官方播放器优先级排序并保持切换稳定；新增读取诊断页，可查看全部会话、窗口候选与选择原因；切歌后让桌宠参考评论区、歌曲百科、歌手资料与歌词主动陪听，支持切歌报幕、同曲分段、评论侧重轮换与副歌动作建议；能记住单曲笔记、听感标签和多日听歌历史，并记录听歌排名与个人画像；可在用户明确要求时暂停/切歌，也能搜歌并给出链接。只读元数据，不采集音频，不需要 API Key。",
       "author": "wocwang",
@@ -332,8 +334,8 @@
         "win32"
       ],
       "created": "2026-10-23T17:18:51.610Z",
-      "published": "2026-10-28T07:30:10.893Z",
-      "versionCount": 20,
+      "published": "2026-10-28T08:15:59.475Z",
+      "versionCount": 21,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -362,10 +364,11 @@
         "tools": 14,
         "events": 3,
         "toolTokens": 2297,
-        "envPromptTokens": 4270
+        "envPromptTokens": 4398
       },
       "changelog": {
         "versions": [
+          "1.15.2",
           "1.15.1",
           "1.15.0",
           "1.14.0",
@@ -7435,6 +7438,75 @@
         "up": 1,
         "down": 0,
         "comments": 1
+      }
+    },
+    "cortico-world-mumu": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "MuMu 模拟器",
+      "description": "Coopanion World: drive the MuMu Android emulator over adb — screenshots, taps, swipes, key events, text input and app launch. 用 adb 操作 MuMu 模拟器：截屏、点击、滑动、按键、打字、启动应用。",
+      "locales": {
+        "zh": {
+          "displayName": "MuMu 模拟器",
+          "description": "用 adb 操作 MuMu 模拟器：截一张安卓画面、点、滑、按键、打字、启动应用。走 adb，不碰桌面鼠标，也不受屏幕操作授权限制。"
+        },
+        "en": {
+          "displayName": "MuMu emulator",
+          "description": "Drives the MuMu Android emulator over adb: screenshots, taps, swipes, key events, text and app launch. Works through adb, so it never touches the desktop mouse."
+        }
+      },
+      "author": "DeepSeek 大肥鱼",
+      "maintainers": [
+        "bailanjieg"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "mumu",
+        "adb",
+        "android",
+        "emulator",
+        "模拟器"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-mumu"
+      },
+      "created": "2026-10-28T08:11:11.950Z",
+      "published": "2026-10-28T08:14:21.809Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "game"
+      ],
+      "tags": [
+        "game"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 7,
+        "events": 0,
+        "toolTokens": 567,
+        "envPromptTokens": 229
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-mumu@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 419,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/419",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-music": {

@@ -1,0 +1,188 @@
+{
+  "schema": 1,
+  "name": "cortico-world-mumu",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "mumu_state",
+        "description": "Show the emulator connection: adb path, device, whether adb sees it, screen size and the foreground app.",
+        "tags": [
+          "emu"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "summary": {
+          "zh": "看模拟器连没连上、画面多大、前台是哪个应用。",
+          "en": "Shows the emulator connection, screen size and foreground app."
+        }
+      },
+      {
+        "name": "mumu_screenshot",
+        "description": "Capture the emulator screen and return it as an image. Coordinates for taps are pixels of this image.",
+        "tags": [
+          "emu"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "summary": {
+          "zh": "截一张模拟器画面当图片交回。",
+          "en": "Captures the emulator screen as an image."
+        }
+      },
+      {
+        "name": "mumu_tap",
+        "description": "Tap a point on the emulator screen, in pixels of the latest mumu_screenshot.",
+        "tags": [
+          "emu"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        },
+        "summary": {
+          "zh": "在模拟器画面上点一下。",
+          "en": "Taps a point on the emulator screen."
+        }
+      },
+      {
+        "name": "mumu_swipe",
+        "description": "Swipe from one point to another on the emulator screen.",
+        "tags": [
+          "emu"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "x1": {
+              "type": "number"
+            },
+            "y1": {
+              "type": "number"
+            },
+            "x2": {
+              "type": "number"
+            },
+            "y2": {
+              "type": "number"
+            },
+            "ms": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x1",
+            "y1",
+            "x2",
+            "y2"
+          ]
+        },
+        "summary": {
+          "zh": "在模拟器上滑一段。",
+          "en": "Swipes across the emulator screen."
+        }
+      },
+      {
+        "name": "mumu_key",
+        "description": "Send an Android key event (3 = HOME, 4 = BACK, 66 = ENTER).",
+        "tags": [
+          "emu"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "key": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "key"
+          ]
+        },
+        "summary": {
+          "zh": "按键：返回、Home、回车。",
+          "en": "Sends an Android key event."
+        }
+      },
+      {
+        "name": "mumu_text",
+        "description": "Type latin text into the focused field on the emulator.",
+        "tags": [
+          "emu"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "summary": {
+          "zh": "往模拟器的输入框里打英文字。",
+          "en": "Types latin text in the emulator."
+        }
+      },
+      {
+        "name": "mumu_app_start",
+        "description": "Launch an app in the emulator by package name.",
+        "tags": [
+          "emu"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "package": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "package"
+          ]
+        },
+        "summary": {
+          "zh": "按包名启动模拟器里的应用。",
+          "en": "Launches an app in the emulator by package name."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.mumu.envPrompt",
+        "title": "MuMu 模拟器 · 环境提示词",
+        "role": "envPrompt",
+        "content": "## MuMu 模拟器\n\n我能隔着 adb 操作 MuMu 里的安卓:看画面、点、滑、按键、打字、起应用。走的是 adb,不碰对方电脑的鼠标,也不受屏幕操作授权限制。\n\n- `mumu_state`:先看连没连上、画面多大、前台是谁。没反应就先跑它。\n- `mumu_screenshot`:截一张,当图片给我。**`mumu_tap` / `mumu_swipe` 的坐标就是这张图的像素**,尺寸看这次回执写的那一行。\n- `mumu_tap x y` / `mumu_swipe x1 y1 x2 y2 [ms]` / `mumu_key <3=HOME 4=BACK 66=ENTER>` / `mumu_text`(只认英文数字)。\n- `mumu_app_start <包名>`:只有允许名单里的包能起。\n\n看一段操作要紧的东西:每次点之前先截一张,别凭记忆点;点完再截一张确认。模拟器横屏还是竖屏、多大分辨率,都以截图回执为准,第一次用先跑 `mumu_state`。\n\n花钱、抽卡、内购、订阅、确认付款这类按钮,一次都别自己按 —— 先问对方。抽卡界面和付费界面别碰。\n\n模拟器现在:{{mumu.state}}。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "首个版本。\n\n- 七个工具：`mumu_state`、`mumu_screenshot`、`mumu_tap`、`mumu_swipe`、`mumu_key`、`mumu_text`、`mumu_app_start`，全部经 adb 工作，不碰桌面鼠标。\n- 截图按设备像素原样交回，`mumu_tap` / `mumu_swipe` 的坐标就是这张图的像素；`maxShotEdge` 缩过时按比例换算。\n- adb 路径按常见安装位置探测，可用配置项 `adbPath` 或环境变量 `MUMU_ADB` 指定；连不上时 `mumu_state` 列出试过的路径。\n- 配置项：`adbPath`、`device`、`autoConnect`、`allowAnyApp`、`allowPackages`、`maxShotEdge`。\n- 环境提示词中英两份（`src/ENV_PROMPT.zh.md`、`src/ENV_PROMPT.en.md`）。"
+  }
+}

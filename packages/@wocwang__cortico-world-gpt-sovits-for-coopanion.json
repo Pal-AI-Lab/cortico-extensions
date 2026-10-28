@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
-  "version": "0.5.16",
+  "version": "0.5.18",
   "describe": {
     "tools": [
       {
@@ -74,6 +74,8 @@
     ]
   },
   "changelog": {
+    "0.5.18": "- **训练依赖与模型下载全面走国内可达源**：训练依赖 pip 先走阿里云镜像、失败再回官方 PyPI（清华源对 pip\n  的 UA 返回 403，不能当主力；网络参数收紧，不再无谓重试卡住面板）；训练 WebUI 注入\n  `HF_ENDPOINT=https://hf-mirror.com`，faster-whisper 缺模型时从镜像拉取。语音权重（s1v3 / hubert /\n  roberta / fast_langdetect / V5 底模）下载源顺序改为「魔搭 → hf-mirror → huggingface」，\n  国内直连 huggingface 不通的机器不再白等超时。",
+    "0.5.17": "- **配置与训练页补显存/内存占用**：推理档说明里写清显卡档约 2–3 GB 显存（按需加载后约 1.5–2.5 GB）、\n  CPU 档约 4–6 GB 内存；训练面板写清建议 6–8 GB 以上显存、16 GB 以上内存，方便低配用户提前判断。",
     "0.5.16": "- **修复「下载解压后缺 AR」→ `ModuleNotFoundError: No module named 'AR'`**：运行时解压不完整时\n  `GPT_SoVITS/AR` 没落地，`api_v2.py` 一启动就退出。现在拉起推理前会检查，缺了就用包内自带的一份\n  （上游同 commit、49 个文件、约 390 KB）自动补上，不用重装几 GB 的运行时。\n- `scripts/build-runtime.sh` 同时加了归档校验：打运行时包时缺 `GPT_SoVITS/AR` 直接失败，并在根目录\n  补一份 `AR`，兼容按顶层 `from AR…` 导入的入口；以后重打的运行时不会再缺。",
     "0.5.15": "- **修复默认输出设备切换后不跟随**（issue #3）：以前只在「配置里指定的设备名」变化时重开音频流，\n  留空用系统默认时永远停在第一次打开的端点。现在每秒最多探一次系统默认设备，换了就等当前音频播完\n  再重开（指定设备时不跟踪，行为不变）。\n- **修复旧 QQ 插件发不了语音条**（issue #2）：`sovits_speak` 的 `silent: true` 现在会等整句合成完，\n  在回执里带回一个 `[blob …]` 音频句柄，可直接填给旧 QQ 插件的 `qq_draft(voice=…)`；不需要再开\n  「把整句语音交给其他插件」。非 silent 的句子仍按原来的开关决定是否回附件，气泡不会因此变慢。",
     "0.5.14": "- **本地语音接口补 OpenAI 探活**：新增 `GET /models`（含 `/v1/models`），qq-final / QQ-ProMAX 的\n  `local` 供应商能判断「服务活着」，不再把可用的本机语音误判成未就绪而回退文字。\n- **`voice_desc` 不再当音色名**：VoxCPM 形状里的 `voice_desc` 是一句描述，只在能对上已知音色时采用，\n  对不上安静地用当前音色；要指定音色请用 `voice`（OpenAI 形状）。\n- **README 补两种对接填法**：`local`（可点名音色、需 `/models`）与 `voxcpm`（免 Key，地址填 9880），\n  并说明 QQ-ProMAX 与 qq-final 同源、填法通用。",
