@@ -492,13 +492,13 @@
     },
     "coopani-world-music": {
       "kind": "world",
-      "version": "0.3.10",
+      "version": "0.3.11",
       "displayName": "一起听歌",
-      "description": "陪着你听歌：读 Windows 的媒体会话，知道 QQ音乐 / 网易云音乐在放什么——换歌必说一句，一首歌里分几段接话，能看到当前这一段的歌词、就着词说两句，表情和动作跟着曲风与段落变，为听歌另做了律动、打拍子、闭眼听、蹦迪四个小动作（宿主没有时会自动降级）；记得住你听过什么（记忆可以存到你指定的文件夹，公司和家里指向同一个同步盘，就是同一份记忆），能替你按暂停、切下一首，也能自己去曲库里搜一首想听的挑给你。和「陪打炉石」一起装着会更有意思——你在打牌时听的每一首她都知道，偶尔会把牌局和歌说到一块儿去。嫌",
+      "description": "陪着你听歌：知道 QQ音乐 / 网易云音乐 在放什么。换歌必说一句，一首歌里分几段接话，还能就着刚唱过的词评两句；表情动作跟着曲风变，另有律动、打拍子、闭眼听、蹦迪四个专属动作。记得住你听过什么——记忆可以存到你指定的文件夹，公司和家里接同一份。能替你暂停切歌，也能自己搜歌挑给你。和「陪打炉石」一起装更有意思：打牌时听的每一首她都知道。嫌吵能让其中一个先安静。",
       "locales": {
         "en": {
           "displayName": "Listen With Me",
-          "description": "Listens along with you: reads Windows media sessions to know what QQ Music or NetEase Cloud Music is playing, says a line on every track change, talks along each passage, reads the lyrics of the passage being sung and reacts to the words, matches her face and motion to the music — including four moves built for listening (groove, tap along, eyes closed, full bounce), falling back to stock moves when the host lacks them — remembers what you played (memory can live in a folder you pick — point both machines at the same synced folder and it is one memory), can pause or skip for you, and can go search the catalogue and pick a track she wants you to hear. Install it alongside “Hearthstone Companion” and it gets more interesting: she knows every track you play while you are in a match, and the two often end up in the same sentence. If it gets noisy, let one of them stand down — one switch, and by default both talk."
+          "description": "Listens along with you: knows what QQ Music or NetEase Cloud Music is playing. A line on every track change, a few more along the song, and she can react to the lyrics just sung. Her face and motion follow the music, with four moves built for listening. She remembers what you played — memory can live in a folder you pick, so work and home share one. Pause or skip, or let her search the catalogue and pick one. With \"Hearthstone Companion\" she knows every track you play in a match."
         }
       },
       "author": "Mr.Q",
@@ -523,8 +523,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-10-28T13:45:38.939Z",
-      "versionCount": 11,
+      "published": "2026-10-28T14:17:38.312Z",
+      "versionCount": 12,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -558,6 +558,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.11",
           "0.3.10",
           "0.3.9",
           "0.3.8",
@@ -571,14 +572,14 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-music@0.3.10/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-music@0.3.11/CHANGELOG.md"
       },
       "discussion": {
         "number": 384,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/384",
         "up": 0,
         "down": 0,
-        "comments": 2
+        "comments": 4
       }
     },
     "cortico-bot-continuity": {
@@ -5774,7 +5775,7 @@
     },
     "cortico-world-hearthstone": {
       "kind": "world",
-      "version": "0.3.7",
+      "version": "0.3.9",
       "displayName": "炉石陪打",
       "description": "Cortico World: 陪打炉石 —— 读对局日志,知道双方的血量、场面、手牌与水晶,在关键节点开口,打完告诉你输赢。只看不动游戏,不代打。需要先打开炉石的 Power 日志。和「一起听歌」一起装着会更有意思:她一边看牌一边听得见你在听什么,两件事常常顺手落到同一句话里(\"这回合稳了,这首正好\")。嫌吵就让其中一个先安静——一个开关的事,默认是各说各的。",
       "locales": {
@@ -5802,8 +5803,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:42:43.161Z",
-      "published": "2026-10-28T13:25:22.258Z",
-      "versionCount": 9,
+      "published": "2026-10-28T14:14:39.350Z",
+      "versionCount": 11,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5829,6 +5830,8 @@
       },
       "changelog": {
         "versions": [
+          "0.3.9",
+          "0.3.8",
           "0.3.7",
           "0.3.6",
           "0.3.5",
@@ -5838,7 +5841,7 @@
           "0.3.1",
           "0.3.0"
         ],
-        "url": "https://unpkg.com/cortico-world-hearthstone@0.3.7/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-hearthstone@0.3.9/CHANGELOG.md"
       },
       "discussion": {
         "number": 382,
@@ -5850,17 +5853,17 @@
     },
     "cortico-world-heybox": {
       "kind": "world",
-      "version": "0.5.11",
+      "version": "0.5.13",
       "displayName": "小黑盒",
-      "description": "小黑盒 Coopanion World：扫码/手机号登录、帖子/评论、表情、图片与视觉；100 条/日基础刷帖 + 上午/中午/晚上热点额度；兴趣阶段与衰减、评论质检、审计、发帖/评论内容面板。 / Xiaoheihe (Heybox) for Coopanion: login, feed/posts/comments, emoji, media/vision, 100/day browsing plus morning/noon/evening hot-spot budgets, staged/deca",
+      "description": "小黑盒 Coopanion World：账号 / 内容 / 成长三栏面板；扫码或手机号登录、100 条/日 + 早中晚热点额度、兴趣阶段与负面反馈、发帖/评论/本地草稿、帖子删除、图片上传与表情、审计与诊断。 / Xiaoheihe (Heybox) for Coopanion: Account/Content/Growth panels, QR or phone login, 100/day plus hot-spot browsing, staged interests with negative f",
       "locales": {
         "zh": {
           "displayName": "小黑盒",
-          "description": "让桌宠扫码或手机号登录小黑盒，逛游戏社区、读帖子和评论、识别与发送表情、上传图片并附加视觉图片；按主人游戏库和最近游玩偏好定向刷帖；点赞/评论/发帖/回复可预演确认，也可分别开启免确认；每夜随机闲逛并汇报。"
+          "description": "让桌宠登录小黑盒，逛游戏社区、读帖评论、按自己的兴趣发帖。Coopanion 面板合并为「账号 / 内容 / 成长」三栏：账号支持扫码和手机号登录；内容包含待确认、发帖、评论与本地草稿；成长包含自动刷帖和兴趣成长。支持 100 条/日基础 + 早中晚热点、负面新闻/言论反馈、帖子删除、图片上传、表情、审计与诊断。"
         },
         "en": {
           "displayName": "Heybox",
-          "description": "Xiaoheihe (Heybox) for Coopanion: QR/phone login, feed/posts/comments, emoji recognition and sending, image upload and vision blobs, owner-preference browsing, approval or per-action no-confirm writes, and nightly browse reports."
+          "description": "Heybox for Coopanion with Account / Content / Growth panels: QR or phone login; pending writes, posts, comments and local drafts; auto-browse plus interest growth. Includes 100/day base browsing with morning/noon/evening hot-spot budgets, negative feedback, post deletion, image upload/emoji, audit and diagnostics."
         }
       },
       "author": "cortico-world-heybox contributors",
@@ -5881,8 +5884,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-heybox"
       },
       "created": "2026-10-24T14:30:19.968Z",
-      "published": "2026-10-28T13:08:51.930Z",
-      "versionCount": 8,
+      "published": "2026-10-28T14:16:40.442Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5910,11 +5913,13 @@
       "summary": {
         "tools": 37,
         "events": 1,
-        "toolTokens": 2615,
+        "toolTokens": 2839,
         "envPromptTokens": 66
       },
       "changelog": {
         "versions": [
+          "0.5.13",
+          "0.5.12",
           "0.5.11",
           "0.5.10",
           "0.5.9",
@@ -5960,7 +5965,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-heybox@0.5.11/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-heybox@0.5.13/CHANGELOG.md"
       },
       "discussion": {
         "number": 253,
@@ -12011,7 +12016,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/85",
         "up": 13,
         "down": 3,
-        "comments": 8
+        "comments": 9
       }
     },
     "cortico-world-timetable": {
