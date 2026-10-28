@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "name": "cortico-world-filter-paper",
+  "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/447",
+  "total": 1,
+  "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJa5a",
+      "author": "weitao0416",
+      "avatar": "https://avatars.githubusercontent.com/u/289424318?s=64&v=4",
+      "body": "这个插件把原来交接文件里工具调用参数（29%）+ 工具回执（18%）= 47%的东西省去了，这些相当于：\n\"我按了回车。我听到回车声。我等了 8 秒。我又等了 3 秒。我把鼠标移到屏幕右下角并按下左键。\"\n     所以「工具调用/回执」在省钱语境下 = 不该进记忆的运行日志。所以「工具调用/回执」在省钱语境下 = 不该进记忆的运行日志。\n实测结果：笔记大小之前42 KB token≈17,000；之后9 KB token≈2,236 \n交接后 cacheHitTokens 31,360 / cacheMissTokens 184，缓存几乎全中。\n省了一部分上下文。不会影响重要的事的记忆",
+      "createdAt": "2026-10-28T16:00:27Z"
+    }
+  ]
+}

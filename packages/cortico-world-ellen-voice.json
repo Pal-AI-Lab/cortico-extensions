@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-ellen-voice",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "describe": {
     "tools": [
       {
@@ -82,6 +82,44 @@
           "zh": "合成语音并直接以语音条发到 QQ 私聊或群。",
           "en": "Synthesise speech and send it as a voice bar to QQ."
         }
+      },
+      {
+        "name": "ellen_install_figure",
+        "description": "Install a transparent-background PNG as a Coopanion figure pack (writes figure.json, model.json, the texture placeholders and the entry script figure.js). The pack then shows up in Coopanion's dress-up list. The extension ships no character art: the image comes from the user, and it must be a transparent PNG — cut the background out first.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "Absolute path of the figure PNG."
+            },
+            "id": {
+              "type": "string",
+              "description": "Pack id: lowercase letters and digits, for example ellen."
+            },
+            "name": {
+              "type": "string",
+              "description": "Display name, for example Ellen Joe."
+            },
+            "overwrite": {
+              "type": "boolean",
+              "description": "Replace the existing pack with the same id."
+            }
+          },
+          "required": [
+            "path",
+            "id",
+            "name"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "setup"
+        ],
+        "summary": {
+          "zh": "把一张透明底 PNG 立绘装成 Coopanion 形象包。",
+          "en": "Turns a transparent-background PNG into a Coopanion figure pack."
+        }
       }
     ],
     "events": [
@@ -96,6 +134,7 @@
     "prompts": []
   },
   "changelog": {
+    "0.2.2": "- 修好形象包加载失败：0.2.0/0.2.1 装出来的包缺 `figure.js`（figure.json 的 `entry` 指向它），\n  Coopanion 一 import 就报错、静默退回默认角色。现在模板带上 `template/figure.js`，\n  安装时原样拷进包，并在写文件前校验入口文件存在（缺了直接报错，不再装出半个包）。\n- 覆盖安装先整包删除再写：之前只写不删，上一版多出来的文件（含旧 figure.js、旧贴图）会留在包里。\n- 拒绝内置形象 id（`coo`、`whale`）：这类包会被内置形象盖住，永远选不中，现在直接报错。\n- 模板元信息改成通用文案：不再把原作者的署名、角色介绍写进别人生成的包。\n- 超长文字按 emoji 边界截断：之前硬切会把 emoji 切成孤立代理，合成后出现乱码方块。\n- OneBot 连接被对端立刻断开时立即报错（之前要等满 30 秒才超时）。\n- TTS 返回非音频 content-type 时直接报错（避免把「HTTP 200 的错误网页」当成语音）。\n- `describe.json` 补上 `ellen_install_figure`，之前那里只有两个工具。",
     "0.2.1": "- PNG 解码补齐灰度+透明（colorType 4），之前这类截图会直接报「不支持的颜色类型 4」。\n- 修正 0.2.0 教程里没提到的导出建议：Photoshop「导出为 PNG-24」或「另存为 PNG」都可，不要用 8 位索引色+透明。",
     "0.2.0": "- 新增 `ellen_install_figure`：把一张透明底 PNG 立绘装成 Coopanion 形象包（自动生成 figure.json、\n  model.json、全部骨架贴图与缩略图），装完即可在「装扮」页选中。\n- 附带极简 PNG 编解码（`src/png.ts`，只依赖 node:zlib），不引入任何第三方依赖；\n  支持 8/16 位、灰度/RGB/调色板/RGBA、非隔行。\n- 新增设置项 `figuresDir`：留空时按 Coopanion.exe 所在目录推断 `data\\home\\companion\\data\\figures`。\n- 扩展仍不附带任何角色美术：模板目录里只有两份 JSON 和贴图清单，图片由使用者自己提供。",
     "0.1.0": "- 首个版本：`ellen_speak` 合成语音并作为附件交回模型，`ellen_send_voice` 直接发 QQ 语音条。\n- 支持中文、韩语、英语、日语；语言缺省自动判断。\n- 可配置 TTS 地址、OneBot 地址与 token、默认私聊对象、单次合成字数上限。\n- 同一段文字按 sha1 记忆，重复请求不重复占用 GPU。"

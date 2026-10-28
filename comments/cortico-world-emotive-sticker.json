@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "name": "cortico-world-emotive-sticker",
+  "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/305",
+  "total": 1,
+  "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJayu",
+      "author": "Shark-belove",
+      "avatar": "https://avatars.githubusercontent.com/u/282773230?s=64&v=4",
+      "body": "### 表情包标签重启后丢失(v0.2.13)\r\n\r\n环境:Windows,Coopanion 桌宠,表情包目录共 181 张。\r\n\r\n现象:\r\n1. 用 `sticker_open` + `sticker_tag` 逐张写中文标签(例:`dafeiyu-learned/叉腰自称最强.jpg` → 得意/自信/嘚瑟/赞),回执为「已记录」。\r\n2. 2. 重启应用后标签全丢。`sticker_stats` 只剩由目录名/文件名推导的:whale(87) paopao(56) maid(40) emoji(40) dafeiyu(32) learned(32) girl(31) pack(19),一条手写标签都没有。\r\n3. 3. 同一张图用 `sticker_open` 再查,仍显示「现有标签:dafeiyu/learned/叉腰自称最强」,并且提示「还有 181 张没打标签」,等于把标过的图当成没标。\r\n4. 4. 结果是 `sticker_pick` 按心情挑图时匹配不到这些手写标签,打了等于白打。\r\n复现步骤:\r\n1. 对任意一张图调 `sticker_tag`,写 2-4 个中文词;\r\n2. 2. 确认回执「已记录」;\r\n3. 3. 重启应用;\r\n4. 4. `sticker_stats` 看不到手写标签,`sticker_open` 同一张图又提示「待打标签」。\r\n期望:手写标签跨重启保留;重扫只增补新图、不覆盖已有标签;`sticker_stats` 能列出「得意」「撒娇」这类手写标签及其张数。",
+      "createdAt": "2026-10-28T15:42:02Z"
+    }
+  ]
+}
