@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-fatfish",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "describe": {
     "tools": [
       {
@@ -88,6 +88,7 @@
     ]
   },
   "changelog": {
+    "0.6.6": "- 默认关闭「转发人物的话」(`relayPerson`)：之前只有「转发桌宠的话」默认关，现在两边都默认关。要让桌宠自动把你说的话（打字、语音转写）转交给 DSH，需要手动在配置里开回去；**这是安全默认值，避免未经审视的自动转交**\n- ⚠️ **安全提醒（DSH 侧）**：如果你同时在用 DSH 侧的 `coopanion-connector-dsh` Host 插件，请把它升到 **v0.2.9**（仅 GitHub 分发：`https://github.com/blacksunshy/coopanion-connector-dsh`）。旧版存在 CSWSH 安全漏洞——任意网页可构造 WS 升级请求劫持桌宠与 DSH 之间的桥接（漏洞详情见 connector 仓库 issue #6）。v0.2.9 已修复，升级后建议确认桥接还能正常连上",
     "0.6.5": "- 补上 DSH 侧的版本要求：**「固定到当前会话」与 `dsh_pick_session` 需要 Host 侧插件 `coopanion-connector-dsh` ≥ 0.2.4**\n- 该 Host 插件**只在 GitHub 分发**（`https://github.com/blacksunshy/coopanion-connector-dsh`），**没有发布到 npm**——DSH 插件市场里来源要填仓库地址，不要填 npm 包名；两边版本要配对，桌宠侧用本版（0.6.5）\n- 补回 0.6.4 的说明：0.6.4 的 npm 包内 CHANGELOG.md 漏了 0.6.4 段，所以市场详情页当时读不到，这次随 0.6.5 一并带上",
     "0.6.4": "- 补上 `package.json` 里缺失的 `homepage` 与 `bugs` 字段：Co 扩展市场卡片现在能显示「项目主页」和「问题反馈」两个链接（此前只有 fatfish 没有，其它扩展都有）\n- 扩写市场里的简介文案，中英双语：说明这是「DSH 对话 + 语音朗读」的复合包，以及桥接这半边需要先装 DSH Host 插件（`coopanion-connector-dsh`）\n- 补 `keywords`，方便在扩展市场里被搜到（tts / voice / edge-tts / dsh / bridge / desktop-pet）",
     "0.6.3": "- 新增 DSH 桥接面板：「固定到当前会话 / 解除固定 / 刷新测试」三颗按钮，详情见 README 的「桥接面板」段\n- 固定会话后，DSH 默认 owner 切到别的会话时桌宠自动 `pick` 回来，不跟着跑\n- 刷新测试按钮强制读一次 bridge 状态，标注 session id / model 是否有变化\n- 修复面板按钮永远灰色：此前 `setAttribute('disabled', …)` 两个分支都返回空串，等于无条件禁用；改为 `toggleAttribute('disabled', 布尔值)`\n- 修复 invoke 期间 3 秒轮询把按钮状态刷回去的竞态：bind/unbind 期间 `show()` 跳过按钮刷新\n\n> ⚠️ 固定会话功能**仅在 DSH 桌面版（Electron）里可靠**，CLI 模式（`dsh web --no-open`）会话重启即丢，固定的 session id 会失效。",
