@@ -62,6 +62,9 @@
     "cortico-world-mcp": [
       "unsafe"
     ],
+    "cortico-world-memory-weight": [
+      "sensitive-data"
+    ],
     "cortico-world-mood-alont1": [
       "sensitive-data"
     ],
@@ -378,7 +381,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
         "up": 9,
         "down": 0,
-        "comments": 34
+        "comments": 37
       }
     },
     "better-cortico-world-netease-companion": {
@@ -492,7 +495,7 @@
     },
     "coopani-world-music": {
       "kind": "world",
-      "version": "0.3.11",
+      "version": "0.3.12",
       "displayName": "一起听歌",
       "description": "陪着你听歌：知道 QQ音乐 / 网易云音乐 在放什么。换歌必说一句，一首歌里分几段接话，还能就着刚唱过的词评两句；表情动作跟着曲风变，另有律动、打拍子、闭眼听、蹦迪四个专属动作。记得住你听过什么——记忆可以存到你指定的文件夹，公司和家里接同一份。能替你暂停切歌，也能自己搜歌挑给你。和「陪打炉石」一起装更有意思：打牌时听的每一首她都知道。嫌吵能让其中一个先安静。",
       "locales": {
@@ -523,8 +526,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-10-28T14:17:38.312Z",
-      "versionCount": 12,
+      "published": "2026-10-28T14:35:54.036Z",
+      "versionCount": 13,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -558,6 +561,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.12",
           "0.3.11",
           "0.3.10",
           "0.3.9",
@@ -572,7 +576,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-music@0.3.11/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-music@0.3.12/CHANGELOG.md"
       },
       "discussion": {
         "number": 384,
@@ -5853,17 +5857,17 @@
     },
     "cortico-world-heybox": {
       "kind": "world",
-      "version": "0.5.13",
+      "version": "0.5.15",
       "displayName": "小黑盒",
-      "description": "小黑盒 Coopanion World：账号 / 内容 / 成长三栏面板；扫码或手机号登录、100 条/日 + 早中晚热点额度、兴趣阶段与负面反馈、发帖/评论/本地草稿、帖子删除、图片上传与表情、审计与诊断。 / Xiaoheihe (Heybox) for Coopanion: Account/Content/Growth panels, QR or phone login, 100/day plus hot-spot browsing, staged interests with negative f",
+      "description": "小黑盒 Coopanion World：账号 / 内容 / 成长三栏；登录、模板与发布箱、prepare/publish 幂等、发帖/评论/草稿/编辑/删除、通知摘要、本地作息、兴趣阶段与负反馈、热点刷帖、审计与诊断。 / Heybox for Coopanion: Account/Content/Growth panels, templates/outbox, prepare/publish idempotency, posts/comments/drafts/edits/deletion, notif",
       "locales": {
         "zh": {
           "displayName": "小黑盒",
-          "description": "让桌宠登录小黑盒，逛游戏社区、读帖评论、按自己的兴趣发帖。Coopanion 面板合并为「账号 / 内容 / 成长」三栏：账号支持扫码和手机号登录；内容包含待确认、发帖、评论与本地草稿；成长包含自动刷帖和兴趣成长。支持 100 条/日基础 + 早中晚热点、负面新闻/言论反馈、帖子删除、图片上传、表情、审计与诊断。"
+          "description": "让桌宠登录小黑盒，逛社区、读帖评论、按兴趣发帖。面板为账号 / 内容 / 成长；内容包含待确认、发帖、评论、模板与发布箱；成长包含自动刷帖与兴趣。新增通知摘要、本地作息、prepare/publish 幂等、帖子读回验证、编辑帖子、删除评论、发布前质检；内置热门模板，也可按兴趣或热帖自建。"
         },
         "en": {
           "displayName": "Heybox",
-          "description": "Heybox for Coopanion with Account / Content / Growth panels: QR or phone login; pending writes, posts, comments and local drafts; auto-browse plus interest growth. Includes 100/day base browsing with morning/noon/evening hot-spot budgets, negative feedback, post deletion, image upload/emoji, audit and diagnostics."
+          "description": "Heybox for Coopanion with Account/Content/Growth panels: templates and outbox, idempotent prepare/publish, post read-back verification, edits, comment deletion, pre-publish review, notification digest, local routine, staged interests, negative feedback and hot-feed browsing."
         }
       },
       "author": "cortico-world-heybox contributors",
@@ -5884,8 +5888,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-heybox"
       },
       "created": "2026-10-24T14:30:19.968Z",
-      "published": "2026-10-28T14:16:40.442Z",
-      "versionCount": 10,
+      "published": "2026-10-28T14:37:58.460Z",
+      "versionCount": 12,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5911,13 +5915,15 @@
         "week": 1259
       },
       "summary": {
-        "tools": 37,
+        "tools": 47,
         "events": 1,
-        "toolTokens": 2839,
+        "toolTokens": 3988,
         "envPromptTokens": 66
       },
       "changelog": {
         "versions": [
+          "0.5.15",
+          "0.5.14",
           "0.5.13",
           "0.5.12",
           "0.5.11",
@@ -5965,7 +5971,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-heybox@0.5.13/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-heybox@0.5.15/CHANGELOG.md"
       },
       "discussion": {
         "number": 253,
@@ -7278,6 +7284,76 @@
         "number": 29,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/29",
         "up": 1,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-memory-weight": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "我要给鱼鱼完整的一生",
+      "description": "Coopanion / Cortico world extension: gives your companion a full lifetime of vivid cognitive memories with a 3-tier celestial architecture (core profile, promise ring, episodic nebula), 3D celestial visualization, and a settings panel.",
+      "locales": {
+        "zh": {
+          "displayName": "我要给鱼鱼完整的一生",
+          "description": "为 Coopanion / 桌宠赋予鲜活长期的心智记忆与完整一生：心智画像内核（超长半衰期）、待办约定星环（不完成不遗忘）与 4 级艾宾浩斯情景遗忘星云。支持 3D 宇宙记忆星系图与交互控制台。"
+        },
+        "en": {
+          "displayName": "A Full Lifetime for Fishy",
+          "description": "Gives your companion a full lifetime of vivid memory: core persona kernel, commitment ring, and episodic memory nebula with 3D celestial visualization and interactive panel."
+        }
+      },
+      "maintainers": [
+        "nyany"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-memory-weight"
+      },
+      "created": "2026-10-28T14:37:30.922Z",
+      "published": "2026-10-28T14:38:27.341Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "memory",
+        "internal-state",
+        "sensitive-data"
+      ],
+      "tags": [
+        "memory",
+        "internal-state",
+        "sensitive-data"
+      ],
+      "icon": "assets/cortico-world-memory-weight/icon.png",
+      "screenshots": [
+        "assets/cortico-world-memory-weight/screenshot-1.png"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 0,
+        "toolTokens": 883,
+        "envPromptTokens": 164
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-memory-weight@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 445,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/445",
+        "up": 0,
         "down": 0,
         "comments": 0
       }
@@ -12381,7 +12457,7 @@
     },
     "cortico-world-wardrobe": {
       "kind": "world",
-      "version": "0.1.5",
+      "version": "0.1.7",
       "displayName": "换装",
       "description": "非官方换装 World：给 Coopanion 的鲸鱼加上新增衣服、新增头发，并附带基础模型。不是 Pal AI Lab 的桌宠包。",
       "author": "Kwan443",
@@ -12397,8 +12473,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-wardrobe"
       },
       "created": "2026-10-28T11:12:54.697Z",
-      "published": "2026-10-28T13:24:15.821Z",
-      "versionCount": 6,
+      "published": "2026-10-28T14:35:37.543Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [

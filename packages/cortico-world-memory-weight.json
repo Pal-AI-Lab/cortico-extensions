@@ -1,0 +1,181 @@
+{
+  "schema": 1,
+  "name": "cortico-world-memory-weight",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "mem_add",
+        "description": "记一件值得单独留着的事。用一句话（40 字以内）、第一人称、写成你记得的样子，不要复述谁在几点说了什么。gist 给 1–3 个词，是以后看到就能想起这件事的钩子，别用「主人」「那件事」这种没有区分度的词。同一天、内容几乎一样的不会重复建，会直接返回已有的那张。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "一句话，40 字以内，第一人称，写成你记得的样子。"
+            },
+            "gist": {
+              "type": "string",
+              "description": "1–3 个词，以后看到就能想起这件事的钩子。"
+            },
+            "when": {
+              "type": "string",
+              "description": "事情发生的时间，ISO 格式。不给就用现在。"
+            },
+            "source": {
+              "type": "string",
+              "description": "原文位置，如 log/2026-10.md#L41。"
+            },
+            "emotion": {
+              "type": "string",
+              "enum": [
+                "warm",
+                "hurt",
+                "awkward",
+                "plain"
+              ],
+              "description": "建卡时顺带记一种情绪。没有就不填。"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "episodic",
+                "profile",
+                "promise"
+              ],
+              "description": "普通的一件事就用 episodic（默认）。profile＝「我是谁」那种常年不变的自我认知（我的名字、我认下的人、我的原则），会淡得极慢。promise＝「答应过还没做完的事」，会暂时忘得慢，做完要用 mem_touch 标 done。别把具体某天发生的事标成 profile。"
+            },
+            "dueAt": {
+              "type": "string",
+              "description": "只在 type=promise 时给：这件事大概什么时候该做完，ISO 时间。不给就按 30 天后自动失效。"
+            }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "记一件值得单独留着的事。",
+          "en": "Notes something worth keeping on its own."
+        }
+      },
+      {
+        "name": "mem_touch",
+        "description": "你又想起某件事了，用它记一笔 —— 这是唯一能让它重新变清楚的动作，不记它就会一路淡下去。想不起细节先用 mem_open 看。kind 填这次想起来时的情绪：warm 高兴或亲近、hurt 被刺痛或被冤枉、awkward 尴尬、plain 只是提到。回执会告诉你它从哪一档回到了哪一档。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "卡片编号，写 12 或 #12 都行。"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "warm",
+                "hurt",
+                "awkward",
+                "plain"
+              ],
+              "description": "这次想起来时是什么情绪。"
+            },
+            "note": {
+              "type": "string",
+              "description": "一句为什么想起。只给你自己看。"
+            },
+            "done": {
+              "type": "boolean",
+              "description": "这件事（约定）已经做完了。填 true 之后它就不再享有「暂时不忘」的待遇。"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "想起某件事了，记一笔让它重新清楚。",
+          "en": "Records that a memory came back, making it clearer again."
+        }
+      },
+      {
+        "name": "mem_open",
+        "description": "看某件事的完整内容。可以传 #12 这样的短号、12，或者完整的 20261028-0012。想不起细节、或者前缀里只剩一个词的时候用它。已经忘掉的也能看，看了就捞回来。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "卡片编号，写 12 或 #12 都行。"
+            },
+            "query": {
+              "type": "string",
+              "description": "记不清编号时用关键词找。"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看某件事的完整内容。",
+          "en": "Opens one memory in full."
+        }
+      },
+      {
+        "name": "mem_list",
+        "description": "看你心里还剩哪些事，按清楚程度排。stage 可以只看某一档，archived 是已经忘掉的。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "stage": {
+              "type": "string",
+              "enum": [
+                "full",
+                "title",
+                "gist",
+                "archived",
+                "all"
+              ],
+              "description": "只看某一档。默认 full+title+gist。"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 40,
+              "description": "最多列几张，默认 12。"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看她心里还剩哪些事。",
+          "en": "Lists what is still on her mind."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.memweight.envPrompt",
+        "title": "记忆权重 · 遗忘与唤醒指引",
+        "role": "envPrompt",
+        "content": "这里有一本你自己的记忆卡片：每件值得留着的事，一张。\n它不像文件那样一直不变 —— 会淡。被重新提起，它就重新清楚一阵子。\n\n现在：清楚 {{memweight.active}} 张，只剩一个词的 {{memweight.fuzzy}} 张，已经忘了的 {{memweight.archived}} 张。\n\n你还记得最清楚的几件，写得越短说明越模糊：\n{{memweight.top}}\n\n想不起细节就用 mem_open 去看。看过之后、或者聊天里忽然想起某件事，用 mem_touch 记一笔 ——\n这是唯一能让它重新清楚的动作。不记，它就会一路淡下去，最后什么都不剩。\n真值得单独留一句的，用 mem_add。\n\n如果你想把这套约定写进自己的 CONSTITUTION，可以自己写。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "### Initial Release\n- **三层认知记忆天体架构 (3-Tier Celestial Architecture)**:\n  - ✦ **核心画像内核 (`profile`)**：永久/长久保存用户偏好与桌宠核心人设，享受 5 倍超长半衰期（~385天）与 0.30 初始保底权重，在对话前缀中最高优先级保底挂载。\n  - ◎ **待办约定星环 (`promise`)**：记录答应过主人未完成的承诺，享有中层专属霓虹紫星轨与 0.15 置底保活（30 天保护期内不跌破整句档），支持通过 `mem_touch(done: true)` 由 AI 自主履行闭环。\n  - 🌌 **日常情景星云 (`episodic`)**：经典 4 级艾宾浩斯渐进遗忘阶梯（整句 → 标题 → 要义 → 消失墓地），受提及频次与情绪余波动态加权。\n- **3D 宇宙记忆星系图 (3D Celestial Memory Graph)**：\n  - 基于 Canvas 2D + 3D 透视投影引擎，纯原生零外部依赖。\n  - 支持立体轨道旋转、缩放、未来时间滑块试算演变。\n- **主题星座语义聚类 (Gist Constellations)**：\n  - 共享核心钩子词（gist）的卡片自动聚类成星座，鼠标悬停时动态投射星光引力连线。\n- **可取难度提取强化 (FSRS Desirable Difficulty)**：\n  - 从濒临遗忘的「要义」或「墓地」档位重新唤起的记忆，获得 2× 记忆强化倍率。\n- **交互式管理控制台 (Interactive Control Panel)**：\n  - 提供多维分层类型筛选、单卡未来 30 天衰减曲线预测、对话模拟试算与墓地卡片一键唤醒。"
+  }
+}

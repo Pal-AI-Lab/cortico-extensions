@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-heybox",
-  "version": "0.5.13",
+  "version": "0.5.15",
   "describe": {
     "tools": [
       {
@@ -782,6 +782,334 @@
         "tags": [
           "read"
         ]
+      },
+      {
+        "name": "heybox_templates",
+        "description": "小黑盒内容模板：内置热门结构，也支持按兴趣/热帖自建。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "get",
+                "create",
+                "update",
+                "remove",
+                "use",
+                "from_interest",
+                "from_post"
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "topic": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "text": {
+              "type": "string"
+            },
+            "note": {
+              "type": "string"
+            },
+            "titlePattern": {
+              "type": "string"
+            },
+            "bodyGuide": {
+              "type": "string"
+            },
+            "hashtags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      },
+      {
+        "name": "heybox_prepare",
+        "description": "准备内容但不发送；保存到发件箱，之后用 heybox_publish。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "post",
+                "comment",
+                "reply"
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "text": {
+              "type": "string"
+            },
+            "linkId": {
+              "type": "string"
+            },
+            "commentId": {
+              "type": "string"
+            },
+            "community": {
+              "type": "string"
+            },
+            "communityId": {
+              "type": "string"
+            },
+            "hashtags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "images": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "imageFiles": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "templateId": {
+              "type": "string"
+            },
+            "requestId": {
+              "type": "string"
+            },
+            "postId": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        }
+      },
+      {
+        "name": "heybox_publish",
+        "description": "发送 prepare 记录；幂等，未知结果先 verify。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "go": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        }
+      },
+      {
+        "name": "heybox_outbox",
+        "description": "查看发件箱状态与回执。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "limit": {
+              "type": "integer"
+            },
+            "status": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      {
+        "name": "heybox_verify",
+        "description": "验证发件箱记录。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        }
+      },
+      {
+        "name": "heybox_edit_post",
+        "description": "编辑自己的帖子，必须 confirm=true。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "postId": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "text": {
+              "type": "string"
+            },
+            "images": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "imageFiles": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "image_text",
+                "article"
+              ]
+            },
+            "communityId": {
+              "type": "string"
+            },
+            "confirm": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "postId",
+            "title",
+            "text"
+          ]
+        }
+      },
+      {
+        "name": "heybox_delete_comment",
+        "description": "删除自己的评论，必须 confirm=true。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "commentId": {
+              "type": "string"
+            },
+            "confirm": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "commentId"
+          ]
+        }
+      },
+      {
+        "name": "heybox_review_draft",
+        "description": "发布前只读质检，不改稿不发送。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "post",
+                "comment"
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "text": {
+              "type": "string"
+            },
+            "templateId": {
+              "type": "string"
+            },
+            "communityId": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "text"
+          ]
+        }
+      },
+      {
+        "name": "heybox_notifications",
+        "description": "通知摘要与本地已读；不改变平台未读状态。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "digest",
+                "status",
+                "markRead"
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "all": {
+              "type": "boolean"
+            },
+            "limit": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      },
+      {
+        "name": "heybox_routine",
+        "description": "本地作息：night 只读暂停；不控制平台。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "status",
+                "set"
+              ]
+            },
+            "enabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
       }
     ],
     "events": [
@@ -800,6 +1128,8 @@
     ]
   },
   "changelog": {
+    "0.5.15": "- 新增 `heybox_notifications`：未读摘要、列表、本地已读；不声称改变平台未读状态。\n- 新增 `heybox_routine`：本地作息，night 23:00–08:00 只读暂停自动刷帖。\n- 更新 README、ENV_PROMPT、工具说明与市场描述。\n- 说明限制：没有接入 presence 传感器；通知已读仅为本地。",
+    "0.5.14": "- 新增模板库：10 种内置热门结构，支持按兴趣或热帖自建/更新/删除模板。\n- 新增 prepare → publish → outbox → verify 发布链路；requestId 幂等，帖子读回验证，评论/回复明确标注只能确认本地回执。\n- 新增编辑帖子、删除自己评论、发布前质检。\n- 更新 ENV_PROMPT、README、市场说明。",
     "0.5.13": "- 重写中文/英文 README：三栏面板、写入模式、发帖/草稿/删除限制、兴趣成长、8 组配置、故障排查。\n- 更新 ENV_PROMPT：明确免确认会直接发送，补充删除、草稿、诊断、负面反馈、热点来源与图片限制。\n- 更新工具描述：区分 heybox_interest 与 heybox_taste，补全 userId、10MB、质检、确认删除。\n- 更新发布文档与本地下载测试流程。",
     "0.5.12": "- 面板合并为「账号 / 内容 / 成长」三个一级栏目，内部使用子页签。\n- 配置拆分为 8 组：浏览、主人偏好、自动刷帖、热点额度、发帖灵感、语感、写入、回复。\n- 修复 0.5.11 已发布但未包含合并面板的问题。\n- 完善 Coopanion 市场说明，覆盖账号/内容/成长三栏、草稿、删除、负面反馈与诊断。",
     "0.5.11": "- 新增 `heybox_delete_post`：确认所有权后删除自己的帖子。\n- 新增 `heybox_drafts` 和 `heybox_diagnose`；草稿管理、登录/额度/最近错误诊断。\n- 兴趣：过滤 Steam/PC游戏/探索等泛化词，增加负面反馈、7 天连续关注加成、阶段历史和“为什么现在不能发”。\n- 自动刷帖增加标题去重和同主题发散限制。\n- 图片上传增加 10MB 限制、服务端错误文本和一次 5xx 重试；移除无用 `tag` 参数。\n- 小黑盒面板/配置标题按账号、内容、成长分组。",
