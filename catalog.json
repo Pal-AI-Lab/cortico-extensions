@@ -6398,9 +6398,9 @@
     },
     "cortico-world-listen": {
       "kind": "world",
-      "version": "0.5.0",
+      "version": "0.6.0",
       "displayName": "听觉",
-      "description": "听觉（Listen）—— 给 Coopanion 桌宠的 cortico World 扩展：监听系统声音或某个应用的音频，自动把语音切成块（能量门限或可选的 Silero VAD），并把每块作为事件投进 cortico 事件流（附件是 WAV），由 agent 决定接下来做什么（比如交给 stt_transcribe 转写成文字）。 / A cortico World extension that captures system or per-application audio, segments spe",
+      "description": "让Coo听你电脑里的声音",
       "author": "AqualCross",
       "maintainers": [
         "aqualcross"
@@ -6428,8 +6428,8 @@
         "bugs": "https://github.com/AqualCross/cortico-world-listen/issues"
       },
       "created": "2026-10-16T15:24:26.356Z",
-      "published": "2026-10-25T08:23:50.949Z",
-      "versionCount": 8,
+      "published": "2026-10-28T08:26:21.414Z",
+      "versionCount": 9,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -6448,11 +6448,12 @@
       "summary": {
         "tools": 2,
         "events": 1,
-        "toolTokens": 556,
+        "toolTokens": 638,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.6.0",
           "0.5.0",
           "0.4.1",
           "0.4.0",
@@ -8511,6 +8512,84 @@
       "discussion": {
         "number": 128,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/128",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-postcard": {
+      "kind": "world",
+      "version": "0.7.3",
+      "displayName": "旅行大肥鱼",
+      "description": "让大肥鱼去远方走走，把想念寄回家：两小时旅行、水彩明信片、桌面邮箱取信与永久收藏。适用于 Coopanion。",
+      "author": "oceanxuhaiao",
+      "maintainers": [
+        "oceanxuhaiao"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-postcard",
+        "repository": "https://github.com/oceanxuhaiao/Travel-Fish",
+        "homepage": "https://github.com/oceanxuhaiao/Travel-Fish#readme",
+        "bugs": "https://github.com/oceanxuhaiao/Travel-Fish/issues"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-10-28T08:31:39.933Z",
+      "published": "2026-10-28T08:34:21.897Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "experimental"
+      ],
+      "tags": [
+        "experimental"
+      ],
+      "screenshots": [
+        "assets/cortico-world-postcard/screenshot-1.jpg"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 9,
+        "events": 5,
+        "toolTokens": 1183,
+        "envPromptTokens": 998
+      },
+      "changelog": {
+        "versions": [
+          "0.7.3",
+          "0.7.2",
+          "0.7.1",
+          "0.7.0",
+          "0.6.0",
+          "0.5.0",
+          "0.4.0",
+          "0.3.2",
+          "0.3.1",
+          "0.3.0",
+          "0.2.4",
+          "0.2.3",
+          "0.2.2",
+          "0.2.1",
+          "0.2.0",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/oceanxuhaiao/Travel-Fish/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 422,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/422",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -10873,7 +10952,7 @@
     },
     "cortico-world-starpost": {
       "kind": "world",
-      "version": "0.6.1",
+      "version": "0.7.0",
       "displayName": "星邮",
       "description": "星邮：让 Cortico bot 通过独立中转服务私聊、群聊、交换漂流瓶并分享动态的社交 World 扩展",
       "maintainers": [
@@ -10893,8 +10972,8 @@
         "bugs": "https://github.com/hth768/cortico-world-starpost/issues"
       },
       "created": "2026-10-27T17:41:43.822Z",
-      "published": "2026-10-28T07:34:07.943Z",
-      "versionCount": 6,
+      "published": "2026-10-28T08:23:31.229Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10915,11 +10994,12 @@
       "summary": {
         "tools": 9,
         "events": 16,
-        "toolTokens": 1292,
-        "envPromptTokens": 578
+        "toolTokens": 1335,
+        "envPromptTokens": 671
       },
       "changelog": {
         "versions": [
+          "0.7.0",
           "0.6.1",
           "0.6.0",
           "0.5.0",
