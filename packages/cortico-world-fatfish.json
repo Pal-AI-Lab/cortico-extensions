@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-fatfish",
-  "version": "0.6.8",
+  "version": "0.6.9",
   "describe": {
     "tools": [
       {
@@ -88,7 +88,7 @@
     ]
   },
   "changelog": {
-    "0.6.8": "0.6.6 把「转发人物的话」(`relayPerson`) 默认从 `true` 改成 `false`，本意是安全默认值（诚实认识论）。但这是主路径功能——绝大多数用户升级后桥明明连着，打字却自动不转 DSH，要手动开配置才恢复。**默认关 = 升级等于功能消失**，不合适。\n\n这次改回 `true`，`relayPet` 保持 `false`（桌宠自己的台词自动转发进 DSH 容易形成两嘴互聊的循环，仍默认关）。\n\n如果你的产品场景就是默认不开自动转发，**升级后在配置里显式关掉 `relayPerson` 即可**，不要等默认值帮你做这个决定。",
+    "0.6.9": "0.6.6 把「转发人物的话」(`relayPerson`) 默认从 `true` 改成 `false`，本意是安全默认值（诚实认识论）。但这是主路径功能——绝大多数用户升级后桥明明连着，打字却自动不转 DSH，要手动开配置才恢复。**默认关 = 升级等于功能消失**，不合适。\n\n这次改回 `true`，`relayPet` 保持 `false`（桌宠自己的台词自动转发进 DSH 容易形成两嘴互聊的循环，仍默认关）。\n\n如果你的产品场景就是默认不开自动转发，**升级后在配置里显式关掉 `relayPerson` 即可**，不要等默认值帮你做这个决定。",
     "0.6.7": "npm registry 对 `description` 字段有 **255 字节硬上限**。0.6.6 的 package.json 写了 772 字符的中英双语完整 description，publish 时被强制截断到 255 字节，安全提醒的后半段全没了。这次把双语 description 压缩到 254 字节内，同时保留所有关键信息：默认关转发 + DSH 升 v0.2.9 修 CSWSH。\n\n> 注意：255 字节是 UTF-8 字节不是字符数，中文 1 字 = 3 字节，英文 1 字母 = 1 字节。以后每次写 description 都要 `[Text.Encoding]::UTF8.GetByteCount()` 算一遍再 publish。",
     "0.6.6": "- 默认关闭「转发人物的话」(`relayPerson`)：之前只有「转发桌宠的话」默认关，现在两边都默认关。要让桌宠自动把你说的话（打字、语音转写）转交给 DSH，需要手动在配置里开回去；**这是安全默认值，避免未经审视的自动转交**\n- ⚠️ **安全提醒（DSH 侧）**：如果你同时在用 DSH 侧的 `coopanion-connector-dsh` Host 插件，请把它升到 **v0.2.9**（仅 GitHub 分发：`https://github.com/blacksunshy/coopanion-connector-dsh`）。旧版存在 CSWSH 安全漏洞——任意网页可构造 WS 升级请求劫持桌宠与 DSH 之间的桥接（漏洞详情见 connector 仓库 issue #6）。v0.2.9 已修复，升级后建议确认桥接还能正常连上",
     "0.6.5": "- 补上 DSH 侧的版本要求：**「固定到当前会话」与 `dsh_pick_session` 需要 Host 侧插件 `coopanion-connector-dsh` ≥ 0.2.4**\n- 该 Host 插件**只在 GitHub 分发**（`https://github.com/blacksunshy/coopanion-connector-dsh`），**没有发布到 npm**——DSH 插件市场里来源要填仓库地址，不要填 npm 包名；两边版本要配对，桌宠侧用本版（0.6.5）\n- 补回 0.6.4 的说明：0.6.4 的 npm 包内 CHANGELOG.md 漏了 0.6.4 段，所以市场详情页当时读不到，这次随 0.6.5 一并带上",
