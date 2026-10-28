@@ -1,9 +1,34 @@
 {
   "schema": 1,
   "name": "cortico-world-ellen-voice",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "describe": {
     "tools": [
+      {
+        "name": "ellen_patch_page",
+        "description": "Install this extension's three page patches (speech.js / pet-app.js / pet.css) into the host Coopanion desktop-pet web folder. They fix external TTS hookup, silent short replies, bubble clipping at screen edges, bubble width, suspended audio contexts and the speech volume setting. Restart Coopanion afterwards. dryRun=true only reports what would change.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "dryRun": {
+              "type": "boolean",
+              "description": "Report what would change without writing files."
+            },
+            "webDir": {
+              "type": "string",
+              "description": "Desktop-pet web folder; inferred from settings or the install location when omitted."
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "setup"
+        ],
+        "summary": {
+          "zh": "把页面补丁装进宿主 Coopanion（外部声线、短句出声、气泡贴边与宽度、音量）。",
+          "en": "Install the page patches into the host Coopanion (external voice, short replies, bubble edge/width, volume)."
+        }
+      },
       {
         "name": "ellen_speak",
         "description": "Synthesise text in Ellen Joe's voice through the local GPT-SoVITS service. The audio is returned as an attachment (a log: handle) that can be passed to qq_draft(voice=...). Language is detected automatically; zh, ko, en and ja are supported.",
@@ -209,6 +234,8 @@
     "prompts": []
   },
   "changelog": {
+    "0.4.0": "- 新增 `ellen_patch_page`：把扩展自带的三份桌宠页面补丁（`patches/speech.js`、`patches/pet-app.js`、\n  `patches/pet.css`）装进宿主 Coopanion 的 `resources\\app\\node_modules\\cortico-world-desktop-pet\\web`。\n  这些补丁解决的是“扩展跑在后台、改不到页面”的那一类问题：\n  - 外部声线：接本机 TTS，失败三次才冷却 30 秒（以前一次失败就永久闭麦）；\n  - 短句也出声：两三个字的回复以前整句上屏、走不到逐字路径所以没有语音；\n  - 气泡：按内容撑开（不再只露四个字）、贴左右边缘时整块翻转、尾巴指回身上；\n  - 静置后 AudioContext 挂起自动唤醒；音量走配置而不是写死 0.67。\n- 安装时自动备份原文件到 `<web 目录>\\..\\.ellen-patch-backup-<时间戳>\\`，内容相同则跳过；\n  `dryRun=true` 可以先预演。装完需要重启 Coopanion 才生效。\n- 新增设置项 `hostWebDir`：页面目录特殊（比如便携版）时可以手动指定。",
+    "0.3.1": "- 修「别人装完用不了服务开关」：`ellen_service status` 以前没填「程序根目录」就直接报错，现在照样能查；\n  启动/停止才需要目录，缺了会给出明确的中文提示（也告诉你还可以直接双击网盘包里的 `start-voice.cmd`）。\n- 启动语音代理时把参考音频、缓存目录、后端地址显式传进去（`REF`/`PROMPT_FILE`/`KO_REF`/`KO_PROMPT_FILE`/\n  `CACHE`/`BACKEND`/`KO_BACKEND`/`PORT`）。以前代理用的是它自己写死的作者机器路径，别人一启动就找不到参考音。\n- 代理脚本自动找：先看 `<程序根目录>\\gsv-proxy.mjs`，再找 `<程序根目录>\\tools\\gsv-proxy.mjs`，\n  所以网盘包解压出来直接填那个文件夹就行。\n- 新增设置项 `proxyScript` / `refAudio` / `refText` / `koRefAudio` / `koRefText` / `cacheDir`，\n  参考音不再依赖固定目录；中文参考音默认会依次试 `ref\\ref_2.wav`、`ref\\ab\\ref_2.wav`。",
     "0.3.0": "- 新增 `ellen_service`：查状态、启动、停止这条语音链路背后的程序（中文/韩语 GPT-SoVITS、\n  语音代理、QQ 中转）。全部走 Node 内置模块：`netstat` 读监听端口、`Get-CimInstance` 核对命令行、\n  `spawn(detached, windowsHide)` 后台启动并轮询端口是否真的起来。\n  停止只结束「正在监听该端口且命令行对得上」的进程；QQ 中转会先掐掉会把拉活的 `.bat` 循环。\n- 新增 `ellen_tune`：通过 Coopanion 的配置接口换语音识别语言（zh/ko/auto）或调说话音量，\n  改完约 1 秒生效，不用重启。\n- 新增设置项 `ellenRoot` / `gsvRoot` / `pythonExe` / `nodeExe`：把服务开关的路径做成可配置，\n  不再写死某台机器的目录。\n- README 重写成使用说明：安装、第一次配置、五个工具、模型下载、常见问题、回滚。\n- 服务状态改为一次 `netstat` + 一次 PowerShell 批量查询（之前每个端口各查一次，5 个服务要 1.5 秒）。",
     "0.2.2": "- 修好形象包加载失败：0.2.0/0.2.1 装出来的包缺 `figure.js`（figure.json 的 `entry` 指向它），\n  Coopanion 一 import 就报错、静默退回默认角色。现在模板带上 `template/figure.js`，\n  安装时原样拷进包，并在写文件前校验入口文件存在（缺了直接报错，不再装出半个包）。\n- 覆盖安装先整包删除再写：之前只写不删，上一版多出来的文件（含旧 figure.js、旧贴图）会留在包里。\n- 拒绝内置形象 id（`coo`、`whale`）：这类包会被内置形象盖住，永远选不中，现在直接报错。\n- 模板元信息改成通用文案：不再把原作者的署名、角色介绍写进别人生成的包。\n- 超长文字按 emoji 边界截断：之前硬切会把 emoji 切成孤立代理，合成后出现乱码方块。\n- OneBot 连接被对端立刻断开时立即报错（之前要等满 30 秒才超时）。\n- TTS 返回非音频 content-type 时直接报错（避免把「HTTP 200 的错误网页」当成语音）。\n- `describe.json` 补上 `ellen_install_figure`，之前那里只有两个工具。",
     "0.2.1": "- PNG 解码补齐灰度+透明（colorType 4），之前这类截图会直接报「不支持的颜色类型 4」。\n- 修正 0.2.0 教程里没提到的导出建议：Photoshop「导出为 PNG-24」或「另存为 PNG」都可，不要用 8 位索引色+透明。",
