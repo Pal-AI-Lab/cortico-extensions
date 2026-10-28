@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-ellen-voice",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "describe": {
     "tools": [
       {
@@ -120,6 +120,81 @@
           "zh": "把一张透明底 PNG 立绘装成 Coopanion 形象包。",
           "en": "Turns a transparent-background PNG into a Coopanion figure pack."
         }
+      },
+      {
+        "name": "ellen_service",
+        "description": "Inspect, start or stop the local programs behind the voice chain: the Chinese and Korean GPT-SoVITS models, the text-to-speech proxy, and the QQ relay. Only processes that are listening on the expected port AND whose command line matches are stopped, so other programs are never killed.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "status",
+                "start",
+                "stop"
+              ],
+              "description": "Inspect, start or stop."
+            },
+            "name": {
+              "type": "string",
+              "enum": [
+                "voice",
+                "qq",
+                "all",
+                "zh",
+                "ko",
+                "proxy",
+                "napcat"
+              ],
+              "description": "voice = the three voice services together; qq = QQ relay (starts the proxy first); all = everything; zh/ko/proxy = a single service; napcat is status-only because it runs inside QQ."
+            }
+          },
+          "required": [
+            "action"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "speak",
+          "setup"
+        ],
+        "summary": {
+          "zh": "开关语音链路的后台程序（声线模型、语音代理、QQ 中转）并查状态。",
+          "en": "Starts, stops and inspects the background voice services."
+        }
+      },
+      {
+        "name": "ellen_tune",
+        "description": "Adjust the desktop pet's ear and mouth: switch the speech-recognition language (zh, ko or auto) or set the speaking volume. Changes take effect in about a second, without restarting Coopanion. Call it with no arguments to read the current settings.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "language": {
+              "type": "string",
+              "enum": [
+                "zh",
+                "ko",
+                "auto"
+              ],
+              "description": "Recognition language: zh Chinese, ko Korean, auto lets the model decide."
+            },
+            "volume": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Speaking volume, 0-100."
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "setup"
+        ],
+        "summary": {
+          "zh": "换语音输入的识别语言或调说话音量。",
+          "en": "Switches the speech-recognition language or adjusts the speaking volume."
+        }
       }
     ],
     "events": [
@@ -134,6 +209,7 @@
     "prompts": []
   },
   "changelog": {
+    "0.3.0": "- 新增 `ellen_service`：查状态、启动、停止这条语音链路背后的程序（中文/韩语 GPT-SoVITS、\n  语音代理、QQ 中转）。全部走 Node 内置模块：`netstat` 读监听端口、`Get-CimInstance` 核对命令行、\n  `spawn(detached, windowsHide)` 后台启动并轮询端口是否真的起来。\n  停止只结束「正在监听该端口且命令行对得上」的进程；QQ 中转会先掐掉会把拉活的 `.bat` 循环。\n- 新增 `ellen_tune`：通过 Coopanion 的配置接口换语音识别语言（zh/ko/auto）或调说话音量，\n  改完约 1 秒生效，不用重启。\n- 新增设置项 `ellenRoot` / `gsvRoot` / `pythonExe` / `nodeExe`：把服务开关的路径做成可配置，\n  不再写死某台机器的目录。\n- README 重写成使用说明：安装、第一次配置、五个工具、模型下载、常见问题、回滚。\n- 服务状态改为一次 `netstat` + 一次 PowerShell 批量查询（之前每个端口各查一次，5 个服务要 1.5 秒）。",
     "0.2.2": "- 修好形象包加载失败：0.2.0/0.2.1 装出来的包缺 `figure.js`（figure.json 的 `entry` 指向它），\n  Coopanion 一 import 就报错、静默退回默认角色。现在模板带上 `template/figure.js`，\n  安装时原样拷进包，并在写文件前校验入口文件存在（缺了直接报错，不再装出半个包）。\n- 覆盖安装先整包删除再写：之前只写不删，上一版多出来的文件（含旧 figure.js、旧贴图）会留在包里。\n- 拒绝内置形象 id（`coo`、`whale`）：这类包会被内置形象盖住，永远选不中，现在直接报错。\n- 模板元信息改成通用文案：不再把原作者的署名、角色介绍写进别人生成的包。\n- 超长文字按 emoji 边界截断：之前硬切会把 emoji 切成孤立代理，合成后出现乱码方块。\n- OneBot 连接被对端立刻断开时立即报错（之前要等满 30 秒才超时）。\n- TTS 返回非音频 content-type 时直接报错（避免把「HTTP 200 的错误网页」当成语音）。\n- `describe.json` 补上 `ellen_install_figure`，之前那里只有两个工具。",
     "0.2.1": "- PNG 解码补齐灰度+透明（colorType 4），之前这类截图会直接报「不支持的颜色类型 4」。\n- 修正 0.2.0 教程里没提到的导出建议：Photoshop「导出为 PNG-24」或「另存为 PNG」都可，不要用 8 位索引色+透明。",
     "0.2.0": "- 新增 `ellen_install_figure`：把一张透明底 PNG 立绘装成 Coopanion 形象包（自动生成 figure.json、\n  model.json、全部骨架贴图与缩略图），装完即可在「装扮」页选中。\n- 附带极简 PNG 编解码（`src/png.ts`，只依赖 node:zlib），不引入任何第三方依赖；\n  支持 8/16 位、灰度/RGB/调色板/RGBA、非隔行。\n- 新增设置项 `figuresDir`：留空时按 Coopanion.exe 所在目录推断 `data\\home\\companion\\data\\figures`。\n- 扩展仍不附带任何角色美术：模板目录里只有两份 JSON 和贴图清单，图片由使用者自己提供。",

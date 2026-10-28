@@ -1,0 +1,415 @@
+{
+  "schema": 1,
+  "name": "cortico-world-memory-extra",
+  "version": "0.3.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "mem_memory",
+        "description": "短期与长期记忆操作：记忆、混合检索、查看最近对话、取出溢出条目、读写摘要和当前话题。用 action 选择子功能。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "remember",
+                "recall",
+                "recent",
+                "overflow",
+                "summary",
+                "topic"
+              ],
+              "description": "remember=写入长期事实；recall=混合检索长期记忆；recent=查看最近短期对话；overflow=取出溢出短期条目；summary=读取或写入对话摘要；topic=读取或写入当前话题"
+            },
+            "text": {
+              "type": "string",
+              "title": "内容/摘要/话题"
+            },
+            "query": {
+              "type": "string",
+              "title": "查询"
+            },
+            "top_k": {
+              "type": "number",
+              "title": "条数"
+            },
+            "n": {
+              "type": "number",
+              "title": "最近条数"
+            },
+            "scope": {
+              "type": "string",
+              "title": "记忆域"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "read",
+          "write",
+          "act",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "短期与长期记忆操作:记忆、检索、最近对话、溢出条目、摘要和当前话题。",
+          "en": "Short- and long-term memory: remember, recall, recent turns, overflow, summary and topic."
+        }
+      },
+      {
+        "name": "mem_note",
+        "description": "重要信息操作：添加、列出或按编号删除会常驻环境提示词的笔记。用 action 选择子功能。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "add",
+                "list",
+                "remove"
+              ],
+              "description": "add=添加重要信息；list=列出重要信息；remove=按编号删除重要信息"
+            },
+            "text": {
+              "type": "string",
+              "title": "内容"
+            },
+            "index": {
+              "type": "number",
+              "title": "编号"
+            },
+            "scope": {
+              "type": "string",
+              "title": "记忆域"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "添加、列出或删除会常驻环境提示词的重要信息。",
+          "en": "Add, list or remove persistent notes that stay in the environment prompt."
+        }
+      },
+      {
+        "name": "mem_knowledge",
+        "description": "通用知识库操作：按主题沉淀、直接沉淀单条知识、检索或列出主题。用 action 选择子功能。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "add",
+                "fact",
+                "recall",
+                "list"
+              ],
+              "description": "add=按主题添加知识；fact=添加单条知识；recall=检索知识；list=列出知识主题"
+            },
+            "topic": {
+              "type": "string",
+              "title": "主题"
+            },
+            "facts": {
+              "type": "string",
+              "title": "知识要点(多条用换行分隔)"
+            },
+            "keywords": {
+              "type": "string",
+              "title": "关键词(逗号分隔)"
+            },
+            "sources": {
+              "type": "string",
+              "title": "来源(逗号分隔)"
+            },
+            "content": {
+              "type": "string",
+              "title": "知识内容"
+            },
+            "query": {
+              "type": "string",
+              "title": "查询"
+            },
+            "top_k": {
+              "type": "number",
+              "title": "条数"
+            },
+            "limit": {
+              "type": "number",
+              "title": "条数"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "通用知识库操作:按主题沉淀、添加单条知识、检索和列出主题。",
+          "en": "Knowledge base: add by topic, add one fact, recall and list topics."
+        }
+      },
+      {
+        "name": "mem_reflect",
+        "description": "反思与交互规则操作：沉淀反思、偏好或纠错，或列出由它们提炼出的规则。用 action 选择子功能。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "add",
+                "rules"
+              ],
+              "description": "add=添加反思；rules=列出交互规则"
+            },
+            "content": {
+              "type": "string",
+              "title": "反思内容"
+            },
+            "type": {
+              "type": "string",
+              "title": "preference/style/insight/correction/pattern"
+            },
+            "evidence": {
+              "type": "string",
+              "title": "支撑证据"
+            },
+            "user_id": {
+              "type": "string",
+              "title": "用户ID"
+            },
+            "confidence": {
+              "type": "number",
+              "title": "置信度0-1"
+            },
+            "actionable": {
+              "type": "number",
+              "title": "是否可执行(1/0)"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "沉淀反思、偏好或纠错,或列出由它们提炼出的交互规则。",
+          "en": "Record reflections, preferences or corrections, or list their interaction rules."
+        }
+      },
+      {
+        "name": "mem_persona",
+        "description": "人格记忆操作：更新或读取某用户的相处模式，或设置和读取全局风格。用 action 选择子功能。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "update",
+                "get",
+                "global"
+              ],
+              "description": "update=更新用户人格记忆；get=读取用户人格记忆；global=读取或设置全局风格"
+            },
+            "user_id": {
+              "type": "string",
+              "title": "用户ID"
+            },
+            "traits": {
+              "type": "string",
+              "title": "相处特征(多条用换行或逗号分隔)"
+            },
+            "style": {
+              "type": "string",
+              "title": "风格描述"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "更新或读取用户人格记忆,或设置和读取全局风格。",
+          "en": "Update or read user persona memory, or set and read the global style."
+        }
+      },
+      {
+        "name": "mem_profile",
+        "description": "人物档案操作：增量更新、整体替换或读取某用户的永久档案。用 action 选择子功能。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "update",
+                "replace",
+                "get"
+              ],
+              "description": "update=增量更新档案；replace=整体替换档案；get=读取档案"
+            },
+            "user_id": {
+              "type": "string",
+              "title": "用户ID"
+            },
+            "facts": {
+              "type": "string",
+              "title": "人物事实(多条用换行或逗号分隔)"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "增量更新、整体替换或读取用户的人物档案。",
+          "en": "Update, replace or read a user profile."
+        }
+      },
+      {
+        "name": "mem_manage",
+        "description": "记忆维护操作：查看统计、立即捕获、补建向量、预览或清理捕获污染、立即落盘。用 action 选择子功能。清理必须先预览，再带 confirm=1 执行。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "stats",
+                "capture",
+                "backfill",
+                "purge",
+                "flush"
+              ],
+              "description": "stats=查看统计；capture=立即捕获入站消息；backfill=补建向量索引；purge=预览或清理捕获污染；flush=立即落盘"
+            },
+            "limit": {
+              "type": "number",
+              "title": "本轮上限"
+            },
+            "scope": {
+              "type": "string",
+              "title": "要清理的记忆域(逗号分隔)"
+            },
+            "confirm": {
+              "type": "number",
+              "title": "确认删除:填1"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "read",
+          "write",
+          "act",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "查看统计、捕获消息、补建索引、清理污染或立即落盘。",
+          "en": "Inspect, capture, backfill, purge capture pollution or flush the stores."
+        }
+      },
+      {
+        "name": "mem_transfer",
+        "description": "记忆迁移操作：导出快照或从 JSON/SQLite 快照迁入。用 action 选择 export 或 import。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "export",
+                "import"
+              ],
+              "description": "export=导出记忆快照；import=迁入记忆快照"
+            },
+            "format": {
+              "type": "string",
+              "title": "json/markdown/sqlite/both/all"
+            },
+            "scope": {
+              "type": "string",
+              "title": "作用域过滤"
+            },
+            "outDir": {
+              "type": "string",
+              "title": "导出目录"
+            },
+            "path": {
+              "type": "string",
+              "title": "导入文件路径"
+            },
+            "mode": {
+              "type": "string",
+              "title": "merge/replace"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "write",
+          "act"
+        ],
+        "summary": {
+          "zh": "导出记忆快照,或从 JSON/SQLite 快照迁入。",
+          "en": "Export a memory snapshot, or import one from JSON/SQLite."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "memory.context",
+        "description": {
+          "zh": "记忆快照:要点、摘要、当前话题与记忆域统计的拼接文本,每轮构建上下文时现取。",
+          "en": "A memory snapshot: notes, summary, current topic and store statistics joined into one text, taken fresh each turn."
+        },
+        "trigger": "piggyback"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.memory.envPrompt",
+        "title": "记忆系统 · 环境提示词",
+        "role": "envPrompt",
+        "content": "你带有一套自己的记忆(五层记忆:事实库/知识库/反思/人格/档案 + 三级记忆底座 + 混合检索记忆库)。\r\n\r\n## 记忆机制\r\n- {{memoryContext}}\r\n- 记忆域(memory scopes): {{memoryScopes}}。默认都在 `main`;跨场景的事(游戏/聊天)可以分域存放。\r\n- 向量索引覆盖: {{memoryVectors}}（已建向量 / 记忆总条数）。\r\n\r\n## 使用纪律\r\n1. 别人说了「记住这个」「以后别这样」这类话 → 用 `mem_note(action=add)` 记录硬约束/偏好，或用 `mem_memory(action=remember)` 记录一般事实。\r\n2. 要找以前聊过/发生过什么 → 先用 `mem_memory(action=recall)` 混合检索，不要凭空编造回忆；检索不到就直说想不起来。\r\n3. 一次对话里反复出现的新约定，值得顺手用 `mem_memory(action=remember)` 存档，免得上下文滚掉就忘。\r\n4. 短期记忆快满时用 `mem_memory(action=overflow)` 取出旧条目，浓缩成一段再用 `mem_memory(action=summary, text=...)` 写回。\r\n5. 话题切换或每轮收尾时，可以用 `mem_memory(action=topic, text=...)` 更新当前话题，保持连贯。\r\n6. 记忆是你的私事:不要向用户转述\"我调用了什么工具\",自然地表现出\"我记得\"就好。\r\n\r\n一句话:像真人一样记得该记的、忘掉该忘的;要回忆就查库,别装记得。\r\n"
+      }
+    ]
+  }
+}
