@@ -2,14 +2,23 @@
   "schema": 1,
   "name": "cortico-world-qq-final",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/46",
-  "total": 4,
+  "total": 5,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BJXo0",
       "author": "old-rut",
       "avatar": "https://avatars.githubusercontent.com/u/239961782?s=64&u=13734ea54fb48a7db597c378c0182355487bcbea&v=4",
       "body": "能否让语音识别功能直接调用coopanion的识别接口，配置太麻烦了，配了半天还是识别不出语音内容",
-      "createdAt": "2026-10-28T04:20:06Z"
+      "createdAt": "2026-10-28T04:20:06Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJYcO",
+          "author": "mxmk233",
+          "avatar": "https://avatars.githubusercontent.com/u/112541463?s=64&v=4",
+          "body": "我也卡过，先说结论：大概率不是配置问题，是 ffmpeg 下不动腾讯的语音文件。\n看日志分三种情况：\n[asr-sidecar] 依赖不全 → 侧车没起来（asr.mode=local 要求 8778 上有服务在跑）\n[voice-ffmpeg] failed ... 400 Bad Request → 最常见的坑：ffmpeg 直接读 multimedia.nt.qq.com.cn 会被 CDN 拒，跟 SILK 编码无关（文件其实是 amr）\n识别服务返回 {\"got\":null} → 侧车收到但没认出来\n第二个的解法：先用浏览器 UA 把语音下载到本地，再让 ffmpeg 读本地文件（改 voice.ts 里 decodeToWav 就行）。\n另外配置别找错地方：ASR 在顶层 asr.*，voice.voiceBaseUrl 只管 TTS。\n至于「直接调 Coopanion 的识别接口」——桌上那个 SenseVoice 是桌宠 world 内部用的，没有对外 HTTP 端口，接不了，只能用扩展自带的侧车。",
+          "createdAt": "2026-10-28T07:25:48Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BJTIx",
