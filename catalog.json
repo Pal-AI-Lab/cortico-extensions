@@ -1373,7 +1373,7 @@
     },
     "cortico-provider-opencode": {
       "kind": "provider",
-      "version": "0.3.5",
+      "version": "0.3.6",
       "description": "OpenCode 的模型供应商:默认走 Go 订阅的额度,支持 Responses、Chat、Messages 与 Gemini,内置价目与额度面板。",
       "author": "云纪",
       "maintainers": [
@@ -1388,11 +1388,14 @@
         "gateway"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-provider-opencode"
+        "npm": "https://www.npmjs.com/package/cortico-provider-opencode",
+        "repository": "https://github.com/Unnori/cortico-provider-opencode",
+        "homepage": "https://github.com/Unnori/cortico-provider-opencode#readme",
+        "bugs": "https://github.com/Unnori/cortico-provider-opencode/issues"
       },
       "created": "2026-10-28T07:37:12.362Z",
-      "published": "2026-10-28T07:39:20.130Z",
-      "versionCount": 2,
+      "published": "2026-10-28T09:17:03.047Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "tags": [],
@@ -1420,6 +1423,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.6",
           "0.3.5",
           "0.3.4",
           "0.3.3",
@@ -1429,7 +1433,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-provider-opencode@0.3.5/CHANGELOG.md"
+        "url": "https://github.com/Unnori/cortico-provider-opencode/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 416,
@@ -4897,9 +4901,9 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 51,
+        "up": 52,
         "down": 5,
-        "comments": 39
+        "comments": 40
       }
     },
     "cortico-world-feeding": {
@@ -8013,7 +8017,7 @@
     },
     "cortico-world-opencode-quota": {
       "kind": "world",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "description": "OpenCode Go 额度 World:读每个 OpenCode 端点的订阅额度(每 5 小时 / 每周 / 每月),把越线与重置报告给 bot,在 World 页显示三个窗口的进度,并保留一份可查的历史。密钥取自端点自己声明的环境变量名,也可以手填。",
       "author": "云纪",
       "maintainers": [
@@ -8029,11 +8033,14 @@
         "usage"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-opencode-quota"
+        "npm": "https://www.npmjs.com/package/cortico-world-opencode-quota",
+        "repository": "https://github.com/Unnori/cortico-world-opencode-quota",
+        "homepage": "https://github.com/Unnori/cortico-world-opencode-quota#readme",
+        "bugs": "https://github.com/Unnori/cortico-world-opencode-quota/issues"
       },
       "created": "2026-10-28T07:40:48.146Z",
-      "published": "2026-10-28T07:43:56.527Z",
-      "versionCount": 2,
+      "published": "2026-10-28T09:16:09.332Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -8056,12 +8063,13 @@
       },
       "changelog": {
         "versions": [
+          "0.2.2",
           "0.2.1",
           "0.2.0",
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-opencode-quota@0.2.1/CHANGELOG.md"
+        "url": "https://github.com/Unnori/cortico-world-opencode-quota/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 417,
@@ -9813,6 +9821,58 @@
         "comments": 0
       }
     },
+    "cortico-world-qzone-watcher": {
+      "kind": "world",
+      "version": "0.1.2",
+      "description": "QQ 空间评论监听 World：定时轮询 SnowLuma 的 qzone API，发现新评论后推事件给主模型，配合 qq-final 的 qq_qzone(action=reply) 实现评论自动回复。",
+      "maintainers": [
+        "fxyxl"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "qq",
+        "qzone",
+        "im"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-qzone-watcher",
+        "repository": "https://github.com/FXYXL/cortico-world-qzone-watcher",
+        "homepage": "https://github.com/FXYXL/cortico-world-qzone-watcher#readme",
+        "bugs": "https://github.com/FXYXL/cortico-world-qzone-watcher/issues"
+      },
+      "created": "2026-10-28T08:30:33.702Z",
+      "published": "2026-10-28T09:12:18.195Z",
+      "versionCount": 4,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "im",
+        "qq"
+      ],
+      "tags": [
+        "im",
+        "qq"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 0,
+        "events": 0,
+        "toolTokens": 0,
+        "envPromptTokens": 0
+      },
+      "discussion": {
+        "number": 426,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/426",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-real-alont1": {
       "kind": "world",
       "version": "0.1.4",
@@ -10955,7 +11015,7 @@
     },
     "cortico-world-starpost": {
       "kind": "world",
-      "version": "0.8.1",
+      "version": "0.8.2",
       "displayName": "星邮",
       "description": "星邮：让 Cortico bot 通过独立中转服务私聊、群聊、交换漂流瓶并分享动态的社交 World 扩展",
       "maintainers": [
@@ -10975,8 +11035,8 @@
         "bugs": "https://github.com/hth768/cortico-world-starpost/issues"
       },
       "created": "2026-10-27T17:41:43.822Z",
-      "published": "2026-10-28T08:47:17.314Z",
-      "versionCount": 9,
+      "published": "2026-10-28T09:13:33.641Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10998,10 +11058,11 @@
         "tools": 9,
         "events": 17,
         "toolTokens": 1335,
-        "envPromptTokens": 749
+        "envPromptTokens": 769
       },
       "changelog": {
         "versions": [
+          "0.8.2",
           "0.8.1",
           "0.8.0",
           "0.7.0",
@@ -12158,7 +12219,7 @@
     },
     "cortico-world-warthunder": {
       "kind": "world",
-      "version": "0.2.12",
+      "version": "0.3.0",
       "displayName": "war thunder安东星助手",
       "description": "在对话中提供战争雷霆的本地百科、战局播报与对局翻译。知识库覆盖概念、载具与玩法，可检索、可更新；读取本机 8111 遥测讲解战局、为击毁喝彩、为逆风打气，并可翻译对局聊天、代写要发的话；遥测不可用时可用截图 OCR 兜底；文案可按设定人格改写，模型与花费可配置。",
       "locales": {
@@ -12195,8 +12256,8 @@
         "bugs": "https://github.com/suhong11300/cortico-world-warthunder/issues"
       },
       "created": "2026-10-26T12:03:41.166Z",
-      "published": "2026-10-28T06:35:10.401Z",
-      "versionCount": 15,
+      "published": "2026-10-28T09:16:32.715Z",
+      "versionCount": 16,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -12235,10 +12296,11 @@
         "tools": 11,
         "events": 7,
         "toolTokens": 1338,
-        "envPromptTokens": 696
+        "envPromptTokens": 910
       },
       "changelog": {
         "versions": [
+          "0.3.0",
           "0.2.12",
           "0.2.11",
           "0.2.10",
