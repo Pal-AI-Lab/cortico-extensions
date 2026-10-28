@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "name": "cortico-world-ellen-voice",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "ellen_speak",
+        "description": "Synthesise text in Ellen Joe's voice through the local GPT-SoVITS service. The audio is returned as an attachment (a log: handle) that can be passed to qq_draft(voice=...). Language is detected automatically; zh, ko, en and ja are supported.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "The sentence(s) to speak. One or two sentences work best."
+            },
+            "lang": {
+              "type": "string",
+              "enum": [
+                "auto",
+                "zh",
+                "ko",
+                "en",
+                "ja"
+              ],
+              "description": "Language; auto by default."
+            }
+          },
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "用艾莲的声音把文字合成为语音，结果作为附件交给模型。",
+          "en": "Synthesise text in Ellen Joe's voice and hand the audio back as an attachment."
+        }
+      },
+      {
+        "name": "ellen_send_voice",
+        "description": "Synthesise speech and send it as a QQ voice bar in one step. Private chat: pass the QQ number in 'to'. Group: set group=true and pass the group number in 'to'.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "The sentence(s) to speak."
+            },
+            "to": {
+              "type": "string",
+              "description": "QQ number or group number; falls back to the configured default private chat."
+            },
+            "group": {
+              "type": "boolean",
+              "description": "true sends to a group."
+            },
+            "lang": {
+              "type": "string",
+              "enum": [
+                "auto",
+                "zh",
+                "ko",
+                "en",
+                "ja"
+              ],
+              "description": "Language; auto by default."
+            }
+          },
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "speak",
+          "act"
+        ],
+        "summary": {
+          "zh": "合成语音并直接以语音条发到 QQ 私聊或群。",
+          "en": "Synthesise speech and send it as a voice bar to QQ."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "ellen.voice",
+        "description": {
+          "zh": "一段艾莲语音合成完成或已发出。",
+          "en": "An Ellen voice clip finished synthesising or was sent."
+        }
+      }
+    ],
+    "prompts": []
+  },
+  "changelog": {
+    "0.1.0": "- 首个版本：`ellen_speak` 合成语音并作为附件交回模型，`ellen_send_voice` 直接发 QQ 语音条。\n- 支持中文、韩语、英语、日语；语言缺省自动判断。\n- 可配置 TTS 地址、OneBot 地址与 token、默认私聊对象、单次合成字数上限。\n- 同一段文字按 sha1 记忆，重复请求不重复占用 GPU。"
+  }
+}
