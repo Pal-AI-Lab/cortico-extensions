@@ -1367,6 +1367,74 @@
         "comments": 1
       }
     },
+    "cortico-provider-opencode": {
+      "kind": "provider",
+      "version": "0.3.5",
+      "description": "OpenCode 的模型供应商:默认走 Go 订阅的额度,支持 Responses、Chat、Messages 与 Gemini,内置价目与额度面板。",
+      "author": "云纪",
+      "maintainers": [
+        "unnori"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-provider",
+        "cortico",
+        "opencode",
+        "llm",
+        "gateway"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-provider-opencode"
+      },
+      "created": "2026-10-28T07:37:12.362Z",
+      "published": "2026-10-28T07:39:20.130Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "icon": "assets/cortico-provider-opencode/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "protocols": [
+          "openai-responses",
+          "openai-chat",
+          "anthropic-messages",
+          "gemini"
+        ],
+        "auth": [
+          "api-key"
+        ],
+        "input": [
+          "text",
+          "image"
+        ],
+        "local": false
+      },
+      "changelog": {
+        "versions": [
+          "0.3.5",
+          "0.3.4",
+          "0.3.3",
+          "0.3.2",
+          "0.3.1",
+          "0.3.0",
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-provider-opencode@0.3.5/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 416,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/416",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-provider-qianfan-tokenplan": {
       "kind": "provider",
       "version": "0.1.0",
@@ -4827,7 +4895,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
         "up": 51,
         "down": 5,
-        "comments": 38
+        "comments": 39
       }
     },
     "cortico-world-feeding": {
@@ -7869,6 +7937,66 @@
         "comments": 0
       }
     },
+    "cortico-world-opencode-quota": {
+      "kind": "world",
+      "version": "0.2.1",
+      "description": "OpenCode Go 额度 World:读每个 OpenCode 端点的订阅额度(每 5 小时 / 每周 / 每月),把越线与重置报告给 bot,在 World 页显示三个窗口的进度,并保留一份可查的历史。密钥取自端点自己声明的环境变量名,也可以手填。",
+      "author": "云纪",
+      "maintainers": [
+        "unnori"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "opencode",
+        "quota",
+        "usage"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-opencode-quota"
+      },
+      "created": "2026-10-28T07:40:48.146Z",
+      "published": "2026-10-28T07:43:56.527Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "diagnostics"
+      ],
+      "tags": [
+        "diagnostics"
+      ],
+      "icon": "assets/cortico-world-opencode-quota/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 3,
+        "toolTokens": 233,
+        "envPromptTokens": 132
+      },
+      "changelog": {
+        "versions": [
+          "0.2.1",
+          "0.2.0",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-opencode-quota@0.2.1/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 417,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/417",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-overcooked2": {
       "kind": "world",
       "version": "0.2.0",
@@ -8769,7 +8897,7 @@
     },
     "cortico-world-qq-final": {
       "kind": "world",
-      "version": "0.6.35",
+      "version": "0.6.36",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -8788,8 +8916,8 @@
         "bugs": "https://github.com/hth768/cortico-world-qq-final/issues"
       },
       "created": "2026-10-06T07:39:25.866Z",
-      "published": "2026-10-27T11:52:57.272Z",
-      "versionCount": 68,
+      "published": "2026-10-28T08:00:29.567Z",
+      "versionCount": 69,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -8819,6 +8947,7 @@
       },
       "changelog": {
         "versions": [
+          "0.6.36",
           "0.6.35",
           "0.6.34",
           "0.6.33",
