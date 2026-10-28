@@ -2,7 +2,7 @@
   "schema": 1,
   "name": "cortico-world-social-media",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/204",
-  "total": 8,
+  "total": 10,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BJXbx",
@@ -17,6 +17,13 @@
           "avatar": "https://avatars.githubusercontent.com/u/200584930?s=64&v=4",
           "body": "谢谢详细反馈和截图！已复现后台进入推荐流时遇到官网验证页、却被笼统提示“没切到新视频”的问题。登录正常与推荐流在后台能否加载需要分开检查，不用反复扫码碰运气。目前在修冷启动初始化、明确的人工验证提示，并增加配置页的“检查抖音推荐流”。另补一个默认关闭的Windows兼容后台选项：使用普通Edge渲染，把独立窗口放到屏幕外，任务结束仍释放；这与真正无窗口模式分别选择，不会自动弹窗或代做验证。修复正在本地验证，尚未发布；当前可先关闭后台运行临时使用，后续补丁会说明具体开关位置。官网若继续要求验证，仍需手动处理，不承诺所有设备都能免验证。",
           "createdAt": "2026-10-28T09:41:15Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BJaAo",
+          "author": "PeiKun123",
+          "avatar": "https://avatars.githubusercontent.com/u/200584930?s=64&v=4",
+          "body": "补充进展：0.6.4 已发布。升级并重启 Bot 后，请刷新整个 WebUI，再到「配置 → 抖音 → 读取与连接检查」点「检查抖音推荐流」。这版补了推荐流冷启动和准确的人工验证提示。默认仍是真正无窗口；Windows 的「兼容窗口模式」需手动开启，会有 Edge 任务栏图标，并非完全隐藏。官网若要求滑块或验证码，仍需在登录窗口手动完成，再点「完成抖音登录」；不能保证所有设备的无窗口推荐流都免验证。谢谢详细反馈！更新说明：https://github.com/PeiKun123/cortico-world-social-media/blob/main/CHANGELOG.md",
+          "createdAt": "2026-10-28T13:34:11Z"
         }
       ]
     },
@@ -49,6 +56,13 @@
           "avatar": "https://avatars.githubusercontent.com/u/200584930?s=64&v=4",
           "body": "谢谢建议，已经开始按 B站场景来做啦！这轮先补动态读取和主动 @ 特别关注，动态发布会先从纯文字验证起步；私信收发涉及独立会话与隐私隔离，暂时不加。公开发送会保留目标核对、回执和防重复处理，验证通过后再随新版更新，尽量不影响现在已有的评论体验。",
           "createdAt": "2026-10-26T17:26:52Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BJaAq",
+          "author": "PeiKun123",
+          "avatar": "https://avatars.githubusercontent.com/u/200584930?s=64&v=4",
+          "body": "补充一下发布进展：B站动态读取、纯文字动态发布、动态评论及楼中楼、@本地特别关注已经加入，最新为 0.6.4。可以在「配置 → 哔哩哔哩 → 动态与主动 @」按需开启，频率在高级设置调整；「使用检查」会分别显示真实发送与核验记录。私信本轮仍暂未加入。平台受理不等于其他账号可见，@通知是否到达也需实际核对。更新说明：https://github.com/PeiKun123/cortico-world-social-media/blob/main/CHANGELOG.md",
+          "createdAt": "2026-10-28T13:34:13Z"
         }
       ]
     },

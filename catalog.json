@@ -492,13 +492,13 @@
     },
     "coopani-world-music": {
       "kind": "world",
-      "version": "0.3.7",
+      "version": "0.3.9",
       "displayName": "一起听歌",
-      "description": "陪着你听歌：读 Windows 的媒体会话，知道 QQ音乐 / 网易云音乐在放什么——换歌必说一句，一首歌里分几段接话，能看到当前这一段的歌词、就着词说两句，表情和动作跟着曲风与段落变，为听歌另做了律动、打拍子、闭眼听、蹦迪四个小动作（宿主没有时会自动降级）；记得住你听过什么，能替你按暂停、切下一首，也能自己去曲库里搜一首想听的挑给你。和「陪打炉石」一起装着会更有意思——你在打牌时听的每一首她都知道，偶尔会把牌局和歌说到一块儿去。嫌吵就让其中一个先安静，一个开关的事，默认各说各的。",
+      "description": "陪着你听歌：读 Windows 的媒体会话，知道 QQ音乐 / 网易云音乐在放什么——换歌必说一句，一首歌里分几段接话，能看到当前这一段的歌词、就着词说两句，表情和动作跟着曲风与段落变，为听歌另做了律动、打拍子、闭眼听、蹦迪四个小动作（宿主没有时会自动降级）；记得住你听过什么（记忆可以存到你指定的文件夹，公司和家里指向同一个同步盘，就是同一份记忆），能替你按暂停、切下一首，也能自己去曲库里搜一首想听的挑给你。和「陪打炉石」一起装着会更有意思——你在打牌时听的每一首她都知道，偶尔会把牌局和歌说到一块儿去。嫌",
       "locales": {
         "en": {
           "displayName": "Listen With Me",
-          "description": "Listens along with you: reads Windows media sessions to know what QQ Music or NetEase Cloud Music is playing, says a line on every track change, talks along each passage, reads the lyrics of the passage being sung and reacts to the words, matches her face and motion to the music — including four moves built for listening (groove, tap along, eyes closed, full bounce), falling back to stock moves when the host lacks them — remembers what you played, can pause or skip for you, and can go search the catalogue and pick a track she wants you to hear. Install it alongside “Hearthstone Companion” and it gets more interesting: she knows every track you play while you are in a match, and the two often end up in the same sentence. If it gets noisy, let one of them stand down — one switch, and by default both talk."
+          "description": "Listens along with you: reads Windows media sessions to know what QQ Music or NetEase Cloud Music is playing, says a line on every track change, talks along each passage, reads the lyrics of the passage being sung and reacts to the words, matches her face and motion to the music — including four moves built for listening (groove, tap along, eyes closed, full bounce), falling back to stock moves when the host lacks them — remembers what you played (memory can live in a folder you pick — point both machines at the same synced folder and it is one memory), can pause or skip for you, and can go search the catalogue and pick a track she wants you to hear. Install it alongside “Hearthstone Companion” and it gets more interesting: she knows every track you play while you are in a match, and the two often end up in the same sentence. If it gets noisy, let one of them stand down — one switch, and by default both talk."
         }
       },
       "author": "Mr.Q",
@@ -513,7 +513,8 @@
         "qqmusic",
         "netease",
         "search",
-        "lyrics"
+        "lyrics",
+        "memory"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/coopani-world-music"
@@ -522,8 +523,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-10-27T15:52:13.666Z",
-      "versionCount": 8,
+      "published": "2026-10-28T13:39:41.427Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -536,6 +537,7 @@
       ],
       "tags": [
         "apps",
+        "memory",
         "companion",
         "high-cost",
         "sensitive-data",
@@ -556,6 +558,8 @@
       },
       "changelog": {
         "versions": [
+          "0.3.9",
+          "0.3.8",
           "0.3.7",
           "0.3.6",
           "0.3.5",
@@ -566,14 +570,14 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-music@0.3.7/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-music@0.3.9/CHANGELOG.md"
       },
       "discussion": {
         "number": 384,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/384",
         "up": 0,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-bot-continuity": {
@@ -4682,9 +4686,9 @@
     },
     "cortico-world-ellen-voice": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "displayName": "艾莲语音",
-      "description": "Ellen Joe voice world for Coopanion: speak through a local GPT-SoVITS service and deliver voice bars to QQ",
+      "description": "Ellen Joe voice world for Coopanion: speak through a local GPT-SoVITS service, deliver voice bars to QQ, and install a figure pack from your own PNG",
       "author": "deepseek study",
       "maintainers": [
         "deek234"
@@ -4695,14 +4699,15 @@
         "cortico",
         "tts",
         "qq",
-        "voice"
+        "voice",
+        "figure"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-ellen-voice"
       },
       "created": "2026-10-28T12:55:12.091Z",
-      "published": "2026-10-28T12:58:21.842Z",
-      "versionCount": 2,
+      "published": "2026-10-28T13:39:49.513Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4729,14 +4734,15 @@
       },
       "changelog": {
         "versions": [
+          "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-ellen-voice@0.1.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-ellen-voice@0.2.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 438,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/438",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 1
       }
@@ -10962,7 +10968,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/204",
         "up": 0,
         "down": 0,
-        "comments": 8
+        "comments": 10
       }
     },
     "cortico-world-soft-voice": {
