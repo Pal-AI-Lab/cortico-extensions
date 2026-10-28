@@ -2,7 +2,7 @@
   "schema": 1,
   "name": "cortico-world-fatfish",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-  "total": 37,
+  "total": 38,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BJS8e",
@@ -31,6 +31,13 @@
           "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
           "body": "@chenshaoju 已更新可以试一下新版本看下还会出现吗，有问题随时说",
           "createdAt": "2026-10-28T06:07:08Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BJYYB",
+          "author": "chenshaoju",
+          "avatar": "https://avatars.githubusercontent.com/u/515763?s=64&u=0a421646f970fb19a0f9bb196cc14540c6b73ac2&v=4",
+          "body": "> @chenshaoju 已更新可以试一下新版本看下还会出现吗，有问题随时说\r\n\r\n已更新（两边），情况有一些变化，我做了一个测试，如果单纯退出 Coopanion ，然后DSH里换一个会话，再打开 Coopanion ，刷新，Session不会有变化。\r\n如果换一个会话，重启DSH，等待连接上后刷新，Session就会变化。\r\n此时这个变化会再回到第一个会话（或最新一个会话，或曾经固定过的会话）就会出现无法切换的故障。\r\n具体操录像作见下：\r\n<img width=\"1449\" height=\"875\" alt=\"GIF 2026-10-28 15-01-41\" src=\"https://github.com/user-attachments/assets/eaf110fa-bf3c-4679-acd2-4846e3de902b\" />\r\n\r\n",
+          "createdAt": "2026-10-28T07:06:13Z"
         }
       ]
     },

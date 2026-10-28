@@ -4731,17 +4731,17 @@
     },
     "cortico-world-fatfish": {
       "kind": "world",
-      "version": "0.6.9",
+      "version": "0.6.10",
       "displayName": "大肥鱼功能复合包",
-      "description": "DSH 对话 语音朗读（Win/macOS）。需 coopanion-connector-dsh（GitHub only, ≥0.2.4）。默认关转发；DSH 升 v0.2.9 修 CSWSH。/ Chat w/ DSH, voices (Win/macOS). Needs DSH host (GitHub only). relayPerson & relayPet off. UPGRADE to v0.2.9.",
+      "description": "DSH 对话/语音。需 connector-dsh（仅GitHub, ≥0.2.10）。relayPerson & relayPet 默认关。升级 connector 有持久化转发 + CSWSH 安全。 / DSH chat/voices. Needs connector-dsh (GitHub only, ≥0.2.10). Both relays off. Upgrade for fix.",
       "locales": {
         "zh": {
           "displayName": "大肥鱼功能复合包",
-          "description": "和 DeepSeek Harness（DSH）对话，让它帮你干活、写代码；宠物回复你的时候用内置语音包读出声（朗读支持 Windows 与 macOS）。桥接需要先装 DSH 的 Host 插件才会连——不会装就看源码仓库说明，或把仓库地址交给 AI 帮你装。固定会话需 Host 插件 coopanion-connector-dsh ≥ 0.2.4（仅 GitHub 分发，未上 npm）。默认关闭「转发人物的话」和「转发桌宠的话」两个开关；如果你同时用 DSH 侧插件，请把它升到 v0.2.9 修复 CSWSH 安全漏洞。"
+          "description": "和 DeepSeek Harness（DSH）对话，让它帮你干活、写代码；宠物回复你的时候用内置语音包读出声（Windows 与 macOS）。桥接需要先装 DSH 的 Host 插件才会连——不会装就看源码仓库说明，或把仓库地址交给 AI 帮你装。固定会话需 Host 插件 coopanion-connector-dsh ≥ 0.2.10（仅 GitHub 分发，未上 npm）。\n\n### 新装用户请注意：两个转发开关默认都关\n\n- **relayPerson**（转发人物打字到 DSH）默认关 → 想让打字自动进 DSH，在配置里打开它。这是主路径功能，旧版本曾默认开，本次回归 opt-in\n- **relayPet**（转发桌宠台词到 DSH）默认关 → 想让桌宠说的话也变成 DSH 的 user/message，打开它。但注意：如果同时开了 relayPerson + connector 侧 forwarding，容易形成\"桌宠↔DSH\"两嘴互聊循环，通常保持默认关更安全\n\n### 为什么必须升级 connector-dsh 到 ≥ 0.2.10\n\n- v0.2.10 修复 CSWSH 安全漏洞（任意网页可构造 WS 升级劫持桥接）\n- v0.2.10 自动转发默认开 + 持久化：用户关掉的转发开关写入 coopanion-forward.json，插件重启不丢。低于 0.2.9 默认关，升级后桥连着但打字递不进去\n- connector 是独立仓库：https://github.com/blacksunshy/coopanion-connector-dsh （仅 GitHub 分发，未上 npm）"
         },
         "en": {
           "displayName": "Fatfish Companions Pack",
-          "description": "Chat with DeepSeek Harness (DSH) so it does the work and writes code for you, and hear the pet's replies read aloud with built-in voices (Windows and macOS). The bridge needs the DSH Host extension installed first — if that sounds hard, open the source repo and let an AI walk you through it. Pinning a session needs the DSH host extension coopanion-connector-dsh ≥ 0.2.4 (GitHub only, not on npm). Both relayPerson and relayPet are off by default. UPGRADE the DSH host plugin to v0.2.9 for a CSWSH security fix."
+          "description": "Chat with DeepSeek Harness (DSH) so it does the work and writes code for you, and hear the pet replies read aloud with built-in voices (Windows and macOS). The bridge needs the DSH Host extension installed first — if that sounds hard, open the source repo and let an AI walk you through it. Pinning a session needs the DSH host extension coopanion-connector-dsh ≥ 0.2.10 (GitHub only, not on npm).\n\n### Fresh install note: both forward switches default OFF\n\n- **relayPerson** (relays your typing into DSH) defaults off → open it if you want auto-flow from your keyboard. Main path, previously default-on in older releases.\n- **relayPet** (relays pet lines into DSH) defaults off → open it if you want pet words as DSH user/messages. Warning: with relayPerson + connector forwarding on, pet↔DSH chat loops can form.\n\n### Why upgrade connector-dsh to ≥ 0.2.10\n\n- v0.2.10 fixes a CSWSH security hole (any webpage could forge a WS upgrade to hijack the bridge)\n- v0.2.10 auto-forward default ON + persistence: user opt-outs are written to coopanion-forward.json, surviving plugin restarts. Below 0.2.9 default-off, bridge connects but words never arrive after upgrade\n- Connector lives in its own repo: https://github.com/blacksunshy/coopanion-connector-dsh  (GitHub only, not on npm)"
         }
       },
       "author": "blacksunshy",
@@ -4767,8 +4767,8 @@
         "bugs": "https://github.com/blacksunshy/coopanion-fatfish/issues"
       },
       "created": "2026-10-15T06:47:52.601Z",
-      "published": "2026-10-28T06:31:12.005Z",
-      "versionCount": 26,
+      "published": "2026-10-28T07:23:57.829Z",
+      "versionCount": 27,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4792,6 +4792,7 @@
       },
       "changelog": {
         "versions": [
+          "0.6.10",
           "0.6.9",
           "0.6.7",
           "0.6.6",
@@ -4825,7 +4826,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
         "up": 51,
         "down": 5,
-        "comments": 37
+        "comments": 38
       }
     },
     "cortico-world-feeding": {
@@ -5063,7 +5064,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/363",
         "up": 1,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-figure-persona": {
@@ -5281,7 +5282,7 @@
       "discussion": {
         "number": 20,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/20",
-        "up": 3,
+        "up": 4,
         "down": 0,
         "comments": 2
       }
@@ -10670,7 +10671,7 @@
     },
     "cortico-world-starpost": {
       "kind": "world",
-      "version": "0.5.0",
+      "version": "0.6.0",
       "displayName": "星邮",
       "description": "星邮：让 Cortico bot 通过独立中转服务私聊、群聊、交换漂流瓶并分享动态的社交 World 扩展",
       "maintainers": [
@@ -10690,8 +10691,8 @@
         "bugs": "https://github.com/hth768/cortico-world-starpost/issues"
       },
       "created": "2026-10-27T17:41:43.822Z",
-      "published": "2026-10-28T06:10:20.538Z",
-      "versionCount": 4,
+      "published": "2026-10-28T06:41:16.527Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10711,12 +10712,13 @@
       },
       "summary": {
         "tools": 9,
-        "events": 15,
+        "events": 16,
         "toolTokens": 1292,
-        "envPromptTokens": 422
+        "envPromptTokens": 501
       },
       "changelog": {
         "versions": [
+          "0.6.0",
           "0.5.0",
           "0.4.0",
           "0.3.1",
@@ -11501,7 +11503,7 @@
       "discussion": {
         "number": 85,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/85",
-        "up": 12,
+        "up": 13,
         "down": 3,
         "comments": 7
       }
@@ -11868,7 +11870,7 @@
     },
     "cortico-world-warthunder": {
       "kind": "world",
-      "version": "0.2.11",
+      "version": "0.2.12",
       "displayName": "war thunder安东星助手",
       "description": "在对话中提供战争雷霆的本地百科、战局播报与对局翻译。知识库覆盖概念、载具与玩法，可检索、可更新；读取本机 8111 遥测讲解战局、为击毁喝彩、为逆风打气，并可翻译对局聊天、代写要发的话；遥测不可用时可用截图 OCR 兜底；文案可按设定人格改写，模型与花费可配置。",
       "locales": {
@@ -11905,8 +11907,8 @@
         "bugs": "https://github.com/suhong11300/cortico-world-warthunder/issues"
       },
       "created": "2026-10-26T12:03:41.166Z",
-      "published": "2026-10-28T05:53:19.476Z",
-      "versionCount": 14,
+      "published": "2026-10-28T06:35:10.401Z",
+      "versionCount": 15,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11945,10 +11947,11 @@
         "tools": 11,
         "events": 7,
         "toolTokens": 1338,
-        "envPromptTokens": 587
+        "envPromptTokens": 696
       },
       "changelog": {
         "versions": [
+          "0.2.12",
           "0.2.11",
           "0.2.10",
           "0.2.9",
