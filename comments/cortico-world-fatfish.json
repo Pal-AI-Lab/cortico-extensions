@@ -2,7 +2,7 @@
   "schema": 1,
   "name": "cortico-world-fatfish",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-  "total": 41,
+  "total": 42,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BJS8e",
@@ -59,6 +59,13 @@
           "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
           "body": "@chenshaoju 我在想用一种更好的方式绑定还在改，“原本点击能切换”其实是错觉——之前每次测试都恰好伴随 DSH 重启或首次打开，撞上了`agent/created` 。被动监听走不通，必须给 显式切换 开一条路",
           "createdAt": "2026-10-28T09:43:52Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BJZif",
+          "author": "blacksunshy",
+          "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
+          "body": "@chenshaoju `agent/created` 只在该 tab 首次 打开时才触发后续不会发送 所以一直切不会每次都有，我选择都加载出来然后对会话进行选择了",
+          "createdAt": "2026-10-28T12:08:28Z"
         }
       ]
     },
