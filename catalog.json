@@ -1084,7 +1084,7 @@
       "published": "2026-10-19T20:44:43.563Z",
       "versionCount": 4,
       "official": true,
-      "isNew": true,
+      "isNew": false,
       "tags": [
         "coopanion"
       ],
@@ -11932,17 +11932,17 @@
     },
     "cortico-world-watch-window": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "displayName": "Watch Window",
       "description": "Cortico World: watch one window on the desktop as a video stream. Frames from the window arrive in the main conversation as a timed grid, and the window's edge flashes white when it is picked.",
       "locales": {
         "zh": {
           "displayName": "盯盯窗口",
-          "description": "把桌面上的一个窗口当成视频流给 Coo 看：窗口画面按时间拼成分镜图，定时送进主会话，由 Coo 自己决定说不说。选中窗口时窗口边缘闪一圈白光。用户在 World 页签里点选窗口,Coo 也能自己挑。支持 Windows 与 macOS。"
+          "description": "把桌面上的一个窗口当成视频流给 Coo 看：窗口画面按时间拼成分镜图，定时送进主会话，由 Coo 自己决定说不说。选中窗口时窗口边缘闪一圈白光。用户在 World 页签里点选窗口,Coo 也能自己挑。支持 Windows、macOS 与 Linux(X11)。"
         },
         "en": {
           "displayName": "Watch Window",
-          "description": "Lets Coo watch one desktop window as a video stream: frames from the window are laid out as a timed grid and delivered to the main conversation, and Coo decides whether to say anything. The window's edge flashes white when it is picked. Pick the window from the World tab, or let Coo pick one. Windows and macOS."
+          "description": "Lets Coo watch one desktop window as a video stream: frames from the window are laid out as a timed grid and delivered to the main conversation, and Coo decides whether to say anything. The window's edge flashes white when it is picked. Pick the window from the World tab, or let Coo pick one. Windows, macOS and Linux (X11)."
         }
       },
       "author": "Phantivia",
@@ -11958,15 +11958,19 @@
         "game"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-watch-window"
+        "npm": "https://www.npmjs.com/package/cortico-world-watch-window",
+        "repository": "https://github.com/Phantivia/cortico-world-watch-window",
+        "homepage": "https://github.com/Phantivia/cortico-world-watch-window#readme",
+        "bugs": "https://github.com/Phantivia/cortico-world-watch-window/issues"
       },
       "os": [
         "win32",
-        "darwin"
+        "darwin",
+        "linux"
       ],
       "created": "2026-10-27T23:34:29.828Z",
-      "published": "2026-10-27T23:36:58.923Z",
-      "versionCount": 3,
+      "published": "2026-10-28T00:25:10.779Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11997,10 +12001,11 @@
       },
       "changelog": {
         "versions": [
+          "0.2.0",
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-watch-window@0.1.1/CHANGELOG.md"
+        "url": "https://github.com/Phantivia/cortico-world-watch-window/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 395,
