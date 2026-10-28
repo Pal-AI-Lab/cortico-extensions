@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-ellen-voice",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "describe": {
     "tools": [
       {
@@ -96,6 +96,7 @@
     "prompts": []
   },
   "changelog": {
+    "0.2.1": "- PNG 解码补齐灰度+透明（colorType 4），之前这类截图会直接报「不支持的颜色类型 4」。\n- 修正 0.2.0 教程里没提到的导出建议：Photoshop「导出为 PNG-24」或「另存为 PNG」都可，不要用 8 位索引色+透明。",
     "0.2.0": "- 新增 `ellen_install_figure`：把一张透明底 PNG 立绘装成 Coopanion 形象包（自动生成 figure.json、\n  model.json、全部骨架贴图与缩略图），装完即可在「装扮」页选中。\n- 附带极简 PNG 编解码（`src/png.ts`，只依赖 node:zlib），不引入任何第三方依赖；\n  支持 8/16 位、灰度/RGB/调色板/RGBA、非隔行。\n- 新增设置项 `figuresDir`：留空时按 Coopanion.exe 所在目录推断 `data\\home\\companion\\data\\figures`。\n- 扩展仍不附带任何角色美术：模板目录里只有两份 JSON 和贴图清单，图片由使用者自己提供。",
     "0.1.0": "- 首个版本：`ellen_speak` 合成语音并作为附件交回模型，`ellen_send_voice` 直接发 QQ 语音条。\n- 支持中文、韩语、英语、日语；语言缺省自动判断。\n- 可配置 TTS 地址、OneBot 地址与 token、默认私聊对象、单次合成字数上限。\n- 同一段文字按 sha1 记忆，重复请求不重复占用 GPU。"
   }

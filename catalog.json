@@ -4692,7 +4692,7 @@
     },
     "cortico-world-ellen-voice": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "displayName": "艾莲语音",
       "description": "Ellen Joe voice world for Coopanion: speak through a local GPT-SoVITS service, deliver voice bars to QQ, and install a figure pack from your own PNG",
       "author": "deepseek study",
@@ -4712,8 +4712,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-ellen-voice"
       },
       "created": "2026-10-28T12:55:12.091Z",
-      "published": "2026-10-28T13:39:49.513Z",
-      "versionCount": 3,
+      "published": "2026-10-28T15:29:17.329Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4740,10 +4740,11 @@
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-ellen-voice@0.2.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-ellen-voice@0.2.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 438,
@@ -5056,7 +5057,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
         "up": 52,
         "down": 5,
-        "comments": 42
+        "comments": 44
       }
     },
     "cortico-world-feeding": {
@@ -5374,6 +5375,58 @@
         "number": 246,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/246",
         "up": 1,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-filter-paper": {
+      "kind": "world",
+      "version": "0.3.0",
+      "displayName": "滤纸",
+      "description": "滤纸：交接笔记只留结论，工具调用的机器日志不进去。省下每轮载入的固定开销，失败原因照旧保留。",
+      "author": "filter-paper contributors",
+      "maintainers": [
+        "weitao0416"
+      ],
+      "license": "AGPL-3.0-or-later",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "memory",
+        "diagnostics",
+        "handoff",
+        "tokens",
+        "context"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-filter-paper",
+        "repository": "https://github.com/weitao0416/cortico-world-filter-paper",
+        "homepage": "https://github.com/weitao0416/cortico-world-filter-paper#readme",
+        "bugs": "https://github.com/weitao0416/cortico-world-filter-paper/issues"
+      },
+      "created": "2026-10-28T15:09:05.837Z",
+      "published": "2026-10-28T15:10:10.260Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "memory",
+        "diagnostics"
+      ],
+      "tags": [
+        "memory",
+        "diagnostics"
+      ],
+      "icon": "assets/cortico-world-filter-paper/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 447,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/447",
+        "up": 0,
         "down": 0,
         "comments": 0
       }
@@ -5737,7 +5790,7 @@
     },
     "cortico-world-hands": {
       "kind": "world",
-      "version": "0.20.18",
+      "version": "0.20.19",
       "displayName": "手",
       "description": "Cortico World: hands for the desktop pet — looks at the phone screen, then taps, swipes, pinches, drags, types and presses keys through whatever actuator the device actually has",
       "maintainers": [
@@ -5755,8 +5808,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-hands"
       },
       "created": "2026-10-22T14:40:37.506Z",
-      "published": "2026-10-27T18:40:14.159Z",
-      "versionCount": 56,
+      "published": "2026-10-28T15:09:21.138Z",
+      "versionCount": 57,
       "official": false,
       "isNew": true,
       "tags": [
@@ -5857,17 +5910,17 @@
     },
     "cortico-world-heybox": {
       "kind": "world",
-      "version": "0.5.15",
+      "version": "0.5.16",
       "displayName": "小黑盒",
-      "description": "小黑盒 Coopanion World：账号 / 内容 / 成长三栏；登录、模板与发布箱、prepare/publish 幂等、发帖/评论/草稿/编辑/删除、通知摘要、本地作息、兴趣阶段与负反馈、热点刷帖、审计与诊断。 / Heybox for Coopanion: Account/Content/Growth panels, templates/outbox, prepare/publish idempotency, posts/comments/drafts/edits/deletion, notif",
+      "description": "小黑盒 Coopanion World：账号/内容/成长三栏；模板库与发件箱、prepare/publish 幂等、草稿编辑/发布、帖子编辑/删除、通知摘要、本地作息、兴趣阶段、热点刷帖、审计诊断。 / Heybox for Coopanion: Account/Content/Growth panels, template/outbox UI, idempotent prepare/publish, draft edit/publish, post edit/delete, notification d",
       "locales": {
         "zh": {
           "displayName": "小黑盒",
-          "description": "让桌宠登录小黑盒，逛社区、读帖评论、按兴趣发帖。面板为账号 / 内容 / 成长；内容包含待确认、发帖、评论、模板与发布箱；成长包含自动刷帖与兴趣。新增通知摘要、本地作息、prepare/publish 幂等、帖子读回验证、编辑帖子、删除评论、发布前质检；内置热门模板，也可按兴趣或热帖自建。"
+          "description": "让桌宠登录小黑盒，逛社区、按兴趣发帖。面板为账号/内容/成长；内容新增「模板与发件箱」，内置热门结构并支持兴趣/热帖自建；草稿可编辑和发布。支持 prepare/publish 幂等、帖子读回、通知摘要、本地作息、兴趣阶段、负反馈、热点刷帖、审计诊断。"
         },
         "en": {
           "displayName": "Heybox",
-          "description": "Heybox for Coopanion with Account/Content/Growth panels: templates and outbox, idempotent prepare/publish, post read-back verification, edits, comment deletion, pre-publish review, notification digest, local routine, staged interests, negative feedback and hot-feed browsing."
+          "description": "Heybox for Coopanion with Account/Content/Growth panels. Template/outbox UI, idempotent prepare/publish, editable/publishable local drafts, post edits/deletion, notification digest, local routine, staged interests, negative feedback, hot-feed browsing, audit and diagnostics."
         }
       },
       "author": "cortico-world-heybox contributors",
@@ -5888,8 +5941,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-heybox"
       },
       "created": "2026-10-24T14:30:19.968Z",
-      "published": "2026-10-28T14:37:58.460Z",
-      "versionCount": 12,
+      "published": "2026-10-28T15:03:48.819Z",
+      "versionCount": 13,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5917,11 +5970,12 @@
       "summary": {
         "tools": 47,
         "events": 1,
-        "toolTokens": 3988,
+        "toolTokens": 4039,
         "envPromptTokens": 66
       },
       "changelog": {
         "versions": [
+          "0.5.16",
           "0.5.15",
           "0.5.14",
           "0.5.13",
@@ -5971,7 +6025,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-heybox@0.5.15/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-heybox@0.5.16/CHANGELOG.md"
       },
       "discussion": {
         "number": 253,
@@ -9294,7 +9348,7 @@
     },
     "cortico-world-qq-final": {
       "kind": "world",
-      "version": "0.6.36",
+      "version": "0.6.37",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -9313,8 +9367,8 @@
         "bugs": "https://github.com/hth768/cortico-world-qq-final/issues"
       },
       "created": "2026-10-06T07:39:25.866Z",
-      "published": "2026-10-28T08:00:29.567Z",
-      "versionCount": 69,
+      "published": "2026-10-28T15:23:27.363Z",
+      "versionCount": 70,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -9339,11 +9393,12 @@
       "summary": {
         "tools": 15,
         "events": 9,
-        "toolTokens": 4534,
-        "envPromptTokens": 757
+        "toolTokens": 4611,
+        "envPromptTokens": 864
       },
       "changelog": {
         "versions": [
+          "0.6.37",
           "0.6.36",
           "0.6.35",
           "0.6.34",
@@ -12312,7 +12367,7 @@
       "published": "2026-10-23T12:50:34.165Z",
       "versionCount": 6,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "voice"
       ],
