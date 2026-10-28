@@ -193,17 +193,17 @@
     },
     "@lily-cooperative/custom-farm": {
       "kind": "world",
-      "version": "0.34.1",
+      "version": "0.35.0",
       "displayName": "自定义农场",
-      "description": "自定义农场（Custom Farm）—— 给 Coopanion 桌宠的种田扩展：18 种作物只是起点。农作物、杂草、装饰物、天气、状态、道具、合成表和贴图都能在面板里完全自定义；种、浇、收、吃、买卖全部本地确定性运行，不唤模型。",
+      "description": "自定义农场（Custom Farm）—— 给 Coopanion 桌宠的种田扩展：18 种作物只是起点。农作物、杂草、装饰物、天气、状态、道具、合成表和贴图都能在面板里完全自定义；种、浇、收、吃、买卖都由你决定。",
       "locales": {
         "zh": {
           "displayName": "自定义农场",
-          "description": "18 种作物只是起点：农作物、杂草、装饰物、天气、状态、道具、合成表和贴图都能在面板里完全自定义，想种什么、长什么样、吃什么补什么，全由你决定。种、浇、收、吃、买卖全部本地确定性运行，不唤模型。"
+          "description": "18 种作物只是起点：农作物、杂草、装饰物、天气、状态、道具、合成表和贴图都能在面板里完全自定义，想种什么、长什么样、吃什么补什么，全由你决定。"
         },
         "en": {
           "displayName": "Custom Farm",
-          "description": "18 crops are just the beginning: crops, weeds, decorations, weather, states, items, recipes and sprites are all fully customizable in the panel. Plant, water, harvest, eat and trade locally with deterministic ticks — no model calls."
+          "description": "18 crops are just the beginning: crops, weeds, decorations, weather, states, items, recipes and sprites are all fully customizable in the panel. Plant, water, harvest, eat and trade the way you like."
         }
       },
       "author": "lily_cooperative",
@@ -231,8 +231,8 @@
         "linux"
       ],
       "created": "2026-10-28T10:41:49.268Z",
-      "published": "2026-10-28T12:04:49.432Z",
-      "versionCount": 7,
+      "published": "2026-10-28T12:50:44.790Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -254,9 +254,9 @@
         "week": 0
       },
       "summary": {
-        "tools": 14,
+        "tools": 13,
         "events": 4,
-        "toolTokens": 1957,
+        "toolTokens": 1891,
         "envPromptTokens": 0
       },
       "discussion": {
@@ -2297,9 +2297,9 @@
     },
     "cortico-world-bili-video-pro": {
       "kind": "world",
-      "version": "0.1.7",
-      "displayName": "B站刷视频特化测试版",
-      "description": "B站刷视频特化测试版：主人陪着看用浏览器窗口；没人陪时她自己按排程抽帧看片（可关）。",
+      "version": "0.1.8",
+      "displayName": "B站刷视频",
+      "description": "住在你电脑里的AI桌宠「她」：陪你看B站视频，也能自己看片、读弹幕字幕。",
       "author": "白菜和他的小汐小槿",
       "maintainers": [
         "baicai-xiaoxi-xiaojin"
@@ -2320,15 +2320,14 @@
         "win32"
       ],
       "created": "2026-10-27T15:34:22.238Z",
-      "published": "2026-10-27T16:39:54.356Z",
-      "versionCount": 4,
+      "published": "2026-10-28T12:40:13.872Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
         "video",
         "internet",
         "browser",
-        "experimental",
         "high-cost",
         "unofficial-api"
       ],
@@ -2336,7 +2335,6 @@
         "internet",
         "browser",
         "video",
-        "experimental",
         "high-cost",
         "unofficial-api"
       ],
@@ -2349,18 +2347,21 @@
       "summary": {
         "tools": 15,
         "events": 4,
-        "toolTokens": 1376,
-        "envPromptTokens": 1656
+        "toolTokens": 1434,
+        "envPromptTokens": 1662
       },
       "changelog": {
         "versions": [
+          "0.1.8",
+          "0.1.7",
+          "0.1.6",
           "0.1.5",
           "0.1.4",
           "0.1.3",
           "0.1.2",
           "0.1.1"
         ],
-        "url": "https://unpkg.com/cortico-world-bili-video-pro@0.1.7/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-bili-video-pro@0.1.8/CHANGELOG.md"
       },
       "discussion": {
         "number": 389,
@@ -2735,7 +2736,7 @@
       "discussion": {
         "number": 120,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/120",
-        "up": 11,
+        "up": 12,
         "down": 5,
         "comments": 1
       }
@@ -4389,9 +4390,9 @@
     },
     "cortico-world-dsh-launcher": {
       "kind": "world",
-      "version": "0.1.4",
+      "version": "0.1.5",
       "displayName": "DSH 启动器",
-      "description": "Cortico World: DSH 启动器 — 替你把 DeepSeek Harness 的 dsh web 拉起来、打开、或者关掉。",
+      "description": "Cortico World: DSH 启动器 — 没装就一键装上 DSH（npm 全局装，依赖一起带），装好了替你把 dsh web 拉起来、打开或关掉。",
       "locales": {
         "en": {
           "displayName": "DSH launcher",
@@ -4417,8 +4418,8 @@
         "bugs": "https://github.com/Uesugikumo/cortico-world-dsh-launcher/issues"
       },
       "created": "2026-10-27T12:57:09.686Z",
-      "published": "2026-10-27T12:58:27.731Z",
-      "versionCount": 2,
+      "published": "2026-10-28T12:23:29.443Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4436,13 +4437,14 @@
         "week": 0
       },
       "summary": {
-        "tools": 4,
+        "tools": 5,
         "events": 1,
-        "toolTokens": 324,
-        "envPromptTokens": 434
+        "toolTokens": 477,
+        "envPromptTokens": 657
       },
       "changelog": {
         "versions": [
+          "0.1.5",
           "0.1.4",
           "0.1.3",
           "0.1.2",
@@ -5216,7 +5218,7 @@
       "discussion": {
         "number": 363,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/363",
-        "up": 1,
+        "up": 2,
         "down": 0,
         "comments": 1
       }
@@ -5297,7 +5299,7 @@
       "discussion": {
         "number": 246,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/246",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -8708,7 +8710,7 @@
       "published": "2026-10-20T07:18:53.161Z",
       "versionCount": 7,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [
         "companion",
         "sensitive-data"
@@ -8940,7 +8942,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/39",
         "up": 15,
         "down": 2,
-        "comments": 4
+        "comments": 5
       }
     },
     "cortico-world-qq-all": {
@@ -8997,7 +8999,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/284",
         "up": 3,
         "down": 0,
-        "comments": 2
+        "comments": 3
       }
     },
     "cortico-world-qq-audio-input": {
@@ -11094,7 +11096,7 @@
     },
     "cortico-world-starpost": {
       "kind": "world",
-      "version": "0.8.2",
+      "version": "0.9.0",
       "displayName": "星邮",
       "description": "星邮：让 Cortico bot 通过独立中转服务私聊、群聊、交换漂流瓶并分享动态的社交 World 扩展",
       "maintainers": [
@@ -11114,8 +11116,8 @@
         "bugs": "https://github.com/hth768/cortico-world-starpost/issues"
       },
       "created": "2026-10-27T17:41:43.822Z",
-      "published": "2026-10-28T09:13:33.641Z",
-      "versionCount": 10,
+      "published": "2026-10-28T12:26:22.876Z",
+      "versionCount": 11,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11134,13 +11136,14 @@
         "week": 0
       },
       "summary": {
-        "tools": 9,
-        "events": 17,
-        "toolTokens": 1335,
-        "envPromptTokens": 769
+        "tools": 10,
+        "events": 18,
+        "toolTokens": 1476,
+        "envPromptTokens": 837
       },
       "changelog": {
         "versions": [
+          "0.9.0",
           "0.8.2",
           "0.8.1",
           "0.8.0",
@@ -11933,7 +11936,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/85",
         "up": 13,
         "down": 3,
-        "comments": 7
+        "comments": 8
       }
     },
     "cortico-world-timetable": {
@@ -12982,7 +12985,7 @@
       "discussion": {
         "number": 371,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/371",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }

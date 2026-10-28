@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-dsh-launcher",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "describe": {
     "tools": [
       {
@@ -28,6 +28,28 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {}
+        }
+      },
+      {
+        "name": "dsh_install",
+        "tags": [
+          "act"
+        ],
+        "summary": "一键安装 DSH（npm 全局装，依赖一起带上）",
+        "description": "一键把 dsh 装到这台电脑上：用 npm 全局装 @deepseek-ai/dsh，依赖一起带上。使用者说「DSH 还没装」「帮我装一个」「装坏了重装」时用它；装之前先问一句要不要装。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "version": {
+              "type": "string",
+              "description": "装哪个版本：省略就是 latest，也可以给 dist-tag 或具体版本号。"
+            },
+            "force": {
+              "type": "boolean",
+              "description": "已经装了也重装/升级。DSH 正在跑的话得先关掉（dsh_stop）。"
+            }
+          }
         }
       },
       {
@@ -68,7 +90,7 @@
         "tags": [
           "speak"
         ],
-        "description": "使用者在控制台按了启动 / 关闭 DSH，正文里是结果与地址"
+        "description": "使用者在控制台按了启动 / 关闭 / 安装 DSH，正文里是结果与地址"
       }
     ],
     "prompts": [
@@ -76,11 +98,12 @@
         "key": "worlds.dsh.envPrompt",
         "title": "DSH 启动器 · 环境提示词",
         "role": "envPrompt",
-        "content": "# DSH 启动器\n\n这台电脑上有一个叫 DeepSeek Harness（DSH）的干活程序，使用者平时在浏览器里用它。\n这个模块只做一件事：**帮他把那份 DSH 起起来、打开、或者关掉。**\n\n当前：地址 {{dsh_url}}，状态 {{dsh_state}}，端口 {{dsh_port}}。\n\n它不读 DSH 里的内容，也看不见 DSH 在写什么代码——想了解进展，直接问使用者就行。\n\n## 会收到什么\n\n- `dsh.panel` —— 使用者在控制台按了「启动 DSH」或「关闭 DSH」，正文里是结果和地址\n\n只有这一种事件。其余时候你不会被它叫醒。\n\n## 收到 `dsh.panel` 时怎么说\n\n**立刻回一句，成没成、地址是多少。** 这是使用者亲手按的，别装没看见。\n\n正文是使用者第一人称说的，末尾写着「回我一句？」——回了才算数。只 `end_turn`、\n不调 `pet_say`，使用者那边什么都不会出现，等于没回。\n\n好：`【点头】DSH 起来了，就在 http://127.0.0.1:3080`\n不好：`已执行 dsh web --port 3080 --host 127.0.0.1 --no-open`\n\n## 工具\n\n| 工具 | 什么时候用 |\n| --- | --- |\n| `dsh_status` | 「DSH 开着吗」「地址是多少」——看端口通不通、报地址 |\n| `dsh_start` | 「把 DSH 开起来」——已经在跑就什么都不做，然后把地址告诉他 |\n| `dsh_open` | 「打开 DSH」「让我看看」——用默认浏览器打开界面 |\n| `dsh_stop` | 「把 DSH 关了」——关掉这台电脑上所有 dsh web。**停之前必须先问过使用者**——他眼前那页界面可能就是这个，一停就断；他答应之后再把 `confirm` 设成 true |\n\n## 边界\n\n- 别在没被要求的时候自己起 DSH：它不是陪聊的程序，开着就占内存。\n- 关掉 DSH 会把使用者正在用的那页界面一起断掉，所以要问过再关。\n- 拉起失败（找不到 `dsh` 命令、端口被占、二十秒还没通）就照实说，别反复重试，也别自己换端口。\n"
+        "content": "# DSH 启动器\n\n这台电脑上有一个叫 DeepSeek Harness（DSH）的干活程序，使用者平时在浏览器里用它。\n这个模块做三件事：**没装就一键帮他把 DSH 装上（npm 全局装，依赖一起带），装好了起起来、打开，或者关掉。**\n\n当前：地址 {{dsh_url}}，状态 {{dsh_state}}，端口 {{dsh_port}}，安装 {{dsh_install}}。\n\n它不读 DSH 里的内容，也看不见 DSH 在写什么代码——想了解进展，直接问使用者就行。\n\n## 会收到什么\n\n- `dsh.panel` —— 使用者在控制台按了「启动 DSH」「安装 DSH」或「关闭 DSH」，正文里是结果和地址\n\n只有这一种事件。其余时候你不会被它叫醒。\n\n## 收到 `dsh.panel` 时怎么说\n\n**立刻回一句，成没成、地址是多少。** 这是使用者亲手按的，别装没看见。\n\n正文是使用者第一人称说的，末尾写着「回我一句？」——回了才算数。只 `end_turn`、\n不调 `pet_say`，使用者那边什么都不会出现，等于没回。\n\n好：`【点头】DSH 起来了，就在 http://127.0.0.1:3080`\n不好：`已执行 dsh web --port 3080 --host 127.0.0.1 --no-open`\n\n## 工具\n\n| 工具 | 什么时候用 |\n| --- | --- |\n| `dsh_status` | 「DSH 开着吗」「地址是多少」——看端口通不通、报地址、顺带报装没装 |\n| `dsh_start` | 「把 DSH 开起来」——已经在跑就什么都不做，然后把地址告诉他 |\n| `dsh_install` | 「DSH 还没装」「帮我装一个」「装坏了重装」——npm 全局装 `@deepseek-ai/dsh`，依赖一起带上。**装之前先问一句要不要装**；他要重装/升级就 `force: true`；DSH 正在跑的时候别硬装，先问能不能关掉 |\n| `dsh_open` | 「打开 DSH」「让我看看」——用默认浏览器打开界面 |\n| `dsh_stop` | 「把 DSH 关了」——关掉这台电脑上所有 dsh web。**停之前必须先问过使用者**——他眼前那页界面可能就是这个，一停就断；他答应之后再把 `confirm` 设成 true |\n\n## 装的时候\n\n- npm 拉包可能要几分钟。工具最多陪你等两分钟：没等完就先照实说「还在装」，别自己编进度，\n  装完它会用一条 `dsh.panel` 气泡补一句。\n- 装失败就照实说失败原因和日志尾巴，别反复重试、别自己换版本号。\n- 版本默认 `latest`；他说要 `next` / `alpha` 或具体版本时再传 `version`。\n- 找不到 npm 就照实说（提示他装 Node.js，Windows 上 `winget install OpenJS.NodeJS.LTS`），别假装装上了。\n\n## 边界\n\n- 别在没被要求的时候自己起 DSH：它不是陪聊的程序，开着就占内存。\n- 别在没被要求的时候自己装东西：装软件这件事一定要他点头。\n- 关掉 DSH 会把使用者正在用的那页界面一起断掉，所以要问过再关。\n- 拉起失败（找不到 `dsh` 命令、端口被占、二十秒还没通）就照实说，别反复重试，也别自己换端口。\n"
       }
     ]
   },
   "changelog": {
+    "0.1.5": "- 新增**一键安装 DSH**：`dsh_install` 工具 + 控制台「安装 DSH」按钮。没装的时候跑\n  `npm install -g @deepseek-ai/dsh@<spec>`（默认 `latest`，可传 `next` / `alpha` / 具体版本，`force` 重装升级），\n  依赖由 npm 一起带上。装完 / 装失败都会用 `dsh.panel` 气泡说一声，全过程写到 `dsh-install.log`。\n- 安装前先查环境：Node 太旧或找不到 npm 会直接说清楚（提示 `winget install OpenJS.NodeJS.LTS`）；\n  DSH 正在跑时劝先关掉；版本号只接受 `[A-Za-z0-9._-]`，挡住往命令行里夹带别的东西。\n- 判装没装只看 `node_modules/@deepseek-ai/dsh/lib/bin.js` 在不在，不信 npm 的退出码；\n  一次安装最多 10 分钟，工具最多陪等 2 分钟，超时先回话、装完补气泡。\n- `dsh_status` 与提示词多报一项「装没装、什么版本」（新变量 `{{dsh_install}}`）；`dsh_start` 找不到 dsh 时指路 `dsh_install`。\n- 控制台面板：三个按钮（启动 / 安装 / 关闭）+ 安装日志；关闭按钮改成连点两次确认（第二次 5 秒内），\n  因为它会断掉使用者正开着的那页界面。\n- 面板 `install` / `installStatus` 两个数据面方法；`status` 里多返回 `busy` 与安装摘要。\n- 认自定义 npm 全局前缀（`npm_config_prefix`），有就先看那个目录；非 Windows 也补了 Homebrew / `~/.npm-global` 的常见位置。\n- 认 nvm-windows：`NVM_SYMLINK`（当前版本）与 `NVM_HOME`（各版本目录，最多扫 12 个），\n  所以切过 Node 版本的机器也能报出真实的 `lib/bin.js` 路径。\n- 真机跑过一次完整安装做验证：613 个包 / 3 分 14 秒 / 694 MB，装完 `dsh --version` 与 `dsh web` 都正常；\n  npm 11 的 `allow-scripts` 跳过对本扩展无害（`node-pty` 自带 win32-x64 prebuild）。",
     "0.1.4": "- 包名从 `cortico-world-dsh` 改成 `cortico-world-dsh-launcher`：这个扩展只管起 / 开 / 关，\n  叫「dsh」太大了，也会挡住以后真正的桥接。`id` 仍是 `dsh`，配置节 `worlds.dsh`、事件前缀 `dsh.*` 全都不变，\n  已装好的部署无需改动（换了包名就要重新装一次）。\n- 仓库地址同步改成 `github.com/Uesugikumo/cortico-world-dsh-launcher`。",
     "0.1.3": "- 改名：显示名从「DSH 桥接」改成「DSH 启动器」（en `DSH launcher`）。它现在只管起 / 开 / 关 / 看状态，\n  不读 DSH 里的东西；`id` 仍是 `dsh`，配置节 `worlds.dsh` 与事件前缀 `dsh.*` 不变。\n- 「关闭 DSH」改成关掉这台电脑上所有 `dsh web`（先按命令行找 `node … dsh/lib/bin.js web`，再用占用端口的 pid 兜底），\n  不再只认 Coo 自己起的那个；回报里带 pid。工具 `dsh_stop` 仍需 `confirm: true`，会先问使用者。\n- 删掉已经没用的桥接读取层：`dsh_recent` 工具、事件合批、`notify` / `minGapMs` 两项配置、桥接缓存 storage 模块。\n  现在只有一种事件 `dsh.panel`。\n- 配置只剩 `enabled` / `port` / `host` / `autostart`；环境提示词按「启动器」重写。",
     "0.1.2": "- 面板上按「启动 / 关闭 DSH」之后，结果改成由 Coo 用气泡说出来（新事件 `dsh.panel`，`tags: ['speak']`，\n  立即投递、不受气泡粒度与合批间隔限制）；面板里的小字提示照样保留。\n- 删掉两个没用的配置项：`bridgeDir` 与 `command`。事件目录固定按平台取（`%APPDATA%\\coo-dsh-bridge`），\n  启动命令固定先找 npm 全局安装的 `lib/bin.js`，再退回 PATH 上的 `dsh`。\n- 环境提示词与工具描述去掉本机专属称呼，改成通用的「使用者」；补上 `dsh.panel` 该怎么说。\n- `describe.json` 改为从 `definition.describe` + `ENV_PROMPT.md` 生成，避免两处写歪。",
