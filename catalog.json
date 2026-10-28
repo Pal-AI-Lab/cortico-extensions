@@ -9111,6 +9111,7 @@
       "created": "2026-10-24T05:35:09.983Z",
       "published": "2026-10-24T06:42:57.577Z",
       "versionCount": 3,
+      "deprecated": "Moved to cortico-world-qqbot, maintained by Pal AI Lab. Install cortico-world-qqbot and bind your bot again.",
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -9350,6 +9351,95 @@
       "discussion": {
         "number": 377,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/377",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-qqbot": {
+      "kind": "world",
+      "version": "0.3.1",
+      "displayName": "QQ Bot",
+      "description": "Connects Coo to a QQ bot entry: QR binding, direct and group messages, stickers and media, with QQ's reply limits visible to the model",
+      "locales": {
+        "zh": {
+          "displayName": "QQ 机器人",
+          "description": "让 Coo 连上一个 QQ 机器人入口，在 QQ 私聊和群里收发消息。\n\n- 手机 QQ 扫码新建并绑定机器人，凭证自动保存，绑定后自动连接。\n- 每条消息渲染成一行：谁说的、小黄脸、引用和附件;图片随消息交给能看图的模型。\n- QQ 的回复次数、回复时限、主动消息和召回额度写进提示词，每次发送的回执写明还剩多少。\n- 发文字、表情包、图片、视频和文件，私聊回复可以逐字显示;装了 FFmpeg 还能发语音。\n\n扫码建出的是个人机器人：默认只有你自己能私聊，只能拉进你当群主或管理员的群。由 Pal AI Lab 维护，最初由 [leafliber](https://github.com/leafliber) 编写。"
+        },
+        "en": {
+          "displayName": "QQ Bot",
+          "description": "Connects Coo to a QQ bot entry for QQ direct and group messages.\n\n- Create and bind a bot by scanning with mobile QQ; credentials are saved and the connection starts on its own.\n- Each message becomes one line: sender, faces, quotes and attachments; images go to models that take images.\n- QQ's reply counts, reply windows, proactive and wakeup quotas are in the prompt, and every send receipt says what is left.\n- Sends text, stickers, images, video and files, with word-by-word replies in direct chats; voice with FFmpeg installed.\n\nThe scanned bot is a personal bot: by default only you can message it, and it can join only groups you own or manage. Maintained by Pal AI Lab, originally written by [leafliber](https://github.com/leafliber)."
+        }
+      },
+      "author": "Pal AI Lab",
+      "maintainers": [
+        "phantivia"
+      ],
+      "license": "AGPL-3.0-or-later",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "qqbot",
+        "qq",
+        "qq-bot",
+        "im",
+        "messaging"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-qqbot",
+        "repository": "https://github.com/Pal-AI-Lab/cortico-world-qqbot",
+        "homepage": "https://github.com/Pal-AI-Lab/cortico-world-qqbot#readme",
+        "bugs": "https://github.com/Pal-AI-Lab/cortico-world-qqbot/issues"
+      },
+      "created": "2026-10-28T01:10:08.363Z",
+      "published": "2026-10-28T01:15:44.680Z",
+      "versionCount": 3,
+      "official": true,
+      "isNew": true,
+      "declaredTags": [
+        "im",
+        "qq",
+        "requires-key",
+        "experimental"
+      ],
+      "tags": [
+        "im",
+        "qq",
+        "requires-key",
+        "experimental"
+      ],
+      "icon": "assets/cortico-world-qqbot/icon.svg",
+      "screenshots": [
+        "assets/cortico-world-qqbot/screenshot-1.png",
+        "assets/cortico-world-qqbot/screenshot-2.png",
+        "assets/cortico-world-qqbot/screenshot-3.png"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 8,
+        "events": 7,
+        "toolTokens": 1440,
+        "envPromptTokens": 20
+      },
+      "changelog": {
+        "versions": [
+          "0.3.1",
+          "0.3.0",
+          "0.2.3",
+          "0.2.2",
+          "0.2.0",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/Pal-AI-Lab/cortico-world-qqbot/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 401,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/401",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -12387,7 +12477,7 @@
     },
     "cortico-world-wechat-claw": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "微信 ClawBot",
       "description": "在微信里和桌宠一对一聊天：文字、图片、文件双向收发，语音用微信的转写文本，视频可按需抽帧给模型看。",
       "locales": {
@@ -12423,8 +12513,8 @@
         "bugs": "https://github.com/Unnori/cortico-world-wechat-claw/issues"
       },
       "created": "2026-10-27T12:04:10.102Z",
-      "published": "2026-10-27T12:05:52.157Z",
-      "versionCount": 2,
+      "published": "2026-10-28T01:11:27.609Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -12449,6 +12539,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.1",
           "0.1.0"
         ],
         "url": "https://github.com/Unnori/cortico-world-wechat-claw/blob/HEAD/CHANGELOG.md"

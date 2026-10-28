@@ -1,0 +1,434 @@
+{
+  "schema": 1,
+  "name": "cortico-world-qqbot",
+  "version": "0.3.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "qqbot_send_message",
+        "description": "发一条 QQ 消息：文字，可以带一张图片或表情包(image),或者单独发一条语音(voice)。reply_to 填消息编号，回复那一条，会话随之确定;quote=true 时在 QQ 里显示引用。不填 reply_to 时自动回复这个会话里还能回复的最近一条，没有就按主动消息发送;delivery=proactive 强制主动消息。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "to": {
+              "type": "string",
+              "description": "c2c:<OpenID>, group:<group OpenID>, channel:<id> or dms:<id>"
+            },
+            "reply_to": {
+              "type": "string",
+              "description": "#<n> from the start of a message line"
+            },
+            "eventId": {
+              "type": "string"
+            },
+            "delivery": {
+              "type": "string",
+              "enum": [
+                "auto",
+                "reply",
+                "proactive",
+                "wakeup"
+              ]
+            },
+            "fallback": {
+              "type": "boolean"
+            },
+            "text": {
+              "type": "string"
+            },
+            "image": {
+              "type": "string"
+            },
+            "voice": {
+              "type": "string"
+            },
+            "quote": {
+              "type": "boolean"
+            },
+            "format": {
+              "type": "string",
+              "enum": [
+                "text",
+                "markdown"
+              ]
+            },
+            "keyboard": {
+              "type": "object"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "发送文字，可带一张图片或单独一条语音。",
+          "en": "Sends text, optionally with one image, or a voice bar."
+        }
+      },
+      {
+        "name": "qqbot_send_media",
+        "description": "发视频、文件，或一次发多张图片(items,最多 8 项)。url 与 blob(log:/mem: 句柄)二选一;fileType:1 图片、2 视频、3 语音、4 文件。每一项各算一条消息，部分失败时已发出的不会重发。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "to": {
+              "type": "string",
+              "description": "c2c:<OpenID>, group:<group OpenID>, channel:<id> or dms:<id>"
+            },
+            "reply_to": {
+              "type": "string",
+              "description": "#<n> from the start of a message line"
+            },
+            "eventId": {
+              "type": "string"
+            },
+            "delivery": {
+              "type": "string",
+              "enum": [
+                "auto",
+                "reply",
+                "proactive",
+                "wakeup"
+              ]
+            },
+            "fallback": {
+              "type": "boolean"
+            },
+            "url": {
+              "type": "string"
+            },
+            "blob": {
+              "type": "string"
+            },
+            "fileType": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 4
+            },
+            "fileName": {
+              "type": "string"
+            },
+            "text": {
+              "type": "string"
+            },
+            "items": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 8,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  },
+                  "blob": {
+                    "type": "string"
+                  },
+                  "fileType": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 4
+                  },
+                  "fileName": {
+                    "type": "string"
+                  },
+                  "text": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "fileType"
+                ]
+              }
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "发送视频、文件或多张图片。",
+          "en": "Sends video, files or several images."
+        }
+      },
+      {
+        "name": "qqbot_stream_message",
+        "description": "followModel=true:下一轮你写的公开正文会自动发到这个会话，私聊里逐字显示，其他会话在本轮结束后整段发出。手动分片时传 text,续片沿用返回的 streamId,finish 默认 true。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "to": {
+              "type": "string",
+              "description": "c2c:<OpenID>, group:<group OpenID>, channel:<id> or dms:<id>"
+            },
+            "reply_to": {
+              "type": "string",
+              "description": "#<n> from the start of a message line"
+            },
+            "eventId": {
+              "type": "string"
+            },
+            "delivery": {
+              "type": "string",
+              "enum": [
+                "auto",
+                "reply",
+                "proactive",
+                "wakeup"
+              ]
+            },
+            "fallback": {
+              "type": "boolean"
+            },
+            "text": {
+              "type": "string"
+            },
+            "format": {
+              "type": "string",
+              "enum": [
+                "text",
+                "markdown"
+              ]
+            },
+            "streamId": {
+              "type": "string"
+            },
+            "finish": {
+              "type": "boolean"
+            },
+            "followModel": {
+              "type": "boolean"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "发送流式分片或自动转发下一轮回复正文。",
+          "en": "Sends stream parts or forwards the next public reply."
+        }
+      },
+      {
+        "name": "qqbot_delete_message",
+        "description": "撤回你发过的一条消息，填它的编号。发出超过 2 分钟的撤回不了。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "description": "#<n> from the start of a message line"
+            }
+          },
+          "required": [
+            "message"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "撤回机器人发送的消息。",
+          "en": "Recalls messages sent by the bot."
+        }
+      },
+      {
+        "name": "qqbot_read_history",
+        "description": "读 QQ 会话的历史消息，可按会话(to)筛选，before 填编号往前翻。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "to": {
+              "type": "string",
+              "description": "c2c:<OpenID>, group:<group OpenID>, channel:<id> or dms:<id>"
+            },
+            "before": {
+              "type": "string",
+              "description": "#<n> from the start of a message line"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读取 QQ 会话的历史消息。",
+          "en": "Reads past QQ messages."
+        }
+      },
+      {
+        "name": "qqbot_read_attachment",
+        "description": "读取一条消息里的附件(语音转成 WAV)。message 填消息编号;index 是第几个附件，默认第 1 个;quoted=true 读它引用的那条消息里的附件。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "description": "#<n> from the start of a message line"
+            },
+            "index": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "quoted": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "message"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读取已保存消息的 QQ CDN 附件。",
+          "en": "Reads QQ CDN attachments from stored messages."
+        }
+      },
+      {
+        "name": "qqbot_list_targets",
+        "description": "列出认识的 QQ 会话、地址，以及现在还能不能被动回复。定时提醒里记下准确地址，到点后用 delivery=proactive 发送。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查询已知 QQ 会话及主动接收状态。",
+          "en": "Lists known QQ targets and proactive reception state."
+        }
+      },
+      {
+        "name": "qqbot_ack_interaction",
+        "description": "确认按钮互动:code=0 成功、1 失败、2 太频繁、3 重复、4 无权限、5 仅管理员可操作。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "interactionId": {
+              "type": "string"
+            },
+            "code": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5
+            }
+          },
+          "required": [
+            "interactionId",
+            "code"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "确认平台互动事件。",
+          "en": "Acknowledges platform interactions."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "qqbot.message",
+        "trigger": "debounce",
+        "description": {
+          "zh": "收到一条 QQ 消息，渲染成一行可读文本，原始字段留在存档里。",
+          "en": "An incoming QQ message rendered as one readable line; original fields stay in the archive."
+        }
+      },
+      {
+        "type": "qqbot.notice",
+        "trigger": "debounce",
+        "description": {
+          "zh": "收到互动、关系变化或其他平台事件。",
+          "en": "An interaction, relationship change or other platform event."
+        }
+      },
+      {
+        "type": "qqbot.attachment",
+        "trigger": "debounce",
+        "description": {
+          "zh": "消息里下载较慢的图片或语音，下载完成后单独送达。",
+          "en": "An image or voice clip from an earlier message, delivered once its slower download finishes."
+        }
+      },
+      {
+        "type": "qqbot.sent",
+        "tags": [
+          "speak"
+        ],
+        "description": {
+          "zh": "平台接受发送请求的存档回执，不唤醒模型。",
+          "en": "An archived send receipt; does not wake the model."
+        }
+      },
+      {
+        "type": "qqbot.attempt",
+        "description": {
+          "zh": "发送前持久化的序号预留，不唤醒模型。",
+          "en": "A sequence reservation persisted before sending; does not wake the model."
+        }
+      },
+      {
+        "type": "qqbot.removed",
+        "description": {
+          "zh": "平台接受撤回请求的存档回执，不唤醒模型。",
+          "en": "An archived recall receipt; does not wake the model."
+        }
+      },
+      {
+        "type": "qqbot.acknowledged",
+        "description": {
+          "zh": "平台接受互动确认的存档回执，不唤醒模型。",
+          "en": "An archived interaction acknowledgement; does not wake the model."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.qqbot.envPrompt",
+        "title": "环境提示词",
+        "role": "envPrompt",
+        "content": "{{qqbot.environment}}\n\n{{qqbot.conversations}}\n{{qqbot.identity}}\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.3.1": "- New market icon in the house style of Pal AI Lab extensions.",
+    "0.3.0": "- Published as `cortico-world-qqbot` by Pal AI Lab. The World id is now `qqbot` (tools `qqbot_*`, events `qqbot.*`, config `worlds.qqbot`, secret `CORTICO_QQBOT_APP_SECRET`); installs of `cortico-world-qq-official` need to bind again.\n- The prompt says Coo is connected to a QQ bot entry, lists QQ's limits on it with a way to work with each, and asks Coo to keep stickers in its memory under descriptive names and send them often.\n- Send receipts state the delivery mode and what remains: replies left on the message and minutes left, or the rule that made a message proactive. Platform rejections carry a plain explanation of the limit they hit.\n- A refused proactive message in a direct chat (40054013 or 40034105) is sent once as the period's wakeup message; a recipient who turned proactive messages off gets the wakeup message directly.\n- An @ in a group or channel wakes the model at once; direct chats still batch.\n- Render faces written in the older `[<face,id=13/>]` form.\n- QR binding follows QQ's three-minute task lifetime and renews an expired code up to three times in a row. Scanned credentials are checked for a token before they are saved; a secret that yields none asks for a new scan that creates a new bot.\n\n- Render model-facing text in the shape of Cortico's built-in QQ World: one line per message (`#n [conversation HH:MM] sender: text`) with faces by name, quotes, mentions and attachment placeholders; notices, send receipts and history as short lines instead of raw JSON. Original fields stay in `meta.data`.\n- Address tools with `to` (`c2c:<OpenID>` and so on) and short message numbers: `reply_to`, `message` and `before` take `#n`. `send_message` takes `text` plus an optional `image` or `voice`; `history` is now `read_history`; `read_attachment` takes a message number and a 1-based index. Object targets from earlier reminders are still accepted.\n- List known conversations and the bot's QQ name in the environment prompt.\n- Fetch images from the QQ CDN as messages …",
+    "0.2.3": "- Close model-directed local filesystem access: media now accepts host-managed `log:` / `mem:` attachments or public HTTP(S) URLs. Legacy `path` inputs are rejected and must migrate to `blob` or `url`.\n- Reject path traversal, encoded filesystem paths and file URLs before resolving attachments or starting a media batch. Display filenames never select a local file.\n- Preserve image, voice, video and document sends, channel multipart images, batching, chunked uploads and FFmpeg/SILK conversion. Add regression coverage for attachment sends and attempts to read local files through paths, handles or audio playlists.\n- Withdraw the package’s `unsafe` declaration for 0.2.3; market warning removal requires approval from the Cortico maintainers.",
+    "0.2.2": "- Complete the market listing with a display name, project icon, three panel previews, bilingual feature descriptions, author profile, homepage and discovery keywords.\n- Add illustrated English and Chinese READMEs, with links to installation, support and release notes.\n- Keep the API 6 runtime and API 5 compatibility implementation unchanged from the verified 0.2.0 release.",
+    "0.2.0": "- Add persistent target discovery, proactive reception checks, delivery modes, throttling and host alarm guidance.\n- Keep proactive cooldowns after slow authentication, responses and rejections, and apply them to fallback retries.\n- Add local and batch media, Tencent chunked upload with TTL caching, channel multipart images, FFmpeg/SILK voice conversion and quoted attachment reads.\n- Forward explicitly selected model replies through the existing World output tap, with chunk throttling, conversation isolation and automatic stream completion; buffer proactive notifications through the regular message API.\n- Downgrade explicit expired-anchor, Markdown and unsupported-stream rejections; bound rate retries and preserve uncertain delivery across restarts without replaying content.\n- Extend protocol, streaming and real codec regression coverage for API 6 and Coopanion’s API 5 runtime; update model instructions, localized settings and package metadata.\n- Document npm installation and declare the Cortico tags for FFmpeg setup and local-file media access.",
+    "0.1.1": "- Redesign Connection around an embedded QR code, automatic credential retrieval, and live connection status; remove the QR after authorization.\n- Move manual credentials and transport settings to Configuration, keeping AppSecret in the deployment secret store.\n- Resume pending binding tasks after a page reload and enable or reconnect the World after authorization.\n- Cover QR decoding, automatic binding, configuration validation and panel lifecycle on API 6 and Coopanion's API 5 runtime.",
+    "0.1.0": "- Deliver QQ Official gateway and signed Webhook messages and notices through Core's event stream.\n- Add explicit message, media, C2C streaming, recall, history, attachment-read and interaction tools.\n- Support QQ bot credential binding and manual credential configuration in eleven UI languages.\n- Ship World API 6 metadata, a generated self-description and an API 5 compatibility package.\n- Mark the release experimental pending live QQ validation."
+  }
+}
