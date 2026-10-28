@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-fatfish",
-  "version": "0.6.10",
+  "version": "0.6.11",
   "describe": {
     "tools": [
       {
@@ -88,6 +88,7 @@
     ]
   },
   "changelog": {
+    "0.6.11": "### 新增「选择会话」\n\n- 桥接面板多一颗「选择会话」按钮：列出 DSH 全部实时会话（会话 id、模型、哪个是默认、哪个是固定的、子代理会话不列出），点一行就把桌宠切过去，不用再猜 id\n- 固定状态下分两行显示「已固定（不跟随）」和「跟随 DSH 活动」，谁锁定、谁在跟着活动走一眼看得出\n\n### 修复\n\n- **面板显示「DSH 没有打开的会话」，但 DSH 明明有**：桌宠的帧解析器此前把 connector 的 `session-list` 当成未知帧丢掉，于是每次读列表都干等 10 秒超时后返回空。已补上解析\n- **点「解除固定」状态不刷新**：此前只清了桌宠本地的 `pinnedSession`，DSH 侧的固定（pin）还在，DSH 继续把消息送进\"已经放开\"的会话、面板也还标着已固定。现在先向 connector 下发 `unpin`，成功后才清本地状态；connector 不支持时会直接报错，不再假装成功\n- **切 tab 之后「会话」这一行永不更新**：以前只在握手时写一次。现在每次状态轮询都向 connector 问一次真实 owner（2.5 秒超时，问不到就保留旧值）\n- **快速来回切换后列表标记错乱、旧响应盖掉新状态**：列表改为每次重绘（当前 / 已固定 / 默认三个标记都重算），并用读序号丢弃迟到的轮询响应；「刷新测试」现在把状态和打开中的列表一起重读\n- 读列表失败与\"真的没有会话\"分开提示：前者显示「读取会话列表失败：DSH 没有回应，稍后再试」，不再误导成 DSH 真的没有会话\n\n### 关于「快速切 tab 后会话 id 卡住」\n\nDSH 只在真有活动（`agent/created`、`session/event`）时才通知插件，**只切 tab、不说话时一条事件都没有**——`agent/created` 只在该 tab 首次打开时发一次，所以多切几次就对不上了；`.dsh` 的持久化里也没有\"当前会话\"这个字段，桌宠无从得知静默导航。想立刻对准：点「刷新测试」或「选择会话」手动选一个。已经固定（pin）的会话本来就不该跟着跑，这种情况下 id 不动是正确行为。\n\n### 需要 DSH 侧配合\n\n会话列表与解除固定需要 DSH Host 插件 `coopanion-connector-dsh` **≥ 0.2.11**（仅 GitHub 分发，未上 npm）。低于 0.2.11 的 connector 没有 `list-sessions` / `unpin` 帧，本版会退化成\"读列表超时\"和\"解除固定只清本地\"。",
     "0.6.10": "### 为什么又把 relayPerson 改回默认关\n\n0.6.6 把 relayPerson（转发人物打字到 DSH）默认从 `true` 改成 `false`，本意是\"诚实认识论\"——桌宠是第二张嘴，不是静默输入通道，默认关避免两边互聊循环。但那次改默认值**没有在 UI 上给够提示**，导致用户升级后桥明明连着、打字却不自动转 DSH，必须手动开配置才恢复——**默认关等于升级后主路径功能消失**。\n\n0.6.9 改回了 `true`（让主路径先能用）。但回归 opt-in 才是长期方向：**基础设施不替用户做\"要不要转发\"的决定**。\n\n这次 0.6.10 把 relayPerson 再改回 `false`，但**三个关键变化**保证不再踩 0.6.6 的坑：\n\n1. **所有面向用户的文案（README、package.json locales、扩展市场描述）最显眼位置明确写了怎么开、为什么开**\n2. **明确写了为什么要升级 DSH connector 到 ≥ 0.2.10**——v0.2.10 修复 CSWSH 安全漏洞 + 自动转发默认开 + 持久化（关掉的开关重启不丢）\n3. **config.ts 里 relayPerson 和 relayPet 对称**——两个都是默认关，用户按自己的场景 opt-in\n\n### 关于 relayPet（保持默认关）\n\nrelayPet（转发桌宠台词到 DSH）从 0.6.5 起就默认关，这次不动。原因：桌宠台词 → DSH → 桌宠听到 DSH 回复 → 桌宠再说话，容易形成两嘴互聊循环。只有当你明确要\"让桌宠说的每句话也变成 DSH 的 user/message\"时才开它。\n\n### 关于 DSH connector-dsh ≥ 0.2.10\n\n这是**强升级要求**。低于 0.2.10 的 connector：\n- v0.2.9 只修了 CSWSH（Origin 拒绝），但自动转发仍是默认关，没有持久化\n- v0.2.8 之前没有 CSWSH 修复，也没有持久化\n- **只有 ≥ 0.2.10** 同时满足：CSWSH 修复 + 自动转发默认开 + 持久化（关掉的开关写入 coopanion-forward.json）\n\n> ⚠️ connector 是独立仓库（https://github.com/blacksunshy/coopanion-connector-dsh），仅 GitHub 分发，不上 npm。DSH desktop profile 里用 `pnpm add github:blacksunshy/coopanion-connector-dsh` 升级。",
     "0.6.9": "0.6.6 把「转发人物的话」(`relayPerson`) 默认从 `true` 改成 `false`，本意是安全默认值（诚实认识论）。但这是主路径功能——绝大多数用户升级后桥明明连着，打字却自动不转 DSH，要手动开配置才恢复。**默认关 = 升级等于功能消失**，不合适。\n\n这次改回 `true`，`relayPet` 保持 `false`（桌宠自己的台词自动转发进 DSH 容易形成两嘴互聊的循环，仍默认关）。\n\n如果你的产品场景就是默认不开自动转发，**升级后在配置里显式关掉 `relayPerson` 即可**，不要等默认值帮你做这个决定。",
     "0.6.7": "npm registry 对 `description` 字段有 **255 字节硬上限**。0.6.6 的 package.json 写了 772 字符的中英双语完整 description，publish 时被强制截断到 255 字节，安全提醒的后半段全没了。这次把双语 description 压缩到 254 字节内，同时保留所有关键信息：默认关转发 + DSH 升 v0.2.9 修 CSWSH。\n\n> 注意：255 字节是 UTF-8 字节不是字符数，中文 1 字 = 3 字节，英文 1 字母 = 1 字节。以后每次写 description 都要 `[Text.Encoding]::UTF8.GetByteCount()` 算一遍再 publish。",

@@ -193,7 +193,7 @@
     },
     "@lily-cooperative/custom-farm": {
       "kind": "world",
-      "version": "0.33.3",
+      "version": "0.33.6",
       "displayName": "自定义农场",
       "description": "自定义农场（Custom Farm）—— 给 Coopanion 桌宠的种田扩展：18 种作物、浇水/生长/收割/卖钱，确定性 tick（纯代码，不唤模型），并把渲染用的 state.json 写给桌面图层。",
       "author": "lily_cooperative",
@@ -219,8 +219,8 @@
         "linux"
       ],
       "created": "2026-10-28T10:41:49.268Z",
-      "published": "2026-10-28T10:42:45.415Z",
-      "versionCount": 2,
+      "published": "2026-10-28T11:09:09.000Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -235,6 +235,7 @@
         "experimental",
         "internal-state"
       ],
+      "icon": "assets/@lily-cooperative__custom-farm/icon.png",
       "downloads": {
         "total": 0,
         "month": 0,
@@ -1609,9 +1610,9 @@
     },
     "cortico-world-absolute-solver": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "displayName": "Absolute Solver 服务目录",
-      "description": "Cortico World for the Absolute Solver LAN service directory.",
+      "description": "Cortico World showing the Absolute Solver LAN projection page, usage guidance, and service directory.",
       "maintainers": [
         "zhzaill"
       ],
@@ -1630,8 +1631,8 @@
         "bugs": "https://github.com/zhzaill/absolute-solver/issues"
       },
       "created": "2026-10-28T06:18:34.033Z",
-      "published": "2026-10-28T06:19:29.944Z",
-      "versionCount": 2,
+      "published": "2026-10-28T11:31:42.885Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "tags": [],
@@ -4865,17 +4866,17 @@
     },
     "cortico-world-fatfish": {
       "kind": "world",
-      "version": "0.6.10",
+      "version": "0.6.11",
       "displayName": "大肥鱼功能复合包",
-      "description": "DSH 对话/语音。需 connector-dsh（仅GitHub, ≥0.2.10）。relayPerson & relayPet 默认关。升级 connector 有持久化转发 + CSWSH 安全。 / DSH chat/voices. Needs connector-dsh (GitHub only, ≥0.2.10). Both relays off. Upgrade for fix.",
+      "description": "DSH 对话/语音。会话选择器与解除固定需 connector-dsh（仅GitHub, ≥0.2.11）。relayPerson & relayPet 默认关。 / DSH chat/voices. Session picker needs connector-dsh (GitHub only, >=0.2.11). Both relays off.",
       "locales": {
         "zh": {
           "displayName": "大肥鱼功能复合包",
-          "description": "和 DeepSeek Harness（DSH）对话，让它帮你干活、写代码；宠物回复你的时候用内置语音包读出声（Windows 与 macOS）。桥接需要先装 DSH 的 Host 插件才会连——不会装就看源码仓库说明，或把仓库地址交给 AI 帮你装。固定会话需 Host 插件 coopanion-connector-dsh ≥ 0.2.10（仅 GitHub 分发，未上 npm）。\n\n### 新装用户请注意：两个转发开关默认都关\n\n- **relayPerson**（转发人物打字到 DSH）默认关 → 想让打字自动进 DSH，在配置里打开它。这是主路径功能，旧版本曾默认开，本次回归 opt-in\n- **relayPet**（转发桌宠台词到 DSH）默认关 → 想让桌宠说的话也变成 DSH 的 user/message，打开它。但注意：如果同时开了 relayPerson + connector 侧 forwarding，容易形成\"桌宠↔DSH\"两嘴互聊循环，通常保持默认关更安全\n\n### 为什么必须升级 connector-dsh 到 ≥ 0.2.10\n\n- v0.2.10 修复 CSWSH 安全漏洞（任意网页可构造 WS 升级劫持桥接）\n- v0.2.10 自动转发默认开 + 持久化：用户关掉的转发开关写入 coopanion-forward.json，插件重启不丢。低于 0.2.9 默认关，升级后桥连着但打字递不进去\n- connector 是独立仓库：https://github.com/blacksunshy/coopanion-connector-dsh （仅 GitHub 分发，未上 npm）"
+          "description": "和 DeepSeek Harness（DSH）对话，让它帮你干活、写代码；宠物回复你的时候用内置语音包读出声（Windows 与 macOS）。桥接需要先装 DSH 的 Host 插件才会连——不会装就看源码仓库说明，或把仓库地址交给 AI 帮你装。会话选择器与「解除固定」需 Host 插件 coopanion-connector-dsh ≥ 0.2.11（仅 GitHub 分发，未上 npm）。\n\n### 新装用户请注意：两个转发开关默认都关\n\n- **relayPerson**（转发人物打字到 DSH）默认关 → 想让打字自动进 DSH，在配置里打开它。这是主路径功能，旧版本曾默认开，本次回归 opt-in\n- **relayPet**（转发桌宠台词到 DSH）默认关 → 想让桌宠说的话也变成 DSH 的 user/message，打开它。但注意：如果同时开了 relayPerson + connector 侧 forwarding，容易形成\"桌宠↔DSH\"两嘴互聊循环，通常保持默认关更安全\n\n### 本版新增：会话选择器\n\n- 桥接面板多一颗「选择会话」：列出 DSH 全部实时会话，点一行就把桌宠切过去，不用猜 id\n- 「解除固定」现在会真的通知 DSH 侧插件清掉固定（此前只清桌宠自己那份状态，DSH 仍把消息送进已放开的会话）\n- 每次刷新状态都会向 DSH 问一次它当前落在哪个会话，切 tab 后面板不再停在旧会话\n\n### 为什么建议 connector-dsh ≥ 0.2.11\n\n- v0.2.11 新增 `list-sessions` 与 `unpin` 帧：没有它，会话列表会读超时、解除固定只清本地\n- v0.2.10 修复 CSWSH 安全漏洞（任意网页可构造 WS 升级劫持桥接）并让自动转发持久化\n- connector 是独立仓库：https://github.com/blacksunshy/coopanion-connector-dsh （仅 GitHub 分发，未上 npm）"
         },
         "en": {
           "displayName": "Fatfish Companions Pack",
-          "description": "Chat with DeepSeek Harness (DSH) so it does the work and writes code for you, and hear the pet replies read aloud with built-in voices (Windows and macOS). The bridge needs the DSH Host extension installed first — if that sounds hard, open the source repo and let an AI walk you through it. Pinning a session needs the DSH host extension coopanion-connector-dsh ≥ 0.2.10 (GitHub only, not on npm).\n\n### Fresh install note: both forward switches default OFF\n\n- **relayPerson** (relays your typing into DSH) defaults off → open it if you want auto-flow from your keyboard. Main path, previously default-on in older releases.\n- **relayPet** (relays pet lines into DSH) defaults off → open it if you want pet words as DSH user/messages. Warning: with relayPerson + connector forwarding on, pet↔DSH chat loops can form.\n\n### Why upgrade connector-dsh to ≥ 0.2.10\n\n- v0.2.10 fixes a CSWSH security hole (any webpage could forge a WS upgrade to hijack the bridge)\n- v0.2.10 auto-forward default ON + persistence: user opt-outs are written to coopanion-forward.json, surviving plugin restarts. Below 0.2.9 default-off, bridge connects but words never arrive after upgrade\n- Connector lives in its own repo: https://github.com/blacksunshy/coopanion-connector-dsh  (GitHub only, not on npm)"
+          "description": "Chat with DeepSeek Harness (DSH) so it does the work and writes code for you, and hear the pet replies read aloud with built-in voices (Windows and macOS). The bridge needs the DSH Host extension installed first — if that sounds hard, open the source repo and let an AI walk you through it. The session picker and unpin need coopanion-connector-dsh >= 0.2.11 (GitHub only, not on npm).\n\n### Fresh install note: both forward switches default OFF\n\n- **relayPerson** (relays your typing into DSH) defaults off → open it if you want auto-flow from your keyboard. Main path, previously default-on in older releases.\n- **relayPet** (relays pet lines into DSH) defaults off → open it if you want pet words as DSH user/messages. Warning: with relayPerson + connector forwarding on, pet↔DSH chat loops can form.\n\n### New in this version: session picker\n\n- The bridge panel gained a \"Pick session\" button: it lists every live DSH session and one click moves the pet there, no id guessing\n- \"Unpin\" now really tells the DSH side to drop the pin (before, it only cleared the pet's local state while DSH kept writing into the session you had released)\n- Every status refresh asks DSH which session it is actually on, so the panel stops showing a stale session after you switch tabs\n\n### Why connector-dsh >= 0.2.11\n\n- v0.2.11 adds the `list-sessions` and `unpin` frames: without them the list read times out and unpin only clears local state\n- v0.2.10 fixes a CSWSH security hole (any webpage could forge a WS upgrade to hijack the bridge) and persists the forward switch\n- Connector lives in its own repo: https://github.com/blacksunshy/coopanion-connector-dsh  (GitHub only, not on npm)"
         }
       },
       "author": "blacksunshy",
@@ -4901,8 +4902,8 @@
         "bugs": "https://github.com/blacksunshy/coopanion-fatfish/issues"
       },
       "created": "2026-10-15T06:47:52.601Z",
-      "published": "2026-10-28T07:23:57.829Z",
-      "versionCount": 27,
+      "published": "2026-10-28T11:40:11.657Z",
+      "versionCount": 28,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4926,6 +4927,7 @@
       },
       "changelog": {
         "versions": [
+          "0.6.11",
           "0.6.10",
           "0.6.9",
           "0.6.7",
@@ -5756,7 +5758,7 @@
     },
     "cortico-world-heybox": {
       "kind": "world",
-      "version": "0.5.9",
+      "version": "0.5.10",
       "displayName": "小黑盒",
       "description": "小黑盒 Coopanion World：扫码/手机号登录、帖子/评论、表情、图片与视觉；100 条/日基础刷帖 + 上午/中午/晚上热点额度；兴趣阶段与衰减、评论质检、审计、发帖/评论内容面板。 / Xiaoheihe (Heybox) for Coopanion: login, feed/posts/comments, emoji, media/vision, 100/day browsing plus morning/noon/evening hot-spot budgets, staged/deca",
       "locales": {
@@ -5787,8 +5789,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-heybox"
       },
       "created": "2026-10-24T14:30:19.968Z",
-      "published": "2026-10-28T10:48:42.562Z",
-      "versionCount": 6,
+      "published": "2026-10-28T10:59:35.180Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5821,6 +5823,7 @@
       },
       "changelog": {
         "versions": [
+          "0.5.10",
           "0.5.9",
           "0.5.8",
           "0.5.7",
@@ -5864,7 +5867,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-heybox@0.5.9/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-heybox@0.5.10/CHANGELOG.md"
       },
       "discussion": {
         "number": 253,
@@ -12270,6 +12273,53 @@
       "discussion": {
         "number": 393,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/393",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-wardrobe": {
+      "kind": "world",
+      "version": "0.1.3",
+      "displayName": "换装",
+      "description": "非官方换装 World：给 Coopanion 的鲸鱼加上新增衣服、新增头发，并附带基础模型。不是 Pal AI Lab 的桌宠包。",
+      "author": "Kwan443",
+      "maintainers": [
+        "kwan443"
+      ],
+      "license": "AGPL-3.0-or-later",
+      "keywords": [
+        "cortico-world",
+        "cortico"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-wardrobe"
+      },
+      "created": "2026-10-28T11:12:54.697Z",
+      "published": "2026-10-28T11:31:50.894Z",
+      "versionCount": 4,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion"
+      ],
+      "tags": [
+        "companion"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 0,
+        "toolTokens": 457,
+        "envPromptTokens": 130
+      },
+      "discussion": {
+        "number": 432,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/432",
         "up": 0,
         "down": 0,
         "comments": 0
