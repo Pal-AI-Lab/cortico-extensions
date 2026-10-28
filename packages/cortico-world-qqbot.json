@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qqbot",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "describe": {
     "tools": [
       {
@@ -423,6 +423,7 @@
     ]
   },
   "changelog": {
+    "0.3.2": "- New market screenshots of the QQ Bot panels, rendered from the real panel code with sample data; `scripts/screenshots/` rebuilds them.\n- The scanning hint asks for a new bot, since picking an existing one has returned credentials that yield no token.",
     "0.3.1": "- New market icon in the house style of Pal AI Lab extensions.",
     "0.3.0": "- Published as `cortico-world-qqbot` by Pal AI Lab. The World id is now `qqbot` (tools `qqbot_*`, events `qqbot.*`, config `worlds.qqbot`, secret `CORTICO_QQBOT_APP_SECRET`); installs of `cortico-world-qq-official` need to bind again.\n- The prompt says Coo is connected to a QQ bot entry, lists QQ's limits on it with a way to work with each, and asks Coo to keep stickers in its memory under descriptive names and send them often.\n- Send receipts state the delivery mode and what remains: replies left on the message and minutes left, or the rule that made a message proactive. Platform rejections carry a plain explanation of the limit they hit.\n- A refused proactive message in a direct chat (40054013 or 40034105) is sent once as the period's wakeup message; a recipient who turned proactive messages off gets the wakeup message directly.\n- An @ in a group or channel wakes the model at once; direct chats still batch.\n- Render faces written in the older `[<face,id=13/>]` form.\n- QR binding follows QQ's three-minute task lifetime and renews an expired code up to three times in a row. Scanned credentials are checked for a token before they are saved; a secret that yields none asks for a new scan that creates a new bot.\n\n- Render model-facing text in the shape of Cortico's built-in QQ World: one line per message (`#n [conversation HH:MM] sender: text`) with faces by name, quotes, mentions and attachment placeholders; notices, send receipts and history as short lines instead of raw JSON. Original fields stay in `meta.data`.\n- Address tools with `to` (`c2c:<OpenID>` and so on) and short message numbers: `reply_to`, `message` and `before` take `#n`. `send_message` takes `text` plus an optional `image` or `voice`; `history` is now `read_history`; `read_attachment` takes a message number and a 1-based index. Object targets from earlier reminders are still accepted.\n- List known conversations and the bot's QQ name in the environment prompt.\n- Fetch images from the QQ CDN as messages …",
     "0.2.3": "- Close model-directed local filesystem access: media now accepts host-managed `log:` / `mem:` attachments or public HTTP(S) URLs. Legacy `path` inputs are rejected and must migrate to `blob` or `url`.\n- Reject path traversal, encoded filesystem paths and file URLs before resolving attachments or starting a media batch. Display filenames never select a local file.\n- Preserve image, voice, video and document sends, channel multipart images, batching, chunked uploads and FFmpeg/SILK conversion. Add regression coverage for attachment sends and attempts to read local files through paths, handles or audio playlists.\n- Withdraw the package’s `unsafe` declaration for 0.2.3; market warning removal requires approval from the Cortico maintainers.",
