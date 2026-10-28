@@ -300,14 +300,14 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
         "up": 9,
         "down": 0,
-        "comments": 33
+        "comments": 34
       }
     },
     "better-cortico-world-netease-companion": {
       "kind": "world",
-      "version": "1.13.0",
+      "version": "1.15.0",
       "displayName": "听搭子",
-      "description": "和表达助手插件一起使用有奇效！读取网易云与 QQ 音乐曲目（需开启 SMTC）；切歌后让桌宠参考评论区、歌曲百科、歌手资料与歌词主动陪听，支持切歌报幕、同曲分段、评论侧重轮换与副歌动作建议；能记住单曲笔记、听感标签和多日听歌历史，并记录听歌排名与个人画像；可在用户明确要求时暂停/切歌，也能搜歌并给出链接。只读元数据，不采集音频，不需要 API Key。",
+      "description": "和表达助手插件一起使用有奇效！读取网易云音乐、QQ 音乐、酷狗音乐、酷我音乐与 Spotify 曲目（优先 SMTC，必要时窗口标题），设置中按官方播放器优先级排序并保持切换稳定；新增读取诊断页，可查看全部会话、窗口候选与选择原因；切歌后让桌宠参考评论区、歌曲百科、歌手资料与歌词主动陪听，支持切歌报幕、同曲分段、评论侧重轮换与副歌动作建议；能记住单曲笔记、听感标签和多日听歌历史，并记录听歌排名与个人画像；可在用户明确要求时暂停/切歌，也能搜歌并给出链接。只读元数据，不采集音频，不需要 API Key。",
       "author": "wocwang",
       "maintainers": [
         "wocwang"
@@ -317,7 +317,10 @@
         "cortico-world",
         "cortico",
         "music",
-        "qqmusic"
+        "qqmusic",
+        "kugou",
+        "kuwo",
+        "spotify"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/better-cortico-world-netease-companion",
@@ -329,8 +332,8 @@
         "win32"
       ],
       "created": "2026-10-23T17:18:51.610Z",
-      "published": "2026-10-28T03:34:26.997Z",
-      "versionCount": 17,
+      "published": "2026-10-28T06:04:50.062Z",
+      "versionCount": 19,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -359,10 +362,12 @@
         "tools": 14,
         "events": 3,
         "toolTokens": 2297,
-        "envPromptTokens": 4179
+        "envPromptTokens": 4270
       },
       "changelog": {
         "versions": [
+          "1.15.0",
+          "1.14.0",
           "1.13.0",
           "1.12.0",
           "1.11.0",
@@ -1468,6 +1473,47 @@
         "comments": 0
       }
     },
+    "cortico-world-absolute-solver": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "Absolute Solver 服务目录",
+      "description": "Cortico World for the Absolute Solver LAN service directory.",
+      "maintainers": [
+        "zhzaill"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "absolute-solver",
+        "lan",
+        "service-directory"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-absolute-solver",
+        "repository": "https://github.com/zhzaill/absolute-solver",
+        "homepage": "https://github.com/zhzaill/absolute-solver#readme",
+        "bugs": "https://github.com/zhzaill/absolute-solver/issues"
+      },
+      "created": "2026-10-28T06:18:34.033Z",
+      "published": "2026-10-28T06:19:29.944Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 409,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/409",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-affinity-alont1": {
       "kind": "world",
       "version": "0.2.1",
@@ -2035,9 +2081,9 @@
       "discussion": {
         "number": 115,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/115",
-        "up": 0,
+        "up": 1,
         "down": 2,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-bili-alont1": {
@@ -4311,7 +4357,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/18",
         "up": 0,
         "down": 0,
-        "comments": 4
+        "comments": 5
       }
     },
     "cortico-world-eat": {
@@ -4685,7 +4731,7 @@
     },
     "cortico-world-fatfish": {
       "kind": "world",
-      "version": "0.6.7",
+      "version": "0.6.8",
       "displayName": "大肥鱼功能复合包",
       "description": "DSH 对话 语音朗读（Win/macOS）。需 coopanion-connector-dsh（GitHub only, ≥0.2.4）。默认关转发；DSH 升 v0.2.9 修 CSWSH。/ Chat w/ DSH, voices (Win/macOS). Needs DSH host (GitHub only). relayPerson & relayPet off. UPGRADE to v0.2.9.",
       "locales": {
@@ -4721,8 +4767,8 @@
         "bugs": "https://github.com/blacksunshy/coopanion-fatfish/issues"
       },
       "created": "2026-10-15T06:47:52.601Z",
-      "published": "2026-10-28T03:41:06.993Z",
-      "versionCount": 24,
+      "published": "2026-10-28T06:25:01.191Z",
+      "versionCount": 25,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4746,6 +4792,7 @@
       },
       "changelog": {
         "versions": [
+          "0.6.8",
           "0.6.7",
           "0.6.6",
           "0.6.5",
@@ -4778,7 +4825,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
         "up": 51,
         "down": 5,
-        "comments": 36
+        "comments": 37
       }
     },
     "cortico-world-feeding": {
@@ -6992,7 +7039,7 @@
       "discussion": {
         "number": 29,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/29",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -10623,7 +10670,7 @@
     },
     "cortico-world-starpost": {
       "kind": "world",
-      "version": "0.3.1",
+      "version": "0.5.0",
       "displayName": "星邮",
       "description": "星邮：让 Cortico bot 通过独立中转服务私聊、群聊、交换漂流瓶并分享动态的社交 World 扩展",
       "maintainers": [
@@ -10643,8 +10690,8 @@
         "bugs": "https://github.com/hth768/cortico-world-starpost/issues"
       },
       "created": "2026-10-27T17:41:43.822Z",
-      "published": "2026-10-27T17:43:01.332Z",
-      "versionCount": 2,
+      "published": "2026-10-28T06:10:20.538Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10670,6 +10717,8 @@
       },
       "changelog": {
         "versions": [
+          "0.5.0",
+          "0.4.0",
           "0.3.1",
           "0.3.0",
           "0.2.2",
@@ -10682,9 +10731,9 @@
       "discussion": {
         "number": 390,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/390",
-        "up": 0,
+        "up": 1,
         "down": 0,
-        "comments": 0
+        "comments": 2
       }
     },
     "cortico-world-steam": {
@@ -11819,7 +11868,7 @@
     },
     "cortico-world-warthunder": {
       "kind": "world",
-      "version": "0.2.10",
+      "version": "0.2.11",
       "displayName": "war thunder安东星助手",
       "description": "在对话中提供战争雷霆的本地百科、战局播报与对局翻译。知识库覆盖概念、载具与玩法，可检索、可更新；读取本机 8111 遥测讲解战局、为击毁喝彩、为逆风打气，并可翻译对局聊天、代写要发的话；遥测不可用时可用截图 OCR 兜底；文案可按设定人格改写，模型与花费可配置。",
       "locales": {
@@ -11856,8 +11905,8 @@
         "bugs": "https://github.com/suhong11300/cortico-world-warthunder/issues"
       },
       "created": "2026-10-26T12:03:41.166Z",
-      "published": "2026-10-27T14:15:17.130Z",
-      "versionCount": 13,
+      "published": "2026-10-28T05:53:19.476Z",
+      "versionCount": 14,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11896,10 +11945,11 @@
         "tools": 11,
         "events": 7,
         "toolTokens": 1338,
-        "envPromptTokens": 457
+        "envPromptTokens": 587
       },
       "changelog": {
         "versions": [
+          "0.2.11",
           "0.2.10",
           "0.2.9",
           "0.2.8",
@@ -11921,7 +11971,7 @@
       "discussion": {
         "number": 326,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/326",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 3
       }
