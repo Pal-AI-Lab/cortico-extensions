@@ -348,6 +348,7 @@
   "certified": [
     "cortico-bot-continuity",
     "cortico-provider-deepseek",
+    "cortico-world-astrbot",
     "cortico-world-fatfish",
     "cortico-world-qq-final",
     "cortico-world-qq-promax-kpect",
@@ -361,9 +362,9 @@
         "zh": "启用后自动改写 Coopanion 程序文件(桌宠页面 pet-app.js 与形象套件 body.js),改动对所有形象生效;停用或卸载前不手动还原，改动会一直保留",
         "en": "Once enabled it rewrites Coopanion program files (the pet page pet-app.js and the figure kit body.js); the changes affect every figure and stay unless restored by hand before it is disabled or removed"
       },
-      "cortico-world-ellen-voice": {
-        "zh": "模型可调用工具，用包里固定版本的页面整份覆盖桌宠的 pet-app.js、speech.js、pet.css;改动对所有形象生效，卸载扩展后仍会保留，宿主升级后版本也对不上",
-        "en": "A model tool overwrites the pet's pet-app.js, speech.js and pet.css with fixed copies from the package; the changes affect every figure, stay after the extension is removed, and no longer match once the host updates"
+      "cortico-world-ellen-page-patch": {
+        "zh": "装上后用包里固定版本的页面整份覆盖桌宠的 pet-app.js、speech.js、pet.css;改动对所有形象生效，卸载扩展后仍会保留，宿主升级后版本也对不上",
+        "en": "Once installed it overwrites the pet's pet-app.js, speech.js and pet.css with fixed copies from the package; the changes affect every figure, stay after the extension is removed, and no longer match once the host updates"
       },
       "cortico-world-feeding": {
         "zh": "加载时(不论是否启用)替换桌宠 World 与桌宠服务的内部方法，往所有形象的页面里插入代码",
@@ -376,10 +377,6 @@
       "cortico-world-filter-paper": {
         "zh": "加载时替换内置 Persona 的交接方法(Cormini.prototype.onHandoff),改动对所有 bot 生效",
         "en": "On load it replaces the built-in Persona's handoff method (Cormini.prototype.onHandoff), which changes every bot"
-      },
-      "cortico-world-image": {
-        "zh": "加载时(不论是否启用)改写其他扩展的源码文件(qq-final、qq-better-alont1),并改动桌宠宿主文件;改动卸载扩展后仍会保留",
-        "en": "On load, whether or not it is enabled, it rewrites source files of other extensions (qq-final, qq-better-alont1) and touches pet host files; the changes stay after the extension is removed"
       },
       "cortico-world-localvision": {
         "zh": "诊断面板的「打核心补丁」会改写 Coopanion 安装目录里 Core 的源码(core/types.ts、loop.ts、core.ts),改动对所有 bot 生效，卸载扩展后仍会保留",
@@ -396,10 +393,6 @@
       "cortico-world-soft-voice": {
         "zh": "气泡同步要运行它的安装脚本改写 Coopanion 程序文件(桌宠页面 pet-app.js),加载后还替换桌宠服务的内部请求处理;卸载扩展后改动仍会保留",
         "en": "Bubble sync needs its install script to rewrite a Coopanion program file (the pet page, pet-app.js), and once loaded it replaces the pet server's internal request handler; the change stays after the extension is removed"
-      },
-      "cortico-world-wardrobe": {
-        "zh": "World 启动时自动用包里的副本覆盖桌宠宿主的 9 个程序文件(服务端、形象脚本、换装页面等)并改写形象的 figure.json;改动对所有形象生效，卸载扩展后仍会保留",
-        "en": "When the World starts it overwrites nine pet host program files (server, figure script, dress-up page and more) with its own copies and rewrites the figure.json; the changes affect every figure and stay after the extension is removed"
       }
     },
     "publishers": {}
@@ -826,9 +819,7 @@
       ]
     },
     "cortico-world-gpt-sovits-for-coopanion": {
-      "addTags": [
-        "coopanion"
-      ]
+      "supersededBy": "@wocwang/cortico-world-gpt-sovits-for-coopanion"
     },
     "cortico-world-coocowork": {
       "addTags": [
@@ -1306,6 +1297,11 @@
     "cortico-world-postcard": {
       "addTags": [
         "pal-ai-world"
+      ]
+    },
+    "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
+      "addTags": [
+        "coopanion"
       ]
     }
   }
