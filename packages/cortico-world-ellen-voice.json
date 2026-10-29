@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-ellen-voice",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "describe": {
     "tools": [
       {
@@ -209,6 +209,7 @@
     "prompts": []
   },
   "changelog": {
+    "0.5.2": "- 第五节「声线模型下载」改成两条路：**整合包**（内核 21.05 GB + 外壳 0.12 MB，两个都解压到同一文件夹即合并可用，\n  内含引擎、模型、参考音、启动脚本、本扩展与补丁的 tgz）与**只要模型权重**（旧链接保留）。\n  新链接：<https://pan.quark.cn/s/63c8c8af4f21>（3 项：两个 zip + `上传清单.txt`）。\n- 补一条警示：0.3.x 那个单一 229.9 MB 的语音包里 `gsv-proxy.mjs` 还没有中韩混读、参考音路径是\n  `ref\\ab\\ref_2.wav`，配 0.5.x 扩展容易「连得上但没声音」。\n- 整合包版 `gsv-proxy.mjs` 的默认路径改为按自身位置解析（不再写死作者机器路径），\n  中/韩/中韩混读三种请求已在干净目录（换到 E 盘、无任何环境变量）实测通过。",
     "0.5.1": "- 新增环境提示词段 `prompts/env.md`（`envPromptVars()` 提供 `{{ttsUrl}}`，可在 WebUI 的模板页编辑）：\n  模型现在知道「艾莲的声音」依赖这台电脑上的本机语音服务，没声音时该引导用户双击\n  `tools\\start-voice.cmd`、先用 `ellen_service status` 查一遍，而不是反复重试同一个失败的调用。\n- `ellen_speak` 的描述补上前提：本机语音服务没起来会直接报连接错误，重试无效。\n- 把整合包的目录约定写实：`<程序根目录>\\gsv-proxy.mjs`、`<程序根目录>\\gptsovits\\GPT-SoVITS\\`、\n  `<程序根目录>\\ref\\`、`<程序根目录>\\cache\\`、`<程序根目录>\\tools\\start-voice.cmd`；网盘包已按这个布局重排，\n  解压后把「程序根目录」填成解压出来的那个文件夹，其余路径留空即可。",
     "0.5.0": "- 把「装页面补丁」这件事拆成独立可选包 `cortico-world-ellen-page-patch`：本包不再附带 `patches/`，\n  也不再写宿主 Coopanion 的文件，因此可以重新提交官方扩展市场（此前正是因为写盘、卸载后仍保留被拉黑）。\n- 移除 `ellen_patch_page` 工具、`src/host-patch.ts` 和设置项 `hostWebDir`；需要装页面补丁时请改装\n  上述独立包，它会把三份页面文件覆盖进宿主、自动备份，装完要重启 Coopanion 才生效。",
     "0.4.0": "- 新增 `ellen_patch_page`：把扩展自带的三份桌宠页面补丁（`patches/speech.js`、`patches/pet-app.js`、\n  `patches/pet.css`）装进宿主 Coopanion 的 `resources\\app\\node_modules\\cortico-world-desktop-pet\\web`。\n  这些补丁解决的是“扩展跑在后台、改不到页面”的那一类问题：\n  - 外部声线：接本机 TTS，失败三次才冷却 30 秒（以前一次失败就永久闭麦）；\n  - 短句也出声：两三个字的回复以前整句上屏、走不到逐字路径所以没有语音；\n  - 气泡：按内容撑开（不再只露四个字）、贴左右边缘时整块翻转、尾巴指回身上；\n  - 静置后 AudioContext 挂起自动唤醒；音量走配置而不是写死 0.67。\n- 安装时自动备份原文件到 `<web 目录>\\..\\.ellen-patch-backup-<时间戳>\\`，内容相同则跳过；\n  `dryRun=true` 可以先预演。装完需要重启 Coopanion 才生效。\n- 新增设置项 `hostWebDir`：页面目录特殊（比如便携版）时可以手动指定。",
