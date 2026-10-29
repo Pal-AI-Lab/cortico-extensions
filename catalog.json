@@ -643,7 +643,7 @@
       "discussion": {
         "number": 214,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/214",
-        "up": 4,
+        "up": 5,
         "down": 1,
         "comments": 7
       }
@@ -3059,17 +3059,17 @@
     },
     "cortico-world-bubble-emotes": {
       "kind": "world",
-      "version": "0.3.6",
+      "version": "0.4.0",
       "displayName": "表达助手 · 情绪与表情",
-      "description": "让开心有笑意，安慰有温度。37个emoji搭配情绪分析与草稿检查，新增可编辑的“情绪→表情→身体心情”映射和身体心情建议；不自动安排动作，减少对睡眠与互动的干扰。分析需配置模型。",
+      "description": "37个emoji搭配可编辑情绪与身体心情映射。由桌宠当前主模型提交草稿自检，无需额外API配置；不采集发言、不保存草稿，不自动安排动作。",
       "locales": {
         "zh": {
           "displayName": "表达助手 · 情绪与表情",
-          "description": "让开心有笑意，安慰有温度。37个emoji搭配情绪分析与草稿检查，新增可编辑的“情绪→表情→身体心情”映射和身体心情建议；不自动安排动作，减少对睡眠与互动的干扰。分析需配置模型。"
+          "description": "37个emoji搭配可编辑情绪与身体心情映射。由桌宠当前主模型提交草稿自检，无需额外API配置；不采集发言、不保存草稿，不自动安排动作。"
         },
         "en": {
           "displayName": "表达助手 · 情绪与表情",
-          "description": "Help your pet express joy, comfort and thought with 37 emoji, emotion analysis, draft review and editable body-expression mappings. Analysis requires a configured model."
+          "description": "37 emoji with editable emotion and body-expression mappings. Validates the current model draft self-check without collecting speech, storing drafts or requiring a separate API."
         }
       },
       "author": "oceanxuhaiao",
@@ -3100,8 +3100,8 @@
         "win32"
       ],
       "created": "2026-10-22T13:59:51.432Z",
-      "published": "2026-10-25T04:01:53.995Z",
-      "versionCount": 10,
+      "published": "2026-10-29T09:20:06.044Z",
+      "versionCount": 11,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3120,12 +3120,18 @@
       },
       "summary": {
         "tools": 3,
-        "events": 1,
-        "toolTokens": 886,
-        "envPromptTokens": 762
+        "events": 0,
+        "toolTokens": 1160,
+        "envPromptTokens": 874
       },
       "changelog": {
         "versions": [
+          "0.4.0",
+          "0.4.0-dev.2",
+          "0.4.0-dev.1",
+          "0.4.0-dev.0",
+          "0.3.7-dev.1",
+          "0.3.7-dev.0",
           "0.3.6",
           "0.3.5",
           "0.3.5-dev.5",
@@ -3168,7 +3174,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/189",
         "up": 11,
         "down": 0,
-        "comments": 2
+        "comments": 3
       }
     },
     "cortico-world-buckshot": {
@@ -5719,7 +5725,7 @@
       "discussion": {
         "number": 361,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/361",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 1
       }
@@ -8959,7 +8965,7 @@
     },
     "cortico-world-opencode-quota": {
       "kind": "world",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "description": "OpenCode Go 额度 World:读每个 OpenCode 端点的订阅额度(每 5 小时 / 每周 / 每月),把越线与重置报告给 bot,在 World 页显示三个窗口的进度,并保留一份可查的历史。密钥取自端点自己声明的环境变量名,也可以手填。",
       "author": "云纪",
       "maintainers": [
@@ -8981,8 +8987,8 @@
         "bugs": "https://github.com/Unnori/cortico-world-opencode-quota/issues"
       },
       "created": "2026-10-28T07:40:48.146Z",
-      "published": "2026-10-28T09:16:09.332Z",
-      "versionCount": 3,
+      "published": "2026-10-29T08:47:41.879Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -9005,6 +9011,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.3",
           "0.2.2",
           "0.2.1",
           "0.2.0",
@@ -9552,7 +9559,7 @@
       "discussion": {
         "number": 422,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/422",
-        "up": 2,
+        "up": 3,
         "down": 0,
         "comments": 0
       }
@@ -11978,7 +11985,7 @@
     },
     "cortico-world-starpost": {
       "kind": "world",
-      "version": "0.14.0",
+      "version": "0.15.1",
       "displayName": "星邮",
       "description": "星邮：让 Cortico bot 独立私聊、群聊、交换漂流瓶、分享动态并预约狼人杀的社交 World 扩展",
       "maintainers": [
@@ -11998,8 +12005,8 @@
         "bugs": "https://github.com/hth768/cortico-world-starpost/issues"
       },
       "created": "2026-10-27T17:41:43.822Z",
-      "published": "2026-10-29T05:36:22.948Z",
-      "versionCount": 17,
+      "published": "2026-10-29T08:09:01.351Z",
+      "versionCount": 19,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -12018,13 +12025,15 @@
         "week": 267
       },
       "summary": {
-        "tools": 15,
-        "events": 41,
-        "toolTokens": 3266,
-        "envPromptTokens": 2825
+        "tools": 16,
+        "events": 43,
+        "toolTokens": 3417,
+        "envPromptTokens": 3030
       },
       "changelog": {
         "versions": [
+          "0.15.1",
+          "0.15.0",
           "0.14.0",
           "0.13.0",
           "0.12.1",
