@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "name": "cortico-world-ellen-page-patch",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "ellen_patch_page",
+        "description": "Install this extension's three page patches (speech.js / pet-app.js / pet.css) into the host Coopanion desktop-pet web folder. They fix external TTS hookup, silent short replies, bubble tails cut off before speech finishes, bubble clipping and width at screen edges, suspended audio contexts and the speech volume setting. Restart Coopanion afterwards. dryRun=true only reports what would change.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "dryRun": {
+              "type": "boolean",
+              "description": "Report what would change without writing files."
+            },
+            "webDir": {
+              "type": "string",
+              "description": "Desktop-pet web folder; inferred from settings or the install location when omitted."
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "setup"
+        ],
+        "summary": {
+          "zh": "把三份桌宠页面补丁装进宿主 Coopanion（外部声线、短句出声、气泡尾巴、气泡贴边与宽度、音量）。",
+          "en": "Install the page patches into the host Coopanion (external voice, short replies, bubble tail/edge/width, volume)."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": []
+  },
+  "changelog": {
+    "0.1.0": "- 首个版本：把艾莲语音扩展原本自带的「装页面补丁」功能拆成独立可选包。本包只做一件事——把\n  `patches/speech.js`、`patches/pet-app.js`、`patches/pet.css` 三份文件覆盖进宿主 Coopanion 的\n  `resources\\app\\node_modules\\cortico-world-desktop-pet\\web`，装完要重启 Coopanion 才生效。\n- 带四项主要修复：\n  - 外部声线接入：接本机 TTS，失败三次才冷却 30 秒（以前一次失败就永久闭麦）；\n  - 短句也出声：两三个字的回复以前整句上屏、走不到逐字路径，所以没有语音；\n  - 气泡尾巴等语音念完：不再语音还没播完气泡就先收起；\n  - 气泡贴边翻转 + 宽度按内容撑开：贴左右边缘时整块翻转、尾巴指回身上，宽度随内容自适应。\n- 另外把静置后挂起的 AudioContext 自动唤醒，音量改为走配置而不是写死 0.67。\n- 装补丁时自动备份原文件到 `<web 目录>\\..\\.ellen-patch-backup-<时间戳>\\`，内容相同则跳过；\n  `dryRun=true` 可以先预演，不写盘。\n- 新增设置项 `hostWebDir`：页面目录特殊（比如便携版）时可以手动指定，留空按安装位置自动推断。"
+  }
+}
