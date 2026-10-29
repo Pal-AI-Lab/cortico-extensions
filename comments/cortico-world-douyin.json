@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "cortico-world-douyin",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/334",
-  "total": 7,
+  "total": 8,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJiav",
+      "author": "hoov666",
+      "avatar": "https://avatars.githubusercontent.com/u/313516935?s=64&v=4",
+      "body": "抖音 World 报错，麻烦看下：\n1）douyin_watch 一律 500，报 page.evaluate: ReferenceError: __name is not defined，堆栈在 eval (eval at evaluate)，UtilityScript.evaluate。任意视频、frames 1/3/6 都失败；douyin_status 和 douyin_feed 正常，只有取画面这步挂。换视频、换浏览器窗口、重启扩展都一样。\n原因猜是打包开了 keepNames，注入页面的函数体里带了 __name(...)，页面上下文没这个 helper。改成字符串形式 evaluate，或 addInitScript 里注入 globalThis.__name = (fn, name) => fn。\n2）「抖音桥地址」留空时，status 能显示在线，但 feed 报 Failed to parse URL from /feed?n=6。空值没回落到内置桥地址，被当相对路径了。\n3）「启动抖音桥并登录」按钮点了没反应；帮助里那句 npx -y cortico-douyin-bridge 在 npm 上 404。",
+      "createdAt": "2026-10-29T20:01:56Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJT1r",
       "author": "ChaiXiaoXiang",
