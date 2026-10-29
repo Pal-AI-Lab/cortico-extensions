@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-free-hub",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "describe": {
     "tools": [
       {
@@ -49,6 +49,8 @@
     "events": []
   },
   "changelog": {
+    "0.1.2": "- **切换前真生成守卫**：点「用这家」先发一条最小生成（`max_tokens:16`，25s 超时），\n  拿不到正文/工具调用/思考内容就不切，并把上游原话贴出来。\n  起因：Qoder 中国版额度耗尽时报 `112/model_error`，而 Coo 自带的「测试连接」仍返回 ok（假绿灯），\n  切过去她就不回话。\n- **「重新测速」改为真生成**，不再调用 Coo 的连通性测试。\n- **渠道推荐表改为动态**：从 OFM 中继口的 `/v1/models` 现算渠道与推荐模型（原来写死 5 条），\n  OFM 增删渠道时面板自动跟随。\n- 判定「可用」时接受 reasoning-only 响应（开思考的模型在 16 token 下正文为空，原判定会误杀）。",
+    "0.1.1": "- 补齐 npm / GitHub 链接与安装说明（不改代码逻辑）。\n- `package.json` 增加 repository / homepage / bugs 字段。",
     "0.1.0": "首个公开版本（Coo World 扩展 · `kind: world` / `api: 6`）。\n\n- **面板「免费端点台」**：徽章（账号数 / 已接入渠道 / 免费车道 / 今日 tokens / 转发端口状态）+ 按渠道的卡片（账号数、剩余积分、刷新余额、领取入口）+ 转发端口的渠道状态。\n- **只读接入本机已登录的渠道账号**：读取 DSH 凭据库（`~/.dsh/.credentials.yaml`，只读、不出本机、不入日志），识别 CodeArts / Raccoon / Qoder / TRAE / ZCode / MiniMax / Cline / LobsterAI / Loomy / Gemini 等渠道的账号数量。\n- **余额适配器**：Raccoon（商汤）余额实时查询。\n- **一键接入**：把任意 OpenAI 兼容端点写成 Coo 的模型供应商（`kind: coo` + chat 协议），默认指向本机 OFM 的中继端口。\n- **工具**：`free_hub_status`、`free_hub_connect`。\n- **明确不做**：渠道登录/OAuth、账号续期、积分签到接口的自动化。登录与领取继续在原插件里完成；本包不分发任何凭据，也不打包任何第三方渠道代码。\n\n### 已知限制\n\n- 依赖本机已安装并登录过渠道的 OFM；未安装时面板显示 0，属预期。\n- 目前只有 Raccoon 接入了余额查询；其余渠道只显示账号数量。\n- 令牌过期后需回 OFM 重新登录，本包会显示「查不到余额」而不会伪造数据。"
   }
 }
