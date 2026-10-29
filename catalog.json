@@ -13917,17 +13917,17 @@
     },
     "cortico-world-token-ledger": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "displayName": "钱花在哪",
-      "description": "只读她的账本，把 token 花费拆成钱、缓存、成分、世界四张表。人民币为主，本机计算，不调模型，不给鱼任何工具。",
+      "description": "只读她的账本：今天花了多少、累计多少、花在哪一项、缓存省了多少。人民币显示，本机计算，不调模型，不给鱼任何工具。",
       "locales": {
         "zh": {
           "displayName": "钱花在哪",
-          "description": "看她自己的账本，把花费拆开看：钱花在哪一项、缓存省了多少、上下文里到底装的什么、哪个扩展在烧 token。\n\n**它只读**：翻三个文件——`data/usage.jsonl`（每次请求的 token 与官方金额）、`runs/*/transcript.jsonl`（上下文里实际装的内容）、`runs/*/toolcalls.jsonl`（哪次调用属于哪个世界）。只以只读方式打开，不改任何东西。\n\n**它不费钱**：全部在这台机器上算，不调用模型，不给桌宠任何工具，也不往她的上下文里加一个字。所以它观察账单这件事本身是零成本的——这正是做它的理由，先看清楚钱去哪了，再决定改什么。\n\n**四张表**：\n\n- **钱**：按每次请求当时的价格快照累加的官方金额，以人民币为主（美元附在旁边，汇率可配）；再拆成命中缓存的输入、未命中缓存的输入、输出三项。表下会注明两件事：有几次请求账本里没带金额（价目表里没有那个模型），按牌价折算是多少钱；以及账本写到几点为止。\n- **缓存**：命中率，以及「单次未命中超过 2 万 token」的事件列表。这类事件几乎都发生在前缀第一次出现时——那不是浪费，是换一套前缀必须付的一次钱。\n- **成分**：上下文里工具回执、工具参数、她的思考、你说的话各占多少。同一个内容重复出现只算一次，不重复计。\n- **按世界**：哪个扩展在烧 token。\n\n**要说清的一件事**：「按世界」是估算。账本按请求记账、不按工具记账，所以这一栏是按每条工具回执的字数折算后归到它所属的世界。看排行和量级可以，别当账单。\n\n面板打开时算一次（本机约 0.3 秒），之后账本没变就用缓存；想看最新的点「重新算一遍」。"
+          "description": "看她自己的账本，把花费拆开看：钱花在哪一项、缓存省了多少、上下文里到底装的什么、哪个扩展在烧 token。\n\n**它只读**：翻三个文件——`data/usage.jsonl`（每次请求的 token 与官方金额）、`runs/*/transcript.jsonl`（上下文里实际装的内容）、`runs/*/toolcalls.jsonl`（哪次调用属于哪个世界）。只以只读方式打开，不改任何东西。\n\n**它不费钱**：全部在这台机器上算，不调用模型，不给桌宠任何工具，也不往她的上下文里加一个字。所以它观察账单这件事本身是零成本的——这正是做它的理由，先看清楚钱去哪了，再决定改什么。\n\n**今天花了多少**：最上面一张卡。从本地时间 0 点起算到此刻，跨过 0 点自动归零，相当于「今天到目前为止花了多少钱」。同时给出按当前速度估算的全天、昨天的全天数字，以及今天每个小时的分布。顶栏徽标也常显示今天的金额（没点开面板也算，走一条只解析今天几十行的快路，20 秒缓存）。\n\n**四张表**：\n\n- **钱**：按每次请求当时的价格快照累加的官方金额，以人民币为主（美元附在旁边，汇率可配）；再拆成命中缓存的输入、未命中缓存的输入、输出三项。表下会注明两件事：有几次请求账本里没带金额（价目表里没有那个模型），按牌价折算是多少钱；以及账本写到几点为止。\n- **缓存**：命中率，以及「单次未命中超过 2 万 token」的事件列表。这类事件几乎都发生在前缀第一次出现时——那不是浪费，是换一套前缀必须付的一次钱。\n- **成分**：上下文里工具回执、工具参数、她的思考、你说的话各占多少。同一个内容重复出现只算一次，不重复计。\n- **按世界**：哪个扩展在烧 token。\n\n**要说清的一件事**：「按世界」是估算。账本按请求记账、不按工具记账，所以这一栏是按每条工具回执的字数折算后归到它所属的世界。看排行和量级可以，别当账单。\n\n面板打开时算一次（本机约 0.3 秒），之后账本没变就用缓存；想看最新的点「重新算一遍」。"
         },
         "en": {
           "displayName": "Where the Tokens Go",
-          "description": "Reads her own ledger and splits the bill: which meter the money went to, how much caching saved, what actually sits in the context, and which extension burns tokens.\n\n**Read-only**: it opens three files — `data/usage.jsonl` (tokens and official charges per request), `runs/*/transcript.jsonl` (what really sits in the context) and `runs/*/toolcalls.jsonl` (which world each call belonged to). Opened read-only; nothing is modified.\n\n**It costs nothing**: everything is computed locally. No model calls, no tools for the pet, not a single character added to her context. Watching the bill is free — which is the point: see where the money goes before changing anything.\n\n**Four tables**:\n\n- **Money**: official charges accumulated from the price snapshot of each request, shown in CNY first with USD alongside (rate configurable); split into cached input, uncached input and output. Under the table it also states how many requests carried no amount (the model was missing from the price table) and what they would cost at listed prices, plus the moment the ledger currently runs through.\n- **Cache**: hit rate, plus every event where a single miss exceeded 20k tokens. Those nearly always happen on the first appearance of a prefix — not waste, but the one-time cost of switching prefixes.\n- **Composition**: how much of the context is tool receipts, tool arguments, her reasoning, your messages. Repeated content is counted once.\n- **By world**: which extension burns tokens.\n\n**One caveat**: the per-world split is an estimate. The ledger bills per request, not per tool, so that column attributes each receipt by character count to its owning world. Good for ranking, not for accounting.\n\nThe panel computes once when opened (about 0.3 s locally) and serves cache until the ledger changes; press Recompute for the latest."
+          "description": "Reads her own ledger and splits the bill: which meter the money went to, how much caching saved, what actually sits in the context, and which extension burns tokens.\n\n**Read-only**: it opens three files — `data/usage.jsonl` (tokens and official charges per request), `runs/*/transcript.jsonl` (what really sits in the context) and `runs/*/toolcalls.jsonl` (which world each call belonged to). Opened read-only; nothing is modified.\n\n**It costs nothing**: everything is computed locally. No model calls, no tools for the pet, not a single character added to her context. Watching the bill is free — which is the point: see where the money goes before changing anything.\n\n**Spent today**: the top card. Counted from local midnight to now and reset automatically when the day turns — in effect, what today has cost so far. It also shows a pace-based forecast for the full day, yesterday's whole-day figure, and the hourly split for today. The module badge shows today's amount too, even before the panel is opened, via a fast path that parses only today's few dozen lines (20 s cache).\n\n**Four tables**:\n\n- **Money**: official charges accumulated from the price snapshot of each request, shown in CNY first with USD alongside (rate configurable); split into cached input, uncached input and output. Under the table it also states how many requests carried no amount (the model was missing from the price table) and what they would cost at listed prices, plus the moment the ledger currently runs through.\n- **Cache**: hit rate, plus every event where a single miss exceeded 20k tokens. Those nearly always happen on the first appearance of a prefix — not waste, but the one-time cost of switching prefixes.\n- **Composition**: how much of the context is tool receipts, tool arguments, her reasoning, your messages. Repeated content is counted once.\n- **By world**: which extension burns tokens.\n\n**One caveat**: the per-world split is an estimate. The ledger bills per request, not per tool, so that column attributes each receipt by character count to its owning world. Good for ranking, not for accounting.\n\nThe panel computes once when opened (about 0.3 s locally) and serves cache until the ledger changes; press Recompute for the latest."
         }
       },
       "author": "weitao0416",
@@ -13956,8 +13956,8 @@
         "linux"
       ],
       "created": "2026-10-29T21:44:27.291Z",
-      "published": "2026-10-29T21:45:22.900Z",
-      "versionCount": 2,
+      "published": "2026-10-29T21:55:26.882Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -13982,6 +13982,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.4",
           "0.1.3",
           "0.1.2",
           "0.1.1",
