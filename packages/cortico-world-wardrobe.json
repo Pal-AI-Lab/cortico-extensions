@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-wardrobe",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "describe": {
     "tools": [
       {
@@ -104,7 +104,7 @@
         "key": "worlds.wardrobe.envPrompt",
         "title": "换装 · 环境提示词",
         "role": "envPrompt",
-        "content": "这台电脑有独立的换装形象包（id：{{wardrobe.figureId}}），不改官方鲸鱼。主人在 World 详情的「衣橱」面板导入 zip、从官方鲸鱼抄衣服或删除。\n\n须在换装页选「换装鲸鱼」后，才可用 wardrobe_clothes / wardrobe_wear。\n\n当前状态：{{wardrobe.status}}\n"
+        "content": "这台电脑有独立的换装形象包（id：{{wardrobe.figureId}}），不改、不删官方鲸鱼。主人在 World 详情的「衣橱」面板导入 zip、从官方鲸鱼只读抄衣服；删除只作用于形象包。\n\n须在换装页选「换装鲸鱼」后，才可用 wardrobe_clothes / wardrobe_wear。\n\n当前状态：{{wardrobe.status}}\n"
       }
     ]
   }
