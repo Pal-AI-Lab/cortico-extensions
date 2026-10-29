@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "cortico-world-starpost",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/390",
-  "total": 4,
+  "total": 5,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJgaC",
+      "author": "Korrrne",
+      "avatar": "https://avatars.githubusercontent.com/u/122455439?s=64&v=4",
+      "body": "提个issue\n星邮通过私聊好友邀请时, 如果通过时申请方好友已满,会把通过方的申请卡死,导致无法加后面其他的好友.\n\n找DSH跑出来的结果是\n\n星邮服务端在“接受好友”时同时检查双方各自的私聊上限（server.mjs 第 381–382 行）\n你的账号 10202 现在 2 个好友，远没到你的上限；所以卡住的是申请方 自己的好友名额满了。它还能给你发申请，是因为服务端“发申请”时不检查上限，只有“接受”时才检查",
+      "createdAt": "2026-10-29T14:18:55Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJeWs",
       "author": "ZiLinling",
