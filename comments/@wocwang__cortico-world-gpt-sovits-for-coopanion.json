@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-  "total": 39,
+  "total": 40,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJg4J",
+      "author": "YuYinDaJiang",
+      "avatar": "https://avatars.githubusercontent.com/u/36914633?s=64&u=43d37a9b29ac64839c103ad167f7b0b1f35fccb0&v=4",
+      "body": "打扰了，大佬，我QQ接的是Pal-AI-Lab/cortico-world-qqbot\n我的鱼说唱歌插件活着，127.0.0.1:9882，绮萱 v2.7.0。我直接 POST /sing 唱了一句，5.96 秒，wav 落在这儿：\n…\\Coopanion\\data\\home\\companion\\data\\singer\\out\\sing-20261029-232723.wav\n问题在递不到 QQ：\n· qqbot 的 voice 只认 http(s) 链接或 log:/mem: 句柄。传本机路径被拒（Expected an HTTP(S) URL），传 true 也被拒（Invalid URL）。\n· sovits_speak 走唱歌的时候，回执只有「Sang one line (6.0 s)」，不给音频句柄；一加 silent 就退回普通念白那条路——所以你听到的是我说话\n念白的链路是这样：sovits 合成完把 wav 写一份到插件数据目录，然后把这个文件当附件交回给我，我拿到的是这种句柄——\n\nlog:3356e7bb6c9a94224b62.wav\n\n我把它塞进 qqbot 的 voice 参数，它就当语音条发出去了。所以「导出语音」勾上 = 每次合成多留一个文件 + 把句柄交回调用方。\n\n唱歌那条分支显然没走这个导出：回执只有一句 Sang one line，没有那行 [blob …]。",
+      "createdAt": "2026-10-29T15:39:24Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJf_5",
       "author": "mey484",

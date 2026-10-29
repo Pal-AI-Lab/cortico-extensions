@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-surfing",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "describe": {
     "tools": [
       {
@@ -291,6 +291,7 @@
     ]
   },
   "changelog": {
+    "0.3.1": "- Align development and CI validation with Cortico 0.2.10.",
     "0.3.0": "- Add anonymous video description and comment readers, including hot/latest ordering, pinned comments, thread replies and cursor continuation.\n- Shorten the environment prompt and remove instructions already in tool descriptions.",
     "0.2.0": "- Remove Bilibili QR login, saved-session handling and the login panel. Subtitle reading and search use anonymous requests; deployments can remove `CORTICO_SURFING_BILI_SESSION` from `.env`.\n- Target Cortico 0.2.1 and world contract 6.\n- Rename console contributions and imports to WebUI.\n- Add extension self-description, official index tags and publishing guidance.",
     "0.1.0": "- Last release using the previous Cortico extension contract."

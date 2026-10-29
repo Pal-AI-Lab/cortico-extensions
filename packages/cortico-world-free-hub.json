@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "name": "cortico-world-free-hub",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "free_hub_status",
+        "description": "看本机「免费端点台」的状态：转发端口通不通、有哪些免费模型、各渠道今天能不能用、账号与今日用量。",
+        "summary": "查免费端点台的转发端口、渠道状态与账号余额",
+        "tags": [
+          "read"
+        ],
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        }
+      },
+      {
+        "name": "free_hub_connect",
+        "description": "把某个 OpenAI 兼容端点接成 Coo 的模型供应商（默认接本机 OFM 的转发端口）。用户说「把免费模型接上／切到免费渠道」时调它。",
+        "summary": "把一个 OpenAI 兼容端点接成 Coo 的模型供应商",
+        "tags": [
+          "write"
+        ],
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "供应商名字，默认 freehub"
+            },
+            "baseUrl": {
+              "type": "string",
+              "description": "OpenAI 兼容地址，如 http://127.0.0.1:18326/v1"
+            },
+            "model": {
+              "type": "string",
+              "description": "模型 id，如 raccoon/sn-deepseek-v4-1-flash-1017 或 combo:recommended-free"
+            },
+            "apiKey": {
+              "type": "string",
+              "description": "密钥；不填则用面板配置里的中继密钥"
+            }
+          }
+        }
+      }
+    ],
+    "events": []
+  },
+  "changelog": {
+    "0.1.0": "首个公开版本（Coo World 扩展 · `kind: world` / `api: 6`）。\n\n- **面板「免费端点台」**：徽章（账号数 / 已接入渠道 / 免费车道 / 今日 tokens / 转发端口状态）+ 按渠道的卡片（账号数、剩余积分、刷新余额、领取入口）+ 转发端口的渠道状态。\n- **只读接入本机已登录的渠道账号**：读取 DSH 凭据库（`~/.dsh/.credentials.yaml`，只读、不出本机、不入日志），识别 CodeArts / Raccoon / Qoder / TRAE / ZCode / MiniMax / Cline / LobsterAI / Loomy / Gemini 等渠道的账号数量。\n- **余额适配器**：Raccoon（商汤）余额实时查询。\n- **一键接入**：把任意 OpenAI 兼容端点写成 Coo 的模型供应商（`kind: coo` + chat 协议），默认指向本机 OFM 的中继端口。\n- **工具**：`free_hub_status`、`free_hub_connect`。\n- **明确不做**：渠道登录/OAuth、账号续期、积分签到接口的自动化。登录与领取继续在原插件里完成；本包不分发任何凭据，也不打包任何第三方渠道代码。\n\n### 已知限制\n\n- 依赖本机已安装并登录过渠道的 OFM；未安装时面板显示 0，属预期。\n- 目前只有 Raccoon 接入了余额查询；其余渠道只显示账号数量。\n- 令牌过期后需回 OFM 重新登录，本包会显示「查不到余额」而不会伪造数据。"
+  }
+}
