@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-ets2-dafeiyu",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "describe": {
     "tools": [
       {
@@ -235,6 +235,7 @@
     ]
   },
   "changelog": {
+    "0.2.4": "- Renamed the display name to **ETS2 欧卡桌宠副驾**. The npm package name and World id\n  (`ets2-dafeiyu`) stay unchanged so existing installs and settings keep working.",
     "0.2.3": "- Replaced the plugin icon with the new blue-haired Coo illustration.",
     "0.2.2": "- Removed the duplicate `gameRoot` and `autoInstallTelemetry` fields from the World config page.\n  Both are now managed only by the **遥测安装** panel; the values still persist in\n  `worlds.ets2-dafeiyu` and are used by auto-install.",
     "0.2.1": "- Installer status is now scoped to the selected game folder, so switching folders does not show an\n  old install result from another path.\n- Documentation updated for the installer panel and local `npm install` requirement.",
