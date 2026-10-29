@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-ets2-dafeiyu",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "describe": {
     "tools": [
       {
@@ -296,6 +296,7 @@
     ]
   },
   "changelog": {
+    "0.4.0": "- Preloaded **380 official ETS2 cities** extracted from the map `CityArea` items in\n  `base_map.scs` and the official map DLCs.\n- City geofences now work out of the box; `assets/cities.json` is shipped with the package.\n- User records in `ets2-cities.json` override the packaged map city of the same name; map cities\n  cannot be deleted from the panel.\n- Added `tools/CityProbe` to regenerate the city database.",
     "0.3.0": "- Added local **city geofences**: record a city at the truck's current position, or learn it from job\n  source/destination endpoints.\n- Added `ets2.city-entered` events with a configurable city radius (default 1500 m).\n- Added the **城市记录 / City records** panel and `ets2_cities` / `ets2_record_city` tools.\n- City data is stored in `<Coopanion data dir>/ets2-cities.json`; the first tick inside a city is\n  silent so loading a save does not spam the pet.",
     "0.2.5": "- Added Chinese package description and `cortico.locales` (zh/en), so Coopanion and the market show\n  Chinese text for the default Chinese interface.",
     "0.2.4": "- Renamed the display name to **ETS2 欧卡桌宠副驾**. The npm package name and World id\n  (`ets2-dafeiyu`) stay unchanged so existing installs and settings keep working.",
