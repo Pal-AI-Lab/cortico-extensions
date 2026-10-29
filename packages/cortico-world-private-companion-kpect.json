@@ -1,0 +1,842 @@
+{
+  "schema": 1,
+  "name": "cortico-world-private-companion-kpect",
+  "version": "6.7.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "pc_qzone_view_feed",
+        "description": "查看指定归属的 QQ 空间说说,可按需点赞或评论。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string",
+              "description": "兼容旧调用的明确 QQ 号；不能再作为省略目标时的默认值。"
+            },
+            "target_scope": {
+              "type": "string",
+              "description": "可选归属：bot_self（兼容 self）、current_user 或 explicit_uin；用户原话已有明确“你/我”归属时工具也会语义校正，确实含糊时返回 needs_target。"
+            },
+            "target_uin": {
+              "type": "string",
+              "description": "target_scope=explicit_uin 时要查看的 QQ 号；可用 user_id 兼容旧调用。"
+            },
+            "pos": {
+              "type": "number",
+              "description": "可选,说说位置,0 表示最新一条。"
+            },
+            "like": {
+              "type": "boolean",
+              "description": "可选,是否给该条说说点赞。"
+            },
+            "reply": {
+              "type": "boolean",
+              "description": "可选,是否按工具内部规则尝试评论。"
+            },
+            "selector": {
+              "type": "string",
+              "description": "可选,自然语言选择器,如“最新”“第2条”“最后”；也可以填 fid。"
+            },
+            "fid": {
+              "type": "string",
+              "description": "可选,明确指定说说 fid。"
+            },
+            "time_hint": {
+              "type": "string",
+              "description": "可选,发布时间提示,如“今天下午6点多”或“18:20”。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "pc_qzone_publish_feed",
+        "description": "发布一条 QQ 空间说说。必须通过 text 参数传入最终正文；如需带图,通过 images 或 image 传入图片。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "要发布到 QQ 空间的说说正文。"
+            },
+            "images": {
+              "type": "array",
+              "description": "可选,要随说说发布的本地图片路径或图片 URL 列表。",
+              "items": {
+                "type": "string"
+              }
+            },
+            "image": {
+              "type": "string",
+              "description": "可选,单张图片的本地路径或图片 URL。"
+            },
+            "image_path": {
+              "type": "string",
+              "description": "可选,单张本地图片路径。"
+            },
+            "image_url": {
+              "type": "string",
+              "description": "可选,单张图片 URL。"
+            },
+            "use_latest_draft": {
+              "type": "boolean",
+              "description": "可选,是否使用最近生成的生活说说草稿。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "speak"
+        ]
+      },
+      {
+        "name": "pc_qzone_reply_my_comment",
+        "description": "检查并回复用户刚在 Bot 自己 QQ 空间动态下留下的评论。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "comment_hint": {
+              "type": "string",
+              "description": "用户记得的评论全文、关键词或大致说法；无法精确映射 QQ 身份时用于唯一匹配。"
+            },
+            "selector": {
+              "type": "string",
+              "description": "可选，优先检查“最新”动态。"
+            },
+            "reply_hint": {
+              "type": "string",
+              "description": "可选，用户希望 Bot 使用的公开回复语气或内容提示。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "speak"
+        ]
+      },
+      {
+        "name": "pc_generate_photo",
+        "description": "调用 Private Companion 生图/自拍/改图能力。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "prompt": {
+              "type": "string",
+              "description": "画面描述、自拍要求或改图要求。若用户在前几轮文字剧情中已经明确换装，而本轮只说继续/再拍一张，必须把仍生效的具体服装展开写进 prompt（例如“角色当前仍穿 JK 校服，继续拍摄”），不能只写“继续”让下游猜测。"
+            },
+            "kind": {
+              "type": "string",
+              "description": "text2img/selfie/sticker/edit。角色本人以自拍、背影、侧脸或环境人像等任何形式出镜时用 selfie；角色表情包/贴纸用 sticker；不含角色本人的普通场景、物件、风景用 text2img；改图用 edit。"
+            },
+            "reference_image_path": {
+              "type": "string",
+              "description": "可选，本地图片路径或图片 URL；edit 必填，selfie 可留空自动使用人设参考图/当天基础穿搭图。本轮引用图片会由工具自动解析，无需猜测路径；没有引用图片时不会自动复用上一张成图。合影需要本轮用户消息/引用消息中的其他人物参考图，或在 prompt 中明确点名已绑定可用参考图的关系网角色；后者由工具自动选图，单独填写或猜测此参数不能授权合影。当天基础穿搭只是默认基线，近期对话已发生的换装优先。"
+            },
+            "image_size": {
+              "type": "string",
+              "description": "可选，在线图片 API 尺寸，如 1024x1024。"
+            },
+            "send": {
+              "type": "boolean",
+              "description": "是否生成后直接发送到当前会话，默认 true。"
+            },
+            "caption": {
+              "type": "string",
+              "description": "发送图片时附带的短文字。"
+            },
+            "scene_preset": {
+              "type": "string",
+              "description": "可选场景预设建议，如 角色自拍/COS自拍/日常穿搭/镜前穿搭/头像特写/房间日常/可拍画面/表情包场景；不会覆盖用户原话或参考图强约束。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "pc_send_current_media",
+        "description": "发送本轮或紧邻上一轮其他工具刚生成、但尚未投递的本地图片。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "media_path": {
+              "type": "string",
+              "description": "最近一次工具明确返回的本地图片路径；仅支持 AstrBot 临时目录或本插件成图目录，不得猜测路径。"
+            },
+            "caption": {
+              "type": "string",
+              "description": "可选，随图片发送的一句自然短文；不要填写发送状态回执。"
+            },
+            "destination": {
+              "type": "string",
+              "description": "current（默认，发到当前会话）或 requester_private（仅在当前请求者明确说“私聊发我”等要求时，私聊发给请求者本人）；不能指定第三方。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "speak"
+        ]
+      },
+      {
+        "name": "pc_find_reaction_image",
+        "description": "从 Private Companion 自有表情包素材库检索并发送一张已有图片。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "表情或图片需求，例如“震惊又无语的反应图”。"
+            },
+            "search_context": {
+              "type": "string",
+              "description": "可选，当前对话语境或希望表达的情绪。"
+            },
+            "meme_only": {
+              "type": "boolean",
+              "description": "是否只检索标记为表情包的图片，默认 true。"
+            },
+            "send": {
+              "type": "boolean",
+              "description": "是否直接发送到当前会话，默认 true。"
+            },
+            "caption": {
+              "type": "string",
+              "description": "send=true 时必填；与图片一起发送的完整可见正文，图片不能替代正文。"
+            },
+            "purpose": {
+              "type": "string",
+              "description": "自发表情实验的沟通用途，例如安慰、轻吐槽或分享开心；显式找图时可留空。"
+            },
+            "emotion": {
+              "type": "string",
+              "description": "自发表情实验希望传达的情绪。"
+            },
+            "intensity": {
+              "type": "number",
+              "description": "自发表情实验的表达强度，0-5。"
+            },
+            "spontaneous": {
+              "type": "boolean",
+              "description": "是否为模型在普通闲聊中自主选择的表情表达，默认 false；用户明确要求找图时不要开启。"
+            },
+            "candidate_queries": {
+              "type": "string",
+              "description": "自发表情实验的少量候选检索说法，可用分号分隔或传 JSON 字符串数组。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "pc_manage_memo",
+        "description": "在主要用户私聊中新增、查看、修改、完成、恢复、置顶或删除备忘便签。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "description": "list/get/create/update/complete/reopen/delete/cancel_delete/pin/unpin。"
+            },
+            "title": {
+              "type": "string",
+              "description": "新增时的标题，或修改后的标题。"
+            },
+            "content": {
+              "type": "string",
+              "description": "新增时的正文，或修改后的正文。"
+            },
+            "selector": {
+              "type": "string",
+              "description": "要操作的便签标题、列表编号或便签 id。"
+            },
+            "due_at": {
+              "type": "string",
+              "description": "可选提醒时间，可传绝对日期或“明早9点”“两小时后”等常见表达。"
+            },
+            "repeat": {
+              "type": "string",
+              "description": "可选，none/daily/weekly/monthly/yearly。"
+            },
+            "color": {
+              "type": "string",
+              "description": "可选，yellow/blue/green/rose/gray。"
+            },
+            "remind_enabled": {
+              "type": "boolean",
+              "description": "可选，是否在到期时提醒。"
+            },
+            "include_completed": {
+              "type": "boolean",
+              "description": "list 时是否包含已完成便签。"
+            },
+            "status": {
+              "type": "string",
+              "description": "可选，active/completed/all；用于筛选列表或限定编号所在视图。"
+            },
+            "query": {
+              "type": "string",
+              "description": "list 时可选，按标题或正文关键词筛选。"
+            },
+            "clear_due": {
+              "type": "boolean",
+              "description": "update 时是否清除到期时间和重复设置。"
+            },
+            "clear_content": {
+              "type": "boolean",
+              "description": "update 时是否清空正文。"
+            },
+            "confirmation_token": {
+              "type": "string",
+              "description": "删除确认时原样传回首次 delete 返回的令牌。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "pc_manage_schedule",
+        "description": "按时间、序号或活动名查看、重新细化或取消主要用户的今日日程段。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "description": "list/regenerate/cancel。用户说删除、删掉、移除时使用 cancel。"
+            },
+            "selector": {
+              "type": "string",
+              "description": "用户指定的时间、序号或活动关键词，例如“下午三点”“第二段”“整理房间”。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "pc_view_creative_work",
+        "description": "只读查看 Bot 自己资料柜的真实库存、创作项目与正文。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "description": "list/get。list 列出资料柜库存与作品；get 读取指定作品正文。"
+            },
+            "selector": {
+              "type": "string",
+              "description": "作品准确标题、项目 id 或列表编号；留空时 get 默认读取最近一篇。"
+            },
+            "part": {
+              "type": "number",
+              "description": "可选，明确读取第几部分，按 1 开始；0 表示从第一部分起按预算读取。"
+            },
+            "max_chars": {
+              "type": "number",
+              "description": "可选，本次最多返回正文字符数，默认 6000。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "pc_get_group_id_by_name",
+        "description": "按群名关键词查询机器人已加入的群号。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "group_name": {
+              "type": "string",
+              "description": "群名关键词或群号。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "pc_get_user_id_by_name",
+        "description": "按关系网名称、别名、群名片或昵称解析群友 QQ。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "group_id": {
+              "type": "string",
+              "description": "目标群号；私聊中可填写要查询的群号。"
+            },
+            "nickname": {
+              "type": "string",
+              "description": "关系网名称、别名、群名片、昵称或 QQ。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "pc_query_relation_person",
+        "description": "查询关系网里是否认识某个 QQ、昵称或别名。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "keyword": {
+              "type": "string",
+              "description": "QQ 号、昵称、别名，或用户原话里最像名字的部分。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "pc_get_specified_group_members",
+        "description": "查询指定群成员,并标记是否已在关系网中登记。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "group_id": {
+              "type": "string",
+              "description": "目标群号。"
+            },
+            "keyword": {
+              "type": "string",
+              "description": "可选筛选关键词、昵称、群名片或 QQ。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "pc_query_wardrobe_detail",
+        "description": "查看角色衣柜的更多细节：某个部位都有什么、今天这身每件是什么、整份衣柜清单。\n\n只在用户或剧情需要具体衣物时调用一次即可；衣柜为空或未启用时工具会直接说明，\n不要据此编造衣物。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "scope": {
+              "type": "string",
+              "description": "today=今天裁决出的这一身穿了什么（默认）；slot=指定部位的全部衣物；all=整份衣柜清单。只能填这三个值。"
+            },
+            "slot": {
+              "type": "string",
+              "description": "仅 scope=slot 时需要。部位：upper 上装 / lower 下装 / whole 整身（连衣裙）/ feet 鞋 / extra 配件，也认「上装」「裙子」这类中文说法。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "pc_set_outfit_intent",
+        "description": "记录角色「本会话接下来穿什么」。用户明确要求换装、或剧情已经写出换衣过程时调用。\n\n记下之后，后续对话、日程与生图都以这套服装为准，直到用户再次换装，或今天结束\n（最长 12 小时）。只是想了解衣柜里有什么，请用 pc_query_wardrobe_detail，不要用本工具。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "intent": {
+              "type": "string",
+              "description": "一句话说明换成什么，用用户原话最好，例如「换上泳衣」「今天想穿得清爽一点」。没有具体衣物时也要填这一项。"
+            },
+            "items": {
+              "type": "string",
+              "description": "可选。衣柜里具体衣物的名称或编号，多个用逗号或顿号分隔，例如「浅蓝条纹衬衫,深蓝直筒牛仔裤」。只填你确认存在于衣柜里的；衣柜里没有的衣物不要填在这里，写进 intent 即可。"
+            },
+            "outfit": {
+              "type": "string",
+              "description": "可选。整套的名称或编号，例如「通勤三件套」。与 items 同时给出时以整套为准。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "pc_query_interaction",
+        "description": "查询 Bot 与某个私聊对象或群聊的近期互动摘要。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "scope": {
+              "type": "string",
+              "description": "private/group/auto。"
+            },
+            "user_hint": {
+              "type": "string",
+              "description": "私聊对象/群成员 QQ、关系网名称、别名或显示名。"
+            },
+            "group_hint": {
+              "type": "string",
+              "description": "群号或群名；和 user_hint 同时提供时查询这个人在该群的近期发言。"
+            },
+            "hint": {
+              "type": "string",
+              "description": "不确定目标类型时的原始称呼。"
+            },
+            "hours": {
+              "type": "number",
+              "description": "查询最近多少小时，默认 72。"
+            },
+            "limit": {
+              "type": "number",
+              "description": "返回多少条候选互动线索，默认 36。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "pc_relay_message",
+        "description": "统一转述入口：把用户明确要求转发/转述/提醒的话发送到群聊或私聊。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "destination": {
+              "type": "string",
+              "description": "group/private/auto。发群填 group, 私聊填 private, 不确定填 auto。"
+            },
+            "group_hint": {
+              "type": "string",
+              "description": "群号或群名。群聊转私聊时可用于按群成员名解析 QQ。"
+            },
+            "recipient_hint": {
+              "type": "string",
+              "description": "收件人 QQ、关系网名称、别名、群名片或昵称。"
+            },
+            "message": {
+              "type": "string",
+              "description": "最终要发送的内容。"
+            },
+            "at_recipient": {
+              "type": "boolean",
+              "description": "发到群时是否 @ recipient_hint。"
+            },
+            "relay_mode": {
+              "type": "string",
+              "description": "persona/soft/original。默认 persona。"
+            },
+            "sensitive_confirmed": {
+              "type": "boolean",
+              "description": "敏感内容是否已获得用户确认。"
+            },
+            "delay_until_recipient_seen": {
+              "type": "boolean",
+              "description": "是否等目标群友在群里出现后再转述。"
+            },
+            "need_receipt": {
+              "type": "boolean",
+              "description": "私聊询问时是否等待对方回复并带回结果。"
+            },
+            "confirm_before_report": {
+              "type": "boolean",
+              "description": "带回私聊回复前是否先向对方确认。"
+            },
+            "expire_hours": {
+              "type": "number",
+              "description": "延迟转述有效小时数。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "speak"
+        ]
+      },
+      {
+        "name": "pc_send_to_group",
+        "description": "向指定群聊发送消息,可按 QQ/关系网名称/别名/群名片 @ 群友。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "group_id": {
+              "type": "string",
+              "description": "目标群号。"
+            },
+            "message": {
+              "type": "string",
+              "description": "最终要发送的转述文本。"
+            },
+            "at_user": {
+              "type": "string",
+              "description": "可选,要 @ 的 QQ、关系网名称、别名、群名片或昵称。"
+            },
+            "relay_mode": {
+              "type": "string",
+              "description": "persona/soft/original。"
+            },
+            "sensitive_confirmed": {
+              "type": "boolean",
+              "description": "敏感内容是否已获得用户确认。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "speak"
+        ]
+      },
+      {
+        "name": "pc_send_to_private_user",
+        "description": "向指定平台用户 ID 发送私聊消息。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string",
+              "description": "目标用户 ID；OneBot 通常是 QQ 号，QQ 官方机器人通常是 openid/平台用户 ID。"
+            },
+            "message": {
+              "type": "string",
+              "description": "最终要发送的转述文本。"
+            },
+            "relay_mode": {
+              "type": "string",
+              "description": "persona/soft/original。"
+            },
+            "sensitive_confirmed": {
+              "type": "boolean",
+              "description": "敏感内容是否已获得用户确认。"
+            },
+            "need_receipt": {
+              "type": "boolean",
+              "description": "是否等待对方回复并带回结果。"
+            },
+            "confirm_before_report": {
+              "type": "boolean",
+              "description": "带回私聊回复前是否先向对方确认。"
+            },
+            "receipt_expire_hours": {
+              "type": "number",
+              "description": "等待回执的有效小时数。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "speak"
+        ]
+      },
+      {
+        "name": "pc_send_to_groups",
+        "description": "向多个群发送同一条通知。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "group_ids": {
+              "type": "string",
+              "description": "目标群号,可用逗号、空格或换行分隔。"
+            },
+            "message": {
+              "type": "string",
+              "description": "最终要发送的转述文本。"
+            },
+            "at_user": {
+              "type": "string",
+              "description": "可选,要 @ 的 QQ、关系网名称、别名、群名片或昵称。"
+            },
+            "relay_mode": {
+              "type": "string",
+              "description": "persona/soft/original。"
+            },
+            "sensitive_confirmed": {
+              "type": "boolean",
+              "description": "敏感内容是否已获得用户确认。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "speak"
+        ]
+      },
+      {
+        "name": "pc_send_to_private_users",
+        "description": "向多个平台用户 ID 发送同一条私聊转述。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "user_ids": {
+              "type": "string",
+              "description": "目标用户 ID,可用逗号、空格或换行分隔；OneBot 通常是 QQ 号，QQ 官方机器人通常是 openid/平台用户 ID。"
+            },
+            "message": {
+              "type": "string",
+              "description": "最终要发送的转述文本。"
+            },
+            "relay_mode": {
+              "type": "string",
+              "description": "persona/soft/original。"
+            },
+            "sensitive_confirmed": {
+              "type": "boolean",
+              "description": "敏感内容是否已获得用户确认。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "speak"
+        ]
+      },
+      {
+        "name": "pc_schedule_group_relay",
+        "description": "挂起一条群聊转述,等目标用户在群里发言后自动 @ 并转述。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "group_id": {
+              "type": "string",
+              "description": "目标群号。"
+            },
+            "at_user": {
+              "type": "string",
+              "description": "目标 QQ、关系网名称、别名、群名片或昵称。"
+            },
+            "message": {
+              "type": "string",
+              "description": "最终要发送的转述文本。"
+            },
+            "relay_mode": {
+              "type": "string",
+              "description": "persona/soft/original。"
+            },
+            "sensitive_confirmed": {
+              "type": "boolean",
+              "description": "敏感内容是否已获得用户确认。"
+            },
+            "expire_hours": {
+              "type": "number",
+              "description": "挂起有效小时数。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仅多会话同批时填写本批会话地址。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      }
+    ],
+    "events": []
+  },
+  "changelog": {
+    "6.7.0-cortico.3": "首个公开 Cortico 非官方移植预览版。保留固定上游源码与署名，补充兼容宿主、原版页面入口、安装说明、许可依据与可复核发布检查。不是上游原作者发行，不声称官方认证或全部外部功能已验收。"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-ets2-dafeiyu",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "describe": {
     "tools": [
       {
@@ -131,6 +131,60 @@
           "zh": "下载并安装/修复欧卡2的 scs-telemetry.dll。",
           "en": "Downloads and installs/repairs the ETS2 scs-telemetry.dll."
         }
+      },
+      {
+        "name": "ets2_cities",
+        "description": "List locally recorded ETS2 cities with their distance from the truck, and show which city the truck is currently inside.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "description": "How many cities; default 15."
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "列出本地城市记录和当前所在城市。",
+          "en": "Lists local city records and the current city."
+        }
+      },
+      {
+        "name": "ets2_record_city",
+        "description": "Record the truck’s current position as a city geofence. Use when the driver is in a city that is not learned automatically from a job.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "City name, e.g. Berlin or 柏林."
+            },
+            "radius_m": {
+              "type": "integer",
+              "minimum": 200,
+              "maximum": 5000,
+              "description": "City radius in metres; default 1500."
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "把卡车当前位置记录成城市范围。",
+          "en": "Records the truck’s current position as a city geofence."
+        }
       }
     ],
     "events": [
@@ -231,10 +285,18 @@
           "zh": "电子狗提醒。",
           "en": "A stored radar/POI point is ahead."
         }
+      },
+      {
+        "type": "ets2.city-entered",
+        "description": {
+          "zh": "进入本地城市范围。",
+          "en": "The truck entered a recorded city geofence."
+        }
       }
     ]
   },
   "changelog": {
+    "0.3.0": "- Added local **city geofences**: record a city at the truck's current position, or learn it from job\n  source/destination endpoints.\n- Added `ets2.city-entered` events with a configurable city radius (default 1500 m).\n- Added the **城市记录 / City records** panel and `ets2_cities` / `ets2_record_city` tools.\n- City data is stored in `<Coopanion data dir>/ets2-cities.json`; the first tick inside a city is\n  silent so loading a save does not spam the pet.",
     "0.2.5": "- Added Chinese package description and `cortico.locales` (zh/en), so Coopanion and the market show\n  Chinese text for the default Chinese interface.",
     "0.2.4": "- Renamed the display name to **ETS2 欧卡桌宠副驾**. The npm package name and World id\n  (`ets2-dafeiyu`) stay unchanged so existing installs and settings keep working.",
     "0.2.3": "- Replaced the plugin icon with the new blue-haired Coo illustration.",

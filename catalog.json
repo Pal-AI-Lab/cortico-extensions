@@ -102,6 +102,10 @@
     "cortico-world-playground-alont1": [
       "unsafe"
     ],
+    "cortico-world-private-companion-kpect": [
+      "injection-risk",
+      "sensitive-data"
+    ],
     "cortico-world-qiandengji": [
       "unsafe"
     ],
@@ -5654,17 +5658,17 @@
     },
     "cortico-world-ets2-dafeiyu": {
       "kind": "world",
-      "version": "0.2.5",
+      "version": "0.3.0",
       "displayName": "ETS2 欧卡桌宠副驾",
-      "description": "《欧洲卡车模拟2》的 Coopanion 桌宠副驾：读取官方遥测，播报事故、超速、罚款、收费站、任务和电子狗点位，并支持一键安装 scs-telemetry.dll。",
+      "description": "《欧洲卡车模拟2》的 Coopanion 桌宠副驾：读取官方遥测，播报事故、超速、罚款、收费站、任务、城市进入和电子狗点位，并支持一键安装 scs-telemetry.dll。",
       "locales": {
         "zh": {
           "displayName": "ETS2 欧卡桌宠副驾",
-          "description": "《欧洲卡车模拟2》的 Coopanion 桌宠副驾：读取官方遥测，播报事故、超速、罚款、收费站、任务和电子狗点位，并支持一键安装 scs-telemetry.dll。"
+          "description": "《欧洲卡车模拟2》的 Coopanion 桌宠副驾：读取官方遥测，播报事故、超速、罚款、收费站、任务、城市进入和电子狗点位，并支持一键安装 scs-telemetry.dll。"
         },
         "en": {
           "displayName": "ETS2 Euro Truck Copilot",
-          "description": "Cortico/Coopanion World for Euro Truck Simulator 2: reads SCS telemetry, reports accidents, speeding, fines, tolls, jobs and radar points, and installs scs-telemetry.dll in one click."
+          "description": "Cortico/Coopanion World for Euro Truck Simulator 2: reads SCS telemetry, reports accidents, speeding, fines, tolls, jobs, city entries and radar points, and installs scs-telemetry.dll in one click."
         }
       },
       "author": "mIneko__",
@@ -5692,8 +5696,8 @@
         "win32"
       ],
       "created": "2026-10-29T12:07:35.458Z",
-      "published": "2026-10-29T14:37:28.395Z",
-      "versionCount": 8,
+      "published": "2026-10-29T16:23:20.689Z",
+      "versionCount": 9,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5714,13 +5718,14 @@
         "week": 0
       },
       "summary": {
-        "tools": 5,
-        "events": 14,
-        "toolTokens": 646,
+        "tools": 7,
+        "events": 15,
+        "toolTokens": 902,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.3.0",
           "0.2.5",
           "0.2.4",
           "0.2.3",
@@ -10204,6 +10209,74 @@
         "number": 482,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/482",
         "up": 1,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-private-companion-kpect": {
+      "kind": "world",
+      "version": "6.7.0",
+      "displayName": "我会永远陪着你 · 非官方移植（kpect）",
+      "description": "kpect 发布版：非官方 Cortico 移植版：我会永远陪着你；原作 menglimi/astrbot_plugin_private_companion，移植与集成维护 Kpect10086。",
+      "author": "kpect",
+      "maintainers": [
+        "alont1"
+      ],
+      "license": "SEE LICENSE IN LICENSE",
+      "keywords": [
+        "cortico-world",
+        "kpect"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-private-companion-kpect",
+        "repository": "https://github.com/Kpect10086/Cortico-Private-Companion",
+        "homepage": "https://github.com/Kpect10086/Cortico-Private-Companion#readme",
+        "bugs": "https://github.com/Kpect10086/Cortico-Private-Companion/issues"
+      },
+      "created": "2026-10-29T16:01:00.618Z",
+      "published": "2026-10-29T16:19:08.358Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "experimental",
+        "sensitive-data",
+        "injection-risk",
+        "requires-extension",
+        "high-cost",
+        "unofficial-api",
+        "internal-state"
+      ],
+      "tags": [
+        "experimental",
+        "internal-state",
+        "requires-extension",
+        "high-cost",
+        "sensitive-data",
+        "injection-risk",
+        "unofficial-api"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 22,
+        "events": 0,
+        "toolTokens": 5192,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "6.7.0-cortico.3"
+        ],
+        "url": "https://github.com/Kpect10086/Cortico-Private-Companion/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 505,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/505",
+        "up": 0,
         "down": 0,
         "comments": 0
       }
