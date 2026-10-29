@@ -1,0 +1,465 @@
+{
+  "schema": 1,
+  "name": "cortico-world-mspaint",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "paint_see",
+        "description": "看一眼画图。默认截整个窗口(看得见功能区、调色板、画布);mode=\"canvas\" 只截画布那张白纸。回执告诉你窗口标题、画布在屏幕上的位置、画布的像素尺寸和缩放,并附上截图。动笔前、画完一批之后都用它。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "window",
+                "canvas"
+              ],
+              "description": "window(默认)截整窗;canvas 只截画布,看细节更清楚"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "看一眼画图:截窗口或画布,报窗口与画布的位置、尺寸、缩放。",
+          "en": "Look at Paint: capture the window or the canvas, with sizes and zoom."
+        }
+      },
+      {
+        "name": "paint_open",
+        "description": "打开 Windows 画图。它已经在跑就切成前台(最小化会先还原)。之后用 paint_see 看它。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "打开画图,或把它切到前台。",
+          "en": "Open Paint, or bring it to the foreground."
+        }
+      },
+      {
+        "name": "paint_ui",
+        "description": "列画图界面上的东西:工具、形状、调色板颜色、按钮、菜单。不带 filter 时按组给一份清单(这就是「有哪些能点」的答案);带 filter 时按名字筛,并给出每个元素在窗口里的相对位置与 AutomationId,可以交给 paint_click。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "filter": {
+              "type": "string",
+              "description": "按名字或 Id 筛,支持正则,例如 \"笔|橡皮\"、\"红色\""
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "列界面上的工具、形状、颜色与按钮;带 filter 时给相对位置。",
+          "en": "List the tools, shapes, palette and buttons; with a filter, with positions."
+        }
+      },
+      {
+        "name": "paint_tool",
+        "description": "选一支工具或一个形状(选完画布上就按它落笔)。工具:pencil 铅笔、brush 画笔、eraser 橡皮擦、fill 填充、text 文本、picker 颜色选取器、magnifier 放大镜。形状:line 直线、curve 曲线、ellipse 椭圆、rect 矩形、rounded-rect 圆角矩形、polygon 多边形、triangle 三角形、right-triangle 直角三角形、diamond 菱形、pentagon 五边形、hexagon 六边形、arrow-right/left/up/down 箭头、star4/star5/star6 星、callout-round/oval/cloud 标注、heart 心形、lightning 闪电。形状选好后用 paint_shape 拖出包围盒;也可以直接说界面上的名字(铅笔、椭圆)。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "工具或形状的名字,中英文都行"
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "选一支工具或一个形状。",
+          "en": "Pick a tool or a shape."
+        }
+      },
+      {
+        "name": "paint_color",
+        "description": "换前景色(颜色 1)。调色板有 20 个颜色:黑色、灰色、深红色、红色、橙色、黄色、绿色、青绿、靛蓝色、紫色、白色、浅灰、褐色、玫瑰红、金色、浅黄色、酸橙色、淡青绿色、蓝灰色、淡紫色;英文名也行。要这 20 个以外的颜色,先 paint_click 点「编辑颜色」(或 Edit colours)再在对话框里挑。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "调色板上的颜色名"
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "换前景色(调色板上的 20 个颜色)。",
+          "en": "Pick a foreground colour from the palette."
+        }
+      },
+      {
+        "name": "paint_size",
+        "description": "笔触粗细。不给 value 就只报当前滑块的范围与取值;给了就设过去。画细线用小的,涂色用大的。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "number",
+              "description": "要设成的粗细"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "读或设笔触粗细。",
+          "en": "Read or set the brush width."
+        }
+      },
+      {
+        "name": "paint_stroke",
+        "description": "用当前工具画一条折线(一笔)。points 是点的数组,每个点是 [x, y];坐标是**画布的相对位置**:画布左上角 (0,0),右下角 (1,1);(0.5,0.5) 是正中间。不用管像素和 DPI。 至少两个点。点越密线越顺(圆一般 48~128 个点)。这一笔从头到尾按住不放,所以它是一条连续线。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "points": {
+              "type": "array",
+              "description": "[[x, y], ...],每个数都是 0..1 的画布相对坐标",
+              "minItems": 2,
+              "maxItems": 2400,
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2,
+                "maxItems": 2
+              }
+            },
+            "button": {
+              "type": "string",
+              "enum": [
+                "left",
+                "right"
+              ],
+              "description": "默认 left"
+            }
+          },
+          "required": [
+            "points"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "用当前工具一笔画一条折线(画布相对坐标)。",
+          "en": "Draw one continuous polyline with the current tool."
+        }
+      },
+      {
+        "name": "paint_circle",
+        "description": "画一个圆或椭圆:圆心 (cx, cy) 与半径 rx(可给 ry 画扁的)都用画布相对比例。它其实是一笔密点折线,所以线要顺就会慢一点。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "cx": {
+              "type": "number",
+              "description": "圆心的 x,0..1"
+            },
+            "cy": {
+              "type": "number",
+              "description": "圆心的 y,0..1"
+            },
+            "rx": {
+              "type": "number",
+              "description": "横向半径,0..1(0.25 = 画布宽的四分之一)"
+            },
+            "ry": {
+              "type": "number",
+              "description": "纵向半径,0..1;不给就同 rx"
+            }
+          },
+          "required": [
+            "cx",
+            "cy",
+            "rx"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "画一个圆或椭圆。",
+          "en": "Draw a circle or an ellipse."
+        }
+      },
+      {
+        "name": "paint_shape",
+        "description": "用形状工具拖一个形状:from 与 to 是包围盒的对角两点(画布相对坐标)。先用 paint_tool 选形状(ellipse/rect/triangle/star5…),形状按住拖出来才有;松开后它就烤进画面。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "from": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 2,
+              "maxItems": 2,
+              "description": "[x, y] 起点"
+            },
+            "to": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 2,
+              "maxItems": 2,
+              "description": "[x, y] 终点"
+            }
+          },
+          "required": [
+            "from",
+            "to"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "用形状工具拖出一个形状。",
+          "en": "Drag out a shape with a shape tool."
+        }
+      },
+      {
+        "name": "paint_drag",
+        "description": "在当前工具下从 from 拖到 to(两个点都是画布相对坐标),松开为止。选择、裁剪这类工具靠它。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "from": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "to": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "required": [
+            "from",
+            "to"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "在当前工具下拖一段(画布相对坐标)。",
+          "en": "Drag with the current tool."
+        }
+      },
+      {
+        "name": "paint_click",
+        "description": "点画图界面上的一个东西。给 name(界面上的名字,如「红色」「保存」)或 id 就按元素点——优先走 UI Automation,不动鼠标;给 x/y 就按相对位置点,frame=\"window\"(默认)是窗口内 0..1,frame=\"canvas\" 是画布内 0..1。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "界面元素的名字(可以是正则)"
+            },
+            "id": {
+              "type": "string",
+              "description": "AutomationId,与界面语言无关"
+            },
+            "x": {
+              "type": "number",
+              "description": "相对 x,0..1"
+            },
+            "y": {
+              "type": "number",
+              "description": "相对 y,0..1"
+            },
+            "frame": {
+              "type": "string",
+              "enum": [
+                "window",
+                "canvas"
+              ],
+              "description": "x/y 相对于窗口还是画布,默认 window"
+            },
+            "clicks": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3,
+              "description": "点几下,默认 1(2 = 双击)"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "按名字点界面元素,或按相对位置点。",
+          "en": "Click a UI element by name, or a relative position."
+        }
+      },
+      {
+        "name": "paint_type",
+        "description": "往当前焦点打字(中文也行,不受输入法状态影响)。用文本工具时:先 paint_tool text,再在画布上点一下要落字的位置,再调它。\\n 会回车。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string",
+              "maxLength": 1000
+            }
+          },
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "往当前焦点打字。",
+          "en": "Type text into the focused control."
+        }
+      },
+      {
+        "name": "paint_key",
+        "description": "按快捷键。同时按的键用 + 连,先后按的用空格隔开:\"ctrl+z\"、\"ctrl+a delete\"、\"ctrl+s\"、\"esc\"。有用的:ctrl+z 撤销、ctrl+s 保存、ctrl+a 全选。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "keys": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "keys"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "按快捷键。",
+          "en": "Press a key or a chord."
+        }
+      },
+      {
+        "name": "paint_clear",
+        "description": "把画布清空成一张白纸(全选 + 删除),不动窗口大小。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "把画布清空成白纸。",
+          "en": "Wipe the canvas back to white."
+        }
+      },
+      {
+        "name": "paint_undo",
+        "description": "撤销,默认退一步。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "times": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "撤销若干步。",
+          "en": "Undo a number of steps."
+        }
+      },
+      {
+        "name": "paint_save",
+        "description": "把画面存成图片。path 给绝对路径,或者只给文件名(就存进画册目录)。按扩展名决定格式:png/jpg/jpeg/bmp/gif,不给扩展名就是 .png。存完回执里有真实路径与字节数。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "绝对路径或文件名,例如 \"小猫.png\""
+            }
+          },
+          "required": [
+            "path"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "把画面存成图片文件。",
+          "en": "Save the picture to a file."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.paint.envPrompt",
+        "title": "画图 · 环境提示词",
+        "role": "envPrompt",
+        "content": "画图这个环境给你一支手:你能在 Windows 的**画图**(Paint)里真的落笔——打开它、选工具与颜色、一笔一笔拉线、存成图片。\n工具都带 `paint_` 前缀。\n\n**坐标只有一种:画布相对位置。** 画布左上角 (0,0),右下角 (1,1),(0.5,0.5) 是正中间。\n不用算像素,不用管 DPI,不用管窗口多大:窗口挪了、缩放变了,同一组坐标画的仍然是同一张画。\n要摆得准就先 `paint_see` 看一眼,它会把画布的真实像素尺寸(通常 640×640)与缩放报给你,你在脑子里按 0..1 摆位置。\n\n**标准流程**\n\n1. `paint_open` 把它叫出来(第一次调任何画图工具时也会自己开);\n2. `paint_see` 看清三件事:窗口在不在前台、画布在哪、现在用的是哪支工具;\n3. `paint_tool` 选工具(或形状)、`paint_color` 选颜色、`paint_size` 调粗细;\n4. 落笔:线条用 `paint_stroke`(给一串点),圆/椭圆用 `paint_circle`,\n   矩形、三角、星形这类先用 `paint_tool` 选形状再用 `paint_shape` 拖包围盒;\n5. 每画完一批就 `paint_see` 复核,不对就 `paint_undo` 退掉重来;\n6. `paint_save` 存成图片,默认存进画册目录 `{{paint.outDir}}`。\n\n**画得像样一点的几条经验**\n\n- 一笔就是一整条**连续**线:要断开就松手再起一笔。圆给 48~128 个点,长线给 20~40 个点。\n- 折线越密越顺,但每个点之间有停顿(现在 {{paint.pace}} 毫秒/点),一笔几百个点就是几秒钟。\n  赶时间就把点给粗一点、少给几笔。\n- 先起草再描:草稿用铅笔配浅色,定稿再用画笔配深色描一遍,最后上色。`paint_undo` 一次退一步,\n  别指望一笔到位。\n- 几何的东西别用手画:`paint_tool ellipse` + `paint_shape` 拖出来的才是正圆;矩形、星形同理。\n- 眼睛、嘴、小装饰这种小块,先 `paint_see` 带 `mode=\"canvas\"` 看清相对位置再落笔,不要凭印象。\n- 整张图拆成 5~15 笔来画:每笔单独检查,错了只退一笔。\n\n**颜色**:能直接用调色板上的这 20 个——{{paint.colors}}。\n要这以外的颜色,先 `paint_click` 点「编辑颜色」,在弹出的对话框里挑;这一步要看着 `paint_see` 做。\n「颜色 2」是右键色,也是形状的填充色:先 `paint_click` 点「颜色 2」再点颜色,才改的是它。\n\n**边界与代价**\n\n- 只动画图这个窗口:别去点别的窗口,别碰她的对话框。落笔时鼠标会真的动一下(画完会放回原处),这是设计。\n- 一笔上限 {{paint.maxPoints}} 个点。整张画别超过十几笔,又慢又费钱。\n- 存图一律存到 `{{paint.outDir}}`;要存到别处得给绝对路径,给之前先想清楚该不该。\n- 桥接进程:{{paint.bridge}}。它没起来时第一次工具调用会把它拉起来,要一两秒,别以为卡死了。\n- 你的模型要是看不见图(`paint_see` 的回执里说截图没附上),就只能靠 `paint_ui` 的名字与相对位置盲画;\n  那就画得简单些,并如实告诉她你看不见。\n\n**卡住的时候**:`paint_ui` 能列出界面上所有能点的东西(工具、形状、颜色、按钮、菜单),\n带 `filter` 时还会给出每个元素在窗口里的相对位置,可以直接交给 `paint_click`。\n窗口被别的窗口盖住了、或者有个对话框挡着,就 `paint_open` 把它叫回前台再 `paint_see`。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "第一个能用的版本。\n\n- **World**:`paint`(显示名「画图」),契约 `api: 6`,默认关闭。\n- **16 个工具**:`paint_see` / `paint_open` / `paint_ui` / `paint_tool` / `paint_color` / `paint_size` /\n  `paint_stroke` / `paint_circle` / `paint_shape` / `paint_drag` / `paint_click` / `paint_type` /\n  `paint_key` / `paint_clear` / `paint_undo` / `paint_save`。\n- **桥接**:`host/paint-host.ps1`,常驻的 Windows PowerShell 进程,NDJSON 协议。UI Automation 选工具\n  与颜色(不动鼠标)、GDI BitBlt 截屏、SendInput 落笔。\n- **坐标**:一律画布相对位置 0..1;画布由 UIA(`AutomationId=image`)或像素扫描定位,换算时带上缩放。\n- **存盘**:按扩展名走 `文件 > 另存为 > PNG/JPEG/BMP/GIF 图片`,存完用 `Test-Path` 验证。\n  之所以不走 Ctrl+S:这台机器上画图的另存为默认是 `.paint`(HEIF),直接填 `.png` 会得到 HEIF 文件。\n- **配置**:`worlds.paint.{outDir, shotWidth, pace, autoOpen, maxPoints}`,全部热生效。\n- **面板**:「画布」页签 —— 状态、截图(点图放大)、打开/清空/撤销、她最近的动作记录。\n- **提示词**:`src/ENV_PROMPT.md`,带 5 个占位符(`paint.bridge` / `paint.outDir` / `paint.maxPoints` /\n  `paint.pace` / `paint.colors`)。\n\n### 验证过的\n\n在 Coopanion 0.2.13(Windows 11 26200,x64,新版画图 `Microsoft.Paint 11.2605.81.0`)上:\n\n- `pnpm smoke` 全绿:导入包 → 造实例 → 开画图 → 选铅笔/红色/粗细 2 → 画圆 → 画波浪线 →\n  拖五角星(先选形状)→ 撤销 → 存 PNG → 校验 PNG 魔数(`89 50 4E 47`);\n- 面板 `status` 与 `invokeBinary('shot')` 可用;\n- 模板占位符与 `envPromptVars()` 一一对上。\n\n### 已知边界\n\n- 调色板只有 20 色;任意颜色要模型自己开「编辑颜色」对话框。\n- 新画布默认 640×640;要改尺寸得在「重设大小」里手动改。\n- 只验收了 Windows 11 新版画图;经典画图只有别名表兜底。\n- 落笔会真的移动鼠标(画完放回原处)。"
+  }
+}

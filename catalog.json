@@ -74,6 +74,10 @@
     "cortico-world-mood-alont1": [
       "sensitive-data"
     ],
+    "cortico-world-mspaint": [
+      "sensitive-data",
+      "unsafe"
+    ],
     "cortico-world-music": [
       "sensitive-data"
     ],
@@ -3697,9 +3701,9 @@
     },
     "cortico-world-context-meter": {
       "kind": "world",
-      "version": "0.5.3",
+      "version": "0.5.4",
       "displayName": "token计数",
-      "description": "适用于 Coopanion 的 DeepSeek Token 用量估算插件。可用于测试不同扩展在静态上下文和动态交互中的 Token 消耗，帮助你定位 Token 主要消耗在哪里。请注意：估算结果仅供参考，实际用量可能与官网统计存在差异。 A DeepSeek token usage estimation plugin for Coopanion. Test token consumption across different extensions in static contexts and dynam",
+      "description": "适用于 Coopanion 的 DeepSeek Token 用量估算插件。可用于测试不同扩展在静态上下文和动态交互中的 Token 消耗，帮助你定位 Token 主要消耗在哪里。请注意：估算结果仅供参考，实际用量可能与官网统计存在差异。 DeepSeek token estimates for Coopanion: compare extensions' static/dynamic usage. For reference only; may differ from official counts.",
       "locales": {
         "zh": {
           "displayName": "token计数"
@@ -3724,8 +3728,8 @@
         "bugs": "https://github.com/CorazonYXZ/cortico-world-context-meter/issues"
       },
       "created": "2026-10-29T13:10:09.613Z",
-      "published": "2026-10-29T13:53:51.754Z",
-      "versionCount": 3,
+      "published": "2026-10-29T14:04:41.265Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3749,6 +3753,7 @@
       },
       "changelog": {
         "versions": [
+          "0.5.4",
           "0.5.3",
           "0.5.2",
           "0.5.1",
@@ -5208,7 +5213,7 @@
     },
     "cortico-world-ego": {
       "kind": "world",
-      "version": "0.1.11",
+      "version": "0.1.12",
       "displayName": "Ego 浏览器",
       "description": "Ego 浏览器 —— 专为 AI 打造的浏览器 World，让你家的小肥鱼上网、看图、看视频更顺手。Cortico 与 Coopanion 共用官方 ego-browser 接口，在独立 Space 里开网页、点击填表、截图，观看 HTML5 / B 站视频的画面、字幕与弹幕。需先安装 Ego Lite。",
       "locales": {
@@ -5241,8 +5246,8 @@
         "darwin"
       ],
       "created": "2026-10-21T11:07:12.898Z",
-      "published": "2026-10-23T13:00:04.054Z",
-      "versionCount": 4,
+      "published": "2026-10-29T14:08:36.271Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5293,7 +5298,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/173",
         "up": 3,
         "down": 2,
-        "comments": 7
+        "comments": 8
       }
     },
     "cortico-world-ellen-voice": {
@@ -5519,7 +5524,7 @@
     },
     "cortico-world-ets2-dafeiyu": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "displayName": "ETS2 大肥鱼副驾",
       "description": "Cortico/Coopanion World for Euro Truck Simulator 2: reads SCS telemetry, reports accidents, speeding, fines, tolls, jobs and a learned radar detector to Coo, with a one-click telemetry installer.",
       "author": "mIneko__",
@@ -5547,8 +5552,8 @@
         "win32"
       ],
       "created": "2026-10-29T12:07:35.458Z",
-      "published": "2026-10-29T13:55:20.477Z",
-      "versionCount": 3,
+      "published": "2026-10-29T14:08:32.230Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5576,6 +5581,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0",
           "0.1.0"
         ],
@@ -5755,7 +5761,7 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 53,
+        "up": 54,
         "down": 5,
         "comments": 47
       }
@@ -8553,6 +8559,86 @@
         "up": 1,
         "down": 0,
         "comments": 1
+      }
+    },
+    "cortico-world-mspaint": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "画图",
+      "description": "Cortico World: 画图 —— 让 bot 亲手在 Windows 的「画图」里画画:开画图、选工具与颜色、一笔一笔拉线条、存成 PNG/JPEG。工具与调色板走 UI Automation(名字点选,不动鼠标),落笔走 SendInput(物理像素、按画布相对坐标),所以分辨率、DPI、窗口大小都不影响。要求 Cortico 0.2.0 及以上(扩展契约 world 6);已在 Coopanion 0.2.13 上装机验证。",
+      "locales": {
+        "en": {
+          "displayName": "Paint",
+          "description": "Cortico World: Paint —— the bot draws by hand in Windows Paint: opens it, picks tools and colours, lays down strokes, and saves a PNG/JPEG. Tools and palette are chosen through UI Automation (by name, without moving the mouse); strokes go through SendInput in canvas-relative coordinates, so DPI, resolution and window size do not matter. Requires Cortico 0.2.0+ (extension contract world 6); verified on Coopanion 0.2.13."
+        }
+      },
+      "author": "Coopanion 画图扩展",
+      "maintainers": [
+        "bazi-8421"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "desktop-pet",
+        "paint",
+        "mspaint",
+        "drawing",
+        "computer-use",
+        "desktop-automation"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-mspaint"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-10-29T14:00:42.154Z",
+      "published": "2026-10-29T14:03:23.572Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "creative",
+        "computer-use",
+        "apps",
+        "unsafe",
+        "sensitive-data",
+        "experimental"
+      ],
+      "tags": [
+        "computer-use",
+        "apps",
+        "creative",
+        "experimental",
+        "unsafe",
+        "sensitive-data"
+      ],
+      "icon": "assets/cortico-world-mspaint/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 16,
+        "events": 0,
+        "toolTokens": 2119,
+        "envPromptTokens": 745
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-mspaint@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 491,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/491",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-mumu": {
