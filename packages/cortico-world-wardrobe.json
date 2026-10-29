@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-wardrobe",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "describe": {
     "tools": [
       {
         "name": "wardrobe_status",
-        "description": "看这台电脑上的 Coopanion 鲸鱼衣橱有没有装上「新增衣服 / 新增头发」。不改任何文件。",
+        "description": "看换装形象包是否已装到 companion/figures，以及管理页地址。不改官方鲸鱼任何文件。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -15,11 +15,11 @@
         "tags": [
           "read"
         ],
-        "summary": "查看换装补丁是否已装上"
+        "summary": "查看换装形象包状态"
       },
       {
         "name": "wardrobe_install",
-        "description": "把非官方的新增衣服、新增头发写进本机 Coopanion 的鲸鱼衣橱。已有的衣服、头发和身体尺寸不会被换掉。装完要完全退出桌宠再打开。",
+        "description": "把换装形象包装进 companion/figures/wardrobe-whale。不覆盖官方鲸鱼宿主文件。装完请在换装页选「换装鲸鱼」。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -28,11 +28,24 @@
         "tags": [
           "write"
         ],
-        "summary": "把换装补丁装进本机鲸鱼"
+        "summary": "安装换装形象包"
+      },
+      {
+        "name": "wardrobe_manage",
+        "description": "返回衣橱管理页 URL：可导入 zip、从官方鲸鱼只读抄衣服、导出衣服。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": "打开管理页地址"
       },
       {
         "name": "wardrobe_clothes",
-        "description": "列出鲸鱼现在能选的配色、衣服和头发，以及她现在穿着什么。不改打扮。选之前先看这一份。",
+        "description": "列出换装形象包能选的配色、衣服和头发，以及当前穿着。须已选中该形象。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -45,7 +58,7 @@
       },
       {
         "name": "wardrobe_wear",
-        "description": "给鲸鱼换衣服或头发。只填要改的项，其余保持原样。衣服和头发分开。set 用 none 表示混搭。穿着套装时如果换了另一件上身或下身，会变成混搭。id 必须来自 wardrobe_clothes。",
+        "description": "给换装形象包换衣服或头发。只填要改的项。须先在换装页选中 wardrobe-whale。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -70,6 +83,10 @@
               "type": "string",
               "description": "下身 id"
             },
+            "shoe": {
+              "type": "string",
+              "description": "鞋子 id"
+            },
             "bangs": {
               "type": "string",
               "description": "刘海 id"
@@ -91,7 +108,7 @@
         "tags": [
           "write"
         ],
-        "summary": "给鲸鱼换衣服或头发"
+        "summary": "给形象包换衣服或头发"
       }
     ],
     "events": [],
@@ -100,7 +117,7 @@
         "key": "worlds.wardrobe.envPrompt",
         "title": "换装 · 环境提示词",
         "role": "envPrompt",
-        "content": "这台电脑的鲸鱼衣橱可以新增衣服和头发。主人要加衣服时，去换装页按「新增衣服」或「新增头发」，可以一次选多个 zip。\n\n你可以自己给鲸鱼换衣服和头发。先调用 wardrobe_clothes 看有哪些。再调用 wardrobe_wear，只填要换的项：scheme 配色，set 套装（混搭是 none），headwear 头饰，top 上身，bottom 下身，bangs 刘海，back 发尾，style 发型，ahoge 呆毛。衣服和头发分开选。穿着套装时换了另一件上身或下身，会变成混搭。\n\n当前状态：{{wardrobe.status}}\n"
+        "content": "这台电脑有独立的换装形象包（id：{{wardrobe.figureId}}），不改官方鲸鱼。管理页：{{wardrobe.manageUrl}}（可导入 zip，或从官方鲸鱼只读抄衣服）。\n\n主人要穿这套形象时，须在换装页选「换装鲸鱼」。你可以调用 wardrobe_clothes / wardrobe_wear 给她换衣服。\n\n当前状态：{{wardrobe.status}}\n"
       }
     ]
   }
