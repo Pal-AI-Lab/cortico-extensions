@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-ets2-dafeiyu",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "describe": {
     "tools": [
       {
@@ -296,6 +296,7 @@
     ]
   },
   "changelog": {
+    "0.4.3": "- City entry now asks Coo for a short city introduction on first arrival, without reading out\n  population or other data.\n- Added `cityRepeatIntro` (default false): when off, re-entering the same city only reports the\n  arrival; when on, Coo may introduce it again. “First” is per Coopanion run.",
     "0.4.2": "- Fixed city detection swallowing the first entry after starting outside a city. The baseline is now\n  initialized on the first connected tick even when no city is nearby; only starting inside a city\n  is silent.\n- Added city-entry instructions to the environment prompt and listed `city` in the\n  `ets2_recent_events` description.",
     "0.4.1": "- The **城市记录** panel now returns the full city list (up to 1000 entries) instead of only the\n  nearest 50, so all 380 packaged cities are visible in the UI.",
     "0.4.0": "- Preloaded **380 official ETS2 cities** extracted from the map `CityArea` items in\n  `base_map.scs` and the official map DLCs.\n- City geofences now work out of the box; `assets/cities.json` is shipped with the package.\n- User records in `ets2-cities.json` override the packaged map city of the same name; map cities\n  cannot be deleted from the panel.\n- Added `tools/CityProbe` to regenerate the city database.",

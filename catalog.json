@@ -1241,7 +1241,7 @@
       "published": "2026-10-18T09:28:02.619Z",
       "versionCount": 7,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "memory",
         "internal-state"
@@ -5722,7 +5722,7 @@
     },
     "cortico-world-ets2-dafeiyu": {
       "kind": "world",
-      "version": "0.4.2",
+      "version": "0.4.3",
       "displayName": "ETS2 欧卡桌宠副驾",
       "description": "《欧洲卡车模拟2》的 Coopanion 桌宠副驾：读取官方遥测，播报事故、超速、罚款、收费站、任务、城市进入和电子狗点位，并支持一键安装 scs-telemetry.dll。",
       "locales": {
@@ -5760,8 +5760,8 @@
         "win32"
       ],
       "created": "2026-10-29T12:07:35.458Z",
-      "published": "2026-10-29T17:06:44.552Z",
-      "versionCount": 12,
+      "published": "2026-10-29T17:41:41.056Z",
+      "versionCount": 13,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5789,6 +5789,7 @@
       },
       "changelog": {
         "versions": [
+          "0.4.3",
           "0.4.2",
           "0.4.1",
           "0.4.0",
@@ -6541,7 +6542,7 @@
     },
     "cortico-world-free-hub": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "displayName": "免费端点台",
       "description": "免费端点台：检测本机 Our Free Model 转发端口、读它的渠道状态，并把任意 OpenAI 兼容端点一键接成 Coo 的模型供应商",
       "locales": {
@@ -6568,15 +6569,21 @@
         "bugs": "https://github.com/HMYWQ/Cortico-world-free-hub/issues"
       },
       "created": "2026-10-29T14:53:29.829Z",
-      "published": "2026-10-29T16:49:26.654Z",
-      "versionCount": 3,
+      "published": "2026-10-29T17:40:25.989Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
-        "local"
+        "local",
+        "requires-extension",
+        "requires-key",
+        "external-setup"
       ],
       "tags": [
-        "local"
+        "local",
+        "external-setup",
+        "requires-key",
+        "requires-extension"
       ],
       "downloads": {
         "total": 0,
@@ -6591,6 +6598,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.3",
           "0.1.2",
           "0.1.1",
           "0.1.0"
@@ -12776,7 +12784,7 @@
     },
     "cortico-world-starpost": {
       "kind": "world",
-      "version": "0.16.2",
+      "version": "0.17.0",
       "displayName": "星邮",
       "description": "星邮：让 Cortico bot 独立私聊、群聊、交换漂流瓶、分享动态并预约狼人杀的社交 World 扩展",
       "maintainers": [
@@ -12796,8 +12804,8 @@
         "bugs": "https://github.com/hth768/cortico-world-starpost/issues"
       },
       "created": "2026-10-27T17:41:43.822Z",
-      "published": "2026-10-29T15:39:59.881Z",
-      "versionCount": 22,
+      "published": "2026-10-29T17:30:18.502Z",
+      "versionCount": 23,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -12816,13 +12824,14 @@
         "week": 2647
       },
       "summary": {
-        "tools": 16,
-        "events": 48,
-        "toolTokens": 3417,
-        "envPromptTokens": 3374
+        "tools": 17,
+        "events": 49,
+        "toolTokens": 3592,
+        "envPromptTokens": 3502
       },
       "changelog": {
         "versions": [
+          "0.17.0",
           "0.16.2",
           "0.16.1",
           "0.16.0",
