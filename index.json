@@ -24,7 +24,7 @@
         "zh": "属于 Pal AI World 计划，为 AI Bot 设计的虚拟世界。",
         "en": "Part of the Pal AI World Project: a virtual world designed for AI bots."
       },
-      "when": "Maintainers only; authors cannot declare it. Marks extensions used by an official Cortico downstream product. Worlds in the Pal AI World Project."
+      "when": "Maintainers only; authors cannot declare it. Marks extensions used by an official Cortico downstream product. Worlds in the Pal AI World Project; a third-party World can apply with an [other] request."
     },
     "corti": {
       "style": "official",
@@ -350,12 +350,41 @@
     "cortico-provider-deepseek",
     "cortico-world-fatfish",
     "cortico-world-qq-final",
+    "cortico-world-qq-promax-kpect",
     "cortico-world-simple-trpg-check",
     "cortico-world-terrarium"
   ],
   "newDays": 14,
   "blocked": {
     "packages": {
+      "cortico-world-coo-control": {
+        "zh": "启用后自动改写 Coopanion 程序文件(桌宠页面 pet-app.js 与形象套件 body.js),改动对所有形象生效;停用或卸载前不手动还原，改动会一直保留",
+        "en": "Once enabled it rewrites Coopanion program files (the pet page pet-app.js and the figure kit body.js); the changes affect every figure and stay unless restored by hand before it is disabled or removed"
+      },
+      "cortico-world-ellen-voice": {
+        "zh": "模型可调用工具，用包里固定版本的页面整份覆盖桌宠的 pet-app.js、speech.js、pet.css;改动对所有形象生效，卸载扩展后仍会保留，宿主升级后版本也对不上",
+        "en": "A model tool overwrites the pet's pet-app.js, speech.js and pet.css with fixed copies from the package; the changes affect every figure, stay after the extension is removed, and no longer match once the host updates"
+      },
+      "cortico-world-feeding": {
+        "zh": "加载时(不论是否启用)替换桌宠 World 与桌宠服务的内部方法，往所有形象的页面里插入代码",
+        "en": "On load, whether or not it is enabled, it replaces internal methods of the pet World and pet server and injects code into every figure's page"
+      },
+      "cortico-world-feiyu-little-days": {
+        "zh": "主要功能要求运行附带的连接补丁，改写 Coopanion 程序文件(core/companion.ts 与桌宠 World 的源码);改动对所有形象生效，卸载扩展后仍会保留",
+        "en": "Its main features require running the bundled connection patch, which rewrites Coopanion program files (core/companion.ts and the pet World source); the changes affect every figure and stay after the extension is removed"
+      },
+      "cortico-world-filter-paper": {
+        "zh": "加载时替换内置 Persona 的交接方法(Cormini.prototype.onHandoff),改动对所有 bot 生效",
+        "en": "On load it replaces the built-in Persona's handoff method (Cormini.prototype.onHandoff), which changes every bot"
+      },
+      "cortico-world-image": {
+        "zh": "加载时(不论是否启用)改写其他扩展的源码文件(qq-final、qq-better-alont1),并改动桌宠宿主文件;改动卸载扩展后仍会保留",
+        "en": "On load, whether or not it is enabled, it rewrites source files of other extensions (qq-final, qq-better-alont1) and touches pet host files; the changes stay after the extension is removed"
+      },
+      "cortico-world-localvision": {
+        "zh": "诊断面板的「打核心补丁」会改写 Coopanion 安装目录里 Core 的源码(core/types.ts、loop.ts、core.ts),改动对所有 bot 生效，卸载扩展后仍会保留",
+        "en": "The diagnostics panel's core patch rewrites Core source files in the Coopanion install (core/types.ts, loop.ts, core.ts); the changes affect every bot and stay after the extension is removed"
+      },
       "cortico-world-mouse-polling-fix": {
         "zh": "启用后改写 Coopanion 程序文件(桌宠的宿主、预加载、页面和形象套件共 5 个文件),拖动手感的改动对所有形象生效;停用或卸载前不手动还原，改动会一直保留",
         "en": "Once enabled it rewrites Coopanion program files (five files in the pet host, preload, page and figure kit), and its drag change affects every figure; unless restored by hand before it is disabled or removed, the changes stay"
@@ -367,6 +396,10 @@
       "cortico-world-soft-voice": {
         "zh": "气泡同步要运行它的安装脚本改写 Coopanion 程序文件(桌宠页面 pet-app.js),加载后还替换桌宠服务的内部请求处理;卸载扩展后改动仍会保留",
         "en": "Bubble sync needs its install script to rewrite a Coopanion program file (the pet page, pet-app.js), and once loaded it replaces the pet server's internal request handler; the change stays after the extension is removed"
+      },
+      "cortico-world-wardrobe": {
+        "zh": "World 启动时自动用包里的副本覆盖桌宠宿主的 9 个程序文件(服务端、形象脚本、换装页面等)并改写形象的 figure.json;改动对所有形象生效，卸载扩展后仍会保留",
+        "en": "When the World starts it overwrites nine pet host program files (server, figure script, dress-up page and more) with its own copies and rewrites the figure.json; the changes affect every figure and stay after the extension is removed"
       }
     },
     "publishers": {}
@@ -428,12 +461,11 @@
         "memory",
         "companion",
         "internal-state",
-        "sensitive-data",
-        "injection-risk"
+        "sensitive-data"
       ],
       "note": {
-        "zh": "读取桌面与消费记录;当天别人发来的消息原文汇总成内部通知",
-        "en": "Reads the desktop and spending records; other people's messages from the day are collected verbatim into internal notices"
+        "zh": "读取桌面与消费记录",
+        "en": "Reads the desktop and spending records"
       }
     },
     "cortico-world-websearch": {
@@ -456,12 +488,11 @@
         "game",
         "internet",
         "companion",
-        "sensitive-data",
-        "injection-risk"
+        "sensitive-data"
       ],
       "note": {
-        "zh": "读取前台窗口并定期截取游戏画面;网页搜索结果片段作为内部通知进入对话",
-        "en": "Reads the foreground window and periodically captures the game screen; web search snippets enter the conversation as internal notices"
+        "zh": "读取前台窗口并定期截取游戏画面",
+        "en": "Reads the foreground window and periodically captures the game screen"
       }
     },
     "cortico-world-dungeon": {
@@ -509,23 +540,23 @@
         "companion",
         "external-setup",
         "internal-state",
-        "unofficial-api"
+        "unofficial-api",
+        "unsafe"
       ],
       "note": {
-        "zh": "经 NapCat 等非官方 QQ 客户端登录 QQ 账号",
-        "en": "Signs in to a QQ account through an unofficial client such as NapCat"
+        "zh": "经 NapCat 等非官方 QQ 客户端登录 QQ 账号;发图与看图工具能读取本机任意路径的文件并发到 QQ",
+        "en": "Signs in to a QQ account through an unofficial client such as NapCat; its image tools read files from any local path and can send them to QQ"
       }
     },
     "cortico-world-alive-alont1": {
       "addTags": [
         "companion",
         "internal-state",
-        "sensitive-data",
-        "injection-risk"
+        "sensitive-data"
       ],
       "note": {
-        "zh": "读取桌面与消费记录;最近别人发来的消息原文汇总成内部通知",
-        "en": "Reads the desktop and spending records; other people's recent messages are collected verbatim into internal notices"
+        "zh": "读取桌面与消费记录",
+        "en": "Reads the desktop and spending records"
       }
     },
     "cortico-world-together-alont1": {
@@ -868,13 +899,8 @@
     "cortico-world-mind-alont1": {
       "addTags": [
         "companion",
-        "internal-state",
-        "injection-risk"
-      ],
-      "note": {
-        "zh": "当天别人发来的消息原文汇总成内部通知",
-        "en": "Other people's messages from the day are collected verbatim into internal notices"
-      }
+        "internal-state"
+      ]
     },
     "cortico-world-mood-alont1": {
       "addTags": [
@@ -1009,7 +1035,8 @@
       "removeTags": [
         "unsafe",
         "sensitive-data"
-      ]
+      ],
+      "supersededBy": "cortico-world-qq-promax-kpect"
     },
     "cortico-bot-qq-persona": {
       "addTags": [
@@ -1069,11 +1096,12 @@
       "addTags": [
         "computer-use",
         "external-setup",
-        "unsafe"
+        "unsafe",
+        "sensitive-data"
       ],
       "note": {
-        "zh": "自由点击、滑动、输入，操作整台安卓手机",
-        "en": "Taps, swipes and types freely to operate the whole Android phone"
+        "zh": "自由点击、滑动、输入，操作整台安卓手机;模型能随时截取手机屏幕",
+        "en": "Taps, swipes and types freely to operate the whole Android phone; the model can capture the phone screen at any time"
       }
     },
     "cortico-world-cua-alont1": {
@@ -1138,6 +1166,147 @@
         "zh": "播放器给出的曲名与歌手作为内部通知进入对话",
         "en": "Track titles and artists from the media player enter the conversation as internal notices"
       }
+    },
+    "cortico-world-devtools": {
+      "addTags": [
+        "internet",
+        "unsafe"
+      ],
+      "note": {
+        "zh": "能执行任意 PowerShell 命令、读写任意文件，没有审批",
+        "en": "Runs any PowerShell command and reads or writes any file, with no approval step"
+      }
+    },
+    "cortico-world-qq-all": {
+      "addTags": [
+        "im",
+        "unofficial-api",
+        "unsafe"
+      ],
+      "note": {
+        "zh": "能调用任意 OneBot 动作，发送本机任意路径的文件",
+        "en": "Can call any OneBot action and send files from any local path"
+      }
+    },
+    "cortico-world-keyhold": {
+      "addTags": [
+        "computer-use",
+        "unsafe"
+      ],
+      "note": {
+        "zh": "能发出任意组合键(含 Win+R、回车),不经过桌宠对终端的询问",
+        "en": "Sends any key chord, including Win+R and Enter, without the pet's terminal prompt"
+      }
+    },
+    "cortico-world-skills": {
+      "addTags": [
+        "unsafe"
+      ],
+      "note": {
+        "zh": "open 模式下能执行任意程序",
+        "en": "In open mode it runs any program"
+      }
+    },
+    "cortico-world-wechat-claw": {
+      "addTags": [
+        "unsafe"
+      ],
+      "note": {
+        "zh": "能把本机任意文件发到微信",
+        "en": "Can send any local file to WeChat"
+      }
+    },
+    "cortico-world-social": {
+      "addTags": [
+        "unofficial-api",
+        "injection-risk"
+      ],
+      "note": {
+        "zh": "申请人昵称、加好友留言与群名作为内部通知进入对话",
+        "en": "Requesters' nicknames, friend-request messages and group names enter the conversation as internal notices"
+      }
+    },
+    "cortico-world-social-media": {
+      "addTags": [
+        "injection-risk"
+      ],
+      "note": {
+        "zh": "抖音群名与最近几条群聊原文作为内部通知进入对话",
+        "en": "Douyin group names and recent group messages enter the conversation as internal notices"
+      }
+    },
+    "cortico-world-live-comments": {
+      "addTags": [
+        "injection-risk"
+      ],
+      "note": {
+        "zh": "观众弹幕原文经记忆写进环境提示词",
+        "en": "Viewers' comments are written verbatim into the environment prompt through its memory"
+      }
+    },
+    "cortico-world-heybox": {
+      "addTags": [
+        "injection-risk"
+      ],
+      "note": {
+        "zh": "开启浏览通知时，帖子与评论原文作为内部通知进入对话",
+        "en": "With browse notices on, post and comment text enters the conversation as internal notices"
+      }
+    },
+    "cortico-world-bili-video-pro": {
+      "addTags": [
+        "injection-risk"
+      ],
+      "note": {
+        "zh": "开启自己看视频时，简介、字幕、弹幕与热评原文作为内部通知进入对话",
+        "en": "With self-watch on, video descriptions, subtitles, danmaku and top comments enter the conversation as internal notices"
+      }
+    },
+    "cortico-world-camera": {
+      "addTags": [
+        "sensitive-data"
+      ],
+      "note": {
+        "zh": "模型能随时拍摄摄像头画面，扩展持续推送有人进出",
+        "en": "The model can take a camera photo at any time, and the extension keeps reporting people coming and going"
+      }
+    },
+    "@idxlz-0705/cortico-world-wows": {
+      "addTags": [
+        "sensitive-data"
+      ],
+      "note": {
+        "zh": "持续截取整个屏幕发给视觉模型",
+        "en": "Keeps capturing the whole screen and sending it to a vision model"
+      }
+    },
+    "cortico-world-warthunder": {
+      "addTags": [
+        "sensitive-data"
+      ],
+      "note": {
+        "zh": "模型能随时截取整个屏幕做文字识别",
+        "en": "The model can capture the whole screen for OCR at any time"
+      }
+    },
+    "cortico-provider-qianfan-tokenplan": {
+      "addTags": [
+        "unofficial-api"
+      ],
+      "note": {
+        "zh": "Token Plan 套餐条款禁止接入自动化脚本与应用后端，可能被封停密钥",
+        "en": "The Token Plan terms forbid use from automation scripts or app backends, and keys may be suspended"
+      }
+    },
+    "cortico-world-playground-alont1": {
+      "removeTags": [
+        "unsafe"
+      ]
+    },
+    "cortico-world-postcard": {
+      "addTags": [
+        "pal-ai-world"
+      ]
     }
   }
 }
