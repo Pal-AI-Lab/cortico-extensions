@@ -342,6 +342,7 @@
         "experimental"
       ],
       "tags": [
+        "coopanion",
         "voice",
         "local",
         "experimental"
@@ -2628,7 +2629,7 @@
     },
     "cortico-world-bili-live-reminder": {
       "kind": "world",
-      "version": "0.2.5",
+      "version": "0.2.6",
       "displayName": "B 站开播提醒",
       "description": "Bilibili live-stream reminders for Cortico: follow streamers by UID and let the bot tell the user when they go live. Read-only public status API; no login, cookie or key.",
       "locales": {
@@ -2661,8 +2662,8 @@
         "bugs": "https://github.com/zyc0327/cortico-world-bili-live-reminder/issues"
       },
       "created": "2026-10-29T18:31:10.944Z",
-      "published": "2026-10-29T18:32:07.167Z",
-      "versionCount": 2,
+      "published": "2026-10-29T19:11:53.240Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2680,11 +2681,12 @@
       "summary": {
         "tools": 3,
         "events": 3,
-        "toolTokens": 582,
+        "toolTokens": 586,
         "envPromptTokens": 869
       },
       "changelog": {
         "versions": [
+          "0.2.6",
           "0.2.5",
           "0.2.4",
           "0.2.3",
@@ -5547,7 +5549,7 @@
       "published": "2026-10-29T14:08:24.078Z",
       "versionCount": 2,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [],
       "icon": "assets/cortico-world-ellen-page-patch/icon.svg",
       "downloads": {
@@ -5601,7 +5603,7 @@
       "published": "2026-10-29T14:09:51.564Z",
       "versionCount": 9,
       "official": false,
-      "isNew": false,
+      "isNew": true,
       "declaredTags": [
         "voice",
         "qq",
@@ -5889,7 +5891,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/485",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-extsearch": {
@@ -6896,7 +6898,6 @@
         "experimental"
       ],
       "tags": [
-        "coopanion",
         "voice",
         "local",
         "experimental"
@@ -14086,6 +14087,86 @@
         "comments": 0
       }
     },
+    "cortico-world-vn": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "游玩视觉类小说",
+      "description": "让她真的去玩 Ren'Py 视觉小说：台词是精确文本不用截图认字，游戏自己往下走，出现选项才叫她。独立存档，游戏文件零改动。",
+      "locales": {
+        "zh": {
+          "displayName": "游玩视觉类小说",
+          "description": "让桌宠真的坐到游戏里去玩一部 Ren'Py 视觉小说，而不是读剧本演给你看。\n\n**她怎么玩的**：她说「开吧」，桌宠就自己启动游戏、点「开始游戏」、一页页往下读，遇到选项时停下来问你、或者自己挑一个。你该干嘛干嘛，看完一段她会挑一句说说感想。\n\n**为什么不用截图认字**：启动游戏时，插件让 Ren'Py 把它自己的台词文本交出来（`renpy.exports.say`、`renpy.exports.menu`），所以台词是**精确原文**，一个字都不会认错，也不花视觉 token。\n\n**她不会做的事**：不读剧本文件、不解包 `.rpa`、不截图认字、不模拟鼠标乱点；不改游戏文件（桥接靠 `RENPY_SEARCHPATH` 注入）；不动你原来的存档（启动时 `--savedir` 指到插件自己的目录 `<数据目录>/vn/saves/`）；关掉 Coopanion 也不会顺手关掉游戏窗口。\n\n**她要用的动作**：`vn_start` 开局、`vn_lines` 看演到哪、`vn_state` 看当前状态、`vn_advance` 手动推一句、`vn_choose` 在选项里挑、`vn_click` 点界面按钮、`vn_stop` 收摊。\n\n**装它还需要什么**：一个 Ren'Py 8.x 游戏本体（自带 `renpy/` 与 `game/` 目录），然后在 World 设置里填「游戏目录」。任何 Ren'Py 游戏都能用，换游戏只改这一个路径。\n\n**已知限制**：仅 Windows；只支持 Ren'Py 引擎；个别自定义界面可能采不到按钮（标记为实验性）。"
+        },
+        "en": {
+          "displayName": "Visual Novel Play",
+          "description": "Lets the desktop pet actually sit down and play a Ren'Py visual novel, instead of reading a script out loud.\n\n**How she plays**: she starts the game, clicks Start, reads page after page, and stops only when a choice appears — then she picks one or asks you. Dialogue text is read by nobody but her; the game advances on its own.\n\n**Why no OCR**: at launch the plugin asks Ren'Py for its own dialogue text (`renpy.exports.say`, `renpy.exports.menu`), so lines are exact and cost no vision tokens.\n\n**What it will not do**: no script parsing, no `.rpa` unpacking, no screenshots, no blind mouse clicking; the game files stay untouched (the bridge is injected via `RENPY_SEARCHPATH`); your existing saves are never touched (a private `--savedir` under `<data>/vn/saves/`); closing Coopanion does not close the game window.\n\n**Tools**: `vn_start`, `vn_lines`, `vn_state`, `vn_advance`, `vn_choose`, `vn_click`, `vn_stop`.\n\n**What you need**: a Ren'Py 8.x game that ships its own `renpy/` and `game/` folders, and its path in the World settings. Works for any Ren'Py game; switching games means changing that one path.\n\n**Limits**: Windows only; Ren'Py only; a few custom UIs may not expose their buttons (marked experimental)."
+        }
+      },
+      "author": "vn-world contributors",
+      "maintainers": [
+        "weitao0416"
+      ],
+      "license": "AGPL-3.0-or-later",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "renpy",
+        "visual-novel",
+        "game",
+        "pet"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-vn",
+        "repository": "https://github.com/weitao0416/cortico-world-vn",
+        "homepage": "https://github.com/weitao0416/cortico-world-vn#readme",
+        "bugs": "https://github.com/weitao0416/cortico-world-vn/issues"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-10-29T19:18:04.722Z",
+      "published": "2026-10-29T19:30:11.323Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "game",
+        "external-setup",
+        "experimental"
+      ],
+      "tags": [
+        "game",
+        "external-setup",
+        "experimental"
+      ],
+      "icon": "assets/cortico-world-vn/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 7,
+        "events": 4,
+        "toolTokens": 534,
+        "envPromptTokens": 32
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/weitao0416/cortico-world-vn/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 526,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/526",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-wardrobe": {
       "kind": "world",
       "version": "0.3.4",
@@ -14107,7 +14188,7 @@
       "published": "2026-10-29T18:30:32.163Z",
       "versionCount": 17,
       "official": false,
-      "isNew": false,
+      "isNew": true,
       "declaredTags": [
         "companion"
       ],

@@ -1,0 +1,158 @@
+{
+  "schema": 1,
+  "name": "cortico-world-vn",
+  "version": "0.1.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "vn_start",
+        "tags": [
+          "write"
+        ],
+        "description": "开一个 Ren'Py 视觉小说开始玩。game 给游戏目录（含 game/ 与 renpy/）或游戏 exe 的完整路径。会用独立存档目录，不动使用者原来的存档，窗口化运行。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "game": {
+              "type": "string",
+              "description": "游戏目录或游戏 exe 的完整路径。"
+            }
+          },
+          "required": [
+            "game"
+          ]
+        }
+      },
+      {
+        "name": "vn_lines",
+        "tags": [
+          "read"
+        ],
+        "description": "看最近演到哪了：返回最近若干条台词。平时台词会自动往下走，这个用来补看漏掉的。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "description": "要几条，默认 15，最多 100。"
+            }
+          }
+        }
+      },
+      {
+        "name": "vn_state",
+        "tags": [
+          "read"
+        ],
+        "description": "看现在的状态：当前这句台词是什么、有没有出现选项（有的话按顺序列出）。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        }
+      },
+      {
+        "name": "vn_advance",
+        "tags": [
+          "write"
+        ],
+        "description": "手动往下推一句。只在自动推进关掉或卡住时用。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        }
+      },
+      {
+        "name": "vn_choose",
+        "tags": [
+          "write"
+        ],
+        "description": "在出现的选项里选第几个（从 0 数，顺序和 vn_state 给的一致）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "index": {
+              "type": "integer",
+              "description": "选项序号，从 0 开始。"
+            }
+          },
+          "required": [
+            "index"
+          ]
+        }
+      },
+      {
+        "name": "vn_click",
+        "tags": [
+          "write"
+        ],
+        "description": "点界面上的按钮（主菜单的「开始游戏」、存档界面、设置界面等）。给 label 就按文字找，给 index 就按 vn_state 列出的顺序。只在 vn_state 显示有按钮时用。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string",
+              "description": "按钮上的文字，可只写一部分。"
+            },
+            "index": {
+              "type": "integer",
+              "description": "按钮序号，从 0 开始（和 vn_state 列出的一致）。"
+            }
+          }
+        }
+      },
+      {
+        "name": "vn_stop",
+        "tags": [
+          "write"
+        ],
+        "description": "不玩了，关掉游戏。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "vn.choice",
+        "description": {
+          "zh": "游戏里出现选项，等她挑一个。",
+          "en": "A choice appeared in the game; she picks one."
+        }
+      },
+      {
+        "type": "vn.digest",
+        "description": {
+          "zh": "刚演过的一段台词摘要。",
+          "en": "A short recap of what just played."
+        }
+      },
+      {
+        "type": "vn.stuck",
+        "description": {
+          "zh": "游戏很久没动静，可能卡住了。",
+          "en": "The game went quiet; may be stuck."
+        }
+      },
+      {
+        "type": "vn.ended",
+        "description": {
+          "zh": "这一局结束（游戏被关掉或退出）。",
+          "en": "The session ended (game closed or exited)."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.vn.envPrompt",
+        "title": "游玩视觉类小说 · 环境提示词",
+        "role": "envPrompt",
+        "content": "# 她现在在玩什么\n\n{{vn.now}}\n\n想让她玩：她自己用 `vn_start` 开游戏。台词她会自己往下看，你不用替她推进。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.1": "- 把完整的使用说明写进扩展市场的「简介」里（`cortico.locales` 的 `zh`/`en` `description`）：她怎么玩、为什么不用截图认字、她不会做什么、七个动作、装它还需要什么、已知限制。\n- 市场不显示 `README.md`，只显示这段简介，所以说明必须放在这里，不能只放在仓库里。",
+    "0.1.0": "首个公开版本。\n\n- 新增 `vn_start` / `vn_lines` / `vn_state` / `vn_advance` / `vn_choose` / `vn_click` / `vn_stop` 七个动作。\n- 通过 `RENPY_SEARCHPATH` 注入桥接脚本，游戏文件零改动；台词来自 `renpy.exports.say`，选项来自 `renpy.exports.menu`，都是精确文本。\n- 自动推进：按 `delay` 秒数在游戏内发 `dismiss`，输入框自动回车接受默认值，开场 splash 自动按掉。\n- 界面按钮从焦点表与显示层两路采集，执行按钮 action（含 `JumpOutException` 与 `EndInteraction` 的正确传播），不模拟鼠标坐标。\n- 独立存档：`--savedir` 指向插件自己的目录，不动使用者原存档。\n- World 面板（`client.js` + `client.css`）：说明这个插件做什么、她能用的动作、当前状态。\n- `describe.json`：7 个工具与 4 个事件的自描述，扩展市场直接读它，不执行包代码。"
+  }
+}

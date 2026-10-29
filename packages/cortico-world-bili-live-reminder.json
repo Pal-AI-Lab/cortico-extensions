@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-bili-live-reminder",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "describe": {
     "tools": [
       {
@@ -19,7 +19,7 @@
             "uid": {
               "type": "integer",
               "minimum": 1,
-              "maximum": 4294967295,
+              "maximum": 9007199254740991,
               "description": "Only show this followed UID. Omit to show every followed streamer."
             }
           }
@@ -42,7 +42,7 @@
             "uid": {
               "type": "integer",
               "minimum": 1,
-              "maximum": 4294967295,
+              "maximum": 9007199254740991,
               "description": "The numeric Bilibili user UID, for example 2. It is the number in the user space URL."
             }
           },
@@ -68,7 +68,7 @@
             "uid": {
               "type": "integer",
               "minimum": 1,
-              "maximum": 4294967295,
+              "maximum": 9007199254740991,
               "description": "The numeric Bilibili user UID to remove from the follow list."
             }
           },
@@ -121,6 +121,7 @@
     ]
   },
   "changelog": {
+    "0.2.6": "- 支持 B 站 16 位新 UID（例如 `3537115310721781`）：配置解析、关注管理面板输入、关注/取关/查询工具都接受 1–16 位数字，上限改为 JS 安全整数 `9007199254740991`。\n- 旧 10 位 UID 继续兼容；超过安全整数范围的数字会被拒绝，避免精度丢失。\n- 工具 schema 的 `uid.maximum` 同步更新；错误提示改为显示新的上限。",
     "0.2.5": "- 播报中附带直播间标题，并用「」括起来（事件正文、启动/当前在播、`bili_live_status`、关注回执都统一）。\n- 环境提示词要求 Coo 在提醒和回答「谁在播」时带上主播名与「标题」，标题一律用「」括起来；回执里没有标题时不要编。",
     "0.2.4": "- 链接开关改为唯一依据：提示词明确「开关是关时，任何回复都不要出现直播间链接」，并禁止凭记忆、上下文、房间号或历史事件自行补链接。\n- 链接关闭时，开播事件、启动/当前在播事件和 `bili_live_status` 回执都会标注「播报链接已关闭」，给模型一个明确的当前事实。\n- 启动/当前在播事件改成自然措辞（「现在有 N 位关注的主播在播」），不再使用「启动检查」「当前在播汇总」这类正式字眼；提示词也要求 Coo 自然地说，不要逐字照抄事件标题。",
     "0.2.3": "- 环境提示词写入两个开关的当前状态：`bili_live_reminder.includeRoomLink` 与 `bili_live_reminder.notifyOnStart`。\n- 链接开关关闭时，提示词不再要求“带上直播间链接”，并明确以事件/回执里实际有没有链接为准，不要从上下文补。\n- 启动提醒改为热开关：运行中打开后，下一次检查发一条 `bili-live-reminder.current`「当前在播汇总」，不需要重启 World；关闭后不再发这类汇总。\n- 新增 `bili-live-reminder.current` 事件（运行中打开启动提醒时的当前在播汇总，不是刚刚开播）。",
