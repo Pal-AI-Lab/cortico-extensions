@@ -279,17 +279,17 @@
     },
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.5.18",
+      "version": "0.5.23",
       "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
       "description": "Cortico World for Coopanion: speaks the pet's lines aloud with GPT-SoVITS (V5 on NVIDIA GPUs, a CPU tier otherwise; AMD GPU users can use the CPU tier), installing a portable runtime and weights in one click",
       "locales": {
         "zh": {
           "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
-          "description": "支持星落落语音包！欢迎来尝试！给桌宠配上真实的 GPT-SoVITS 语音：全程在本机合成、从声卡出声，不上传任何录音，一键装好运行时与模型。内置「大肥鱼_星落落版本」参考音色（官方底模零样本）与日中英三种参考；支持自定义音色（参考音频+台本+可选自备权重）。自带闲置停服（省显存）、按需加载（最多省约 810 MB 显存）、语音落盘与保留期。还能把声音交给 QQ 插件：新版 cortico-world-qq-final 直接取本机语音接口，老版 cortico-world-qq 走句柄，QQ 语音就是桌宠的声音。新版 QQ 插件（0.6.29 起）已移除语音判定模型，不需要任何密钥，是否发语音由主模型自己决定。AMD 显卡用户可使用 CPU 推理档（速度较慢但可用）。"
+          "description": "支持星落落语音包！欢迎来尝试！给桌宠配上真实的 GPT-SoVITS 语音：全程在本机合成、从声卡出声，不上传任何录音，一键装好运行时与模型。和 RVC 变声、DiffSinger 唱歌是同一套本机声音链路，三个插件可以配合使用：说话走本插件、唱歌走 DiffSinger、音色交给 RVC。内置「大肥鱼_星落落版本」参考音色（官方底模零样本）与日中英三种参考；支持自定义音色（参考音频+台本+可选自备权重）。自带闲置停服（省显存）、按需加载（最多省约 810 MB 显存）、语音落盘与保留期。还能把声音交给 QQ 插件：新版 cortico-world-qq-final 直接取本机语音接口，老版 cortico-world-qq 走句柄，QQ 语音就是桌宠的声音。新版 QQ 插件（0.6.29 起）已移除语音判定模型，不需要任何密钥，是否发语音由主模型自己决定。AMD 显卡用户可使用 CPU 推理档（速度较慢但可用）。"
         },
         "en": {
           "displayName": "Better GPTSovits Voice — Fatfish",
-          "description": "Supports the Xll voice pack! Come and try it! Gives the desktop pet a real GPT-SoVITS voice: synthesized on your own machine, nothing uploaded, one-click runtime and weights. Ships the \"Fatfish Xll\" reference voice (zero-shot base model) plus Chinese/English/Japanese references, and supports custom voices (reference audio + transcript + optional own weights). Includes stop-when-idle, on-demand model loading (up to ~810 MB VRAM saved), speech files with a retention window, and a local voice API so QQ plugins (cortico-world-qq-final / cortico-world-qq) can send voice in the pet's own voice. Newer QQ plugins (0.6.29+) need no key at all: the main model decides when to speak. AMD GPU users can use the CPU inference tier (slower but works)."
+          "description": "Supports the Xll voice pack! Come and try it! Gives the desktop pet a real GPT-SoVITS voice: synthesized on your own machine, nothing uploaded, one-click runtime and weights. It is one link of the same local voice chain as RVC (timbre) and DiffSinger singing, and the three plugins can run together: speech here, singing in DiffSinger, timbre in RVC. Ships the \"Fatfish Xll\" reference voice (zero-shot base model) plus Chinese/English/Japanese references, and supports custom voices (reference audio + transcript + optional own weights). Includes stop-when-idle, on-demand model loading (up to ~810 MB VRAM saved), speech files with a retention window, and a local voice API so QQ plugins (cortico-world-qq-final / cortico-world-qq) can send voice in the pet's own voice. Newer QQ plugins (0.6.29+) need no key at all: the main model decides when to speak. AMD GPU users can use the CPU inference tier (slower but works)."
         }
       },
       "author": "wocwang",
@@ -314,8 +314,8 @@
         "win32"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-10-28T08:13:53.007Z",
-      "versionCount": 23,
+      "published": "2026-10-29T02:54:05.700Z",
+      "versionCount": 24,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -341,6 +341,11 @@
       },
       "changelog": {
         "versions": [
+          "0.5.23",
+          "0.5.22",
+          "0.5.21",
+          "0.5.20",
+          "0.5.19",
           "0.5.18",
           "0.5.17",
           "0.5.16",
@@ -393,11 +398,12 @@
     },
     "better-cortico-world-netease-companion": {
       "kind": "world",
-      "version": "1.15.3",
+      "version": "1.16.0",
       "displayName": "听搭子",
       "description": "和表达助手插件一起使用有奇效！读取网易云音乐、QQ 音乐、酷狗音乐、酷我音乐与 Spotify 曲目（优先 SMTC，必要时窗口标题），设置中按官方播放器优先级排序并保持切换稳定；新增读取诊断页，可查看全部会话、窗口候选与选择原因；切歌后让桌宠参考评论区、歌曲百科、歌手资料与歌词主动陪听，支持切歌报幕、同曲分段、评论侧重轮换与副歌动作建议；能记住单曲笔记、听感标签和多日听歌历史，并记录听歌排名与个人画像；可在用户明确要求时暂停/切歌，也能搜歌并给出链接。只读元数据，不采集音频，不需要 API Key。",
-      "author": "wocwang",
+      "author": "wocwang & oceanxuhaiao",
       "maintainers": [
+        "oceanxuhaiao",
         "wocwang"
       ],
       "license": "MIT",
@@ -420,8 +426,8 @@
         "win32"
       ],
       "created": "2026-10-23T17:18:51.610Z",
-      "published": "2026-10-28T08:49:54.001Z",
-      "versionCount": 22,
+      "published": "2026-10-29T02:53:04.767Z",
+      "versionCount": 23,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -450,10 +456,11 @@
         "tools": 14,
         "events": 3,
         "toolTokens": 2297,
-        "envPromptTokens": 4398
+        "envPromptTokens": 4421
       },
       "changelog": {
         "versions": [
+          "1.16.0",
           "1.15.3",
           "1.15.2",
           "1.15.1",
@@ -6160,7 +6167,7 @@
     },
     "cortico-world-hands": {
       "kind": "world",
-      "version": "0.20.20",
+      "version": "0.20.22",
       "displayName": "手",
       "description": "Cortico World: hands for the desktop pet — looks at the phone screen, then taps, swipes, pinches, drags, types and presses keys through whatever actuator the device actually has",
       "maintainers": [
@@ -6178,8 +6185,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-hands"
       },
       "created": "2026-10-22T14:40:37.506Z",
-      "published": "2026-10-29T02:23:43.378Z",
-      "versionCount": 58,
+      "published": "2026-10-29T02:50:01.809Z",
+      "versionCount": 60,
       "official": false,
       "isNew": true,
       "tags": [
