@@ -650,7 +650,7 @@
     },
     "coopani-world-music": {
       "kind": "world",
-      "version": "0.3.18",
+      "version": "0.3.19",
       "displayName": "一起听歌",
       "description": "陪着你听歌：知道 QQ音乐 / 网易云音乐 在放什么。换歌必说一句，一首歌里分几段接话，还能就着刚唱过的词评两句；表情动作跟着曲风变，十一个动作里连坐下哼、跟着词摇头都有。记得住你听过什么——记忆可以存到你指定的文件夹，公司和家里接同一份。能替你暂停切歌，也能自己搜歌挑给你。和「陪打炉石」一起装更有意思：打牌时听的每一首她都知道。嫌吵能让其中一个先安静。",
       "locales": {
@@ -681,8 +681,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-10-29T12:12:37.294Z",
-      "versionCount": 19,
+      "published": "2026-10-29T13:32:12.328Z",
+      "versionCount": 20,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -716,6 +716,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.19",
           "0.3.18",
           "0.3.17",
           "0.3.16",
@@ -737,7 +738,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-music@0.3.18/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-music@0.3.19/CHANGELOG.md"
       },
       "discussion": {
         "number": 384,
@@ -3696,9 +3697,9 @@
     },
     "cortico-world-context-meter": {
       "kind": "world",
-      "version": "0.5.2",
+      "version": "0.5.3",
       "displayName": "token计数",
-      "description": "Offline declaration estimates and opt-in local runtime observation for Cortico. No extra model calls or telemetry.",
+      "description": "适用于 Coopanion 的 DeepSeek Token 用量估算插件。可用于测试不同扩展在静态上下文和动态交互中的 Token 消耗，帮助你定位 Token 主要消耗在哪里。请注意：估算结果仅供参考，实际用量可能与官网统计存在差异。 A DeepSeek token usage estimation plugin for Coopanion. Test token consumption across different extensions in static contexts and dynam",
       "locales": {
         "zh": {
           "displayName": "token计数"
@@ -3723,8 +3724,8 @@
         "bugs": "https://github.com/CorazonYXZ/cortico-world-context-meter/issues"
       },
       "created": "2026-10-29T13:10:09.613Z",
-      "published": "2026-10-29T13:13:23.513Z",
-      "versionCount": 2,
+      "published": "2026-10-29T13:53:51.754Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3748,6 +3749,7 @@
       },
       "changelog": {
         "versions": [
+          "0.5.3",
           "0.5.2",
           "0.5.1",
           "0.5.0",
@@ -5517,9 +5519,9 @@
     },
     "cortico-world-ets2-dafeiyu": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "displayName": "ETS2 大肥鱼副驾",
-      "description": "Cortico/Coopanion World for Euro Truck Simulator 2: reads SCS telemetry, reports accidents, speeding, fines, tolls, jobs and a learned radar detector to Coo.",
+      "description": "Cortico/Coopanion World for Euro Truck Simulator 2: reads SCS telemetry, reports accidents, speeding, fines, tolls, jobs and a learned radar detector to Coo, with a one-click telemetry installer.",
       "author": "mIneko__",
       "maintainers": [
         "mineko__"
@@ -5545,8 +5547,8 @@
         "win32"
       ],
       "created": "2026-10-29T12:07:35.458Z",
-      "published": "2026-10-29T12:08:31.985Z",
-      "versionCount": 2,
+      "published": "2026-10-29T13:55:20.477Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5567,13 +5569,14 @@
         "week": 0
       },
       "summary": {
-        "tools": 4,
+        "tools": 5,
         "events": 14,
-        "toolTokens": 508,
+        "toolTokens": 646,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.2.0",
           "0.1.0"
         ],
         "url": "https://github.com/minekooooo/euro-truck2-coopanion/blob/HEAD/CHANGELOG.md"
@@ -9018,7 +9021,7 @@
       "published": "2026-10-16T05:45:27.436Z",
       "versionCount": 4,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [
         "memory"
       ],
@@ -9782,9 +9785,9 @@
     },
     "cortico-world-private-companion": {
       "kind": "world",
-      "version": "0.2.1",
+      "version": "0.3.1",
       "displayName": "我会永远陪着你",
-      "description": "「我会永远陪着你」Coopanion 版：把 menglimi 的 AstrBot 插件 astrbot_plugin_private_companion 的生活感、主动联系、关系卡与说话分寸，独立实现为 Coopanion 的 World 扩展。",
+      "description": "「我会永远陪着你」Coopanion 版：把 menglimi 的 AstrBot 插件 astrbot_plugin_private_companion 的生活感、主动联系、关系卡与说话分寸，独立实现为 Coopanion 的 World 扩展；内置可迁移记忆（companion-memory/2，导入导出 + 隔离审核）。",
       "author": "yaya-super",
       "maintainers": [
         "yaya-super"
@@ -9796,21 +9799,26 @@
         "coopanion",
         "companion",
         "persona",
-        "proactive"
+        "proactive",
+        "memory",
+        "portable-memory",
+        "memory-import"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-private-companion",
         "homepage": "https://github.com/menglimi/astrbot_plugin_private_companion"
       },
       "created": "2026-10-29T11:24:55.064Z",
-      "published": "2026-10-29T12:22:49.002Z",
-      "versionCount": 5,
+      "published": "2026-10-29T13:51:54.747Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
-        "companion"
+        "companion",
+        "memory"
       ],
       "tags": [
+        "memory",
         "companion"
       ],
       "icon": "assets/cortico-world-private-companion/icon.png",
@@ -9820,19 +9828,21 @@
         "week": 0
       },
       "summary": {
-        "tools": 8,
+        "tools": 9,
         "events": 2,
-        "toolTokens": 1585,
-        "envPromptTokens": 688
+        "toolTokens": 1839,
+        "envPromptTokens": 736
       },
       "changelog": {
         "versions": [
+          "0.3.1",
+          "0.3.0",
           "0.2.1",
           "0.2.0",
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-private-companion@0.2.1/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-private-companion@0.3.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 482,
