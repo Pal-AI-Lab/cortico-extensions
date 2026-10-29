@@ -8,6 +8,10 @@
       "injection-risk",
       "sensitive-data"
     ],
+    "cortico-bot-memory-companion-kpect": [
+      "injection-risk",
+      "sensitive-data"
+    ],
     "cortico-bot-weighted-memory": [
       "sensitive-data"
     ],
@@ -406,7 +410,7 @@
       "discussion": {
         "number": 228,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-        "up": 9,
+        "up": 10,
         "down": 0,
         "comments": 40
       }
@@ -893,6 +897,66 @@
         "number": 136,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/136",
         "up": 2,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-bot-memory-companion-kpect": {
+      "kind": "bot",
+      "version": "0.4.0-cortico.1",
+      "displayName": "我会牢牢记住你 · 非官方移植（kpect）",
+      "description": "kpect 发布版：非官方 Cortico 移植版：我会牢牢记住你；原作 menglimi/astrbot_plugin_memory_companion，移植与集成维护 Kpect10086。",
+      "author": "kpect",
+      "maintainers": [
+        "alont1"
+      ],
+      "license": "SEE LICENSE IN LICENSE",
+      "keywords": [
+        "cortico-bot",
+        "kpect"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-bot-memory-companion-kpect",
+        "repository": "https://github.com/Kpect10086/Cortico-Memory-Companion",
+        "homepage": "https://github.com/Kpect10086/Cortico-Memory-Companion#readme",
+        "bugs": "https://github.com/Kpect10086/Cortico-Memory-Companion/issues"
+      },
+      "created": "2026-10-29T16:03:45.357Z",
+      "published": "2026-10-29T16:59:18.010Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "experimental",
+        "sensitive-data",
+        "injection-risk",
+        "high-cost"
+      ],
+      "tags": [
+        "experimental",
+        "high-cost",
+        "sensitive-data",
+        "injection-risk"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "worlds": 1,
+        "memory": "我会牢牢记住你"
+      },
+      "changelog": {
+        "versions": [
+          "0.4.0-cortico.1"
+        ],
+        "url": "https://github.com/Kpect10086/Cortico-Memory-Companion/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 511,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/511",
+        "up": 0,
         "down": 0,
         "comments": 0
       }
@@ -5658,7 +5722,7 @@
     },
     "cortico-world-ets2-dafeiyu": {
       "kind": "world",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "displayName": "ETS2 欧卡桌宠副驾",
       "description": "《欧洲卡车模拟2》的 Coopanion 桌宠副驾：读取官方遥测，播报事故、超速、罚款、收费站、任务、城市进入和电子狗点位，并支持一键安装 scs-telemetry.dll。",
       "locales": {
@@ -5696,8 +5760,8 @@
         "win32"
       ],
       "created": "2026-10-29T12:07:35.458Z",
-      "published": "2026-10-29T16:46:05.230Z",
-      "versionCount": 11,
+      "published": "2026-10-29T17:06:44.552Z",
+      "versionCount": 12,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5720,11 +5784,12 @@
       "summary": {
         "tools": 7,
         "events": 15,
-        "toolTokens": 902,
+        "toolTokens": 903,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.4.2",
           "0.4.1",
           "0.4.0",
           "0.3.0",
@@ -5912,7 +5977,7 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 54,
+        "up": 55,
         "down": 5,
         "comments": 49
       }
@@ -6346,6 +6411,62 @@
         "up": 0,
         "down": 0,
         "comments": 1
+      }
+    },
+    "cortico-world-fish-sing": {
+      "kind": "world",
+      "version": "0.1.2",
+      "description": "让她真的开口唱：B 站点歌或本地文件 → 分离 → 换声 → 混音，本机出声或发 QQ 语音条",
+      "author": "FXYXL",
+      "maintainers": [
+        "fxyxl"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coo",
+        "sing",
+        "rvc",
+        "music",
+        "qq"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-fish-sing",
+        "repository": "https://github.com/FXYXL/cortico-world-fish-sing",
+        "homepage": "https://github.com/FXYXL/cortico-world-fish-sing#readme",
+        "bugs": "https://github.com/FXYXL/cortico-world-fish-sing/issues"
+      },
+      "created": "2026-10-29T17:00:43.905Z",
+      "published": "2026-10-29T17:03:49.070Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "qq",
+        "local"
+      ],
+      "tags": [
+        "qq",
+        "local"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 0,
+        "events": 0,
+        "toolTokens": 0,
+        "envPromptTokens": 0
+      },
+      "discussion": {
+        "number": 512,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/512",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-frame-extract": {
