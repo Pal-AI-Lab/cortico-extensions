@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-wardrobe",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "describe": {
     "tools": [
       {
         "name": "wardrobe_status",
-        "description": "看换装形象包是否已装到 companion/figures，以及管理页地址。不改官方鲸鱼任何文件。",
+        "description": "看换装形象包是否已装到 companion/figures。衣橱在 World 详情的「衣橱」面板管理。不改官方鲸鱼。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -29,19 +29,6 @@
           "write"
         ],
         "summary": "安装换装形象包"
-      },
-      {
-        "name": "wardrobe_manage",
-        "description": "返回衣橱管理页 URL：可导入 zip、从官方鲸鱼只读抄衣服、导出衣服。",
-        "parameters": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {}
-        },
-        "tags": [
-          "read"
-        ],
-        "summary": "打开管理页地址"
       },
       {
         "name": "wardrobe_clothes",
@@ -117,7 +104,7 @@
         "key": "worlds.wardrobe.envPrompt",
         "title": "换装 · 环境提示词",
         "role": "envPrompt",
-        "content": "这台电脑有独立的换装形象包（id：{{wardrobe.figureId}}），不改官方鲸鱼。管理页：{{wardrobe.manageUrl}}（可导入 zip，或从官方鲸鱼只读抄衣服）。\n\n主人要穿这套形象时，须在换装页选「换装鲸鱼」。你可以调用 wardrobe_clothes / wardrobe_wear 给她换衣服。\n\n当前状态：{{wardrobe.status}}\n"
+        "content": "这台电脑有独立的换装形象包（id：{{wardrobe.figureId}}），不改官方鲸鱼。主人在 World 详情的「衣橱」面板导入 zip、从官方鲸鱼抄衣服或删除。\n\n须在换装页选「换装鲸鱼」后，才可用 wardrobe_clothes / wardrobe_wear。\n\n当前状态：{{wardrobe.status}}\n"
       }
     ]
   }

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-final",
-  "version": "0.6.37",
+  "version": "0.6.38",
   "describe": {
     "tools": [
       {
@@ -674,6 +674,41 @@
           "zh": "收到一条合并转发消息。",
           "en": "A merged-forward message arrived."
         }
+      },
+      {
+        "type": "qq.proactive",
+        "description": {
+          "zh": "主动说话调度器唤起的一次主动发言:由 qq_proactive 触发器或定时 routine 发起,进入本轮主动处理。",
+          "en": "A proactive speaking turn raised by the scheduler: fired by qq_proactive trigger or the timed routine, entering this active turn."
+        }
+      },
+      {
+        "type": "qq.qzone.post",
+        "description": {
+          "zh": "发了一条 QQ 空间说说(或带图/带权限的说说)后回执的事件。",
+          "en": "Event returned after posting a QQ Zone shout (optionally with images or visibility rights)."
+        }
+      },
+      {
+        "type": "qq.qzone.reply",
+        "description": {
+          "zh": "回复了一条 QQ 空间评论后回执的事件。",
+          "en": "Event returned after replying to a QQ Zone comment."
+        }
+      },
+      {
+        "type": "qq.qzone.comment",
+        "description": {
+          "zh": "收到一条 QQ 空间评论的通知。",
+          "en": "Notice that a QQ Zone comment was received."
+        }
+      },
+      {
+        "type": "qq.reminder",
+        "description": {
+          "zh": "定时提醒/闹钟到点触发,或记事本项被唤起,进入本轮处理。",
+          "en": "A timed reminder/alarm fired, or a notepad item was raised, entering this turn."
+        }
       }
     ],
     "prompts": [
@@ -686,6 +721,7 @@
     ]
   },
   "changelog": {
+    "0.6.38": "- 修复控制台告警「未在 describe 中声明的事件：qq.proactive, qq.qzone.post」：代码实际发出了 5 个事件（qq.proactive、qq.qzone.post、qq.qzone.reply、qq.qzone.comment、qq.reminder）但 `src/definition.ts` 的 EVENTS 只声明了 9 个。`describe:extension` 只从 EVENTS 生成 describe.json，故这些事件未被声明、运行时每次 emit 都告警。现已在 EVENTS 补齐这 5 个事件并重新生成 describe.json（events 9→14）。",
     "0.6.37": "- 修复 `qq_view_image` 在辅助视觉（VLM）关闭时误导 agent 自我否定：旧报错「被动视觉未开启（config.vision.enabled=false），无法看图。」被 agent 读成「自己看不见图」，从而撤回本已正确的图片描述。新回执明确区分「本重描述工具不可用」与「图片已作为附件送达主模型（你直接就能看到）」，并据 `deliverImageAttachments` 给出对应提示。\n- `qq_view_image` 工具描述补一句：图片默认已作为附件直达主模型，本工具只是可选的文字重描述手段；其报错绝不代表 agent 看不见图。\n- `ENV_PROMPT.md` 新增看图守卫：明确收到图片即已直达主模型、可直接看；`qq_view_image` 报错只代表重描述工具用不了，禁止据此否定或撤回正确的图片描述（回应 2026-10-28 用户反馈「VLM 报错误导 agent」）。",
     "0.6.36": "- 修复群聊限速只在整段回复前检查、整段回复后计一次的问题。长回复拆成多条 QQ 消息时，现在逐条检查并计数，到达上限后停止发送剩余消息。\n- 语音识别遇到腾讯语音 CDN 地址时，先用浏览器请求头受限下载，再交给 ffmpeg 解码，避免 ffmpeg 直接读取地址被 CDN 拒绝；下载限制为 32 MB，且不跟随跳转。\n- 语音解码失败时明确提示检查 ffmpeg 路径和腾讯语音地址。",
     "0.6.35": "- 修复群聊语音与引用/@ 同条发送时，手机 QQ 可能显示空白气泡的问题。语音现在始终单独发送 `record` 段，不再与 `reply` 或 `at` 拼在同一个 `send_msg` 中。",

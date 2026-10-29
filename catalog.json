@@ -744,7 +744,7 @@
     },
     "cortico-bot-continuity": {
       "kind": "bot",
-      "version": "0.7.0",
+      "version": "0.7.1",
       "description": "Cortico 的 Bot 扩展，为机器人带来持续的记忆和鲜明的个性，记住经历，整理往事，延续对话。",
       "author": "DTMosken",
       "maintainers": [
@@ -762,8 +762,8 @@
         "bugs": "https://github.com/DTMosken/cortico-bot-continuity/issues"
       },
       "created": "2026-09-21T10:58:17.207Z",
-      "published": "2026-10-28T03:44:22.169Z",
-      "versionCount": 17,
+      "published": "2026-10-29T04:20:18.330Z",
+      "versionCount": 18,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -785,6 +785,7 @@
       },
       "changelog": {
         "versions": [
+          "0.7.1",
           "0.7.0",
           "0.6.0",
           "0.5.1",
@@ -2537,10 +2538,10 @@
     },
     "cortico-world-bili-video-pro": {
       "kind": "world",
-      "version": "0.1.8",
+      "version": "0.2.0",
       "displayName": "B站刷视频",
       "description": "住在你电脑里的AI桌宠「她」：陪你看B站视频，也能自己看片、读弹幕字幕。",
-      "author": "白菜和他的小汐小槿",
+      "author": "白菜（木头白菜）",
       "maintainers": [
         "baicai-xiaoxi-xiaojin"
       ],
@@ -2560,8 +2561,8 @@
         "win32"
       ],
       "created": "2026-10-27T15:34:22.238Z",
-      "published": "2026-10-28T12:40:13.872Z",
-      "versionCount": 5,
+      "published": "2026-10-29T04:37:50.717Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2588,11 +2589,12 @@
       "summary": {
         "tools": 15,
         "events": 4,
-        "toolTokens": 1434,
-        "envPromptTokens": 1662
+        "toolTokens": 1610,
+        "envPromptTokens": 2019
       },
       "changelog": {
         "versions": [
+          "0.2.0",
           "0.1.8",
           "0.1.7",
           "0.1.6",
@@ -2602,7 +2604,7 @@
           "0.1.2",
           "0.1.1"
         ],
-        "url": "https://unpkg.com/cortico-world-bili-video-pro@0.1.8/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-bili-video-pro@0.2.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 389,
@@ -2689,7 +2691,7 @@
       "published": "2026-10-25T21:58:21.511Z",
       "versionCount": 6,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [
         "corti",
         "streaming",
@@ -2789,7 +2791,7 @@
     },
     "cortico-world-bottle": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "displayName": "漂流瓶",
       "description": "Coo 写一封不超过 120 字的信，寄不寄由人类在本地信箱页上决定；别人家的 Coo 捞到后看不到字，只有人类点了回信，那一封才会被读。",
       "locales": {
@@ -2820,8 +2822,8 @@
         "bugs": "https://github.com/Unnori/cortico-world-bottle-client/issues"
       },
       "created": "2026-10-28T20:41:06.331Z",
-      "published": "2026-10-28T20:43:16.733Z",
-      "versionCount": 2,
+      "published": "2026-10-29T05:45:29.090Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2844,6 +2846,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.3",
           "0.1.2",
           "0.1.1",
           "0.1.0"
@@ -3164,7 +3167,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/189",
         "up": 11,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-buckshot": {
@@ -4601,6 +4604,83 @@
         "comments": 7
       }
     },
+    "cortico-world-douyin-live": {
+      "kind": "world",
+      "version": "0.1.6",
+      "displayName": "抖音直播间",
+      "description": "Cortico World: read-only Douyin live room (room-id ingest like bilibili; optional local bridge), with coalescing, audience admission and a local OBS overlay",
+      "locales": {
+        "zh": {
+          "displayName": "抖音直播间",
+          "description": "只读接入抖音直播弹幕、礼物与人流；填房间号即可，可选本机 OBS Overlay。"
+        },
+        "en": {
+          "displayName": "Douyin Live",
+          "description": "Read-only Douyin live chat, gifts and audience signals by room id; optional local OBS overlay."
+        }
+      },
+      "author": "accdji",
+      "maintainers": [
+        "spbay"
+      ],
+      "license": "GPL-3.0-or-later",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "douyin",
+        "streaming",
+        "tiktok"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-douyin-live",
+        "repository": "https://github.com/accdji/cortico-world-douyin-live",
+        "homepage": "https://github.com/accdji/cortico-world-douyin-live#readme",
+        "bugs": "https://github.com/accdji/cortico-world-douyin-live/issues"
+      },
+      "created": "2026-10-29T03:59:36.354Z",
+      "published": "2026-10-29T05:11:21.252Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "streaming",
+        "unofficial-api",
+        "experimental"
+      ],
+      "tags": [
+        "streaming",
+        "experimental",
+        "unofficial-api"
+      ],
+      "icon": "assets/cortico-world-douyin-live/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 1,
+        "events": 8,
+        "toolTokens": 182,
+        "envPromptTokens": 143
+      },
+      "changelog": {
+        "versions": [
+          "0.1.6",
+          "0.1.5",
+          "0.1.4",
+          "0.1.0"
+        ],
+        "url": "https://github.com/accdji/cortico-world-douyin-live/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 471,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/471",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-downloads-alont1": {
       "kind": "world",
       "version": "0.1.5",
@@ -5117,7 +5197,7 @@
       "discussion": {
         "number": 173,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/173",
-        "up": 2,
+        "up": 3,
         "down": 2,
         "comments": 6
       }
@@ -5193,9 +5273,9 @@
     },
     "cortico-world-emote-pics": {
       "kind": "world",
-      "version": "0.4.1",
+      "version": "0.5.0",
       "displayName": "对话表情包",
-      "description": "让桌宠发文字消息时也能带图。你只需按情绪建立文件夹（如「开心」「眨眼」），在面板里为 19 种表情各自绑定文件夹。当桌宠表达对应情绪时，会根据你设定的概率和冷却时间，从对应情绪文件夹内随机挑一张图跟着文字发出。纯本地读取（支持常见图片格式，单张≤5MiB），发出的图片在对话页和桌面窗口均可显示。（建议和大肥鱼表情包配合食用）",
+      "description": "让桌宠发文字消息时也能带图。你只需按情绪建立文件夹（如「开心」「眨眼」），在面板里为 19 种表情各自绑定文件夹。当桌宠表达对应情绪时，会根据你设定的概率和冷却时间，从对应情绪文件夹内随机挑一张图跟着文字发出。纯本地读取（支持常见图片格式，单张≤5MiB），发出的图片在对话页和桌面窗口均可显示，桌面显示部分支持跟随桌宠位置显示，但桌宠大小最好不要超过100%。（建议和大肥鱼表情包配合食用）",
       "maintainers": [
         "black-fencer"
       ],
@@ -5211,8 +5291,8 @@
         "win32"
       ],
       "created": "2026-10-23T09:09:50.168Z",
-      "published": "2026-10-27T14:58:22.601Z",
-      "versionCount": 7,
+      "published": "2026-10-29T05:36:30.514Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5235,6 +5315,22 @@
       },
       "changelog": {
         "versions": [
+          "0.5.0",
+          "0.4.16",
+          "0.4.15",
+          "0.4.14",
+          "0.4.13",
+          "0.4.12",
+          "0.4.11",
+          "0.4.10",
+          "0.4.9",
+          "0.4.8",
+          "0.4.7",
+          "0.4.6",
+          "0.4.5",
+          "0.4.4",
+          "0.4.3",
+          "0.4.2",
           "0.4.1",
           "0.4.0",
           "0.3.1",
@@ -5247,14 +5343,14 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-emote-pics@0.4.1/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-emote-pics@0.5.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 209,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/209",
         "up": 1,
         "down": 0,
-        "comments": 5
+        "comments": 6
       }
     },
     "cortico-world-emotive-sticker": {
@@ -5629,17 +5725,17 @@
     },
     "cortico-world-feiyu-little-days": {
       "kind": "world",
-      "version": "0.1.0-beta.6",
-      "displayName": "肥鱼的小日子",
-      "description": "给桌面伙伴一个可以回去的小家。推门进屋，吃饭存粮、沙发休息、盖被睡觉；再把每日待办写在门口的记事板上，一起过有饭吃、有觉睡的小屋生活。 beta.6修复语音无声和连续拿手机中断选片，保留精力睡满自动出门；原装扮和聊天入口需另执行随包连接补丁（仅Coopanion 0.2.12，附还原）。",
+      "version": "0.2.0-beta.2",
+      "displayName": "大肥鱼的小屋",
+      "description": "大肥鱼的小屋：同一只官方桌宠的小屋兼容测试版：独立家具、室内XY、绕障、吃饭睡觉和可置顶浮窗；沿用原版对话、装扮和语音。仅支持Coopanion 0.2.12，扩展页启用可还原连接后重启。",
       "locales": {
         "zh": {
-          "displayName": "肥鱼的小日子",
-          "description": "给桌面伙伴一个可以回去的小家。推门进屋，吃饭存粮、沙发休息、盖被睡觉；再把每日待办写在门口的记事板上，一起过有饭吃、有觉睡的小屋生活。 beta.6修复语音无声和连续拿手机中断选片，保留精力睡满自动出门；原装扮和聊天入口需另执行随包连接补丁（仅Coopanion 0.2.12，附还原）。"
+          "displayName": "大肥鱼的小屋",
+          "description": "大肥鱼的小屋：同一只官方桌宠的小屋兼容测试版：独立家具、室内XY、绕障、吃饭睡觉和可置顶浮窗；沿用原版对话、装扮和语音。仅支持Coopanion 0.2.12，扩展页启用可还原连接后重启。"
         },
         "en": {
-          "displayName": "Feiyu · Little Days",
-          "description": "A desktop home with rice, a fridge, energy and daily tasks. Requires Windows Coopanion 0.2.12. Switches the desktop-pet component while retaining the bot, model and existing house data. Experimental."
+          "displayName": "Big Feiyu's House",
+          "description": "Coopanion 0.2.12 only. One official pet, room furniture and floating window. Enable the reversible connection from the extension panel and restart."
         }
       },
       "author": "mrdxabing",
@@ -5662,8 +5758,8 @@
         "win32"
       ],
       "created": "2026-10-27T09:38:41.970Z",
-      "published": "2026-10-28T00:28:43.131Z",
-      "versionCount": 7,
+      "published": "2026-10-29T04:01:04.477Z",
+      "versionCount": 8,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -5696,36 +5792,10 @@
         "sensitive-data",
         "injection-risk"
       ],
-      "icon": "assets/cortico-world-feiyu-little-days/icon.png",
-      "screenshots": [
-        "assets/cortico-world-feiyu-little-days/screenshot-1.jpg"
-      ],
       "downloads": {
         "total": 1112,
         "month": 1112,
         "week": 1112
-      },
-      "summary": {
-        "tools": 20,
-        "events": 7,
-        "toolTokens": 4493,
-        "envPromptTokens": 0
-      },
-      "changelog": {
-        "versions": [
-          "0.1.0-beta.6",
-          "0.1.0-beta.5",
-          "0.1.0-beta.4",
-          "0.1.0-beta.3",
-          "0.1.0-beta.2",
-          "0.1.0-beta.1",
-          "0.12.0-beta.5",
-          "0.12.0-beta.4",
-          "0.12.0-beta.3",
-          "0.12.0-beta.2",
-          "0.12.0-beta.1"
-        ],
-        "url": "https://github.com/mrdxabing-rgb/cortico-world-feiyu-house/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 363,
@@ -5737,7 +5807,7 @@
     },
     "cortico-world-figure": {
       "kind": "world",
-      "version": "1.2.10",
+      "version": "1.3.0",
       "displayName": "Live2D 模型一键安装",
       "description": "把 Live2D 模型一键装进 Coo：扫描、打包、安装。 / Install a Live2D model into Coo: scan, pack, install.",
       "locales": {
@@ -5772,8 +5842,8 @@
         "bugs": "https://github.com/as124da1231/cortico-world-figure/issues"
       },
       "created": "2026-10-28T16:52:00.088Z",
-      "published": "2026-10-29T02:24:20.373Z",
-      "versionCount": 10,
+      "published": "2026-10-29T05:50:02.117Z",
+      "versionCount": 11,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5798,6 +5868,7 @@
       },
       "changelog": {
         "versions": [
+          "1.3.0",
           "1.2.10",
           "1.2.9",
           "1.2.8",
@@ -6704,9 +6775,9 @@
     },
     "cortico-world-image": {
       "kind": "world",
-      "version": "0.5.8",
+      "version": "0.7.2",
       "displayName": "图片工坊",
-      "description": "Image Studio（图片工坊）—— 给 Coopanion 桌宠的 cortico World 扩展：用任意 OpenAI 兼容的图片接口画图/改图、落盘成作品库、把图贴进控制台「对话」页，并自带一套自动重打的自愈补丁。 / A cortico World extension that draws through any OpenAI-compatible image API, keeps pictures on disk and shows them in the console.",
+      "description": "Image Studio（图片工坊）—— 给 Coopanion 桌宠的 cortico World 扩展：用任意 OpenAI 兼容的图片接口画图/改图、落盘成作品库、把图贴进控制台「对话」页；也可以接本地 ComfyUI，按优先级链轮流试。 / A cortico World extension that draws through any OpenAI-compatible image API or a local ComfyUI, keeps pictures on disk and shows",
       "author": "lostdegree",
       "maintainers": [
         "lostdegree"
@@ -6729,8 +6800,8 @@
         "bugs": "https://github.com/Lostdegree/cortico-world-image/issues"
       },
       "created": "2026-10-12T05:32:34.365Z",
-      "published": "2026-10-27T12:20:08.716Z",
-      "versionCount": 9,
+      "published": "2026-10-29T05:47:31.140Z",
+      "versionCount": 10,
       "official": false,
       "isNew": false,
       "tags": [
@@ -6746,10 +6817,16 @@
         "tools": 4,
         "events": 0,
         "toolTokens": 967,
-        "envPromptTokens": 745
+        "envPromptTokens": 809
       },
       "changelog": {
         "versions": [
+          "0.7.2",
+          "0.7.1",
+          "0.7.0",
+          "0.6.2",
+          "0.6.1",
+          "0.6.0",
           "0.5.8",
           "0.5.7",
           "0.5.6",
@@ -8069,7 +8146,7 @@
       "published": "2026-10-26T04:40:34.885Z",
       "versionCount": 7,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "companion",
         "memory",
@@ -9927,7 +10004,7 @@
     },
     "cortico-world-qq-final": {
       "kind": "world",
-      "version": "0.6.37",
+      "version": "0.6.38",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -9946,8 +10023,8 @@
         "bugs": "https://github.com/hth768/cortico-world-qq-final/issues"
       },
       "created": "2026-10-06T07:39:25.866Z",
-      "published": "2026-10-28T15:23:27.363Z",
-      "versionCount": 70,
+      "published": "2026-10-29T04:43:07.891Z",
+      "versionCount": 71,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -9971,12 +10048,13 @@
       },
       "summary": {
         "tools": 15,
-        "events": 9,
+        "events": 14,
         "toolTokens": 4611,
         "envPromptTokens": 864
       },
       "changelog": {
         "versions": [
+          "0.6.38",
           "0.6.37",
           "0.6.36",
           "0.6.35",
@@ -10762,7 +10840,7 @@
       "published": "2026-10-26T04:42:29.366Z",
       "versionCount": 6,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "diagnostics",
         "sensitive-data"
@@ -11889,7 +11967,7 @@
     },
     "cortico-world-starpost": {
       "kind": "world",
-      "version": "0.13.0",
+      "version": "0.14.0",
       "displayName": "星邮",
       "description": "星邮：让 Cortico bot 独立私聊、群聊、交换漂流瓶、分享动态并预约狼人杀的社交 World 扩展",
       "maintainers": [
@@ -11909,8 +11987,8 @@
         "bugs": "https://github.com/hth768/cortico-world-starpost/issues"
       },
       "created": "2026-10-27T17:41:43.822Z",
-      "published": "2026-10-28T18:46:55.826Z",
-      "versionCount": 16,
+      "published": "2026-10-29T05:36:22.948Z",
+      "versionCount": 17,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11929,13 +12007,14 @@
         "week": 267
       },
       "summary": {
-        "tools": 14,
-        "events": 37,
-        "toolTokens": 2837,
-        "envPromptTokens": 2442
+        "tools": 15,
+        "events": 41,
+        "toolTokens": 3266,
+        "envPromptTokens": 2825
       },
       "changelog": {
         "versions": [
+          "0.14.0",
           "0.13.0",
           "0.12.1",
           "0.12.0",
@@ -12627,7 +12706,7 @@
     },
     "cortico-world-terrarium": {
       "kind": "world",
-      "version": "0.9.0",
+      "version": "0.9.1",
       "displayName": "Terrarium",
       "description": "Claimable land and water ecosystems with plants, bugs, fish and a public leaderboard",
       "locales": {
@@ -12660,8 +12739,8 @@
         "bugs": "https://github.com/zhiyuHD/cortico-world-terrarium/issues"
       },
       "created": "2026-10-17T06:11:00.470Z",
-      "published": "2026-10-26T18:43:11.686Z",
-      "versionCount": 37,
+      "published": "2026-10-29T05:52:05.073Z",
+      "versionCount": 38,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -12680,10 +12759,11 @@
         "tools": 14,
         "events": 13,
         "toolTokens": 5967,
-        "envPromptTokens": 884
+        "envPromptTokens": 949
       },
       "changelog": {
         "versions": [
+          "0.9.1",
           "0.9.0",
           "0.8.10-bugfix.1",
           "0.8.10",
@@ -13099,9 +13179,9 @@
     },
     "cortico-world-wardrobe": {
       "kind": "world",
-      "version": "0.3.0",
+      "version": "0.3.2",
       "displayName": "换装",
-      "description": "非官方换装 World：提供独立形象包「换装鲸鱼」与管理页；不改官方桌宠宿主。不是 Pal AI Lab 的桌宠包。",
+      "description": "非官方换装 World：独立形象包「换装鲸鱼」+ World 详情衣橱面板；不改官方桌宠宿主。",
       "author": "Kwan443",
       "maintainers": [
         "kwan443"
@@ -13115,8 +13195,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-wardrobe"
       },
       "created": "2026-10-28T11:12:54.697Z",
-      "published": "2026-10-29T03:51:18.198Z",
-      "versionCount": 13,
+      "published": "2026-10-29T04:20:36.125Z",
+      "versionCount": 15,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -13131,10 +13211,10 @@
         "week": 0
       },
       "summary": {
-        "tools": 5,
+        "tools": 4,
         "events": 0,
-        "toolTokens": 497,
-        "envPromptTokens": 84
+        "toolTokens": 436,
+        "envPromptTokens": 72
       },
       "discussion": {
         "number": 432,
