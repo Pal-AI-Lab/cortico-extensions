@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-fatfish",
-  "version": "0.6.12",
+  "version": "0.6.13",
   "describe": {
     "tools": [
       {
@@ -87,8 +87,8 @@
       {
         "type": "fatfish.notice",
         "description": {
-          "zh": "桥接通知：人物的台词已转交 DSH、DSH 的回合进度、回复与工具调用、等待批准或回答，以及出错。",
-          "en": "Bridge notices: a person's line handed to DSH, DSH turn progress, replies and tool calls, pending approvals or questions, and errors."
+          "zh": "桥接通知：人物的台词已转交 DSH、DSH 每轮结束时的结果与回复、等待批准或回答，以及出错。默认不逐个工具调用唤醒。",
+          "en": "Bridge notices: a person's line handed to DSH, the result and reply of each finished DSH turn, pending approvals or questions, and errors. Tool calls no longer wake the bot one by one by default."
         },
         "trigger": "flush"
       }
@@ -103,6 +103,7 @@
     ]
   },
   "changelog": {
+    "0.6.13": "- **新增 `notify` 三档**：\n  - `results`（默认）：每轮结束合并成一条通知，内容含 DSH 的回复与本轮工具调用次数；等待批准、等待回答、出错仍然立即推送\n  - `all`：旧行为，每个事件一条（`turn-start`、每次工具调用、每条回复、`turn-end`）\n  - `off`：只发送不接收——桌宠仍能向 DSH 说话，DSH 不再唤醒桌宠\n- **根因**：connector 对 `turn-start`、每次 `tool/call`、每条 `assistant/message`、`turn-end` 逐帧发帧，桌宠对每一帧推一条 notice 且 `trigger: 'flush'`（立即唤醒 Co）——每条通知 = 一次模型调用。有人实测 DSH 干活 100 秒被唤醒 26 次，绝大多数是工具调用的过程噪音\n- results 档下 5 秒兜底：这一轮迟迟收不到 `turn-end` 时，把已有回复单独报出来，不会因为结束帧丢失而一直沉默\n- 合并只发生在桌宠侧，connector 不需要升级，旧版 Host 一样生效\n- 想看每一步细节时把 `notify` 切回 `all` 即可，不用降级",
     "0.6.12": "- **面板新增「新建会话」按钮，Coo 新增 `dsh_new_session` 工具**：所有会话都被归档后，DSH 侧没有打开的会话，`dsh_send` 会被拒回；现在可以在 DSH 侧开一个新会话，建好即是 owner，桌宠自动接过去（协议新增 `new` / `created` 一对帧）\n- 需要 DSH 侧 `coopanion-connector-dsh` **≥ 0.2.12**；旧版 Host 不认识 `new` 帧，会连上但一直等不到会话\n- 新建成功会清掉「固定到当前会话」的 pin：你刚换掉的会话不该再把桌宠拉回去\n- connector 0.2.12 起 `dsh_send` 的拒回文案在无会话时改为指向 `dsh_new_session`，Coo 能自己补齐这一步\n- 本版合入社区 PR [#5](https://github.com/blacksunshy/coopanion-fatfish/pull/5)，commit 保留原作者署名",
     "0.6.11": "### 新增「选择会话」\n\n- 桥接面板多一颗「选择会话」按钮：列出 DSH 全部实时会话（会话 id、模型、哪个是默认、哪个是固定的、子代理会话不列出），点一行就把桌宠切过去，不用再猜 id\n- 固定状态下分两行显示「已固定（不跟随）」和「跟随 DSH 活动」，谁锁定、谁在跟着活动走一眼看得出\n\n### 修复\n\n- **面板显示「DSH 没有打开的会话」，但 DSH 明明有**：桌宠的帧解析器此前把 connector 的 `session-list` 当成未知帧丢掉，于是每次读列表都干等 10 秒超时后返回空。已补上解析\n- **点「解除固定」状态不刷新**：此前只清了桌宠本地的 `pinnedSession`，DSH 侧的固定（pin）还在，DSH 继续把消息送进\"已经放开\"的会话、面板也还标着已固定。现在先向 connector 下发 `unpin`，成功后才清本地状态；connector 不支持时会直接报错，不再假装成功\n- **切 tab 之后「会话」这一行永不更新**：以前只在握手时写一次。现在每次状态轮询都向 connector 问一次真实 owner（2.5 秒超时，问不到就保留旧值）\n- **快速来回切换后列表标记错乱、旧响应盖掉新状态**：列表改为每次重绘（当前 / 已固定 / 默认三个标记都重算），并用读序号丢弃迟到的轮询响应；「刷新测试」现在把状态和打开中的列表一起重读\n- 读列表失败与\"真的没有会话\"分开提示：前者显示「读取会话列表失败：DSH 没有回应，稍后再试」，不再误导成 DSH 真的没有会话\n\n### 关于「快速切 tab 后会话 id 卡住」\n\nDSH 只在真有活动（`agent/created`、`session/event`）时才通知插件，**只切 tab、不说话时一条事件都没有**——`agent/created` 只在该 tab 首次打开时发一次，所以多切几次就对不上了；`.dsh` 的持久化里也没有\"当前会话\"这个字段，桌宠无从得知静默导航。想立刻对准：点「刷新测试」或「选择会话」手动选一个。已经固定（pin）的会话本来就不该跟着跑，这种情况下 id 不动是正确行为。\n\n### 需要 DSH 侧配合\n\n会话列表与解除固定需要 DSH Host 插件 `coopanion-connector-dsh` **≥ 0.2.11**（仅 GitHub 分发，未上 npm）。低于 0.2.11 的 connector 没有 `list-sessions` / `unpin` 帧，本版会退化成\"读列表超时\"和\"解除固定只清本地\"。",
     "0.6.10": "### 为什么又把 relayPerson 改回默认关\n\n0.6.6 把 relayPerson（转发人物打字到 DSH）默认从 `true` 改成 `false`，本意是\"诚实认识论\"——桌宠是第二张嘴，不是静默输入通道，默认关避免两边互聊循环。但那次改默认值**没有在 UI 上给够提示**，导致用户升级后桥明明连着、打字却不自动转 DSH，必须手动开配置才恢复——**默认关等于升级后主路径功能消失**。\n\n0.6.9 改回了 `true`（让主路径先能用）。但回归 opt-in 才是长期方向：**基础设施不替用户做\"要不要转发\"的决定**。\n\n这次 0.6.10 把 relayPerson 再改回 `false`，但**三个关键变化**保证不再踩 0.6.6 的坑：\n\n1. **所有面向用户的文案（README、package.json locales、扩展市场描述）最显眼位置明确写了怎么开、为什么开**\n2. **明确写了为什么要升级 DSH connector 到 ≥ 0.2.10**——v0.2.10 修复 CSWSH 安全漏洞 + 自动转发默认开 + 持久化（关掉的开关重启不丢）\n3. **config.ts 里 relayPerson 和 relayPet 对称**——两个都是默认关，用户按自己的场景 opt-in\n\n### 关于 relayPet（保持默认关）\n\nrelayPet（转发桌宠台词到 DSH）从 0.6.5 起就默认关，这次不动。原因：桌宠台词 → DSH → 桌宠听到 DSH 回复 → 桌宠再说话，容易形成两嘴互聊循环。只有当你明确要\"让桌宠说的每句话也变成 DSH 的 user/message\"时才开它。\n\n### 关于 DSH connector-dsh ≥ 0.2.10\n\n这是**强升级要求**。低于 0.2.10 的 connector：\n- v0.2.9 只修了 CSWSH（Origin 拒绝），但自动转发仍是默认关，没有持久化\n- v0.2.8 之前没有 CSWSH 修复，也没有持久化\n- **只有 ≥ 0.2.10** 同时满足：CSWSH 修复 + 自动转发默认开 + 持久化（关掉的开关写入 coopanion-forward.json）\n\n> ⚠️ connector 是独立仓库（https://github.com/blacksunshy/coopanion-connector-dsh），仅 GitHub 分发，不上 npm。DSH desktop profile 里用 `pnpm add github:blacksunshy/coopanion-connector-dsh` 升级。",
