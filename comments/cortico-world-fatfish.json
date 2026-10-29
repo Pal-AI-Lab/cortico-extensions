@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "cortico-world-fatfish",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-  "total": 46,
+  "total": 47,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJfmR",
+      "author": "blacksunshy",
+      "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
+      "body": "@minekooooo 你说的这个原因确实存在，我已经复现并修了，问题在桌宠侧（大肥鱼），不是 DSH 的问题。\n\n**为什么 100 秒能唤醒 26 次**\n\nDSH 侧的 connector 本来就是逐事件上报：`turn-start`、每次 `tool/call`、每条 `assistant/message`、`turn-end` 都会发一帧。大肥鱼此前对**每一帧**都推一条 notice，且用 `trigger: 'flush'` 立即唤醒 Co —— 每条通知 = 一次模型调用。所以 26 次大约是：1 次开场 + N 次工具调用 + M 次中间回复 + 1 次结束，绝大部分是工具调用的过程噪音，确实是\"光吃饭不干活\"。\n\n**0.6.13 已经发了三档 `notify`（配置节 `worlds.fatfish`）**\n\n- `results`（**默认**）：每轮结束只发一条合并通知，内容是 DSH 的回复 + 本轮调用了多少次工具；等待批准、等待回答、出错仍然**立即**推送。也就是只在\"有结果\"和\"要你决策\"的时候叫醒你，工具调用不再逐条唤醒\n- `all`：保留旧的每事件一条，想看每一步细节时切过去，不用降级\n- `off`：就是你说的\"只发送不接收\"——桌宠仍能向 DSH 说话，DSH 不再唤醒桌宠\n\n提醒一句：`off` 之下 DSH 的批准/提问也不会叫你了。如果你的诉求是\"干活结果 + 需要审批的操作要提醒，过程不要\"，用默认的 `results` 更合适；只有确实想要单向通道时才选 `off`。\n\n不需要升级 connector，旧版 Host 一样生效；升级后重启 Coopanion 生效。如果你希望再细分（比如只在失败时才提醒、或只报某类工具的结果），可以继续提，我按事件类型再加过滤。\n",
+      "createdAt": "2026-10-29T11:19:59Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJfhX",
       "author": "minekooooo",
