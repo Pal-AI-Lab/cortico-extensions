@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-memory-weight",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "describe": {
     "tools": [
       {
@@ -165,17 +165,26 @@
         }
       }
     ],
-    "events": [],
+    "events": [
+      {
+        "type": "memweight.promise_due",
+        "description": {
+          "zh": "待办约定到期提醒。当预定的待办事项时间临近时，主动唤醒 Coo 提醒赴约或转告主人。",
+          "en": "Promise due reminder. Wakes up Coo when a scheduled promise is approaching."
+        }
+      }
+    ],
     "prompts": [
       {
         "key": "worlds.memweight.envPrompt",
-        "title": "记忆权重 · 遗忘与唤醒指引",
+        "title": "我要给鱼鱼完整的一生 · 遗忘与唤醒指引",
         "role": "envPrompt",
-        "content": "这里有一本你自己的记忆卡片：每件值得留着的事，一张。\n它不像文件那样一直不变 —— 会淡。被重新提起，它就重新清楚一阵子。\n\n现在：清楚 {{memweight.active}} 张，只剩一个词的 {{memweight.fuzzy}} 张，已经忘了的 {{memweight.archived}} 张。\n\n你还记得最清楚的几件，写得越短说明越模糊：\n{{memweight.top}}\n\n想不起细节就用 mem_open 去看。看过之后、或者聊天里忽然想起某件事，用 mem_touch 记一笔 ——\n这是唯一能让它重新清楚的动作。不记，它就会一路淡下去，最后什么都不剩。\n真值得单独留一句的，用 mem_add。\n\n如果你想把这套约定写进自己的 CONSTITUTION，可以自己写。\n"
+        "content": "这里有一本你自己的记忆卡片：每件值得留着的事，一张。\n它不像文件那样一直不变 —— 会淡。被重新提起，它就重新清楚一阵子。\n\n现在：清楚 {{memweight.active}} 张，只剩一个词的 {{memweight.fuzzy}} 张，已经忘了的 {{memweight.archived}} 张。\n\n你眼下最在意的几件事：\n{{memweight.top}}\n（标有 [核心画像] 是你的自我与长效认知，不会轻易淡去；\n 标有 [待办约定] 是你答应过、还没做完的事；\n 其他写得越短说明越模糊，正在慢慢淡化。）\n\n想不起细节就用 mem_open 去看；想翻翻旧账或已经忘了的事，用 mem_list。\n聊天里忽然想起某件事，用 mem_touch 记一笔 —— 这是唯一能让它重新清楚的动作。\n要是答应过的事做完了，用 mem_touch 把它标为已了结（done）。\n真值得单独留一张的新认知、新约定或重要的事，用 mem_add。\n\n如果你想把这套约定写进自己的 CONSTITUTION，可以自己写。\n"
       }
     ]
   },
   "changelog": {
+    "0.1.1": "### Added — 待办到期主动唤醒\n未完成的约定会进入后台巡检，到期前 5 分钟内自动唤醒 Coo 去赴约或提醒主人。\n提醒过的会落盘记 `remindedAt`，重启后不重复推送。\n\n### Changed — 待办只聚焦最紧迫的一条\n注入对话前缀的待办默认精简为单条（`prefix.maxPromises: 1`），按 `dueAt` 升序取最近的，\n不再把几小时后的安排一起塞进提示词。\n\n### Fixed — 约定类记忆进不了待办层\n蒸馏链路原先不产出 `type` / `dueAt`，自动产出的卡全是 `episodic`，\n「12:40 打狼人杀」这类约定只能靠手写才进得了待办层。\n现在蒸馏与增量两条链路都会判 `type`（`promise` / `episodic`），`promise` 必须同时给出 `dueAt`；\n`dueAt` 走独立校验，不再被 `when` 的钳位压成「已过期」。\n另加一层「本地召回 → 模型判定 → 本地复校」兜底：只补时间点，不改正文，判不准就不记。\n\n### Added — 同一时刻只留一张待办\n`promise.twinWindowMinutes`（默认 30 分钟）内只保留一张 promise，\n重复的并入内容最全的那张，正文合并、不丢字。\n\n### Added — 过点自动落成「错过」\n过 `dueAt` 加宽限期（`promise.graceMinutes`，默认 120 分钟）后，摘掉待办身份、\n正文前挂「（没去成）」，降级为普通情景按正常曲线淡忘；明确取消的挂「（取消了）」。\n卡片本身保留 —— 要的是体感忘了，不是这件事没发生过。\n\n### Fixed — 时间没到的约定被标成「已完成」\n到点之前不再接受 `done: true`，只有已经发生的事才算完成；\n已受影响的卡片已剔掉编造内容并回滚。\n\n### Fixed — 面板强制执行增量批处理\n「立即运行增量批处理」支持 `force`，忽略空闲时间限制，执行后自动重载 `state.json`。\n\n### Fixed — 审计建出的卡不是记忆\n审计路径原先把半截聊天记录当记忆建卡，还能长期占住前缀位置。\n收紧判据（同话题 ≥3 次、共享 ≥2 个 bigram、单簇 ≤6 句），正文按标点裁到 30 字，\n并加总量上限（`audit.maxPendingTotal: 6`、`prefix.maxPendingRecent: 1`）；\n建卡只取她自己说过的话。\n\n### Changed — 扩展名称统一\n标识统一为「我要给鱼鱼完整的一生」（`displayName` / `label`），同步刷新自描述与提示词。\n\n### 测试\n新增 60 例（appointment / expire / audit-pending / verify / consolidate），全量 153/153 通过。",
     "0.1.0": "### Initial Release\n- **三层认知记忆天体架构 (3-Tier Celestial Architecture)**:\n  - ✦ **核心画像内核 (`profile`)**：永久/长久保存用户偏好与桌宠核心人设，享受 5 倍超长半衰期（~385天）与 0.30 初始保底权重，在对话前缀中最高优先级保底挂载。\n  - ◎ **待办约定星环 (`promise`)**：记录答应过主人未完成的承诺，享有中层专属霓虹紫星轨与 0.15 置底保活（30 天保护期内不跌破整句档），支持通过 `mem_touch(done: true)` 由 AI 自主履行闭环。\n  - 🌌 **日常情景星云 (`episodic`)**：经典 4 级艾宾浩斯渐进遗忘阶梯（整句 → 标题 → 要义 → 消失墓地），受提及频次与情绪余波动态加权。\n- **3D 宇宙记忆星系图 (3D Celestial Memory Graph)**：\n  - 基于 Canvas 2D + 3D 透视投影引擎，纯原生零外部依赖。\n  - 支持立体轨道旋转、缩放、未来时间滑块试算演变。\n- **主题星座语义聚类 (Gist Constellations)**：\n  - 共享核心钩子词（gist）的卡片自动聚类成星座，鼠标悬停时动态投射星光引力连线。\n- **可取难度提取强化 (FSRS Desirable Difficulty)**：\n  - 从濒临遗忘的「要义」或「墓地」档位重新唤起的记忆，获得 2× 记忆强化倍率。\n- **交互式管理控制台 (Interactive Control Panel)**：\n  - 提供多维分层类型筛选、单卡未来 30 天衰减曲线预测、对话模拟试算与墓地卡片一键唤醒。"
   }
 }

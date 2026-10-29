@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-  "total": 37,
+  "total": 38,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJfLt",
+      "author": "wocwang",
+      "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+      "body": "更新一下这两个问题的最新进展，都已经修好并发版了。\n\n**1. 下载到 100% 才报「安装失败」（@3267381674 @cialunghicrista-svg）**\n\n不是你们机器的问题，也不是装错了。运行时的下载地址来自魔搭，是带 `auth_key` 的临时链接：几 GB 的文件下到末尾签名过期、连接断在 99%；旧版本的处理方式是删掉已下字节从头再来，所以每次都「进度条满了然后失败」。0.5.23 起改成：\n\n- 每个下载源重试 3 次，**保留已下载的字节，按 Range 续传**（重试时会重新取一次签名）；\n- 下载前先检查目标盘剩余空间（CPU 档约 1 GB、显卡档约 4 GB，另加解压余量），不够就直接提示「磁盘空间不足」，不会等进度条走满才在解压那步失败；\n- 解压后校验 `runtime/python.exe` 在不在，不完整会明确报「下载或解压不完整」。\n\n更新到 0.5.24 再试一次就行。如果还是失败，麻烦发一下目标盘剩余空间，以及面板日志最后几行。\n\n**2. 训练 WebUI 报「缺少 tools/asr / tools/uvr5」**\n\n之前运行时包只打进了推理要用的组件，训练要的这两个目录没带上，只能手动从上游拷。0.5.24 起点「启动训练 WebUI」会先自检，缺了就自动从上游整包（GitHub / ghfast / gh-proxy，约 7 MB）下下来，只解出这两个目录复制进运行时根再启动，不用再手动补，也不用重下几 GB 运行时。只做推理（桌宠说话）完全不受影响，也不会多下东西。\n\n**3. 顺带说明「没有 AR」那个**\n\n0.5.16 起拉起推理前会检查 `GPT_SoVITS/AR`，缺了用插件自带的一份自动补上，不用手动复制。\n\n0.5.24 已经发到 npm 和 GitHub，等扩展市场刷新后覆盖安装即可。这次没有改运行时和权重的格式，已经装好的不用重下。另外顺手清掉了仓库里误提交的历史打包产物，不影响使用。\n",
+      "createdAt": "2026-10-29T09:32:11Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJaZf",
       "author": "3267381674",

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-final",
-  "version": "0.6.39",
+  "version": "0.6.40",
   "describe": {
     "tools": [
       {
@@ -721,6 +721,7 @@
     ]
   },
   "changelog": {
+    "0.6.40": "- 修复戳一戳对象错乱（用户 2026-10-29 反馈：戳了 bot 一下，bot 却说「你戳了你一下」）。\n  - 根因：NapCat 在「被戳的是 bot 自己」时，`notify(poke)` 事件的 `target_id` 会误回显成 `user_id`（两者相同），原代码直接拼 `${user_id} 戳了 ${target_id}` 得到 `X 戳了 X`，主模型据此误读成「用户戳了自己」。\n  - 修复：以 bot 自身 QQ（`identity.selfId`）校正被戳方——`target_id` 缺失、等于 poker（误回显）或等于 bot 自身时，一律记为「被戳的是 bot 自己」，事件文案改为 `X 戳了你一下`；只有真有第三方被戳（群内 A 戳 B）时才显示 `X 戳了 Y`。",
     "0.6.39": "- 修复「一次只能说一句话」（用户 2026-10-28 反馈：桌宠每次只回一句、要对方回复才能接着说话）。\n  - 根因：`qq_send` 自 0.2.3 起带 `endsTurn:true`（发完即结束本轮，模型无法在同轮补第二条）；而 ENV_PROMPT 从未告诉模型「把整段话写进同一次调用、由插件按句拆条」，模型于是习惯一次只写一句 → 每轮只出一个气泡。按句拆分机制本身没有坏（实例数据证实多段连发正常）。\n  - 修复：`ENV_PROMPT.md` 与 `qq_send` 工具描述明确写入契约——想连说几句就把整段话（哪怕三五句）放进**同一次** `qq_send` 的 text，插件自动按句号/问号/感叹号/换行拆成多条逐条发出；不要一次只发一句，也不要试图连续调用（第一次调用后本轮即结束）。零成本恢复自然的连发多气泡体验。",
     "0.6.38": "- 修复控制台告警「未在 describe 中声明的事件：qq.proactive, qq.qzone.post」：代码实际发出了 5 个事件（qq.proactive、qq.qzone.post、qq.qzone.reply、qq.qzone.comment、qq.reminder）但 `src/definition.ts` 的 EVENTS 只声明了 9 个。`describe:extension` 只从 EVENTS 生成 describe.json，故这些事件未被声明、运行时每次 emit 都告警。现已在 EVENTS 补齐这 5 个事件并重新生成 describe.json（events 9→14）。",
     "0.6.37": "- 修复 `qq_view_image` 在辅助视觉（VLM）关闭时误导 agent 自我否定：旧报错「被动视觉未开启（config.vision.enabled=false），无法看图。」被 agent 读成「自己看不见图」，从而撤回本已正确的图片描述。新回执明确区分「本重描述工具不可用」与「图片已作为附件送达主模型（你直接就能看到）」，并据 `deliverImageAttachments` 给出对应提示。\n- `qq_view_image` 工具描述补一句：图片默认已作为附件直达主模型，本工具只是可选的文字重描述手段；其报错绝不代表 agent 看不见图。\n- `ENV_PROMPT.md` 新增看图守卫：明确收到图片即已直达主模型、可直接看；`qq_view_image` 报错只代表重描述工具用不了，禁止据此否定或撤回正确的图片描述（回应 2026-10-28 用户反馈「VLM 报错误导 agent」）。",
