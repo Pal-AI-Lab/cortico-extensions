@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-final",
-  "version": "0.6.41",
+  "version": "0.6.42",
   "describe": {
     "tools": [
       {
@@ -721,6 +721,7 @@
     ]
   },
   "changelog": {
+    "0.6.42": "- 修复 `asr.mode=local` 下 QQ 语音 100% 无法识别（用户提交的 bug 报告：SILK 语音转文字不可用）。\n  - 根因：QQ 语音真身是腾讯私有 **SILK_V3**（扩展名却常是 `.amr`），而 ffmpeg 全平台、全版本均无 SILK 解码器。原 `decodeToWav` 直接把下载到的字节丢给 ffmpeg，必返回 `Invalid data found`，识别服务 `/asr` 永远不会被调用；回退的 OneBot `translate_record` 在 NapCat 下又返回 `retcode=1404`（不支持），于是整条链无可用识别路径，用户只看到 `[语音]`。失败文案还误导用户去查 ffmpeg 路径。\n  - 修复：新增依赖 `silk-wasm`（纯 WASM，零系统依赖，跨平台），在交给 ffmpeg **之前**先判 `#!SILK_V3` 魔数，命中即用内置解码转 16k 单声道 WAV，**彻底不依赖 ffmpeg**；只有真实 AMR/MP3 等非 SILK 格式才走 ffmpeg（保留该分支，不破坏既有能力）。\n  - 文案/契约修正：失败日志改为按原因区分——`QQ 语音下载失败`/`SILK 语音解码失败（ffmpeg 也不支持 SILK_V3）`/`未配置 ffmpeg`，不再一条笼统的「请检查 ffmpeg 路径」；并移除进程级一次性 `ffmpegWarned` 开关（会导致后续每条语音静默丢弃），改为 60s 节流告警。\n  - 文档同步：`README.md`（配置表、`asr.ffmpegPath` 说明、收语音段落、语音解码段落）与 `config.ts` 控制台字段/接口注释，删除「ffmpeg 可解 SILK」的错误表述，明确 QQ 语音由内置 silk-wasm 解码。",
     "0.6.41": "- 群监听改为白名单模式（用户 2026-10-30 要求）：此前 `groups` 留空=监听接入的全部群；现改为与私聊一致——`groups` 留空=**不监听任何群**，只有在 `groups` 里显式配置的群号才会被监听。\n  - 改动点：`world.ts` 的 `isListened('group', id)` 去掉 `ids.length === 0 ||` 这一「空=全监听」分支。\n  - 同步更新：控制台 `groups` 字段描述（`config.ts`）、`README.md` 特性表，明确「空=不监听任何群」。",
     "0.6.40": "- 修复戳一戳对象错乱（用户 2026-10-29 反馈：戳了 bot 一下，bot 却说「你戳了你一下」）。\n  - 根因：NapCat 在「被戳的是 bot 自己」时，`notify(poke)` 事件的 `target_id` 会误回显成 `user_id`（两者相同），原代码直接拼 `${user_id} 戳了 ${target_id}` 得到 `X 戳了 X`，主模型据此误读成「用户戳了自己」。\n  - 修复：以 bot 自身 QQ（`identity.selfId`）校正被戳方——`target_id` 缺失、等于 poker（误回显）或等于 bot 自身时，一律记为「被戳的是 bot 自己」，事件文案改为 `X 戳了你一下`；只有真有第三方被戳（群内 A 戳 B）时才显示 `X 戳了 Y`。",
     "0.6.39": "- 修复「一次只能说一句话」（用户 2026-10-28 反馈：桌宠每次只回一句、要对方回复才能接着说话）。\n  - 根因：`qq_send` 自 0.2.3 起带 `endsTurn:true`（发完即结束本轮，模型无法在同轮补第二条）；而 ENV_PROMPT 从未告诉模型「把整段话写进同一次调用、由插件按句拆条」，模型于是习惯一次只写一句 → 每轮只出一个气泡。按句拆分机制本身没有坏（实例数据证实多段连发正常）。\n  - 修复：`ENV_PROMPT.md` 与 `qq_send` 工具描述明确写入契约——想连说几句就把整段话（哪怕三五句）放进**同一次** `qq_send` 的 text，插件自动按句号/问号/感叹号/换行拆成多条逐条发出；不要一次只发一句，也不要试图连续调用（第一次调用后本轮即结束）。零成本恢复自然的连发多气泡体验。",
