@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-terrarium",
-  "version": "0.9.1-bugfix.1",
+  "version": "0.9.1-bugfix.2",
   "describe": {
     "tools": [
       {
@@ -2118,6 +2118,7 @@
     ]
   },
   "changelog": {
+    "0.9.1-bugfix.2": "- Let bees and butterflies pollinate blooming tomatoes and strawberries so their documented fruit bonus can be reached.\n- Flatten grouped tool schemas to an operation enum and shared properties for OpenAI-compatible endpoints that reject top-level `oneOf`.",
     "0.9.1-bugfix.1": "- Flush unique temporary snapshot files before replacement, flush directories on POSIX, and serialize saves per path.\n- Retain a separate previous snapshot for each habitat. Recover missing or unparseable primary files from a parseable backup while preserving damaged bytes; fail when no usable JSON backup exists.\n- Reject stored JSON null as a missing habitat. Keep the logarithmic scoring and peak conversion from 0.9.1.",
     "0.9.1": "- Apply an unbounded logarithmic score curve above 200 base points; client and server use proportional integer breakdowns.\n- Convert version-2 recorded peaks and expansion thresholds together; preserve earned space, guide progress and organisms.",
     "0.9.0": "- Add tomatoes and strawberries with repeat natural-growth harvests, a fruit basket and merchant fruit sales. Fertilizer does not grant fruit maturity; up to three harvest rounds accumulate.\n- Add mushrooms, woodlice and snails. Natural plant growth drops litter; decomposers consume it and enabled compost bins convert three portions into fertilizer.\n- Add persistent queen breeding switches, colony population caps and shared-food plant protection. Restore collected ants into the nearest free surface cell.\n- Add direct plant/seed transplantation, three ground decorations, distinct plant silhouettes, ripe fruit drawings and hover/touch plant details.\n- Add medaka, shrimp, aquatic snails, vallisneria and java moss through existing aquatic operations.\n- Add opt-in neighbor visits, separate shared-fruit portions, free welcome seed packets and visit notes. Both boxes must opt in; five actions per UTC day, bounded mailboxes and persisted receipt cursors.\n- Consolidate 46 former tools and new operations into 14 tools. Use operation within grouped tools; read detailed rules on demand. Saves, IDs and credentials are preserved.\n- Quarantine malformed announcement caches and fsync atomic replacements. Native server improvements queue brief report bursts, cache policy decisions with immediate cloud-control checks, and read full gallery snapshots only for the requested page.",
