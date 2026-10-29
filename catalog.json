@@ -5578,9 +5578,19 @@
     },
     "cortico-world-ets2-dafeiyu": {
       "kind": "world",
-      "version": "0.2.4",
+      "version": "0.2.5",
       "displayName": "ETS2 欧卡桌宠副驾",
-      "description": "Cortico/Coopanion World for Euro Truck Simulator 2: reads SCS telemetry, reports accidents, speeding, fines, tolls, jobs and a learned radar detector to Coo, with a one-click telemetry installer.",
+      "description": "《欧洲卡车模拟2》的 Coopanion 桌宠副驾：读取官方遥测，播报事故、超速、罚款、收费站、任务和电子狗点位，并支持一键安装 scs-telemetry.dll。",
+      "locales": {
+        "zh": {
+          "displayName": "ETS2 欧卡桌宠副驾",
+          "description": "《欧洲卡车模拟2》的 Coopanion 桌宠副驾：读取官方遥测，播报事故、超速、罚款、收费站、任务和电子狗点位，并支持一键安装 scs-telemetry.dll。"
+        },
+        "en": {
+          "displayName": "ETS2 Euro Truck Copilot",
+          "description": "Cortico/Coopanion World for Euro Truck Simulator 2: reads SCS telemetry, reports accidents, speeding, fines, tolls, jobs and radar points, and installs scs-telemetry.dll in one click."
+        }
+      },
       "author": "mIneko__",
       "maintainers": [
         "mineko__"
@@ -5606,8 +5616,8 @@
         "win32"
       ],
       "created": "2026-10-29T12:07:35.458Z",
-      "published": "2026-10-29T14:32:45.898Z",
-      "versionCount": 7,
+      "published": "2026-10-29T14:37:28.395Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5635,6 +5645,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.5",
           "0.2.4",
           "0.2.3",
           "0.2.2",
@@ -5820,7 +5831,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
         "up": 54,
         "down": 5,
-        "comments": 47
+        "comments": 48
       }
     },
     "cortico-world-feeding": {
