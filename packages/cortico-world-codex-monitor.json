@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "name": "cortico-world-codex-monitor",
+  "version": "0.2.3",
+  "describe": {
+    "tools": [
+      {
+        "name": "codex_tasks",
+        "description": "Read last observed local Codex and Claude Code states. Running means recent evidence, not guaranteed current liveness. Never infer completion from silence.",
+        "tags": [
+          "read"
+        ],
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "codex-monitor.notice",
+        "description": {
+          "zh": "明确观察到的 Codex 或 Claude Code 任务变化。",
+          "en": "An observed Codex or Claude Code task transition."
+        }
+      }
+    ]
+  },
+  "changelog": {
+    "0.2.3": "- Prepare the standalone npm package for the extension market with application, extra-setup, experimental and private-data tags.\n- Align the packaged tool self-description with the runtime declaration.\n- Document market installation and clarify that Coo decides the final wording and delivery of model notifications.",
+    "0.2.2": "- Pin Codex rollout ownership to the first session header and exclude internally attributed turns, including copied parent history in subagent logs.\n- Rescan legacy cursors and remove misattributed internal task notifications.\n- Deliver live events collected during activation instead of silently baselining them away.\n- Confirm Claude completion through matching Desktop result metadata when Stop hooks are absent.\n- Honor model mode with a host bubble sink and preserve late or heading-only failure statements in short notices.",
+    "0.2.1": "- Show one plain-text notification sentence within 50 Unicode characters, including the source name.\n- Remove Markdown, tables, code fences, citations and presentation directives from notifications.\n- Preserve negative verification in brief summaries and reformat older stored excerpts on delivery.\n- Supply the same concise sentence to model notifications; retain full local answers separately.",
+    "0.2.0": "- Collect local Codex Desktop and Claude Desktop Code task states inside the World lifecycle.\n- Persist cursors, suppress historical notifications and show local task panels.\n- Configure model notifications or status-only operation.\n- Accept an optional host bubble sink for direct notifications.\n- Build and test the package in the Coopanion fork; ship compiled JavaScript and eleven UI languages."
+  }
+}
