@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coo-world-petdiary",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "describe": {
     "tools": [
       {
@@ -155,6 +155,7 @@
     ]
   },
   "changelog": {
+    "0.3.5": "- 新增「习惯称呼」配置 `worlds.pet-diary.partnerAlias`：日记的分类关键词与标题里的说话人识别都按它来，代码里不再写死具体人名；留空按「主人」。\n- 称呼优先级：环境变量 `PETDIARY_PARTNER_ALIAS`（插件按配置传入）> `diary/alias.json` 的 `alias` > 「主人」。\n- `books.json` 出厂清空：册名以库里的 `index.diary` 为准；同步脚本在构建时也会把它重置为空表，避免个人册名进入公开包。\n- 新增别名回归测试 2 条（有内置 runtime 时生效）。",
     "0.3.4": "- 调整初始提示词\"睡前检查\"部分：改为到点后用 `diary_read` 查今天两个本子还有什么要写的，空闲就补上；正忙就 `alarm_set` 顺延 15 分钟再查，最多两次。",
     "0.3.3": "修复 0.3.0 引入的两个工具链回归（新装机 diary_append / diary_read 一律报\"退出码 2\"）：\n\n- **子命令丢失（主因）**：P5.7 重构后 append/read 的 `admin(cli)` 调用漏传子命令字符串，参数数组被整体嵌套进 argv 并被逗号拼接，argparse 报 \"invalid choice\"。已在两处调用点补回 `admin('append', cli)` / `admin('read', cli)`，并给 `admin()` 加防御：收到数组/空串/选项串直接抛 TypeError，让这类回归变成响亮失败。\n- **默认库根再次翻倍**：宿主 `ctx.dataDir` 实为 `<botDir>/data`（paths.data 是相对路径），不能当数据根用。改为按目录形态识别：插件安装目录向上三级（node_modules/extensions 形态）优先，其次 botDir=<data>/home/companion 向上两级。\n- 新增 handler 级回归测试（真实调用 world.tools() 的 diary_append / diary_read，走内置 runtime 全链路）——正是此前单测覆盖缺失的那一层。",
     "0.3.2": "诊断增强：日记后端以非 0 退出且没有返回 JSON 时（典型如 argparse 用法错误只写 stderr），把后端 stderr 摘要透出到工具错误文本里，不再只报\"退出码 2\"，现场可直接看到真实原因。",
