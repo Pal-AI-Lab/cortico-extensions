@@ -6664,7 +6664,7 @@
     },
     "cortico-world-figure": {
       "kind": "world",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "displayName": "Live2D 模型一键安装",
       "description": "把 Live2D 模型一键装进 Coo：扫描、打包、安装。 / Install a Live2D model into Coo: scan, pack, install.",
       "locales": {
@@ -6699,8 +6699,8 @@
         "bugs": "https://github.com/as124da1231/cortico-world-figure/issues"
       },
       "created": "2026-10-28T16:52:00.088Z",
-      "published": "2026-10-30T06:31:52.733Z",
-      "versionCount": 14,
+      "published": "2026-10-30T12:44:48.980Z",
+      "versionCount": 15,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -13376,6 +13376,88 @@
       "discussion": {
         "number": 62,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/62",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-sound-del": {
+      "kind": "world",
+      "version": "0.1.5",
+      "displayName": "Sound Del",
+      "description": "Give Coopanion mute-while-speaking like WeChat Input and 网易兔八哥: automatically mute background playback during voice recording, then restore it. Windows x64; requires the built-in voice module.",
+      "locales": {
+        "zh": {
+          "displayName": "收音静音",
+          "description": "为 Coopanion 加上类似微信输入法、网易兔八哥的收音静音体验：按下原收音快捷键，后台播放自动静音，结束后恢复，不用手动暂停音乐或视频。无需修改主程序；适用于 Windows x64，依赖内置语音模块。"
+        },
+        "en": {
+          "displayName": "Sound Del",
+          "description": "Brings mute-while-speaking, familiar from tools such as WeChat Input (微信输入法) and 网易兔八哥, to Coopanion. Keeps your recording shortcut and restores playback afterward. Windows x64; requires the built-in voice module."
+        }
+      },
+      "author": "sy0u1ti",
+      "maintainers": [
+        "syouiti"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "audio",
+        "windows"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-sound-del",
+        "repository": "https://github.com/sy0u1ti/cortico-world-sound-del",
+        "homepage": "https://github.com/sy0u1ti/cortico-world-sound-del#readme",
+        "bugs": "https://github.com/sy0u1ti/cortico-world-sound-del/issues"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-10-30T11:40:55.216Z",
+      "published": "2026-10-30T12:35:36.830Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "voice",
+        "requires-extension",
+        "experimental"
+      ],
+      "tags": [
+        "voice",
+        "experimental",
+        "requires-extension"
+      ],
+      "icon": "assets/cortico-world-sound-del/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 0,
+        "events": 0,
+        "toolTokens": 0,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.5",
+          "0.1.4",
+          "0.1.3",
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/sy0u1ti/cortico-world-sound-del/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 565,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/565",
         "up": 0,
         "down": 0,
         "comments": 0
