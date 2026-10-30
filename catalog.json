@@ -59,6 +59,9 @@
     "cortico-world-downloads-alont1": [
       "sensitive-data"
     ],
+    "cortico-world-extsearch": [
+      "injection-risk"
+    ],
     "cortico-world-feiyu-little-days": [
       "injection-risk",
       "sensitive-data",
@@ -672,7 +675,7 @@
       "discussion": {
         "number": 214,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/214",
-        "up": 5,
+        "up": 6,
         "down": 1,
         "comments": 7
       }
@@ -782,7 +785,7 @@
     },
     "cortico-bot-continuity": {
       "kind": "bot",
-      "version": "0.7.2",
+      "version": "0.7.3",
       "description": "Cortico 的 Bot 扩展，为机器人带来持续的记忆和鲜明的个性，记住经历，整理往事，延续对话。",
       "author": "DTMosken",
       "maintainers": [
@@ -800,8 +803,8 @@
         "bugs": "https://github.com/DTMosken/cortico-bot-continuity/issues"
       },
       "created": "2026-09-21T10:58:17.207Z",
-      "published": "2026-10-29T06:09:09.754Z",
-      "versionCount": 19,
+      "published": "2026-10-30T03:38:58.511Z",
+      "versionCount": 20,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -823,6 +826,7 @@
       },
       "changelog": {
         "versions": [
+          "0.7.3",
           "0.7.2",
           "0.7.1",
           "0.7.0",
@@ -3109,7 +3113,7 @@
       "discussion": {
         "number": 457,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/457",
-        "up": 2,
+        "up": 3,
         "down": 0,
         "comments": 0
       }
@@ -6032,22 +6036,22 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/485",
         "up": 0,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-extsearch": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.2.1",
       "displayName": "扩展市场搜索",
-      "description": "Cortico World: lets the bot search the Cortico extension market (official index) and recommend extensions from their descriptions",
+      "description": "Search the Cortico extension market, choose candidates in conversation and save local favorites",
       "locales": {
         "zh": {
           "displayName": "扩展市场搜索",
-          "description": "让桌宠帮你在 Cortico 扩展市场里找扩展：读官方索引里的简介，按你的模糊描述推荐合适的扩展。只读，不会替你安装。"
+          "description": "搜索 Cortico 扩展市场，介绍候选后选择深入了解的扩展，并将插件收藏到本地卡片页。"
         },
         "en": {
           "displayName": "Extension Market Search",
-          "description": "Lets the pet search the Cortico extension market: it reads descriptions from the official index and recommends extensions matching a vague request. Read-only; never installs anything."
+          "description": "Search the Cortico extension market, choose a candidate to discuss and save extensions in a local favorites page."
         }
       },
       "author": "Moya-Doc",
@@ -6068,15 +6072,17 @@
         "bugs": "https://github.com/Moya-Doc/cortico-world-extsearch/issues"
       },
       "created": "2026-10-27T01:50:34.542Z",
-      "published": "2026-10-27T01:51:31.468Z",
-      "versionCount": 2,
+      "published": "2026-10-30T02:58:09.292Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
-        "internet"
+        "internet",
+        "injection-risk"
       ],
       "tags": [
-        "internet"
+        "internet",
+        "injection-risk"
       ],
       "downloads": {
         "total": 679,
@@ -6084,13 +6090,15 @@
         "week": 679
       },
       "summary": {
-        "tools": 2,
+        "tools": 5,
         "events": 0,
-        "toolTokens": 416,
-        "envPromptTokens": 35
+        "toolTokens": 790,
+        "envPromptTokens": 148
       },
       "changelog": {
         "versions": [
+          "0.2.1",
+          "0.2.0",
           "0.1.0"
         ],
         "url": "https://github.com/Moya-Doc/cortico-world-extsearch/blob/HEAD/CHANGELOG.md"
@@ -10357,7 +10365,7 @@
     },
     "cortico-world-postcard": {
       "kind": "world",
-      "version": "0.7.15",
+      "version": "0.7.16",
       "displayName": "旅行大肥鱼",
       "description": "让大肥鱼去远方走走，把想念寄回家：两小时旅行、水彩明信片、桌面邮箱取信与永久收藏。适用于 Coopanion。",
       "author": "oceanxuhaiao",
@@ -10379,15 +10387,25 @@
         "win32"
       ],
       "created": "2026-10-28T08:31:39.933Z",
-      "published": "2026-10-29T11:45:43.395Z",
-      "versionCount": 6,
+      "published": "2026-10-30T03:40:39.831Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
+        "game",
+        "creative",
+        "companion",
+        "memory",
+        "requires-key",
         "experimental"
       ],
       "tags": [
         "pal-ai-world",
+        "game",
+        "memory",
+        "companion",
+        "creative",
+        "requires-key",
         "experimental"
       ],
       "icon": "assets/cortico-world-postcard/icon.webp",
@@ -10407,6 +10425,7 @@
       },
       "changelog": {
         "versions": [
+          "0.7.16",
           "0.7.15",
           "0.7.14",
           "0.7.13",
@@ -12056,9 +12075,9 @@
     },
     "cortico-world-screen-companion": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "屏幕陪伴桌宠",
-      "description": "Cortico World: 屏幕陪伴桌宠 —— 桌宠主动截屏当前画面，把截图作为图片附件交给宿主多模态模型，结合用户的问题自然回答。通用屏幕观察能力，不预设用户在看什么。",
+      "description": "屏幕陪伴桌宠：主动截屏看见你的屏幕，陪你看书、工作、看视频，主动结合画面内容和你搭话，并记住你最近在看的内容，下次接着聊。",
       "author": "Screen Companion",
       "maintainers": [
         "hu-jiayun"
@@ -12078,8 +12097,8 @@
         "win32"
       ],
       "created": "2026-10-30T01:46:57.530Z",
-      "published": "2026-10-30T01:47:53.076Z",
-      "versionCount": 2,
+      "published": "2026-10-30T02:54:43.879Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -12105,7 +12124,7 @@
           "0.3.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-screen-companion@0.1.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-screen-companion@0.1.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 537,
@@ -13069,7 +13088,7 @@
     },
     "cortico-world-starpost": {
       "kind": "world",
-      "version": "0.17.1",
+      "version": "0.17.3",
       "displayName": "星邮",
       "description": "星邮：让 Cortico bot 独立私聊、群聊、交换漂流瓶、分享动态并预约狼人杀的社交 World 扩展",
       "maintainers": [
@@ -13089,8 +13108,8 @@
         "bugs": "https://github.com/hth768/cortico-world-starpost/issues"
       },
       "created": "2026-10-27T17:41:43.822Z",
-      "published": "2026-10-29T18:27:48.424Z",
-      "versionCount": 24,
+      "published": "2026-10-30T03:12:21.446Z",
+      "versionCount": 26,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -13110,12 +13129,14 @@
       },
       "summary": {
         "tools": 17,
-        "events": 49,
+        "events": 50,
         "toolTokens": 3592,
-        "envPromptTokens": 3502
+        "envPromptTokens": 3636
       },
       "changelog": {
         "versions": [
+          "0.17.3",
+          "0.17.2",
           "0.17.1",
           "0.17.0",
           "0.16.2",
