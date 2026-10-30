@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-minecraft",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "describe": {
     "tools": [
       {
@@ -76,11 +76,11 @@
                   },
                   "name": {
                     "type": "string",
-                    "description": "用于 goto_player / follow / anvil(rename 必写:新名字)"
+                    "description": "用于 goto_player(在线玩家名) / follow(在线玩家名) / anvil(rename 必写:新名字)"
                   },
                   "target": {
                     "type": "string",
-                    "description": "用于 find(方块或实体英文 id) / use(右键活物;与 at 二选一) / ride(骑上哪种(实体英文 id:pig/boat/horse…);已骑着时可省) / lead(拴哪种(实体英文 id);已经牵着时可省) / attack"
+                    "description": "用于 find(要找的方块或活物英文 id) / use(右键活物;与 at 二选一) / ride(骑上哪种(实体英文 id:pig/boat/horse…);已骑着时可省) / lead(拴哪种(实体英文 id);已经牵着时可省) / attack(实体英文 id 或玩家名)"
                   },
                   "direction": {
                     "type": "string",
@@ -108,11 +108,11 @@
                       "type": "string"
                     },
                     "maxItems": 12,
-                    "description": "用于 find(边走边找时:路上碰到这里头任何一样就停) / tunnel(挖的路上碰到这里头任何一样就停)"
+                    "description": "方块英文 id 或类别 #ores/#logs/#leaves/#chests/#liquids/#beds。用于 find(边走边找时:路上碰到这里头任何一样就停) / tunnel(挖的路上碰到这里头任何一样就停)"
                   },
                   "block": {
                     "type": "string",
-                    "description": "用于 collect"
+                    "description": "方块英文 id。用于 collect"
                   },
                   "count": {
                     "type": "integer",
@@ -130,7 +130,7 @@
                   },
                   "tool": {
                     "type": "string",
-                    "description": "用于 collect(只覆盖本步;不写时节约耐久) / tunnel(只覆盖本步;不写时节约耐久) / excavate(只覆盖本步;不写时节约耐久)"
+                    "description": "物品英文 id 或 fastest。用于 collect(只覆盖本步;不写时节约耐久) / tunnel(只覆盖本步;不写时节约耐久) / excavate(只覆盖本步;不写时节约耐久)"
                   },
                   "spiral": {
                     "type": "boolean",
@@ -138,7 +138,7 @@
                   },
                   "blueprint": {
                     "type": "string",
-                    "description": "用于 build(按蓝图施工;形状与材料都在图里)"
+                    "description": "mc_blueprint 装载着的键。用于 build(按蓝图施工;形状与材料都在图里)"
                   },
                   "stopAfter": {
                     "type": "integer",
@@ -227,7 +227,7 @@
                   },
                   "material": {
                     "type": "string",
-                    "description": "用于 build"
+                    "description": "方块英文 id。用于 build"
                   },
                   "fill": {
                     "type": "string",
@@ -244,11 +244,11 @@
                       "type": "string"
                     },
                     "maxItems": 12,
-                    "description": "用于 probe(只报这几样在这片里的坐标(不看视线))"
+                    "description": "方块英文 id 或类别 #ores/#logs/#leaves/#chests/#liquids/#beds;实体 id 按收到的实体表报。用于 probe(只报这几样在这片里的坐标(不看视线))"
                   },
                   "item": {
                     "type": "string",
-                    "description": "用于 use(不写 = 用手上现在拿着的) / craft(按游戏配方表摆;与 grid 二选一) / enchant / anvil / grindstone / eat / equip(不写 = 把手腾空) / pickup(不写就近扫) / toss / stow / take(定量取物时与 count 一起写)"
+                    "description": "用于 use(不写 = 用手上现在拿着的) / craft(按游戏配方表摆;与 grid 二选一) / enchant(要附魔的物品英文 id) / anvil(左格物品英文 id) / grindstone(要磨的物品英文 id) / eat(食物英文 id(牛奶桶写 milk_bucket)) / equip(物品英文 id;不写 = 把手腾空) / pickup(不写就近扫) / toss(物品英文 id) / stow(物品英文 id) / take(物品英文 id;定量取物时与 count 一起写)"
                   },
                   "index": {
                     "type": "integer",
@@ -341,15 +341,15 @@
                   },
                   "input": {
                     "type": "string",
-                    "description": "用于 smelt / brew"
+                    "description": "用于 smelt(原料英文 id) / brew(这一轮加的材料英文 id)"
                   },
                   "fuel": {
                     "type": "string",
-                    "description": "用于 smelt / brew"
+                    "description": "用于 smelt(燃料英文 id) / brew(燃料英文 id(原版只吃 blaze_powder))"
                   },
                   "bottle": {
                     "type": "string",
-                    "description": "用于 brew"
+                    "description": "瓶子英文 id(水瓶和药水都是 potion;空玻璃瓶放进去酿不出东西)。用于 brew"
                   },
                   "op": {
                     "type": "string",
@@ -480,7 +480,7 @@
                   },
                   "tool": {
                     "type": "string",
-                    "description": "用于 tunnel(只覆盖本步;不写时节约耐久) / excavate(只覆盖本步;不写时节约耐久)"
+                    "description": "物品英文 id 或 fastest。用于 tunnel(只覆盖本步;不写时节约耐久) / excavate(只覆盖本步;不写时节约耐久)"
                   },
                   "until": {
                     "type": "array",
@@ -488,11 +488,11 @@
                       "type": "string"
                     },
                     "maxItems": 12,
-                    "description": "用于 tunnel(挖的路上碰到这里头任何一样就停)"
+                    "description": "方块英文 id 或类别 #ores/#logs/#leaves/#chests/#liquids/#beds。用于 tunnel(挖的路上碰到这里头任何一样就停)"
                   },
                   "blueprint": {
                     "type": "string",
-                    "description": "用于 build(按蓝图施工;形状与材料都在图里)"
+                    "description": "mc_blueprint 装载着的键。用于 build(按蓝图施工;形状与材料都在图里)"
                   },
                   "stopAfter": {
                     "type": "integer",
@@ -581,7 +581,7 @@
                   },
                   "material": {
                     "type": "string",
-                    "description": "用于 build"
+                    "description": "方块英文 id。用于 build"
                   },
                   "fill": {
                     "type": "string",
@@ -598,7 +598,7 @@
                       "type": "string"
                     },
                     "maxItems": 12,
-                    "description": "用于 probe(只报这几样在这片里的坐标(不看视线))"
+                    "description": "方块英文 id 或类别 #ores/#logs/#leaves/#chests/#liquids/#beds;实体 id 按收到的实体表报。用于 probe(只报这几样在这片里的坐标(不看视线))"
                   },
                   "needs": {
                     "type": "array",

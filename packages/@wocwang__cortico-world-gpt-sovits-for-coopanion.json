@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
-  "version": "0.5.24",
+  "version": "0.5.26",
   "describe": {
     "tools": [
       {
         "name": "sovits_speak",
-        "description": "Say a line aloud in your voice, after any line still playing. Emit it in the same reply as the pet_say it voices, immediately followed by that pet_say, without waiting for this result: the bubble then appears as the voice begins. Bubble markup (【…】 and <…>) is skipped, so the text can be the pet_say script verbatim.",
+        "description": "Say a line aloud in your voice, after any line still playing. Emit it in the same reply as the pet_say it voices, immediately followed by that pet_say, without waiting for this result: tools run in order, so the bubble appears as the voice begins. Bubble markup (【…】 and <…>) is skipped, so the text can be the pet_say script verbatim. If the text starts with 【唱】 (also [唱] or [sing]), the rest is treated as a lyric line and sung in your voice by the DiffSinger singing plugin instead of being spoken; if that plugin is missing or not ready the line is simply spoken, so it is always safe to try.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -15,6 +15,10 @@
               "type": "string",
               "maxLength": 2000,
               "description": "The line to say."
+            },
+            "silent": {
+              "type": "boolean",
+              "description": "true synthesizes the line without playing it on this computer: use it for a line meant for another channel (a QQ voice message, for example) that should not be heard here."
             }
           },
           "required": [
@@ -69,11 +73,13 @@
         "key": "worlds.gpt-sovits.envPrompt",
         "title": "GPTSovits 语音 · 环境提示词",
         "role": "envPrompt",
-        "content": "## 语音\r\n\r\n`sovits_speak` 把一句话用你的声音从对方电脑的扬声器念出来。\r\n\r\n语音语言：{{sovits.language}}（这条优先于你以前的习惯或记忆；之后切换会收到 `[gpt-sovits.language]` 事件）\r\n\r\n每次要说台词时，先调用 `pet_say` 让气泡先出现，紧接着在同一次回复里调用 `sovits_speak` 念同一段文字（text 按上面的「语音语言」规则写）。气泡文字不受语音语言影响。两个调用在同一次回复里连着发出，不要等 `sovits_speak` 的回执：工具按顺序执行，`sovits_speak` 要等第一块音频才返回，先发 `pet_say` 才能让文字先出现、声音随后响起。`pet_ask` 的问题不用念。\r\n\r\n{{sovits.share}}\r\n\r\n{{sovits.channel}}\r\n\r\n对方让你安静，或者你要长时间专心做事时，调用 `sovits_hush` 停下声音;气泡不受影响。\r\n\r\n语音在这段提示词写下时：{{sovits.state}}。之后变为可用或不可用会以 `[gpt-sovits.state]` 事件告诉你，以最新的为准。不可用时只用 `pet_say`;被问起时如实说明。\r\n"
+        "content": "## 语音\r\n\r\n`sovits_speak` 把一句话用你的声音从对方电脑的扬声器念出来。\r\n\r\n语音语言：{{sovits.language}}（这条优先于你以前的习惯或记忆；之后切换会收到 `[gpt-sovits.language]` 事件）\r\n\r\n每次要说台词时，在同一次回复里先调用 `sovits_speak` 念这段文字（text 按上面的「语音语言」规则写），紧接着调用 `pet_say` 显示同一段文字。两个调用连着发出，不要等 `sovits_speak` 的回执：工具按顺序执行，这样气泡正好在声音响起时出现。气泡文字不受语音语言影响。`pet_ask` 的问题不用念。\r\n\r\n{{sovits.share}}\r\n\r\n{{sovits.channel}}\r\n\r\n对方让你安静，或者你要长时间专心做事时，调用 `sovits_hush` 停下声音;气泡不受影响。\r\n\r\n语音在这段提示词写下时：{{sovits.state}}。之后变为可用或不可用会以 `[gpt-sovits.state]` 事件告诉你，以最新的为准。不可用时只用 `pet_say`;被问起时如实说明。\r\n"
       }
     ]
   },
   "changelog": {
+    "0.5.26": "- **按 issue #538 的建议改回「先语音、紧跟气泡」**：环境提示词（中/英）与 `sovits_speak` 的说明都改成\n  在同一次回复里先调用 `sovits_speak`、紧接着调用 `pet_say`，两个调用连着发出、不等回执。`sovits_speak`\n  等这一句的第一块音频写进声卡才返回（至多 3 秒），所以气泡正好在声音响起时出现。\n  说明里不再写「返回时声音已经开始了」这类描述——那会让模型拆成两次回复，气泡反而晚约 1 秒。\n- **不外放的句子直接回执**：`silent: true` 或关掉「本机外放」时没有声音要和气泡对齐，原先也要等满 3 秒\n  才返回，现在立即返回，气泡不会白等。",
+    "0.5.25": "- **修「重装运行时卡在最后一步：`Path is a directory: ...\\GPT_SoVITS\\pretrained_models`」**：旧运行时里的\n  `pretrained_models` 是指向权重目录的目录联接，部分 Node/Electron 版本对联接执行 `unlink` 会直接报\n  「Path is a directory」，于是下载解压全部成功、最后替换目录时失败（重试多少次都一样）。现在拆联接\n  走 `unlink` → `rmdir` 两级兜底（只摘联接、绝不删权重），拆不掉时先把旧目录改名挪开再落新目录，\n  装完再尽力清理，安装不再卡在这一步。\n- 顺手修「启动服务时重建联接」的同类问题：已有联接改用同样的安全删除，避免个别机器上报同样的错。",
     "0.5.24": "- **训练 WebUI 不再卡在「运行时不完整，缺少 tools/asr、tools/uvr5」**：运行时包只打进了推理要用的\n  组件，上游 `webui.py` 一启动就要 `tools/asr`、`tools/uvr5`。现在点「启动训练 WebUI」时自检，\n  缺了就从上游整包（GitHub / ghfast / gh-proxy，约 7 MB）下下来，只把这两个目录解出来复制进运行时根，\n  然后照常启动；补不上才报错并说明是哪一步失败。推理用户不受影响，也不会多下东西。",
     "0.5.23": "- **修「下载到 100% 才报安装失败」**：魔搭返回的是带 `auth_key` 的临时地址，几 GB 的运行时下到末尾\n  签名过期、连接断在 99%，旧逻辑会删掉已下字节从头再来，于是永远失败。现在每个来源重试 3 次、\n  **保留已下载字节并按 `Range` 续传**（重试会重新取一次签名），只有校验不过才删掉重下。\n- **下载前先看磁盘**：运行时按「下载 + 解压」约 2.2 倍体积检查剩余空间，不够就直接说「磁盘空间不足」，\n  不再等进度条走满才在解压那步失败。\n- **解压后校验**：压缩包解完没有 `runtime/python.exe` 就明确报「下载或解压不完整」，不再把半个运行时\n  落位；系统里没有 `tar.exe` 也有单独的提示。",
     "0.5.22": "- **桌宠/对话页也能点歌了**：`sovits_speak` 的正文以 `【唱】`（或 `[唱]` / `[sing]`）开头时，\n  这句不再念，而是交给 DiffSinger 唱歌插件唱出来、直接写进本机播放器。唱不出来时自动退回念歌词，\n  不影响正常出声。QQ 那条路由（本地语音接口）保持不变。",
