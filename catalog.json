@@ -319,7 +319,7 @@
     },
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.5.27",
+      "version": "0.5.28",
       "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
       "description": "Cortico World for Coopanion: speaks the pet's lines aloud with GPT-SoVITS (V5 on NVIDIA GPUs, a CPU tier otherwise; AMD GPU users can use the CPU tier), installing a portable runtime and weights in one click",
       "locales": {
@@ -354,8 +354,8 @@
         "win32"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-10-30T05:03:09.714Z",
-      "versionCount": 27,
+      "published": "2026-10-30T16:32:56.877Z",
+      "versionCount": 28,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -382,6 +382,7 @@
       },
       "changelog": {
         "versions": [
+          "0.5.28",
           "0.5.27",
           "0.5.26",
           "0.5.25",
@@ -436,14 +437,14 @@
       "discussion": {
         "number": 228,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-        "up": 10,
+        "up": 11,
         "down": 0,
         "comments": 46
       }
     },
     "@wocwang/cortico-world-rvc-for-coopanion": {
       "kind": "world",
-      "version": "0.4.7",
+      "version": "0.4.8",
       "displayName": "RVC唱歌-大肥鱼",
       "description": "Cortico World for Coopanion: voice conversion with RVC — upload any audio and get it back in the pet's voice, plus a local HTTP endpoint (127.0.0.1:9881) for other plugins",
       "locales": {
@@ -478,8 +479,8 @@
         "win32"
       ],
       "created": "2026-10-29T02:52:41.041Z",
-      "published": "2026-10-30T14:46:35.581Z",
-      "versionCount": 5,
+      "published": "2026-10-30T16:32:53.954Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -513,7 +514,7 @@
     },
     "@wocwang/cortico-world-singer-for-coopanion": {
       "kind": "world",
-      "version": "0.1.15",
+      "version": "0.1.16",
       "displayName": "DiffSinger唱歌",
       "description": "Cortico World for Coopanion: sing from lyrics with DiffSinger (Qixuan voicebank) and an optional RVC pass",
       "locales": {
@@ -549,8 +550,8 @@
         "win32"
       ],
       "created": "2026-10-29T02:52:13.755Z",
-      "published": "2026-10-30T14:37:36.257Z",
-      "versionCount": 3,
+      "published": "2026-10-30T16:35:14.200Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -580,6 +581,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.16",
           "0.1.15",
           "0.1.14",
           "0.1.13",
@@ -811,13 +813,13 @@
     },
     "coopani-world-music": {
       "kind": "world",
-      "version": "0.4.6",
+      "version": "0.5.1",
       "displayName": "一起听歌",
-      "description": "陪着你听歌（需 Coopani 0.2.16+）：知道 QQ音乐、网易云在放什么。换歌必说一句，一首歌里分几段接话，还能就着刚唱过的词评两句；表情和动作跟着曲风变。也记得住：今天听了多少首、最常听谁、哪首被你循环过，能替某首歌留条笔记。能替你暂停切歌，也能自己搜歌挑给你——打开电脑操作，她能自己按播放，一首接一首；没开就把歌挑好、快完时提醒你换。她还养着一份自己的口味档案，边听边添、边添边改——那是她的潜意识，不是统计。记忆可以放在你指定的文件夹，公司和家里接同一份。",
+      "description": "陪着你听歌（需 Coopani 0.2.16+）：知道 QQ音乐、网易云在放什么。换歌必说一句，一首歌里分几段接话，还能就着刚唱过的词评两句；表情和动作跟着曲风变，也会从同专辑、同歌手和已标曲目的声音特征里逐步学会判断新曲。**她听得到真实的拍子**——采系统输出算 BPM，动作按这首歌自己的鼓点走。想听调子时还能深听（默认云端，填个密钥即可；也可切成完全本机的分轨模式，需下载约 500MB），听出调性、和弦、主旋律、声部和乐器，并把听过的段落攒成整首的档案。记得住今天听了几首、最常听谁、哪首被循环过，能",
       "locales": {
         "en": {
           "displayName": "Listen With Me",
-          "description": "Listen With Me (needs Coopani 0.2.16+): knows what QQ Music or NetEase plays. A line on every track change, a few more along the song, and she quotes the lyric just sung. Motion follows the music. She remembers tracks today, favourite artists, plus song notes. Pause, skip, or pick one herself: with computer use on she presses play and chains them; otherwise she nudges you before the track ends. She keeps her own taste file, in her own words: her subconscious, not a chart. Memory can live in a folder you pick."
+          "description": "Listen With Me (needs Coopani 0.2.16+): knows what QQ Music or NetEase plays. A line on every track change, a few more along the song, and she quotes the lyric just sung. **She now hears the actual beat** — the system output is sampled for a tempo, so her motion follows the song instead of a fixed clock. She gradually learns to suggest genres from albums, artists and the audio profiles of tagged tracks. Deep listening comes in two flavours: cloud by default (bring an API key for any OpenAI-compatible audio model), or fully local stem separation (about 500MB of models, nothing uploaded) — either way she gets key, chords, melody, stems and instruments, and builds up a per-track sheet as you listen. She remembers tracks today, favourite artists and song notes, and keeps her own taste file in her own words."
         }
       },
       "author": "Mr.Q",
@@ -842,8 +844,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-10-30T14:34:22.886Z",
-      "versionCount": 28,
+      "published": "2026-10-30T18:38:15.515Z",
+      "versionCount": 34,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -870,13 +872,20 @@
         "week": 4514
       },
       "summary": {
-        "tools": 9,
-        "events": 9,
-        "toolTokens": 2061,
+        "tools": 10,
+        "events": 10,
+        "toolTokens": 2257,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.5.1",
+          "0.5.0",
+          "0.4.11",
+          "0.4.10",
+          "0.4.9",
+          "0.4.8",
+          "0.4.7",
           "0.4.6",
           "0.4.5",
           "0.4.4",
@@ -907,7 +916,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-music@0.4.6/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-music@0.5.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 384,
@@ -2866,10 +2875,10 @@
     },
     "cortico-world-bili-video-pro": {
       "kind": "world",
-      "version": "0.2.0",
-      "displayName": "B站刷视频",
+      "version": "0.2.1",
+      "displayName": "陪看",
       "description": "住在你电脑里的AI桌宠「她」：陪你看B站视频，也能自己看片、读弹幕字幕。",
-      "author": "白菜（木头白菜）",
+      "author": "白菜和他的小汐小槿",
       "maintainers": [
         "baicai-xiaoxi-xiaojin"
       ],
@@ -2889,8 +2898,8 @@
         "win32"
       ],
       "created": "2026-10-27T15:34:22.238Z",
-      "published": "2026-10-29T04:37:50.717Z",
-      "versionCount": 6,
+      "published": "2026-10-30T17:36:38.418Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2915,13 +2924,14 @@
         "week": 1739
       },
       "summary": {
-        "tools": 15,
-        "events": 4,
-        "toolTokens": 1610,
-        "envPromptTokens": 2019
+        "tools": 17,
+        "events": 5,
+        "toolTokens": 1770,
+        "envPromptTokens": 2250
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0",
           "0.1.8",
           "0.1.7",
@@ -2932,7 +2942,7 @@
           "0.1.2",
           "0.1.1"
         ],
-        "url": "https://unpkg.com/cortico-world-bili-video-pro@0.2.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-bili-video-pro@0.2.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 389,
@@ -6362,7 +6372,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/485",
         "up": 0,
         "down": 0,
-        "comments": 3
+        "comments": 4
       }
     },
     "cortico-world-extsearch": {
@@ -6828,6 +6838,65 @@
         "up": 3,
         "down": 0,
         "comments": 2
+      }
+    },
+    "cortico-world-feiyu-whispers": {
+      "kind": "world",
+      "version": "0.3.0",
+      "description": "Coopanion 桌宠的肥鱼语录:按动作和时段挑一句预置台词放进气泡,不调用模型,不花 token",
+      "author": "klebreis-fisher-martin",
+      "maintainers": [
+        "klebreis"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "desktop-pet"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-feiyu-whispers",
+        "repository": "https://github.com/klebreis-fisher-martin/Deepseek-whispers",
+        "homepage": "https://github.com/klebreis-fisher-martin/Deepseek-whispers#readme",
+        "bugs": "https://github.com/klebreis-fisher-martin/Deepseek-whispers/issues"
+      },
+      "created": "2026-10-30T17:44:09.357Z",
+      "published": "2026-10-30T17:45:04.906Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion"
+      ],
+      "tags": [
+        "companion"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 0,
+        "events": 1,
+        "toolTokens": 0,
+        "envPromptTokens": 102
+      },
+      "changelog": {
+        "versions": [
+          "0.3.0",
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://github.com/klebreis-fisher-martin/Deepseek-whispers/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 574,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/574",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-figure": {
@@ -10455,9 +10524,9 @@
     },
     "cortico-world-parlor": {
       "kind": "world",
-      "version": "0.26.8",
+      "version": "0.26.9",
       "displayName": "鲸语茶室",
-      "description": "Cortico World: a shared parlor with many rooms where Coos sit, talk and play dice or 斗地主 — plus a zero-build web table and a read-only parent view",
+      "description": "鲸语茶室(共享客厅)：多只 Coo 与家长一起聊天、斗地主、掷骰子；附零构建网页牌桌与家长观战页。Cortico World: a shared parlor with many rooms where Coos sit, talk and play dice or 斗地主 — plus a zero-build web table and a read-only parent view",
       "locales": {
         "zh": {
           "displayName": "鲸语茶室",
@@ -10483,7 +10552,16 @@
         "dice",
         "monopoly",
         "web",
-        "game"
+        "game",
+        "客厅",
+        "茶室",
+        "会馆",
+        "大厅",
+        "斗地主",
+        "牌桌",
+        "聊天",
+        "多人",
+        "游戏"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-parlor",
@@ -10492,8 +10570,8 @@
         "bugs": "https://github.com/biliye/cortico-world-parlor/issues"
       },
       "created": "2026-10-30T12:05:22.925Z",
-      "published": "2026-10-30T14:48:53.555Z",
-      "versionCount": 9,
+      "published": "2026-10-30T16:12:52.562Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10520,6 +10598,7 @@
       },
       "changelog": {
         "versions": [
+          "0.26.9",
           "0.26.8",
           "0.26.7",
           "0.26.6",
@@ -10579,7 +10658,7 @@
       "discussion": {
         "number": 563,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/563",
-        "up": 1,
+        "up": 3,
         "down": 0,
         "comments": 0
       }
@@ -11800,9 +11879,9 @@
       "discussion": {
         "number": 46,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/46",
-        "up": 8,
+        "up": 9,
         "down": 0,
-        "comments": 8
+        "comments": 9
       }
     },
     "cortico-world-qq-final-beta": {
@@ -12449,7 +12528,7 @@
     },
     "cortico-world-qzone-watcher": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "description": "QQ 空间评论监听 World：定时轮询 SnowLuma 的 qzone API，发现新评论后推事件给主模型，配合 qq-final 的 qq_qzone(action=reply) 实现评论自动回复。",
       "maintainers": [
         "fxyxl"
@@ -12468,8 +12547,8 @@
         "bugs": "https://github.com/FXYXL/cortico-world-qzone-watcher/issues"
       },
       "created": "2026-10-28T08:30:33.702Z",
-      "published": "2026-10-28T09:12:18.195Z",
-      "versionCount": 4,
+      "published": "2026-10-30T16:02:35.989Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -15257,6 +15336,73 @@
         "up": 0,
         "down": 0,
         "comments": 2
+      }
+    },
+    "cortico-world-vtube": {
+      "kind": "world",
+      "version": "1.4.1",
+      "displayName": "VTube Studio 桥",
+      "description": "只是提供一个模板，每一个 Live2D 动作都不一样，你自己看着调吧。给 Cortico/Coopanion 的 bot 一个 Live2D 身体：接 VTube Studio 官方 WebSocket API，表情动作全由 bot 自己按热键表决定（插件里没有写死任何动作名），带真实音频时长口型、待机微动和可选的视觉。",
+      "author": "祈紤之愿",
+      "maintainers": [
+        "qijiuzhiyuan"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "vtube-studio",
+        "live2d",
+        "coopanion",
+        "vtuber",
+        "local"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-vtube"
+      },
+      "created": "2026-10-30T17:40:07.712Z",
+      "published": "2026-10-30T17:55:02.474Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "streaming",
+        "external-setup",
+        "voice",
+        "companion",
+        "experimental"
+      ],
+      "tags": [
+        "streaming",
+        "voice",
+        "companion",
+        "local",
+        "external-setup",
+        "experimental"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "changelog": {
+        "versions": [
+          "1.4.1",
+          "1.4.0",
+          "1.3.1",
+          "1.3.0",
+          "1.2.0",
+          "1.1.0",
+          "1.0.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-vtube@1.4.1/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 575,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/575",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-wardrobe": {

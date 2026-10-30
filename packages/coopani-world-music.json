@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-music",
-  "version": "0.4.6",
+  "version": "0.5.1",
   "describe": {
     "tools": [
       {
@@ -123,7 +123,7 @@
       },
       {
         "name": "music_tag",
-        "description": "Record what kind of music the track that is playing is, once per track. Later passages of it then get a matching reaction and you stop re-deciding every thirty seconds. Call it when you actually recognise the track or clearly hear what it is; skip it rather than guess at random. It tags whatever is playing right now, not a track you name.",
+        "description": "Record the current track genre and reaction. Later passages reuse it; the same album, multiple matching tracks by this artist, and similar audio features gradually teach the world to suggest a genre for new tracks. Call only when you recognise it; a later correction overrides the old tag.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -158,7 +158,7 @@
       },
       {
         "name": "music_pick",
-        "description": "Search the real catalogue yourself and pick one track you would actually put on. Returns the track, your reason, and a link. Call it when he asks you to choose something, asks what you would play, or when the talk is plainly about wanting to hear something. With `from`, take an item already on your wishlist by its number instead of searching. IMPORTANT: the link cannot start playback by itself — both players refuse outside play requests — so hand it to him. If your tool list has pet_cua_* (computer use), you can press play yourself with the mouse; but call this first even then, because the relay chain recognises \"the track he is playing is the one you picked\" by this call, and without it the chain breaks at the second track. Never say you played it unless you actually did. Call with no query to look at the wishlist you already collected.",
+        "description": "Search the real catalogue yourself and pick one track you would actually put on. Returns the track, your reason, and a link. Call it when he asks you to choose something, asks what you would play, or when the talk is plainly about wanting to hear something. IMPORTANT: the link cannot start playback by itself — both players refuse outside play requests — so hand it to him. If your tool list has pet_cua_* (computer use), you can press play yourself with the mouse; but call this first even then, because the relay chain recognises \"the track he is playing is the one you picked\" by this call, and without it the chain breaks at the second track. Never say you played it unless you actually did. Call with no query to look at the wishlist you already collected.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -246,6 +246,22 @@
           "zh": "读/写她自己的口味档案（我爱听什么，第一人称）。",
           "en": "Reads and writes her own taste file."
         }
+      },
+      {
+        "name": "music_listen",
+        "description": "Listen closely to the last ~12 seconds of what is playing, on demand. Two engines depending on the user setting: cloud (default; the audio slice is sent to an OpenAI-compatible audio model the user configured) or local (stem separation on this machine, nothing uploaded). Returns key, chords, vocal melody notes, stems and likely extra instruments, and keeps accumulating a per-track sheet across calls — so asking again builds up the whole song instead of starting over. Use it when he asks what instruments or melody are in this song, or when you genuinely want to listen closely. It takes several seconds; do not call it for every passage.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "仔细听最近十几秒：调性、和弦、主旋律、声部与乐器；多听几次会累积成整首的档案。",
+          "en": "Listens closely to the last few seconds: key, chords, melody, stems, instruments; repeated calls accumulate a per-track sheet."
+        }
       }
     ],
     "events": [
@@ -320,10 +336,25 @@
           "en": "Something about this machine is off: Coopani too old, host patch blocked, or host pack missing. Carries what to tell the operator."
         },
         "trigger": "flush"
+      },
+      {
+        "type": "music.hearing",
+        "description": {
+          "zh": "深听状态变了：刚能用（每个版本说一次），或者用不了（云端没密钥 / 本机没装本地环境，一天一次）。正文含怎么用、以及它优先于旧提示词里\"不许描述具体声音\"那句。",
+          "en": "Deep-listening status changed: newly usable (once per build), or unusable (missing cloud key / local engine not installed, at most daily). The text says how to use it and that it overrides the older \"never describe specific sound\" rule."
+        },
+        "trigger": "flush"
       }
     ]
   },
   "changelog": {
+    "0.5.1": "**「深听能用了」也要报一次——老会话的提示词不会自己更新**\n\n宿主重启只恢复磁盘上的 system 消息，不重建前缀（只有挂载/卸载 World 或手动「重载前缀」才重建）。\n所以升级完扩展、重启完 Core，老会话里的人手上还是旧提示词：她连\"有深听\"都不知道，被问\n「你听得清吗」只能老实答「还不算听清」。2026-10-31 02:25 就是这么答的。\n\n- `music.hearing` 事件改成双向：**能用** → 每个构建/模式组合说一次（写盘去重，重启不重复）；\n  **不能用** → 一天一次。正文写清「他问听得清吗，先 `music_listen` 再答」，并明确这条\n  **优先于**旧提示词里「不许描述具体声音」那句。\n- 事件正文也带版本号，方便判断新旧。\n- 修：在 `start()` 里立刻推事件会撞上 Core 的「重启补投」窗口（02:33:33.79 推、.83 补投完），\n  同一件事被投两遍，她为它多开了一轮。改成启动 6 秒后再推。\n- 修：采集进程刚重启时环形缓冲是空的，切出来只有 3 秒——拿 3 秒算调性纯属瞎猜。\n  不足 6 秒会等 4.5 秒重切一次，宁可这句晚几秒。\n- 修：调性与和弦自相矛盾（「C# 大调」配 C#m 和弦）。以开头两个稳定和弦的主音和大小调为准，\n  冲突时改调性的 mode、保留根音。",
+    "0.5.0": "**深听分成云端和本地两条路，默认云端；听过的段会攒成整首的档案**\n\n- **深听双模式**：`hearingMode` = `cloud`（默认）/ `local` / `off`。\n  - 云端走 OpenAI 兼容的音频输入接口（默认阿里云百炼 `qwen-omni-turbo`），填个密钥就能用，不占本机空间；\n    请求是流式的，SSE 会被切块，客户端自己攒行解析，模型套代码块也能把 JSON 抠出来。\n  - 本地仍是 htdemucs_6s + 信号处理，音频不出这台机器，但要先下约 500MB。\n  - 云端地址、模型名都能改；换成别家只改这两行。\n- **整首累积**：每条切片结论都会并进这首的 `music-hearing.jsonl`。`music_listen` 回执现在分两段——\n  这一段的结论 + 「整首累积」（调性认多数、和弦按时间拼、声部出现比例、旋律音域、乐器倾向）。\n  同一段重听是替换不是追加；调性前后打架时照实说，不取平均。\n- **可选边听边攒** `hearingEverySec`（默认 **0 = 关**）：填 60 就每首歌每分钟在后台深听一段。\n  云端模式每段都是计费调用，所以默认关着。\n- **模式信息进了她的视野**：提示词新增 `{{music.hearing}}`（走哪条路、能不能用、不能用他该动哪里）、\n  新增 `music.hearing` 事件（没密钥/没装本地时启动提醒一次，一天最多一次）、`music_now` 和段事件都会带累积档案；\n  设置页新增「深听方式」组和一盏 `深听` 状态灯。\n- 提示词补了「你怎么听：三层」——能量层 / 深听层 / 印象层不许互相冒充；硬约束 #3 从\"不许描述具体声音\"\n  改成\"不许描述你手上没有的声音\"，分析出来的东西要说成\"分析出来\"。\n- 深听失败时不再只说\"没做成\"：缺密钥、连不上、模型不支持音频、本地没装，各自给一句能照做的话。",
+    "0.4.11": "**真实跟拍连续化，并加入可解释的曲风学习**\n\n- 音频采集改由 WMI 独立启动，显式传输出路径与 Core PID，避免 Core 作业对象冻结；看门狗和 3 秒降级保留。\n- 坐姿头腰共相反向；`waveClock` 连续推进，后续鼓点不再把半拍慢摇拽回峰值；groove 身体也撤掉固定 1.6Hz，另有短落拍下沉。\n- 曲风档案新增歌手、专辑和音频均值特征。新曲按同曲标签 → 同专辑 → 同歌手多数标签 → 标题 → 声音近邻判断，并给出学习依据。\n- 实时 BPM、响度与频段倾向现在会进入换歌、段事件、`music_now` 和环境状态；模型能感觉到拍子与低音，但不得声称听出了完整旋律或配器。\n- 新增按需 `music_listen`：内存保留最近 12 秒，请求时才落临时 WAV；本地 htdemucs_6s 分轨，估计人声旋律、调性、和弦与乐器倾向，分析后删除音频。12 秒真实切片实测约 9 秒完成。\n- 同歌手至少两首同向、声音近邻至少两个样本才采用；证据不足继续承认未标，用户改口始终覆盖旧标签。\n- 旧档案可从 key 补出歌手直接参与学习；不录音、不存波形。",
+    "0.4.10": "**找到「采集进程活着但不写」的真正原因：写文件的方式**\n\n原来的写法是「写临时文件 → 删掉旧的 → 改名」。而页面每 200ms 读一次，读的时候文件是开着的，\nWindows 上**删不掉一个被打开的文件** —— 第一次写成功，之后每次都失败，代码里 `catch` 吞掉，\n于是一个进程活着、CPU 0、文件永远停在第一次的值。\n\n表现就是：换了一首慢歌，她还按上一首的拍子在晃，等多久都不变。\n\n改成**原地覆盖写**（`FileMode.Create` + `FileShare.ReadWrite`），不删不搬。\n实测场景：一边每 200ms 读、一边写，20 秒持续更新，98 次读取 0 次解析失败。",
+    "0.4.9": "**数据超过 3 秒就算「没在听」**\n\n采集进程会「活着但不干活」—— 进程还在、CPU 0、文件却不再更新（设备被切、流卡住都这样）。\n这时文件里留着的是**上一首**的 BPM，页面照它晃，就是一整首歌按错拍子动，比不动更糟。\n\n页面侧加一条：`at` 超过 3 秒就当作没有音频，退回固定节奏。\n这只治标——采集为什么会停还在查；但至少不会再用错误的数。",
+    "0.4.8": "**修 0.4.7 的三个真问题：慢歌被数成两倍速、采集会「活着不干活」、脚本编码**\n\n### 1. 慢歌被数成两倍速（就是「这首不太行」那首）\n\n拍点原来用**整体响度**判 —— 军鼓、吉他扫弦的反拍也满足「响度突然抬起来」，\n于是一首 66 BPM 的慢歌被数成 132，头摇得像急板。\n\n- 改成**只看低音档**（底鼓在低频），军鼓不再算拍点\n- 报告的 BPM 折到 55–130：估出两倍速的直接减半\n\n### 2. 摇晃区间从 0.75–2.6Hz 收窄到 0.9–2.0Hz\n\n这一条是给上一条兜底的：**就算 BPM 数错了一倍，看着也是对的**。\n132 BPM 折到 1.1Hz —— 正好等于它真实的拍子（66 BPM = 1.1Hz）。\n快歌同理：越快越按半拍晃，跟人跟着快歌点头的习惯一致。\n\n### 3. 采集进程会「活着但不干活」\n\n设备被切换、流卡住时，进程还在，JSON 却不再更新 —— 表现是一首慢歌全身按上一首的拍子在晃，\n等多久都不变。三条一起上：\n\n- **看守**：文件超过 8 秒没动就杀掉重开（30 秒内只重开一次）\n- **单实例互斥**：Core 重启两次会起两个采集进程，抢着写同一个文件\n- **写文件重试 6 次**：读的一方正开着文件时 Windows 删不掉，原来失败一次就整轮跳过\n\n### 4. 脚本必须存成 UTF-8 with BOM\n\n读没有 BOM 的 .ps1 会按 GBK 解释，中文注释的多字节把换行吃掉、和下一行代码粘成一体 ——\n编译器报一堆「当前上下文中不存在名称 xxx」。第一次看到会以为是 C# 写错了，其实是编码。",
+    "0.4.7": "**她开始跟着真实的拍子动 —— 系统声音回环采集**\n\n以前她的动作按写死的频率晃（`earcover` 1.15Hz、`groove` 1.6Hz），跟放什么歌没关系。\n你觉得「不跟歌」，这是真的不跟。\n\n现在：把系统输出的声音复制一份，算出 BPM / 响度 / 低音，动作按这首歌自己的鼓点走。\n\n### 怎么做的\n\n- `assets/audio/probe.ps1`：一段脚本 + **内联 C#**，走 WASAPI 回环采集（共享模式 + LOOPBACK）。\n  不装驱动、不带 DLL —— 内联那段由系统自带的编译器在第一次启动时编译。\n- 每 100ms 往 `TEMP/coopani-audio.json` 写一次：`{bpm, rms, bass, mid, high, beat}`，**只算不存**。\n- 扩展启动时拉起它，退出时收掉（`src/world.ts` 的 `startAudio` / `stopAudio`）。\n- 宿主 `server.ts` 加一条 `/api/audio` 读那个文件；页面每 200ms 取一次，喂给立绘。\n- 立绘侧：`earcover` / `groove` 的频率从常量改成 `beatHz(bpm)`。\n\n### 三个实现上的判断\n\n1. **不在 Node 里采。** Node 没有 WASAPI 的原生模块，`naudiodon` 那类要现场编译，用户装不上。\n   起一个独立进程最省事，代价是第一次启动多花一两秒编译内联 C#。\n2. **拍子要做八度折叠。** 140 BPM 顶一次 = 2.3Hz，是跳舞；170 BPM 就是 2.8Hz，像抽搐。\n   `beatHz()` 把频率折回 0.75–2.6Hz：太快的折半、太慢的翻倍。\n3. **拿不到就什么都不做。** 采集没开、非 Windows、JSON 还没写出来——一律退回原来的固定频率，\n   不报错，也不静止。\n\n### 实测\n\n| 项 | 结果 |\n|---|---|\n| 采集 10 秒 | 96 万采样点 / 1003 个数据包 |\n| 拍子精度 | 150 BPM 的节拍测出 146（差 3%） |\n| 安静曲目 | 夜曲那类没有鼓点，BPM 会瞎猜（实测 121），能晃但不对拍 |\n\n### 边界，写在设置页里了\n\n**她听到的是这台机器输出的所有声音** —— 会议、视频、提示音都在内。所以：\n\n- 设置页有开关（`audioReactive`，默认开），关掉就回到按曲风选的固定节奏\n- 采集只在本机算三个数，不录音、不存波形、不联网\n- 只有 Windows 有这条通路\n\n### 顺带\n\n`earcover` 重做了。原本想让她双手捂耳朵，实测**手臂骨只有 46 单位长、耳朵在 49 开外**，\n转任何角度都够不到 —— 视频里那只手一直停在下巴旁边，不像话。\n改成「缩着脖子、闭眼、跟着拍子晃」，把耳朵交给那顶帽子。",
     "0.4.6": "**新动作：捂耳朵听**\n\n坐下来，两只手把耳朵捂住，头跟着拍子左右摇。\n\n和「坐着哼」的分界：坐着哼是**跟着词哼**（低头、飘音符），这个是**把别的都关在外面**（手堵着耳朵、头摇起来）。\n挂在柔歌的候选池里；提示词里写清了「它很重，一首里用一次就够，通常落在你最想听的那一段」。\n\n### 改补丁表时踩到的一个真问题\n\n加动作要动 5 处 `replace`（白名单 / 分发 / 每帧行为 / 手臂画法 / 词表），\n但 `marker` 是「已经打过」的判据 —— 旧 marker（`'bounce', 'groove',`）在**旧版补丁的产出里仍然存在**，\n于是会判「已打过」直接跳过，新动作永远进不去。\n\n所以 5 处 marker 全部换成 `earcover` 特有片段。\n\n**代价**：已经打过旧补丁的机器，锚点对不上，整批 blocked。\n本机是先从 `host-backup` 里最早那份（干净原版）还原，再让它重打的。\n\n- 从没打过补丁的机器 → 直接打\n- 升级过 Coopani（宿主被覆盖回原版）→ 直接打\n- 打过旧版补丁且没升 Coopani → 需要先还原宿主（或重装 Coopani 覆盖）\n\n### 改动清单\n\n- **宿主 5 处**：白名单、`act()` 分发、每帧行为、手臂画法、`figure.json` 词表\n- **扩展 3 处**：id→中文名、柔歌候选池 `MOVE_FALLBACK.soft`、降级链\n- **提示词**：动作表加一行，例外里写清它和坐着哼的区别\n- **测试夹具**：`whale-vocab.json` 同步 —— 那个「提示词里的词必须在形象词表里」的测试\n  当场就抓住了漏更新（提示词写了「捂耳朵听」，夹具里没有）",
     "0.4.5": "**动作补不上时，她自己开口说是怎么回事**\n\n之前只有一盏红灯。简介里的版本要求他不一定读，红灯他不一定看。\n现在补不上会推一条 `music.setup`，让她启动后说一句。\n\n以前所有失败都说成「锚点对不上」，现在分成四种各说各的：\n\n- **Coopani 低于 0.2.16** → 你这版太旧，升级就好（**他自己能解决**）\n- **版本够新但锚点对不上** → 扩展得跟着宿主更新，把日志发出来（只能等扩展）\n- **找不到宿主包** → Coopani 可能装在非常规路径\n- **写不进去** → 大概率没权限，用管理员开一次\n\n做法：\n\n- `host-patch.ts` 新增 `readCoopVersion()` / `cmpVersion()` / `MIN_COOP_VERSION`\n- 灯的 blocked 态也按版本分岔\n- **读的是 Coopani 的版本，不是桌宠包的** —— 后者在 0.2.13 和 0.2.16 都写着 `0.2.0`，内容却不同\n- 一天最多一次（`music-setup.json`），推不出去也不影响听歌\n- 提示词里要求：**不许把这事说成「坏了」**",
     "0.4.4": "**简介里标上 Coopani 版本要求**\n\n使用者装了扩展、简介里写着「打开电脑操作她会自己按播放」，实际动作却出不来 ——\n因为他们的 Coopani 低于 0.2.16，那 11 个动作补不进宿主。\n\n- 简介开头加「需 Coopani 0.2.16+」，中英同步\n- README「需要什么」那行从「0.2.0 以上」改成明确的 **0.2.16 及以上**\n\n**为什么定 0.2.16**：补丁表的锚点是按那版宿主结构写的。\n0.2.13 上某些处能对上、某些对不上，而 `patchHost` 是「一处不对就整批不写」——\n所以旧版的表现不是少几个动作，是**全部降级到原生动作**，还不报错。\n\n**另外记一笔**：宿主包自己的 `version` 字段不可信，0.2.13 和 0.2.16 的\n`cortico-world-desktop-pet` 都写着 `0.2.0`。要判断兼容性只能看 Coopani 的版本号。\n\n没有功能改动。",

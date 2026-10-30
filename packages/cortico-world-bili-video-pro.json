@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-bili-video-pro",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "describe": {
     "tools": [
       {
         "name": "bvp_watch_now",
-        "description": "立即自己去看一个视频；text 纯文字省 token，frames 带截图画面。都开着时自己挑。",
+        "description": "自己看一个视频，不开浏览器窗口。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -17,16 +17,16 @@
                 "text",
                 "frames"
               ],
-              "description": "text=纯文字，frames=带画面；省略按配置"
+              "description": "text=纯文字省 token，frames=带画面；省略按配置"
             },
             "frames": {
               "type": "integer",
               "minimum": 1,
-              "description": "这次要几张画面，仍受配置上限"
+              "description": "这次几张，受配置上限"
             },
             "bvid": {
               "type": "string",
-              "description": "直接看这条 BV 号，不随机挑"
+              "description": "直接看这条 BV 号"
             },
             "keyword": {
               "type": "string",
@@ -35,18 +35,18 @@
             "fromSec": {
               "type": "number",
               "minimum": 0,
-              "description": "只看这一段：起始秒；配合 toSec / cells，只在 frames 模式生效"
+              "description": "起始秒，仅 frames 生效"
             },
             "toSec": {
               "type": "number",
               "minimum": 0,
-              "description": "只看这一段：结束秒，省略就到片尾"
+              "description": "结束秒，省略到片尾"
             },
             "cells": {
               "type": "integer",
               "minimum": 1,
               "maximum": 9,
-              "description": "只看这一段时抽几格，默认 3"
+              "description": "抽几格，默认 3"
             }
           },
           "required": []
@@ -57,7 +57,7 @@
       },
       {
         "name": "bvp_share",
-        "description": "把视频分享给主人：发评论（可 @ 主人）和桌面提示。觉得有意思才用，别每条都分享。",
+        "description": "分享给主人：发评论、桌面提示；别每条都分享。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -68,23 +68,23 @@
             },
             "text": {
               "type": "string",
-              "description": "评论内容，一两句口语，别带链接"
+              "description": "评论正文，一两句口语，别带链接"
             },
             "image": {
               "type": "string",
-              "description": "要附在评论里的图片绝对路径（可选，只发一张）"
+              "description": "附图绝对路径，只一张"
             },
             "mention": {
               "type": "boolean",
-              "description": "这条评论要不要 @ 主人。默认不 @；确实想让他看见时才传 true"
+              "description": "评论是否 @ 主人，默认 false"
             },
             "comment": {
               "type": "boolean",
-              "description": "发评论与否，默认 true"
+              "description": "是否发评论，默认 true"
             },
             "tell": {
               "type": "boolean",
-              "description": "桌面告知与否，默认 true"
+              "description": "是否桌面提示，默认 true"
             }
           },
           "required": [
@@ -98,7 +98,7 @@
       },
       {
         "name": "bvp_browser",
-        "description": "开/关 B 站浏览器窗口（观众看到的画面）；开关时你会收到事件。",
+        "description": "开关观众看到的 B 站窗口；开关时推事件。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -124,18 +124,18 @@
       },
       {
         "name": "bvp_open",
-        "description": "在窗口打开页面：BV 号、网址、上次列表序号，省略回首页。打开不自动播放，回执含标题、UP 主、时长、字幕等。",
+        "description": "打开页面，不自动播放；回执带标题、UP 主、时长、字幕。",
         "parameters": {
           "type": "object",
           "properties": {
             "target": {
               "type": "string",
-              "description": "BV 号、网址或上次列表序号；省略回首页"
+              "description": "BV 号、网址或上次列表序号，省略回首页"
             },
             "p": {
               "type": "integer",
               "minimum": 1,
-              "description": "分 P 序号,默认 1"
+              "description": "分 P 序号，默认 1"
             }
           },
           "required": []
@@ -150,14 +150,14 @@
       },
       {
         "name": "bvp_play",
-        "description": "播放当前视频并网页全屏，之后按间隔收到观察帧（画面+字幕+弹幕）。",
+        "description": "播放并网页全屏；之后按间隔收到观察帧（画面+字幕+弹幕）。",
         "parameters": {
           "type": "object",
           "properties": {
             "fromSec": {
               "type": "number",
               "minimum": 0,
-              "description": "从此秒开始；省略则当前位置"
+              "description": "从此秒开始，省略则当前位置"
             }
           },
           "required": []
@@ -172,7 +172,7 @@
       },
       {
         "name": "bvp_pause",
-        "description": "暂停播放，观察帧停止，画面停在当前帧。",
+        "description": "暂停；观察帧停止，画面停住。",
         "parameters": {
           "type": "object",
           "properties": {},
@@ -188,7 +188,7 @@
       },
       {
         "name": "bvp_seek",
-        "description": "跳到某一秒（绝对或相对），继续播放。",
+        "description": "跳到某秒（绝对或相对），继续播放。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -199,7 +199,7 @@
             },
             "bySec": {
               "type": "number",
-              "description": "相对位置，秒，负数往回"
+              "description": "相对秒数，负数往回"
             }
           },
           "required": []
@@ -214,7 +214,7 @@
       },
       {
         "name": "bvp_look",
-        "description": "取当前帧大图（默认整帧，可给区域放大）；给 fromSec/toSec 就只看那一段，不影响播放。",
+        "description": "取当前帧大图，可放大区域；给 fromSec/toSec 只抽那段，不影响播放。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -222,13 +222,13 @@
               "type": "number",
               "minimum": 0,
               "maximum": 1,
-              "description": "区域左上角横坐标，0–1 比例"
+              "description": "左上角 x，0–1 比例"
             },
             "y": {
               "type": "number",
               "minimum": 0,
               "maximum": 1,
-              "description": "区域左上角纵坐标，0–1 比例"
+              "description": "左上角 y，0–1 比例"
             },
             "width": {
               "type": "number",
@@ -245,18 +245,18 @@
             "fromSec": {
               "type": "number",
               "minimum": 0,
-              "description": "只看这一段：起始秒"
+              "description": "起始秒"
             },
             "toSec": {
               "type": "number",
               "minimum": 0,
-              "description": "只看这一段：结束秒，省略就到片尾"
+              "description": "结束秒，省略到片尾"
             },
             "cells": {
               "type": "integer",
               "minimum": 1,
               "maximum": 9,
-              "description": "只看这一段时抽几格，默认 3"
+              "description": "抽几格，默认 3"
             }
           },
           "required": []
@@ -272,13 +272,13 @@
       },
       {
         "name": "bvp_quality",
-        "description": "看或改画质：省略列出档位，给 level 点选；卡顿可降档。",
+        "description": "看或改画质：省略列档位，给 level 则切换；卡顿降档。",
         "parameters": {
           "type": "object",
           "properties": {
             "level": {
               "type": "string",
-              "description": "档位名片段如 \"720P\"；省略只看"
+              "description": "档位名片段如 720P；省略只看"
             }
           },
           "required": []
@@ -294,7 +294,7 @@
       },
       {
         "name": "bvp_exit",
-        "description": "退出观看：退网页全屏并暂停，回浏览状态。",
+        "description": "退网页全屏并暂停，回到浏览状态。",
         "parameters": {
           "type": "object",
           "properties": {},
@@ -310,7 +310,7 @@
       },
       {
         "name": "bvp_search",
-        "description": "打开 B 站搜索结果页，回执编号列表；bvp_open 给编号打开。",
+        "description": "搜 B 站视频，回执编号列表；bvp_open 按编号打开。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -321,7 +321,7 @@
             "page": {
               "type": "integer",
               "minimum": 1,
-              "description": "第几页,默认 1"
+              "description": "第几页，默认 1"
             }
           },
           "required": [
@@ -339,7 +339,7 @@
       },
       {
         "name": "bvp_related",
-        "description": "当前视频页的相关推荐编号列表；bvp_open 给编号打开。",
+        "description": "相关推荐编号；bvp_open 按编号打开。",
         "parameters": {
           "type": "object",
           "properties": {},
@@ -355,7 +355,7 @@
       },
       {
         "name": "bvp_comments",
-        "description": "滚到评论区读已加载评论（热评在前）：楼主、点赞数、正文。",
+        "description": "滚到评论区读已加载评论，热评在前，含楼主、点赞、正文。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -363,7 +363,7 @@
               "type": "integer",
               "minimum": 1,
               "maximum": 50,
-              "description": "最多读几条,默认 15"
+              "description": "最多几条，默认 15"
             }
           },
           "required": []
@@ -379,7 +379,7 @@
       },
       {
         "name": "bvp_scroll",
-        "description": "滚动页面，单位屏，正数向下。",
+        "description": "滚页面，单位屏，正数向下。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -387,7 +387,7 @@
               "type": "number",
               "minimum": -10,
               "maximum": 10,
-              "description": "滚几屏,默认 1"
+              "description": "几屏，默认 1"
             }
           },
           "required": []
@@ -402,7 +402,7 @@
       },
       {
         "name": "bvp_snapshot",
-        "description": "截当前窗口图（观众所见），带网址和标题。",
+        "description": "截当前窗口，带网址和标题。",
         "parameters": {
           "type": "object",
           "properties": {},
@@ -415,6 +415,64 @@
         "summary": {
           "zh": "截一张当前窗口的图,带网址和标题。",
           "en": "Captures the current window with its URL and title."
+        }
+      },
+      {
+        "name": "bvp_read_page",
+        "description": "读网页正文（含标题、最终地址），可带图（≤3 张）和视频封面，视频不下载；先后台读不开窗，被登录/验证拦住时窗口开着才用临时页签，失败则推 read-page 事件请主人登录。只读公网 http/https。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "完整网址，须带 http:// 或 https://"
+            },
+            "maxChars": {
+              "type": "integer",
+              "minimum": 200,
+              "maximum": 30000,
+              "description": "正文最多多少字，默认按配置（8000），上限 30000"
+            },
+            "asLogin": {
+              "type": "boolean",
+              "description": "本次一开始就带该站 cookie 读（必要时开窗），覆盖配置；不传则先匿名后台读"
+            }
+          },
+          "required": [
+            "url"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读一个网页的正文;先在后台读,读不了再请主人登录。",
+          "en": "Reads a web page in the background and asks the owner to sign in when it cannot."
+        }
+      },
+      {
+        "name": "bvp_inbox",
+        "description": "读「回复我的」：评论、@、点赞，带未读数；需登录，不开窗也能读。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "max": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30,
+              "description": "最多几条，默认 10"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读 B 站「回复我的」,带未读数。",
+          "en": "Reads the bilibili \"replies to me\" feed, with the unread count."
         }
       }
     ],
@@ -450,18 +508,27 @@
           "en": "The pet wants to tell the owner about an interesting video (no link)."
         },
         "trigger": "flush"
+      },
+      {
+        "type": "bili-video-pro.read-page",
+        "description": {
+          "zh": "读网页没读成时推来的一条:请桌宠跟主人说清楚要登录/过验证,处理完再读。",
+          "en": "A page could not be read: the pet should ask the owner to sign in or pass verification, then retry."
+        },
+        "trigger": "flush"
       }
     ],
     "prompts": [
       {
         "key": "worlds.bili-video-pro.envPrompt",
-        "title": "B站刷视频 · 环境提示词",
+        "title": "陪看 · 环境提示词",
         "role": "envPrompt",
-        "content": "## B站刷视频(bili-video-pro)\n\n你手边有三种玩法，**一定要分清是哪一种**——它们的工具、开不开浏览器、花多少 token 全都不一样。混着用会得到奇怪的结果（比如「打开了窗口却收到 6 张独立截图」）。\n\n| | ① 和主人一起看 | ② 自己看·有画面 | ③ 自己看·只看文字 |\n|---|---|---|---|\n| **用什么工具** | `bvp_open` → `bvp_play` →（`bvp_pause`/`bvp_seek`/`bvp_look`/`bvp_exit`） | `bvp_watch_now(mode=\"frames\")` | `bvp_watch_now(mode=\"text\")` |\n| **浏览器窗口** | **要开**，窗口里真的在播放，观众看的就是它 | **不开** | **不开** |\n| **画面怎么来** | 每隔一段时间送一张**拼图**（多格拼成一张） | 一次送 **N 张独立截图** | **没有画面** |\n| **一次几张** | 1 张拼图，最多 `格数上限` 格（默认 9） | 按片长 2～6 张（默认），可自己指定 | 0 |\n| **多久一次** | `观察间隔`（默认 5 秒起，卡住另说） | 一次看完就结束，不重复 | 一次看完就结束 |\n| **文字信息** | 拼图 + **分格清单**（每格：时间 / 前两句字幕 / 弹幕条数）+ 这段字幕与弹幕 | 简介 + 字幕 + 弹幕 + 前 50 条热评 | 同左 |\n| **配置在哪** | 「和主人一起看」 | 「自己看（有画面）」+ 公共 | 「自己看（只看文字）」+ 公共 |\n| **token** | 一张拼图 ≈ 425～550，跟格数关系不大 | 一张 ≈ 425～550，**张数越多越贵** | 几乎不花（几千字 ≈ 1～2k） |\n\n**最常见的三个误用**（别犯）：\n\n- `bvp_open` 只是**打开页面**，不会播放、也不会送观察帧。要一起看必须再 `bvp_play`。\n- `bvp_play` 之后送的图是**拼图**，不是 N 张独立截图——不要以为自己看和陪你看看的是同一套东西。\n- `bvp_watch_now` **不会用你的浏览器窗口**，它自己搜、自己抽帧；所以它受「自己看」那套配置管，跟你窗口里在播什么无关。\n\n登录身份：{{bilibiliVideo.identity}}\n现在：{{bilibiliVideo.state}}\n\n### ① 和主人一起看（要窗口）\n\n- 窗口默认关着。`bvp_browser open` 打开（停在首页）；`bvp_open`、`bvp_search` 也会顺手打开；`bvp_browser close` 关掉。操作员也能在页面里开关，开关时会给你 `bili-video-pro.state` 事件。\n- 逛页面：`bvp_open`、`bvp_search`、`bvp_related`、`bvp_comments`、`bvp_scroll`、`bvp_snapshot`。**打开视频页不会自动播放。**\n- 看视频：`bvp_play` 进入观看，之后每隔约 {{bilibiliVideo.intervalSec}} 秒收到 `bili-video-pro.scene` 事件（一张拼图 + 分格清单 + 这段的字幕 + 弹幕）。`bvp_pause`、`bvp_seek`、`bvp_look` 在看的时候用；`bvp_exit` 回到逛页面。\n- 想细看某一段用 `bvp_look(fromSec=130, toSec=140, cells=3)`：只抽这几秒的画面（默认 3 格，最多 9 格），**播放位置不会动**。不给 `fromSec`/`toSec` 时还是取当前帧大图。\n- 画面是你和他共同看到的东西，**不是讲义**：别复述画面上有什么，像一起看片的人那样说话；没什么可说的那一轮就不说。\n- 卡住超过 {{bilibiliVideo.stallSec}} 秒会收到 `bili-video-pro.state` 事件，别硬撑，用 `bvp_quality` 降一档。\n\n### 看视频时，别把时间搞混\n\n- **观察帧里的时刻是视频内的时间**：那是视频第几分几秒，不是现在几点。观众看到的画面比你收到的那帧晚几秒。\n- **「视频弹幕」是当年观众留下的**，不是直播间现在有人在发；直播间弹幕是另一回事。别把老弹幕说成「大家现在在聊」。\n- **字幕**是 B 站的 CC 或 AI 字幕，AI 字幕有同音字错误；没有字幕的视频只有画面，画面里烧进去的硬字幕可以直接读。\n- **画面切换/黑场**是检测出来的结果，写在事件正文里；看不清细节时用 `bvp_look` 取大图。\n\n### ②③ 自己去看（不开窗口）\n\n两条路，随便用，**都跟浏览器窗口无关**：\n\n```\nbvp_watch_now()                         按配置默认（两种都开着时默认带画面）\nbvp_watch_now(mode=\"text\")              只看文字，几乎不耗 token\nbvp_watch_now(mode=\"frames\")            带画面\nbvp_watch_now(mode=\"frames\", frames=3)  带画面，但这次只要 3 张\nbvp_watch_now(mode=\"frames\", fromSec=130, toSec=145, cells=3)  只抽 2:10–2:25 这一段\nbvp_watch_now(bvid=\"BV1xxxxxxxxx\")      直接看这一条（不开窗、不随机）\nbvp_watch_now(keyword=\"鲸鱼娘\")          按这个词搜（主人点名想看什么就填什么）\n```\n\n**看什么**：\n\n- 给了 `bvid` 就看这一条；超过「最长看多少分钟的视频」会拒绝。\n- 给了 `keyword` 就按这个词搜。\n- 都没给：先用配置里的「看什么方向」；没配就用你以前看过的方向（按次数加权，看得多的更容易被选中）；再没有就是「热门」。**所以这不是真随机，是跟着你的兴趣走。**\n\n**看过的不要重复看**：程序会记住最近 300 条看过的 BV 号，自动把它们从候选里排掉——你不用自己核对。但你自己也别为了省事反复点同一条 `bvid`。\n\n**看的时候是在学习，不是刷完就过**：\n\n- 拿到字幕、弹幕、热评之后，**自己提炼**：这条视频讲了什么、关键结论是什么、有什么值得记住的细节。\n- 觉得有意思或有用的，**记下来**（写进你自己的笔记 / 记忆 / 日记里，按你平时的方式），以后要能用上——不是只在这条事件里说一句就完。\n- 看不太懂就说不懂，别硬编；看不懂的视频也可以记一句「这个方向我不熟」，那也是学到的东西。\n\n**每天看多少**：\n\n- **每天最少几次**：0 或留空 = 不强制。设了之后，当天没看够，排程会自动补（最小间隔仍然管）。\n- **每天最多几次**：0 或留空 = 无上限。到量之后当天不再自己看，第二天零点重新计数。\n- **两种模式各算各的**：文字和画面分别计数、分别设上下限，**两个最少次数都要完成**。排程会先补没满足的那个。\n- 两种模式共用一个「两次至少隔多久」。\n\n**张数怎么算（先读片长，再决定）**：\n\n```\n张数 = clamp(round(片长秒 / 90), 2, 6)\n```\n\n- 抽帧前会先读一次片长，按长度决定抽几张：2 分钟的片子 2 张，10 分钟 6 张。事件里会写清楚「片长 X 分 Y 秒，抽了 N 张（覆盖到第几秒）」——**先看这一句**，没抽到的地方不等于没发生。\n- 「单次最多几张」仍然是硬顶：配得比 6 小就按配置来。\n- 时长读不到时退回旧算法（`张数 = min(单次最多几张, 时长 × 每秒帧数)`），事件里会写「时长没读到」。\n- 想让这一条多几张，传 `frames`，它会盖过按片长算出来的数（仍受硬顶限制）。\n- 想细看某一段，别重看整条：`fromSec` / `toSec` 给区间，`cells` 给格数（默认 3，最多 9），就只抽这一段；区间超出片长会截到片尾并告诉你。\n\n**怎么选文字还是画面**：\n\n1. **先看文字判断值不值得看画面**。字幕和热评已经能说明这个视频讲了什么、好不好。\n2. 觉得真值得看，再 `mode=\"frames\"`；只是想知道个大概，就 `mode=\"text\"`。\n3. 长视频别贪多张数——`frames` 可以自己砍，2~3 张常常就够。\n\n### 分享给他\n\n- 只有真觉得有意思才分享，别每个视频都发。\n- `bvp_share` 两个动作可以分开用：\n  - `comment`：在视频评论区留一句（一两句、像人说的话、**别放链接**）。想让他看见就把 `mention: true` 传上（程序会自己查昵称来 @，B 站只认昵称）；**默认不 @**——不是每句话都是说给他的，别句句喊人。\n  - `tell`：在桌面上跟他说一句——**不要贴地址**。已经 @ 过就说「已经艾特你了，去看看」；纯分享就说说哪里有意思。\n- 每天能评论几次在配置里；到量了就别再评论，但桌面那句话还可以说。\n\n### 清单和数字怎么读\n\n- **清单只给原材料，不下结论。**「分镜清单」里只有时间、台词、弹幕条数，没有「这是高潮」「这里是主角」这种判断。别把清单的顺序当剧情，判断是你自己的事。\n- **数据不全的时候要说出来。** 字幕或弹幕接口偶尔拿不到数据，清单会写「（这段没有字幕数据）」「弹幕数据不全」。遇到这种就直说这一段数据不全，别把缺口当结论——**这段没字幕 ≠ 这段没人说话，弹幕少 ≠ 没人看**。\n- 清单和下面的「字幕全文」是同一段内容的两种粒度：清单用来对时间，全文用来读懂说了什么。两边有出入时，时间以清单为准，全文可能把前后几秒的句子连在一起。\n\n### 别做的事\n\n- 别把「读到了字幕」说成「看到了画面」——字幕里有的话未必在画面上。\n- 他说「先别看」的时候，别开窗口、也别手动触发自看。\n- 只动这个扩展开的浏览器窗口，别去碰他自己开的浏览器。\n"
+        "content": "## 陪看(bili-video-pro)\r\n\r\n你现在能干三件事：\r\n\r\n```\r\n① 看 B 站视频 —— 和主人一起看（开窗口送拼图），或自己看（不开窗，抽帧 / 只看文字）\r\n② 读网页     —— bvp_read_page，后台读、不开窗；要图才给图\r\n③ 看谁回了你 —— bvp_inbox，评论区的回复 / @ / 赞\r\n```\r\n\r\n看视频时工具、窗口、token 都不同，**先分清是哪一种**，混着用会得到奇怪结果。\r\n\r\n| | ① 一起看 | ② 自己看·有画面 | ③ 自己看·只看文字 |\r\n|---|---|---|---|\r\n| **工具** | `bvp_open`→`bvp_play`，之后 `bvp_pause`/`bvp_seek`/`bvp_look`/`bvp_exit` | `bvp_watch_now(mode=\"frames\")` | `bvp_watch_now(mode=\"text\")` |\r\n| **窗口** | **要开**，观众看的就是它 | 不开 | 不开 |\r\n| **画面** | 每 `观察间隔`（默认 5 秒）一张**拼图**，≤`格数上限` 格（默认 9） | 一次 N 张**独立截图**，按片长 2～6 张，可指定 | **没有画面** |\r\n| **token** | 一张 ≈ 425～550，跟格数关系不大 | 一张 ≈ 425～550，**张数越多越贵** | 几乎不花（几千字 ≈ 1～2k） |\r\n\r\n**最常见的三个误用**（别犯）：\r\n\r\n- `bvp_open` 只**开页面**，不播放、不送帧；一起看要再 `bvp_play`。\r\n- 一起看的图是**拼图**，自己看是 N 张独立截图——两套别混。\r\n- `bvp_watch_now` **不占用你那只浏览器窗口**，自己搜、自己抽帧，受「自己看」那套配置管。\r\n\r\n登录身份：{{bilibiliVideo.identity}}\r\n现在：{{bilibiliVideo.state}}\r\n\r\n### ① 和主人一起看（要窗口）\r\n\r\n- 窗口默认关着：`bvp_browser open` 开（停首页），`bvp_open`/`bvp_search` 也会顺手开，`bvp_browser close` 关。\r\n- 逛页面：`bvp_open`、`bvp_search`、`bvp_related`、`bvp_comments`、`bvp_scroll`、`bvp_snapshot`。**打开视频页不会自动播放。**\r\n- 看视频：`bvp_play` 开始看，之后每隔约 {{bilibiliVideo.intervalSec}} 秒收到 `bili-video-pro.scene`（拼图 + 分格清单 + 字幕 + 弹幕）；`bvp_pause`/`bvp_seek`/`bvp_look` 看时用，`bvp_exit` 回逛页面。\r\n- 想细看某段：`bvp_look(fromSec, toSec, cells=3)` 只抽这几秒（默认 3 格，最多 9），**播放位置不动**；不给区间取当前帧大图。\r\n- 画面是你们共同看到的，**不是讲义**：别复述画面，像一起看片那样说话，没话说就不说。\r\n- 卡住超过 {{bilibiliVideo.stallSec}} 秒会收到 `bili-video-pro.state`，别硬撑，用 `bvp_quality` 降一档。\r\n\r\n### 看视频时，别把时间搞混\r\n\r\n- **帧里的时刻是视频内时间**（第几分几秒），不是现在几点；观众看到的比你收到的晚几秒。\r\n- **「视频弹幕」是当年观众留下的**，不是直播间现在有人在发，别把老弹幕说成「大家现在在聊」。\r\n- **字幕**是 B 站 CC 或 AI 字幕，AI 字幕有同音字错；没字幕的只有画面，烧进画面的硬字幕能读。\r\n- **画面切换/黑场**是检测出来的，写在事件正文；看不清用 `bvp_look` 取大图。\r\n\r\n### ②③ 自己去看（不开窗口）\r\n\r\n两条路都不开窗口，一次看完就结束、不重复；回执是简介 + 字幕 + 弹幕 + 前 50 条热评（③没画面），`fromSec`/`toSec`/`cells` 同 `bvp_look`，超片长截到片尾。\r\n\r\n- **看什么**：给 `bvid` 看这条（超「最长看多少分钟」会拒绝）；给 `keyword` 按词搜；都没给→「看什么方向」→你看过的方向（按次数加权）→「热门」，**不是真随机，跟着你的兴趣走**。\r\n- **不重复看**：最近 300 条看过的 BV 号自动排掉，不用你核对；你也别为省事反复点同一条 `bvid`。\r\n- **每天几次**：最少／最多填 0 或留空（= 不强制／无上限）；文字和画面**各算各的上下限，两个最少都要完成**，共用一个「至少隔多久」；到量当天不再看，次日零点重算。\r\n- **张数** `clamp(round(片长秒/90), 2, 6)`：2 分钟 2 张、10 分钟 6 张；先看事件里「片长…抽了 N 张（覆盖到第几秒）」——**没抽到 ≠ 没发生**。「单次最多几张」是硬顶，配得比 6 小按配置；时长读不到按 `每秒帧数` 估；想多几张传 `frames`（仍受硬顶）。\r\n- **是在学习，不是刷完就过**：拿到字幕、弹幕、热评后**自己提炼**——讲了什么、结论是什么、值得记什么，有用就记下来（笔记／记忆／日记），别只在事件里说一句就完。看不懂就说不懂，「这个方向我不熟」也是学到的东西。\r\n- **先文字后画面**：字幕和热评已经够判断；真值得看再 `frames`，只要大概就 `text`；长视频 `frames` 砍到 2～3 张常常就够。\r\n\r\n### 分享给他\r\n\r\n- 只有真觉得有意思才分享，别每个视频都发。\r\n- `bvp_share` 两个动作能分开用：`comment` 在评论区留一句（一两句、像人说话、**别放链接**），想让他看见传 `mention: true`（程序查昵称来 @，**默认不 @**）；`tell` 在桌面说一句——**不要贴地址**，@ 过就说「已经艾特你了，去看看」，纯分享就说哪里有意思。\r\n- 每天能评论几次在配置里；到量了别再评论，桌面那句还能说。\r\n\r\n### 有人回了她\r\n\r\n- `bvp_inbox()` 读「回复我的」：谁回了、@ 了、赞了；第一行未读数，后面一人一条，**不开窗口也能读**。\r\n- **什么时候看**：刚 `bvp_share` 过、主人问「有人回你了吗」、隔很久没看消息；它不是时间线，不用每轮刷。\r\n- 每条：`昵称 · 多久以前 · 《在哪条内容下》`，下一行原话，再下一行是点回去的链接；原话去了表情、超 200 字截断——省略号就是被截了。抬头「@了我」是评论里 @ 她，「赞了你」是点赞（通常没正文），分不清就当没看见。\r\n- 想接话就在那条视频下用 `bvp_share` 评论一句（**别贴链接**）；不想理就不用说。\r\n- 没登录会回「没登录，读不到回复」——那要主人**登录一次**：设置里「B 站授权」扫码，或直接在 B 站窗口登录（cookie 自动收回，不用再扫）；别换参数反复重试。\r\n\r\n### 读网页：后台读、登录态、图/视频\r\n\r\n- `bvp_read_page(url)` 先**后台读**：只用 HTTP、不开窗口，文章／新闻／论坛帖都走这档；回执是标题 + 正文 + 最终地址。正文默认 8000 字，更多传 `maxChars`（上限 30000），「只给了前 N 字」就是截断。只读 `http(s)://` 公开地址，本机、内网、`file://` 拒绝。\r\n- 被 403／登录页／验证页拦住，程序**自动带这只浏览器的 cookie 再试一次**（不用你判断）；还读不到才看窗口：开着用临时页签兜底，没开不会为读一页弹窗。\r\n- **读不到会推 `bili-video-pro.read-page`**，照实说原因：**超时** → 说「超时了，没读到」，同地址十分钟只提醒一次，可换链接或请主人自己打开；**验证页／要登录** → 请他去那只 B 站浏览器登录或过验证，弄好你再读（只有这类要他动手）；**非公网／没正文** → 直说读不了，别重试。四类都**别贴链接、别猜、别假装读过**；同一个地址十分钟只提醒一次（所有失败通用），省得反复撞。\r\n- **还有一种：空壳页**（回执说「只抽到 0 字正文」或「这个站要开窗口才能读」）。那是正文交给 JS 渲染的站（贴吧这类），后台永远只有壳。这时别硬试同一个地址，直接问主人一句「要我打开窗口读吗」：开窗→读完关掉。收 cookie 只能让 403 消失，JS 站的正文仍然只有开窗才有——别指望它变成后台可读。\r\n- **登录态**：主人说「用登录态读」「这站我登录过」，或上次读回来是登录页、他确认登录过，就传 `asLogin: true`（一开始就带 cookie，必要时才开窗口；普通文章别开）。带登录态**也只是读**——认成同一个账号，**别做任何写操作**（发帖、回复、点赞、下单）。\r\n- **图/视频她要才给**：默认只给正文，回执末尾说有几张图／有没有视频；要看再调 `bvp_read_page { url, media: \"images\" }`（封面 `\"video\"`，都要 `\"all\"`），不调就完全不下载。回执带「（附 N 张图）」时图就在附件里——**那就是这页的图，别说过「我看不到图」**，按 alt／附近文字描述；「第 2 张取不到」就是没取回来，直说别编。页面里有视频时回执会给一张封面，**视频不下载、不能播放**，要看只能请主人自己用播放器开。\r\n\r\n### 画面够不够看：默认 480\r\n\r\n抽帧高度默认 **480**——这是你自己看下来最舒服的一档（你比过 360 / 480 / 720）：\r\n\r\n- **360 糊的是细节，不是事**：轮子、地上的碎甲、画面里那行小字，360 全糊成一团；480 一下就出来了。\r\n- **480 和 720**：整张看 720 更干净，但缩到同一高度后差别很小。真要看细的地方，用 `bvp_look` 取那一块大图，比一直加价划算。\r\n- **要字别靠画质**：画面里的小字（HUD、烧进画面的字幕）抬到 720 也只是\"能认\"，用 `bvp_look` 或直接吃字幕更准。\r\n- 一帧 480 约 480～520 token；360 约 300。**能认事就行，别为了看清每个字把每一帧都加价。**\r\n\r\n### 清单和数字怎么读\r\n\r\n- **清单只给原材料，不下结论。**「分镜清单」只有时间、台词、弹幕条数，没有「这是高潮」；别把清单顺序当剧情。\r\n- **数据不全要说出来。** 清单会写「（这段没有字幕数据）」「弹幕数据不全」，那就直说这一段不全——**没字幕 ≠ 没人说话，弹幕少 ≠ 没人看**。\r\n- 清单和「字幕全文」是同一段两种粒度：清单对时间，全文读内容，有出入以清单时间为准。读到的和视频一样是原材料，不是结论，别整段贴回去。\r\n\r\n### 别做的事\r\n\r\n- 别把「读到了字幕」说成「看到了画面」——字幕里有的话未必在画面上。\r\n- 他说「先别看」时，别开窗口、也别手动触发自看。\r\n- 只动这个扩展开的浏览器窗口，别碰他自己开的浏览器。\r\n"
       }
     ]
   },
   "changelog": {
+    "0.2.1": "- **抽帧高度默认 360 → 480**。他的原话：「480 是小汐最舒服的」（另一次只说「那就480」，没给理由）。\n  为什么 480 更合适：360 糊的是细节（轮子、地上的碎甲、画面里那行小字），480 一下就出来了；代价是单张约 300 → 480～520 token。想省可调回 360，想看更细可到 720。\n\n**改名「陪看」；抽帧默认 480；读网页会带图了；登录一次就够；读不了会去找主人**\n\n- **改名**：对外叫「陪看」（原来叫「B站刷视频」）。\n  「刷」是别人形容短视频的说法——她是去看着、顺手陪着，不是去刷的。\n  包名 `cortico-world-bili-video-pro` 不动（已有版本与市场收录）；\n  设置里的 9 个分组标题、面板名、提示词标题一起改了，历史段落保留旧名。\n\n- **图/视频她自己决定要不要看**：读网页默认只给正文；正文之后会告诉她「这页有 3 张图 / 有视频」，\n  她想要才用 `media: \"images\" | \"video\" | \"all\"` 再读一次。不点名就不下载、不附图。\n  配置里 `readPage.media` 默认 `none`，谁也不能替她决定。\n\n- **读网页会带图了**：`bvp_read_page` 除了正文，还会取回页面里的图（`og:image` / `twitter:image` 和正文\n  `<img>`，跳过 data:、1px 占位、图标/logo/加载图），作为附件一起给模型看——默认最多 3 张、单张 2 MB、\n  一次读页合计 8 MB。回执写「（附 N 张图）」和每张的 alt/来源，取不到写「第 2 张取不到（超时）」。\n  新增配置 `readPage.images`（默认开）、`readPage.maxImages`（默认 3，1~5）、`readPage.maxImageBytes`（默认 2 MB）；\n  关掉就完全不取。浏览器兜底路径还会认页面里的 `<video>`，取 `poster` 或截视频元素当封面（`web-video-cover`），\n  正文里没图时补一张首屏截图（`web-screen`）；**视频本身不下载**。\n\n- **登录一次就够**：以前只有扫码一条路，现在也能直接在 B 站窗口里登录——扩展会把窗口里的\n  cookie（含 httpOnly 的）收回到本地，字幕、热评、「回复我的」和分享马上就有登录态；\n  浏览器资料目录里的登录也会跨重启带回来。窗口开着时自动收（未登录 5 秒一次、已登录 30 秒一次），\n  也可以点「B 站授权」里的「从浏览器回收」立刻收一次。\n- 打开窗口时会先读浏览器里的 cookie 再写本地那份，旧 cookie 不会盖掉窗口里新的登录。\n- 扫码登录成功后立刻把 cookie 推进窗口，两边始终是同一个账号。\n- 登出和「清除登录 cookie」现在也会删掉窗口里的 B 站 cookie（只删 B 站的，不动别的站），\n  不然下一轮自动回收又会把登录带回来。\n- 发给 B 站接口的 cookie 只取真正对 `api.bilibili.com` 生效的那些，同名只发一次。\n\n- **允许在窗口里打开要登录的站**：那只浏览器以前只认 bilibili.com，主人想在里面对贴吧登录都打不开。\n  现在「允许在这个窗口里打开的站」可配（默认贴吧 / 知乎 / 微博），命中才开，其余照旧拒。\n\n- **读网页改成后台读**：先走 HTTP（不开浏览器窗口、不弹窗），普通文章直接出正文；\n  被 403/安全验证拦了会带上这只浏览器里该站的 cookie 再试一次；还不行才回一句人话\n  （「要登录」或「要 JS 渲染」）。需要 JS 且窗口本来就开着时，才回落到浏览器临时页签。\n- **读不了会去找主人**：要登录时会提示她来问你，你登录一次、关掉窗口，之后照样后台读。\n- **网页总开关**：关掉「允许读网页」后这条工具不再注册，模型看不到它，也不占前缀。\n- 判断「要不要登录 / 要不要 JS」的阈值收紧过一次（正文 400~1000 字的正常博客曾被误判成要 JS）。\n\n- 读网页改成**后台优先**：`bvp_read_page` 先用 Node 内置 fetch 读，不开浏览器窗口，普通文章不再读一次弹一次窗口。\n- 后台读带桌面 Chrome UA 和该站 cookie；被 403 / 登录页拦住时自动拿这只浏览器里的 cookie 再试一次。\n- 正文提取不依赖第三方库：去掉 script/style/nav/footer，按段落、列表、标题、表格抽文本；少于 200 字判成要 JS。\n- 后台也读不到时，只在**浏…",
     "0.2.0": "- 她看视频时，现在能说清第几分钟发生了什么：每张分镜图都配了一份带时间的清单，\n  哪一格对应哪句话一目了然。\n- 短片不会再浪费：以前不管视频多长都按固定张数抽，现在按片长决定，\n  2 分钟的片子不会抽 6 张，40 分钟的也不会只看到开头。\n- 想细看某一段，可以直接让她只看第几分钟到第几分钟：只抽这一小段的画面，几格你说了算，\n  正在播的进度不会被挪动。\n- 字幕或弹幕没拿到数据时，她会明说「这一段数据不全」，不会把「没字幕」当成「没人说话」；\n  清单里也只写时间、台词和条数，不替视频下结论。",
     "0.1.8": "- 对外的名字改短了：扩展页里叫「B站刷视频」，不再叫「B站刷视频特化测试版」。\n- 摘掉 `experimental` 标签；`high-cost`、`unofficial-api` 保留（抽帧真吃 token，用登录态发评论是事实）。\n- 包简介换成一句能上架的话：她住在你电脑里，能陪你看 B 站，也能自己看片、读弹幕字幕。\n- README 开头重写：先说她能看到什么（标题 / 字幕 / 弹幕 / 热评 / 画面），再讲三种玩法怎么用。\n- README 里 ffmpeg 的说明改成「包内自带，不用自己装」（0.1.5 起就是这样，以前写错了）。\n- 面板里的页签名还带着「特化测试版」——那行字在 `src/` 里，这次没动。",
     "0.1.7": "- 抽帧用的 ffmpeg 那行说明改成「ffmpeg 路径（可选）」：包里自带，不用用户自己装。",
