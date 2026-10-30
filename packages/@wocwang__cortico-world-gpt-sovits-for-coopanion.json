@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
-  "version": "0.5.26",
+  "version": "0.5.27",
   "describe": {
     "tools": [
       {
         "name": "sovits_speak",
-        "description": "Say a line aloud in your voice, after any line still playing. Emit it in the same reply as the pet_say it voices, immediately followed by that pet_say, without waiting for this result: tools run in order, so the bubble appears as the voice begins. Bubble markup (【…】 and <…>) is skipped, so the text can be the pet_say script verbatim. If the text starts with 【唱】 (also [唱] or [sing]), the rest is treated as a lyric line and sung in your voice by the DiffSinger singing plugin instead of being spoken; if that plugin is missing or not ready the line is simply spoken, so it is always safe to try.",
+        "description": "Say a line aloud in your voice, after any line still playing. Emit it in the same reply as the pet_say it voices, immediately followed by that pet_say, without waiting for this result: tools run in order, so the bubble appears as the voice begins. Bubble markup (【…】 and <…>) is skipped, so the text can be the pet_say script verbatim. If the text starts with 【唱】 (also [唱] or [sing]), the rest is treated as a lyric line and sung in your voice by the DiffSinger singing plugin instead of being spoken; if that plugin is missing or not ready the line is simply spoken, so it is always safe to try. A sung line is also handed back as an audio attachment (with silent: true, or when lines are handed to other plugins), so a QQ voice message can send the same song.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -78,6 +78,7 @@
     ]
   },
   "changelog": {
+    "0.5.27": "- **唱歌也能发到 QQ 了**：`sovits_speak` 带 `【唱】` 时，回执里也会附上整段歌曲的 `[blob …]` 音频句柄，\n  不再只有一句「Sang one line」；`silent: true` 现在只表示「不在本机外放」，照样把音频交出去，\n  QQ（`qqbot` / `qq-final`）可以拿同一个句柄发语音条。Discussions #228 里反馈的「唱歌递不到 QQ」就是这条。\n- **说话标点处的停顿变短**：`/tts` 请求补上 `fragment_interval: 0.1`（api_v2 默认 0.3 秒会在每个切开的\n  标点段之间插静音）。实测同一句在逗号处的停顿从 0.48–0.60 s 降到 0.36–0.46 s，语流更连贯。\n- **播放缓冲从 20 ms 提到 40 ms**：合成稍慢或网络抖动时，原来容易出现「写不进去 → 空一段 → 再续上」的断续，\n  听起来像标点卡顿；只多 40 ms 延迟，连续性明显变好。\n- **AMD 显卡提示**：没检测到 NVIDIA 时会查一次显卡厂商；「自动」档直接说明「检测到 AMD 显卡（没有 CUDA），\n  使用 CPU 档」，手动选了显卡档则在面板里提前警告，服务日志也记一条，避免在 AMD 机器上白下约 4 GB 显卡运行时。\n  配置页的「推理档」说明补上「AMD / Intel 只能 CPU 档」。",
     "0.5.26": "- **按 issue #538 的建议改回「先语音、紧跟气泡」**：环境提示词（中/英）与 `sovits_speak` 的说明都改成\n  在同一次回复里先调用 `sovits_speak`、紧接着调用 `pet_say`，两个调用连着发出、不等回执。`sovits_speak`\n  等这一句的第一块音频写进声卡才返回（至多 3 秒），所以气泡正好在声音响起时出现。\n  说明里不再写「返回时声音已经开始了」这类描述——那会让模型拆成两次回复，气泡反而晚约 1 秒。\n- **不外放的句子直接回执**：`silent: true` 或关掉「本机外放」时没有声音要和气泡对齐，原先也要等满 3 秒\n  才返回，现在立即返回，气泡不会白等。",
     "0.5.25": "- **修「重装运行时卡在最后一步：`Path is a directory: ...\\GPT_SoVITS\\pretrained_models`」**：旧运行时里的\n  `pretrained_models` 是指向权重目录的目录联接，部分 Node/Electron 版本对联接执行 `unlink` 会直接报\n  「Path is a directory」，于是下载解压全部成功、最后替换目录时失败（重试多少次都一样）。现在拆联接\n  走 `unlink` → `rmdir` 两级兜底（只摘联接、绝不删权重），拆不掉时先把旧目录改名挪开再落新目录，\n  装完再尽力清理，安装不再卡在这一步。\n- 顺手修「启动服务时重建联接」的同类问题：已有联接改用同样的安全删除，避免个别机器上报同样的错。",
     "0.5.24": "- **训练 WebUI 不再卡在「运行时不完整，缺少 tools/asr、tools/uvr5」**：运行时包只打进了推理要用的\n  组件，上游 `webui.py` 一启动就要 `tools/asr`、`tools/uvr5`。现在点「启动训练 WebUI」时自检，\n  缺了就从上游整包（GitHub / ghfast / gh-proxy，约 7 MB）下下来，只把这两个目录解出来复制进运行时根，\n  然后照常启动；补不上才报错并说明是哪一步失败。推理用户不受影响，也不会多下东西。",
