@@ -813,13 +813,17 @@
     },
     "coopani-world-music": {
       "kind": "world",
-      "version": "0.5.1",
+      "version": "0.5.4",
       "displayName": "一起听歌",
-      "description": "陪着你听歌（需 Coopani 0.2.16+）：知道 QQ音乐、网易云在放什么。换歌必说一句，一首歌里分几段接话，还能就着刚唱过的词评两句；表情和动作跟着曲风变，也会从同专辑、同歌手和已标曲目的声音特征里逐步学会判断新曲。**她听得到真实的拍子**——采系统输出算 BPM，动作按这首歌自己的鼓点走。想听调子时还能深听（默认云端，填个密钥即可；也可切成完全本机的分轨模式，需下载约 500MB），听出调性、和弦、主旋律、声部和乐器，并把听过的段落攒成整首的档案。记得住今天听了几首、最常听谁、哪首被循环过，能",
+      "description": "陪着你听歌（需 Coopani 0.2.16+）：知道 QQ音乐、网易云在放什么，换歌必说一句、分段接话，还能就着刚唱的词评两句；动作跟着真实鼓点走。想听调子就深听——默认云端（填密钥即可），也可切成完全本机（约 500MB），听出调性、和弦、旋律、声部、乐器，并把听过的段落攒成整首档案；问她「听得清吗」会先听再答，没配好会直说。还记得听歌记录、常听歌手和一份自己写的口味档案。",
       "locales": {
+        "zh": {
+          "displayName": "一起听歌",
+          "description": "让桌宠陪你听歌，而不是替你听。\n\n**她陪着听。** 知道 QQ音乐、网易云在放什么，换歌一定说一句：歌名、歌手、一句实话。一首歌里再分两三段接着聊，能就着刚唱过的一两句词说，不念歌词本。表情和动作跟着曲风和段落走，拍子跟着这首歌真实的鼓点，不是写死的钟摆。\n\n**她真的听得到，而且分得清自己听到什么。** 三档从不混用：能量层（BPM、响度、低音倾向，一直在）、深听层（调性、和弦、主旋律音名、声部、乐器，按需）、印象层（她训练里记得的这首歌）。问她「你听得清吗」，她会先去听再答；深听没配好会直接说，不装。\n\n**深听两档，自己挑。** 云端（默认）：填一个 OpenAI 兼容接口的密钥就能用，不占本机空间，十几秒切片会上传、分析完即删；本地：装约 500MB 的分离模型，之后完全在本机跑、不联网。两档给同一套结果，每听一次会并进这首的档案，攒出「前面是钢琴、副歌进了鼓」这种走向。\n\n**她不会做的事。** 不编歌词、不编旋律；十几秒切片不是整首总谱；乐器一律说「倾向」，不说成鉴定；不替你决定听什么；没打开的开关绝不装作打开了。\n\n**她用的工具。** music_now、music_history、music_taste、music_control、music_lyric、music_listen、music_tag、music_note、music_pick、music_soul。\n\n**装它还需要什么。** Windows 10/11、Coopani 0.2.16 以上。要跟拍就得允许它采系统输出的能量（设置里能关，只有 Windows 有这条路）。本地深听另需 Python 3.10+，一条安装脚本搞定。\n\n**已知限制。** 网易云不上报进度，只能读窗口标题；一首歌最多三段；替她按播放要靠桌宠的「电脑操作」；曲风靠她认和逐步学习，证据不足时就说「还没标」。记忆默认在本机，可以指到同步盘。"
+        },
         "en": {
           "displayName": "Listen With Me",
-          "description": "Listen With Me (needs Coopani 0.2.16+): knows what QQ Music or NetEase plays. A line on every track change, a few more along the song, and she quotes the lyric just sung. **She now hears the actual beat** — the system output is sampled for a tempo, so her motion follows the song instead of a fixed clock. She gradually learns to suggest genres from albums, artists and the audio profiles of tagged tracks. Deep listening comes in two flavours: cloud by default (bring an API key for any OpenAI-compatible audio model), or fully local stem separation (about 500MB of models, nothing uploaded) — either way she gets key, chords, melody, stems and instruments, and builds up a per-track sheet as you listen. She remembers tracks today, favourite artists and song notes, and keeps her own taste file in her own words."
+          "description": "A companion who listens with you, not instead of you.\n\n**She listens along.** She knows what QQ Music or NetEase is playing and says a line on every change — title, artist, one honest opinion — then a couple more along the song, quoting the line just sung instead of reciting lyrics. Her face and motion follow the genre and the passage, and the beat follows the song's actual drums rather than a fixed pendulum.\n\n**She really hears, and she knows what she hears.** Three layers kept apart: energy (tempo, loudness, low-end bias — always on), deep listening (key, chords, melody notes, stems, instruments — on demand), and memory (what she knows about this song from training). Ask \"can you hear it properly?\" and she listens first, then answers; if deep listening is not set up she says so instead of pretending.\n\n**Two ways to deep listen.** Cloud (default): bring a key for any OpenAI-compatible audio model, nothing to download, the 12-second slice is uploaded, analysed and deleted. Local: about 500MB of separation models, everything stays on this machine. Both return the same fields, and every listen is merged into a per-track sheet — so \"piano first, drums in the chorus\" becomes something she can actually say.\n\n**What she will not do.** She will not invent lyrics or melodies. A 12-second slice is not a full score. Instruments are always a leaning, never a verdict. She will not decide what you should listen to, and she will never pretend a switch is on when it is off.\n\n**Tools she uses.** music_now, music_history, music_taste, music_control, music_lyric, music_listen, music_tag, music_note, music_pick, music_soul.\n\n**What it needs.** Windows 10/11 and Coopani 0.2.16+. Beat-following samples the energy of the system output (can be switched off; Windows only). Local deep listening also needs Python 3.10+ and one install script.\n\n**Known limits.** NetEase does not report progress, so only the window title is available; at most three passages per track; pressing play for you depends on the pet's computer-control switch; genres are recognised and learned, and she says \"not tagged yet\" when the evidence is thin."
         }
       },
       "author": "Mr.Q",
@@ -844,8 +848,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-10-30T18:38:15.515Z",
-      "versionCount": 34,
+      "published": "2026-10-30T18:54:31.255Z",
+      "versionCount": 37,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -879,6 +883,9 @@
       },
       "changelog": {
         "versions": [
+          "0.5.4",
+          "0.5.3",
+          "0.5.2",
           "0.5.1",
           "0.5.0",
           "0.4.11",
@@ -916,7 +923,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-music@0.5.1/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-music@0.5.4/CHANGELOG.md"
       },
       "discussion": {
         "number": 384,
@@ -13950,7 +13957,7 @@
     },
     "cortico-world-starpost": {
       "kind": "world",
-      "version": "0.17.5",
+      "version": "0.18.1",
       "displayName": "星邮",
       "description": "星邮：让 Cortico bot 独立私聊、群聊、交换漂流瓶、分享动态并预约狼人杀的社交 World 扩展",
       "maintainers": [
@@ -13970,8 +13977,8 @@
         "bugs": "https://github.com/hth768/cortico-world-starpost/issues"
       },
       "created": "2026-10-27T17:41:43.822Z",
-      "published": "2026-10-30T08:40:16.872Z",
-      "versionCount": 28,
+      "published": "2026-10-30T21:45:18.792Z",
+      "versionCount": 30,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -13992,13 +13999,15 @@
         "week": 4481
       },
       "summary": {
-        "tools": 15,
-        "events": 50,
-        "toolTokens": 3433,
-        "envPromptTokens": 817
+        "tools": 1,
+        "events": 58,
+        "toolTokens": 264,
+        "envPromptTokens": 234
       },
       "changelog": {
         "versions": [
+          "0.18.1",
+          "0.18.0",
           "0.17.5",
           "0.17.4",
           "0.17.3",
@@ -15407,7 +15416,7 @@
     },
     "cortico-world-wardrobe": {
       "kind": "world",
-      "version": "0.3.5",
+      "version": "0.3.6",
       "displayName": "换装",
       "description": "非官方换装 World：独立形象包「换装鲸鱼」+ World 详情衣橱面板；不改官方桌宠宿主。",
       "author": "Kwan443",
@@ -15423,8 +15432,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-wardrobe"
       },
       "created": "2026-10-28T11:12:54.697Z",
-      "published": "2026-10-30T14:42:24.501Z",
-      "versionCount": 18,
+      "published": "2026-10-30T19:56:04.430Z",
+      "versionCount": 19,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -15446,10 +15455,11 @@
       },
       "changelog": {
         "versions": [
+          "0.3.6",
           "0.3.5",
           "0.3.4"
         ],
-        "url": "https://unpkg.com/cortico-world-wardrobe@0.3.5/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-wardrobe@0.3.6/CHANGELOG.md"
       },
       "discussion": {
         "number": 432,

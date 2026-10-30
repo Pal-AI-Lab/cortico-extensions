@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-wardrobe",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "describe": {
     "tools": [
       {
@@ -109,6 +109,7 @@
     ]
   },
   "changelog": {
+    "0.3.6": "修复：\n\n- 换非默认后发（wavy / lob / short / 自定义发尾）后，默认的 `hair_back_curl` 卷发层仍被贴到这些后发上：`pack/wardrobe-whale/figure.js` 的 `withFrontHair()` 把它当作“要补回来的前发”处理。现在 `hair_back_curl` 只跟随默认（跟随服装）或本来就自带卷发部件的后发；换发尾时不再叠加默认卷发。",
     "0.3.5": "修复：\n\n- 设置窗口「世界 → 换装」每次加载报 `配置组缺 id、owner 或 schema.properties，已跳过`：`webUi()` 里的配置组结构不合法（缺 `owner` / `schema`）。移除这段只读的无效配置；形象 id 仍在「衣橱」面板的状态里显示。\n- 选非默认刘海（bob / fringe / 自定义刘海）后，宠物仍留着默认的 `hair_front_left` / `hair_front_right` 前发，看起来像「非默认发型还带默认侧发和刘海」。`pack/wardrobe-whale/figure.js` 现在只在刘海为「跟随服装 / 默认刘海」时补默认前发；自定义刘海只用自己的图，不再叠加默认前发。\n- 修复「从官方鲸鱼抄」的「套装」轴永远为空（“这一轴没有可选的项”）：官方鲸鱼把套装行叫 `outfit`，而衣橱面板选的是 `set`，两边没有做别名映射。现在 `listWhaleClothes` 把 `outfit` 同时暴露为 `set`，`copyFromWhale` 也接受 `set`/`outfit` 互为别名，可以正常抄 maid / cape / crew。\n- 形象包同步到当前版本：补上 **鲸鱼拾秋（autumn）**、**黄色毛绒服（yellowplush）** 套装及其 top / headwear / shoe / bottom 选项，更新 `figure.json`、`model.json`、贴图与缩略图（`set` 轴共 18 项）。\n\n维护：\n\n- `pack/wardrobe-whale` 与当前实际使用的 `companion/data/figures/wardrobe-whale` 同步（768 个文件一致），以后安装这个版本的人拿到的就是这套包。",
     "0.3.4": "（此前版本的说明未单独归档；0.3.5 起在本文件记录更新内容。）"
   }
