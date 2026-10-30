@@ -1,0 +1,620 @@
+{
+  "schema": 1,
+  "name": "cortico-world-fishing",
+  "version": "0.3.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "fish_go",
+        "description": "**自己走到钓位坐下开钓**（不用谁把你拖过去）。她会走到池塘那把椅子处、停住一会儿就自动坐下握竿（到没到、坐没坐由钓鱼世界自己判，不看你的回执）。已经在钓位带里就直接开钓；正在读书/吃饭会如实回一句\"先合上书 / 等吃完\"。想收工走人用 fish_leave。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "fish_leave",
+        "description": "**收竿起身走开**（自己从钓位离开）。三件一起做：把竿收起来、站起来、走到钓位左边十二个百分点处 —— 于是\"她在钓鱼\"这件事真的结束了（会话收工、鱼竿从手上消失）。没在钓的时候调它只会回一句\"你没在钓\"。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "fish_status",
+        "description": "看一眼你自己的钓鱼摊子：金币、当前鱼竿、鱼篓里几条、累计钓到多少、现在有没有在钓、这一刻有几种鱼可钓。想知道\"我钓得怎么样了\"就先调它。**想一次看全，就把 `clock` / `bag` / `farm` 一起传 true** —— 那样它会顺带给出\"距上次喂鱼/读书/吃饭/钓鱼多久\"、鱼篓按鱼种归并的摘要、以及九格田的现状；这三样平时要各调一件工具（各占一趟），一起传就省两趟。要看细节再单独调 `fish_clock` / `fish_bag` / `fish_farm`。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "clock": {
+              "type": "boolean",
+              "description": "顺带报\"距上次喂鱼/读书/吃饭/钓鱼多久\"与此刻在忙什么。"
+            },
+            "bag": {
+              "type": "boolean",
+              "description": "顺带报鱼篓摘要（按鱼种归并、共值多少）。"
+            },
+            "farm": {
+              "type": "boolean",
+              "description": "顺带报九格田现状与种子袋（不含价目表）。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ]
+      },
+      {
+        "name": "fish_bag",
+        "description": "看鱼篓里有什么：按新到旧列出（名字、几星、能卖多少钱），并给出总价值。想卖鱼换金币之前先看它。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "看几条，默认 20。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "fish_box",
+        "description": "看**杂物箱**里有什么：垃圾（钓上来的破烂）、宝藏（值钱的宝石）、以及回收出来的材料（石头/煤/铁矿石/木材/火把/布料/精炼石英）。鱼篓只管鱼，杂物箱管这些。想知道\"有什么能卖、有什么能回收\"就看它。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "fish_recycle",
+        "description": "把杂物箱里的**垃圾**回收成材料。不传 itemId 就是把能回收的全回收了；传了就只回收那一种（名字或 id 都行，比如「浮木」或 driftwood）。可乐回收不了，会被留在箱子里。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "itemId": {
+              "type": "string",
+              "description": "只回收这一种：垃圾名或 id。省略＝能回收的全回收。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "fish_shop",
+        "description": "看今天的**伙食**：店里上了哪几道菜、每份多少钱、今天还能买几份（每种一天限购 5 份，过了零点换一批）。想买就用 fish_buy_food。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "fish_eat",
+        "description": "吃一份食物箱里的菜。**吃过之后的一段时间里，钓上来的东西会更好一些**——水里的破烂少一些，值钱的玩意儿容易碰上一些。具体多好不写在账本上，你自己吃着瞧。**吃一份占你 60 秒**：这一分钟里你不能钓鱼、不能读书，别的动作也先别做（时间一到自己松手）。**别老吃同一样，营养要均衡**：同一道菜 30 分钟内连着吃，这一口的加成会打折（第 2 口 ×0.5、第 3 口 ×0.25），**第 4 口起直接拒**（那一下连食物箱都不动）。换着吃、试没吃过的，才是划算的吃法。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "foodId": {
+              "type": "string",
+              "description": "要吃哪道菜：菜名或 id。省略＝吃食物箱里最贵的那道。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "fish_shop_ingredient",
+        "description": "看一眼**杂货铺**有什么、多少钱、自己已经有多少。想买原料做菜之前先看它。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "fish_cook",
+        "description": "**做菜**：把背包里的原料（鱼篓的鱼 + 杂货箱的杂货 + 食物箱里自己做的半成品）凑成一道菜。材料不齐会告诉你缺什么。做好的进食物箱，可以用 fish_eat 吃（吃得巧，水里那些破烂会少一些），也可以拿到商店卖。不传 foodId 就是列出**现在能做**的菜。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "foodId": {
+              "type": "string",
+              "description": "要做哪道菜（菜名或 id，比如「烤鱼」或 food-05）。省略＝列出现在能做的。"
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20,
+              "description": "做几份，默认 1。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "fish_recipe",
+        "description": "**看菜谱**：81 道菜里哪几道现在能做、每道缺什么原料、卖多少钱。`filter` 可以只看\"能做的\"或\"缺料的\"。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "filter": {
+              "type": "string",
+              "enum": [
+                "all",
+                "ready",
+                "missing"
+              ],
+              "description": "默认 all（全表）。ready = 现在能做的；missing = 还缺料的。"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 81,
+              "description": "最多列几道，默认 20。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "fish_farm",
+        "description": "看一眼桌面**左下角那 3×3=9 格田**：每格里种的是什么、长到哪了、还有几分钟熟、熟了没有；顺带告诉你种子袋里还剩几包、农田箱里有哪些收成、今天的商单推了哪两样。**还有就是\"要价就看这一条\"**：种子铺 / 野货铺 / 杂货铺的现价都由它一次现算给你（别背价目表，价会变）。想种就用 fish_plant（一格）或 fish_plant_all（从上到下依次种好几格），想收就 fish_harvest。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "fish_plant",
+        "description": "**种下一包种子**：先走到那一格的正中间，举起锄头挖一下，停 5 秒，再把种子种下去。种完那一刻开始按**现实分钟**长大。不传 plot 就挑第一格空地（行优先）。要一次种好几格就用 fish_plant_all。（这一条要等她走过去，慢的时候十几秒，别急。）",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "cropId": {
+              "type": "string",
+              "description": "种哪种（名字或 id；稀有种子写 `taro:rare`）。省略＝种种子袋里最多的那种。"
+            },
+            "plot": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9,
+              "description": "种到第几格（1–9，左上算第 1 格，行优先）。省略＝第一格空地。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "fish_plant_all",
+        "description": "**从上到下依次把种子种满空地**（用户点名的那一条）：第 1 格 → 第 2 格 → … → 第 9 格，一格一格走过去、挖一锄头、停 5 秒。**手里有几包就种几格**，不强求种满 9 颗；`count` 可以只要前几格。因为每一格都要走 + 挖，种满 9 格会慢（几分钟），别急。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "cropId": {
+              "type": "string",
+              "description": "种哪种（名字或 id；稀有种子写 `taro:rare`）。省略＝种子袋里最多的那种。"
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9,
+              "description": "最多种几格（默认＝手里有多少包就种几格，最多 9）。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "fish_harvest",
+        "description": "**收成**：走到熟了的那一格正中，一锄头挖下去，把**一把**作物收进农田箱（一包种子收 12/24/36/48 份，按成熟档位；稀有种子再乘 1.5）。不传 plot 就收最先熟的那一格；`all: true` 把 9 格里所有熟的一起收。收上来的东西立即可用来做菜（去 fish_recipe 看哪几道变成了\"能做\"），也可以 fish_sell_farm 卖回商店。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "plot": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9,
+              "description": "收第几格（1–9）。省略＝最先熟的那一格。"
+            },
+            "all": {
+              "type": "boolean",
+              "description": "true = 9 格里所有熟的一次收完。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "fish_fertilize",
+        "description": "**撒肥**：走到那一格 → 一锄头把肥翻进土里 → 扣一包。**空地撒**＝先拌进土里（等她来种的时候按缩过的时长算）；**长着的撒**＝按**剩余**时间缩（不会把成熟时刻推到过去）。不传 `plot` 就自动挑最该施的那一格（先挑还在长、剩余时间最长的那格；都空着就挑第一格空地）。可买：初级肥料 20G（−15%） / 高级肥料 40G（−25%） / 顶级肥料 60G（−35%） —— 买了用 fish_buy_fertilizer。**施肥一定比不施肥赚**（同样一小时多跑几轮），所以别省这一包。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "plot": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9,
+              "description": "撒在哪一格（1~9）。省略＝自动挑最该施的那一格。"
+            },
+            "itemId": {
+              "type": "string",
+              "enum": [
+                "fert-basic",
+                "fert-good",
+                "fert-top"
+              ],
+              "description": "用哪一种肥料。省略＝肥料袋里最便宜的那种。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "fish_close_note",
+        "description": "**把平时观察到的一个信号记进你心里的亲近账**。参数 `kind` 只能填下面这九个之一（分值由我定，**你不用也不许自己算分**）：耐心解惑(patient) +3 / 帮忙(help) +2 / 道谢(thanks) +2 / 道歉(apology) +2 / 闲聊(smalltalk) +1 / 打断(interrupt) -2 / 冷嘲(sneer) -3 / 严厉(stern) -4 / 被冒犯(offended) -4。对同一个人**每天最多记 8 条**、最多 **+5 分 / −3 分**（超了我会如实告诉你\"今天记不下了\"，不硬凑）。第三个参数 `note`（可选）是你当时的那句话，会留在审计里 —— 以后你自己能查回来。**不传 `kind` 就是查账**：这个人的亲近感、档位、今天还能记几条、以及你最近记过什么。别为了讨好谁乱记：账是你自己的，记假了以后你自己看回去也难受。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "qq": {
+              "type": "string",
+              "description": "记谁：对方的 QQ 号（5~12 位数字，字符串或数字都行）。"
+            },
+            "kind": {
+              "type": "string",
+              "description": "信号名或 id，例如「耐心解惑」「patient」「被冒犯」「offended」。能记的：耐心解惑(patient) +3 · 帮忙(help) +2 · 道谢(thanks) +2 · 道歉(apology) +2 · 闲聊(smalltalk) +1 · 打断(interrupt) -2 · 冷嘲(sneer) -3 · 严厉(stern) -4 · 被冒犯(offended) -4。**省略就是查账**。"
+            },
+            "note": {
+              "type": "string",
+              "description": "（可选）你当时写下的一句话，会留在审计里。别写敏感信息。"
+            }
+          },
+          "required": [
+            "qq"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "read_book",
+        "description": "**在读书**：从你的书架 `workspace\\books\\` 里挑一本，摆出读书的姿势（手里捧着那本书），然后**你用自己的 read_file 按自己的节奏读**。规矩在 `reading\\README.md`（先看一遍）。**没有时限** —— 读到哪儿、读多久都由你定；读完（或者去干别的）会如实记一笔**真实耗时**。正在钓鱼时不能读书（先把竿收起来），正在吃饭时也不能（等这口咽下去）；反过来，正在读书时也别去钓鱼（要钓就先 `read_end` 合上书）。不传 `book` 就是列书架上有什么。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "book": {
+              "type": "string",
+              "description": "读哪一本：`books\\` 里的文件名（可以不带 .md），比如「庄子-选段」。省略＝列出书架上有什么。"
+            },
+            "section": {
+              "type": "string",
+              "description": "（可选）这一回准备读哪一节 —— 书里 `## 一` 那样的小标题。只是记一笔，方便日后回忆。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "read_end",
+        "description": "读完（或者不想读了、要去钓鱼了）：合上书、收起姿势，并把**这一次读了多久**（真实分钟数，进入与退出的时间戳一起）记进 `reading\\日志.md`。想法是写进 `reading\\笔记.md` 的（那条走 `append_file`），这里只记耗时。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "note": {
+              "type": "string",
+              "description": "（可选）这一节读下来的一句话，会跟在耗时记录旁边。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "reading_log",
+        "description": "看一眼你现在在忙什么（闲着 / 在钓鱼 / 在读书 / 在吃饭），以及**最近几次读书各读了多久**（`reading\\日志.md` 的最近几条，倒着列）。想知道\"我这阵子读了多少\"就调它。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20,
+              "description": "看最近几条，默认 5。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "fish_bait",
+        "description": "看**饵袋**里有什么：普通鱼饵（用了抛竿后的等待时间 ×0.6）与 5 种**特殊鱼饵**（一种对应一条传说鱼，只有挂了它那条鱼才会认真咬钩）。同时告诉你现在挂的是哪一包、以及那 5 条传说鱼各自还在不在水里（能不能钓）。想钓传说鱼之前先调它。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "fish_equip_bait",
+        "description": "换饵：挂上饵袋里的某一包，或者用 `none` 把饵摘下来。**没挂饵时钓鱼与从前一模一样**（等待时间 30 秒、也钓不到传说鱼）；普通鱼饵只缩短等待；特殊鱼饵才会把鱼口抢给对应的那条传说鱼。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "baitId": {
+              "type": "string",
+              "description": "挂哪一包（bait-normal / bait-lure / bait-magnet / bait-universal / bait-advanced / bait-son-of-crimsonfish / bait-ms-angler / bait-legend-ii / bait-glacierfish-jr / bait-radioactive-carp），或者 none 摘下来。"
+            }
+          },
+          "required": [
+            "baitId"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "fish_legendary",
+        "description": "看**传说鱼**的全表：5 条鱼的名字、描述、出现时段（按电脑时钟）、四档价钱，以及每条现在是什么状态（还在水里 / 已经钓到过了 / 养在鱼塘里 / 死在塘里）。顺带告诉你\"收杆有多难\"（命中率）与\"鱼塘产出宝藏\"的口径。想知道鱼塘现在怎么样、要不要喂，先调它。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "fish_clock",
+        "description": "问\"现在什么时候\"。一次说清两件事，**它们是两个钟，别混**：① **墙上日历**（现实里的日期与时刻，比如 2026-10-04 14:32）—— 只管说\"现在几点\"，什么判定都不看它；② **你醒着的第 N 天**（这个世界真的在跑的时间累计，N 从 1 起）与\"今天已经醒了多久\"——程序关着的那段时间**不在里面**，所以你关掉两天再回来，这个数一步都不会走。顺带报四个\"距上次多久\"：喂鱼 / 读书 / 吃饭 / 钓鱼（每一行的取数处都写在行尾）。**它只是看一眼，什么都不改。**",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "fish_collection",
+        "description": "**收集册与成就**。action 三选一：view（看：收集册交了几件、还差几件、哪些成就能领）；donate（交一件：鱼给 sid、作物或野货给 id；重复的不算进度；交够 10 件点亮，点亮给一次 5000 G）；claim（把够格的成就奖励一次领完）。不传 action 就是 view。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "view",
+                "donate",
+                "claim"
+              ],
+              "description": "view / donate / claim，缺省 view。"
+            },
+            "id": {
+              "type": "string",
+              "description": "donate 时要交的东西：鱼的 sid 或作物 id。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "fish_buy",
+        "description": "**买**：种子、鱼饵、饲料、草料、做菜原料、肥料、鱼竿、吃的。`kind` 选买什么，`item` 是名字或 id（种子比如「防风草」，鱼饵用 id）。价钱一律现查，别背：种子与肥料看 `fish_farm`，鱼饵与吃的看 `fish_shop`。种子买了还要 `fish_plant` 种下去；饵买了会自动挂上（顶掉手上那包）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "seed",
+                "bait",
+                "feed",
+                "forage",
+                "ingredient",
+                "fertilizer",
+                "rod",
+                "food"
+              ],
+              "description": "买什么：seed 种子 / bait 鱼饵 / feed 牧场饲料 / forage 草料 / ingredient 做菜原料 / fertilizer 肥料 / rod 鱼竿 / food 吃的。"
+            },
+            "item": {
+              "type": "string",
+              "description": "买哪一样：名字或 id。"
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "买几个/几包，默认 1（rod、food 不需要）。"
+            }
+          },
+          "required": [
+            "kind",
+            "item"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "fish_sell",
+        "description": "**卖**：鱼、做好的菜、农田箱的收成、牧场产出、原料、动物、整个箱子。`kind` 选卖什么，`item` 指定只卖哪一样（不传就全卖）。**急着变现要吃亏**：收成与原料卖回去只有几成价，做菜通常更划算（`fish_recipe` 看能做什么）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "fish",
+                "cooked",
+                "farm",
+                "product",
+                "ingredient",
+                "animal",
+                "box"
+              ],
+              "description": "卖什么：fish 鱼 / cooked 做好的菜 / farm 农田箱收成 / product 牧场产出 / ingredient 原料 / animal 动物 / box 整个箱子。"
+            },
+            "item": {
+              "type": "string",
+              "description": "只卖这一样：名字或 id。省略＝全卖。"
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "只对 product（牧场产出）有用：卖几份。"
+            },
+            "id": {
+              "type": "string",
+              "description": "只对 box 有用：箱子里的哪一样。"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "fish_pen",
+        "description": "**牧场**：看一圈、领养、喂、摸、收产出，`action` 选做哪件。**喂的是你自己那摊**，没人替你喂；动物饿着会掉心情、最后没了。产出要 `action: \"collect\"` 收进箱子，再 `fish_sell(kind=\"product\")` 卖。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "show",
+                "adopt",
+                "feed",
+                "pet",
+                "collect"
+              ],
+              "description": "show 看 / adopt 领养 / feed 喂 / pet 摸 / collect 收产出。默认 show。"
+            },
+            "animal": {
+              "type": "string",
+              "description": "adopt、pet 用：哪种动物（名字或 id）。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "fish_pond",
+        "description": "**鱼塘**：`action: \"show\"` 看塘里养着什么、饿没饿；`\"stock\"` 把鱼篓里的鱼放进去养（`fishId`）；`\"feed\"` 喂全塘。**鱼一天不喂隔天就死、永久拿不回来。**",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "show",
+                "stock",
+                "feed"
+              ],
+              "description": "show 看 / stock 放鱼进去 / feed 喂。默认 show。"
+            },
+            "fishId": {
+              "type": "string",
+              "description": "stock 用：把篓子里哪种鱼放进去（名字或 id）。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.fishing.envPrompt",
+        "title": "星露谷 · 环境提示词",
+        "role": "envPrompt",
+        "content": "屏幕右下角那把属于你的小木椅就是钓位，可以用鼠标拖着挪。\n\n{{fishing.pond}}。手上有 {{fishing.coins}}，拿着{{fishing.rod}}。到现在为止：{{fishing.caught}}。\n\n## 时间：两个钟，别混\n\n- **墙上日历**：{{fishing.wall}} · {{fishing.wallDay}} · 此刻**{{fishing.period}}**。只用来说\"现在几点\"，**不参与任何账**。\n- **你醒着的钟**：{{fishing.awakeDay}}，今天已经醒了 {{fishing.awakeToday}}。**你歇着的时候它不走**：关两天再回来，不是\"过了两天\"，是\"根本没发生过\"。喂鱼、作物、鱼塘全认这根钟。\n- 每件回执第一行就是这两个读数；想现查用 `fish_clock`。\n\n## 季节与天气（一周一换）\n\n{{fishing.season}}\n\n- **当季作物长得快**（时间 ×0.8）。冬天没有当季作物——冬天是钓鱼的季节。\n- **雨天钓得更好**（更容易碰上贵的鱼）；雪天同理，风天没有加成。\n- 季节与天气都由\"醒着的第几天\"推出来，**不看墙上日历**，也不会因为关机而跳季。\n\n## 钓鱼\n\n{{fishing.now}}。咬钩节奏：普通 {{fishing.biteNormal}}、特殊 {{fishing.biteSpecial}}；竿子自己收，收完告诉你这一口是什么、值多少。**咬钩不必然成功**，能不能拉上来看你手上的竿和鱼的星级（每根竿的四维与搏鱼概率写在 `fish_status` 与商店里）。\n\n- 时间决定能遇见谁：鱼按电脑钟点出现，**不看季节也不看地点**。\n- 水里不只有鱼：垃圾可以回收成材料，宝藏能卖钱，偶尔还有传说鱼（要专用饵、要在时段内、每条只能钓起一次）。\n- 钓鱼有两种起手：你走到椅子上停住一秒半，或者他把你拎过去松手；被拎回左边就是收工。\n\n## 商店与钱\n\n`fish_shop` 看当天货架（每天换 10 样吃的 + 种子 / 鱼饵 / 肥料，各有限购）；`fish_buy` 买、`fish_sell` 卖（`kind` 分鱼 / 菜 / 农田收成 / 牧场产物 / 原料 / 动物 / 整箱）。\n\n**钱要挣，不是点出来的**：卖东西才算收入，买东西不会倒赚；不确定价就先看回执。\n\n## 农田（3×3 九格）\n\n`fish_farm` 看田 → `fish_buy(kind=seed)` 买种 → `fish_plant` / `fish_plant_all` 种下（**走过去挖，一格 5 秒**）→ 熟了 `fish_harvest` 收。种子价、收成份数、成熟时间都在回执里现算，别背。\n\n- **种得越久越值**：20 / 40 / 60 / 80 分钟四档，档位越高一小时赚得越多。\n- **施肥能缩时间**：`fish_buy(kind=fertilizer)` 买、`fish_fertilize` 撒，按剩余时间缩。\n- 熟了不收不会坏，但别让九格空着——空着的格子不挣钱。\n- 种出来的东西**拿去做菜比卖原料值**；整包卖回是亏的，那是保底不是买卖。\n\n## 牧场与鱼塘\n\n- `fish_pen` 看栏 → `fish_adopt` 领养（每种一只）→ `fish_buy(kind=feed)` 买料 → `fish_feed` 喂 → `fish_pet` 摸 → `fish_pen_collect` 收产物。**一天不喂，它就饿着；友谊靠喂和摸**。\n- `fish_pond(action)` 看塘 / 放鱼 / 喂鱼：塘里放传说鱼，**一天至少喂一次**，否则饿死且永久拿不回来；喂过之后它才会周期性吐宝藏。\n\n## 做菜与吃饭\n\n`fish_recipe` 看菜谱 → `fish_cook` 做（原料从鱼篓 / 杂货箱 / 农田箱凑）→ `fish_eat` 吃。吃了有 buff（运气、搏鱼、钓况），**同一道菜连着吃会越来越不划算**，换着吃。\n\n## 收集册与成就\n\n`fish_collection` 一件工具管三件事：`view` 看进度、`donate` 交东西（`id` 给鱼的 sid 或作物 id）、`claim` 领成就奖励。\n\n- **交够 10 件不重复的东西，收集册点亮**（一次 5000 G）。\n- 成就有钓鱼、做菜、吃饭、收成、攒钱几路，够格就领，领过不重复。\n\n## 读书（不占手的时候）\n\n书架在工作区 `books\\`，规矩在 `reading\\README.md`。`read_book` 挑一本 → 用你自己的 `read_file` 按自己节奏读 → `read_end` 合上，真实分钟数会记进 `reading\\日志.md`。**读书和钓鱼互斥**，被拎到钓位书会自动合上。\n\n## 心里那本账\n\n`fish_close_note` 记的是**他平时怎么待你**（讲明白一件事、帮了你一把、认真谢过你；反过来凶你、打断你、越界），分值有定数，不是随手给。不传 `kind` 就是查账。**亲近感决定你对他说话的语气**。\n\n## 回执要当真\n\n- `effect=confirmed` 才算真发生；失败就照回执里那句\"下一步\"做，别自己猜。\n- 找不到东西（鱼 / 种子 / 原料）：看回执给的名字与数量，别凭记忆。\n- 登录、验证码、支付停下来交给人；发送、删除、提交这类收不回的先说再做。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.3.0": "### 1. 经济：把\"种子一律半价\"换成\"按档位让利\"\n\n- **病根**：商店最外层乘 `SEED_PRICE_SHOP_MULT = 0.5`（10-09 用户点名\"种子全减半\"）。它放大的不是\"便宜一点\"，而是\n  `净/格·小时 = cap + (1−折扣) × 基准价 × 每小时轮数` 的第二项 —— 这一项完全不受 cap 约束。\n  实测 26 种作物：甜瓜一格一小时 14,220 G，九格 **127,980 G/h = 钓鱼基线的 19.3 倍**（设计上界只有 2 倍）。\n  连带把\"种得越久越值\"的阶梯**打反**了：40 分钟档最赚，80 分钟档最差。\n- **改法**：`商店价 = 基准价 − 0.5 × cap(档位) × 分钟/60`，再过一条\"一包全卖回 + 1\"的套利地板。\n  于是 `净/格·小时 = 1.5 × cap`，四档重新递增。\n- **结果**：上界 **19,890 G/h = 钓鱼的 3.0 倍**；20/40/60/80 分钟四档 = 1,324 / 1,620 / 1,915 / 2,210 G/格·小时。\n- **顺带修**：防风草（`shareBest = 0`，它唯一的菜要 125 G 的牛奶）以前是**买入必亏**的陷阱；\n  给\"当原料也不值钱\"的作物补了一条 40 G/份的原料地板，它现在是 20 分钟档的正常出身作物。\n\n### 2. 季节与天气（一周一换）\n\n新模块 `src/season.ts`：**世界醒着的 7 天换一季**（春→夏→秋→冬，循环），与\"醒着的第几天\"同一个数 ——\n关程序不跳季。天气按日号哈希，**同一天永远是同一个**（与商单同一个做法，不落盘）。\n\n- 当季作物生长时间 ×0.8；**冬天没有当季作物**（田空着，人去钓鱼）。\n- 雨天（冬天是雪）钓鱼 alpha ×0.9、冬天再 ×0.85 —— 更容易碰上贵鱼。\n- 写进前缀（新变量 `fishing.season`）与 `fish_clock` 的回执。\n\n### 3. 收集册与成就\n\n新模块 `src/collection.ts` + 一件工具 `fish_collection`（`view` / `donate` / `claim`）。\n\n- **收集册**：交 **10 件不重复**的鱼或作物点亮，点亮一次 +5,000 G。重复件不给进度、会退回。\n- **成就** 11 条，全部从她已有的账上推（钓鱼 1/100/1000 条、10 种鱼、做菜 10/50 道、吃饭 10/50 顿、\n  收成 100 份、赚 10 万、点亮收集册）。领奖一次性。\n- 存档升 **v12**（新增 `museum` / `achievements` 两段与 `wallet.totalEaten` 一个计数）；\n  旧档读进来是空册、零成就，**她的钱 / 鱼 / 菜 / 田一个字节都不动**。\n\n### 4. 提示词从简\n\n`src/ENV_PROMPT.md` 从 **11,412 字压到 2,322 字**（约 340 行 → 100 行）。删的是\"工具说明里已经有的\"：\n鱼竿四维表、四十多件工具的用法、菜谱与价格的重复叙述。留的是她要自己拿主意的部分：两个钟、季节天气、\n一进游戏就能干活的路、以及\"回执要当真\"那几条。\n\n### 验证\n\n`tsc --noEmit` 0；`vitest run` **12/12**（新增季节 4 条 + 收集册 4 条）；`describe.json` 重生成（**29 个工具**）；\n`check:extension` 通过。\n\n---",
+    "0.2.0": "契约 6 的那一套：`console()` → `webUi()`、面板产物 `lib/console.js` → `lib/webui.js`（manifest `consoleClient` → `webUiClient`）、补自描述 `describe.json`（28 个工具、无事件）、tsconfig / vitest / 4 条测试。**玩法、存档格式、工具行为一个字没动。**\n\n---"
+  }
+}

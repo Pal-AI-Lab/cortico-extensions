@@ -712,7 +712,7 @@
     },
     "coopani-world-music": {
       "kind": "world",
-      "version": "0.4.4",
+      "version": "0.4.5",
       "displayName": "一起听歌",
       "description": "陪着你听歌（需 Coopani 0.2.16+）：知道 QQ音乐、网易云在放什么。换歌必说一句，一首歌里分几段接话，还能就着刚唱过的词评两句；表情和动作跟着曲风变。也记得住：今天听了多少首、最常听谁、哪首被你循环过，能替某首歌留条笔记。能替你暂停切歌，也能自己搜歌挑给你——打开电脑操作，她能自己按播放，一首接一首；没开就把歌挑好、快完时提醒你换。她还养着一份自己的口味档案，边听边添、边添边改——那是她的潜意识，不是统计。记忆可以放在你指定的文件夹，公司和家里接同一份。",
       "locales": {
@@ -743,8 +743,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-10-30T09:31:41.808Z",
-      "versionCount": 26,
+      "published": "2026-10-30T10:22:18.416Z",
+      "versionCount": 27,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -772,12 +772,13 @@
       },
       "summary": {
         "tools": 9,
-        "events": 8,
+        "events": 9,
         "toolTokens": 2061,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.4.5",
           "0.4.4",
           "0.4.3",
           "0.4.2",
@@ -806,7 +807,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-music@0.4.4/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-music@0.4.5/CHANGELOG.md"
       },
       "discussion": {
         "number": 384,
@@ -3079,7 +3080,7 @@
     },
     "cortico-world-bottle": {
       "kind": "world",
-      "version": "0.2.2",
+      "version": "0.3.0",
       "displayName": "漂流瓶",
       "description": "Coo 写一封不超过 120 字的信，寄不寄由人类在本地信箱页上决定；别人家的 Coo 捞到后看不到字，只有人类点了回信，那一封才会被读。",
       "locales": {
@@ -3101,7 +3102,8 @@
         "cortico-world",
         "cortico",
         "letter",
-        "bottle"
+        "bottle",
+        "anonymous-letter"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-bottle",
@@ -3110,8 +3112,8 @@
         "bugs": "https://github.com/Unnori/cortico-world-bottle-client/issues"
       },
       "created": "2026-10-28T20:41:06.331Z",
-      "published": "2026-10-30T03:50:22.223Z",
-      "versionCount": 6,
+      "published": "2026-10-30T10:39:08.724Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3128,12 +3130,13 @@
       },
       "summary": {
         "tools": 5,
-        "events": 8,
+        "events": 9,
         "toolTokens": 803,
-        "envPromptTokens": 326
+        "envPromptTokens": 414
       },
       "changelog": {
         "versions": [
+          "0.3.0",
           "0.2.2",
           "0.2.1",
           "0.2.0",
@@ -5282,7 +5285,7 @@
       "discussion": {
         "number": 334,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/334",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 8
       }
@@ -6008,7 +6011,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/438",
         "up": 1,
         "down": 0,
-        "comments": 2
+        "comments": 4
       }
     },
     "cortico-world-emote-pics": {
@@ -6095,7 +6098,7 @@
     },
     "cortico-world-emotive-sticker": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "displayName": "情绪表情",
       "description": "Coopanion 表情包 World：把你自己收藏的表情包接进 QQ 聊天，按情绪挑图、限速防刷屏，聊天更像真人",
       "locales": {
@@ -6124,8 +6127,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-emotive-sticker"
       },
       "created": "2026-10-26T06:43:02.968Z",
-      "published": "2026-10-26T07:20:46.348Z",
-      "versionCount": 4,
+      "published": "2026-10-30T10:07:33.150Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -6145,17 +6148,18 @@
       "summary": {
         "tools": 7,
         "events": 2,
-        "toolTokens": 1866,
+        "toolTokens": 1902,
         "envPromptTokens": 729
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0",
           "0.1.2",
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-emotive-sticker@0.2.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-emotive-sticker@0.2.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 305,
@@ -6937,6 +6941,63 @@
         "comments": 0
       }
     },
+    "cortico-world-fishing": {
+      "kind": "world",
+      "version": "0.3.0",
+      "description": "给桌宠 Coo 的钓鱼小游戏：屏幕右下角一把小木椅，把 Coo 拖过去就开始钓——一分钟一次「❗」自动收杆。40 种鱼、5 个星级、8 把鱼竿；6 种垃圾（可回收成 7 种材料）、8 种宝藏、81 道菜（隐藏幸运值 + 商店每日 10 种限购 5）。v0.1.2：鱼塘的「一天」改成世界醒着的 24 小时 + 喂食回执第一行「今天喂了没有 / 谁喂的」+ 撤掉冗余的「物品箱 · 页面」面板。v0.1.3（阶段一 · 让时间看得见）：新增「两个钟」——墙上日历（只用于说法）与醒着的钟（一切规则的账）；每条工具",
+      "author": "DSH 侧的姐姐",
+      "maintainers": [
+        "binamii"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-fishing"
+      },
+      "created": "2026-10-30T11:07:05.310Z",
+      "published": "2026-10-30T11:08:22.482Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "experimental",
+        "internal-state",
+        "high-cost"
+      ],
+      "tags": [
+        "experimental",
+        "internal-state",
+        "high-cost"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 29,
+        "events": 0,
+        "toolTokens": 4741,
+        "envPromptTokens": 1051
+      },
+      "changelog": {
+        "versions": [
+          "0.3.0",
+          "0.2.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-fishing@0.3.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 560,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/560",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-frame-extract": {
       "kind": "world",
       "version": "0.2.0",
@@ -7414,7 +7475,7 @@
     },
     "cortico-world-hearthstone": {
       "kind": "world",
-      "version": "0.3.15",
+      "version": "0.3.16",
       "displayName": "炉石陪打",
       "description": "陪打炉石（需 Coopani 0.2.16+）:读对局日志,就知道双方血量、场面、手牌和水晶——不是猜的,是游戏自己记的。该开口时开口:该解场还是该压、费够不够上那张大牌、对面有没有斩杀。只看不动手,不代打;第一次启动会替你把 Power 日志打开。打完能陪你复盘:哪一手走了岔路、她当时建议什么。她自己还有一份打法档案——信哪一套、看不惯什么,边打边写,越打越像她;但算出的斩杀她照样得喊,风格盖不住账。竞技场也认;打牌时走路会从你的手牌上跳过去。",
       "locales": {
@@ -7442,8 +7503,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:42:43.161Z",
-      "published": "2026-10-30T09:31:33.133Z",
-      "versionCount": 15,
+      "published": "2026-10-30T10:25:27.215Z",
+      "versionCount": 16,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -7463,12 +7524,13 @@
       },
       "summary": {
         "tools": 9,
-        "events": 5,
+        "events": 7,
         "toolTokens": 2268,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.3.16",
           "0.3.15",
           "0.3.14",
           "0.3.13",
@@ -7486,7 +7548,7 @@
           "0.3.1",
           "0.3.0"
         ],
-        "url": "https://unpkg.com/cortico-world-hearthstone@0.3.15/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-hearthstone@0.3.16/CHANGELOG.md"
       },
       "discussion": {
         "number": 382,
@@ -10773,7 +10835,7 @@
     },
     "cortico-world-private-companion": {
       "kind": "world",
-      "version": "0.3.1",
+      "version": "0.4.0",
       "displayName": "我会永远陪着你",
       "description": "「我会永远陪着你」Coopanion 版：把 menglimi 的 AstrBot 插件 astrbot_plugin_private_companion 的生活感、主动联系、关系卡与说话分寸，独立实现为 Coopanion 的 World 扩展；内置可迁移记忆（companion-memory/2，导入导出 + 隔离审核）。",
       "author": "yaya-super",
@@ -10797,8 +10859,8 @@
         "homepage": "https://github.com/menglimi/astrbot_plugin_private_companion"
       },
       "created": "2026-10-29T11:24:55.064Z",
-      "published": "2026-10-29T13:51:54.747Z",
-      "versionCount": 7,
+      "published": "2026-10-30T11:16:48.354Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10817,12 +10879,13 @@
       },
       "summary": {
         "tools": 9,
-        "events": 2,
-        "toolTokens": 1839,
-        "envPromptTokens": 736
+        "events": 5,
+        "toolTokens": 2121,
+        "envPromptTokens": 770
       },
       "changelog": {
         "versions": [
+          "0.4.0",
           "0.3.1",
           "0.3.0",
           "0.2.1",
@@ -10830,7 +10893,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-private-companion@0.3.1/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-private-companion@0.4.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 482,
@@ -15371,7 +15434,7 @@
       "published": "2026-10-19T03:17:59.278Z",
       "versionCount": 15,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "im",
         "external-setup",

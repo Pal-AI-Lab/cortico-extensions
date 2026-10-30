@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-emotive-sticker",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "describe": {
     "tools": [
       {
@@ -91,6 +91,10 @@
             "skip": {
               "type": "boolean",
               "description": "Mark as reviewed but give no tags."
+            },
+            "reset": {
+              "type": "boolean",
+              "description": "Drop manual tags and go back to tags derived from the folder and file name."
             }
           },
           "required": [
@@ -303,6 +307,7 @@
     ]
   },
   "changelog": {
+    "0.2.1": "修用户报告的「手写标签重启后丢失」：\n\n- 重扫图库时不再用手写标签覆盖成目录名/文件名推导的标签；`tagged` 标记也一起保留。\n- `sticker_stats` 增加一行「手写标签：N 张」，能直接看到有多少张是模型标过的。\n- 新增 3 个回归测试：重扫保留手写标签、无手写标签仍按目录名生成、连续重扫两次标签都在。\n- 新增 sticker_tag 的 \reset 参数：把手写标签丢掉，回到按文件夹/文件名推导（配合「把图整理进文件夹」的用法）。",
     "0.2.0": "- 新增 `sticker_open` / `sticker_tag`：模型可以逐张看图、写回标签，不再依赖文件名。\n- 面板「图库」新增未打标签计数与「让 Coo 帮忙打标签」按钮（推 `sticker.tagRequest` 事件）。\n- 档位说明表精简成三行（私聊、群聊各一列），不再一档两行看着像重复。\n- 标签只作为匹配提示：没标签的图照样能发。",
     "0.1.2": "- 档位表真的换成新默认值了（0.1.1 那次的替换没命中，表还是旧的）。\n- 使用说明里的粗体与引用块现在正确去掉标记（0.1.1 的正则写错，`**` 仍会露出）。",
     "0.1.1": "- 显示名统一为「情绪表情」，面板、世界卡片、存储项一致。\n- 修复面板状态行在改成私聊/群聊两套规则后显示 `0/undefined` 的问题。\n- 使用说明支持粗体与引用块，不再露出 `**`。\n- 说明里的档位表按新的默认值重写，并区分私聊 / 群聊。",
