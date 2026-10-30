@@ -6306,15 +6306,20 @@
     },
     "cortico-world-feishu": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "displayName": "飞书",
       "description": "让 Bot 通过飞书企业自建应用的长连接收发私聊和群聊：消息推给 Persona，用工具回话。同一个 Persona，不是分身。",
       "locales": {
         "zh": {
           "displayName": "飞书",
           "description": "用飞书企业自建应用的长连接收发私聊和群聊：消息推给 Persona，回复用 feishu_reply 发回飞书。"
+        },
+        "en": {
+          "displayName": "Feishu (Lark)",
+          "description": "Send and receive Feishu/Lark direct and group messages over a long connection: incoming messages go to the Persona, and feishu_reply sends replies back."
         }
       },
+      "author": "a1403372882gg",
       "maintainers": [
         "a1403372882gg"
       ],
@@ -6330,20 +6335,19 @@
         "npm": "https://www.npmjs.com/package/cortico-world-feishu"
       },
       "created": "2026-10-27T09:28:31.566Z",
-      "published": "2026-10-27T09:29:31.904Z",
-      "versionCount": 2,
+      "published": "2026-10-30T06:54:01.432Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
+        "im",
         "requires-key",
-        "external-setup",
-        "experimental"
+        "external-setup"
       ],
       "tags": [
         "im",
         "external-setup",
-        "requires-key",
-        "experimental"
+        "requires-key"
       ],
       "icon": "assets/cortico-world-feishu/icon.svg",
       "downloads": {
@@ -6359,10 +6363,11 @@
       },
       "changelog": {
         "versions": [
+          "0.1.2",
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-feishu@0.1.1/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-feishu@0.1.2/CHANGELOG.md"
       },
       "discussion": {
         "number": 361,
