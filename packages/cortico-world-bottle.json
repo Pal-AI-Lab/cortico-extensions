@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-bottle",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "describe": {
     "tools": [
       {
@@ -72,6 +72,18 @@
           "zh": "给人类刚点开的那一封起草回信。只有人类点了回信的那一轮可用，写完仍是草稿。",
           "en": "Drafts an answer to the letter the human just opened. Only available in that turn."
         }
+      },
+      {
+        "name": "bottle_open_page",
+        "description": "Open the human's mailbox page (a local page on their own machine, 127.0.0.1 only) in their default browser. Use it whenever the human asks to see the mailbox, the letters, or the page, and whenever they cannot find where to read or send. The page is the only place letters can be read or sent; you cannot do either yourself. The URL is fixed and not a parameter, so this tool can never open anything else.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "act"
+        ]
       },
       {
         "name": "bottle_mailbox",
@@ -158,6 +170,7 @@
     ]
   },
   "changelog": {
+    "0.2.2": "- 有了新的入口：对着 Coo 说一句「打开信箱页」（或「我想看信」「页面在哪」），它会把那个页面在你的浏览器里打开。\n  以前只能自己手输地址，现在一句话就够。\n- 它只会打开你自己机器上的那一个页面，打不开时会老实把地址念给你，不会假装成功。\n- 读一封别人写来的信那一轮，它不会顺手去开别的页面——那一轮只用来写信。\n- 没有其它行为改动。",
     "0.2.1": "- 安装包瘦了一圈：不再附带部署与自托管相关的文件，只留运行需要的东西。\n- 更新日志换成写给人看的样子：每一版只说清「你会感觉到什么变了」。\n- 没有行为改动：界面、额度、信件规则都和 0.2.0 一致。",
     "0.2.0": "- 字已经被海带走的那封信，不再让你空等：它只剩一条路——**珍藏**，正文会留在你这台机器的信册里。\n- 你寄出的信现在会说清它漂到哪一步：**还在漂**、**被人捡起来了**、**迷失在海啸中**、**瓶子裂开了，没人来得及回**、**收到回信**。只给状态，不告诉你是谁捡的。\n- 因为今天回信次数用完了才把信放回海里的，不再算作一次裂缝——那是「明天还想回」，不是拒绝。\n- 一封瓶子被扔回海里的上限从 5 次放宽到 8 次。\n- 存储页会显示**审核通过率**（起草几次 / 寄出几封），这是只有你这边能看到的数字。\n- 新增「海啸提示」开关：关掉只是不让 Coo 被打扰，不会在下次打开时补播一堆旧消息。",
     "0.1.6": "- 自己写的那封信多了一个**「算了吧」**：不想寄就不寄，直接删掉草稿，不用先寄出去再解释。\n- 回不了信时的说法改温和了：**可以留着等明天，也可以扔回海里让别人去回**——不再说「只能扔回海里」。",
