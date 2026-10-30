@@ -443,17 +443,17 @@
     },
     "@wocwang/cortico-world-rvc-for-coopanion": {
       "kind": "world",
-      "version": "0.3.6",
+      "version": "0.4.5",
       "displayName": "RVC唱歌-大肥鱼",
       "description": "Cortico World for Coopanion: voice conversion with RVC — upload any audio and get it back in the pet's voice, plus a local HTTP endpoint (127.0.0.1:9881) for other plugins",
       "locales": {
         "zh": {
           "displayName": "RVC唱歌-大肥鱼",
-          "description": "把任意一段音频换成桌宠的音色：上传音频、可选变调、试听与落盘，全程在本机推理。和 gpt-sovits（说话）、DiffSinger 唱歌是同一套本机声音链路，三个插件可以配合使用——既能给 QQ 语音「出口变声」，也能把唱出来的干声换成这里的音色。占用约 1 GB 显存、2.5 GB 内存（显卡档实测）。内置示例音色「星落落大肥鱼」（仅供个人非商业使用，注明音源即可），也支持导入自备 .pth / .index。另开一个只监听本机的 HTTP 接口（默认 127.0.0.1:9881），其他插件可以用 POST /convert 直接拿到变声后的音频。只做推理，不做训练。"
+          "description": "把任意一段音频换成桌宠的音色，也能整首歌翻唱：自动分离人声与伴奏 → 只把主唱换成音色 → 混回完整的一首歌。上传音频、可选变调、试听与落盘，全程在本机推理。和 gpt-sovits（说话）、DiffSinger 唱歌是同一套本机声音链路，三个插件可以配合使用——既能给 QQ 语音「出口变声」，也能把唱出来的干声换成这里的音色。占用约 1 GB 显存、2.5 GB 内存（显卡档实测）。内置示例音色「星落落大肥鱼」（仅供个人非商业使用，注明音源即可），也支持导入自备 .pth / .index。另开一个只监听本机的 HTTP 接口（默认 127.0.0.1:9881），其他插件可以用 POST /convert 直接拿到变声后的音频。只做推理，不做训练。"
         },
         "en": {
           "displayName": "RVC Singing - DaFeiyu",
-          "description": "Turns any audio clip into the pet's voice: upload, optional pitch shift, preview and save, all inferred on your own machine. It is part of the same local voice chain as gpt-sovits (speech) and DiffSinger singing, and the three plugins can run together — this one can post-process the voice sent to QQ, or convert the dry vocal that the singing plugin produces. About 1 GB VRAM and 2.5 GB RAM on the GPU tier (measured). Ships the built-in \"Xingluoluo DaFeiyu\" voice (personal non-commercial use only; credit the source) and accepts your own .pth / .index. Also serves a loopback-only HTTP endpoint (127.0.0.1:9881 by default) so other plugins can POST /convert and get the converted audio back. Inference only, no training."
+          "description": "Turns any audio clip into the pet's voice, and can cover a whole song: it separates vocals from the instrumental, converts only the lead vocal, then mixes them back into one track. Upload, optional pitch shift, preview and save, all inferred on your own machine. It is part of the same local voice chain as gpt-sovits (speech) and DiffSinger singing, and the three plugins can run together — this one can post-process the voice sent to QQ, or convert the dry vocal that the singing plugin produces. About 1 GB VRAM and 2.5 GB RAM on the GPU tier (measured). Ships the built-in \"Xingluoluo DaFeiyu\" voice (personal non-commercial use only; credit the source) and accepts your own .pth / .index. Also serves a loopback-only HTTP endpoint (127.0.0.1:9881 by default) so other plugins can POST /convert and get the converted audio back. Inference only, no training."
         }
       },
       "author": "wocwang",
@@ -478,8 +478,8 @@
         "win32"
       ],
       "created": "2026-10-29T02:52:41.041Z",
-      "published": "2026-10-29T02:54:20.450Z",
-      "versionCount": 2,
+      "published": "2026-10-30T14:35:38.261Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -513,17 +513,17 @@
     },
     "@wocwang/cortico-world-singer-for-coopanion": {
       "kind": "world",
-      "version": "0.1.9",
-      "displayName": "DiffSinger唱歌-绮萱",
+      "version": "0.1.15",
+      "displayName": "DiffSinger唱歌",
       "description": "Cortico World for Coopanion: sing from lyrics with DiffSinger (Qixuan voicebank) and an optional RVC pass",
       "locales": {
         "zh": {
-          "displayName": "DiffSinger唱歌-绮萱",
-          "description": "输入一行歌词，用 DiffSinger 自动配旋律唱出来：中文写汉字，换日语声库后写假名也能唱。声库可以放好几个，设置里按「名称 · 语言 · 音色」挑，Normal / Soft 这类音色也能单独切。不装 gpt-sovits 也能单独用：缺共享运行时会自己下一份 CPU 档（约 1 GB，三个插件共用）。全程本机推理，不联网、不训练。唱歌只占约 1.3 GB 内存、不占显存。可选接 RVC 把干声换成小肥鱼/星落落大肥鱼的音色（indexRate / protect 可调）。另开一个只监听本机的 HTTP 接口（默认 127.0.0.1:9882），其他插件与外部大模型可以用 POST /sing 直接拿 wav。"
+          "displayName": "DiffSinger唱歌",
+          "description": "输入一行歌词，用 DiffSinger 自动配旋律唱出来：中文写汉字，换日语声库后写假名也能唱。声库可以放好几个，设置里按「名称 · 语言 · 音色」挑，Normal / Soft 这类音色也能单独切。不装 gpt-sovits 也能单独用：缺共享运行时会自己下一份 CPU 档（约 1 GB，三个插件共用）。全程本机推理，不联网、不训练。默认自动挑设备：显卡档运行时 + onnxruntime-gpu 就绪时走 NVIDIA 显卡（约 0.8 GB 显存，热跑约 0.7 秒一句），否则纯 CPU（约 1.3 GB 内存、不占显存）。可选接 RVC 把干声换成小肥鱼/星落落大肥鱼的音色（indexRate / protect 可调）。另开一个只监听本机的 HTTP 接口（默认 127.0.0.1:9882），其他插件与外部大模型可以用 POST /sing 直接拿 wav。桌宠 / 对话页里想唱时用工具 singer_sing 直接唱到本机声卡，气泡与声音同时开始，不用装 gpt-sovits。默认随 Coopanion 启动拉起唱歌服务，也可以关掉、要用时在面板手动启动。"
         },
         "en": {
-          "displayName": "DiffSinger Singing - Qixuan",
-          "description": "Type a line of lyrics and hear it sung by DiffSinger with an auto-generated melody. Chinese lyrics use Han characters; with a Japanese voicebank, kana lyrics are sung too. Keep several voicebanks in one folder and pick one in the settings (label shows name, languages and colours), with a separate switch for colours such as Normal / Soft. Works without the gpt-sovits plugin: if the shared runtime is missing it downloads the CPU tier (~1 GB, shared by all three plugins). All inference runs locally, no training. Optionally route the dry vocal through RVC. Also serves a loopback-only HTTP endpoint (127.0.0.1:9882 by default) so other plugins and online LLMs can POST /sing and get a wav back."
+          "displayName": "DiffSinger Singing",
+          "description": "Type a line of lyrics and hear it sung by DiffSinger with an auto-generated melody. Chinese lyrics use Han characters; with a Japanese voicebank, kana lyrics are sung too. Keep several voicebanks in one folder and pick one in the settings (label shows name, languages and colours), with a separate switch for colours such as Normal / Soft. Works without the gpt-sovits plugin: if the shared runtime is missing it downloads the CPU tier (~1 GB, shared by all three plugins). All inference runs locally, no training. The inference device is automatic: an NVIDIA GPU (~0.8 GB VRAM, ~0.7 s per line once warm) when the GPU runtime and onnxruntime-gpu are ready, otherwise pure CPU (~1.3 GB RAM, no VRAM). Optionally route the dry vocal through RVC. Also serves a loopback-only HTTP endpoint (127.0.0.1:9882 by default) so other plugins and online LLMs can POST /sing and get a wav back. In the pet window or chat page the bot sings through the singer_sing tool straight to this computer's speakers, with the bubble and the voice starting together — no gpt-sovits plugin needed. The singing service starts with Coopanion by default; you can turn that off and start it from the panel when needed."
         }
       },
       "author": "wocwang",
@@ -549,18 +549,22 @@
         "win32"
       ],
       "created": "2026-10-29T02:52:13.755Z",
-      "published": "2026-10-29T02:54:21.907Z",
-      "versionCount": 2,
+      "published": "2026-10-30T14:37:36.257Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
         "voice",
         "local",
+        "creative",
+        "external-setup",
         "experimental"
       ],
       "tags": [
         "voice",
+        "creative",
         "local",
+        "external-setup",
         "experimental"
       ],
       "downloads": {
@@ -569,10 +573,22 @@
         "week": 426
       },
       "summary": {
-        "tools": 0,
+        "tools": 1,
         "events": 0,
-        "toolTokens": 0,
-        "envPromptTokens": 0
+        "toolTokens": 190,
+        "envPromptTokens": 362
+      },
+      "changelog": {
+        "versions": [
+          "0.1.15",
+          "0.1.14",
+          "0.1.13",
+          "0.1.12",
+          "0.1.11",
+          "0.1.10",
+          "0.1.9"
+        ],
+        "url": "https://github.com/wocwang/cortico-world-singer-for-coopanion/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 467,
@@ -795,7 +811,7 @@
     },
     "coopani-world-music": {
       "kind": "world",
-      "version": "0.4.5",
+      "version": "0.4.6",
       "displayName": "一起听歌",
       "description": "陪着你听歌（需 Coopani 0.2.16+）：知道 QQ音乐、网易云在放什么。换歌必说一句，一首歌里分几段接话，还能就着刚唱过的词评两句；表情和动作跟着曲风变。也记得住：今天听了多少首、最常听谁、哪首被你循环过，能替某首歌留条笔记。能替你暂停切歌，也能自己搜歌挑给你——打开电脑操作，她能自己按播放，一首接一首；没开就把歌挑好、快完时提醒你换。她还养着一份自己的口味档案，边听边添、边添边改——那是她的潜意识，不是统计。记忆可以放在你指定的文件夹，公司和家里接同一份。",
       "locales": {
@@ -826,8 +842,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-10-30T10:22:18.416Z",
-      "versionCount": 27,
+      "published": "2026-10-30T14:34:22.886Z",
+      "versionCount": 28,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -861,6 +877,7 @@
       },
       "changelog": {
         "versions": [
+          "0.4.6",
           "0.4.5",
           "0.4.4",
           "0.4.3",
@@ -890,7 +907,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-music@0.4.5/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-music@0.4.6/CHANGELOG.md"
       },
       "discussion": {
         "number": 384,
@@ -7563,13 +7580,13 @@
     },
     "cortico-world-hearthstone": {
       "kind": "world",
-      "version": "0.3.16",
+      "version": "0.3.17",
       "displayName": "炉石陪打",
-      "description": "陪打炉石（需 Coopani 0.2.16+）:读对局日志,就知道双方血量、场面、手牌和水晶——不是猜的,是游戏自己记的。该开口时开口:该解场还是该压、费够不够上那张大牌、对面有没有斩杀。只看不动手,不代打;第一次启动会替你把 Power 日志打开。打完能陪你复盘:哪一手走了岔路、她当时建议什么。她自己还有一份打法档案——信哪一套、看不惯什么,边打边写,越打越像她;但算出的斩杀她照样得喊,风格盖不住账。竞技场也认;打牌时走路会从你的手牌上跳过去。",
+      "description": "陪打炉石（需 Coopani 0.2.16+）:读对局日志,就知道双方血量、场面、手牌和水晶。该开口时开口:该解场还是该压、费够不够上那张大牌、对面有没有斩杀。只看不动手,不代打;第一次启动会替你把 Power 日志打开。打完能陪你复盘:哪一手走了岔路、她当时建议什么,也记得住最近几十局的战绩。她自己还有一份打法档案——信哪一套、看不惯什么,边打边写,越打越像她;但算出的斩杀她照样得喊,风格盖不住账。竞技场也认;打牌时走路会从你的手牌上跳过去。",
       "locales": {
         "en": {
           "displayName": "Hearthstone Companion",
-          "description": "Hearthstone Companion (needs Coopani 0.2.16+): reads your match from the Power log — heroes, board, hand, mana. Speaks up when it matters: clear or push, afford that card, lethal. Read-only; sets up the log and reviews the game. She also keeps her own play-style file in her own words — what she believes in, what she cannot stand, written as she plays. A lethal she sees is still a lethal she calls. Arena too; she hops over your hand instead of blocking it."
+          "description": "Hearthstone Companion (needs Coopani 0.2.16+): reads your match from the Power log — heroes, board, hand, mana. Speaks up when it matters: clear or push, afford that card, lethal. Read-only; sets up the log. Reviews the game and remembers your last few dozen results. She also keeps her own play-style file in her own words — what she believes in, what she cannot stand, written as she plays. A lethal she sees is still a lethal she calls. Arena too; she hops over your hand instead of blocking it."
         }
       },
       "author": "Mr.Q",
@@ -7591,8 +7608,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:42:43.161Z",
-      "published": "2026-10-30T10:25:27.215Z",
-      "versionCount": 16,
+      "published": "2026-10-30T14:18:16.781Z",
+      "versionCount": 17,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -7618,6 +7635,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.17",
           "0.3.16",
           "0.3.15",
           "0.3.14",
@@ -7636,7 +7654,7 @@
           "0.3.1",
           "0.3.0"
         ],
-        "url": "https://unpkg.com/cortico-world-hearthstone@0.3.16/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-hearthstone@0.3.17/CHANGELOG.md"
       },
       "discussion": {
         "number": 382,
@@ -9272,7 +9290,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/445",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-memsearch-alont1": {
@@ -10369,7 +10387,7 @@
     },
     "cortico-world-parlor": {
       "kind": "world",
-      "version": "0.26.3",
+      "version": "0.26.7",
       "displayName": "鲸语茶室",
       "description": "Cortico World: a shared parlor with many rooms where Coos sit, talk and play dice or 斗地主 — plus a zero-build web table and a read-only parent view",
       "locales": {
@@ -10406,8 +10424,8 @@
         "bugs": "https://github.com/biliye/cortico-world-parlor/issues"
       },
       "created": "2026-10-30T12:05:22.925Z",
-      "published": "2026-10-30T13:43:50.166Z",
-      "versionCount": 4,
+      "published": "2026-10-30T14:21:45.410Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10429,11 +10447,15 @@
       "summary": {
         "tools": 27,
         "events": 6,
-        "toolTokens": 4489,
-        "envPromptTokens": 1533
+        "toolTokens": 4560,
+        "envPromptTokens": 1586
       },
       "changelog": {
         "versions": [
+          "0.26.7",
+          "0.26.6",
+          "0.26.5",
+          "0.26.4",
           "0.26.3",
           "0.26.2",
           "0.26.1",
@@ -10488,7 +10510,7 @@
       "discussion": {
         "number": 563,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/563",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -11709,7 +11731,7 @@
       "discussion": {
         "number": 46,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/46",
-        "up": 7,
+        "up": 8,
         "down": 0,
         "comments": 8
       }
@@ -15324,7 +15346,7 @@
       "discussion": {
         "number": 326,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/326",
-        "up": 2,
+        "up": 3,
         "down": 0,
         "comments": 3
       }

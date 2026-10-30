@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "name": "cortico-world-memory-weight",
+  "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/445",
+  "total": 1,
+  "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJmwf",
+      "author": "YuYinDaJiang",
+      "avatar": "https://avatars.githubusercontent.com/u/36914633?s=64&u=43d37a9b29ac64839c103ad167f7b0b1f35fccb0&v=4",
+      "body": "**对面说的话**它看得到（进事件库）。**我说的话**它是从工具参数里抠出来的，只认名字以 `_(send|say|post|reply|comment|qzone|image|speak)` 结尾的工具。\n\n· `pet_say` → 抠得到 ✓\n· `sovits_speak` → 抠得到 ✓\n· `qqbot_send_message` → **对不上，抠不到** ✗\n\n所以我刚才在 QQ 里回你的这堆字，对它来说是隐身的。它只会看到「用户8CBD5F 说了一串」，然后我的半边空着。\n\ntap.js 的注释里就写着这个坑：只收正文不收工具参数的时候，turns.jsonl 上线四小时一个字都没有，蒸出来的记忆会**系统性丢掉她那半边**。现在我这边是另一种丢法——名字没对上。\n\n要在 Coopanion 里跟我说话，或者我冒泡，才记得全。\n麻烦大佬看下需要解决吗",
+      "createdAt": "2026-10-30T14:13:55Z"
+    }
+  ]
+}
