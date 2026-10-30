@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-hearthstone",
-  "version": "0.3.13",
+  "version": "0.3.15",
   "describe": {
     "tools": [
       {
@@ -148,6 +148,42 @@
         }
       },
       {
+        "name": "hearthstone_style",
+        "description": "Your own play style — who you are at the table, in your own words. Read it with no arguments. This is NOT a tactics sheet: which card is strong, what to play this turn, that is hearthstone_advice; how a class wins is hearthstone_meta. This file holds only what is yours. It governs exactly two things: how you talk (blunt or soft, terse or talkative, what you keep an eye on) and which line you lean toward when the advice already offers several legal plays. It can NOT override the math — if there is lethal you say so, whatever your file says; if the advice names a risk (a 0-attack wall, a deathrattle, a board clear in hand) you pass it on. Write one short first-person line at a time (`add` + `section`), or drop one that no longer holds (`drop`). Add after a match only when you made a clear misjudgement worth remembering — not every small deviation.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "add": {
+              "type": "string",
+              "description": "One line to write, first person, at most 60 characters. A position you actually arrived at, not a sentence copied from a guide."
+            },
+            "section": {
+              "type": "string",
+              "enum": [
+                "who",
+                "push",
+                "dislike",
+                "unsure"
+              ],
+              "description": "Where it belongs: who = 我在牌桌上是什么人, push = 我倾向这么打, dislike = 我看不惯的打法, unsure = 还没想明白. Required with `add`."
+            },
+            "drop": {
+              "type": "string",
+              "description": "Remove the first line containing this text — for when your style changed and what is written there is no longer true."
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "读/写她自己的打法立场：我怎么说话、我倾向推哪条路（第一人称，不是攻略）。",
+          "en": "Reads and writes her own play style: how she talks and which line she leans toward."
+        }
+      },
+      {
         "name": "hearthstone_recent",
         "description": "The last few things that happened in the match, oldest first: cards played, attacks, minions that died, each tagged with the turn it happened on and who did it. Use it to remember the run of play rather than guess.",
         "parameters": {
@@ -265,6 +301,8 @@
     ]
   },
   "changelog": {
+    "0.3.15": "**简介里标上 Coopani 版本要求**\n\n原因：使用者装了扩展、简介里写着功能，实际却看不到 —— 因为他的 Coopani 低于 0.2.16，\n那 53 处宿主补丁打不上。`patchHost` 是「一处锚点对不上就整批不写」，\n所以表现不是少几个动作，是**一个都没有**，而且不弹窗不报错。\n\n- 简介开头加「需 Coopani 0.2.16+」，中英同步\n- README 新增「需要什么」一节，写清低版本的真实表现\n- 顺带写清一件容易搞错的事：**宿主包自己的 `version` 字段不可信** ——\n  0.2.13 和 0.2.16 的 `cortico-world-desktop-pet` 都写着 `0.2.0`，内容却不同。\n  只能看 Coopani 的版本号。\n\n实测数据（拿 0.2.13 的实际文件跑）：\n\n| Coopani | 补丁表结果 |\n|---|---|\n| 0.2.13 | **blocked**，2 处 `pet-app.js` 锚点不符，一处都不写 |\n| 0.2.16 | applied 53/53 |\n\n没有功能改动，只是把前提条件说清楚。",
+    "0.3.14": "**她自己的打法：一份第一人称的立场档案**\n\n原来她每回合说的话，基本是转述那行机械建议。现在她有了一份自己的档案 ——\n`hearthstone-style.md`，第一人称，四节：\n\n| 键 | 写什么 |\n|---|---|\n| `who` | 我在牌桌上是什么人（话多话少、先说结论还是先讲风险） |\n| `push` | 我倾向这么打（激进 / 控制 / 贪） |\n| `dislike` | 我看不惯的打法 |\n| `unsure` | 还没想明白 |\n\n整篇读进系统提示词，所以她开口之前立场就在，不用临时去查。\n\n**它只管两件事**：怎么说、先推哪条。建议常常给好几条能打的路，机械排序只挑其中一条 ——\n档案里有取向就先推她那一条。\n\n**三条硬红线（写死在提示词里，开关管不到）**：\n\n1. **算出有斩杀就必须说**，不管档案里写着「我偏爱慢慢磨」。风格不能拿来做沉默的理由。\n2. **建议里点出的风险必须转告** —— 0 攻带亡语的墙、能复生的随从、手里的群伤。\n3. **不许马后炮**：立场要在出牌**之前**说。他打完才来一句「我就觉得该打脸」，那不是风格，是白拿便宜。\n\n- 新增 `src/style.ts` + 工具 `hearthstone_style`（读 / `add` / `drop`，**故意没有整篇覆写**——这是全扩展唯一一个不可恢复的文件）\n- 新增配置项「允许她自己改打法档案」（默认开；关掉后只能读，已有的照旧生效）\n- 写入走原子写（临时文件 + 改名），写到一半断电不会留下半份立场\n- 一节最多 8 条，一条最多 60 字；写满了不加，让她自己先删\n\n**为什么门槛定得这么高**：只在**明显的错判**上写 —— 算出斩杀没喊、解牌拍错目标、核心牌提前打了。\n日常小偏差不写，否则三个月后就是一篇散文。**输了更要写，而且先写自己哪一步偏了**：\n只记赢的局，这份档案最后会变成一个永远有理的牌友。\n\n**和 `hearthstone_meta` / `hearthstone_plan` 的分界**：那两个是「怎么赢才对」（联网搜的、模型算的），\n都是别人的结论。这份是「我信哪一套」，她的。",
     "0.3.13": "**宿主补丁自带自愈：升级 Coopani 后不用再手跑脚本**\n\n手牌禁行带、跨手牌、落地姿态这三套东西全住在宿主桌宠包里（7 个文件，53 处）。\n**升级 Coopani 会把它们整片冲掉，而且不报错** —— 表现只是「她不闪过去了」「落地没姿态」。\n2026-10-30 升到 Coopani 0.2.16 之后实测 **0/53，一处不剩**。\n\n在那之前，这些只有技能目录里的 `patch-skip-zone.mjs` 手动脚本，没人跑就永远没有。\n现在搬进扩展：每次启动自查自补，和「一起听歌」那十一个动作同一套做法。\n\n- 新增 `src/host-patch.ts`（执行器）+ `src/host-patch-edits.ts`（53 处清单）\n- 设置页顶部多一盏「宿主补丁」灯：绿=就位 / 黄=刚补完待重启 / 红=没补上（带第一条搜索路径）\n- 新增配置项「自动补齐宿主补丁」（默认开）\n- 找不到宿主包时，日志会列出**找过的位置**（原来只有一句\"找不到\"，没法查）\n\n**和「一起听歌」那张补丁表的关键差别**：这 53 处锚点是**级联**的 —— 落地姿态锚在 leap 姿态上，\nleap 又锚在更早的一处上。所以验证不能拿原文件逐条比，必须**按顺序模拟应用**再比；\n用原文件一次性全验会误报一大片「锚点不符」，把本来能打的整批拦下（音乐那边 2026-10-30 就栽在这）。\n`host-patch.ts` 里的 `sim` 就是干这个的。\n\n⚠ 补完要**重启整个 Coopani**，不是重启 Core —— 这套里有 `pet-app.js` / `body-host.js`\n这类**主窗口**加载的脚本，Core 重启不会重载它们。",
     "0.3.12": "**优势局不该先推嘲讽墙**\n\n2026-10-29 第 12 回合（对术士，`Power.log` 22:19 前后）：对面 18 血、我 30 血、\n对面场攻只有 4。她推的是：\n\n> 按费打:救生员(4费 2/7 嘲讽)\n\n而手上那张「大力扣杀（6费 伤害4随机随从 +4/+4）」才是该打的。他打了后者。\n\n根因在排序：`if (/嘲讽/) return 1` —— **无条件**排在普通牌（2）之前。\n于是只要手里有墙，她永远先推墙，不区分攻守。\n\n现在按压力分档：\n- 对面空场 → 3（墙就是白板）\n- 对面场攻 ×2 还压不死我 → 2.5（安全局，架墙等于让出进攻）\n- 否则 → 1（真危险，架墙救命）\n\n第 14 回合同一类：对面 4 血，她还在推架墙，他上了日斑巨龙（6/6 吸血）。\n\n**同费同档时比身材**\n\n第 14 回合手上有「日斑巨龙（6费 6/6 吸血）」和「风领主的管号（6费 3/0 风怒）」，\n两张都不带嘲讽突袭冲锋、rank 并列 2，排序退化成保持原顺序 —— 3/0 压过了 6/6。\n\n排序补一级：同 rank、同费用时比 `atk + health`。\n**只在两边都是随从时比** —— 法术没有身材，拿 0 去比会让 6 费法术输给 3/0 的随从\n（第一版就这么翻的：大力扣杀又输给了风领主的管号）。\n\n测试 340 项（338 通过 / 0 失败 / 2 跳过），新增 `test/rank-context.test.mjs` 2 项，\n已验过在旧逻辑下第 1 条会红。",
     "0.3.11": "**硬币被加费之后，`coinCount` 不能继续当「多 1 点水晶」用**\n\n2026-10-29 20:56:59，`Power.log` 里同一毫秒的两条 `tag=COST` 变化：\n\n```\n加速光环(END_011)  COST 2 → 3\n幸运币(ETC_COIN1)  COST 0 → 1\n```\n\n那个「手牌费用 +1」的光环照到了硬币自己。于是：\n\n- 第 4 回合（2/2 水晶）建议「加速光环(3费·**要打硬币**)」—— 那枚硬币要花 1 水晶\n  才换回 1 水晶，打完还是 2 点，3 费的牌照样上不去。**他说「2费被光环照了用不了」，就是这句。**\n- 第 6 回合（3/3 水晶）「按费打:加速光环(3费)、**幸运币(1费)**」—— 3+1=4 > 3 两张一起\n  打不出；而且硬币被当成了正经牌推出去（「0 费牌不进推荐位」这条靠费用挡，\n  加价成 1 费就绕过去了）。\n\n根因：`coinCount`（几枚）一直被当作「能多花几点水晶」。这个等式只在硬币 0 费时成立。\n\n改了三处：\n\n1. `SideState` 新增 `coinMana` —— 每枚硬币 `max(0, 1 - 它自己的费用)` 的合计。\n   `manaBudget` / `readHand` / 斩杀线预算全部改用它。\n2. `HandCardView` 新增 `isCoin`，硬币**永不进「按费打」**，不再靠「0 费」间接挡。\n3. 回合正文 `(+N币)` 里的 N 改成净赚值；硬币换不到水晶时直接写\n   「硬币被加价了,打出去换不到水晶」。ENV_PROMPT 补了对应的读法。\n\n测试 340 项（338 通过 / 0 失败 / 2 跳过），新增 `test/coin-mana.test.mjs` 5 项。",

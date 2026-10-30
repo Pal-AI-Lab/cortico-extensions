@@ -1,0 +1,268 @@
+{
+  "schema": 1,
+  "name": "cortico-world-coo-mobile",
+  "version": "0.3.26",
+  "describe": {
+    "tools": [
+      {
+        "name": "coo_mobile_reply",
+        "tags": [
+          "speak"
+        ],
+        "description": "Send this reply to a phone message. Supply its exact device_id and message_id as in_reply_to. A durable send is not proof the phone or owner read it.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "device_id": {
+              "type": "string"
+            },
+            "in_reply_to": {
+              "type": "string"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 32000
+            }
+          },
+          "required": [
+            "device_id",
+            "in_reply_to",
+            "text"
+          ]
+        }
+      },
+      {
+        "name": "coo_mobile_send_media",
+        "tags": [
+          "speak"
+        ],
+        "description": "Send an existing log: or mem: image, audio, video or file blob handle to the phone. The referenced blob must exist; never fabricate its contents.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "device_id": {
+              "type": "string"
+            },
+            "in_reply_to": {
+              "type": "string"
+            },
+            "handle": {
+              "type": "string"
+            },
+            "text": {
+              "type": "string",
+              "maxLength": 32000
+            },
+            "file_name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 255
+            }
+          },
+          "required": [
+            "device_id",
+            "in_reply_to",
+            "handle"
+          ]
+        }
+      },
+      {
+        "name": "coo_mobile_status",
+        "tags": [
+          "read"
+        ],
+        "description": "Read mobile channel and delivery state without waking another model. delivered means in the Cortico session, not human-read.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "device_id": {
+              "type": "string"
+            }
+          },
+          "required": []
+        }
+      },
+      {
+        "name": "coo_mobile_read_screen",
+        "tags": [
+          "read"
+        ],
+        "description": "Read the latest screen frame from a phone that has actively enabled screen sharing. The frame has a capture time and may be stale; do not claim to see it if the model cannot accept images.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "device_id": {
+              "type": "string"
+            }
+          },
+          "required": []
+        }
+      },
+      {
+        "name": "coo_mobile_read_camera",
+        "tags": [
+          "read"
+        ],
+        "description": "Read the latest frame from a phone camera session the user has explicitly started. Check the capture time; do not claim to see it if the model cannot accept images.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "device_id": {
+              "type": "string"
+            }
+          },
+          "required": []
+        }
+      },
+      {
+        "name": "coo_mobile_camera_control",
+        "tags": [
+          "flow"
+        ],
+        "description": "Adjust image quality or sampling interval of an already active phone camera session. This never starts a camera or changes the user's proactive setting.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "device_id": {
+              "type": "string"
+            },
+            "quality": {
+              "type": "string",
+              "enum": [
+                "low",
+                "balanced",
+                "high"
+              ]
+            },
+            "interval_sec": {
+              "type": "integer",
+              "minimum": 2,
+              "maximum": 120
+            },
+            "adaptive": {
+              "type": "boolean"
+            }
+          },
+          "required": []
+        }
+      },
+      {
+        "name": "coo_mobile_camera_say",
+        "tags": [
+          "speak"
+        ],
+        "description": "Send a brief response to a phone during its active camera session, including after a proactive camera event. This is a new assistant message, not a reply to a fabricated user message.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "device_id": {
+              "type": "string"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 32000
+            }
+          },
+          "required": [
+            "device_id",
+            "text"
+          ]
+        }
+      },
+      {
+        "name": "coo_desktop_read_screen",
+        "tags": [
+          "read"
+        ],
+        "description": "Read the latest desktop screen frame while the owner has enabled desktop screen observation. The time is reported; a frame may be stale.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "coo_mobile.message",
+        "description": {
+          "zh": "手机原始输入和可选媒体，保留设备与消息来源。",
+          "en": "Original phone input and optional media with device identity."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "coo_mobile.pet_touch",
+        "description": {
+          "zh": "手机上的实际桌宠互动。",
+          "en": "A real touch on the phone pet."
+        },
+        "trigger": "piggyback"
+      },
+      {
+        "type": "coo_mobile.pet_state",
+        "description": {
+          "zh": "电脑桌宠状态镜像，仅记录并同步，不触发模型。",
+          "en": "Desktop pet state mirror, archived without waking the model."
+        }
+      },
+      {
+        "type": "coo_mobile.screen",
+        "description": {
+          "zh": "用户开启主动查看时的手机屏幕画面。",
+          "en": "Phone screen frame when proactive viewing is enabled."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "coo_mobile.camera",
+        "description": {
+          "zh": "用户开启主动观察时的手机摄像头画面。",
+          "en": "Phone camera frame when proactive viewing is enabled."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "coo_mobile.desktop_screen",
+        "description": {
+          "zh": "用户开启主动查看时的电脑屏幕画面。",
+          "en": "Desktop screen frame when proactive viewing is enabled."
+        },
+        "trigger": "flush"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.coo_mobile.envPrompt",
+        "title": "本地奶coo",
+        "role": "envPrompt",
+        "content": "你通过奶coo与手机交谈。`coo_mobile.message` 中的 device_id 和 message_id 是此次手机输入的来源与回复地址。普通正文不会自动发到手机；请用 `coo_mobile_reply` 发送文字。\n\n`coo_mobile.pet_touch` 是用户在手机小人上的实际触碰；该触碰的手机本地动作已经发生，事件默认随下一次对话带入。不要把它误认为手机上输入的文字，也不要称其是电脑桌宠的触碰。\n\n手机也可以发送图片、录音、短视频或文件。附件会带入事件；只有当前模型或相关识别工具实际支持对应媒体格式，才能说自己看见、听懂或读过了。无法识别时如实说明，使用合适的识别工具，不要猜测内容。\n\n当手机输入内容是“请看一眼我当前的手机屏幕”并带有截图时，这是用户主动请求的一次查看。根据该图回答，并使用这一事件自身的 device_id 和 message_id，通过 coo_mobile_reply 把回答发回手机；截图的采集时间不等于现在。\n\n用户明确开启屏幕感知时，`coo_mobile_read_screen` 可以按需查看手机最新画面，`coo_desktop_read_screen` 可以按需查看电脑最新画面；采集时间不等于当前时间。用户选择主动查看后，对应的屏幕事件才会唤醒对话。画面可能包含隐私，模型不支持图片时不要假称看见。\n\n用户在手机开启摄像头观察后，可用 `coo_mobile_read_camera` 查看最新一帧；`coo_mobile_camera_control` 可以调整已开启会话的清晰度、基础间隔和自适应，但不能打开镜头或开启主动观察。用户选择主动观察时 `coo_mobile.camera` 会带来一张有时间标记的抽帧；要回应手机，用 `coo_mobile_camera_say(device_id,text)`。摄像头观察是抽帧，不能假称连续视频或实时看见所有变化。\n\n如已有其他工具生成、返回或者保存在上下文中的 `log:` / `mem:` 附件句柄，可调用 `coo_mobile_send_media` 发给手机；原文件名可从来源核实后通过 `file_name` 附带。不要编造句柄或文件名。工具返回的是服务端已保存、等待手机拉取，不代表人已阅读或播放。文字可由支持的手机客户端本机朗读；此 World 不自动生成语音。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.3.26": "- 新增主机本地统一入口，提供安卓专属包、苹果配对、两端图文指南及苹果客户端源码；没有假称已生成 iOS 安装包。\n- 安卓客户端加入可预览、手动分享的明文诊断日志，以及按页面打开的离线图文指南；保持原有事件、连接与桌宠数据。\n- 两种客户端共用同一 World 事件通道；设备各自的对话 feed 仍按设备隔离。",
+    "0.3.25": "- 允许在发送已有附件句柄时附带已知原文件名；同步 World 静态工具说明和运行时定义。",
+    "0.3.24": "- 在原有图片、语音通道上增加短视频与文件的原字节收发，单个附件仍不超过 8 MiB；模型是否能理解附件仍取决于模型及对应工具。\n- 媒体表只追加可选文件名字段，旧记录和原有 Android 请求继续兼容；健康接口声明文件能力。更新前应取得 SQLite 一致备份。",
+    "0.3.23": "- 为苹果设备提供本机生成、五分钟有效且一次性使用的扫码连接；连接仍使用现有手机事件流。\n- 扫码页面和二维码在本机生成，不把配对信息发送给第三方服务。",
+    "0.3.22": "- 更新手机 App 至 0.3.21：键盘收起后复核系统状态，避免固定 Y 轴的小人仍被限制在键盘顶部。\n- 小人根据手机键盘变化升降；手机系统漏发动画结束时恢复可活动范围。",
+    "0.3.21": "- 更新手机 App 至 0.3.20：聊天刷新时只滚动消息，不转移输入焦点，避免打断拼音输入。\n- 已连接且悬浮窗权限已开启时，打开 App 默认显示小人；可在“随身小人”关闭自动显示。",
+    "0.3.20": "- 自适应观察以最近一次送给模型的画面为基准，稳定画面仅更新缓存，不反复唤醒模型；上一帧未了结时不重复排队。",
+    "0.3.19": "- 聊天中增加系统相机拍照并进入原有图片队列。\n- 增加由手机主动开启和关闭的摄像头抽帧通道，支持前后摄、按需查看、主动观察以及手机/Coo 共同调节清晰度与频率；并非实时双向视频流。",
+    "0.3.18": "- 手机 World 页保留断连提示、支持点状态重试，并收紧页面标题布局。",
+    "0.3.17": "- 手机页面向 Coo 深色界面对齐，增加“我的 World / 扩展市场”浏览和搜索；安装、卸载与运行控制仍在电脑端完成。\n- 手机 World 工作区只返回运行状态和公开市场信息，不传工作目录、提示词或凭据。",
+    "0.3.16": "- 修复手机桌宠消息在系统主线程网络限制下无法显示；发送队列保序，连接写入失败时让桌宠自动重连。\n- 增加手机本地连接与主线程发送的回归检查。",
+    "0.3.15": "- 手机端按 World 来源管理小人气泡、通知栏、可选横幅和锁屏正文，提供本机示范和独立透明度设置。\n- 手机读取 World 公开名称和启用状态；原始事件和来源不变，首次补历史不补发旧提醒。\n- 手机小人快捷按钮比桌面默认延长 0.75 秒。",
+    "0.3.14": "- 适配 Cortico World API 6。\n- 手机端设置收进左侧菜单，提供新手引导；聊天图片直接显示，语音按需播放。\n- 手机通道保留离线记录和来源，添加媒体类型轻量读取。"
+  }
+}

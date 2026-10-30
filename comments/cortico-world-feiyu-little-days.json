@@ -2,14 +2,23 @@
   "schema": 1,
   "name": "cortico-world-feiyu-little-days",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/363",
-  "total": 1,
+  "total": 2,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BJYZo",
       "author": "Wollust",
       "avatar": "https://avatars.githubusercontent.com/u/65527337?s=64&v=4",
       "body": "使用这个扩展的话，Coopanion里的对话就无法使用了，问了大肥鱼说是这个扩展和桌宠抢用一个什么通道，希望问题能解决",
-      "createdAt": "2026-10-28T07:12:53Z"
+      "createdAt": "2026-10-28T07:12:53Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJk-R",
+          "author": "Jack-Wiston",
+          "avatar": "https://avatars.githubusercontent.com/u/325481359?s=64&v=4",
+          "body": "同样有这个问题，问了下是需要把 17 个 功能类名字前缀 pet_* 改成 feiyu_pet_*  。pet_house 本来就是独立名字，不受影响；改名后两个 world 可共存，也不会再出现“谁顶掉谁”的竞态。",
+          "createdAt": "2026-10-30T07:59:35Z"
+        }
+      ]
     }
   ]
 }
