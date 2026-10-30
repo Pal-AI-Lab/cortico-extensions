@@ -1,12 +1,13 @@
 {
   "schema": 1,
   "name": "cortico-world-sound-del",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "describe": {
     "tools": [],
     "events": []
   },
   "changelog": {
+    "0.1.6": "- Use the Chinese introduction as the default npm and marketplace description, including clients that do not select a localized description.\n- Add a regression check that keeps the default description aligned with the Chinese locale.\n- Keep the TypeScript and Rust runtime sources unchanged.",
     "0.1.5": "- Shorten the README and npm description around automatic background muting during voice recording, with familiar voice-input tools as feature comparisons.\n- Move advanced setup and recovery details out of the product introduction.\n- Keep the 0.1.4 muting implementation unchanged; publish a new package version rather than replace the existing GitHub release.",
     "0.1.4": "First public release, based on the locally tested 0.1.4 runtime.\n\n- Trigger playback muting from the existing recording shortcut without patching Coopanion, remapping input or injecting keys.\n- Use a passive keyboard hook, bounded ordered transitions and immediate supervisor wakeups; preserve rapid double taps.\n- Prewarm Core Audio interfaces, invalidate topology on changes, and avoid duplicate initial scans and owned-device readbacks.\n- Keep durable write-ahead recovery, existing mute state, detected manual overrides, cancellation, lease expiry and a separate hang watchdog.\n- Distinguish request receipt from successful mute readback with bounded, privacy-conscious completion diagnostics.\n- Include a prebuilt Windows x64 helper, source, tests, documentation and third-party notices in release packages.\n- Declare the built-in desktop-pet voice-module dependency and experimental hardware-compatibility status.",
     "0.1.3": "Local development release; not previously published on npm.\n\n- Preserve a held gesture when the host's recording-start notification is delayed.\n- Allow a fresh gesture after an earlier release timeout.\n- Batch durable recovery writes and keep successful restoration receipts when clearing the journal fails.\n- Prefer the default playback endpoint and distinguish individually blocked calls from a progressing multi-device pass.",

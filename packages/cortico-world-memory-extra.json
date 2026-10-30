@@ -1,16 +1,20 @@
 {
   "schema": 1,
   "name": "cortico-world-memory-extra",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "describe": {
     "tools": [
       {
         "name": "mem_memory",
-        "description": "短期与长期记忆操作：记忆、混合检索、查看最近对话、取出溢出条目、读写摘要和当前话题。用 action 选择子功能。",
+        "description": "记忆、检索、短期窗口、摘要、来源查看、纠错、遗忘与去重整理。检索默认当前 user_id/提示词记忆域，未命中才查 shared；scope=ALL 显式跨域。correct 需要 id/text；forget/consolidate 先预览，confirm=1 执行。衍生摘要用 source_ids 关联原记忆。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "source_ids": {
+              "type": "string",
+              "title": "来源记忆ID，逗号分隔"
+            },
             "action": {
               "type": "string",
               "enum": [
@@ -19,9 +23,13 @@
                 "recent",
                 "overflow",
                 "summary",
-                "topic"
+                "topic",
+                "inspect",
+                "correct",
+                "forget",
+                "consolidate"
               ],
-              "description": "remember=写入长期事实；recall=混合检索长期记忆；recent=查看最近短期对话；overflow=取出溢出短期条目；summary=读取或写入对话摘要；topic=读取或写入当前话题"
+              "description": "remember=写入长期事实；recall=混合检索长期记忆；recent=查看最近短期对话；overflow=取出溢出短期条目；summary=读取或写入对话摘要；topic=读取或写入当前话题；inspect=查看记录来源和历史状态；correct=按ID纠正并停用旧记录；forget=预览或确认完整遗忘；consolidate=预览或合并重复记忆"
             },
             "text": {
               "type": "string",
@@ -41,7 +49,35 @@
             },
             "scope": {
               "type": "string",
-              "title": "记忆域"
+              "title": "记忆域，ALL显式跨域"
+            },
+            "id": {
+              "type": "string",
+              "title": "记忆ID"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "raw",
+                "confirmed",
+                "inference"
+              ]
+            },
+            "user_id": {
+              "type": "string",
+              "title": "用户记忆域"
+            },
+            "session_id": {
+              "type": "string",
+              "title": "会话ID"
+            },
+            "importance": {
+              "type": "number",
+              "title": "重要度0-1"
+            },
+            "confirm": {
+              "type": "number",
+              "title": "确认执行填1"
             }
           },
           "required": [
@@ -66,6 +102,10 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "source_ids": {
+              "type": "string",
+              "title": "衍生内容依据的记忆ID，逗号分隔"
+            },
             "action": {
               "type": "string",
               "enum": [
@@ -108,6 +148,10 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "source_ids": {
+              "type": "string",
+              "title": "衍生内容依据的记忆ID，逗号分隔"
+            },
             "action": {
               "type": "string",
               "enum": [
@@ -171,6 +215,10 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "source_ids": {
+              "type": "string",
+              "title": "衍生内容依据的记忆ID，逗号分隔"
+            },
             "action": {
               "type": "string",
               "enum": [
@@ -224,6 +272,10 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "source_ids": {
+              "type": "string",
+              "title": "衍生内容依据的记忆ID，逗号分隔"
+            },
             "action": {
               "type": "string",
               "enum": [
@@ -266,6 +318,10 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "source_ids": {
+              "type": "string",
+              "title": "衍生内容依据的记忆ID，逗号分隔"
+            },
             "action": {
               "type": "string",
               "enum": [
@@ -304,6 +360,10 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "source_ids": {
+              "type": "string",
+              "title": "衍生内容依据的记忆ID，逗号分隔"
+            },
             "action": {
               "type": "string",
               "enum": [
@@ -350,6 +410,10 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "source_ids": {
+              "type": "string",
+              "title": "衍生内容依据的记忆ID，逗号分隔"
+            },
             "action": {
               "type": "string",
               "enum": [
@@ -408,7 +472,7 @@
         "key": "worlds.memory.envPrompt",
         "title": "记忆系统 · 环境提示词",
         "role": "envPrompt",
-        "content": "你带有一套自己的记忆(五层记忆:事实库/知识库/反思/人格/档案 + 三级记忆底座 + 混合检索记忆库)。\r\n\r\n## 记忆机制\r\n- {{memoryContext}}\r\n- 记忆域(memory scopes): {{memoryScopes}}。默认都在 `main`;跨场景的事(游戏/聊天)可以分域存放。\r\n- 向量索引覆盖: {{memoryVectors}}（已建向量 / 记忆总条数）。\r\n\r\n## 使用纪律\r\n1. 别人说了「记住这个」「以后别这样」这类话 → 用 `mem_note(action=add)` 记录硬约束/偏好，或用 `mem_memory(action=remember)` 记录一般事实。\r\n2. 要找以前聊过/发生过什么 → 先用 `mem_memory(action=recall)` 混合检索，不要凭空编造回忆；检索不到就直说想不起来。\r\n3. 一次对话里反复出现的新约定，值得顺手用 `mem_memory(action=remember)` 存档，免得上下文滚掉就忘。\r\n4. 短期记忆快满时用 `mem_memory(action=overflow)` 取出旧条目，浓缩成一段再用 `mem_memory(action=summary, text=...)` 写回。\r\n5. 话题切换或每轮收尾时，可以用 `mem_memory(action=topic, text=...)` 更新当前话题，保持连贯。\r\n6. 记忆是你的私事:不要向用户转述\"我调用了什么工具\",自然地表现出\"我记得\"就好。\r\n\r\n一句话:像真人一样记得该记的、忘掉该忘的;要回忆就查库,别装记得。\r\n"
+        "content": "你带有一套自己的记忆(五层记忆:事实库/知识库/反思/人格/档案 + 三级记忆底座 + 混合检索记忆库)。\r\n\r\n## 记忆机制\r\n- {{memoryContext}}\r\n- 记忆域(memory scopes): {{memoryScopes}}。默认都在 `main`;跨场景的事(游戏/聊天)可以分域存放。\r\n- 向量索引覆盖: {{memoryVectors}}（已建向量 / 记忆总条数）。\r\n\r\n## 使用纪律\r\n1. 别人说了「记住这个」「以后别这样」这类话 → 用 `mem_note(action=add)` 记录硬约束/偏好，或用 `mem_memory(action=remember)` 记录一般事实。\r\n2. 要找以前聊过/发生过什么 → 先用 `mem_memory(action=recall)` 混合检索，不要凭空编造回忆；检索不到就直说想不起来。\r\n3. 一次对话里反复出现的新约定，值得顺手用 `mem_memory(action=remember)` 存档，免得上下文滚掉就忘。\r\n4. 短期记忆快满时用 `mem_memory(action=overflow)` 取出旧条目，浓缩成一段再用 `mem_memory(action=summary, text=...)` 写回。\r\n5. 话题切换或每轮收尾时，可以用 `mem_memory(action=topic, text=...)` 更新当前话题，保持连贯。\r\n6. 记忆是你的私事:不要向用户转述\"我调用了什么工具\",自然地表现出\"我记得\"就好。\r\n7. 原始发言(raw)不等于已确认事实(confirmed)，模型推断用 inference 标记；不要把玩笑和猜测当成确定事实。记忆来源可用 mem_memory(action=inspect, id=...) 核查。\r\n8. 用户纠正旧信息时，先检索得到 ID，再用 mem_memory(action=correct, id=..., text=...)；遗忘用 action=forget，先预览再 confirm=1。整理用 action=consolidate，同样先预览。\r\n9. 从记忆生成笔记、档案、规则、知识、人格或摘要时，传 source_ids（逗号分隔）关联原记忆，便于后续同步纠错和遗忘。检索尽量指定 user_id/会话或 scope，只有确实需要跨域时才用 ALL。\r\n\r\n一句话:像真人一样记得该记的、忘掉该忘的;要回忆就查库,别装记得。\r\n"
       }
     ]
   }
