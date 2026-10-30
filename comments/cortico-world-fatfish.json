@@ -2,14 +2,30 @@
   "schema": 1,
   "name": "cortico-world-fatfish",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-  "total": 54,
+  "total": 56,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJkq_",
+      "author": "blacksunshy",
+      "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
+      "body": "@Barlthor 感谢反馈。我们这边没有 0cloud 环境，复现不了，**0.6.15 已按最可能的原因做了防御**，麻烦升级后帮忙确认。\n\n**最可能的原因**：本扩展启动时会扫描本机回环端口找 DSH（DSH 每次重启端口都会变），一次最多 6 万+ 个 TCP 连接、2 秒内完成；连不上 DSH 时还会每 3~30 秒重扫一遍。如果你的 VPN 客户端用 TUN / 虚拟网卡 / LSP 之类的方式钩住了回环或全局流量，这批连接会全部穿过它的内核——确实可能把它打到反复断开；断开期间 DSH 还是连不上，桌宠再扫，形成循环。0.6.14 及更早的版本**每次启动都无条件扫一轮**，这是我们的问题，不该由用户环境兜底。\n\n**0.6.15 的修复（刚发布）**\n\n1. **缓存优先，不再每次启动都扫**：上次连上的端口会记住（7 天内有效），启动先拨它，拨不上才开始扫——绝大多数场景整轮扫描不再发生\n2. **自动发现做成开关**：设置 → 大肥鱼 → DSH 桥接组，新增「自动寻找地址」（默认开）。被 VPN / 安全软件误报的话关掉它，然后在「地址」里手填 `ws://127.0.0.1:<端口>/coopanion/pet`。固定端口需要先把 DSH 的 web 端口钉住，方法见 DSH 侧插件（coopanion-connector-dsh）README：在 profile 的 cordis.patch.yml 里给 webserver 指定 port\n\n**如果升级 0.6.15 后还断**，帮我把范围定住（1 分钟）：\n\n- Coopanion 设置 → 大肥鱼，关掉「启用 DSH 桥接」重启，看 VPN 还断不断\n  - 不断了 → 就是端口扫描，走上面第 2 步关掉自动发现即可\n  - 还断 → 大概率是语音朗读的出站连接（Edge TTS 连微软服务器）被 VPN 的处理方式引起，再告诉我\n- 顺带给我这几个信息：插件版本（扩展详情页里有）、0cloud 的代理模式（TUN / 系统代理 / 虚拟网卡？）、断开是否集中在 Coopanion 刚启动或 DSH 没开的时候",
+      "createdAt": "2026-10-30T06:35:30Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJkW4",
       "author": "Barlthor",
       "avatar": "https://avatars.githubusercontent.com/u/291794796?s=64&v=4",
       "body": "使用这个插件，会和我的VPN（0cloud）冲突，表现为VPN内核反复断开。",
-      "createdAt": "2026-10-30T04:59:47Z"
+      "createdAt": "2026-10-30T04:59:47Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJksh",
+          "author": "blacksunshy",
+          "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
+          "body": "嗯嗯，收到，感谢反馈，麻烦有时间的时候按照评论更新0.6.15试试，看下还存在问题没有，的确没考虑到vpn的冲突问题。",
+          "createdAt": "2026-10-30T06:39:25Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BJkKA",
