@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "describe": {
     "tools": [
       {
@@ -111,6 +111,7 @@
     ]
   },
   "changelog": {
+    "0.1.1": "- A stdio server declared as `node` or `corepack` no longer fails with `'\"\"' is not recognized as an\n  internal or external command`. Coopanion 0.2.16 puts its `shims/` directory first on `PATH` and\n  ships a `node.cmd` there that runs `%CORTICO_NODE_EXE%`; the child now receives that variable and\n  `CORTICO_PNPM_CJS`. Servers configured with an absolute interpreter path were not affected.",
     "0.1.0": "- First release: stdio and Streamable HTTP MCP servers, declared in `worlds.mcp.servers` as an\n  object keyed by server name.\n- Three tools: `mcp_list_servers`, `mcp_list_tools` (with `refresh`), `mcp_call_tool`.\n- Tool discovery at mount, catalog in the environment prompt, one `mcp.server` event per unexpected\n  disconnect.\n- `${NAME}` secret expansion, bounded connect and call timeouts, receipt truncation, image and audio\n  attachments."
   }
 }

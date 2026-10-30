@@ -705,7 +705,7 @@
     },
     "coopani-world-music": {
       "kind": "world",
-      "version": "0.4.2",
+      "version": "0.4.3",
       "displayName": "一起听歌",
       "description": "陪着你听歌：知道 QQ音乐、网易云在放什么。换歌必说一句，一首歌里分几段接话，还能就着刚唱过的词评两句；表情和动作跟着曲风变。也记得住：今天听了多少首、最常听谁、哪首被你循环过，能替某首歌留条笔记。能替你暂停切歌，也能自己搜歌挑给你——打开电脑操作，她能自己按播放，一首接一首；没开就把歌挑好、快完时提醒你换。她还养着一份自己的口味档案，边听边添、边添边改——那是她的潜意识，不是统计。记忆可以放在你指定的文件夹，公司和家里接同一份。",
       "locales": {
@@ -736,8 +736,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-10-30T06:14:55.962Z",
-      "versionCount": 24,
+      "published": "2026-10-30T07:22:53.179Z",
+      "versionCount": 25,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -771,6 +771,7 @@
       },
       "changelog": {
         "versions": [
+          "0.4.3",
           "0.4.2",
           "0.4.1",
           "0.4.0",
@@ -797,7 +798,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-music@0.4.2/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-music@0.4.3/CHANGELOG.md"
       },
       "discussion": {
         "number": 384,
@@ -5690,7 +5691,7 @@
       "discussion": {
         "number": 173,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/173",
-        "up": 3,
+        "up": 4,
         "down": 3,
         "comments": 9
       }
@@ -6306,7 +6307,7 @@
     },
     "cortico-world-feishu": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "displayName": "飞书",
       "description": "让 Bot 通过飞书企业自建应用的长连接收发私聊和群聊：消息推给 Persona，用工具回话。同一个 Persona，不是分身。",
       "locales": {
@@ -6335,8 +6336,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-feishu"
       },
       "created": "2026-10-27T09:28:31.566Z",
-      "published": "2026-10-30T06:54:01.432Z",
-      "versionCount": 3,
+      "published": "2026-10-30T07:17:15.193Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -6363,11 +6364,12 @@
       },
       "changelog": {
         "versions": [
+          "0.1.3",
           "0.1.2",
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-feishu@0.1.2/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-feishu@0.1.3/CHANGELOG.md"
       },
       "discussion": {
         "number": 361,
@@ -7950,7 +7952,7 @@
       "discussion": {
         "number": 24,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/24",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -8448,7 +8450,7 @@
     },
     "cortico-world-mcp": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "MCP",
       "description": "Cortico World: connects Model Context Protocol servers and lets the bot use their tools through one stable gateway",
       "locales": {
@@ -8475,8 +8477,8 @@
         "bugs": "https://github.com/UnusWhite/cortico-world-mcp/issues"
       },
       "created": "2026-10-24T06:00:30.981Z",
-      "published": "2026-10-24T06:01:29.009Z",
-      "versionCount": 2,
+      "published": "2026-10-30T07:27:17.105Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -8500,6 +8502,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.1",
           "0.1.0"
         ],
         "url": "https://github.com/UnusWhite/cortico-world-mcp/blob/HEAD/CHANGELOG.md"
@@ -9384,7 +9387,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/419",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-music": {
@@ -13056,9 +13059,9 @@
     },
     "cortico-world-spotify-lyrics": {
       "kind": "world",
-      "version": "0.3.2",
+      "version": "0.3.3",
       "displayName": "Spotify 跟唱",
-      "description": "Cortico World: reads the Spotify player on macOS through AppleScript and has the pet sing the current lyric line while dancing.",
+      "description": "在 macOS 上读取 Spotify 的曲目与播放位置，让 Coopanion 的桌宠按句唱出歌词并持续跳舞。歌词来自 LRCLIB，支持本地 lrc 覆盖。",
       "author": "AsakusaCC",
       "maintainers": [
         "asakusacc"
@@ -13083,13 +13086,12 @@
         "darwin"
       ],
       "created": "2026-10-30T06:32:33.846Z",
-      "published": "2026-10-30T06:34:10.280Z",
+      "published": "2026-10-30T07:33:17.703Z",
       "versionCount": 2,
       "official": false,
       "isNew": true,
       "declaredTags": [
         "apps",
-        "companion",
         "internet",
         "external-setup",
         "sensitive-data",
@@ -13098,7 +13100,6 @@
       "tags": [
         "internet",
         "apps",
-        "companion",
         "external-setup",
         "experimental",
         "sensitive-data"
@@ -13117,6 +13118,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.3",
           "0.3.2",
           "0.3.1",
           "0.3.0",
