@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-fatfish",
-  "version": "0.6.13",
+  "version": "0.6.14",
   "describe": {
     "tools": [
       {
@@ -54,7 +54,28 @@
       },
       {
         "name": "dsh_new_session",
-        "description": "Start a new DeepSeek Harness conversation and point this pet at it. Use it when the person asks for a new session, or when DSH has no open conversation — for example after they archived them all, which makes dsh_send refuse with \"no conversation is open on the DSH side\". The receipt names the new session; words you hand over afterwards go there.",
+        "description": "Start a new DeepSeek Harness conversation and point this pet at it. Use it when the person asks for a new session, when DSH has no open conversation — for example after they archived them all, which makes dsh_send refuse with \"no conversation is open on the DSH side\" — or when the work belongs in a different project. Pass `workspace` with a path or an id from dsh_workspaces to put the conversation in that project; without it the Host uses the current conversation's workspace. The receipt names the new session and the workspace it landed in; words you hand over afterwards go there.",
+        "tags": [
+          "speak"
+        ],
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "workspace": {
+              "type": "string",
+              "maxLength": 512,
+              "description": "Path or id of the DSH workspace to start the conversation in. Omit to stay in the current one."
+            }
+          }
+        },
+        "summary": {
+          "zh": "在 DSH 侧新建一个会话（可指定工作区），并把桌宠接过去。",
+          "en": "Start a new DSH conversation, optionally in a named workspace, and point this pet at it."
+        }
+      },
+      {
+        "name": "dsh_workspaces",
+        "description": "List the DeepSeek Harness projects (workspaces) this pet may start a conversation in. Each row carries a path, an id and how many conversations are open in it; pass either the path or the id as `workspace` to dsh_new_session. Ask for it before moving work to another project, so the name you pass is one DSH actually has.",
         "tags": [
           "speak"
         ],
@@ -63,8 +84,8 @@
           "properties": {}
         },
         "summary": {
-          "zh": "在 DSH 侧新建一个会话，并把桌宠接过去。",
-          "en": "Start a new DSH conversation and point this pet at it."
+          "zh": "列出 DSH 的工作区（路径 / id / 打开的会话数）。",
+          "en": "List the DSH workspaces a new conversation may target."
         }
       },
       {
@@ -103,6 +124,7 @@
     ]
   },
   "changelog": {
+    "0.6.14": "合入社区三个 PR（[#6](https://github.com/blacksunshy/coopanion-fatfish/pull/6) / [#7](https://github.com/blacksunshy/coopanion-fatfish/pull/7) / [#8](https://github.com/blacksunshy/coopanion-fatfish/pull/8)）与 DSH 侧 issue [#9](https://github.com/blacksunshy/coopanion-fatfish/issues/9) 的配套修复：\n\n- **端口发现不再漏扫低段动态端口（PR #6）**：原扫描写死 49152–65535，但有些机器 `netsh int ipv4 show dynamicport tcp` 的范围从 1024 开始（实测 DSH 落在 13141，旧扫描永远找不到）。现在 Windows 上运行时读 netsh 的实际范围（按数字解析，不受系统语言影响），读不到回退 1024–65535，结果缓存一次\n- **面板与 `fatfish-bridge.json` 显示实际拨号的地址（PR #7）**：`start()` 拨号后同步 `rediscover(true)` 会清掉发现缓存，面板曾因此显示配置端口（19387）而非真正连上的端口（13141）。现在在拨号瞬间记下目标，连上后记录的就是真实地址\n- **新建会话可指定工作区 + 新工具 `dsh_workspaces`（PR #8，需 connector ≥ 0.2.14）**：`dsh_new_session` 增加可选 `workspace` 参数（id 或路径），Host 回执带实际落点——旧 Host 静默忽略时如实报「无法确认落在指定工作区」而不是假装成功；`dsh_workspaces` 列出 DSH 各项目的 id / 路径 / 打开的会话数。connector 0.2.14 起 Host 侧匹配不上指定工作区会直接拒回并列出可用路径，绝不静默落到别处\n- **DSH 侧 issue #9 的根因在 connector，已随 0.2.14 修复**：cordis 里未 inject 的服务属性是会抛错的访问器，`apply()` 开头的探测把插件整个炸掉、路由全灭；建议两边一起升",
     "0.6.13": "- **新增 `notify` 三档**：\n  - `results`（默认）：每轮结束合并成一条通知，内容含 DSH 的回复与本轮工具调用次数；等待批准、等待回答、出错仍然立即推送\n  - `all`：旧行为，每个事件一条（`turn-start`、每次工具调用、每条回复、`turn-end`）\n  - `off`：只发送不接收——桌宠仍能向 DSH 说话，DSH 不再唤醒桌宠\n- **根因**：connector 对 `turn-start`、每次 `tool/call`、每条 `assistant/message`、`turn-end` 逐帧发帧，桌宠对每一帧推一条 notice 且 `trigger: 'flush'`（立即唤醒 Co）——每条通知 = 一次模型调用。有人实测 DSH 干活 100 秒被唤醒 26 次，绝大多数是工具调用的过程噪音\n- results 档下 5 秒兜底：这一轮迟迟收不到 `turn-end` 时，把已有回复单独报出来，不会因为结束帧丢失而一直沉默\n- 合并只发生在桌宠侧，connector 不需要升级，旧版 Host 一样生效\n- 想看每一步细节时把 `notify` 切回 `all` 即可，不用降级",
     "0.6.12": "- **面板新增「新建会话」按钮，Coo 新增 `dsh_new_session` 工具**：所有会话都被归档后，DSH 侧没有打开的会话，`dsh_send` 会被拒回；现在可以在 DSH 侧开一个新会话，建好即是 owner，桌宠自动接过去（协议新增 `new` / `created` 一对帧）\n- 需要 DSH 侧 `coopanion-connector-dsh` **≥ 0.2.12**；旧版 Host 不认识 `new` 帧，会连上但一直等不到会话\n- 新建成功会清掉「固定到当前会话」的 pin：你刚换掉的会话不该再把桌宠拉回去\n- connector 0.2.12 起 `dsh_send` 的拒回文案在无会话时改为指向 `dsh_new_session`，Coo 能自己补齐这一步\n- 本版合入社区 PR [#5](https://github.com/blacksunshy/coopanion-fatfish/pull/5)，commit 保留原作者署名",
     "0.6.11": "### 新增「选择会话」\n\n- 桥接面板多一颗「选择会话」按钮：列出 DSH 全部实时会话（会话 id、模型、哪个是默认、哪个是固定的、子代理会话不列出），点一行就把桌宠切过去，不用再猜 id\n- 固定状态下分两行显示「已固定（不跟随）」和「跟随 DSH 活动」，谁锁定、谁在跟着活动走一眼看得出\n\n### 修复\n\n- **面板显示「DSH 没有打开的会话」，但 DSH 明明有**：桌宠的帧解析器此前把 connector 的 `session-list` 当成未知帧丢掉，于是每次读列表都干等 10 秒超时后返回空。已补上解析\n- **点「解除固定」状态不刷新**：此前只清了桌宠本地的 `pinnedSession`，DSH 侧的固定（pin）还在，DSH 继续把消息送进\"已经放开\"的会话、面板也还标着已固定。现在先向 connector 下发 `unpin`，成功后才清本地状态；connector 不支持时会直接报错，不再假装成功\n- **切 tab 之后「会话」这一行永不更新**：以前只在握手时写一次。现在每次状态轮询都向 connector 问一次真实 owner（2.5 秒超时，问不到就保留旧值）\n- **快速来回切换后列表标记错乱、旧响应盖掉新状态**：列表改为每次重绘（当前 / 已固定 / 默认三个标记都重算），并用读序号丢弃迟到的轮询响应；「刷新测试」现在把状态和打开中的列表一起重读\n- 读列表失败与\"真的没有会话\"分开提示：前者显示「读取会话列表失败：DSH 没有回应，稍后再试」，不再误导成 DSH 真的没有会话\n\n### 关于「快速切 tab 后会话 id 卡住」\n\nDSH 只在真有活动（`agent/created`、`session/event`）时才通知插件，**只切 tab、不说话时一条事件都没有**——`agent/created` 只在该 tab 首次打开时发一次，所以多切几次就对不上了；`.dsh` 的持久化里也没有\"当前会话\"这个字段，桌宠无从得知静默导航。想立刻对准：点「刷新测试」或「选择会话」手动选一个。已经固定（pin）的会话本来就不该跟着跑，这种情况下 id 不动是正确行为。\n\n### 需要 DSH 侧配合\n\n会话列表与解除固定需要 DSH Host 插件 `coopanion-connector-dsh` **≥ 0.2.11**（仅 GitHub 分发，未上 npm）。低于 0.2.11 的 connector 没有 `list-sessions` / `unpin` 帧，本版会退化成\"读列表超时\"和\"解除固定只清本地\"。",

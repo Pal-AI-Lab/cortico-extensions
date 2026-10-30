@@ -2,14 +2,37 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-  "total": 40,
+  "total": 43,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BJg4J",
       "author": "YuYinDaJiang",
       "avatar": "https://avatars.githubusercontent.com/u/36914633?s=64&u=43d37a9b29ac64839c103ad167f7b0b1f35fccb0&v=4",
       "body": "打扰了，大佬，我QQ接的是Pal-AI-Lab/cortico-world-qqbot\n我的鱼说唱歌插件活着，127.0.0.1:9882，绮萱 v2.7.0。我直接 POST /sing 唱了一句，5.96 秒，wav 落在这儿：\n…\\Coopanion\\data\\home\\companion\\data\\singer\\out\\sing-20261029-232723.wav\n问题在递不到 QQ：\n· qqbot 的 voice 只认 http(s) 链接或 log:/mem: 句柄。传本机路径被拒（Expected an HTTP(S) URL），传 true 也被拒（Invalid URL）。\n· sovits_speak 走唱歌的时候，回执只有「Sang one line (6.0 s)」，不给音频句柄；一加 silent 就退回普通念白那条路——所以你听到的是我说话\n念白的链路是这样：sovits 合成完把 wav 写一份到插件数据目录，然后把这个文件当附件交回给我，我拿到的是这种句柄——\n\nlog:3356e7bb6c9a94224b62.wav\n\n我把它塞进 qqbot 的 voice 参数，它就当语音条发出去了。所以「导出语音」勾上 = 每次合成多留一个文件 + 把句柄交回调用方。\n\n唱歌那条分支显然没走这个导出：回执只有一句 Sang one line，没有那行 [blob …]。",
-      "createdAt": "2026-10-29T15:39:24Z"
+      "createdAt": "2026-10-29T15:39:24Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJkTd",
+          "author": "YuYinDaJiang",
+          "avatar": "https://avatars.githubusercontent.com/u/36914633?s=64&u=43d37a9b29ac64839c103ad167f7b0b1f35fccb0&v=4",
+          "body": "还有我看之前版本日志里应该有一个版本是有其他插件里接唱歌插件了，现在新版本里没这个设置项，我晚点更回去看下行不行",
+          "createdAt": "2026-10-30T04:40:21Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BJkUc",
+          "author": "wocwang",
+          "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+          "body": "QQ因为最近tx出了“通缉令”所以我思考会不会以后这一块不能用了就没做更多更新了，不过我现在插件已经能实现QQ@他唱歌后他能自己生成一句唱了（好不好听就是另回事了hhhhh），接下来的更新会让桌面直接让她唱歌这个功能更可用",
+          "createdAt": "2026-10-30T04:44:55Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BJkUs",
+          "author": "wocwang",
+          "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+          "body": "你的反馈我已加入更新清单\r\n",
+          "createdAt": "2026-10-30T04:46:01Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BJf_5",
