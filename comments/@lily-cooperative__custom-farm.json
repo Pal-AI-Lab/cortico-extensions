@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "@lily-cooperative/custom-farm",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/430",
-  "total": 1,
+  "total": 2,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJkcY",
+      "author": "northglass",
+      "avatar": "https://avatars.githubusercontent.com/u/350132940?s=64&u=a343dbb0aa894c4de4a2a8819575695b4f3a2a36&v=4",
+      "body": "作者你好，这个 World 很想用，但挂载时撞名，挂不上：\n\n切换失败: Error: World farm 与 World eat 的工具撞名，拒绝挂载 farm：farm_status、farm_water、farm_harvest\n\n另一个 World 是「吃饭」（cortico-world-eat 0.2.0），它也注册了 farm_status / farm_water / farm_harvest。Coopanion 只认工具名，两个一起开就必有一个被拒，只能二选一。重启也无效。\n\n环境：Windows 11，Coopanion 0.2.16，自定义农场 0.38.1（2026-10-30 试的）。\n\n建议：把工具名加上自己的前缀（比如 farmw_status / farmw_water），或者做命名空间，这样同类 World 才能共存。辛苦了，修好我就装回来",
+      "createdAt": "2026-10-30T05:28:17Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJkP-",
       "author": "LilyCooperative",
