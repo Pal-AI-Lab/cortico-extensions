@@ -602,7 +602,7 @@
     },
     "better-cortico-world-netease-companion": {
       "kind": "world",
-      "version": "1.17.1",
+      "version": "1.18.0",
       "displayName": "听搭子",
       "description": "和表达助手插件一起使用有奇效！读取网易云音乐、QQ 音乐、酷狗音乐、酷我音乐与 Spotify 曲目（优先 SMTC，必要时窗口标题），设置中按官方播放器优先级排序并保持切换稳定；新增读取诊断页，可查看全部会话、窗口候选与选择原因；切歌后让桌宠参考评论区、歌曲百科、歌手资料与歌词主动陪听，支持切歌报幕、同曲分段、评论侧重轮换与副歌动作建议；能记住单曲笔记、听感标签和多日听歌历史，并记录听歌排名与个人画像；可在用户明确要求时暂停/切歌，也能搜歌并给出链接。只读元数据，不采集音频，不需要 API Key。",
       "locales": {
@@ -636,8 +636,8 @@
         "win32"
       ],
       "created": "2026-10-23T17:18:51.610Z",
-      "published": "2026-10-30T05:20:26.275Z",
-      "versionCount": 26,
+      "published": "2026-10-31T01:00:24.131Z",
+      "versionCount": 27,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -646,11 +646,9 @@
         "memory",
         "internal-state",
         "experimental",
-        "sensitive-data",
         "external-setup",
         "internet",
-        "high-cost",
-        "unofficial-api"
+        "high-cost"
       ],
       "tags": [
         "internet",
@@ -661,8 +659,7 @@
         "experimental",
         "internal-state",
         "high-cost",
-        "sensitive-data",
-        "unofficial-api"
+        "sensitive-data"
       ],
       "icon": "assets/better-cortico-world-netease-companion/icon.png",
       "downloads": {
@@ -674,10 +671,11 @@
         "tools": 15,
         "events": 4,
         "toolTokens": 2708,
-        "envPromptTokens": 4783
+        "envPromptTokens": 4798
       },
       "changelog": {
         "versions": [
+          "1.18.0",
           "1.17.1",
           "1.17.0",
           "1.16.1",
@@ -12314,7 +12312,7 @@
     },
     "cortico-world-qqbot": {
       "kind": "world",
-      "version": "0.3.2",
+      "version": "0.4.0",
       "displayName": "QQ Bot",
       "description": "Connects Coo to a QQ bot entry: QR binding, direct and group messages, stickers and media, with QQ's reply limits visible to the model",
       "locales": {
@@ -12348,8 +12346,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/cortico-world-qqbot/issues"
       },
       "created": "2026-10-28T01:10:08.363Z",
-      "published": "2026-10-28T01:30:17.378Z",
-      "versionCount": 4,
+      "published": "2026-10-31T00:22:01.150Z",
+      "versionCount": 5,
       "official": true,
       "isNew": true,
       "declaredTags": [
@@ -12379,10 +12377,11 @@
         "tools": 8,
         "events": 7,
         "toolTokens": 1440,
-        "envPromptTokens": 20
+        "envPromptTokens": 25
       },
       "changelog": {
         "versions": [
+          "0.4.0",
           "0.3.2",
           "0.3.1",
           "0.3.0",
@@ -12635,6 +12634,66 @@
       "discussion": {
         "number": 59,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/59",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-realtime-weather": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "实时天气",
+      "description": "实时天气、空气质量、官方预警与天气预报。",
+      "author": "DTMosken",
+      "maintainers": [
+        "dtmosken"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-realtime-weather",
+        "repository": "https://github.com/DTMosken/cortico-world-realtime-weather",
+        "homepage": "https://github.com/DTMosken/cortico-world-realtime-weather#readme",
+        "bugs": "https://github.com/DTMosken/cortico-world-realtime-weather/issues"
+      },
+      "created": "2026-10-31T00:17:03.901Z",
+      "published": "2026-10-31T00:18:00.733Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "internet",
+        "requires-key",
+        "external-setup"
+      ],
+      "tags": [
+        "internet",
+        "external-setup",
+        "requires-key"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 3,
+        "toolTokens": 128,
+        "envPromptTokens": 80
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/DTMosken/cortico-world-realtime-weather/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 578,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/578",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -13150,7 +13209,7 @@
       "discussion": {
         "number": 60,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/60",
-        "up": 4,
+        "up": 5,
         "down": 0,
         "comments": 0
       }

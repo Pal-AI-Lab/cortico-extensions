@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "name": "cortico-world-realtime-weather",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "realtime_weather_current",
+        "description": "查看配置地点的当前天气、空气质量与有效天气预警。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "realtime_weather_forecast",
+        "description": "查看未来第1、第2小时与多日天气预报；明天天气取逐日摘要。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ]
+      }
+    ],
+    "events": [
+      {
+        "type": "realtime-weather.changed",
+        "description": "天气、空气质量或官方预警发生变化。"
+      },
+      {
+        "type": "realtime-weather.forecast",
+        "description": "未来两小时或多日预报发生显著变化。"
+      },
+      {
+        "type": "realtime-weather.solar",
+        "description": "到达配置地点的日出或日落时刻。"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.realtime-weather.envPrompt",
+        "title": "实时天气 · 环境提示词",
+        "role": "envPrompt",
+        "content": "你可以感知配置地点的天气、空气质量、官方预警和天气预报。\n\nrealtime_weather_current 返回当前天气、最近一次空气质量和有效预警。realtime_weather_forecast 返回未来第1、第2小时和多日天气；明天取逐日项。回执时间采用配置地点的时区，实况时刻表示查询时间，空气质量可能较早。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "- 天气实况、空气质量与官方预警合并轮询和回执。\n- 未来两小时与多日天气预报、日出日落事件。\n- 城市/区划选择、密钥文件、连接测试及可编辑氛围文案。"
+  }
+}

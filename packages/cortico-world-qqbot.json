@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qqbot",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "describe": {
     "tools": [
       {
@@ -358,7 +358,7 @@
     ],
     "events": [
       {
-        "type": "qqbot.message",
+        "type": "qq-official.message",
         "trigger": "debounce",
         "description": {
           "zh": "收到一条 QQ 消息，渲染成一行可读文本，原始字段留在存档里。",
@@ -366,7 +366,7 @@
         }
       },
       {
-        "type": "qqbot.notice",
+        "type": "qq-official.notice",
         "trigger": "debounce",
         "description": {
           "zh": "收到互动、关系变化或其他平台事件。",
@@ -374,7 +374,7 @@
         }
       },
       {
-        "type": "qqbot.attachment",
+        "type": "qq-official.attachment",
         "trigger": "debounce",
         "description": {
           "zh": "消息里下载较慢的图片或语音，下载完成后单独送达。",
@@ -382,7 +382,7 @@
         }
       },
       {
-        "type": "qqbot.sent",
+        "type": "qq-official.sent",
         "tags": [
           "speak"
         ],
@@ -392,21 +392,21 @@
         }
       },
       {
-        "type": "qqbot.attempt",
+        "type": "qq-official.attempt",
         "description": {
           "zh": "发送前持久化的序号预留，不唤醒模型。",
           "en": "A sequence reservation persisted before sending; does not wake the model."
         }
       },
       {
-        "type": "qqbot.removed",
+        "type": "qq-official.removed",
         "description": {
           "zh": "平台接受撤回请求的存档回执，不唤醒模型。",
           "en": "An archived recall receipt; does not wake the model."
         }
       },
       {
-        "type": "qqbot.acknowledged",
+        "type": "qq-official.acknowledged",
         "description": {
           "zh": "平台接受互动确认的存档回执，不唤醒模型。",
           "en": "An archived interaction acknowledgement; does not wake the model."
@@ -415,14 +415,15 @@
     ],
     "prompts": [
       {
-        "key": "worlds.qqbot.envPrompt",
+        "key": "worlds.qq-official.envPrompt",
         "title": "环境提示词",
         "role": "envPrompt",
-        "content": "{{qqbot.environment}}\n\n{{qqbot.conversations}}\n{{qqbot.identity}}\n"
+        "content": "{{qqOfficial.environment}}\n\n{{qqOfficial.conversations}}\n{{qqOfficial.identity}}\n"
       }
     ]
   },
   "changelog": {
+    "0.4.0": "- The World id is now `qq-official` (config `worlds.qq-official`, events `qq-official.*`, prompt variables `qqOfficial.*`). `cortico-world-qq-final` also uses `qqbot`, so whichever loaded second failed to load and the two shared one config section. Tools keep their `qqbot_*` names and the AppSecret keeps `CORTICO_QQBOT_APP_SECRET`. Enter the AppID again on the Configuration tab, or scan to bind again; earlier message history stays under the old id and is no longer read.\n- Turning the World on before a bot is bound says where to bind, in the interface language, instead of `Missing or invalid AppID`.\n- `mem:` attachment handles accept any workspace-relative path with `/`, including non-ASCII names such as `mem:images/自画像.png`. A rejected handle names the accepted shapes.",
     "0.3.2": "- New market screenshots of the QQ Bot panels, rendered from the real panel code with sample data; `scripts/screenshots/` rebuilds them.\n- The scanning hint asks for a new bot, since picking an existing one has returned credentials that yield no token.",
     "0.3.1": "- New market icon in the house style of Pal AI Lab extensions.",
     "0.3.0": "- Published as `cortico-world-qqbot` by Pal AI Lab. The World id is now `qqbot` (tools `qqbot_*`, events `qqbot.*`, config `worlds.qqbot`, secret `CORTICO_QQBOT_APP_SECRET`); installs of `cortico-world-qq-official` need to bind again.\n- The prompt says Coo is connected to a QQ bot entry, lists QQ's limits on it with a way to work with each, and asks Coo to keep stickers in its memory under descriptive names and send them often.\n- Send receipts state the delivery mode and what remains: replies left on the message and minutes left, or the rule that made a message proactive. Platform rejections carry a plain explanation of the limit they hit.\n- A refused proactive message in a direct chat (40054013 or 40034105) is sent once as the period's wakeup message; a recipient who turned proactive messages off gets the wakeup message directly.\n- An @ in a group or channel wakes the model at once; direct chats still batch.\n- Render faces written in the older `[<face,id=13/>]` form.\n- QR binding follows QQ's three-minute task lifetime and renews an expired code up to three times in a row. Scanned credentials are checked for a token before they are saved; a secret that yields none asks for a new scan that creates a new bot.\n\n- Render model-facing text in the shape of Cortico's built-in QQ World: one line per message (`#n [conversation HH:MM] sender: text`) with faces by name, quotes, mentions and attachment placeholders; notices, send receipts and history as short lines instead of raw JSON. Original fields stay in `meta.data`.\n- Address tools with `to` (`c2c:<OpenID>` and so on) and short message numbers: `reply_to`, `message` and `before` take `#n`. `send_message` takes `text` plus an optional `image` or `voice`; `history` is now `read_history`; `read_attachment` takes a message number and a 1-based index. Object targets from earlier reminders are still accepted.\n- List known conversations and the bot's QQ name in the environment prompt.\n- Fetch images from the QQ CDN as messages …",
