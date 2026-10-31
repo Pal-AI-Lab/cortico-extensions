@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-brain-regions",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "describe": {
     "tools": [
       {
@@ -107,6 +107,7 @@
     ]
   },
   "changelog": {
+    "0.1.1": "- 补充包元数据 `author`：安晚。",
     "0.1.0": "- 严格串行的脑区管线：router → memory → salience → reason → verify → synthesize。\n- 5 个职责边界清晰的脑区子代理 + 1 个合成代理；每个都有明确的输入/输出契约。\n- 路由器只读 `REGION_MANIFEST` 能力清单，不读系统提示词/实现。\n- 独立验证层：只看 claim + 证据 + 计划/记忆/显著性，不拿主推理草稿，不重做推理、不写答案。\n- 验证 verdict：pass / revise / reject；reject 时合成只做澄清，不写记忆。\n- 支持一次串行修订（reason → verify），仍不并行。\n- 记忆写入只在验证 pass 后落盘；提议的 writes 不进入本轮推理。\n- 阶段非法 JSON/无 claim/无 check 会中止，不进入合成。\n- 世界级并发锁：上一轮未结束，新的 brain_run 直接拒绝。\n- `providerMode: auto` 读取 Coopanion 当前 provider；DeepSeek 自动走 Responses，其他端点默认 Chat Completions；也支持 manual baseUrl/model/apiKeyEnv/protocol。\n- 三个工具：`brain_run`、`brain_status`、`brain_memory`。"
   }
 }

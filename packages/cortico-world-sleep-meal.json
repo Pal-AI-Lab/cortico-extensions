@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-sleep-meal",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "describe": {
     "tools": [
       {
@@ -107,6 +107,7 @@
     ]
   },
   "changelog": {
+    "0.1.1": "- 补充包元数据 `author`：安晚。",
     "0.1.0": "- 按群隔离的睡眠状态机：`awake` / `pending` / `sleeping` / `angry`。\n- 23:00–06:00 睡眠；23:00 有话题时按“最后消息 + 10 分钟静默”推迟入睡。\n- 点名累加唤醒：平台 @、本名、`aliases` 别名都算；`wakeThreshold` 默认 2。\n- 起床气默认 90 秒，只对被吵醒的群生效；结束后回到醒着，夜里安静 `reSleepMinutes` 再睡。\n- 早/中/晚饭点主动播报这一顿吃了什么；按群、按顿、每天去重；支持所有已知群或最近 N 天活跃群。\n- 状态持久化到 `sleep-state.json`，重启恢复模式、起床气截止、话题推迟截止和饭点记录。\n- 三个工具：`sleep_check`、`sleep_status`、`sleep_control`。"
   }
 }

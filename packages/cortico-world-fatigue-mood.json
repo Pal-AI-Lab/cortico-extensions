@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-fatigue-mood",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "describe": {
     "tools": [
       {
@@ -170,6 +170,7 @@
     ]
   },
   "changelog": {
+    "0.1.1": "- 补充包元数据 `author`：安晚。",
     "0.1.0": "- 首个版本：疲惫累积、回复率下滑、「我累了」这类表达。\n- 换话题清零；终止话题半小时后清零。\n- 短句、复读、同一简单话题聊太久会加速疲惫。\n- 自己的爱好（默认看云★ / 听歌 / 看番），聊爱好时疲惫涨得很慢。\n- 聊爱好时主动起新讨论（`fatigue_roll` 的 `spark` + 爱好由头）。\n- 五个工具：`fatigue_roll`、`fatigue_status`、`fatigue_topic`、`fatigue_hobby`、`fatigue_rest`。\n- 状态按对话分开存；群聊默认只统计点名，可开 `countAmbient`。"
   }
 }

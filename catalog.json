@@ -1602,7 +1602,7 @@
       "published": "2026-10-17T11:26:11.470Z",
       "versionCount": 3,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "experimental"
       ],
@@ -3370,7 +3370,7 @@
     },
     "cortico-world-brain-regions": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "脑区管线",
       "description": "Coopanion 脑区管线 World：严格串行地跑路由/任务分解、记忆检索与写入、显著性/风险标记、主推理、独立验证（不重做推理）和合成；验证层是上游错误进入最终回答前的闸门。",
       "locales": {
@@ -3383,6 +3383,7 @@
           "description": "Splits a request into a strictly serial brain-region pipeline: routing, memory, salience/risk, reasoning, independent verification and synthesis. The verifier audits evidence and conflicts instead of redoing the reasoning."
         }
       },
+      "author": "安晚",
       "maintainers": [
         "anwan172"
       ],
@@ -3400,8 +3401,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-brain-regions"
       },
       "created": "2026-10-31T11:07:58.758Z",
-      "published": "2026-10-31T11:08:54.265Z",
-      "versionCount": 2,
+      "published": "2026-10-31T11:31:12.173Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3427,9 +3428,10 @@
       },
       "changelog": {
         "versions": [
+          "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-brain-regions@0.1.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-brain-regions@0.1.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 587,
@@ -3920,7 +3922,7 @@
     },
     "cortico-world-checkin": {
       "kind": "world",
-      "version": "0.1.7",
+      "version": "0.1.9",
       "displayName": "Where Are You",
       "description": "给 ta 一个信息源：从你的键鼠活动判断你在不在电脑前，必要时还能看一眼屏幕。陪伴更实在，也顺手当个小助手。",
       "locales": {
@@ -3957,8 +3959,8 @@
         "bugs": "https://github.com/Uesugikumo/cortico-world-checkin/issues"
       },
       "created": "2026-10-30T09:03:20.749Z",
-      "published": "2026-10-30T09:29:28.292Z",
-      "versionCount": 3,
+      "published": "2026-10-31T11:30:17.657Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3985,12 +3987,14 @@
       },
       "summary": {
         "tools": 4,
-        "events": 3,
+        "events": 4,
         "toolTokens": 372,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.1.9",
+          "0.1.8",
           "0.1.7",
           "0.1.6",
           "0.1.5",
@@ -6378,7 +6382,7 @@
       "discussion": {
         "number": 209,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/209",
-        "up": 1,
+        "up": 2,
         "down": 0,
         "comments": 6
       }
@@ -6731,7 +6735,7 @@
     },
     "cortico-world-fatigue-mood": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "心情与疲惫",
       "description": "Coopanion 心情与疲惫 World：会累、会烦、有自己的爱好；聊得多回复率会掉，换话题或歇半小时就缓过来，聊爱好时还会主动起新内容。",
       "locales": {
@@ -6744,6 +6748,7 @@
           "description": "Gives it a body that tires: the more and the more repetitively you talk, the less it wants to answer; a new topic, a hobby, or half an hour of silence refreshes it. On hobbies it starts new threads on its own."
         }
       },
+      "author": "安晚",
       "maintainers": [
         "anwan172"
       ],
@@ -6760,8 +6765,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-fatigue-mood"
       },
       "created": "2026-10-30T15:14:16.958Z",
-      "published": "2026-10-30T15:16:25.091Z",
-      "versionCount": 2,
+      "published": "2026-10-31T11:31:23.922Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -6785,9 +6790,10 @@
       },
       "changelog": {
         "versions": [
+          "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-fatigue-mood@0.1.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-fatigue-mood@0.1.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 573,
@@ -13747,7 +13753,7 @@
     },
     "cortico-world-sleep-meal": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "睡眠与饭点",
       "description": "Coopanion 睡眠与饭点 World：23:00–06:00 按群睡眠，话题没结束就推迟；点名累加到阈值才醒并带起床气；早中晚主动播报这一顿吃了什么。",
       "locales": {
@@ -13760,6 +13766,7 @@
           "description": "Per-group bedtime: asleep from 23:00 to 06:00, waiting while a topic is still alive; wakes only after enough mentions, with morning grumpiness, and announces what it ate at breakfast, lunch and dinner."
         }
       },
+      "author": "安晚",
       "maintainers": [
         "anwan172"
       ],
@@ -13777,8 +13784,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-sleep-meal"
       },
       "created": "2026-10-31T10:51:16.196Z",
-      "published": "2026-10-31T10:55:24.401Z",
-      "versionCount": 2,
+      "published": "2026-10-31T11:31:07.196Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -13806,9 +13813,10 @@
       },
       "changelog": {
         "versions": [
+          "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-sleep-meal@0.1.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-sleep-meal@0.1.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 590,
