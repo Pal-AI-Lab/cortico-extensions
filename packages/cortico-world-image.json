@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-image",
-  "version": "0.7.2",
+  "version": "0.8.2",
   "describe": {
     "tools": [
       {
@@ -45,7 +45,7 @@
       },
       {
         "name": "image_edit",
-        "description": "Redraw an existing local picture following a text instruction, through the same model chain as image_draw. `image` takes an absolute file path, or a picture id from image_gallery. OpenAI-compatible entries use /images/edits (multipart upload) or a base64 `image` field on /images/generations (e.g. Aliyun Bailian); ComfyUI entries upload the picture and run an img2img workflow.",
+        "description": "Redraw existing local picture(s) following a text instruction, through the same model chain as image_draw. `image` takes one absolute file path (or a picture id from image_gallery); `images` takes several for models that accept multiple references. OpenAI-compatible entries use /images/edits (multipart upload, several pictures as image[]) or a base64 `image` field on /images/generations (e.g. Aliyun Bailian, one picture only); ComfyUI entries upload the picture(s) and run an img2img workflow — several pictures need a custom workflow with {{image1}} / {{image2}} placeholders.",
         "parameters": {
           "type": "object",
           "properties": {
@@ -56,6 +56,13 @@
             "image": {
               "type": "string",
               "description": "Absolute path of the source picture, or a picture id from image_gallery."
+            },
+            "images": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Several source pictures, same notation as `image` (absolute path or gallery id), up to 4. Use it when the instruction refers to more than one picture (\"把这两张拼起来\", \"照这个风格改那张\"). If the chosen backend cannot take several references, the tool says so instead of quietly dropping them."
             },
             "model": {
               "type": "string",
@@ -75,16 +82,15 @@
             }
           },
           "required": [
-            "prompt",
-            "image"
+            "prompt"
           ]
         },
         "tags": [
           "act"
         ],
         "summary": {
-          "zh": "按一句指令改一张已有的本地图，结果同样落盘并贴进对话。",
-          "en": "Redraw an existing local picture following a text instruction."
+          "zh": "按一句指令改已有的本地图（一张或多张参考图），结果同样落盘并贴进对话；后端吃不下多图时直说。",
+          "en": "Redraw existing local picture(s) following a text instruction; says so when the backend cannot take several references."
         }
       },
       {
@@ -138,11 +144,14 @@
         "key": "worlds.image.envPrompt",
         "title": "环境说明（图片工坊）",
         "role": "envPrompt",
-        "content": "你可以作画。这一节说明工具箱和规矩。\n\n## 四个工具\n\n- `image_draw`：按一段文字描述画一张新图。图会存到磁盘、附加进本次对话（你自己看得到）、并显示在控制台「图片工坊 → 作品」页。\n- `image_edit`：拿一张已有的图按指令改（换风格、改细节）。`image` 给绝对路径，或 `image_gallery` 里的编号。`size` 一般不传（本地 ComfyUI 那档会照参考图的比例出图）；要固定尺寸就写 `宽x高`。服务端支不支持改图由接口决定，报错就照实告诉用户。\n- `image_gallery`：列出画过的图，最新的在前，带编号和绝对路径。编号可以交给 `image_show` 或 `image_edit`。\n- `image_show`：把一张旧图重新放回眼前（重新附加进对话，并在作品页高亮）。\n\n图片保存目录：`{{image.dir | 尚未确定；先看控制台「图片工坊 → 状态」。}}`\n\n当前接口状态：`{{image.ready | 未知。不确定就别调用，先告诉用户去控制台「图片工坊 → 状态」看看。}}`\n\n## 模型链\n\n后台可能配了一串模型（「图片工坊 → 状态 → 模型链」），本地 ComfyUI 和云端接口都在里面，按顺序试：\n前一档连不上、超时、额度用完、模型没装，就自动换下一档；回执里会写「前几档没成」和最后用的是哪一档。\n\n## 规矩\n\n1. **别每轮都画。** 用户明确想看/想让你画，或者确实需要一张图来解释、来送人，才调用。闲聊、讨论、解释概念都不需要配图。\n2. **一次画一张。** 想要不同方向就画一张、看一眼、再决定要不要重画或改。不要一次调好几个 `image_draw` 碰运气。\n3. **描述要具体。** 主体、画风、构图、光线、色调、背景，一句到位；别只给两三个词，也别把整段聊天记录塞进去。\n4. **说人话，不念路径。** 回执里的绝对路径是给工具用的，不是给用户看的。画完就用一句自然的话告诉用户画了什么，像 `pet_say` 那样说话。不要把路径、编号、`blobs`、JSON 念出来，也不要贴 Markdown 图片语法。\n5. **发到别处要另走一步。** 图默认只在你自己的界面里。\n   - 想让主人在控制台的「对话」页看到它，画完之后调桌宠的 `pet_say`，`images` 填回执里 `[blob …]` 行的句柄（就是 `[blob ` 后面那一串），`script` 给空串就只贴图不出声；想配一句话就写进 `script`（那句话会在气泡里说出来）。图只进「对话」页，不进气泡。\n   - 要发到 QQ 会话：把回执里 `[blob …]` 行的句柄交给 QQ 世界的发图工具。官方 QQ 扩展用 `qq_draft`（`image` 填句柄，`to` 填 `group:<群号>` 或 `private:<QQ号>`，再用 `qq_confirm` 确认发送）；旧版 QQ 扩展（`qqbot`）用 `qq_send_image`，`image` 填回执里的绝对路径；新版 QQ 扩展（`cortico-world-qq-final`）在 `qq_send` 的正文里写 `[图片:<回执里的文件名>]`（回执里有一行现成的，照抄即可）。这一版不再给 QQ 扩展打补丁：0.6.36 及以后只认它自己图片库目录里的文件名，需要用户把 QQ 插件的 `worlds.qqbot.imageDir` 指到本扩展的保存目录（本页第一段那个路径）；更早的版本或旧版扩展要认路径，则要装「补丁台」（`cortico-world-patchkit`）并开启它的发图补丁。\n6. **失败就停。** 如果回执说没配密钥、接口报错、超时，不要换个说法反复重试。把情况告诉用户，让他去控制台「图片工坊 → 状态」里填密钥或改接口地址。\n7. **别凭空说画好了。** 只有工具回执真的带着图回来，才算画好了。\n"
+        "content": "你可以作画。这一节说明工具箱和规矩。\n\n## 四个工具\n\n- `image_draw`：按一段文字描述画一张新图。图会存到磁盘、附加进本次对话（你自己看得到）、并显示在控制台「图片工坊 → 作品」页。\n- `image_edit`：拿已有的图按指令改（换风格、改细节）。`image` 给绝对路径，或 `image_gallery` 里的编号；要拿好几张图合起来改，就用 `images`（最多四张，例如「把这两张合成一张」）。`size` 一般不传（本地 ComfyUI 那档会照参考图的比例出图）；要固定尺寸就写 `宽x高`。服务端支不支持多图、支不支持改图由接口决定：回执里若说「只有第一张参与了」，就照实告诉用户，别硬说合成了。\n- `image_gallery`：列出画过的图，最新的在前，带编号和绝对路径。编号可以交给 `image_show` 或 `image_edit`。\n- `image_show`：把一张旧图重新放回眼前（重新附加进对话，并在作品页高亮）。\n\n图片保存目录：`{{image.dir | 尚未确定；先看控制台「图片工坊 → 状态」。}}`\n\n当前接口状态：`{{image.ready | 未知。不确定就别调用，先告诉用户去控制台「图片工坊 → 状态」看看。}}`\n\n## 模型链\n\n后台可能配了一串模型（「图片工坊 → 状态 → 模型链」），本地 ComfyUI 和云端接口都在里面，按顺序试：\n前一档连不上、超时、额度用完、模型没装，就自动换下一档；回执里会写「前几档没成」和最后用的是哪一档。\n\n## 规矩\n\n1. **别每轮都画。** 用户明确想看/想让你画，或者确实需要一张图来解释、来送人，才调用。闲聊、讨论、解释概念都不需要配图。\n2. **一次画一张。** 想要不同方向就画一张、看一眼、再决定要不要重画或改。不要一次调好几个 `image_draw` 碰运气。\n3. **描述要具体。** 主体、画风、构图、光线、色调、背景，一句到位；别只给两三个词，也别把整段聊天记录塞进去。\n4. **说人话，不念路径。** 回执里的绝对路径是给工具用的，不是给用户看的。画完就用一句自然的话告诉用户画了什么，像 `pet_say` 那样说话。不要把路径、编号、`blobs`、JSON 念出来，也不要贴 Markdown 图片语法。\n5. **发到别处要另走一步。** 图默认只在你自己的界面里。\n   - 想让主人在控制台的「对话」页看到它，画完之后调桌宠的 `pet_say`，`images` 填回执里 `[blob …]` 行的句柄（就是 `[blob ` 后面那一串），`script` 给空串就只贴图不出声；想配一句话就写进 `script`（那句话会在气泡里说出来）。图只进「对话」页，不进气泡。\n   - 要发到 QQ 会话：把回执里 `[blob …]` 行的句柄交给 QQ 世界的发图工具。官方 QQ 扩展用 `qq_draft`（`image` 填句柄，`to` 填 `group:<群号>` 或 `private:<QQ号>`，再用 `qq_confirm` 确认发送）；旧版 QQ 扩展（`qqbot`）用 `qq_send_image`，`image` 填回执里的绝对路径；新版 QQ 扩展（`cortico-world-qq-final`）在 `qq_send` 的正文里写 `[图片:<回执里的文件名>]`（回执里有一行现成的，照抄即可）。这一版不再给 QQ 扩展打补丁：0.6.36 及以后只认它自己图片库目录里的文件名，需要用户把 QQ 插件的 `worlds.qqbot.imageDir` 指到本扩展的保存目录（本页第一段那个路径）；更早的版本或旧版扩展要认路径，则要装「补丁台」（`cortico-world-patchkit`）并开启它的发图补丁。\n6. **失败就停。** 如果回执说没配密钥、接口报错、超时，不要换个说法反复重试。把情况告诉用户，让他去控制台「图片工坊 → 状态」里填密钥或改接口地址。\n7. **别凭空说画好了。** 只有工具回执真的带着图回来，才算画好了。\n"
       }
     ]
   },
   "changelog": {
+    "0.8.2": "- **补上市场展示用的元数据**（按官方 `docs/extensions.md` 的「可选元数据」一节）：`cortico.icon` 指向包内新增的 `icon.png`（512×512，`files` 里也加上了），WebUI 卡片与详情页不再显示默认头像；`cortico.locales` 补了 `zh` / `en` 两份 `displayName` 与 `description`，界面是英文时市场不再只显示中文简介；`cortico.tags` 声明 `creative` 与 `requires-key`（与官方索引里对本包的 `addTags` 一致）。\n- 只是清单与静态资源，运行逻辑一行未动；自测、自描述、装配检查、发版自检照旧全绿。",
+    "0.8.1": "- 模型链的每一行从「挤成两根」改成「上面五个输入框、下面一排按钮」：`工作流`、`高级参数`、`上移`、`下移`、`删除` 排成一行，放在模型栏下面，不再被挤成一列竖着摞。行高随之稳定，窄面板下也不会把按钮折成多行。",
+    "0.8.0": "- **本地 ComfyUI 可以直接粘工作流了。** 模型链里本地那档的行上多了「工作流」按钮：把 ComfyUI ⚙ 菜单的「Save (API Format)」JSON 整份贴进去，「校验」当场说能不能跑（几个节点、几个采样器、哪些占位符不认识、有没有多图位），保存就整份替换内置模板，行上显示「工作流 · 已用自定义」；「清空」回到内置模板。`workflow` 字段本来就有，以前只能靠「高级：JSON」手写，现在有了正经入口。\n- **`image_edit` 支持多张参考图**：新增 `images`（最多四张，可与 `image` 并存，`image` 排第一）。OpenAI 兼容端点的 `/images/edits` 会把每张都作为 `image[]` 传上去；退回 `/images/generations` 的退路只认第一张，回执会明说「后面 N 张没参与」。ComfyUI 侧新增 `{{image1}}`…`{{image4}}`、`{{images}}`、`{{filename}}`、`{{note}}` 占位符，内置模板仍只用第一张，要用多张就在自定义工作流里各接一个 `LoadImage`。\n- 自定义工作流里的占位符现在**先校验**：不认识的会列出来（带最接近的近似名建议），认得的照旧替换；工作流是一段 JSON 字符串、包在 `{\"prompt\":…}` 外壳里、或者干脆是 ComfyUI 的界面格式，都会在校验这一步被认出来并给出人话提示。",
     "0.7.2": "- **密钥只问本部署的密钥库。** 去掉「找不到就去 `<部署目录>/../providers/<端点>/.env` 里翻同名变量」这条退路（原 `src/world.js` 的 `#keyFromProviders`）：插件现在只通过宿主的 `ctx.secret(name)` 读本部署 `.env`，别家扩展目录里的文件一个都不读。状态页「密钥来源」也只剩「本部署」与「没填」两种。\n- 这是按扩展市场的边界要求做的：模块加载或运行时都不碰别的扩展的目录与文件。0.7.0 已经把写别人源码的补丁整体搬去补丁台，这次把最后剩下的「读别人 `.env`」也去掉；本版本的自测与发版自检照旧全绿。",
     "0.7.1": "- 「保存目录」的说明只留一种做法：要用 `cortico-world-qq-final` 0.6.36+ 发图，就把本扩展保存目录的绝对路径填进 QQ 插件配置的 `worlds.qqbot.imageDir`。去掉「旧版 0.6.35 及更早可以改用补丁台的发图认路径补丁」那半句（补丁台的事在补丁台面板里说，不在本扩展的设置里交叉引用）。",
     "0.7.0": "- **补丁整体搬到「补丁台」**：`src/chat-image-patch.js`、`tools/patch.mjs`、状态页的补丁卡片、`COOPANION_CHAT_IMAGE_PATCH` 开关全部移除。本扩展从此**不写任何别人的文件**，启动时只挂工具。那 4 处 QQ 发图补丁（旧版 `cortico-world-qq-better-alont1` 两处 + `cortico-world-qq-final` ≤0.6.35 两处）连同备份、还原、自动重打，都改由 `cortico-world-patchkit`（0.2.0）负责，卡片和开关在那里。\n- **设置说明写明 0.6.36 的办法**：「保存目录」的说明里直接写清——`cortico-world-qq-final` 0.6.36 起只认它自己图片库目录里的文件名，要发图就把本扩展保存目录的**绝对路径**填进 QQ 插件配置的 `worlds.qqbot.imageDir`，改完重启控制台，模型照抄回执里那行 `[图片:<文件名>]` 即可。\n- 工具说明（`ENV_PROMPT.md`）同步改成三种 QQ 扩展各自的做法，并说明 0.6.36 需要用户改目录、更早版本或旧版扩展需要装补丁台。\n- 发布前自检去掉「补丁自测」这一步（那套自测跟着搬走了），其余检查不变；`README` 里关于补丁的整节改成「补丁为什么不在这里 + 怎么配 0.6.36」的说明。\n- 遗留：旧版 0.2.x 时代打进桌宠包的补丁不会再自动还原（0.3.0 起就不再注入，正常升级路径上早已还原过）；需要的话用补丁台的还原功能处理。",
