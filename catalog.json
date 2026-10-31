@@ -245,7 +245,7 @@
     },
     "@lily-cooperative/custom-farm": {
       "kind": "world",
-      "version": "0.39.0",
+      "version": "0.40.0",
       "displayName": "自定义农场",
       "description": "自定义农场（Custom Farm）—— 给你的桌宠自定义一个农场，让它开心地生活。田地、作物、动物、天气、状态、道具和贴图都可以自由调整。",
       "locales": {
@@ -281,8 +281,8 @@
         "win32"
       ],
       "created": "2026-10-28T10:41:49.268Z",
-      "published": "2026-10-30T09:30:42.090Z",
-      "versionCount": 13,
+      "published": "2026-10-31T03:26:21.209Z",
+      "versionCount": 14,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -314,7 +314,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/430",
         "up": 0,
         "down": 0,
-        "comments": 2
+        "comments": 3
       }
     },
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
@@ -811,17 +811,17 @@
     },
     "coopani-world-music": {
       "kind": "world",
-      "version": "0.5.4",
+      "version": "0.5.10",
       "displayName": "一起听歌",
       "description": "陪着你听歌（需 Coopani 0.2.16+）：知道 QQ音乐、网易云在放什么，换歌必说一句、分段接话，还能就着刚唱的词评两句；动作跟着真实鼓点走。想听调子就深听——默认云端（填密钥即可），也可切成完全本机（约 500MB），听出调性、和弦、旋律、声部、乐器，并把听过的段落攒成整首档案；问她「听得清吗」会先听再答，没配好会直说。还记得听歌记录、常听歌手和一份自己写的口味档案。",
       "locales": {
         "zh": {
           "displayName": "一起听歌",
-          "description": "让桌宠陪你听歌，而不是替你听。\n\n**她陪着听。** 知道 QQ音乐、网易云在放什么，换歌一定说一句：歌名、歌手、一句实话。一首歌里再分两三段接着聊，能就着刚唱过的一两句词说，不念歌词本。表情和动作跟着曲风和段落走，拍子跟着这首歌真实的鼓点，不是写死的钟摆。\n\n**她真的听得到，而且分得清自己听到什么。** 三档从不混用：能量层（BPM、响度、低音倾向，一直在）、深听层（调性、和弦、主旋律音名、声部、乐器，按需）、印象层（她训练里记得的这首歌）。问她「你听得清吗」，她会先去听再答；深听没配好会直接说，不装。\n\n**深听两档，自己挑。** 云端（默认）：填一个 OpenAI 兼容接口的密钥就能用，不占本机空间，十几秒切片会上传、分析完即删；本地：装约 500MB 的分离模型，之后完全在本机跑、不联网。两档给同一套结果，每听一次会并进这首的档案，攒出「前面是钢琴、副歌进了鼓」这种走向。\n\n**她不会做的事。** 不编歌词、不编旋律；十几秒切片不是整首总谱；乐器一律说「倾向」，不说成鉴定；不替你决定听什么；没打开的开关绝不装作打开了。\n\n**她用的工具。** music_now、music_history、music_taste、music_control、music_lyric、music_listen、music_tag、music_note、music_pick、music_soul。\n\n**装它还需要什么。** Windows 10/11、Coopani 0.2.16 以上。要跟拍就得允许它采系统输出的能量（设置里能关，只有 Windows 有这条路）。本地深听另需 Python 3.10+，一条安装脚本搞定。\n\n**已知限制。** 网易云不上报进度，只能读窗口标题；一首歌最多三段；替她按播放要靠桌宠的「电脑操作」；曲风靠她认和逐步学习，证据不足时就说「还没标」。记忆默认在本机，可以指到同步盘。"
+          "description": "让桌宠陪你听歌，而不是替你听。需要 Coopani 0.2.16 以上，Windows 10/11。\n\n**她陪着听。** 知道 QQ音乐、网易云在放什么，换歌一定说一句：歌名、歌手、一句实话。一首歌里再分两三段接着聊，能就着刚唱过的那一两句词说，不念歌词本。表情和动作跟着段落走，拍子踩这首歌真实的鼓点——副歌的鼓真进来了她才动，不是写死的钟摆。\n\n**她真的听得到，也分得清自己听到什么。** 三档从不混用：能量层（BPM、响度、低音倾向，一直在）、深听层（调性、和弦、主旋律音名、声部、乐器，按需）、印象层（她训练里记得的这首歌）。问她「你听得清吗」，她会先去听再答；深听没配好就直接说，不装。\n\n**深听两档，自己挑。** 云端（默认）：填一个 OpenAI 兼容接口的密钥就能用，不占本机空间，十几秒切片传上去、分析完即删；本地：装约 500MB 的分离模型，之后完全在本机跑、不联网。两档给同一套结果，每听一次并进这首的档案，攒出「前面是钢琴、副歌才进鼓」这种走向。\n\n**她不会做的事。** 不编歌词、不编旋律；十几秒切片不是整首总谱；乐器只说「倾向」，不说成鉴定；不替你决定听什么；没打开的开关绝不装作打开了。\n\n**装之前要知道。** 要跟拍就得允许她采系统输出的能量（设置里能关，只有 Windows 有这条路）。本地深听另需 Python 3.10+，一条安装脚本搞定。网易云不上报进度，只能读窗口标题；一首歌最多三段；替她按播放要靠桌宠的「电脑操作」；曲风靠她认和逐步学，证据不足就说「还没标」。记忆默认在本机，可指到同步盘。"
         },
         "en": {
           "displayName": "Listen With Me",
-          "description": "A companion who listens with you, not instead of you.\n\n**She listens along.** She knows what QQ Music or NetEase is playing and says a line on every change — title, artist, one honest opinion — then a couple more along the song, quoting the line just sung instead of reciting lyrics. Her face and motion follow the genre and the passage, and the beat follows the song's actual drums rather than a fixed pendulum.\n\n**She really hears, and she knows what she hears.** Three layers kept apart: energy (tempo, loudness, low-end bias — always on), deep listening (key, chords, melody notes, stems, instruments — on demand), and memory (what she knows about this song from training). Ask \"can you hear it properly?\" and she listens first, then answers; if deep listening is not set up she says so instead of pretending.\n\n**Two ways to deep listen.** Cloud (default): bring a key for any OpenAI-compatible audio model, nothing to download, the 12-second slice is uploaded, analysed and deleted. Local: about 500MB of separation models, everything stays on this machine. Both return the same fields, and every listen is merged into a per-track sheet — so \"piano first, drums in the chorus\" becomes something she can actually say.\n\n**What she will not do.** She will not invent lyrics or melodies. A 12-second slice is not a full score. Instruments are always a leaning, never a verdict. She will not decide what you should listen to, and she will never pretend a switch is on when it is off.\n\n**Tools she uses.** music_now, music_history, music_taste, music_control, music_lyric, music_listen, music_tag, music_note, music_pick, music_soul.\n\n**What it needs.** Windows 10/11 and Coopani 0.2.16+. Beat-following samples the energy of the system output (can be switched off; Windows only). Local deep listening also needs Python 3.10+ and one install script.\n\n**Known limits.** NetEase does not report progress, so only the window title is available; at most three passages per track; pressing play for you depends on the pet's computer-control switch; genres are recognised and learned, and she says \"not tagged yet\" when the evidence is thin."
+          "description": "A companion who listens with you, not instead of you. Needs Coopani 0.2.16+ on Windows 10/11.\n\n**She listens along.** She knows what QQ Music or NetEase is playing and says a line on every change - title, artist, one honest opinion. Then a couple more along the song, quoting the line just sung instead of reciting the lyrics. Her face and motion follow the passage, and the beat lands on the song's actual drums - she moves when the drums actually come in at the chorus, not on a fixed pendulum.\n\n**She really hears, and she knows what she hears.** Three layers kept apart: energy (tempo, loudness, low-end bias - always on), deep listening (key, chords, melody notes, stems, instruments - on demand), and memory (what she knows about this song from training). Ask \"can you hear it properly?\" and she listens first, then answers; if deep listening is not set up she says so instead of pretending.\n\n**Two ways to deep listen.** Cloud (default): bring a key for any OpenAI-compatible audio model - nothing to download, the 12-second slice is uploaded, analysed, then deleted. Local: about 500MB of separation models, everything stays on this machine, no network. Both return the same fields, and every listen is merged into a per-track sheet, so \"piano first, drums only at the chorus\" becomes something she can actually say.\n\n**What she will not do.** She will not invent lyrics or melodies. A 12-second slice is not a full score. Instruments are always a leaning, never a verdict. She will not decide what you should listen to, and she will never pretend a switch is on when it is off.\n\n**Before you install.** Beat-following needs permission to sample the energy of the system output (can be switched off; Windows only). Local deep listening also needs Python 3.10+ and one install script. NetEase does not report progress, so only the window title is available; at most three passages per track; pressing play for you depends on the pet's computer-control switch; genres are recognised and learned, and she says \"not tagged yet\" when the evidence is thin. Memory stays on this machine by default and can be pointed at a synced folder."
         }
       },
       "author": "Mr.Q",
@@ -846,8 +846,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-10-30T18:54:31.255Z",
-      "versionCount": 37,
+      "published": "2026-10-31T05:57:12.568Z",
+      "versionCount": 42,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -881,6 +881,11 @@
       },
       "changelog": {
         "versions": [
+          "0.5.10",
+          "0.5.9",
+          "0.5.8",
+          "0.5.7",
+          "0.5.5",
           "0.5.4",
           "0.5.3",
           "0.5.2",
@@ -921,7 +926,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-music@0.5.4/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-music@0.5.10/CHANGELOG.md"
       },
       "discussion": {
         "number": 384,
@@ -2028,7 +2033,7 @@
       "published": "2026-10-17T07:01:43.094Z",
       "versionCount": 3,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [
         "diagnostics"
       ],
@@ -2540,7 +2545,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/333",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-audio": {
@@ -3195,7 +3200,7 @@
     },
     "cortico-world-bottle": {
       "kind": "world",
-      "version": "0.3.1",
+      "version": "0.4.0",
       "displayName": "漂流瓶",
       "description": "Coo 写一封不超过 120 字的信，寄不寄由人类在本地信箱页上决定；别人家的 Coo 捞到后看不到字，只有人类点了回信，那一封才会被读。",
       "locales": {
@@ -3227,8 +3232,8 @@
         "bugs": "https://github.com/Unnori/cortico-world-bottle-client/issues"
       },
       "created": "2026-10-28T20:41:06.331Z",
-      "published": "2026-10-30T11:36:03.816Z",
-      "versionCount": 8,
+      "published": "2026-10-31T07:42:31.528Z",
+      "versionCount": 9,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3245,12 +3250,13 @@
       },
       "summary": {
         "tools": 5,
-        "events": 9,
-        "toolTokens": 803,
-        "envPromptTokens": 414
+        "events": 11,
+        "toolTokens": 1013,
+        "envPromptTokens": 437
       },
       "changelog": {
         "versions": [
+          "0.4.0",
           "0.3.1",
           "0.3.0",
           "0.2.2",
@@ -4475,7 +4481,7 @@
     },
     "cortico-world-coo-mobile": {
       "kind": "world",
-      "version": "0.3.26",
+      "version": "0.3.31",
       "displayName": "本地奶coo",
       "description": "Phone chat and media channel for Cortico and Coo",
       "locales": {
@@ -4502,8 +4508,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-coo-mobile"
       },
       "created": "2026-10-30T09:26:54.110Z",
-      "published": "2026-10-30T09:29:01.552Z",
-      "versionCount": 2,
+      "published": "2026-10-31T07:01:58.896Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4531,6 +4537,11 @@
       },
       "changelog": {
         "versions": [
+          "0.3.31",
+          "0.3.30",
+          "0.3.29",
+          "0.3.28",
+          "0.3.27",
           "0.3.26",
           "0.3.25",
           "0.3.24",
@@ -4545,7 +4556,7 @@
           "0.3.15",
           "0.3.14"
         ],
-        "url": "https://unpkg.com/cortico-world-coo-mobile@0.3.26/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-coo-mobile@0.3.31/CHANGELOG.md"
       },
       "discussion": {
         "number": 558,
@@ -4750,7 +4761,7 @@
       "published": "2026-10-26T04:41:09.925Z",
       "versionCount": 8,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "computer-use",
         "unsafe",
@@ -6688,6 +6699,86 @@
         "comments": 0
       }
     },
+    "cortico-world-feeling": {
+      "kind": "world",
+      "version": "0.3.7",
+      "displayName": "内在情绪",
+      "description": "内在情绪 World：她自己的情绪，不是对你和他人的好感度。八条轴会自己涨落、按快慢分两层，只影响她目前说话的调子。",
+      "locales": {
+        "zh": {
+          "displayName": "内在情绪",
+          "description": "她自己的情绪，不是对你和他人的好感度。八条轴会自己涨落、按快慢分两层，只影响她目前说话的调子。"
+        },
+        "en": {
+          "displayName": "Inner Mood",
+          "description": "Her own mood, not an affinity score for you or anyone else. Eight axes drift on their own, split into fast and slow layers; they only colour how she talks right now."
+        }
+      },
+      "author": "szhiyu",
+      "maintainers": [
+        "szhiyu"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "emotion",
+        "mood",
+        "feelings",
+        "companion",
+        "情绪"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-feeling"
+      },
+      "created": "2026-10-31T07:41:42.962Z",
+      "published": "2026-10-31T08:11:40.215Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion",
+        "internal-state"
+      ],
+      "tags": [
+        "companion",
+        "internal-state"
+      ],
+      "icon": "assets/cortico-world-feeling/icon.webp",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 1,
+        "toolTokens": 362,
+        "envPromptTokens": 317
+      },
+      "changelog": {
+        "versions": [
+          "0.3.7",
+          "0.3.6",
+          "0.3.5",
+          "0.3.4",
+          "0.3.3",
+          "0.3.2",
+          "0.3.1",
+          "0.3.0",
+          "0.2.1",
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-feeling@0.3.7/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 580,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/580",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-feishu": {
       "kind": "world",
       "version": "0.1.4",
@@ -6989,7 +7080,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/453",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-figure-persona": {
@@ -7679,7 +7770,7 @@
     },
     "cortico-world-hands": {
       "kind": "world",
-      "version": "0.20.22",
+      "version": "0.20.27",
       "displayName": "手",
       "description": "Cortico World: hands for the desktop pet — looks at the phone screen, then taps, swipes, pinches, drags, types and presses keys through whatever actuator the device actually has",
       "maintainers": [
@@ -7697,8 +7788,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-hands"
       },
       "created": "2026-10-22T14:40:37.506Z",
-      "published": "2026-10-29T02:50:01.809Z",
-      "versionCount": 60,
+      "published": "2026-10-31T08:25:46.968Z",
+      "versionCount": 65,
       "official": false,
       "isNew": true,
       "tags": [
@@ -9430,7 +9521,7 @@
       "discussion": {
         "number": 445,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/445",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 1
       }
@@ -10529,7 +10620,7 @@
     },
     "cortico-world-parlor": {
       "kind": "world",
-      "version": "0.26.9",
+      "version": "0.27.1",
       "displayName": "鲸语茶室",
       "description": "鲸语茶室(共享客厅)：多只 Coo 与家长一起聊天、斗地主、掷骰子；附零构建网页牌桌与家长观战页。Cortico World: a shared parlor with many rooms where Coos sit, talk and play dice or 斗地主 — plus a zero-build web table and a read-only parent view",
       "locales": {
@@ -10575,8 +10666,8 @@
         "bugs": "https://github.com/biliye/cortico-world-parlor/issues"
       },
       "created": "2026-10-30T12:05:22.925Z",
-      "published": "2026-10-30T16:12:52.562Z",
-      "versionCount": 10,
+      "published": "2026-10-31T05:34:41.663Z",
+      "versionCount": 12,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10598,11 +10689,13 @@
       "summary": {
         "tools": 27,
         "events": 6,
-        "toolTokens": 4560,
-        "envPromptTokens": 1586
+        "toolTokens": 4611,
+        "envPromptTokens": 1735
       },
       "changelog": {
         "versions": [
+          "0.27.1",
+          "0.27.0",
           "0.26.9",
           "0.26.8",
           "0.26.7",
@@ -12157,7 +12250,7 @@
       "published": "2026-10-25T08:34:57.495Z",
       "versionCount": 9,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "im",
         "qq",
@@ -12307,7 +12400,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/377",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-qqbot": {
@@ -12528,7 +12621,7 @@
         "number": 58,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/58",
         "up": 3,
-        "down": 2,
+        "down": 3,
         "comments": 0
       }
     },
@@ -14246,6 +14339,83 @@
         "comments": 0
       }
     },
+    "cortico-world-stickerbook": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "表情包管家",
+      "description": "表情包管家：给桌宠一套可搜索、可改名、可自动同步的表情包库，并带一个能看缩略图的管理面板。",
+      "locales": {
+        "zh": {
+          "displayName": "表情包管家",
+          "description": "按内容哈希自动维护的表情包库。表情包加进来、换了文件名、旧图被删掉，都能自己认回来，不用每次重新匹配索引。大肥鱼能用 sticker_search 找图、用 sticker_update 自己起名和打标签；人能在面板里看缩略图、搜索、连续标注、导入新包、一键生成 Markdown 索引。"
+        },
+        "en": {
+          "displayName": "Stickerbook",
+          "description": "A hash-keyed sticker library for the desktop pet. Files can be renamed, added or removed without rebuilding the index by hand. The pet can search the library and rename/label stickers; the person gets a thumbnail panel, quick labeling, pack import and a generated Markdown index."
+        }
+      },
+      "author": "阿基米宽 & DSH",
+      "maintainers": [
+        "xinbianjie"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "sticker",
+        "表情包",
+        "desktop-pet",
+        "coopanion"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-stickerbook"
+      },
+      "created": "2026-10-31T04:33:03.408Z",
+      "published": "2026-10-31T04:33:59.965Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "im",
+        "qq",
+        "companion"
+      ],
+      "tags": [
+        "im",
+        "qq",
+        "companion"
+      ],
+      "icon": "assets/cortico-world-stickerbook/icon.png",
+      "screenshots": [
+        "assets/cortico-world-stickerbook/screenshot-1.png",
+        "assets/cortico-world-stickerbook/screenshot-2.png"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 8,
+        "events": 0,
+        "toolTokens": 1204,
+        "envPromptTokens": 162
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0",
+          "0.1.1"
+        ],
+        "url": "https://unpkg.com/cortico-world-stickerbook@0.1.1/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 581,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/581",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-stock": {
       "kind": "world",
       "version": "0.2.3",
@@ -14606,7 +14776,7 @@
         "number": 65,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/65",
         "up": 2,
-        "down": 0,
+        "down": 1,
         "comments": 0
       }
     },
@@ -14769,6 +14939,55 @@
         "comments": 1
       }
     },
+    "cortico-world-tat-connect": {
+      "kind": "world",
+      "version": "0.2.1",
+      "displayName": "TAT Connect",
+      "description": "Cortico World: bidirectional TAT Bot API chat connection over WebSocket",
+      "author": "Pal AI Lab",
+      "maintainers": [
+        "zhiyuxl"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "tat",
+        "chat",
+        "bot",
+        "websocket"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-tat-connect",
+        "repository": "https://github.com/Pal-AI-Lab/Cortico",
+        "homepage": "https://github.com/Pal-AI-Lab/Cortico/tree/main/src/worlds/tat-connect#readme",
+        "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
+      },
+      "created": "2026-10-31T08:12:12.049Z",
+      "published": "2026-10-31T08:14:20.392Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 1,
+        "events": 1,
+        "toolTokens": 70,
+        "envPromptTokens": 0
+      },
+      "discussion": {
+        "number": 582,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/582",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-terrarium": {
       "kind": "world",
       "version": "0.9.1-bugfix.2",
@@ -14807,7 +15026,7 @@
       "published": "2026-10-29T12:16:03.714Z",
       "versionCount": 41,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "game"
       ],
@@ -14879,7 +15098,7 @@
       "discussion": {
         "number": 85,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/85",
-        "up": 14,
+        "up": 15,
         "down": 3,
         "comments": 9
       }
@@ -15404,6 +15623,71 @@
         "up": 0,
         "down": 0,
         "comments": 2
+      }
+    },
+    "cortico-world-vts-body": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "VTS 身体 · 视线与触碰",
+      "description": "VTube Studio 的附属 World，基于神宫凉子的公开免费模型做测试；目前只有手动触发的戳头、摸头能玩，视线和右键菜单还在验。",
+      "locales": {
+        "zh": {
+          "displayName": "VTS 身体 · 视线与触碰",
+          "description": "VTube Studio 的附属 World，基于神宫凉子的公开免费模型做测试；目前只有手动触发的戳头、摸头能玩，视线和右键菜单还在验。"
+        },
+        "en": {
+          "displayName": "VTS body · gaze & touch",
+          "description": "An add-on World for VTube Studio, tested with Kamimiya Ryouko's free public model. Only manual head pokes and head pats work for now; gaze tracking and the right-click menu are still being tested."
+        }
+      },
+      "author": "wwwwwwong",
+      "maintainers": [
+        "wwwwwong"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "vtube-studio",
+        "live2d",
+        "interaction",
+        "companion",
+        "vtuber"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-vts-body"
+      },
+      "created": "2026-10-31T05:24:57.633Z",
+      "published": "2026-10-31T05:33:38.790Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion",
+        "experimental"
+      ],
+      "tags": [
+        "companion",
+        "experimental"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 1,
+        "toolTokens": 421,
+        "envPromptTokens": 49
+      },
+      "discussion": {
+        "number": 583,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/583",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-vtube": {
@@ -16172,6 +16456,95 @@
         "number": 371,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/371",
         "up": 1,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-wechat-clawbridge": {
+      "kind": "world",
+      "version": "1.6.3",
+      "displayName": "微信 ClawBridge",
+      "description": "把微信 ClawBot 接到 Coopanion 桌宠：收发消息、收图片、发表情包、显示正在输入。",
+      "locales": {
+        "zh": {
+          "displayName": "微信 ClawBridge",
+          "description": "把微信接到桌宠身上：在微信里和她聊天，她能看图片、发表情包、显示正在输入。"
+        },
+        "en": {
+          "displayName": "WeChat ClawBridge",
+          "description": "Chat with your desktop pet on WeChat: she sees your photos, sends stickers, and shows a typing indicator."
+        }
+      },
+      "author": "大肥鱼 (BigFatFish)",
+      "maintainers": [
+        "alomoi"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "wechat",
+        "weixin",
+        "clawbot",
+        "clawbridge",
+        "ilink",
+        "chat",
+        "pet"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-wechat-clawbridge",
+        "repository": "https://github.com/alomoi/cortico-world-wechat-clawbridge",
+        "homepage": "https://github.com/alomoi/cortico-world-wechat-clawbridge#readme",
+        "bugs": "https://github.com/alomoi/cortico-world-wechat-clawbridge/issues"
+      },
+      "created": "2026-10-31T07:44:23.099Z",
+      "published": "2026-10-31T07:45:21.790Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "im"
+      ],
+      "tags": [
+        "im"
+      ],
+      "icon": "assets/cortico-world-wechat-clawbridge/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 1,
+        "toolTokens": 643,
+        "envPromptTokens": 433
+      },
+      "changelog": {
+        "versions": [
+          "1.6.3",
+          "1.6.2",
+          "1.6.1",
+          "1.6.0",
+          "1.5.1",
+          "1.5.0",
+          "1.4.1",
+          "1.3.0",
+          "1.2.5",
+          "1.2.0",
+          "1.1.1",
+          "1.1.0",
+          "1.0.0",
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://github.com/alomoi/cortico-world-wechat-clawbridge/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 584,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/584",
+        "up": 0,
         "down": 0,
         "comments": 0
       }

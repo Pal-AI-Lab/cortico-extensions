@@ -1,0 +1,249 @@
+{
+  "schema": 1,
+  "name": "cortico-world-stickerbook",
+  "version": "0.1.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "sticker_search",
+        "description": "在表情包库里找图。可按名字、情绪、标签、使用场景、文件名、来源一起搜（空格分词），也可以只看某个情绪/标签。返回的 `[表情包:文件名]` 是可直接贴进回复正文的发送标记；不要自己编文件名，也不要把名字当文件名。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "q": {
+              "type": "string",
+              "description": "关键词；可写「猫猫 期待」「杰瑞 疑惑」这类组合，空格分词。"
+            },
+            "emotion": {
+              "type": "string",
+              "description": "只看某个情绪，如 开心/疑惑/嘲讽/无语。"
+            },
+            "tag": {
+              "type": "string",
+              "description": "只看带某个标签的。"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "all",
+                "labeled",
+                "unlabeled",
+                "missing",
+                "archived",
+                "duplicate"
+              ],
+              "description": "范围：all=在用（默认），labeled=已标注，unlabeled=待标注，missing=文件缺失，archived=已归档，duplicate=有重复副本。"
+            },
+            "source": {
+              "type": "string",
+              "description": "来源过滤，如群号、private:QQ、import:包名。"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "description": "最多返回几张，默认 12。"
+            }
+          }
+        },
+        "tags": [
+          "sticker"
+        ],
+        "summary": {
+          "zh": "按名字/情绪/标签/场景搜表情包，拿到可直接发送的文件名。",
+          "en": "Search stickers and get ready-to-send markers."
+        }
+      },
+      {
+        "name": "sticker_recent",
+        "description": "看最近进库的表情包，按入库时间倒序。刚收到/刚导入一批新图时先看这里；给新图起名前也用它。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "description": "最多几张，默认 10。"
+            },
+            "hours": {
+              "type": "number",
+              "minimum": 0,
+              "description": "只看最近多少小时进库/见到的；不填=不限。"
+            },
+            "source": {
+              "type": "string",
+              "description": "只看某个来源，如群号、private:QQ。"
+            }
+          }
+        },
+        "tags": [
+          "sticker"
+        ],
+        "summary": {
+          "zh": "看最近进库的表情包。",
+          "en": "List recently added stickers."
+        }
+      },
+      {
+        "name": "sticker_update",
+        "description": "改一张表情包的名字、情绪、标签、使用场景或备注。改的是库里的显示名，**不改磁盘文件名**，所以 `[表情包:文件名]` 不会失效。这是鱼自己整理表情包的主入口：用过一张、知道它该叫什么，就顺手起名/补场景。find 用 sticker_search 返回的文件名最稳；同名多张时会返回候选让你再指定。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "find": {
+              "type": "string",
+              "description": "要改哪张：文件名（推荐，如 猫猫搓手.gif）或当前显示名。"
+            },
+            "name": {
+              "type": "string",
+              "maxLength": 40,
+              "description": "新的显示名，2-12 个字最好记。"
+            },
+            "emotion": {
+              "type": "string",
+              "maxLength": 12,
+              "description": "情绪，如 开心/疑惑/嘲讽/无语/难过。"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 12,
+              "description": "标签数组，最多 12 个；也可以传逗号分隔的字符串。"
+            },
+            "usage": {
+              "type": "string",
+              "maxLength": 160,
+              "description": "什么时候用，写具体场景。"
+            },
+            "note": {
+              "type": "string",
+              "maxLength": 500,
+              "description": "备注/来历，给人看。"
+            },
+            "archived": {
+              "type": "boolean",
+              "description": "true=归档（默认搜索不再出现），false=恢复。"
+            }
+          },
+          "required": [
+            "find"
+          ]
+        },
+        "tags": [
+          "sticker"
+        ],
+        "summary": {
+          "zh": "给表情包起名、改情绪/标签/场景（不动文件名）。",
+          "en": "Rename or label a sticker without touching its file name."
+        }
+      },
+      {
+        "name": "sticker_sync",
+        "description": "体检表情包目录：认出新放进来的图、认出改了名的旧图、标记缺失和重复副本。用户往目录里丢了新表情包，或刚导入完，调它刷新一次；平时 World 也会定时扫。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "sticker"
+        ],
+        "summary": {
+          "zh": "扫一遍表情包目录，自动认新图/改名/缺失。",
+          "en": "Scan the sticker folder and reconcile adds, renames and misses."
+        }
+      },
+      {
+        "name": "sticker_import",
+        "description": "把一个本地文件或整个文件夹里的图片导入表情包库（按内容去重，同图不会重复占盘）。文件夹里有 labels.json / metadata.json 时会自动带上名字和标注。导入后可再用 sticker_recent 看结果。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "要导入的本地文件夹或图片绝对路径。"
+            }
+          },
+          "required": [
+            "path"
+          ]
+        },
+        "tags": [
+          "sticker"
+        ],
+        "summary": {
+          "zh": "把一个文件夹/一张图导入表情包库。",
+          "en": "Import a folder or image into the sticker library."
+        }
+      },
+      {
+        "name": "sticker_index",
+        "description": "重新生成给人看的 Markdown 索引（默认写到工作区 stickers/表情包管家索引.md），按情绪分组、待标注单独一节，方便阿基米宽直接翻文件。改完一批标注后调一次。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "sticker"
+        ],
+        "summary": {
+          "zh": "重新生成 Markdown 表情包索引。",
+          "en": "Regenerate the human-readable Markdown index."
+        }
+      },
+      {
+        "name": "sticker_view",
+        "description": "看一眼某张表情包长什么样：把这个文件作为图片附件交给你（6MB 以内）。只在真要辨认一张没标注的图、或确认自己有没有认错时用，一次一张，别拿它当图库浏览。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "find": {
+              "type": "string",
+              "description": "文件名或显示名；先用 sticker_search 拿到准确文件名。"
+            }
+          },
+          "required": [
+            "find"
+          ]
+        },
+        "tags": [
+          "sticker"
+        ],
+        "summary": {
+          "zh": "把一张表情包作为图片发给你看。",
+          "en": "Attach one sticker image for the model to look at."
+        }
+      },
+      {
+        "name": "sticker_stats",
+        "description": "看表情包库总览：总数、待标注、缺失、重复、情绪分布、目录和索引位置。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "sticker"
+        ],
+        "summary": {
+          "zh": "表情包库总览。",
+          "en": "Overview of the sticker library."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.stickerbook.env",
+        "title": "表情包库规则",
+        "role": "envPrompt",
+        "content": "## 表情包库（{{stickerbook.total}} 张，{{stickerbook.inbox}} 张待标注）\n\n- 想发表情：先 `sticker_search` 找，拿到 `[表情包:文件名]` 原样贴进正文；别自己编文件名，也别拿显示名当文件名。\n- 刚收的新图：`sticker_recent` 或 `sticker_sync` 后看一眼；认出了就 `sticker_update` 起个你以后找得到的名字、补情绪和场景。改的是库里的显示名，不动文件名，发送标记不会坏。\n- 文件缺失 {{stickerbook.missing}} 张；拿不准就别硬猜，问阿基米宽。标错比没标更麻烦。\n- 人看的索引：`{{stickerbook.index}}`，要刷新就 `sticker_index`。目录：`{{stickerbook.dir}}`。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "- 首个版本：按内容哈希维护表情包目录册，文件名改动自动认回，不写 QQ 世界的索引。\n- 面板：缩略图、搜索、情绪/状态筛选、连续标注、导入文件夹、体检、回收站、索引预览与生成。\n- 工具：`sticker_search`、`sticker_recent`、`sticker_update`、`sticker_sync`、`sticker_import`、`sticker_index`、`sticker_view`、`sticker_stats`。\n- 从 `<部署 data>/sticker-index.json` 只读吸收已有标注，首次启动自动接手现有 383 张库。\n- 导入支持 `labels.json` / `metadata.json` 侧车标注；同内容去重。",
+    "0.1.1": "- 新增「清理缺失条目」与详情里的「移除条目」；被移除的哈希记进 `ignored`，QQ 索引或磁盘里再出现也不会自动收回。\n- 面板搜索框改为整行宽度；补充缺失条目的处理入口。\n- 补市场发布元数据：图标、两张截图、有效标签、npm 发布清单。"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "name": "cortico-world-tat-connect",
+  "version": "0.2.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "tat_send",
+        "description": "Send text to the configured TAT conversation.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "Message text."
+            }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "向 TAT 会话发送消息。",
+          "en": "Send a message to a TAT conversation."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "tat.message",
+        "description": {
+          "zh": "TAT 私聊或群聊中的消息。",
+          "en": "A message received from a TAT private or group conversation."
+        },
+        "trigger": "flush"
+      }
+    ]
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "name": "cortico-world-vts-body",
+  "version": "0.1.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "vts_feel",
+        "description": "给 Live2D 身体设一个情绪（VAD），头/眼/眉/笑会随之变化，并在一两秒后慢慢退回去。表情由她自己用 vts_expression 挑；这个工具只管情绪底色。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "emotion": {
+              "type": "string",
+              "enum": [
+                "happy",
+                "shy",
+                "sad",
+                "angry",
+                "surprised",
+                "nervous",
+                "smug",
+                "curious",
+                "calm",
+                "warm"
+              ],
+              "description": "情绪名。"
+            },
+            "strength": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "0..1，默认 0.8。"
+            },
+            "holdSec": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 10,
+              "description": "保持几秒后开始衰减，默认 2.4。"
+            }
+          },
+          "required": [
+            "emotion"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "给身体设一个会保持、会衰减的情绪。",
+          "en": "Set an emotional state with afterglow."
+        }
+      },
+      {
+        "name": "vts_perform",
+        "description": "在身体上表演一段连贯动作（jingyu 风格 plan：look/nod/shake_head/tilt/smile/expression/gesture/trajectory），或直接用一个预设。只写这一层能演的通道；做不到的会明确拒绝。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "preset": {
+              "type": "string",
+              "enum": [
+                "nod",
+                "shy",
+                "happy",
+                "sad",
+                "angry",
+                "think",
+                "greet",
+                "point",
+                "grass",
+                "surprise",
+                "look_at_owner"
+              ],
+              "description": "预设名；和 plan 二选一。"
+            },
+            "plan": {
+              "type": "object",
+              "description": "jingyu plan v1：{version:1, intent, actions:[...]}。"
+            }
+          }
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "演一段连贯动作（点头/歪头/抚胸/竖指/狗尾草…）。",
+          "en": "Perform a short choreography."
+        }
+      },
+      {
+        "name": "vtsbody_status",
+        "description": "查身体层状态：VTS 连接、当前模型、情绪 VAD、当前动作、交互端口和交互框。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查 VTS 身体层状态。",
+          "en": "Inspect the body layer."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "vtsbody.interact",
+        "description": "主人在 VTube Studio 的大身体上戳/摸/抱了她。正文形如「（主人在 VTube Studio 里那具大身体上戳了戳你的脸。）」，和桌宠小身体的戳摸分开；驱动会先做反射动作再推事件。",
+        "trigger": "flush"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.vts-body.envPrompt",
+        "title": "VTS 身体 · 环境提示词",
+        "description": "告诉 bot 它有一层身体驱动（视线/情绪/触碰），以及怎么用 vts_feel / vts_perform。",
+        "role": "envPrompt",
+        "content": "## VTS 身体（视线 / 情绪 / 触碰）\n\n{{vtsbody.state}}\n\n{{vtsbody.body}}\n\n表情/口型仍由 VTube Studio 桥负责；两边都开时把桥的 idleMotion 关掉，否则会抢 FaceAngle。\n"
+      }
+    ]
+  }
+}
