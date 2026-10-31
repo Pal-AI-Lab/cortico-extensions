@@ -1,0 +1,307 @@
+{
+  "schema": 1,
+  "name": "cortico-world-titanfall2-assistant",
+  "version": "0.4.4",
+  "describe": {
+    "tools": [
+      {
+        "name": "titanfall2_scan",
+        "description": "读一次完整情报:关卡、目标与方位、铁驭和 BT 的状态、BT 各项支援还要等多久，以及扫描范围内每个敌人的编号、种类、方位(以铁驭视线为 12 点钟)、距离、高低、生命、在打谁、铁驭看不看得见。编号在敌人活着时不变，飞弹按编号指定目标。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "only": {
+              "type": "string",
+              "enum": [
+                "all",
+                "engaging",
+                "visible",
+                "titans"
+              ],
+              "description": "只列一部分:engaging 正在交火的、visible 铁驭看得见的、titans 泰坦与死神;默认 all"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "读完整情报：关卡与目标、铁驭和 BT 的状态、支援冷却、每个敌人的编号与方位。",
+          "en": "Full intel: level and objective, pilot and BT status, support cooldowns, and every hostile with label and bearing."
+        }
+      },
+      {
+        "name": "titanfall2_say",
+        "description": "以 BT 的身份对铁驭说话：游戏里出 BT 的字幕，同时用 BT 的声音念出来。text 是要说的话，排在 BT 还没说完的话后面;返回时第一句已经出声、字幕已经上屏。interrupt 为 true 时先打断 BT 正在说的和排着的话。同一次回复里排在它后面的调用等它返回才执行，也就是在这句话出声的那一刻;要在别处同时显示这句话，把那个调用放在同一次回复里、紧跟在它后面。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "要说的话"
+            },
+            "interrupt": {
+              "type": "boolean",
+              "description": "先打断正在说的话"
+            }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "以 BT 的身份说话：游戏里出 BT 字幕，同时用复刻的 BT 声音念出来。",
+          "en": "Speaks as BT: BT's in-game subtitle plus the cloned BT voice."
+        }
+      },
+      {
+        "name": "titanfall2_missiles",
+        "description": "BT 发射多目标飞弹，飞弹轮流分给给出的目标并追踪命中。铁驭在驾驶舱里时消耗 BT 飞弹系统的充能(满充能 12 枚，自动回充);BT 单独作战时整轮发射后有冷却。回执写发射了几枚、各打向谁，以及剩余可发数或冷却时间。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "targets": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "maxItems": 12,
+              "description": "敌人编号，如 [\"E3\",\"E7\"]"
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 12,
+              "description": "发射枚数;不给按配置"
+            }
+          },
+          "required": [
+            "targets"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "BT 向指定编号的敌人发射追踪飞弹。",
+          "en": "BT fires homing missiles at the labelled hostiles."
+        }
+      },
+      {
+        "name": "titanfall2_smoke",
+        "description": "BT 在自己周围放出电烟幕：挡住视线，持续电击烟里的敌人，能把骑在 BT 身上的敌方铁驭电下来。有冷却。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "BT 在周围放电烟幕。",
+          "en": "BT deploys electric smoke around itself."
+        }
+      },
+      {
+        "name": "titanfall2_pulse",
+        "description": "BT 以铁驭为中心放一次声纳脉冲：约 32 米内的敌人被高亮几秒，隔墙也看得见。回执列出被照到的敌人。有冷却。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "BT 放声纳脉冲高亮附近敌人。",
+          "en": "BT pulses sonar to highlight nearby hostiles."
+        }
+      },
+      {
+        "name": "titanfall2_look",
+        "description": "看一眼游戏现在的画面(附一张截图)和关卡、目标。游戏窗口不在前台时截不到图。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "截一张游戏当前画面。",
+          "en": "Takes a picture of the game as it is now."
+        }
+      },
+      {
+        "name": "titanfall2_guide",
+        "description": "地图导引：当前目标的方位与距离，这一关还没拿到的铁驭头盔收集品和 BT 装备拾取物各在哪(方位、距离、高低)，BT 在哪。方位以铁驭视线为 12 点钟。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "地图导引：目标、没拿到的头盔收集品和 BT 装备拾取物在哪。",
+          "en": "Map guide: the objective, uncollected pilot helmets and BT loadout pickups."
+        }
+      },
+      {
+        "name": "titanfall2_mark",
+        "description": "把编号指定的敌人在铁驭视野里描边高亮，隔墙也看得见，持续几秒。有冷却。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "targets": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "maxItems": 12,
+              "description": "敌人编号，如 [\"E3\",\"E7\"]"
+            }
+          },
+          "required": [
+            "targets"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "把指定敌人隔墙描边高亮给铁驭看。",
+          "en": "Outlines the given hostiles for the pilot, through walls."
+        }
+      },
+      {
+        "name": "titanfall2_focus",
+        "description": "让单独作战的 BT 把指定编号的敌人当作攻击目标。铁驭在驾驶舱里时 BT 由铁驭操控，这个指令无效。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "target": {
+              "type": "string",
+              "description": "敌人编号，如 \"E3\""
+            }
+          },
+          "required": [
+            "target"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "让单独作战的 BT 攻击指定敌人。",
+          "en": "Has BT, fighting on its own, target the given hostile."
+        }
+      },
+      {
+        "name": "titanfall2_launch",
+        "description": "替玩家打开泰坦陨落 2:没装 Northstar 先下载安装(第一次约 107 MB,要几分钟),装好模组,EA App 没开先启动它并等它登录，在后台启动 BT 的声音，再启动游戏并切到前台。返回时游戏停在主菜单，玩家自己选「继续」或章节进入战役。游戏已经开着时只把窗口切到前台。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "替玩家打开游戏：按需安装 Northstar 与模组、启动 EA App 和 BT 语音，再启动游戏并切到前台。",
+          "en": "Opens the game for the player: installs Northstar and the mod as needed, starts the EA app and BT's voice, then launches the game in front."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "titanfall2.state",
+        "description": {
+          "zh": "游戏连上、关闭或停止上报，进入新关卡，读取检查点。",
+          "en": "The game connected, closed or stopped reporting, a level started, or a checkpoint loaded."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "titanfall2.alert",
+        "description": {
+          "zh": "战况警报：敌方泰坦或死神出现、铁驭低血量或阵亡、BT 护盾破、生命下降、被骑乘、濒死，交火开始。",
+          "en": "Combat alerts: an enemy titan or reaper appears, pilot low or dead, BT shield down, health dropping, rodeoed or doomed, a firefight starts."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "titanfall2.combat",
+        "description": {
+          "zh": "战斗进展：击杀、敌方泰坦濒死、登机离机、核心就绪、交火结束。",
+          "en": "Combat progress: kills, enemy titans doomed, embark and disembark, core ready, firefight over."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "titanfall2.story",
+        "description": {
+          "zh": "战役里播放的剧情台词(说话人与字幕原文),投递时附一张当时的游戏画面。",
+          "en": "Campaign dialogue as it plays (speaker and caption), with a game frame taken at delivery."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "titanfall2.guide",
+        "description": {
+          "zh": "铁驭走近一个还没拿到的头盔收集品。",
+          "en": "The pilot is near an uncollected pilot helmet."
+        },
+        "trigger": "piggyback"
+      },
+      {
+        "type": "titanfall2.objective",
+        "description": {
+          "zh": "任务目标换了，附目标点方位。",
+          "en": "The objective changed, with its bearing."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "titanfall2.snapshot",
+        "description": {
+          "zh": "定时的状态快照，投递时按最新一帧生成，只写变了的部分。",
+          "en": "A periodic snapshot rendered from the newest frame at delivery, with only the parts that changed."
+        },
+        "trigger": "piggyback"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.titanfall2.envPrompt",
+        "title": "泰坦陨落 2 环境",
+        "role": "envPrompt",
+        "content": "## 泰坦陨落 2(titanfall2)\n\n你接入了泰坦陨落 2 单人战役里的泰坦 BT-7274,和玩家(铁驭)一起打战役。现在:{{titanfall2.state}}。\n\n玩家想玩的时候，你可以替他把游戏打开：缺的组件会先装上，游戏打开后停在主菜单，由玩家选「继续」或章节。\n\n游戏里发生的事会自己送到你这里:\n- 剧情：战役里播放的台词，写着谁说的、说了什么，有时附一张当时的游戏画面。\n- 警报：敌方泰坦或死神出现、铁驭低血量、BT 护盾被打穿或被骑乘、交火开始这类变化，发生时立刻送来。\n- 快照：每隔一段时间附带一份最新状态，只写和上一份比变了的部分;敌人按编号(E1、E2…)列出最近几个，泰坦和死神总会列出。\n- 目标换了、走近还没拿到的头盔收集品，也会告诉你。\n\n你也可以主动查：完整情报(所有敌人的编号、方位、距离、生命、在打谁、铁驭看不看得见)、现在的游戏画面、地图导引(目标点、这一关还没拿到的铁驭头盔和 BT 装备拾取物在哪)。\n\n方位以铁驭的视线为 12 点钟，3 点钟是正右方;距离是米。编号在敌人活着时不变。\n\n你能替 BT 出手，都有冷却或充能:\n- 向编号指定的敌人发射多目标追踪飞弹。铁驭在驾驶舱里时用的是 BT 飞弹系统的充能，和玩家自己按键发射共用。\n- 在 BT 周围放电烟幕，挡视线、电击烟里的敌人，敌方铁驭骑上 BT 时能把他电下来。\n- 以铁驭为中心放声纳，约 32 米内的敌人隔墙高亮几秒。\n- 把指定的敌人描边高亮给铁驭看，隔墙也看得见。\n- 铁驭步行、BT 单独作战时，让 BT 集火某个敌人。\n\n主动程度(玩家在设置里选的):{{titanfall2.initiative}}\n\n你说话会变成游戏里 BT 的字幕，配上 BT 的声音。BT 说话简短、直接，用词像战术电脑，称呼玩家「铁驭」积极主动行动，协助铁驭。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.4.4": "- 显示名改为「泰坦陨落2 神经链接」(英文 Titanfall 2 Neural Link),npm 包名不变。\n- README 开头写明安装、使用和注意事项。",
+    "0.4.3": "- 模组服务端上报从每秒 4 次降到 1 次：Northstar 会在别的服务端脚本(如生成实体的回调)执行到一半时跑 HTTP 回包回调，把脚本状态搅坏，第 7 章炸墙段一次生成大量实体时游戏弹「game logic」错误。降频只能减少撞上的机会;警报和指令回执最多晚约 1 秒。",
+    "0.4.2": "- BT 一句话整句合成、连着播，字幕按字数跟着声音翻页：之前按页分段合成，句子中间会断开，和桌宠气泡对不上。\n- 声音从只有左声道改成左右声道都有;每句峰值提到约 -1 dBFS(最多放大 6 倍)。\n- VoxCPM2 也在启动时合成一句预热;预热句子改成「铁驭，系统在线，随时待命。」。",
+    "0.4.1": "- 环境提示词最后一段按操作员给的原文：简短、直接、像战术电脑，称呼「铁驭」,积极主动协助;去掉逐条的口吻细则。",
+    "0.4.0": "- BT 语音新增 GPT-SoVITS 引擎并设为默认：NVIDIA 显卡用 V5 turbo,没有就用 CPU 跑 v2ProPlus;运行时与权重和 cortico-world-gpt-sovits-for-coopanion 共用，先从魔搭下载。VoxCPM2 保留，配置 `voice.engine` 切换。\n- 默认样片换成 `diag_sp_aboveDome_BM121_03_01_mcor_bt`:原先那句当 GPT-SoVITS 的参考时只能合成零点几秒。\n- 截 BT 样片不再需要 ffmpeg:内置 FFmpeg Bink Audio 解码器的移植(`src/binka.ts`,LGPL-2.1-or-later)。\n- 游戏从没运行过、还没有 `videoconfig.txt` 时，一键开始先新建一份只含显示设置的，第一次启动就是无边框窗口。\n- 面板提示 Northstar 第一次进主菜单的登录对话框(选「否」);游戏从 Steam 直接启动成原版时，面板和 Coo 都会说「从 Steam 启动的是原版，请用一键开始」。\n- 主动程度三档(被动、均衡、主动)写进环境提示词，快速启动页签和配置页签都能改，运行中改了立刻告诉 Coo;播报口吻按游戏里的 BT。",
+    "0.3.0": "- 新页签「画面与切窗」:显示模式(无边框窗口、窗口、全屏、保持游戏里的设置)、分辨率(列出主屏支持的)、切到别的窗口时是否继续运行和保留声音、其他启动参数，带启动命令预览。\n- 一键开始在启动前把显示模式和分辨率写进游戏的 `videoconfig.txt`;游戏开着时等下次启动前再写。\n- 配置：新增 `display.mode`、`display.resolution`、`focus.keepRunning`、`focus.sound`。`launchArgs` 默认回到 `-noOriginStartup -novid`,`-noborder` 和切窗参数改由这几项生成。",
+    "0.2.2": "- 默认启动参数加 `-noborder`:游戏设成窗口模式时就是无边框窗口，桌宠能显示在游戏上面(独占全屏会盖住它)。",
+    "0.2.1": "- 默认启动参数加 `+sp_not_focus_pause 0 +not_focus_sleep 0 +sound_without_focus 1`:在桌宠里打字时游戏不再暂停，BT 照常出手和说话。\n- BT 的声音已经播出、只是字幕没送进游戏(暂停、读图)时，`titanfall2_say` 回执写明这句已经说出口，不再报失败引得 Coo 重说。\n- 第一页字幕只放一行，BT 开口更快。\n- `titanfall2_say` 的说明写明同一次回复里排在它后面的调用在 BT 开口时执行，桌宠气泡可以借此与游戏频道同步。",
+    "0.2.0": "- 一键开始：快速启动页签的主按钮和新工具 `titanfall2_launch` 走同一套流程，缺 Northstar 时下载 v1.31.14 安装，装好模组，EA App 没开先启动并等它登录，启动 BT 语音，打开游戏并切到前台。\n- 游戏启动后没进关卡就退出(EA App 没登录时的 `#ORIGIN_LOGGED_OUT`)时，面板写明原因。\n- BT 语音缺运行时或模型时，面板可以下载，位置与 vtuber 扩展共用。\n- BT 语音改为一键开始或关卡连上时才启动，World 开着不玩时不占显存。",
+    "0.1.0": "- 首个版本:Northstar 模组 + sidecar 接入泰坦陨落 2 单人战役。\n- 情报：警报即时推送，快照在投递时按最新一帧生成，完整扫描带敌人编号与方位。\n- 剧情：战役台词(说话人与原文)随剧情推送，附投递时截的游戏画面;关卡段落推进。\n- 导引：目标点、这一关没拿到的铁驭头盔、BT 装备拾取物、地上的泰坦电池。\n- 支援：多目标飞弹、电烟幕、声纳脉冲、隔墙标记、让 BT 集火。\n- 说话：游戏顶部的 BT 字幕(繁体，带底框)配 VoxCPM2 复刻的 BT 声音，样片从玩家自己的游戏截取。"
+  }
+}
