@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "name": "cortico-world-switch",
+  "version": "0.1.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "world_list",
+        "description": "列出这台电脑上的所有 World：名字、id、启用 / 未启用 / 不可用。要开关 World 或不确定 id 时先调用它；只读，不改任何东西。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "列出所有 World 的名字、id 和启停状态。",
+          "en": "Lists every World with its name, id and on/off state."
+        }
+      },
+      {
+        "name": "world_enable",
+        "description": "启用一个当前未启用的 World（例如吃资源的 GPTSovits 语音）。走 Coopanion 自己的启停接口，不杀进程、不重启。参数 world 给 id 或名字。提交后立即返回；Coopanion 会在这一轮结束后真正挂载，成功或失败会以一条结果通知告诉你，也会记在 world_list 的「最近一次启停」里。不要在同一轮重复提交。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "world": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "description": "World 的 id 或名字，例如 gpt-sovits / GPTSovits 语音。"
+            }
+          },
+          "required": [
+            "world"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "启用指定 World，走 Coopanion 自己的启停接口。",
+          "en": "Enables a World through Coopanion's own activation API."
+        }
+      },
+      {
+        "name": "world_disable",
+        "description": "停用一个正在运行的 World（例如临时关掉吃资源的 GPTSovits 语音）。走 Coopanion 自己的启停接口，不杀进程、不重启。参数 world 给 id 或名字。提交后立即返回；Coopanion 会在这一轮结束后真正撤出，成功或失败会以一条结果通知告诉你，也会记在 world_list 的「最近一次启停」里。不要在同一轮重复提交。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "world": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "description": "World 的 id 或名字，例如 gpt-sovits / GPTSovits 语音。"
+            }
+          },
+          "required": [
+            "world"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "停用指定 World，走 Coopanion 自己的启停接口。",
+          "en": "Disables a World through Coopanion's own activation API."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "world-switch.result",
+        "description": {
+          "zh": "启停完成或失败的回执；回合结束后推给桌宠，告诉它最终结果。",
+          "en": "The receipt of an enable/disable, pushed after the turn so the pet can report the final result."
+        },
+        "trigger": "flush"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.1": "- 修复启停工具误报超时：Coopanion 的 activation 接口要等当前回合结束才重建提示词，\n  旧版在工具里等回执会形成死锁（侧效已落、回执 25 秒后才失败）。\n  现在工具只提交请求就返回，回执在回合结束后以 `world-switch.result` 事件推回对话。\n- `world_list` 末尾增加「最近一次启停」结果，十分钟内有效。\n- 回执报错但清单状态已经变化时，按成功报（`接口没给回执，但清单已确认`）。\n- 同一 World 的启停还在生效时拒绝重复提交。",
+    "0.1.0": "- 首个版本：`world_list`、`world_enable`、`world_disable`。\n- 走 Coopanion 自己的 `GET /api/worlds` 与 `POST /api/worlds/activation`；\n  自动从 `config.json` 读取端口、监听地址和访问密码。\n- 只做查询和启停；不杀进程、不重启、不改可见性、不装卸扩展。"
+  }
+}

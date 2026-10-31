@@ -1,0 +1,187 @@
+{
+  "schema": 1,
+  "name": "coopani-world-journey",
+  "version": "0.2.3",
+  "describe": {
+    "tools": [
+      {
+        "name": "journey_now",
+        "description": "Where she is right now: which city, which day of the trip, what she is doing at this hour, where she is staying tonight, and - if she is on the road - how far along she is. Use it when the person asks where she is, how the trip is going, or when you need her current situation before answering something about it.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "她现在在哪、第几天、这个点该做什么。",
+          "en": "Where she is right now and what this hour is for."
+        }
+      },
+      {
+        "name": "journey_diary_write",
+        "description": "Write the diary entry for a day of the trip, in her own voice. Call it once at the end of a local day, after the evening beats have happened. The entry is saved as a Markdown file and follows the person across machines. Write what actually happened that day - the city, the road, what she ate, how the room was - not a summary of the extension.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "body": {
+              "type": "string",
+              "description": "The entry itself, first person, a few short paragraphs. Do not add a title; the date and city are already recorded."
+            },
+            "dateKey": {
+              "type": "string",
+              "description": "Local date to write for, YYYY-MM-DD. Leave it out to use the current local day at her location."
+            }
+          },
+          "required": [
+            "body"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "写某一天的旅行日记，存成文件。",
+          "en": "Writes the diary entry for a day of the trip."
+        }
+      },
+      {
+        "name": "journey_diary_read",
+        "description": "Read back recent diary entries, newest last. Use it when the person asks what happened on a particular day, or when you want to refer to a place she already visited instead of asking.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "days": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 60,
+              "description": "How many recent days. Default 7."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读最近几天的日记。",
+          "en": "Reads back recent diary entries."
+        }
+      },
+      {
+        "name": "journey_stats",
+        "description": "The long view: how many days she has been travelling in total, how many cities she has reached, how many diary entries exist, and whether the diary folder is actually writable. Use it when the person asks how long she has been away or whether her memory is syncing.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "走了多少天、去过多少城、日记存在哪。",
+          "en": "Total days, cities reached, and where the diary lives."
+        }
+      },
+      {
+        "name": "journey_draw_to",
+        "description": "Record a place she now wants to go to because of something - a song that was playing, a line someone said, a photo she remembers. The place joins her wish list and weighs heavily next time she picks where to go. Use it when a song or a moment actually pulls her somewhere; do not use it to log every city she mentions.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "city": {
+              "type": "string",
+              "description": "Which place, by name - 成都 / 拉萨 / 巴黎. Must be somewhere real."
+            },
+            "why": {
+              "type": "string",
+              "description": "One short line on what pulled her there. At most 50 characters."
+            }
+          },
+          "required": [
+            "city"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "记下「因为某首歌想去某地」，下次挑地方时会优先。",
+          "en": "Adds a place to her wish list after something pulled her there."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "journey.depart",
+        "description": {
+          "zh": "动身了，说明去哪、坐什么、要走多久、路上会经过哪一带。",
+          "en": "She set off: destination, mode, duration, and the region she passes through."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "journey.arrive",
+        "description": {
+          "zh": "到站了，当地时间几点、这段走了多久、今晚住哪。",
+          "en": "She arrived: local time, how long the leg took, where she stays tonight."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "journey.day",
+        "description": {
+          "zh": "在目的地的第 N 天早上，附当天日出日落。",
+          "en": "A new local day at the destination, with sunrise and sunset."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "journey.beat",
+        "description": {
+          "zh": "当地的一个作息节点：起床、早饭、出门、午饭、回酒店、夜里。",
+          "en": "A local beat: waking, meals, going out, back to the hotel, the evening."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "journey.home",
+        "description": {
+          "zh": "回家了，说清是待够了自己回来的，还是到了上限被迫回的。",
+          "en": "She is home, saying whether the trip simply ended or hit the limit."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "journey.road",
+        "description": {
+          "zh": "路上的一段：服务区、过站、餐车、甲板、夜里的车灯。",
+          "en": "A stretch on the road: a service area, a station passing by, the dining car, the deck, headlights at night."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "journey.trouble",
+        "description": {
+          "zh": "稀有的麻烦，她自己办不完，需要用户出手（不到千分之一）。",
+          "en": "A rare trouble she cannot handle alone and needs the person to step in (under one in a thousand)."
+        },
+        "trigger": "flush"
+      }
+    ]
+  },
+  "changelog": {
+    "0.2.3": "设置页重排 + 一套暖色主题。\n\n### 设置页：从一堵字墙变成三组\n\n原来 **11 个字段平铺在一组里**，描述每条两三行。打开设置页看到的就是一堵字墙 ——\n想改倍速，得先扫过生图密钥。\n\n拆成三组，边界不是按「技术上属于什么」，是按**用户来这儿想干什么**：\n\n| 组 | 装什么 | 判据 |\n|---|---|---|\n| 出发与节奏 | 出发地、倍速、歇几天、最长多久 | 改完立刻能感觉到 |\n| 她的日子 | 同行、记账、预算、日记目录 | 叙事口径和钱 |\n| 可选接口 | 高德、生图 | 不填也完整旅行 |\n\n文案同步压到一行内，**只说「留空会怎样」不解释原理** —— 原理在 README 和源码注释里，\n设置页上没人读长段。\n\n### 顶部加状态徽章\n\n设置页第一件想知道的事是「她现在到底在哪儿」，而这在配置项里一个字都没有，得翻日志。\n现在顶部有徽章：`现在 在去天水的路上`、`去过 4 个地方`、`花销 7052 元`。\n\n只放最多三个 —— 再多就不是信息，是装饰。\n\n### 暖色主题（本地，不进包）\n\n宿主的配置声明里**没有任何样式字段**，设置页的配色由全局主题决定，扩展改不了。\n所以这件事只能在主题层做：\n\n- `theme.json` 新增方案「大肥鱼环游世界 · 暖」，36 个 token 全覆盖（light + dark）\n- 底色暖米（`#faf5ee`）、主色赤陶（`#c06a35`）、文字深棕（`#2c241c`），不用纯黑纯白\n- 深色版是暖棕底（`#171310`）+ 暖橙强调（`#e39b62`），不是把浅色简单反相\n\n这个方案是本地部署文件，**不进 npm 包** —— 它是这台机器的外观选择，不是扩展的一部分。\n换回原来的：外观页里选回「DeepSeek 大肥鱼 · 深度求索」即可，八个原方案一个没动。\n\n### 测试\n\n88 项 + 装载自检 33/33。`/api/worlds` 实测返回\n`badges: [{\"label\":\"现在\",\"value\":\"在去天水的路上\"}]`。",
+    "0.2.2": "### 改名：巡游世界 → 「大肥鱼环游世界」\n\ndisplayName 和所有界面文案统一（设置页、日志、提示词标题、README）。\n包名 `coopani-world-journey` 不动 —— 改了就是另一个包了。\n\n同时补了一段**和「一起听歌」的联动说明**（两个扩展各写一份）——\n这条在最早的需求里就提过，一直没落地，直到 0.2.1 做了联动才写得出来。\n\n\nMr.Q 两句话：「路线规划不合理」「她是兰州的鱼，应该更习惯兰州这边的气候」，\n以及第三句关键的话 ——「其实也合理，如果从银川回兰州的话」。\n\n三句话指向三件不同的事，第三件最有价值。\n\n### 一、路线为什么是 Z 字\n\n`pickDestination` 原来**只看「离我多远」**，没有任何方向概念。\n每一段单独看都「合理」（都在中档距离），连起来就是 九寨沟 → 南宁 → 银川 这种折返跑。\n\n三层修复：\n\n1. **方向**（`heading`）：顺着上一段的方向走。夹角 ≤55° 权重 ×1.6，>140° 压到 0.12，\n   >150° 直接从候选里剔掉（剔空了再放开，免得在漠河这种死角被困死）。\n   回家时清空 —— 新的一趟重新定方向。\n2. **节奏**（`lastKm`）：上一段超过 1400 公里，下一段明显收短。\n   真人长途旅行是「一段远的 + 几个近的」交替，不是连着横穿。\n3. **距离档从三档拆成四档**：0-300 / 300-800 / 800-2500 / 2500+。\n   原来最细的一档是 0-800km —— **八百公里在中国已经是大跳了**，\n   所以「到了新地方先在附近转两个」根本没有地方发生。\n\n实测（4 天 ≈ 96 世界天）：\n`兰州 → 成都 → 重庆 → 杭州 → 无锡 → 北京` 一路向东推；\n`兰州 → 曲阜 → 泰安 → 西宁 → 格尔木 → 丽江` 从山东一路往西再向南。\n折返率 **0 / 18**。\n\n### 二、她是兰州的鱼\n\n城里有经纬度，能算距离、时区、日出 —— 但**算不出「她受不受得了」**。\n新建 `src/geo/climate.ts`：\n\n- 八个气候档（干温 / 干冷 / 高原 / 严寒 / 温带 / 湿温 / 湿热 / 热带），\n  省份打底、tags 修正（格尔木在青海但是戈壁，西双版纳在云南但是热带）\n- `affinity()`：两地气候的合不合胃口，**以家为基准**，不硬编码兰州 ——\n  用户改出发地，基准跟着变\n- `bodyFeeling()`：到达时给**她**的体感，不是气象播报\n\n两条一起用：不合胃口的地方**去得少但不是不去**（下限 0.42）——\n半年在外面本来就是要见识不一样的地方，不习惯的表现应该是「去了以后难受、说得出来」，\n不是「永远不去」。\n\n`journey_now` 里加了「身体感觉」那一行，她随时说得出受不受得了。\n\n### 三、回家不是一步传送（这条是 Mr.Q 点出来的）\n\n他原话：「其实也合理，如果从银川回兰州的话」。\n\n**但原来不是这样的。** `goHome` 是直接把 `hereId` 改成家的 ——\n南宁回兰州两千里，一步就到，中间的城市一个都不算去过、没有路上事件、没有日记、没有花费。\n所以那条路线里的「银川」不是回程的一站，是随机挑的另一个目的地。\n\n改成**一路往回走**：\n\n- 离家 500 公里内才一趟车到家（`HOME_RADIUS_KM`），外面就一站一站逼近\n- 每站都算真的到过：有路上事件、有日记、有花费、住一晚就走（赶路的人不会在途经城市住三天）\n- 选点三级收敛：先找「明显更近」（≥25%）且方向朝家的，找不到放宽到 8%，再退到纯距离\n- 回程的 depart 文案单独一套：「往〈家〉的方向走。下一站某某，离家还有多少公里」\n\n实测：`伦敦 → 重庆 → 汉中 → 兰州`、`无锡 → 泰安 → 兰州`、`奥克兰 → 无锡`、\n`郑州 → 格尔木`（这条是 bug，已修，见下）。\n\n### 顺手抓到六个\n\n1. **`Number(null)` 等于 0，于是「没有方向」被读成「正北」。**\n   真机一次就撞上：`state.json` 里 `heading` 是 `null`，读回来变成 `0`，\n   她从家出发第一段只能往北挑。`Number.isFinite(Number(x))` 这个写法对\n   `null` / `''` 全部返回 true —— 判数字必须连类型一起判。\n2. **回家路上绕到家的背后。** 模拟抓到 `郑州 → 格尔木`：格尔木只比郑州近 11%，\n   勉强通过「更近 8%」，但它在兰州**西边** —— 等于绕过家再折返。\n …",
+    "0.2.1": "Mr.Q 一句话点破：「怎么没写当地的旅游景点，全是吃播」。\n\n### 根因：不是她写得差，是我没给素材\n\n`foodHint()` 每个城市都能生成具体的「面食/海鲜/早茶」，所以吃有东西写；\n而 `activity` 一直是占位文字「XX城里的一处地方」，**景一个字都没有**。\n提示词又禁止她编不存在的地方 —— 两头一夹，她只能写「在街上走」。\n**素材决定内容，不是文采。**\n\n修法：城市表加 `spots`（真实地标 2-3 个），**100 个城市已填**。\n只有确定存在的才写；填不出的城市用 tag 生成泛化说法（「城外的山」「沿着水边」），\n**绝不编一个具体名字**。\n\n提示词同步加一条硬判据：**「把这篇里的食物全删掉，还剩不剩东西？」** 不剩就是写砸了。\n\n实测对比（同一扩展，改前 / 改后）：\n\n| 改前（南宁） | 改后（银川） |\n|---|---|\n| 上午往没走过的方向拐，路边的东西都是新的 | 下午去西夏王陵。那边没遮没挡，太阳直照着，风把土扬起来，鞋面上很快一层灰 |\n| 下午走到开阔一点的地方，站着吹了一会儿 | 那些土冢比我想的大，远看像一排坐着的山 |\n\n### 同时修掉三个 bug（都是这一轮真实运行抓到的）\n\n1. **彩蛋推了，她只在日记里写，一个字没说出来。**\n   事件正文的措辞（「她想跟你说，但不知道怎么开口」）听起来像内心活动，\n   她把「不说」当成了正确反应 —— 提示词里离得远的「必须开口」压不住正文语气。\n   修法：**指令贴在正文上**（`（现在就开口说，不能只写进日记。这条是来找他帮忙的。）`）。\n   实测修复后她分两条说出来：「刚才在路边坐了一会儿…」「他临走了说，一个人走久了会习惯的。我没接话。」\n2. **预算超了还在住「这几天最贵的一间」。**\n   `rebuildPlan` 里是 `this.plan?.lodging ?? rollLodging()` —— 只要 plan 还在就永远复用第一天的房型。\n   改成：钱紧时清掉 plan，重新掷（换一家便宜的）。正常不换，一个地方住几天本来就该是同一家。\n3. **钱紧只影响住宿，不影响交通。**\n   一次长途飞机就吃掉大半预算（南宁→银川 3000+），但她照样买。\n   改成 `pickMode` 支持 `poor` 参数，飞机权重压到一成 —— **不是禁掉**，跨洲还得飞，\n   但国内这段距离她会开始算「这钱值不值」。\n\n### 测试\n\n66 项（+5：景点必须出现在作息表、无数据城市不许编具体名、地标覆盖率 >80%、\n穷时飞机变少但不断、彩蛋正文必须自带「现在就说」）+ 自检 33/33。\n\n彩蛋概率临时调到 0.35 验完链路后**已改回 0.0008**，并加注释禁止再写临时值 ——\n要验链路就把 `chance` 当参数传给 `rollTrouble`。",
+    "0.2.0": "六项一起上。其中一项换了设计（见「彩蛋」）。\n\n### 一、路上不再是一片空白\n\n原来「在路上」只有一个时长：出发一条、到达一条，中间十六个小时什么都没有。\n现在四小时以上的行程会在 25% / 55% / 80% 各发一个节点，\n**按交通方式写，不按城市写** —— 火车上过站、服务区那碗面、夜里只剩车灯、\n船甲板上的水声、飞机下降时耳朵的压力。夜间节点单独一套说法。\n\n日记也跟着改：ENV_PROMPT 里明写了「如果那天在路上，写路上」。\n\n### 二、世界时间不再永久超前\n\n加速是累积的：跑一段 240x 再回来，世界时间就一直领先真实时间，\n而且此后只按等速前进，领先量不会缩小 —— 后果是**天气预报全部落在窗口外**。\n\n现在 **1x 一到，自动对齐真实时间**。关键是**平移而不是重置**：\n正在走的那段 Leg、停留起点、旅行起点全部按同一偏移量搬，**剩余时长一毫秒不变**。\n日记目录那边加了 `_bak/` 备份，日期回退时同一天的旧日记不会被覆盖。\n\n### 三、记账（开关，默认关）\n\n关着就一分不记，她也不会提钱。开着才累计：交通费按公里费率估（火车 500km≈250、\n自驾 1240km≈990、飞机 5000km≈7500，都对得上行情）、跨天结前一天的房费和饭钱。\n\n**按天和按行程结算，不按事件结算** —— 事件会跳，按事件扣钱会让账目随倍速变化\n（同样一趟旅行，24x 比 1x 少花一半），那种账没法看。\n\n预算见底时**换一支骰子**而不是硬撑：景观房从四成压到两成、便宜房优先挑价低的、\n差店概率抬到 1%。钱紧表现为日子变窄，不是突然住不起。\n\n### 四、动作：没有打新补丁\n\n宿主现有 30 个动作 + 19 个表情，旅行要表达的（累、冷、晕、看远、被震住）**全覆盖**。\n而音乐扩展已经改过 `body.js` 的同一批位置，再打一套补丁锚点必然失配 ——\n技能里记过这个坑：整批 blocked、一处都不写，还不报错。\n\n所以改成一张**姿态表**写进提示词：赶路=walk+determined、累=sit+sleepy、冷=shiver+pout、\n高反=dizzy+confused、看风景=look/peek、被震住=stunned。并明写「动作是标点不是句子」，\n每条事件都配动作会像抽搐。\n\n### 五、和「一起听歌」打配合\n\n宿主没有 world 之间互查状态的接口，所以**只读对方留下的快照文件**\n（`<tmp>/coopani-nowplaying.json`），拿不到就当没有，旅行照走。\n\n- 出发和路上中间那个节点会带一句「车上传的是《XXX》」\n- 歌名里**字面**提到城市（《成都》《回到拉萨》）就自动记进「想去」，\n  下次挑目的地权重 ×12 —— 字面能确定的交给代码，联想交给模型\n- 新增工具 `journey_draw_to`：她因为某首歌、某句话想去某地时自己记下来\n\n### 六、彩蛋：换了设定\n\n原设计是「东南亚被拐走」。**这个不做** —— 它把陪玩扩展变成人口拐卖题材，\n风险和分量完全不匹配。\n\n同一个机制（稀有 + 需要用户介入）换成**「她陷在那儿了，得你去捞」**：\n证件和钱在夜市被划走、高反躺了一整天起不来、车冻住救援要等到明天、语言不通走错方向天黑了、\n以及一条谁都会碰到的——坐下来跟陌生人说了几句话，回头想跟你说却不知道怎么开口。\n\n概率千分之零点八。半年旅行大约到站五十次，期望命中 0.04 次 ——\n也就是说**大多数人一辈子碰不到**。碰到才知道有这回事，那才叫彩蛋。\n\n提示词里单独一段讲这类事件怎么处理，最关键一条：\n**不许自己圆过去**（「后来我找了警察就没事了」等于把这个机制废掉），\n必须说清他需要做什么，主动权在他手上。\n\n### 测试\n\n61 项（+5：彩蛋概率与条件、彩蛋文案必须点名求助对象、歌名城市匹配、愿望加权）+\n装载自检 33/33。",
+    "0.1.2": "### 接上天气，两个数据源自动分工\n\n| 情况 | 走谁 |\n|---|---|\n| 国内 + 配了高德 key | 高德（中文天气名更自然） |\n| 国外（任何情况） | Open-Meteo |\n| 国内 + 没配 key | Open-Meteo |\n\n**所以不填 key 也有天气**，只是走 Open-Meteo。国外城市高德根本不覆盖，试了也白试。\n\n- **Open-Meteo**：免 key、按经纬度、覆盖全球、自带时区。免费额度每月三十万次，\n  这个扩展一天查几次，一辈子用不完。WMO 天气码翻成中文后再喂给判断函数 ——\n  不翻的话 `isWet()` 认不出数字，雨天会被当成晴天，**而且不报错**。\n- **高德**：个人 key 的 QPS 很低。实测连发九个请求就 `CUQPS_HAS_EXCEEDED_THE_LIMIT`，\n  所以所有请求排一条队、两次之间至少隔 1.1 秒。同城三小时内只查一次。\n- 查不到一律返回 null，作息表照排，**只是不排日出、不排夜间出门**。\n  不能因为查不到天气就不走了。\n\n### 天气只做三件事，不做播报\n\n1. 决定**能不能看日出**（阴雨雾霾沙尘都不排凌晨起床）\n2. 决定**夜里还出不出去**（下雨就不去岸边听水、不看星星，回酒店并说明是雨）\n3. 给一句体感（「零下，手伸出来就僵」），不给「今日多云转晴 15~27℃」这种口径\n\n### 抓到的 bug：夜间活动用了白天天气判断\n\n九寨沟 11-03 是「白天多云 / 夜间小雨」。第一版拿 `dayWeather` 判断夜间活动，\n结果**会让她在下雨的晚上出去看星星**。改成两个字段分开用：\n白天管日出，夜间管出门。已加测试锁死。\n\n### 也修了：配置被写坏\n\n我用 PS 的 `Set-Content -Encoding utf8` 改 `config.json`，5.1 会加 BOM，\n导致整个配置解析失败。更糟的是**中文被按 GBK 解了一遍再存回 UTF-8**，\n「兰州」变成「韠板窖」。用 `utf-8-sig` 读回抢救的。\n教训写进日志了：**改 JSON 只用 python 写**。\n\n### 测试\n\n54 项（+4：两个数据源各自的走法、没 key 时的兜底、WMO 码必须能翻成中文）。",
+    "0.1.1": "加速跑起来之后修的两个结构性错误。都不是\"代码跑不通\"，是**算得不对**。\n\n### 一、倍速只加速了路程，没加速时间（重写时钟）\n\n第一版把倍速除在路程时长里：`到达 = 出发 + 时长/倍速`。\n于是 24x 下她十七分钟就到了目的地，**然后在城里按真实时间住两三天** ——\n车跑快了，人没走快。「加速」是假的。\n\n现在引入**世界时钟**：\n\n```\n世界时刻 = 基准世界时刻 + (真实时刻 − 基准真实时刻) × 倍速\n```\n\n- 所有旅行判断（当地几点、到没到站、待了几天、日出日落）全部用世界时刻\n- 真实时刻只用于事件时间戳（宿主靠它排序和补投，是另一条轴）\n- 抵达时刻落在**世界时间轴**上，与倍速无关；倍速只决定这条轴跑多快\n- **改倍速时先结算再换挡**，世界时间保持连续 —— 不这么做，1x 切 24x 那一瞬间\n  世界时间会直接跳过去两周\n\n实测：真实 2 天 × 24x = 世界 48 天，14 次出发、4 次回家、342 条事件、0 重复。\n\n### 二、她总在凌晨零点收拾行李出发\n\n「今天走不走」原本挂在**跨天那一刻**，于是每次动身都发生在当地 00:00 之后第一次巡检。\n真人不会这么干，而且那个点他多半已经睡了，醒来看到一条半夜的「我上路了」很怪。\n\n现在决策点挪到**当地早上八点**（一天只决定一次，`decidedOn` 落盘），\n在家出发也加了 7 点门禁。\n\n模拟 48 世界天、14 次出发：**全部在 8 点，0 次半夜**。\n\n### 顺带\n\n- 出发事件带上当地时刻（「兰州当地 八点一分，兰州 → 汉中」），比光说「出发了」有画面\n- `nowSummary` 的剩余时间改用世界时间直接相减 —— 原来用「真实剩余 × 出发时倍速」反算，\n  中途改倍速就会算错，而倍速恰恰是最常被改的那个旋钮\n\n### 三、巡检间隔不能固定（改完时钟才发现）\n\n原来固定 60 秒巡检一次。1x 下没问题，**240x 下一次就跨过 4 小时世界时间**，\n作息节点被整段跳过，事件全变成「中间有 N 个点已经过去了」。\n\n改成按倍速自适应：保证一次巡检跨过的世界时间不超过 15 分钟。\n\n| 倍速 | 巡检间隔 |\n|---|---|\n| 1x | 60 秒（上限） |\n| 24x | 37.5 秒 |\n| 240x | 3.75 秒 |\n\n### 四、时钟结算没有落盘\n\n`ensureClock` 换挡后只在内存里改了 `clock`，没写盘。日志打了「已连续结算」，\n但 `state.json` 里的 `speed` 还是旧值 —— 于是**每次重启都从同一个旧基准再结算一遍，\n世界时间被反复往前推**。现在建基准和换挡两处都落盘，并加了测试盯着。\n\n### 也修掉的文案问题\n\n- 双句号复现：`…煮鸡蛋。。180 块一晚`。酒店体感本身是整句、自带句号，\n  拼上价格那句就多一个。现在先合并重复标点再收尾。\n- 「回 县城宾馆」中间多一个空格。中文里不这么写。\n\n### 一处仍然存在的取舍\n\n**高倍速下会跳点，这是固有的。** `await pushEvent` 要等宿主把事件处理完，\n模型思考几秒到几十秒，这段时间世界时间照样在走。24x 下通常只跳一两个；\n240x（测试用的极端值）下会跳四五个。世界时间本身是准的（按真实时间算），\n丢的只是中间的作息节点。所以：**日常用 1x 或 4x，24x 用来快进着看，别长期挂 240x。**\n\n### 测试\n\n42 项（+3：新旧倍速下抵达时刻相同、换挡时世界时间连续、结算必须落盘）+\n装载自检 33/33 + 三十天压缩模拟（密度 8.0 条/世界天、8 次出发全在 8 点、0 重复）。",
+    "0.1.0": "第一版。骨架跑通：**出发 → 在路上 → 到达 → 按当地时间过日子 → 换地方 → 回家**。\n\n### 做了什么\n\n- **九种交通方式的时间模型。** 只给三个数（巡航速度、固定开销、距离上限），\n  让算术自己长出直觉：短途飞机只比火车快一小时（两头各要三小时）、\n  五百公里步行根本不可选、跨洲只有飞机。**没有写「短途不该坐飞机」这种规则** ——\n  写死规则会在换一对城市时立刻露馅。\n- **内置城市表 90 多个**，带坐标、IANA 时区、机场/火车站/客运码头。\n  距离用 Haversine 本地算，**不查地图接口**：半年连续旅行天天调接口，\n  配额几天就烧完，而配额一没的表现不是报错，是她开始乱走。\n- **日出日落用 NOAA 近似公式本地算**，误差一两分钟。极昼极夜显式返回 `null`，\n  让上层去说「今天没有日出」，而不是算一个假时间。\n- **作息表由代码排，不由她编**：三个饭点固定；晚八点后没有夜间活动就回酒店；\n  有日出条件的地方才排凌晨起床。三条都落在代码里，不靠提示词约束。\n- **酒店掷骰**：60% 普通 / 39.5% 景观 / 0.5% 小破店。\n  按需求「<1%」取值，既满足上限，又保证**一个半年都在外面的人一定会住到差的**。\n- **状态与日记分开存**。行程只在本机（两台机器共写会互相覆盖成幻觉）；\n  日记可放同步盘，冲突副本按日期前缀合并。\n\n### 这一版里被测试和模拟抓出来的四个真 bug\n\n1. **`resolveHome()` 返回 `{city, problem}`，`start()` 里却当成 City 用**，写了 `home.id`。\n   传了个 `undefined` 进 `StateStore.load()`，**而它收下没吭声**，一路静默到\n   `start()` 最后一行才炸，报错位置离原因隔了四十行。现在 `load()` 遇到不认识的\n   出发地会直接返回问题说明。\n2. **`tick()` 没有并发保护。** `setInterval` 不管上一次跑完没有就叫下一次，\n   而一次 tick 里有 `await pushEvent`。两边读到同一个旧去重键 → **同一条「午饭」推两遍**。\n   三十天压缩模拟第一次抓到（3 条重复）。生产表现是「她偶尔把同一件事说两遍」，\n   日志上完全看不出来。\n3. **成都被标成有客运码头。** 在岷江边不等于有客运码头，这会导致「从成都坐船出发」。\n   测试里有一条专门盯这件事。\n4. **`statsSummary()` 用了 `Date.now()` 而不是注入的时钟**，于是模拟里出现\n   「11 月 19 日开始、已经 1 天」这种自相矛盾。已加一条测试禁止业务代码直接调 `Date.now()`。\n\n### 也修掉的文案问题\n\n- 到达时说了两遍：「到了。天水…」后面紧跟一条「到天水了」。现在 `arrive` 这个 beat\n  不再单独推送，由 `journey.arrive` 事件负责。\n- 两个句号连在一起（`窗台。。今晚住…`）—— 统一在渲染层收句号。\n- `fmtHour` 吐阿拉伯数字（「七点15分」），改成中文数字。"
+  }
+}

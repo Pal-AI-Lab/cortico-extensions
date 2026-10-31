@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "name": "cortico-world-brain-regions",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "brain_run",
+        "description": "严格串行地运行一次脑区认知管线：路由/任务分解 → 记忆检索与写入 → 显著性/风险标记 → 主推理 → 独立验证（不重做推理）→ 合成。每个阶段是独立模型调用，上一阶段验证前不会进入下一阶段；任一中途失败会中止，不会把未验证结论交给合成。适合复杂、多步、需要记忆或需要严谨检查的请求；简单寒暄/一句事实不要用。返回已经过验证的合成答案；不要把阶段名、置信度或内部细节念给用户。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "request": {
+              "type": "string",
+              "description": "用户的原话或需要处理的具体请求。"
+            },
+            "context": {
+              "type": "string",
+              "description": "可选。必要的最近对话/群聊摘要或已知背景；不要塞整段历史。"
+            }
+          },
+          "required": [
+            "request"
+          ]
+        },
+        "tags": [
+          "flow"
+        ],
+        "summary": {
+          "zh": "严格串行跑一次脑区管线，返回经过独立验证的合成答案。",
+          "en": "Runs the brain-region pipeline strictly serially and returns a verified synthesized answer."
+        }
+      },
+      {
+        "name": "brain_status",
+        "description": "查看脑区管线最近一次运行：各阶段是否成功、耗时、验证裁决、冲突数、置信度、记忆条目数和模型来源。用户问「刚才怎么想的」「验证有没有问题」时用。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "看最近一次脑区运行的阶段、验证裁决、冲突、置信度和记忆数。",
+          "en": "Shows the last brain run: stages, verdict, conflicts, confidence and memory count."
+        }
+      },
+      {
+        "name": "brain_memory",
+        "description": "手动查看、搜索、添加或删除脑区记忆。记忆代理在 brain_run 里会自动写入经过验证的稳定信息；这个工具用于用户明确要求「记住/忘掉/查一下」时。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "search",
+                "add",
+                "remove"
+              ],
+              "description": "list=列出；search=搜索；add=添加；remove=按 id 删除。"
+            },
+            "query": {
+              "type": "string",
+              "description": "search 时的关键词。"
+            },
+            "text": {
+              "type": "string",
+              "description": "add 时要记住的内容，短、具体、稳定。"
+            },
+            "tags": {
+              "type": "string",
+              "description": "add 时的标签，逗号/顿号分隔。"
+            },
+            "id": {
+              "type": "string",
+              "description": "remove 时的记忆 id。"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "手动查看、搜索、添加或删除脑区记忆。",
+          "en": "Lists, searches, adds or removes brain memory entries."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.brain.envPrompt",
+        "title": "脑区管线 · 环境提示词",
+        "role": "envPrompt",
+        "content": "你有一个按脑区分工的认知管线工具 `brain_run`。它严格串行地跑：\n\n路由/任务分解 → 记忆检索与写入 → 显著性/风险标记 → 主推理 → 独立验证（不重做推理）→ 合成。\n\n每个阶段是独立模型调用；验证层只检查 claim 的证据、置信度和冲突，不重写答案；合成只使用验证过的 claim。任何阶段失败，管线会中止，不会把未验证的中间结论交给合成。\n\n## 什么时候用\n- **复杂、多步、需要记忆或需要严谨检查的请求**：先调 `brain_run`，把用户原话和你手上必要的背景放进 `request` / `context`；它返回合成答案，你再自然地说给用户。\n- **简单寒暄、一句事实、纯执行指令**：不要用，直接回。一次 `brain_run` 会串行调用 6 次左右模型，属于高消耗。\n- 同一个请求不要重复调；一次 `brain_run` 已经跑完所有阶段。\n\n## 怎么用\n- `request` 放用户原话；`context` 只放必要的最近对话/群聊摘要，不要塞整段历史。\n- 回执里的「合成答案」就是最终内容。不要自己再补事实，也不要把阶段名、置信度、claim id、验证细节念给用户。\n- 回执说验证层拒绝/需要澄清：照它给的澄清问题问用户，**不要绕过验证自己答**。\n- 回执说管线失败：如实说这次没算完，不要把中间结论当答案。\n- 不要在 `brain_run` 外面自己并行拆子任务；这个管线本身就是严格串行，并行会引入无法追踪的错误合并。\n\n## 记忆\n- 记忆代理在 `brain_run` 里只写经过验证的稳定信息；用户明确说「记住/忘掉/查一下」时用 `brain_memory`。\n- 不要把整段对话、猜测或未验证的结论写进记忆。\n\n## 工具\n- `brain_run`：跑一次严格串行的脑区管线，返回验证后的合成答案。\n- `brain_status`：看最近一次运行的阶段、裁决、冲突和置信度。\n- `brain_memory`：查看/搜索/添加/删除记忆。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "- 严格串行的脑区管线：router → memory → salience → reason → verify → synthesize。\n- 5 个职责边界清晰的脑区子代理 + 1 个合成代理；每个都有明确的输入/输出契约。\n- 路由器只读 `REGION_MANIFEST` 能力清单，不读系统提示词/实现。\n- 独立验证层：只看 claim + 证据 + 计划/记忆/显著性，不拿主推理草稿，不重做推理、不写答案。\n- 验证 verdict：pass / revise / reject；reject 时合成只做澄清，不写记忆。\n- 支持一次串行修订（reason → verify），仍不并行。\n- 记忆写入只在验证 pass 后落盘；提议的 writes 不进入本轮推理。\n- 阶段非法 JSON/无 claim/无 check 会中止，不进入合成。\n- 世界级并发锁：上一轮未结束，新的 brain_run 直接拒绝。\n- `providerMode: auto` 读取 Coopanion 当前 provider；DeepSeek 自动走 Responses，其他端点默认 Chat Completions；也支持 manual baseUrl/model/apiKeyEnv/protocol。\n- 三个工具：`brain_run`、`brain_status`、`brain_memory`。"
+  }
+}

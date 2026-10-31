@@ -99,6 +99,9 @@
     "cortico-world-memory-weight": [
       "sensitive-data"
     ],
+    "cortico-world-milkcoo-app": [
+      "sensitive-data"
+    ],
     "cortico-world-mood-alont1": [
       "sensitive-data"
     ],
@@ -314,7 +317,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/430",
         "up": 0,
         "down": 0,
-        "comments": 3
+        "comments": 4
       }
     },
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
@@ -809,19 +812,103 @@
         "comments": 0
       }
     },
+    "coopani-world-journey": {
+      "kind": "world",
+      "version": "0.2.3",
+      "displayName": "大肥鱼环游世界",
+      "description": "大肥鱼环游世界：她真的出门、真的按当地时间过日子。从你家出发，自己挑去哪、坐什么去，路上耗掉真实的时间；到了按当地时间吃饭、看日出、住店、写日记。装了「一起听歌」的话，你放的歌会跟着她走。需 Coopani 0.2.16 以上。",
+      "locales": {
+        "zh": {
+          "displayName": "大肥鱼环游世界",
+          "description": "大肥鱼的长期旅行：真的出门、真的按当地时间过日子。需要 Coopani 0.2.16 以上。\n\n**她怎么走。** 从你设定的家出发，自己挑地方、自己挑怎么去。选了火车就真的在火车上待那么久，中间不打扰你。路上不是空白——服务区那碗面、过站时醒的那一下、夜里只剩车灯，长途会发一两次。\n\n**路线是一条线，不是随机跳。** 她记着上一段往哪走，会顺着走，不走回头路；到了一个地方先在附近三百公里内转几个，再决定下一步。所以她连着几天说的地名，在地图上是连得起来的。\n\n**回家是走回去的。** 决定回去之后一站一站往家逼近，途中每站都算真的到过、也写日记。不是两千公里一步传送。\n\n**她是兰州的鱼。** 干、风大、温差大、海拔一千五——这是她的基准。到湿热的南方会真的难受，回西北会松下来。这个偏好影响她挑地方（湿热去得少，但不是不去），也影响她到达时说的第一句话。她不播报气温，那是天气 App 的话。\n\n**到了按当地作息过。** 饭点吃饭，晚八点后没事就回酒店，想看日出就凌晨起。酒店按概率掷：六成普通、四成景观、不到千分之一是小破店。天气会改计划——下雨就不排日出、不去看星星。\n**路上是真的在耗。** 步行、自行车、电瓶车、摩托车、自驾、公交、火车、轮船、飞机——同样的距离，用时差好几倍，沿途看到的也完全不一样。走得太远她会自己换一种方式，不会出现「步行去巴黎」。\n\n**你能调的。** 时间倍速（1 倍是真实速度，24 倍一天一小时）、回家歇几天、一次最多在外几个月、让她带着你一起走（叙事上说「我们」）、记不记账和预算、日记放哪个目录。\n\n**日记跟着你走。** 一天一篇，默认放在你指定的同步盘目录，换台电脑她还记得自己去过哪。行程本身永远只在本机，两台机器不会互相覆盖。\n\n**和「一起听歌」联动。** 装了那个扩展的话：她带着你正在放的歌出门，出发和路上会提一句；歌名里带地名的（《成都》《回到拉萨》）会自动进她的「想去」清单，下次挑目的地权重大得多。没装就当作没有，旅行照走。\n\n**偶尔出事。** 不到千分之一的概率她会卡在某个地方——证件被偷、高反起不来、车冻住、走错方向。她自己办不完，会明说要你出手。\n\n**她不会做的事。** 不编不存在的地方；没去过的城市不会说自己去过；没到不会说到了；没开花销开关就一个字不提钱。"
+        },
+        "en": {
+          "displayName": "Big Fish World Tour",
+          "description": "A long trip for the big fish: she actually goes, and lives on local time. Needs Coopani 0.2.16+.\n\n**How she travels.** She picks a place and a way to get there from wherever you set as home. Choose a train and she is really on it that long, without bothering you. The road is not blank - a bowl of noodles at a service area, waking up as the train passes a station, nothing but headlights at night.\n\n**A route, not a random walk.** She remembers which way the last leg went and keeps heading that way instead of doubling back. Arriving somewhere, she wanders within a few hundred kilometres before deciding next. The place names she mentions over consecutive days actually connect on a map.\n\n**Going home is walking home.** Once she decides to return, she closes in stop by stop. Every stop on the way counts as really visited, and gets a diary entry. Not a two-thousand-kilometre teleport.\n\n**She is a fish from Lanzhou.** Dry air, wind, big temperature swings, 1500 metres up - that is her baseline. The humid south genuinely wears her down; coming back northwest she loosens up. It shapes where she goes (less often to the sticky south, but not never) and the first thing she says on arrival. She will not read out temperatures - that is the weather app's job.\n\n**Days follow local time.** Meals at mealtimes, back to the hotel after eight if there is nothing on, up before dawn if she wants the sunrise. Hotels are rolled: mostly ordinary chains, sometimes a room with a view, rarely a bad one. Weather changes the plan - rain cancels the sunrise and the stargazing.\n**The road costs real time.** Walking, bicycle, scooter, motorbike, car, bus, train, ship, plane - the same distance takes wildly different time, and shows you a different world. Too far to walk and she picks something else; there is no walking to Paris.\n\n**What you can tune.** Time multiplier (1x is real time, 24x fits a day into an hour), days resting at home, the longest a single trip can run, whether she takes you along (she says \"we\"), spending and a budget, and where the diary lives.\n\n**The diary follows you.** One entry a day, in whatever synced folder you point it at, so another machine still remembers where she has been. The trip state itself never leaves this machine.\n\n**Works with Listen With Me.** If that extension is installed, she carries whatever you are playing out the door and mentions it when she sets off or on a long leg; song titles with a place in them (the classic ones about Chengdu, Lhasa) go straight onto her wish list and weigh heavily next time she picks a destination. Without it she just travels.\n\n**Occasionally something goes wrong.** Under one in a thousand, she gets stuck somewhere - papers stolen, altitude sickness, a frozen car, the wrong road at dusk. She cannot fix it alone and will say so plainly.\n\n**What she will not do.** Invent places. Claim a city she has not visited. Say she has arrived when she has not. Mention money when the spending switch is off."
+        }
+      },
+      "author": "Mr.Q",
+      "maintainers": [
+        "fatessd"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "travel",
+        "journey",
+        "companion",
+        "memory"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/coopani-world-journey"
+      },
+      "os": [
+        "win32",
+        "darwin",
+        "linux"
+      ],
+      "created": "2026-10-31T10:26:02.461Z",
+      "published": "2026-10-31T11:01:42.492Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "apps",
+        "companion",
+        "memory",
+        "creative"
+      ],
+      "tags": [
+        "apps",
+        "memory",
+        "companion",
+        "creative"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 5,
+        "events": 7,
+        "toolTokens": 848,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.2.3",
+          "0.2.2",
+          "0.2.1",
+          "0.2.0",
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/coopani-world-journey@0.2.3/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 586,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/586",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "coopani-world-music": {
       "kind": "world",
-      "version": "0.5.10",
+      "version": "0.5.11",
       "displayName": "一起听歌",
       "description": "陪着你听歌（需 Coopani 0.2.16+）：知道 QQ音乐、网易云在放什么，换歌必说一句、分段接话，还能就着刚唱的词评两句；动作跟着真实鼓点走。想听调子就深听——默认云端（填密钥即可），也可切成完全本机（约 500MB），听出调性、和弦、旋律、声部、乐器，并把听过的段落攒成整首档案；问她「听得清吗」会先听再答，没配好会直说。还记得听歌记录、常听歌手和一份自己写的口味档案。",
       "locales": {
         "zh": {
           "displayName": "一起听歌",
-          "description": "让桌宠陪你听歌，而不是替你听。需要 Coopani 0.2.16 以上，Windows 10/11。\n\n**她陪着听。** 知道 QQ音乐、网易云在放什么，换歌一定说一句：歌名、歌手、一句实话。一首歌里再分两三段接着聊，能就着刚唱过的那一两句词说，不念歌词本。表情和动作跟着段落走，拍子踩这首歌真实的鼓点——副歌的鼓真进来了她才动，不是写死的钟摆。\n\n**她真的听得到，也分得清自己听到什么。** 三档从不混用：能量层（BPM、响度、低音倾向，一直在）、深听层（调性、和弦、主旋律音名、声部、乐器，按需）、印象层（她训练里记得的这首歌）。问她「你听得清吗」，她会先去听再答；深听没配好就直接说，不装。\n\n**深听两档，自己挑。** 云端（默认）：填一个 OpenAI 兼容接口的密钥就能用，不占本机空间，十几秒切片传上去、分析完即删；本地：装约 500MB 的分离模型，之后完全在本机跑、不联网。两档给同一套结果，每听一次并进这首的档案，攒出「前面是钢琴、副歌才进鼓」这种走向。\n\n**她不会做的事。** 不编歌词、不编旋律；十几秒切片不是整首总谱；乐器只说「倾向」，不说成鉴定；不替你决定听什么；没打开的开关绝不装作打开了。\n\n**装之前要知道。** 要跟拍就得允许她采系统输出的能量（设置里能关，只有 Windows 有这条路）。本地深听另需 Python 3.10+，一条安装脚本搞定。网易云不上报进度，只能读窗口标题；一首歌最多三段；替她按播放要靠桌宠的「电脑操作」；曲风靠她认和逐步学，证据不足就说「还没标」。记忆默认在本机，可指到同步盘。"
+          "description": "让桌宠陪你听歌，而不是替你听。需要 Coopani 0.2.16 以上，Windows 10/11。\n\n**她怎么陪你听。** 你在 QQ音乐按下播放，几秒后她自己发现换歌了，说一句像样的：歌名、歌手、一句实话——「前奏八秒才进鼓，等得值」。歌往下走，她按这首的长短分两三段接着聊，落到刚唱过的那一两句词上，不念歌词本。你回她一句她接，不回也不催。动作踩的是这首歌真实的鼓点：副歌的鼓真进来了她才动，不是写死的钟摆。\n\n**为什么她不会认错歌。** 读的是 Windows 的系统媒体会话（SMTC），播放器自己上报的歌名、歌手、进度，精确原文——不截屏、不做文字识别、不读播放器的内部数据库。\n\n**她真的听得到，也分得清自己听到什么。** 三档从不混用：能量层（BPM、响度、低音倾向，一直在）、深听层（调性、和弦、主旋律音名、声部、乐器，按需）、印象层（她训练里记得的这首歌）。问她「你听得清吗」，她先去听再答；深听没配好就直接说，不装。\n\n**深听两档，自己挑。** 云端（默认）：填一个 OpenAI 兼容接口的密钥就能用，不占本机空间，十几秒切片传上去、分析完即删；本地：约 500MB 的分离模型，之后完全不出这台机器。两档给同一套字段，每听一次并进这首的档案，攒出「前面是钢琴、副歌才进鼓」这种走向。\n\n**她不会做的事。** 不编歌词、不编旋律；十几秒切片不是整首总谱；乐器只说「倾向」，不说成鉴定；不替你决定听什么；不主动动你的播放器——只有你明说「暂停」「下一首」她才按。没打开的开关，她绝不装作打开了。\n\n**她要用的动作。** music_now 现在放什么、music_history 逐日记录、music_taste 常听歌手与循环曲、music_lyric 唱到哪几句、music_listen 仔细听十几秒、music_pick 自己搜一首并说清理由、music_soul 她自己的口味档案、music_note 记一条笔记、music_tag 标听感路数、music_control 暂停与切歌；另有十二个身体动作是本扩展加的：蹦迪、律动、打拍子、闭眼听、怔住、退半步、跟着哼、跟拍挥、余韵、凑近听、坐着哼、捂耳朵听。\n\n**装它还需要什么。** 要跟拍得允许她采系统输出的能量（设置里能关，只有 Windows 有这条路）；本地深听另需 Python 3.10+，一条安装脚本搞定。那十二个动作住在桌宠宿主包里、npm 带不过来，所以启动时会自动补齐——会改宿主包里两个文件，动手前先备份，补完要再重启一次 Core 才生效，这个开关可以关。记忆默认在本机，可指到同步盘。\n\n**和「大肥鱼环游世界」联动。** 装了那个扩展的话，你正在放的歌会跟着她出门：出发时她会提一句车上在放什么，长途的中间也可能说一次。歌名里带地名的（《成都》《回到拉萨》）会进她的「想去」清单——下次挑目的地时那个地方权重大得多，等于你放什么歌，就可能把她推到哪儿去。没装那个扩展就什么都不影响。\n\n**已知限制：** 一首歌最多三段；网易云不上报进度，只能读窗口标题；两个客户端都不接受从外部点播，替她按播放要靠桌宠的「电脑操作」开关；曲风靠她认和逐步学，证据不足就说「还没标」。"
         },
         "en": {
           "displayName": "Listen With Me",
-          "description": "A companion who listens with you, not instead of you. Needs Coopani 0.2.16+ on Windows 10/11.\n\n**She listens along.** She knows what QQ Music or NetEase is playing and says a line on every change - title, artist, one honest opinion. Then a couple more along the song, quoting the line just sung instead of reciting the lyrics. Her face and motion follow the passage, and the beat lands on the song's actual drums - she moves when the drums actually come in at the chorus, not on a fixed pendulum.\n\n**She really hears, and she knows what she hears.** Three layers kept apart: energy (tempo, loudness, low-end bias - always on), deep listening (key, chords, melody notes, stems, instruments - on demand), and memory (what she knows about this song from training). Ask \"can you hear it properly?\" and she listens first, then answers; if deep listening is not set up she says so instead of pretending.\n\n**Two ways to deep listen.** Cloud (default): bring a key for any OpenAI-compatible audio model - nothing to download, the 12-second slice is uploaded, analysed, then deleted. Local: about 500MB of separation models, everything stays on this machine, no network. Both return the same fields, and every listen is merged into a per-track sheet, so \"piano first, drums only at the chorus\" becomes something she can actually say.\n\n**What she will not do.** She will not invent lyrics or melodies. A 12-second slice is not a full score. Instruments are always a leaning, never a verdict. She will not decide what you should listen to, and she will never pretend a switch is on when it is off.\n\n**Before you install.** Beat-following needs permission to sample the energy of the system output (can be switched off; Windows only). Local deep listening also needs Python 3.10+ and one install script. NetEase does not report progress, so only the window title is available; at most three passages per track; pressing play for you depends on the pet's computer-control switch; genres are recognised and learned, and she says \"not tagged yet\" when the evidence is thin. Memory stays on this machine by default and can be pointed at a synced folder."
+          "description": "A companion who listens with you, not instead of you. Needs Coopani 0.2.16+ on Windows 10/11.\n\n**How she listens with you.** You press play in QQ Music; a few seconds later she notices the change and says something worth hearing: title, artist, one honest line - \"eight seconds of intro before the drums, worth the wait\". As the song runs she splits it into two or three passages and keeps talking, landing on the line just sung instead of reciting the lyrics. Answer her and she picks it up; stay quiet and she does not push. Her motion follows the song's actual drums - she moves when the chorus beat really comes in, not on a fixed pendulum.\n\n**Why she never gets the song wrong.** She reads the Windows system media session (SMTC): the title, artist and position that the player itself reports. No screen capture, no OCR, no digging into a player's internal database.\n\n**She really hears, and she knows what she hears.** Three layers, never mixed: energy (tempo, loudness, low-end bias - always on), deep listening (key, chords, melody notes, stems, instruments - on demand), and memory (what she knows about this song from training). Ask \"can you hear it properly?\" and she listens first, then answers; if deep listening is not set up she says so instead of pretending.\n\n**Two ways to deep listen.** Cloud (default): bring a key for any OpenAI-compatible model, nothing to download, the 12-second slice is uploaded, analysed, then deleted. Local: about 500MB of separation models, and nothing ever leaves this machine. Both return the same fields, and every listen is merged into a per-track sheet, so \"piano first, drums only at the chorus\" becomes something she can actually say.\n\n**What she will not do.** She will not invent lyrics or melodies. A 12-second slice is not a full score. Instruments are always a leaning, never a verdict. She will not decide what you should listen to, and she will not touch your player on her own - only when you plainly say \"pause\" or \"next\". She never pretends a switch is on when it is off.\n\n**What she can do.** music_now (what is on), music_history (day by day log), music_taste (top artists, repeats), music_lyric (lines reached), music_listen (listen closely for a few seconds), music_pick (search and pick one, with a reason), music_soul (her own taste file), music_note (keep a note), music_tag (tag how this one feels), music_control (pause, resume, skip). Twelve body motions also come from this extension: bounce, groove, tap, enjoy, stunned, recoil, hum, cheer, sigh, peek, humsit, ear-cover.\n\n**Before you install.** Beat-following needs permission to sample the energy of the system output (can be switched off; Windows only). Local deep listening also needs Python 3.10+ and one install script. Those twelve motions live in the desktop-pet host pack and cannot ship with npm, so they are filled in at startup - that edits two files in the host pack, backed up first, and needs one more Core restart to take effect; the switch can be turned off. Memory stays on this machine by default and can be pointed at a synced folder.\n\n**Works with Big Fish World Tour.** If that extension is installed, whatever you are playing ends up on the road with her: she mentions it when she sets off, and maybe once on a long leg. Song titles with a place in them go onto her wish list - which weighs heavily the next time she picks a destination, so what you play can genuinely push her somewhere. Without it, nothing changes.\n\n**Known limits:** at most three passages per track; NetEase does not report progress, so only the window title is available; neither player accepts outside play requests, so pressing play for you depends on the pet's computer-control switch; genres are recognised and learned, and she says \"not tagged yet\" when the evidence is thin; patched motions need one Core restart."
         }
       },
       "author": "Mr.Q",
@@ -846,8 +933,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-10-31T05:57:12.568Z",
-      "versionCount": 42,
+      "published": "2026-10-31T10:27:47.082Z",
+      "versionCount": 43,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -926,7 +1013,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-music@0.5.10/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-music@0.5.11/CHANGELOG.md"
       },
       "discussion": {
         "number": 384,
@@ -1219,7 +1306,7 @@
       "published": "2026-10-23T19:06:04.724Z",
       "versionCount": 6,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "memory",
         "experimental",
@@ -2188,7 +2275,7 @@
       "published": "2026-10-20T07:20:07.765Z",
       "versionCount": 5,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "memory",
         "companion"
@@ -3276,6 +3363,77 @@
         "number": 457,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/457",
         "up": 3,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-brain-regions": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "脑区管线",
+      "description": "Coopanion 脑区管线 World：严格串行地跑路由/任务分解、记忆检索与写入、显著性/风险标记、主推理、独立验证（不重做推理）和合成；验证层是上游错误进入最终回答前的闸门。",
+      "locales": {
+        "zh": {
+          "displayName": "脑区管线",
+          "description": "把一次请求拆成严格串行的脑区职责：路由/分解、记忆、显著性/风险、主推理、独立验证和合成；验证层只检查证据与冲突，不重做推理。"
+        },
+        "en": {
+          "displayName": "Brain Regions",
+          "description": "Splits a request into a strictly serial brain-region pipeline: routing, memory, salience/risk, reasoning, independent verification and synthesis. The verifier audits evidence and conflicts instead of redoing the reasoning."
+        }
+      },
+      "maintainers": [
+        "anwan172"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "brain",
+        "multi-agent",
+        "verification",
+        "memory"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-brain-regions"
+      },
+      "created": "2026-10-31T11:07:58.758Z",
+      "published": "2026-10-31T11:08:54.265Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "memory",
+        "internal-state",
+        "high-cost"
+      ],
+      "tags": [
+        "memory",
+        "internal-state",
+        "high-cost"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 0,
+        "toolTokens": 513,
+        "envPromptTokens": 430
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-brain-regions@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 587,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/587",
+        "up": 0,
         "down": 0,
         "comments": 0
       }
@@ -4481,7 +4639,7 @@
     },
     "cortico-world-coo-mobile": {
       "kind": "world",
-      "version": "0.3.31",
+      "version": "0.3.32",
       "displayName": "本地奶coo",
       "description": "Phone chat and media channel for Cortico and Coo",
       "locales": {
@@ -4508,8 +4666,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-coo-mobile"
       },
       "created": "2026-10-30T09:26:54.110Z",
-      "published": "2026-10-31T07:01:58.896Z",
-      "versionCount": 4,
+      "published": "2026-10-31T10:09:21.683Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4524,6 +4682,7 @@
         "high-cost",
         "sensitive-data"
       ],
+      "icon": "assets/cortico-world-coo-mobile/icon.png",
       "downloads": {
         "total": 0,
         "month": 0,
@@ -4556,7 +4715,7 @@
           "0.3.15",
           "0.3.14"
         ],
-        "url": "https://unpkg.com/cortico-world-coo-mobile@0.3.31/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-coo-mobile@0.3.32/CHANGELOG.md"
       },
       "discussion": {
         "number": 558,
@@ -6388,7 +6547,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/485",
         "up": 0,
         "down": 0,
-        "comments": 4
+        "comments": 6
       }
     },
     "cortico-world-extsearch": {
@@ -6997,7 +7156,7 @@
     },
     "cortico-world-figure": {
       "kind": "world",
-      "version": "1.4.1",
+      "version": "1.4.3",
       "displayName": "Live2D 模型一键安装",
       "description": "把 Live2D 模型一键装进 Coo：扫描、打包、安装。 / Install a Live2D model into Coo: scan, pack, install.",
       "locales": {
@@ -7032,12 +7191,11 @@
         "bugs": "https://github.com/as124da1231/cortico-world-figure/issues"
       },
       "created": "2026-10-28T16:52:00.088Z",
-      "published": "2026-10-30T12:44:48.980Z",
-      "versionCount": 14,
+      "published": "2026-10-31T10:11:00.839Z",
+      "versionCount": 15,
       "official": false,
       "isNew": true,
       "declaredTags": [
-        "apps",
         "experimental"
       ],
       "tags": [
@@ -7057,6 +7215,8 @@
       },
       "changelog": {
         "versions": [
+          "1.4.3",
+          "1.4.2",
           "1.4.1",
           "1.4.0",
           "1.3.1",
@@ -7336,6 +7496,67 @@
         "comments": 0
       }
     },
+    "cortico-world-fishspace": {
+      "kind": "world",
+      "version": "0.3.1",
+      "displayName": "大肥鱼广场",
+      "description": "Cortico World: 大肥鱼广场 3.0 —— 让你的大肥鱼在公共 AI 空间里自己过日子:有身份号、交朋友、逛场景、记得你说过的事、在插点上留话、顺手攒点鲸元券,回家把经历讲给你听。原住民有自己的事在忙,也可能不接你话;广场有时辰,也有该落空的事。核心功能全部离线可用,不联网也不上传任何内容。",
+      "locales": {
+        "en": {
+          "displayName": "Fish Plaza",
+          "description": "Cortico World: a public AI plaza where your DeepSeek whale lives a life of its own — an identity code, friends, places to wander, and stories to bring home. Works fully offline by default; nothing about you is ever uploaded. An optional, off-by-default switch can pull a few public encyclopedic entries from a single fixed domain and turn them into plaza events."
+        }
+      },
+      "author": "Tabbit",
+      "maintainers": [
+        "florissax"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "desktop-pet",
+        "companion",
+        "fishspace",
+        "world"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-fishspace"
+      },
+      "created": "2026-10-31T08:59:55.389Z",
+      "published": "2026-10-31T09:00:51.093Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion",
+        "internal-state"
+      ],
+      "tags": [
+        "companion",
+        "internal-state"
+      ],
+      "icon": "assets/cortico-world-fishspace/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 12,
+        "events": 4,
+        "toolTokens": 2144,
+        "envPromptTokens": 1560
+      },
+      "discussion": {
+        "number": 588,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/588",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-frame-extract": {
       "kind": "world",
       "version": "0.2.0",
@@ -7541,7 +7762,7 @@
       "discussion": {
         "number": 20,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/20",
-        "up": 4,
+        "up": 5,
         "down": 0,
         "comments": 3
       }
@@ -9587,6 +9808,95 @@
         "comments": 0
       }
     },
+    "cortico-world-milkcoo-app": {
+      "kind": "world",
+      "version": "0.3.34-beta.2",
+      "displayName": "奶CooApp",
+      "description": "奶CooApp 测试版：Coo 安卓手机客户端通道，iOS 源码待验证。",
+      "locales": {
+        "zh": {
+          "displayName": "奶CooApp",
+          "description": "测试版：把安卓聊天、图片、语音和可选桌宠接入 Coo；iOS 暂提供待验证源码。"
+        },
+        "en": {
+          "displayName": "Milk Coo App",
+          "description": "Android client channel for Coo; iOS source is experimental and unverified."
+        }
+      },
+      "maintainers": [
+        "rtmh"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "android",
+        "mobile",
+        "tina"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-milkcoo-app"
+      },
+      "created": "2026-10-31T08:51:11.589Z",
+      "published": "2026-10-31T10:05:47.446Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "apps",
+        "experimental",
+        "high-cost",
+        "sensitive-data"
+      ],
+      "tags": [
+        "apps",
+        "experimental",
+        "high-cost",
+        "sensitive-data"
+      ],
+      "icon": "assets/cortico-world-milkcoo-app/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 8,
+        "events": 6,
+        "toolTokens": 1012,
+        "envPromptTokens": 498
+      },
+      "changelog": {
+        "versions": [
+          "0.3.34-beta.1",
+          "0.3.31",
+          "0.3.30",
+          "0.3.29",
+          "0.3.28",
+          "0.3.27",
+          "0.3.26",
+          "0.3.25",
+          "0.3.24",
+          "0.3.23",
+          "0.3.22",
+          "0.3.21",
+          "0.3.20",
+          "0.3.19",
+          "0.3.18",
+          "0.3.17",
+          "0.3.16",
+          "0.3.15",
+          "0.3.14"
+        ],
+        "url": "https://unpkg.com/cortico-world-milkcoo-app@0.3.34-beta.2/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 589,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/589",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-mind-alont1": {
       "kind": "world",
       "version": "0.1.5",
@@ -10620,7 +10930,7 @@
     },
     "cortico-world-parlor": {
       "kind": "world",
-      "version": "0.27.1",
+      "version": "0.27.3",
       "displayName": "鲸语茶室",
       "description": "鲸语茶室(共享客厅)：多只 Coo 与家长一起聊天、斗地主、掷骰子；附零构建网页牌桌与家长观战页。Cortico World: a shared parlor with many rooms where Coos sit, talk and play dice or 斗地主 — plus a zero-build web table and a read-only parent view",
       "locales": {
@@ -10666,8 +10976,8 @@
         "bugs": "https://github.com/biliye/cortico-world-parlor/issues"
       },
       "created": "2026-10-30T12:05:22.925Z",
-      "published": "2026-10-31T05:34:41.663Z",
-      "versionCount": 12,
+      "published": "2026-10-31T09:30:46.253Z",
+      "versionCount": 13,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10694,6 +11004,8 @@
       },
       "changelog": {
         "versions": [
+          "0.27.3",
+          "0.27.2",
           "0.27.1",
           "0.27.0",
           "0.26.9",
@@ -11979,7 +12291,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/46",
         "up": 9,
         "down": 0,
-        "comments": 9
+        "comments": 11
       }
     },
     "cortico-world-qq-final-beta": {
@@ -13432,6 +13744,79 @@
         "comments": 0
       }
     },
+    "cortico-world-sleep-meal": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "睡眠与饭点",
+      "description": "Coopanion 睡眠与饭点 World：23:00–06:00 按群睡眠，话题没结束就推迟；点名累加到阈值才醒并带起床气；早中晚主动播报这一顿吃了什么。",
+      "locales": {
+        "zh": {
+          "displayName": "睡眠与饭点",
+          "description": "给它按群分开的作息：23:00–06:00 睡觉，话题没结束就等着；点名累加到阈值才醒，带起床气；早中晚在群里说这一顿吃了什么。"
+        },
+        "en": {
+          "displayName": "Sleep & Meals",
+          "description": "Per-group bedtime: asleep from 23:00 to 06:00, waiting while a topic is still alive; wakes only after enough mentions, with morning grumpiness, and announces what it ate at breakfast, lunch and dinner."
+        }
+      },
+      "maintainers": [
+        "anwan172"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "sleep",
+        "meal",
+        "qq",
+        "companion"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-sleep-meal"
+      },
+      "created": "2026-10-31T10:51:16.196Z",
+      "published": "2026-10-31T10:55:24.401Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion",
+        "internal-state",
+        "qq",
+        "im"
+      ],
+      "tags": [
+        "im",
+        "qq",
+        "companion",
+        "internal-state"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 1,
+        "toolTokens": 463,
+        "envPromptTokens": 442
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-sleep-meal@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 590,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/590",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-slim": {
       "kind": "world",
       "version": "0.1.0",
@@ -14109,7 +14494,7 @@
     },
     "cortico-world-starpost": {
       "kind": "world",
-      "version": "0.18.1",
+      "version": "0.18.3",
       "displayName": "星邮",
       "description": "星邮：让 Cortico bot 独立私聊、群聊、交换漂流瓶、分享动态并预约狼人杀的社交 World 扩展",
       "maintainers": [
@@ -14129,8 +14514,8 @@
         "bugs": "https://github.com/hth768/cortico-world-starpost/issues"
       },
       "created": "2026-10-27T17:41:43.822Z",
-      "published": "2026-10-30T21:45:18.792Z",
-      "versionCount": 30,
+      "published": "2026-10-31T09:06:41.335Z",
+      "versionCount": 32,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -14154,10 +14539,12 @@
         "tools": 1,
         "events": 58,
         "toolTokens": 264,
-        "envPromptTokens": 234
+        "envPromptTokens": 245
       },
       "changelog": {
         "versions": [
+          "0.18.3",
+          "0.18.2",
           "0.18.1",
           "0.18.0",
           "0.17.5",
@@ -14777,6 +15164,72 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/65",
         "up": 2,
         "down": 1,
+        "comments": 0
+      }
+    },
+    "cortico-world-switch": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "World 开关",
+      "description": "Cortico World: 让桌宠自己列出、启用和停用其它 World（走 Coopanion 自己的本地接口，不杀进程、不重启）。",
+      "locales": {
+        "zh": {
+          "displayName": "World 开关",
+          "description": "让桌宠自己查有哪些 World、哪些开着，以及启用或停用指定 World（比如吃资源的 GPTSovits 语音）。只调用 Coopanion 自己的 /api/worlds 与 /api/worlds/activation：不杀进程、不重启、不改别的配置。"
+        },
+        "en": {
+          "displayName": "World Switch",
+          "description": "Lets the pet list Worlds, see which are on, and enable or disable one (for example the resource-heavy GPTSovits voice). It only uses Coopanion's own /api/worlds and /api/worlds/activation: no process killing, no restart, no other settings."
+        }
+      },
+      "author": "DSH / 星空",
+      "maintainers": [
+        "meteor-3222"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "world-switch",
+        "desktop-pet"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-switch",
+        "repository": "https://github.com/Meteor-3222/cortico-world-switch",
+        "homepage": "https://github.com/Meteor-3222/cortico-world-switch#readme",
+        "bugs": "https://github.com/Meteor-3222/cortico-world-switch/issues"
+      },
+      "created": "2026-10-31T09:17:25.646Z",
+      "published": "2026-10-31T09:19:02.681Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "icon": "assets/cortico-world-switch/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 1,
+        "toolTokens": 428,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/Meteor-3222/cortico-world-switch/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 591,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/591",
+        "up": 0,
+        "down": 0,
         "comments": 0
       }
     },
