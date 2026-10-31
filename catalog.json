@@ -145,6 +145,9 @@
     "cortico-world-real-alont1": [
       "sensitive-data"
     ],
+    "cortico-world-self-evolution": [
+      "unsafe"
+    ],
     "cortico-world-speechreview": [
       "sensitive-data"
     ],
@@ -814,7 +817,7 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "0.4.0",
+      "version": "0.4.4",
       "displayName": "大肥鱼环游世界",
       "description": "大肥鱼环游世界：她真的出门、真的按当地时间过日子。从你家出发，自己挑去哪、坐什么去，路上耗掉真实的时间；到了按当地时间吃饭、看日出、住店、写日记。装了「一起听歌」的话，你放的歌会跟着她走。需 Coopani 0.2.16 以上。",
       "locales": {
@@ -849,8 +852,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-10-31T14:14:26.775Z",
-      "versionCount": 15,
+      "published": "2026-10-31T15:48:03.138Z",
+      "versionCount": 18,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -878,6 +881,10 @@
       },
       "changelog": {
         "versions": [
+          "0.4.4",
+          "0.4.3",
+          "0.4.2",
+          "0.4.1",
           "0.4.0",
           "0.3.8",
           "0.3.7",
@@ -899,7 +906,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-journey@0.4.0/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-journey@0.4.4/CHANGELOG.md"
       },
       "discussion": {
         "number": 586,
@@ -11796,7 +11803,7 @@
     },
     "cortico-world-pwa": {
       "kind": "world",
-      "version": "1.4.2",
+      "version": "1.5.2",
       "displayName": "杀戮尖塔 2（PwA）",
       "description": "Slay the Spire 2 (PwA) world for Coopanion/Cortico: read state, play cards, drive runs and co-op rooms via the PwA bridge mod. About ¥3/h with DeepSeek v4.1 flash.",
       "author": "PwA contributors",
@@ -11809,6 +11816,11 @@
         "coopanion",
         "cortico",
         "slay-the-spire-2",
+        "slay the spire 2",
+        "杀戮尖塔2",
+        "杀戮尖塔 2",
+        "sts2",
+        "deckbuilder",
         "game",
         "mcp",
         "multiplayer"
@@ -11823,8 +11835,8 @@
         "win32"
       ],
       "created": "2026-10-31T14:29:39.329Z",
-      "published": "2026-10-31T14:34:28.447Z",
-      "versionCount": 3,
+      "published": "2026-10-31T15:37:07.675Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11845,7 +11857,7 @@
       "discussion": {
         "number": 597,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/597",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -13388,6 +13400,72 @@
       "discussion": {
         "number": 177,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/177",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-self-evolution": {
+      "kind": "world",
+      "version": "0.1.0-preview.2",
+      "displayName": "自我进化",
+      "description": "Self Evolution: unattended Linux Cortico World for native DSH and Codex work agents",
+      "locales": {
+        "zh": {
+          "displayName": "自我进化",
+          "description": "Cortico 发起的 Linux 工作会话：注入 Cortina 创作规则，DSH 自动处理权限并提供完全访问。"
+        },
+        "en": {
+          "displayName": "Self Evolution",
+          "description": "Unattended Linux DSH and Codex work sessions with Cortina creator guidance."
+        }
+      },
+      "maintainers": [
+        "rtmh"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "dsh",
+        "codex",
+        "linux",
+        "unattended"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-self-evolution"
+      },
+      "os": [
+        "linux"
+      ],
+      "created": "2026-10-31T14:54:28.983Z",
+      "published": "2026-10-31T14:55:24.960Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "apps",
+        "experimental",
+        "unsafe"
+      ],
+      "tags": [
+        "apps",
+        "experimental",
+        "unsafe"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 8,
+        "events": 1,
+        "toolTokens": 1059,
+        "envPromptTokens": 712
+      },
+      "discussion": {
+        "number": 599,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/599",
         "up": 0,
         "down": 0,
         "comments": 0
