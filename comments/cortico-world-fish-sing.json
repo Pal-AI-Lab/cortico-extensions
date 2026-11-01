@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "name": "cortico-world-fish-sing",
+  "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/512",
+  "total": 2,
+  "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJvon",
+      "author": "YFEI-QWQ",
+      "avatar": "https://avatars.githubusercontent.com/u/351040646?s=64&v=4",
+      "body": "大佬，问题：一叫就瞬间回 WinError 2「系统找不到指定的文件」，但状态查询正常，dfy2 模型和索引都加载得上\n早先的日志是跑到「分离人声与伴奏」20%–30% 才挂，现在是拉起 worker 那一下就没，属于子进程启动失败\n已排除：外部 python 里 torch/demucs/av/torchcrepe/transformers/faiss 全能 import，手动跑 demucs 和 worker/separate.py 都成功\n也照 engine.py 的默认值补了 D:\\ffmpeg\\bin\\ffmpeg.exe 和 ffprobe.exe，还是同一个错。面板的「重装运行时」按钮报退出码 9009\n怀疑是 spawn worker 那段拼的命令行或 cwd 有问题，麻烦让作者看一下。完整的一份我写在 coopanion/fish-sing-bug-report.md",
+      "createdAt": "2026-11-01T11:09:44Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJvrg",
+          "author": "FXYXL",
+          "avatar": "https://avatars.githubusercontent.com/u/144140133?s=64&u=5f513e3f54ec93e87feacd38dce5c3e89849dddc&v=4",
+          "body": "感谢指出！0.1.8 修了（GitHub 已推）。你机器是 PATH 上没有 Python，重装时 9009 后 venv 被删导致后续全 WinError 2。临时解法：装个 Python 3.10~3.12（勾选 Add to PATH）再点重装运行时；或者等 0.1.8 发上 npm 后升级，安装流程会自己找 Python 并保护现有环境。有问题的话再提",
+          "createdAt": "2026-11-01T11:33:38Z"
+        }
+      ]
+    }
+  ]
+}

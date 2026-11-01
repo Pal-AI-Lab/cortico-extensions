@@ -187,6 +187,48 @@
     ]
   },
   "packages": {
+    "@anwan172/cortico-world-style-miner": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "语感蒸馏",
+      "description": "语感蒸馏：统计群聊里的说话方式，可选调用模型总结说话顺序，写进工作区思维链关键词块。不占系统前缀。",
+      "author": "安晚",
+      "maintainers": [
+        "anwan172"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "style",
+        "language",
+        "qq",
+        "persona"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/@anwan172/cortico-world-style-miner"
+      },
+      "created": "2026-11-01T12:43:24.820Z",
+      "published": "2026-11-01T12:44:20.119Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [
+        "qq"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 627,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/627",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "@idxlz-0705/cortico-world-wows": {
       "kind": "world",
       "version": "0.3.1",
@@ -941,7 +983,7 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "0.5.11",
+      "version": "0.5.13",
       "displayName": "大肥鱼环游世界",
       "description": "陪着她真的出门旅行（需 Coopani 0.2.17+）：一百二十四座城、每城都有真地标，从你家出发自己挑去哪、坐什么去，路上耗掉真实的时间；到了按当地时间吃饭、看日出、住店、写日记，路线在地图上连得起来。没有机场的地方她会先落到能飞的城市再转过去。装了「一起听歌」，你放的歌会跟着她走，她也会惦记当地的歌。",
       "locales": {
@@ -976,8 +1018,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-01T08:15:07.470Z",
-      "versionCount": 29,
+      "published": "2026-11-01T11:50:54.026Z",
+      "versionCount": 30,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1038,7 +1080,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-journey@0.5.11/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-journey@0.5.13/CHANGELOG.md"
       },
       "discussion": {
         "number": 586,
@@ -1050,7 +1092,7 @@
     },
     "coopani-world-music": {
       "kind": "world",
-      "version": "0.5.12",
+      "version": "0.5.13",
       "displayName": "一起听歌",
       "description": "陪着你听歌（需 Coopani 0.2.16+）：知道 QQ音乐、网易云在放什么，换歌必说一句、分段接话，还能就着刚唱的词评两句；动作跟着真实鼓点走。想听调子就深听——默认云端（填密钥即可），也可切成完全本机（约 500MB），听出调性、和弦、旋律、声部、乐器，并把听过的段落攒成整首档案；问她「听得清吗」会先听再答，没配好会直说。还记得听歌记录、常听歌手和一份自己写的口味档案。",
       "locales": {
@@ -1085,8 +1127,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-11-01T03:52:33.949Z",
-      "versionCount": 44,
+      "published": "2026-11-01T12:55:17.951Z",
+      "versionCount": 45,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1120,6 +1162,7 @@
       },
       "changelog": {
         "versions": [
+          "0.5.13",
           "0.5.12",
           "0.5.10",
           "0.5.9",
@@ -1166,7 +1209,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-music@0.5.12/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-music@0.5.13/CHANGELOG.md"
       },
       "discussion": {
         "number": 384,
@@ -3125,7 +3168,7 @@
     },
     "cortico-world-bili-video-pro": {
       "kind": "world",
-      "version": "0.2.3",
+      "version": "0.2.4",
       "displayName": "陪看",
       "description": "住在你电脑里的AI桌宠「她」：陪你看B站视频，也能自己看片、读弹幕字幕。",
       "author": "白菜和他的小汐小槿",
@@ -3148,8 +3191,8 @@
         "win32"
       ],
       "created": "2026-10-27T15:34:22.238Z",
-      "published": "2026-11-01T07:32:42.779Z",
-      "versionCount": 8,
+      "published": "2026-11-01T11:49:25.361Z",
+      "versionCount": 9,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3177,10 +3220,11 @@
         "tools": 18,
         "events": 5,
         "toolTokens": 2041,
-        "envPromptTokens": 2250
+        "envPromptTokens": 2549
       },
       "changelog": {
         "versions": [
+          "0.2.4",
           "0.2.3",
           "0.2.2",
           "0.2.1",
@@ -3194,7 +3238,7 @@
           "0.1.2",
           "0.1.1"
         ],
-        "url": "https://unpkg.com/cortico-world-bili-video-pro@0.2.3/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-bili-video-pro@0.2.4/CHANGELOG.md"
       },
       "discussion": {
         "number": 389,
@@ -7111,7 +7155,7 @@
     },
     "cortico-world-feeling": {
       "kind": "world",
-      "version": "0.3.7",
+      "version": "0.3.8",
       "displayName": "内在情绪",
       "description": "内在情绪 World：她自己的情绪，不是对你和他人的好感度。八条轴会自己涨落、按快慢分两层，只影响她目前说话的调子。",
       "locales": {
@@ -7138,11 +7182,12 @@
         "情绪"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-feeling"
+        "npm": "https://www.npmjs.com/package/cortico-world-feeling",
+        "bugs": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/580"
       },
       "created": "2026-10-31T07:41:42.962Z",
-      "published": "2026-10-31T08:11:40.215Z",
-      "versionCount": 3,
+      "published": "2026-11-01T11:06:43.820Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -7167,6 +7212,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.8",
           "0.3.7",
           "0.3.6",
           "0.3.5",
@@ -7179,12 +7225,12 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-feeling@0.3.7/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-feeling@0.3.8/CHANGELOG.md"
       },
       "discussion": {
         "number": 580,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/580",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -7697,7 +7743,7 @@
     },
     "cortico-world-fish-sing": {
       "kind": "world",
-      "version": "0.1.5",
+      "version": "0.2.0",
       "description": "让她真的开口唱：B 站点歌或本地文件 → 分离 → 换声 → 混音，本机出声或发 QQ 语音条",
       "author": "FXYXL",
       "maintainers": [
@@ -7720,8 +7766,8 @@
         "bugs": "https://github.com/FXYXL/cortico-world-fish-sing/issues"
       },
       "created": "2026-10-29T17:00:43.905Z",
-      "published": "2026-11-01T10:29:15.050Z",
-      "versionCount": 6,
+      "published": "2026-11-01T12:33:14.671Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -7748,12 +7794,28 @@
         "toolTokens": 0,
         "envPromptTokens": 0
       },
+      "changelog": {
+        "versions": [
+          "0.2.0",
+          "0.1.9",
+          "0.1.8",
+          "0.1.7",
+          "0.1.6",
+          "0.1.5",
+          "0.1.4",
+          "0.1.3",
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/FXYXL/cortico-world-fish-sing/blob/HEAD/CHANGELOG.md"
+      },
       "discussion": {
         "number": 512,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/512",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 2
       }
     },
     "cortico-world-fishing": {
@@ -8292,7 +8354,7 @@
     },
     "cortico-world-hearthstone": {
       "kind": "world",
-      "version": "0.3.18",
+      "version": "0.3.19",
       "displayName": "炉石陪打",
       "description": "陪打炉石（需 Coopani 0.2.17+）:读对局日志,就知道双方血量、场面、手牌和水晶。该开口时开口:该解场还是该压、费够不够上那张大牌、对面有没有斩杀。只看不动手,不代打;第一次启动会替你把 Power 日志打开。打完能陪你复盘:哪一手走了岔路、她当时建议什么,也记得住最近几十局的战绩。她自己还有一份打法档案——信哪一套、看不惯什么,边打边写,越打越像她;但算出的斩杀她照样得喊,风格盖不住账。竞技场也认;打牌时走路会从你的手牌上跳过去。",
       "locales": {
@@ -8320,8 +8382,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:42:43.161Z",
-      "published": "2026-11-01T06:15:00.998Z",
-      "versionCount": 18,
+      "published": "2026-11-01T12:55:03.213Z",
+      "versionCount": 19,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -8347,6 +8409,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.19",
           "0.3.18",
           "0.3.17",
           "0.3.16",
@@ -8367,7 +8430,7 @@
           "0.3.1",
           "0.3.0"
         ],
-        "url": "https://unpkg.com/cortico-world-hearthstone@0.3.18/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-hearthstone@0.3.19/CHANGELOG.md"
       },
       "discussion": {
         "number": 382,
@@ -11303,7 +11366,7 @@
     },
     "cortico-world-parlor": {
       "kind": "world",
-      "version": "0.29.0",
+      "version": "0.31.0",
       "displayName": "鲸语茶室",
       "description": "鲸语茶室(共享客厅)：多只 Coo 与家长一起聊天、斗地主、掷骰子；附零构建网页牌桌与家长观战页。Cortico World: a shared parlor with many rooms where Coos sit, talk and play dice or 斗地主 — plus a zero-build web table and a read-only parent view",
       "locales": {
@@ -11349,8 +11412,8 @@
         "bugs": "https://github.com/biliye/cortico-world-parlor/issues"
       },
       "created": "2026-10-30T12:05:22.925Z",
-      "published": "2026-11-01T08:00:00.596Z",
-      "versionCount": 15,
+      "published": "2026-11-01T12:40:52.326Z",
+      "versionCount": 17,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11372,13 +11435,15 @@
         "week": 0
       },
       "summary": {
-        "tools": 29,
-        "events": 6,
-        "toolTokens": 5257,
-        "envPromptTokens": 2200
+        "tools": 31,
+        "events": 7,
+        "toolTokens": 5474,
+        "envPromptTokens": 2455
       },
       "changelog": {
         "versions": [
+          "0.31.0",
+          "0.30.0",
           "0.29.0",
           "0.28.0",
           "0.27.3",
@@ -14428,7 +14493,7 @@
       "versionCount": 2,
       "deprecated": "此包不再维护，请改用 cortico-world-onebot",
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "qq"
       ],
