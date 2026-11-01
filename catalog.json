@@ -6951,7 +6951,7 @@
     },
     "cortico-world-ets2-dafeiyu": {
       "kind": "world",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "displayName": "欧卡/美卡桌宠副驾",
       "description": "《欧洲卡车模拟2》/《美国卡车模拟》的 Coopanion 桌宠副驾：读取官方遥测，按游戏切换城市、州/国家边境和电子狗数据，播报事故、超速、罚款、收费站、任务和过境；提供 TruckNav 本地地图、路线、景点/设施/电子狗图层与 ATS 支持；支持一键安装 scs-telemetry.dll。",
       "locales": {
@@ -6991,8 +6991,8 @@
         "win32"
       ],
       "created": "2026-10-29T12:07:35.458Z",
-      "published": "2026-11-01T15:00:26.684Z",
-      "versionCount": 21,
+      "published": "2026-11-01T15:15:07.443Z",
+      "versionCount": 22,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -7020,6 +7020,7 @@
       },
       "changelog": {
         "versions": [
+          "1.0.1",
           "1.0.0",
           "0.18.1",
           "0.18.0",
@@ -10486,7 +10487,7 @@
     },
     "cortico-world-milkcoo-app": {
       "kind": "world",
-      "version": "0.3.34-beta.4",
+      "version": "0.3.34-beta.5",
       "displayName": "奶CooApp",
       "description": "奶CooApp 测试版：Coo 安卓手机客户端通道，iOS 未签名测试包待验证。",
       "locales": {
@@ -10513,8 +10514,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-milkcoo-app"
       },
       "created": "2026-10-31T08:51:11.589Z",
-      "published": "2026-11-01T14:45:37.105Z",
-      "versionCount": 4,
+      "published": "2026-11-01T15:10:08.623Z",
+      "versionCount": 5,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -10543,6 +10544,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.34-beta.5",
           "0.3.34-beta.4",
           "0.3.34-beta.3",
           "0.3.34-beta.2",
@@ -10566,7 +10568,7 @@
           "0.3.15",
           "0.3.14"
         ],
-        "url": "https://unpkg.com/cortico-world-milkcoo-app@0.3.34-beta.4/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-milkcoo-app@0.3.34-beta.5/CHANGELOG.md"
       },
       "discussion": {
         "number": 589,
@@ -11854,7 +11856,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/563",
         "up": 4,
         "down": 0,
-        "comments": 2
+        "comments": 3
       }
     },
     "cortico-world-pasture": {
@@ -13648,6 +13650,79 @@
       "discussion": {
         "number": 401,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/401",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-qqbot-feibi": {
+      "kind": "world",
+      "version": "0.3.0",
+      "displayName": "QQ 机器人（菲比）",
+      "description": "Cortico / Coopanion World: 接 QQ 官方机器人开放平台 v2（WebSocket 网关 + REST + 本机 GPT-SoVITS 语音）。",
+      "locales": {
+        "en": {
+          "displayName": "QQ Bot (Feibi)",
+          "description": "QQ official bot v2 world: gateway, passive replies, local GPT-SoVITS voice, mention-only groups and a command console."
+        }
+      },
+      "author": "bff1025xiaoxi",
+      "maintainers": [
+        "bff1025xiaoxi"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "qq",
+        "qqbot",
+        "qq-bot",
+        "im",
+        "messaging",
+        "voice",
+        "silk",
+        "tts"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-qqbot-feibi"
+      },
+      "created": "2026-11-01T15:02:25.290Z",
+      "published": "2026-11-01T15:03:20.572Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "im",
+        "qq",
+        "voice",
+        "local"
+      ],
+      "tags": [
+        "im",
+        "qq",
+        "voice",
+        "local"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 11,
+        "events": 5,
+        "toolTokens": 3948,
+        "envPromptTokens": 424
+      },
+      "changelog": {
+        "versions": [
+          "0.3.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-qqbot-feibi@0.3.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 638,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/638",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -17224,6 +17299,86 @@
         "up": 0,
         "down": 0,
         "comments": 3
+      }
+    },
+    "cortico-world-voice": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "声音",
+      "description": "让Coo能听能说。",
+      "locales": {
+        "zh": {
+          "displayName": "声音",
+          "description": "让Coo能听能说。"
+        },
+        "en": {
+          "displayName": "Audio",
+          "description": "Lets Coo hear and speak."
+        }
+      },
+      "author": "AqualCross",
+      "maintainers": [
+        "aqualcross"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "voice",
+        "tts",
+        "stt",
+        "singing",
+        "voice-conversion"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-voice",
+        "repository": "https://github.com/AqualCross/cortico-world-voice",
+        "homepage": "https://github.com/AqualCross/cortico-world-voice#readme",
+        "bugs": "https://github.com/AqualCross/cortico-world-voice/issues"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-11-01T15:07:11.682Z",
+      "published": "2026-11-01T15:08:08.622Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "voice",
+        "local",
+        "experimental"
+      ],
+      "tags": [
+        "voice",
+        "local",
+        "experimental"
+      ],
+      "icon": "assets/cortico-world-voice/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 8,
+        "events": 10,
+        "toolTokens": 1619,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/AqualCross/cortico-world-voice/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 639,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/639",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-vts-body": {

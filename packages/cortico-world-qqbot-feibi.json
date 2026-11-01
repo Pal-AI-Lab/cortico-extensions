@@ -1,0 +1,619 @@
+{
+  "schema": 1,
+  "name": "cortico-world-qqbot-feibi",
+  "version": "0.3.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "qqbot_status",
+        "tags": [
+          "read"
+        ],
+        "description": "Report the QQ official bot link right now: whether AppID/AppSecret are filled, whether an access token was obtained and how many seconds it has left, whether the WebSocket gateway is online (status, session, last seq, heartbeat ack, intents), which environment is in use (sandbox or production), how many messages came in, the local passive-reply ledger, and whether the local GPT-SoVITS voice pipeline is usable. Call it first whenever something about QQ fails — it says which link is broken.",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "summary": {
+          "zh": "QQ 机器人链路状态：鉴权、网关、环境、语音。",
+          "en": "QQ bot link state: auth, gateway, environment, voice."
+        }
+      },
+      {
+        "name": "qqbot_send",
+        "tags": [
+          "speak"
+        ],
+        "description": "Send one message to QQ: private chat (scope=c2c), group (scope=group), channel (scope=channel) or channel DM (scope=dm). To answer a message you received, pass reply_to with the short alias shown in the event (M12) — that makes it a passive reply, which is the only kind that does not consume the active-message rate limit. Raw msg_id also works. type picks the payload: text (default), markdown, ark, media (rich media, needs media_file_info from qqbot_upload), card (image+text card, https urls), input_notify (the \"typing…\" state, private chat only). keyboard adds buttons; event_id answers a button/interaction event; is_wakeup sends a win-back message (private chat only, exclusive with reply_to/event_id). Official limits: passive replies last 60 minutes and 4 per received message in private chat, 5 minutes and 5 per message in groups; active messages are rate limited (10 qps / 60 qpm private, 60 qpm group when certified). A refused send comes back with the exact reason and what to do instead.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "scope": {
+              "type": "string",
+              "enum": [
+                "c2c",
+                "group",
+                "channel",
+                "dm"
+              ],
+              "description": "会话类型：c2c 单聊 / group 群聊 / channel 频道 / dm 频道私信。"
+            },
+            "target": {
+              "type": "string",
+              "description": "目标 id：openid、group_openid、channel_id 或 dm 的 guild_id。也可以直接填收件短号（M12），会自动带上 scope 与 target。"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "text",
+                "markdown",
+                "ark",
+                "media",
+                "card",
+                "input_notify"
+              ],
+              "description": "消息类型，默认 text。"
+            },
+            "text": {
+              "type": "string",
+              "description": "type=text 时的正文。"
+            },
+            "markdown": {
+              "type": "string",
+              "description": "type=markdown 时的 markdown 正文（传了它就不能再传 text）。"
+            },
+            "ark_template_id": {
+              "type": "string",
+              "description": "type=ark 时的模板号（开放平台申请）。"
+            },
+            "ark_kv": {
+              "type": "array",
+              "description": "type=ark 时的 kv 列表：[{key, values:[...]}]。"
+            },
+            "media_file_info": {
+              "type": "string",
+              "description": "type=media 时的 file_info：先用 qqbot_upload 上传拿到。"
+            },
+            "card": {
+              "type": "object",
+              "description": "type=card 时的图文卡片：{title, description, url, picUrl}，两个链接必须 https。"
+            },
+            "keyboard": {
+              "type": "object",
+              "description": "内嵌键盘：{id:\"模板id\"} 或 {content:{rows:[...]}}。"
+            },
+            "image_url": {
+              "type": "string",
+              "description": "频道消息里附一张图（https URL），只对 channel/dm 有效。"
+            },
+            "reply_to": {
+              "type": "string",
+              "description": "被动回复哪一条：收件短号 M12，或原始 msg_id。"
+            },
+            "event_id": {
+              "type": "string",
+              "description": "用事件回执被动回复（按钮 INTERACTION_CREATE 等）。与 reply_to 二选一。"
+            },
+            "msg_seq": {
+              "type": "integer",
+              "description": "同一 msg_id 的第几条回复；不填会自动递增，避免被官方去重。"
+            },
+            "is_wakeup": {
+              "type": "boolean",
+              "description": "true = 互动召回消息（仅单聊，30 天内每周期一条）。"
+            },
+            "input_second": {
+              "type": "integer",
+              "description": "type=input_notify 时「正在输入」持续几秒（1-60）。"
+            }
+          }
+        },
+        "summary": {
+          "zh": "往单聊/群/频道发一条消息（文本、markdown、ark、富媒体、卡片、输入中）。",
+          "en": "Send one message to a private chat, group or channel."
+        }
+      },
+      {
+        "name": "qqbot_voice",
+        "tags": [
+          "speak"
+        ],
+        "description": "Say one line out loud on QQ: synthesize with the local GPT-SoVITS (菲比), convert to 24000Hz mono PCM, encode to SILK v3, upload as file_type=3 and send as msg_type=7. emotion picks the reference voice: calm | happy | sad | angry (平静/高兴/难过/生气 also work); unknown values fall back to the default and the receipt says so. scope/target/reply_to work exactly like qqbot_send. This really speaks: if any step fails the tool fails loudly and sends nothing, it never falls back to text. Use it when the person asks to hear a voice or when the tone itself is the point — not for every reply.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "scope": {
+              "type": "string",
+              "enum": [
+                "c2c",
+                "group"
+              ],
+              "description": "会话类型：语音只支持单聊与群聊。"
+            },
+            "target": {
+              "type": "string",
+              "description": "openid 或 group_openid，也可以填收件短号 M12。"
+            },
+            "text": {
+              "type": "string",
+              "description": "要说的话，纯口语，别写括号里的动作。"
+            },
+            "emotion": {
+              "type": "string",
+              "description": "calm | happy | sad | angry，默认取配置里的默认音色。"
+            },
+            "speed": {
+              "type": "number",
+              "description": "语速 0.5~2.0，直传 api_v2 的 speed_factor。"
+            },
+            "reply_to": {
+              "type": "string",
+              "description": "被动回复哪一条：收件短号或 msg_id。"
+            },
+            "event_id": {
+              "type": "string",
+              "description": "用事件回执被动回复。"
+            },
+            "is_wakeup": {
+              "type": "boolean",
+              "description": "互动召回（仅单聊）。"
+            }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "summary": {
+          "zh": "用本机菲比音色合成并发出 QQ 语音（silk）。",
+          "en": "Synthesize with the local voice and send it as QQ voice."
+        }
+      },
+      {
+        "name": "qqbot_upload",
+        "tags": [
+          "speak"
+        ],
+        "description": "Upload a picture / video / voice / file to a QQ chat and get the file_info back, which qqbot_send then sends with type=media. file_type: 1 image (png/jpg), 2 video (mp4), 3 voice (silk), 4 file. Pick the source with file_path (local path), url (platform downloads it) or base64. Files under 5MB go as binary; bigger ones switch to the official chunked upload (upload_prepare → PUT parts → upload_part_finish → merge). srv_send_msg=true sends it immediately instead of returning file_info, and counts against the active-message quota.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "scope": {
+              "type": "string",
+              "enum": [
+                "c2c",
+                "group"
+              ],
+              "description": "c2c 单聊 / group 群聊（频道没有 v2 富媒体上传）。"
+            },
+            "target": {
+              "type": "string",
+              "description": "openid 或 group_openid；也可以填收件短号 M12。"
+            },
+            "file_type": {
+              "type": "integer",
+              "enum": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "description": "1 图片 / 2 视频 / 3 语音(silk) / 4 文件。"
+            },
+            "file_path": {
+              "type": "string",
+              "description": "本机文件绝对路径。"
+            },
+            "url": {
+              "type": "string",
+              "description": "公网可访问的 http(s) 链接，让平台去下载。"
+            },
+            "base64": {
+              "type": "string",
+              "description": "直接给文件内容的 base64（≤5MB）。"
+            },
+            "file_name": {
+              "type": "string",
+              "description": "文件名（二进制/分片上传必填，留空取路径里的名字）。"
+            },
+            "srv_send_msg": {
+              "type": "boolean",
+              "description": "true = 上传后直接发出去。"
+            }
+          },
+          "required": [
+            "file_type"
+          ]
+        },
+        "summary": {
+          "zh": "上传图片/视频/语音/文件，拿 file_info。",
+          "en": "Upload media and get file_info."
+        }
+      },
+      {
+        "name": "qqbot_recall",
+        "tags": [
+          "speak"
+        ],
+        "description": "Recall one message the bot sent. Group and private messages can only be recalled within 2 minutes; a group admin bot may also recall ordinary members' messages. Channel messages go through /channels/{channel_id}/messages/{message_id}. Recall is irreversible — only do it when asked.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "scope": {
+              "type": "string",
+              "enum": [
+                "c2c",
+                "group",
+                "channel"
+              ],
+              "description": "消息在哪种会话里。"
+            },
+            "target": {
+              "type": "string",
+              "description": "openid / group_openid / channel_id；也可以填收件短号 M12。"
+            },
+            "message_id": {
+              "type": "string",
+              "description": "要撤回的消息 id（发消息时的返回值，或收件短号）。"
+            }
+          },
+          "required": [
+            "message_id"
+          ]
+        },
+        "summary": {
+          "zh": "撤回机器人发过的消息（2 分钟内）。",
+          "en": "Recall a message the bot sent."
+        }
+      },
+      {
+        "name": "qqbot_reaction",
+        "tags": [
+          "speak"
+        ],
+        "description": "Put or remove an emoji reaction on a channel message, or list who reacted. QQ only exposes reactions in channels (v2 group and private chat have no reaction API), so this refuses politely on other scopes.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "channel_id": {
+              "type": "string",
+              "description": "子频道 id。"
+            },
+            "message_id": {
+              "type": "string",
+              "description": "消息 id。"
+            },
+            "emoji_id": {
+              "type": "string",
+              "description": "表情 id（官方 Emoji 列表里的数字）。"
+            },
+            "emoji_type": {
+              "type": "integer",
+              "description": "表情类型，默认 1（系统表情）。"
+            },
+            "action": {
+              "type": "string",
+              "enum": [
+                "add",
+                "remove",
+                "users"
+              ],
+              "description": "加表态 / 取消表态 / 看谁表态了。"
+            }
+          },
+          "required": [
+            "channel_id",
+            "message_id",
+            "emoji_id"
+          ]
+        },
+        "summary": {
+          "zh": "频道消息的表情表态（加/删/查）。",
+          "en": "Add, remove or list channel reactions."
+        }
+      },
+      {
+        "name": "qqbot_group",
+        "tags": [
+          "write"
+        ],
+        "description": "Everything about a QQ group except sending messages, picked by action: info / bot_state (is the bot allowed to push, what is its role, when did it join), members / member, mute_state (whole-group rule + muted members), mute (needs mute_seconds or mute_expire_at), unmute, kick (batch remove, up to 20, optionally blacklist), blacklist / blacklist_add / blacklist_del, join_requests, join_approve / join_reject, join_strategies. Mute and kick require the bot to be a group admin. Some of these (kick, blacklist, join approval strategies) are still invite-only on the platform — a 11253 answer means the bot has no access, not that the request was wrong.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "info",
+                "bot_state",
+                "members",
+                "member",
+                "mute_state",
+                "mute",
+                "unmute",
+                "kick",
+                "blacklist",
+                "blacklist_add",
+                "blacklist_del",
+                "join_requests",
+                "join_approve",
+                "join_reject",
+                "join_strategies"
+              ],
+              "description": "要做什么。"
+            },
+            "group_openid": {
+              "type": "string",
+              "description": "群 openid（事件里带的那个）。"
+            },
+            "member_openid": {
+              "type": "string",
+              "description": "单个成员 openid（member / join_approve / join_reject 用）。"
+            },
+            "member_openids": {
+              "type": "array",
+              "description": "多个成员 openid（kick / mute / blacklist 用，最多 20）。"
+            },
+            "mute_seconds": {
+              "type": "integer",
+              "description": "禁言多少秒（最长 30 天）。"
+            },
+            "mute_expire_at": {
+              "type": "string",
+              "description": "禁言到什么时候（RFC3339），与 mute_seconds 二选一。"
+            },
+            "add_to_blacklist": {
+              "type": "boolean",
+              "description": "kick 时顺手拉黑。"
+            },
+            "cursor": {
+              "type": "string",
+              "description": "分页游标（members / join_requests）。"
+            },
+            "limit": {
+              "type": "integer",
+              "description": "每页条数。"
+            }
+          },
+          "required": [
+            "action",
+            "group_openid"
+          ]
+        },
+        "summary": {
+          "zh": "群信息、成员、禁言、黑名单、入群审批。",
+          "en": "Group info, members, mute, blacklist, join approval."
+        }
+      },
+      {
+        "name": "qqbot_guild",
+        "tags": [
+          "write",
+          "read"
+        ],
+        "description": "QQ channel (guild) APIs, picked by action: me / my_guilds, info (guild), channels / channel, members / member, kick, mute_all / unmute_all, mute_member / unmute_member. Sending and recalling channel messages goes through qqbot_send / qqbot_recall with scope=channel. Mute and kick need the bot to have the matching channel permission.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "me",
+                "my_guilds",
+                "info",
+                "channels",
+                "channel",
+                "members",
+                "member",
+                "kick",
+                "mute_all",
+                "unmute_all",
+                "mute_member",
+                "unmute_member"
+              ],
+              "description": "要做什么。"
+            },
+            "guild_id": {
+              "type": "string",
+              "description": "频道 id（info / channels / members / mute 用）。"
+            },
+            "channel_id": {
+              "type": "string",
+              "description": "子频道 id（channel 用）。"
+            },
+            "user_id": {
+              "type": "string",
+              "description": "成员 id（member / kick / mute_member 用）。"
+            },
+            "mute_seconds": {
+              "type": "integer",
+              "description": "禁言秒数。"
+            },
+            "mute_expire_at": {
+              "type": "string",
+              "description": "禁言到期时间（RFC3339）。"
+            },
+            "after": {
+              "type": "string",
+              "description": "成员分页游标（默认 0）。"
+            },
+            "limit": {
+              "type": "integer",
+              "description": "每页条数。"
+            },
+            "add_blacklist": {
+              "type": "boolean",
+              "description": "kick 时是否拉黑。"
+            },
+            "delete_history_days": {
+              "type": "integer",
+              "description": "kick 时删除最近几天的消息（0/3/7/15/30）。"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "summary": {
+          "zh": "频道、子频道、成员、禁言。",
+          "en": "Guilds, channels, members, mute."
+        }
+      },
+      {
+        "name": "qqbot_interact",
+        "tags": [
+          "write"
+        ],
+        "description": "Interaction-side APIs: the global custom menu (menu / menu_put), command panels (panels / panel / panel_create / panel_update / panel_delete / panel_target), acknowledging a button interaction (interaction_ack), and generating a share link (share_link). menu_put / panel_create / panel_update / panel_target take the raw official JSON in body — pass exactly what the platform documents, this tool does not invent fields.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "menu",
+                "menu_put",
+                "panels",
+                "panel",
+                "panel_create",
+                "panel_update",
+                "panel_delete",
+                "panel_target",
+                "interaction_ack",
+                "share_link"
+              ],
+              "description": "要做什么。"
+            },
+            "panel_id": {
+              "type": "string",
+              "description": "指令面板 id。"
+            },
+            "interaction_id": {
+              "type": "string",
+              "description": "互动事件 id（INTERACTION_CREATE 的 d.id）。"
+            },
+            "code": {
+              "type": "integer",
+              "description": "互动回执码，0 = 成功。"
+            },
+            "body": {
+              "type": "object",
+              "description": "原样透传给官方的请求体（menu / panel / share_link 用）。"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "summary": {
+          "zh": "自定义菜单、指令面板、互动回执、分享链接。",
+          "en": "Custom menu, panels, interaction ack, share link."
+        }
+      },
+      {
+        "name": "qqbot_events",
+        "tags": [
+          "read"
+        ],
+        "description": "List what arrived recently through the gateway: the inbound messages with their short aliases (M12), who sent them, the target to reply to, plus the raw gateway event tail. Use it when you need to know what is waiting, or to look up an alias before replying. clear=true empties the alias list (the passive-reply ledger is not affected).",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "description": "列多少条收件（默认 10，最多 40）。"
+            },
+            "clear": {
+              "type": "boolean",
+              "description": "true = 清空收件短号表。"
+            }
+          }
+        },
+        "summary": {
+          "zh": "最近收到的消息与网关事件（带回复短号）。",
+          "en": "Recent inbound messages and gateway events, with reply aliases."
+        }
+      },
+      {
+        "name": "qqbot_voice_test",
+        "tags": [
+          "read"
+        ],
+        "description": "Run the voice pipeline locally without sending anything to QQ: synthesize the given line with the local GPT-SoVITS, convert with ffmpeg, encode to SILK, decode it back and report durations, sizes and file paths. Use it to prove the voice chain works or to hear what a line sounds like before sending. If anything is broken it fails at that step and names it.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "要合成的一句话，默认「晚上好呀，我在这儿呢。」"
+            },
+            "emotion": {
+              "type": "string",
+              "description": "calm | happy | sad | angry。"
+            },
+            "speed": {
+              "type": "number",
+              "description": "语速 0.5~2.0。"
+            }
+          }
+        },
+        "summary": {
+          "zh": "本地跑一遍语音链路（不发送），验证能出声。",
+          "en": "Run the voice pipeline locally without sending."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "qqbot.message",
+        "description": {
+          "zh": "收到一条 QQ 消息，带回复短号。群聊里只推被 @、命中关键词，或被叫之后同一个人的连续几条（meta.atMe / meta.continuity 标明是哪种）；单聊与频道照旧。",
+          "en": "An inbound QQ message with a reply alias. In groups only mentions, keyword hits, and the follow-up chain after a mention are delivered."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "qqbot.notice",
+        "description": {
+          "zh": "链路提示：网关连上/断开/重连、鉴权失败、发送被拒等。",
+          "en": "Link notices: gateway up/down, auth failures, refused sends."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "qqbot.member",
+        "description": {
+          "zh": "群或频道成员变动、入群申请、好友添加/删除。",
+          "en": "Member changes, join requests, friend add/remove."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "qqbot.interaction",
+        "description": {
+          "zh": "按钮/指令被点击（INTERACTION_CREATE）。",
+          "en": "A button or command was clicked (INTERACTION_CREATE)."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "qqbot.guild",
+        "description": {
+          "zh": "频道或子频道创建/更新/删除。",
+          "en": "Guild or channel created/updated/deleted."
+        },
+        "trigger": "flush"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.qqbot-official.envPrompt",
+        "title": "QQ 机器人 · 环境提示词",
+        "role": "envPrompt",
+        "content": "## QQ 机器人\n\n你能收发 QQ 消息，走的是官方机器人接口（不是协议端挂机）。所以有一条硬边界：**被动回复有时间窗和次数**。\n\n- 单聊：收到消息后 **60 分钟**内、每条最多回 **4 次**。\n- 群聊：**5 分钟**内、每条最多回 **5 次**。\n- 频道：5 分钟内 5 次。\n- 超出就只能发**主动消息**，主动消息有频控（单聊 10 qps / 60 qpm，群 60 qpm，未认证更低），超了官方直接失败。\n\n**回复就用事件里的短号。** 每条收到的消息都会带一个 `M12` 这样的短号，`qqbot_send` 的 `reply_to` 填它，scope 和目标会自动带上，不用抄长 id。要连发几句就多调几次，`msg_seq` 会自己递增，不会被官方去重。\n\n**一次说一件事。** QQ 不是文档：长段落拆成几条短消息，别在一条里塞三段论证。文本上限按 1800 字拦，但读起来舒服的长度远低于这个数。\n\n**语音要真的出声。** `qqbot_voice` 走本机 GPT-SoVITS：文本 → wav → 24000Hz 单声道 pcm → silk v3 → 上传 → 发出去。`emotion` 换的是参考音（calm/happy/sad/angry），不是加特效。对方没要听声音、或只是日常应答时用文字；只有在语气本身是重点时才说语音。任何一步失败工具会直接失败并说明卡在哪，**不要用文字假装已经出过声**。\n\n**撤回只有 2 分钟。** 说错话要立刻撤；过了就只能解释。\n\n**群里别刷屏。** 被动额度是 5 次，不是 5 条废话的许可。没人接话就停。\n\n**群里不是每句话都会叫醒你。** 只有 @ 你、正文命中关键词，或被叫之后同一个人的连续几条（有额度、有时间窗），才会变成事件推过来；`meta.atMe` 是「在叫你」，`meta.continuity` 是「接着刚才的话」。所以看到群消息，基本就是有人在跟你说话。`/` 开头的指令默认不推——世界自己处理，不用回。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.3.0": "npm 上首个公开发布版本。包名用 `cortico-world-qqbot-feibi`：`cortico-world-qqbot` 已被 Pal AI Lab 的另一个 QQ 世界占用，世界 id 仍是 `qqbot-official`，配置段与事件不变。\n\n- **QQ 官方机器人 v2**：自建 WebSocket 网关（Identify / 心跳 / Resume / 退避重连），REST 层带 token 缓存、401 重试与错误码翻人话。\n- **收发**：单聊、群聊、频道、频道私信；文本 / markdown / ark / 富媒体 / 图文卡片 / 输入中状态 / 撤回 / 表情表态。\n- **语音**：本机 GPT-SoVITS → ffmpeg 转 24000Hz 单声道 pcm → 内置 silk-wasm 编 silk v3 → `file_type=3` → `msg_type=7`；四种情绪（calm / happy / sad / angry）。失败会说明卡在哪，不用文字假装出过声。\n- **固定指令 `/菲比啾比`**：四条预渲染 silk 随包走（`assets/voice/`），随机挑一条；同一秒内不重复；语音发不出去退成「菲比啾比（情绪）」。\n- **群里只在被提及时收**：`@` / 关键词 / 被叫之后同一个人的连续放行（默认 3 条、120 秒；模型回话按 `n - used` 续额度）；`/` 开头的指令不推给模型。\n- **指令台面板**：「指令」页从 `GET /v2/panels` 拉官方指令，逐条绑到本机目录——语音指令随机发 `.silk`，表情包指令随机发图片；支持添加、编辑（改路径 / 改名）、删除，类型必填。\n- **被动回复记账**：单聊 60 分钟 4 次、群聊 5 分钟 5 次；`msg_seq` 自动递增，同一 `msg_id` 重投只回一次。\n- 离线自测 563 项（contract / 规则 / 指令 / 提及 / 指令台 / 本地假接口 / 假网关 / 真合成链路）。"
+  }
+}

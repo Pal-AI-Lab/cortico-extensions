@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-ets2-dafeiyu",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "describe": {
     "tools": [
       {
@@ -359,6 +359,7 @@
     ]
   },
   "changelog": {
+    "1.0.1": "- 更新了一些信息。",
     "1.0.0": "- First full ETS2 / ATS release with the TruckNav map, route service, POI layers, landmark/facility\n  alerts, ATS parity and the plugin-managed map panel.\n- The map panel now manages map/road downloads, per-game data status, map switches, local service\n  URL, off-route threshold and fuel/rest/damage thresholds.\n- Added manual map-service start/stop and automatic shutdown 30 seconds after game disconnect.\n  Plugin shutdown also stops the map service.\n- Market README: credits simplified to the RenCloud project and TruckNav-Sim; removed per-file\n  TruckNav links and the SCS SDK header reference.",
     "0.18.1": "- Fixed PMTiles POI conversion: flipped the MVT local Y coordinate before converting back to SCS\n  game coordinates. This corrects landmark and facility positions for both ETS2 and ATS.\n- Regenerated ETS2/ATS landmark and facility assets. Flaming Gorge Dam now matches the truck position\n  within a few metres instead of being 6.7 km away.",
     "0.18.0": "- ATS map parity:\n  - generated ATS facilities (277 fuel, 931 parking, 487 repair) from its zoom-8 PMTiles\n  - generated 405 ATS landmark/viewpoint POIs\n  - map starts at the ATS map centre instead of Europe\n  - `?game=ats` query is served correctly by the local map service\n- ATS fuel, rest, damage and landmark alerts now use the same plugin code paths as ETS2.",
