@@ -1,5 +1,56 @@
 {
   "schema": 1,
   "name": "@anwan172/cortico-world-style-miner",
-  "version": "0.1.0"
+  "version": "0.1.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "style_scan",
+        "description": "Re-mine the group speaking style from the local event store and write the result into the workspace chain file. With use_model=true a model also summarizes the speaking order for three scenes.",
+        "tags": [
+          "flow"
+        ],
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "days": {
+              "type": "integer",
+              "description": "How many days to look back. Defaults to the configured value."
+            },
+            "use_model": {
+              "type": "boolean",
+              "description": "Also call the model to summarize the speaking order."
+            }
+          },
+          "required": []
+        },
+        "summary": {
+          "zh": "重新统计群里的说话方式，写进思维链关键词块；可选调模型总结说话顺序。",
+          "en": "Re-mine group speaking style into the chain keywords; optionally summarize the speaking order with a model."
+        }
+      },
+      {
+        "name": "style_show",
+        "description": "Read the style keywords block currently written into the workspace chain file. No statistics are computed.",
+        "tags": [
+          "flow"
+        ],
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "summary": {
+          "zh": "读当前写进思维链的语感关键词。",
+          "en": "Show the style keywords block currently written into the chain."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": []
+  },
+  "changelog": {
+    "0.1.1": "- 补齐扩展市场元数据：`cortico.describe`、`cortico.tags`（`qq` / `experimental` / `requires-key`）、本 CHANGELOG。\n- 功能与 0.1.0 相同，为可上架版本。",
+    "0.1.0": "- 首个版本：从本机事件库的 `qq.message` 统计说话方式（句长、标点、口癖、连发、配图比例）。\n- 可选调用模型，总结「接梗 / 被问 / 冷场」三种场景的说话顺序。\n- 结果写进 `workspace/partner/思维链-通用语感.md` 的托管块，**不占系统前缀**。\n- 模型结果缓存到 `workspace/partner/语感-LLM.json`；不调模型或调用失败时沿用缓存，不会被默认值覆盖。\n- 工具：`style_scan`（统计 + 可选模型）、`style_show`（只读当前块）。"
+  }
 }

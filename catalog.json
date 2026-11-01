@@ -189,7 +189,7 @@
   "packages": {
     "@anwan172/cortico-world-style-miner": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "语感蒸馏",
       "description": "语感蒸馏：统计群聊里的说话方式，可选调用模型总结说话顺序，写进工作区思维链关键词块。不占系统前缀。",
       "author": "安晚",
@@ -209,17 +209,37 @@
         "npm": "https://www.npmjs.com/package/@anwan172/cortico-world-style-miner"
       },
       "created": "2026-11-01T12:43:24.820Z",
-      "published": "2026-11-01T12:44:20.119Z",
-      "versionCount": 2,
+      "published": "2026-11-01T13:22:18.305Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "qq",
+        "experimental",
+        "requires-key"
+      ],
       "tags": [
-        "qq"
+        "qq",
+        "requires-key",
+        "experimental"
       ],
       "downloads": {
         "total": 0,
         "month": 0,
         "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 0,
+        "toolTokens": 229,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/@anwan172/cortico-world-style-miner@0.1.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 627,
@@ -9912,6 +9932,90 @@
         "comments": 0
       }
     },
+    "cortico-world-memory-core": {
+      "kind": "world",
+      "version": "0.2.0",
+      "displayName": "记忆核心",
+      "description": "Cortico World 长期记忆：一张卡片表 + 4 个工具 + 一段静态提示词，附状态、日程、主动开口与本地记忆地图。",
+      "locales": {
+        "zh": {
+          "displayName": "记忆核心",
+          "description": "一张卡片表、四个工具、一段 696 字的静态提示词。改口不覆盖：旧卡退休、新卡记下接替了谁，召回时不会再同时看到作废的和改后的那条。附带状态、日程、主动开口，以及一个本地记忆地图（图谱 / 时间线 / 维护面板）。"
+        },
+        "en": {
+          "displayName": "Memory Core",
+          "description": "One card table, four tools and a 696-character static prompt. Corrections don't overwrite: the old card is retired and the new one records what it supersedes, so a retracted plan never comes back alongside the revised one. Ships mood/energy state, today's plan, speaking first, and a local memory map with graph, timeline and a maintenance panel."
+        }
+      },
+      "author": "lutsing",
+      "maintainers": [
+        "lutsing"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "memory",
+        "companion"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-memory-core",
+        "repository": "https://github.com/liqin1018/cortico-world-memory-core",
+        "homepage": "https://github.com/liqin1018/cortico-world-memory-core#readme",
+        "bugs": "https://github.com/liqin1018/cortico-world-memory-core/issues"
+      },
+      "created": "2026-11-01T13:09:43.487Z",
+      "published": "2026-11-01T13:43:50.095Z",
+      "versionCount": 4,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "memory",
+        "companion",
+        "internal-state",
+        "experimental"
+      ],
+      "tags": [
+        "memory",
+        "companion",
+        "experimental",
+        "internal-state"
+      ],
+      "icon": "assets/cortico-world-memory-core/icon.svg",
+      "screenshots": [
+        "assets/cortico-world-memory-core/screenshot-1.png",
+        "assets/cortico-world-memory-core/screenshot-2.png",
+        "assets/cortico-world-memory-core/screenshot-3.png",
+        "assets/cortico-world-memory-core/screenshot-4.png"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 4,
+        "toolTokens": 991,
+        "envPromptTokens": 344
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/liqin1018/cortico-world-memory-core/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 629,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/629",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-memory-doctor-alont1": {
       "kind": "world",
       "version": "0.2.1",
@@ -10416,17 +10520,17 @@
     },
     "cortico-world-mosey": {
       "kind": "world",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "displayName": "摸鱼",
-      "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。按额度点赞、评论、关注、发动态、私信；指定视频可自己开窗看。三把工具、少 token、默认人审。",
+      "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。视频、动态、专栏都能看能评；按额度点赞、评论、关注、发动态、私信；默认人审，三把工具、少 token。",
       "locales": {
         "zh": {
           "displayName": "摸鱼",
-          "description": "让她自己去抖音/B站逛：刷候选、看指定视频、点赞、评论、关注、发动态、@你、私信你。公开动作有硬额度，默认先出草稿等你批准；三把工具，token 花得少。"
+          "description": "让她自己去抖音/B站逛：刷候选、看视频/动态/专栏、点赞、评论、回复楼中楼、关注、发动态、@你、私信你。公开动作有硬额度，默认先出草稿等你批准；三把工具，token 花得少。"
         },
         "en": {
           "displayName": "Mosey",
-          "description": "Let her browse Douyin and Bilibili: feed, open a video, like, comment, follow, post, mention or DM you. Hard caps and owner approval by default; only three tools to keep token use low."
+          "description": "Let her browse Douyin and Bilibili: feed, videos, dynamics and articles; like, comment, reply in threads, follow, post, mention or DM you. Hard caps and owner approval by default; only three tools to keep token use low."
         }
       },
       "author": "lutsing",
@@ -10453,8 +10557,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-mosey/issues"
       },
       "created": "2026-11-01T08:17:38.660Z",
-      "published": "2026-11-01T10:15:25.001Z",
-      "versionCount": 4,
+      "published": "2026-11-01T13:31:16.700Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10480,7 +10584,8 @@
       "icon": "assets/cortico-world-mosey/icon.png",
       "screenshots": [
         "assets/cortico-world-mosey/screenshot-1.png",
-        "assets/cortico-world-mosey/screenshot-2.png"
+        "assets/cortico-world-mosey/screenshot-2.png",
+        "assets/cortico-world-mosey/screenshot-3.png"
       ],
       "downloads": {
         "total": 0,
@@ -10490,11 +10595,12 @@
       "summary": {
         "tools": 3,
         "events": 6,
-        "toolTokens": 891,
+        "toolTokens": 969,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.2.0",
           "1.1.1",
           "1.1.0",
           "1.0.1",
