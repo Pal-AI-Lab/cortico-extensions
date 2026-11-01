@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-ets2-dafeiyu",
-  "version": "0.7.7",
+  "version": "0.7.8",
   "describe": {
     "tools": [
       {
@@ -324,6 +324,7 @@
     ]
   },
   "changelog": {
+    "0.7.8": "- Updated the navigation config label/description to remove the obsolete “阶段一不做转弯指令”\n  wording.",
     "0.7.7": "- Kept the final 200/100/50/10 km milestones.\n- Added a progress announcement every `navProgressEveryKm` travelled kilometres (default 200): current\n  fuel, remaining distance and a short praise from Coo.\n- Progress is based on `plannedDistanceKm - current navDistance`, with the same speech-delay\n  correction for the remaining-distance text.",
     "0.7.6": "- Speech-delay distance correction now treats `navSpeechDelayS` as real seconds and converts using\n  telemetry `local.scale` (game seconds per real second). Fallback is 15× when scale is unavailable.\n  At 90 km/h, a 5-real-second delay now corrects ~1.9 km instead of ~0.1 km.",
     "0.7.5": "- Navigation milestones reduced to 200 / 100 / 50 / 10 km.\n- Milestone distances are corrected by current speed and an estimated speech delay\n  (`navSpeechDelayS`, default 5 seconds), so Coo's delayed line matches the road position better.\n- Zero-distance guard from 0.7.3 remains.",
