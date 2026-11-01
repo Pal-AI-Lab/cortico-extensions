@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "name": "@kmchai/cortico-bot-gateway",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "end_turn",
+        "description": "End this turn: nothing more you want to say or do right now. New events will wake you again. This is the normal way to finish a turn.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "flow"
+        ],
+        "summary": {
+          "zh": "结束这一轮,等新事件再醒。",
+          "en": "Ends the turn until a new event arrives."
+        }
+      }
+    ],
+    "bot": {
+      "worlds": [
+        "console",
+        "qq",
+        "voice",
+        "service"
+      ],
+      "memory": {
+        "name": "MEMORY.md",
+        "form": {
+          "zh": "尚未实现。v0.1 只留 memoryDir 与 blobs/ 作为挂载点;唯一的持久状态是 session 日志。",
+          "en": "Not implemented yet. v0.1 only reserves memoryDir and blobs/ as mount points; the session log is the only persistence."
+        }
+      }
+    }
+  },
+  "changelog": {
+    "0.1.0": "- 初版网关 bot:人设、情绪基调、能力路由与 `end_turn`。\n- 声明 `console`、`qq`、`voice`、`service` 四个 World。\n- 前缀写入 QQ 语音交付链:`voice_speak({ silent: true })` → `[blob log:…]` → `qq_draft` → `qq_confirm`;失败退回文字。\n- 记忆未实现:只留 `memoryDir`、`FileBlobStore` 与 `MEMORY.seed.md`,不提供记忆工具或页面。\n- Persona 页「能力」面板:voice、service、qq、sing、live2d 的安装、启用与配置状态,附 World 页或扩展页链接;只读,不启停 World。\n- 浏览器产物由 `pnpm build:webui`(esbuild)生成到 `dist/webui.js`、`dist/webui.css`。"
+  }
+}

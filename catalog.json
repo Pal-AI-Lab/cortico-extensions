@@ -317,6 +317,163 @@
         "comments": 2
       }
     },
+    "@kmchai/cortico-bot-gateway": {
+      "kind": "bot",
+      "version": "0.1.0",
+      "displayName": "Kmch AI · 网关",
+      "description": "Cortico bot: Kmch AI gateway persona that declares voice, service and QQ capabilities",
+      "locales": {
+        "zh": {
+          "displayName": "Kmch AI · 网关",
+          "description": "Kmch AI 的 bot 层:人设、情绪、记忆(后续),声明并协调语音、服务与 QQ 能力。"
+        },
+        "en": {
+          "displayName": "Kmch AI · Gateway",
+          "description": "The bot layer of Kmch AI: persona, emotion and memory (later), declaring and coordinating voice, service and QQ capabilities."
+        }
+      },
+      "author": "kmchai",
+      "maintainers": [
+        "voemp"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-bot",
+        "cortico",
+        "gateway",
+        "voice",
+        "qq",
+        "网关",
+        "语音",
+        "人设"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/@kmchai/cortico-bot-gateway",
+        "repository": "https://github.com/Kmch-AI/cortico-bot-gateway",
+        "homepage": "https://github.com/Kmch-AI/cortico-bot-gateway#readme",
+        "bugs": "https://github.com/Kmch-AI/cortico-bot-gateway/issues"
+      },
+      "created": "2026-11-01T14:41:42.522Z",
+      "published": "2026-11-01T14:42:58.741Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "im",
+        "qq",
+        "voice",
+        "external-setup",
+        "experimental"
+      ],
+      "tags": [
+        "im",
+        "qq",
+        "voice",
+        "external-setup",
+        "experimental"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "worlds": 4,
+        "memory": "MEMORY.md"
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/Kmch-AI/cortico-bot-gateway/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 635,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/635",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "@kmchai/cortico-world-service": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "Kmch AI · 服务",
+      "description": "Cortico World: host local inference services and expose them through one OpenAI-shaped speech API; audiocpp is only one backend",
+      "locales": {
+        "zh": {
+          "displayName": "Kmch AI · 服务",
+          "description": "托管本机推理服务,统一暴露 OpenAI 形状的语音接口;audiocpp 只是其中一种后端。"
+        },
+        "en": {
+          "displayName": "Kmch AI · Service",
+          "description": "Host local inference services behind one OpenAI-shaped speech API; audiocpp is only one backend."
+        }
+      },
+      "author": "kmchai",
+      "maintainers": [
+        "voemp"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "audiocpp",
+        "tts",
+        "speech",
+        "语音",
+        "语音合成",
+        "语音服务",
+        "进程托管"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/@kmchai/cortico-world-service",
+        "repository": "https://github.com/Kmch-AI/cortico-world-service",
+        "homepage": "https://github.com/Kmch-AI/cortico-world-service#readme",
+        "bugs": "https://github.com/Kmch-AI/cortico-world-service/issues"
+      },
+      "created": "2026-11-01T14:41:09.138Z",
+      "published": "2026-11-01T14:45:18.260Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "voice",
+        "local",
+        "external-setup",
+        "experimental"
+      ],
+      "tags": [
+        "voice",
+        "local",
+        "external-setup",
+        "experimental"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 0,
+        "events": 3,
+        "toolTokens": 0,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/Kmch-AI/cortico-world-service/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 636,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/636",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "@kmchai/cortico-world-voice": {
       "kind": "world",
       "version": "0.2.0",
@@ -1080,7 +1237,7 @@
     },
     "coopani-world-music": {
       "kind": "world",
-      "version": "0.5.13",
+      "version": "0.5.14",
       "displayName": "一起听歌",
       "description": "陪着你听歌（需 Coopani 0.2.16+）：知道 QQ音乐、网易云在放什么，换歌必说一句、分段接话，还能就着刚唱的词评两句；动作跟着真实鼓点走。想听调子就深听——默认云端（填密钥即可），也可切成完全本机（约 500MB），听出调性、和弦、旋律、声部、乐器，并把听过的段落攒成整首档案；问她「听得清吗」会先听再答，没配好会直说。还记得听歌记录、常听歌手和一份自己写的口味档案。",
       "locales": {
@@ -1115,8 +1272,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-11-01T12:55:17.951Z",
-      "versionCount": 45,
+      "published": "2026-11-01T14:54:01.810Z",
+      "versionCount": 46,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1150,6 +1307,7 @@
       },
       "changelog": {
         "versions": [
+          "0.5.14",
           "0.5.13",
           "0.5.12",
           "0.5.10",
@@ -1197,7 +1355,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-music@0.5.13/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-music@0.5.14/CHANGELOG.md"
       },
       "discussion": {
         "number": 384,
@@ -6793,17 +6951,17 @@
     },
     "cortico-world-ets2-dafeiyu": {
       "kind": "world",
-      "version": "0.7.8",
+      "version": "1.0.0",
       "displayName": "欧卡/美卡桌宠副驾",
-      "description": "《欧洲卡车模拟2》/《美国卡车模拟》的 Coopanion 桌宠副驾：读取官方遥测，按游戏切换城市、州/国家边境和电子狗数据，播报事故、超速、罚款、收费站、任务和过境，并支持一键安装 scs-telemetry.dll。",
+      "description": "《欧洲卡车模拟2》/《美国卡车模拟》的 Coopanion 桌宠副驾：读取官方遥测，按游戏切换城市、州/国家边境和电子狗数据，播报事故、超速、罚款、收费站、任务和过境；提供 TruckNav 本地地图、路线、景点/设施/电子狗图层与 ATS 支持；支持一键安装 scs-telemetry.dll。",
       "locales": {
         "zh": {
           "displayName": "欧卡/美卡桌宠副驾",
-          "description": "《欧洲卡车模拟2》/《美国卡车模拟》的 Coopanion 桌宠副驾：读取官方遥测，按游戏切换城市、州/国家边境和电子狗数据，播报事故、超速、罚款、收费站、任务和过境，并支持一键安装 scs-telemetry.dll。"
+          "description": "《欧洲卡车模拟2》/《美国卡车模拟》的 Coopanion 桌宠副驾：读取官方遥测，按游戏切换城市、州/国家边境和电子狗数据，播报事故、超速、罚款、收费站、任务和过境；提供 TruckNav 本地地图、路线、景点/设施/电子狗图层与 ATS 支持；支持一键安装 scs-telemetry.dll。"
         },
         "en": {
           "displayName": "ETS2 / ATS Truck Copilot",
-          "description": "Cortico/Coopanion World for Euro Truck Simulator 2 and American Truck Simulator: reads SCS telemetry, switches city, state/country border and radar datasets by game, reports accidents, speeding, fines, tolls, jobs, crossings and installs scs-telemetry.dll in one click."
+          "description": "Cortico/Coopanion World for Euro Truck Simulator 2 and American Truck Simulator: reads SCS telemetry, switches city, state/country border and radar datasets by game, reports accidents, speeding, fines, tolls, jobs, crossings, and provides a local TruckNav map, route, landmark/facility/radar layers and ATS support; installs scs-telemetry.dll in one click."
         }
       },
       "author": "mIneko__",
@@ -6833,8 +6991,8 @@
         "win32"
       ],
       "created": "2026-10-29T12:07:35.458Z",
-      "published": "2026-11-01T06:05:31.869Z",
-      "versionCount": 20,
+      "published": "2026-11-01T15:00:26.684Z",
+      "versionCount": 21,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -6856,12 +7014,42 @@
       },
       "summary": {
         "tools": 7,
-        "events": 19,
+        "events": 24,
         "toolTokens": 928,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.0.0",
+          "0.18.1",
+          "0.18.0",
+          "0.17.2",
+          "0.17.1",
+          "0.17.0",
+          "0.16.1",
+          "0.16.0",
+          "0.15.3",
+          "0.15.2",
+          "0.15.1",
+          "0.15.0",
+          "0.14.0",
+          "0.13.1",
+          "0.13.0",
+          "0.12.2",
+          "0.12.1",
+          "0.12.0",
+          "0.11.5",
+          "0.11.4",
+          "0.11.3",
+          "0.11.2",
+          "0.11.1",
+          "0.11.0",
+          "0.10.2",
+          "0.10.1",
+          "0.10.0",
+          "0.9.0",
+          "0.8.0",
+          "0.7.9",
           "0.7.8",
           "0.7.7",
           "0.7.6",
@@ -7072,7 +7260,7 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 54,
+        "up": 55,
         "down": 7,
         "comments": 56
       }
@@ -10298,17 +10486,17 @@
     },
     "cortico-world-milkcoo-app": {
       "kind": "world",
-      "version": "0.3.34-beta.2",
+      "version": "0.3.34-beta.4",
       "displayName": "奶CooApp",
-      "description": "奶CooApp 测试版：Coo 安卓手机客户端通道，iOS 源码待验证。",
+      "description": "奶CooApp 测试版：Coo 安卓手机客户端通道，iOS 未签名测试包待验证。",
       "locales": {
         "zh": {
           "displayName": "奶CooApp",
-          "description": "测试版：把安卓聊天、图片、语音和可选桌宠接入 Coo；iOS 暂提供待验证源码。"
+          "description": "测试版：把安卓聊天、图片、语音和可选桌宠接入 Coo；iOS 提供待验证的未签名测试包。"
         },
         "en": {
           "displayName": "Milk Coo App",
-          "description": "Android client channel for Coo; iOS source is experimental and unverified."
+          "description": "Android client channel for Coo; an unsigned, unverified iOS test build is included."
         }
       },
       "maintainers": [
@@ -10325,8 +10513,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-milkcoo-app"
       },
       "created": "2026-10-31T08:51:11.589Z",
-      "published": "2026-10-31T10:05:47.446Z",
-      "versionCount": 3,
+      "published": "2026-11-01T14:45:37.105Z",
+      "versionCount": 4,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -10348,13 +10536,16 @@
         "week": 0
       },
       "summary": {
-        "tools": 8,
-        "events": 6,
-        "toolTokens": 1012,
-        "envPromptTokens": 498
+        "tools": 7,
+        "events": 4,
+        "toolTokens": 917,
+        "envPromptTokens": 488
       },
       "changelog": {
         "versions": [
+          "0.3.34-beta.4",
+          "0.3.34-beta.3",
+          "0.3.34-beta.2",
           "0.3.34-beta.1",
           "0.3.31",
           "0.3.30",
@@ -10375,7 +10566,7 @@
           "0.3.15",
           "0.3.14"
         ],
-        "url": "https://unpkg.com/cortico-world-milkcoo-app@0.3.34-beta.2/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-milkcoo-app@0.3.34-beta.4/CHANGELOG.md"
       },
       "discussion": {
         "number": 589,
@@ -10655,7 +10846,7 @@
       "discussion": {
         "number": 619,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/619",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 1
       }
@@ -17416,9 +17607,9 @@
       "discussion": {
         "number": 395,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/395",
-        "up": 0,
+        "up": 1,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-weather-alont1": {
