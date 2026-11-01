@@ -10757,17 +10757,17 @@
     },
     "cortico-world-mosey": {
       "kind": "world",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "displayName": "摸鱼",
-      "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。视频、动态、专栏都能看能评；按额度点赞、评论、关注、发动态、私信；默认人审，三把工具、少 token。",
+      "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。关注流、周报、本地书库；视频、动态、专栏都能看能评；按额度点赞、评论、关注、发动态、私信；默认人审，三把工具、少 token。",
       "locales": {
         "zh": {
           "displayName": "摸鱼",
-          "description": "让她自己去抖音/B站逛：刷候选、看视频/动态/专栏、点赞、评论、回复楼中楼、关注、发动态、@你、私信你。公开动作有硬额度，默认先出草稿等你批准；三把工具，token 花得少。"
+          "description": "让她自己去抖音/B站逛：刷候选、看关注流、看视频/动态/专栏、点赞、评论、回复楼中楼、关注、发动态、私信；还带周报和本地书库。公开动作有硬额度，默认先出草稿等你批准；三把工具，token 花得少。"
         },
         "en": {
           "displayName": "Mosey",
-          "description": "Let her browse Douyin and Bilibili: feed, videos, dynamics and articles; like, comment, reply in threads, follow, post, mention or DM you. Hard caps and owner approval by default; only three tools to keep token use low."
+          "description": "Let her browse Douyin and Bilibili: feeds, following updates, videos, dynamics and articles; like, comment, reply in threads, follow, post, DM. Plus weekly recap and a local book library. Hard caps and owner approval by default; only three tools."
         }
       },
       "author": "lutsing",
@@ -10794,8 +10794,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-mosey/issues"
       },
       "created": "2026-11-01T08:17:38.660Z",
-      "published": "2026-11-01T13:31:16.700Z",
-      "versionCount": 5,
+      "published": "2026-11-01T15:25:13.521Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10822,7 +10822,8 @@
       "screenshots": [
         "assets/cortico-world-mosey/screenshot-1.png",
         "assets/cortico-world-mosey/screenshot-2.png",
-        "assets/cortico-world-mosey/screenshot-3.png"
+        "assets/cortico-world-mosey/screenshot-3.png",
+        "assets/cortico-world-mosey/screenshot-4.png"
       ],
       "downloads": {
         "total": 0,
@@ -10832,11 +10833,12 @@
       "summary": {
         "tools": 3,
         "events": 6,
-        "toolTokens": 969,
+        "toolTokens": 1122,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.3.0",
           "1.2.0",
           "1.1.1",
           "1.1.0",
@@ -13725,7 +13727,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/638",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-qzone": {
@@ -15582,7 +15584,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/390",
         "up": 5,
         "down": 0,
-        "comments": 10
+        "comments": 11
       }
     },
     "cortico-world-steam": {
@@ -16097,13 +16099,13 @@
     },
     "cortico-world-style-miner": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "displayName": "语感蒸馏",
-      "description": "语感蒸馏：从本机事件库统计 QQ 群聊/私聊的说话方式，可选调用模型总结「接梗/被问/冷场」的说话顺序，写进工作区思维链关键词块，不占系统前缀。",
+      "description": "语感蒸馏：从本机事件库统计 QQ 群聊（可选私聊）的说话方式，可选调用模型总结「接梗/被问/冷场」的说话顺序，写进工作区思维链关键词块，不占系统前缀。",
       "locales": {
         "zh": {
           "displayName": "语感蒸馏",
-          "description": "从本机 QQ 事件库统计群聊/私聊的说话方式（句长、标点、口癖、连发、配图），可选让模型总结「接梗/被问/冷场」的说话顺序，写进 workspace 的思维链关键词块。"
+          "description": "从本机 QQ 事件库统计群聊（可选私聊）的说话方式（句长、标点、口癖、连发、配图），可选让模型总结「接梗/被问/冷场」的说话顺序，写进 workspace 的思维链关键词块。"
         },
         "en": {
           "displayName": "Style Miner",
@@ -16128,8 +16130,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-style-miner"
       },
       "created": "2026-11-01T14:29:20.791Z",
-      "published": "2026-11-01T14:35:30.269Z",
-      "versionCount": 2,
+      "published": "2026-11-01T15:19:15.109Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -16152,15 +16154,16 @@
       "summary": {
         "tools": 2,
         "events": 0,
-        "toolTokens": 200,
+        "toolTokens": 202,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.1.2",
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-style-miner@0.1.1/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-style-miner@0.1.2/CHANGELOG.md"
       },
       "discussion": {
         "number": 632,
