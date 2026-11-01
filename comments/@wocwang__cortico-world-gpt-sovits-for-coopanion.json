@@ -2,7 +2,7 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-  "total": 52,
+  "total": 57,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BJvgp",
@@ -31,6 +31,13 @@
           "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
           "body": "！！！感谢支持！！！",
           "createdAt": "2026-11-01T00:16:28Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BJwVv",
+          "author": "wocwang",
+          "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+          "body": "@ANGOSUNG 你整理的那份 ROCm 改动清单已经实装进 **0.6.0** 了，感谢！\n\n- 独立 `rocm` 推理档，不覆盖三个插件共用的 `cuda` 目录；\n- `MIOPEN_FIND_MODE=FAST` 与可写的缓存目录由插件拉起推理时注入；\n- 启动前按 `gcnArchName` 挑独显，核显不会抢 device 0；\n- torchaudio 用 soundfile 兜底，不需要 TorchCodec；\n- 四套官方架构内核（gfx1100 / 1101 / 1200 / 1201）都在包里，整包 3.14 GB（魔搭整包 + GitHub 分片兜底）；\n- 长路径只检测不代改，安装前拦住并给出开启命令。\n\n支持清单（Windows 11 + Adrenalin 26.2.2 以上，且需要自己开启长路径）：\n- RX 9070 / RX 9070 XT、Radeon AI PRO R9700 — gfx1201\n- RX 9060 XT — gfx1200\n- RX 7900 XTX、PRO W7900 / W7900 Dual Slot — gfx1100\n- RX 7700 — gfx1101\n\n装之前先开长路径（ROCm 内核库的文件名会超过 260 字符）：\n`reg add \"HKLM\\\\SYSTEM\\\\CurrentControlSet\\\\Control\\\\FileSystem\" /v LongPathsEnabled /t REG_DWORD /d 1 /f`\n\n装好后把显卡型号、驱动版本、首句与换句耗时、日志里的报错贴回来，我按反馈继续修。\n\n新版本已经发到 npm（0.6.0），欢迎用 RX 9070 试一下正式版；和你手工那套有出入的话，把日志贴回来我继续修。",
+          "createdAt": "2026-11-01T15:49:30Z"
         }
       ]
     },
@@ -256,7 +263,16 @@
       "author": "ashfsdd",
       "avatar": "https://avatars.githubusercontent.com/u/336495876?s=64&v=4",
       "body": "AMD不能用吗？那我就先不下了。能支持AMD的时候麻烦说一下，感谢大佬！🙏",
-      "createdAt": "2026-10-26T15:03:39Z"
+      "createdAt": "2026-10-26T15:03:39Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJwVu",
+          "author": "wocwang",
+          "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+          "body": "AMD 支持已经随 **0.6.0** 上线了（实验性，欢迎反馈）。\n\n「推理档」保持「自动」即可：名单内的卡自动走 ROCm 档；名单外的 A 卡会提示「当前显卡不在支持名单内」并继续用 CPU 档；只有核显的机器直接走 CPU 档。ROCm 服务起不来时会自动写回 CPU，不会卡死。\n\n支持清单（Windows 11 + Adrenalin 26.2.2 以上，且需要自己开启长路径）：\n- RX 9070 / RX 9070 XT、Radeon AI PRO R9700 — gfx1201\n- RX 9060 XT — gfx1200\n- RX 7900 XTX、PRO W7900 / W7900 Dual Slot — gfx1100\n- RX 7700 — gfx1101\n\n装之前先开长路径（ROCm 内核库的文件名会超过 260 字符）：\n`reg add \"HKLM\\\\SYSTEM\\\\CurrentControlSet\\\\Control\\\\FileSystem\" /v LongPathsEnabled /t REG_DWORD /d 1 /f`\n\n装好后把显卡型号、驱动版本、首句与换句耗时、日志里的报错贴回来，我按反馈继续修。",
+          "createdAt": "2026-11-01T15:49:29Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BJOYG",
@@ -270,7 +286,16 @@
       "author": "273126559",
       "avatar": "https://avatars.githubusercontent.com/u/20236244?s=64&v=4",
       "body": "AMD希望支持QAQ",
-      "createdAt": "2026-10-26T12:29:58Z"
+      "createdAt": "2026-10-26T12:29:58Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJwVt",
+          "author": "wocwang",
+          "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+          "body": "AMD 支持已经随 **0.6.0** 上线了（实验性，欢迎反馈）。\n\n「推理档」保持「自动」即可：名单内的卡自动走 ROCm 档；名单外的 A 卡会提示「当前显卡不在支持名单内」并继续用 CPU 档；只有核显的机器直接走 CPU 档。ROCm 服务起不来时会自动写回 CPU，不会卡死。\n\n支持清单（Windows 11 + Adrenalin 26.2.2 以上，且需要自己开启长路径）：\n- RX 9070 / RX 9070 XT、Radeon AI PRO R9700 — gfx1201\n- RX 9060 XT — gfx1200\n- RX 7900 XTX、PRO W7900 / W7900 Dual Slot — gfx1100\n- RX 7700 — gfx1101\n\n装之前先开长路径（ROCm 内核库的文件名会超过 260 字符）：\n`reg add \"HKLM\\\\SYSTEM\\\\CurrentControlSet\\\\Control\\\\FileSystem\" /v LongPathsEnabled /t REG_DWORD /d 1 /f`\n\n装好后把显卡型号、驱动版本、首句与换句耗时、日志里的报错贴回来，我按反馈继续修。",
+          "createdAt": "2026-11-01T15:49:28Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BJNFS",
@@ -291,7 +316,16 @@
       "author": "Felixs777",
       "avatar": "https://avatars.githubusercontent.com/u/206436647?s=64&v=4",
       "body": "AMD支持希望（哭）",
-      "createdAt": "2026-10-25T14:14:40Z"
+      "createdAt": "2026-10-25T14:14:40Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJwVs",
+          "author": "wocwang",
+          "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+          "body": "AMD 支持已经随 **0.6.0** 上线了（实验性，欢迎反馈）。\n\n「推理档」保持「自动」即可：名单内的卡自动走 ROCm 档；名单外的 A 卡会提示「当前显卡不在支持名单内」并继续用 CPU 档；只有核显的机器直接走 CPU 档。ROCm 服务起不来时会自动写回 CPU，不会卡死。\n\n支持清单（Windows 11 + Adrenalin 26.2.2 以上，且需要自己开启长路径）：\n- RX 9070 / RX 9070 XT、Radeon AI PRO R9700 — gfx1201\n- RX 9060 XT — gfx1200\n- RX 7900 XTX、PRO W7900 / W7900 Dual Slot — gfx1100\n- RX 7700 — gfx1101\n\n装之前先开长路径（ROCm 内核库的文件名会超过 260 字符）：\n`reg add \"HKLM\\\\SYSTEM\\\\CurrentControlSet\\\\Control\\\\FileSystem\" /v LongPathsEnabled /t REG_DWORD /d 1 /f`\n\n装好后把显卡型号、驱动版本、首句与换句耗时、日志里的报错贴回来，我按反馈继续修。",
+          "createdAt": "2026-11-01T15:49:26Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BJJ3u",
@@ -343,6 +377,13 @@
           "avatar": "https://avatars.githubusercontent.com/u/206436647?s=64&v=4",
           "body": "@wocwang 拜托了爸爸（哭）",
           "createdAt": "2026-10-25T14:14:56Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BJwVr",
+          "author": "wocwang",
+          "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+          "body": "AMD 支持已经随 **0.6.0** 上线了（实验性，欢迎反馈）。\n\n「推理档」保持「自动」即可：名单内的卡自动走 ROCm 档；名单外的 A 卡会提示「当前显卡不在支持名单内」并继续用 CPU 档；只有核显的机器直接走 CPU 档。ROCm 服务起不来时会自动写回 CPU，不会卡死。\n\n支持清单（Windows 11 + Adrenalin 26.2.2 以上，且需要自己开启长路径）：\n- RX 9070 / RX 9070 XT、Radeon AI PRO R9700 — gfx1201\n- RX 9060 XT — gfx1200\n- RX 7900 XTX、PRO W7900 / W7900 Dual Slot — gfx1100\n- RX 7700 — gfx1101\n\n装之前先开长路径（ROCm 内核库的文件名会超过 260 字符）：\n`reg add \"HKLM\\\\SYSTEM\\\\CurrentControlSet\\\\Control\\\\FileSystem\" /v LongPathsEnabled /t REG_DWORD /d 1 /f`\n\n装好后把显卡型号、驱动版本、首句与换句耗时、日志里的报错贴回来，我按反馈继续修。",
+          "createdAt": "2026-11-01T15:49:25Z"
         }
       ]
     },
