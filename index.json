@@ -395,10 +395,6 @@
         "zh": "诊断面板的「打核心补丁」会改写 Coopanion 安装目录里 Core 的源码(core/types.ts、loop.ts、core.ts),改动对所有 bot 生效，卸载扩展后仍会保留",
         "en": "The diagnostics panel's core patch rewrites Core source files in the Coopanion install (core/types.ts, loop.ts, core.ts); the changes affect every bot and stay after the extension is removed"
       },
-      "cortico-world-milkcoo-app": {
-        "zh": "启动后替换桌宠服务的内部方法(sendPet、broadcast)",
-        "en": "Once started it replaces internal methods of the pet server (sendPet and broadcast)"
-      },
       "cortico-world-mouse-polling-fix": {
         "zh": "启用后改写 Coopanion 程序文件(桌宠的宿主、预加载、页面和形象套件共 5 个文件),拖动手感的改动对所有形象生效;停用或卸载前不手动还原，改动会一直保留",
         "en": "Once enabled it rewrites Coopanion program files (five files in the pet host, preload, page and figure kit), and its drag change affects every figure; unless restored by hand before it is disabled or removed, the changes stay"
@@ -414,6 +410,10 @@
       "cortico-world-tat-connect": {
         "zh": "冒名:package.json 把作者写成 Pal AI Lab,仓库、主页和问题反馈都指向 Pal-AI-Lab/Cortico,README 称这个 World 已内建在 Cortico 里",
         "en": "Impersonation: package.json names Pal AI Lab as the author and points the repository, homepage and bug tracker at Pal-AI-Lab/Cortico, and the README says the World is built into Cortico"
+      },
+      "cortico-world-tat-connect-next": {
+        "zh": "作者本人要求下架",
+        "en": "Withdrawn at the author's request"
       }
     },
     "publishers": {}
