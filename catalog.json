@@ -6557,17 +6557,17 @@
     },
     "cortico-world-ets2-dafeiyu": {
       "kind": "world",
-      "version": "0.5.1",
-      "displayName": "ETS2 欧卡桌宠副驾",
-      "description": "《欧洲卡车模拟2》的 Coopanion 桌宠副驾：读取官方遥测，播报事故、超速、罚款、收费站、任务、城市进入、国家边境和电子狗点位，并支持一键安装 scs-telemetry.dll。",
+      "version": "0.6.0",
+      "displayName": "欧卡/美卡桌宠副驾",
+      "description": "《欧洲卡车模拟2》/《美国卡车模拟》的 Coopanion 桌宠副驾：读取官方遥测，按游戏切换城市、州/国家边境和电子狗数据，播报事故、超速、罚款、收费站、任务和过境，并支持一键安装 scs-telemetry.dll。",
       "locales": {
         "zh": {
-          "displayName": "ETS2 欧卡桌宠副驾",
-          "description": "《欧洲卡车模拟2》的 Coopanion 桌宠副驾：读取官方遥测，播报事故、超速、罚款、收费站、任务、城市进入、国家边境和电子狗点位，并支持一键安装 scs-telemetry.dll。"
+          "displayName": "欧卡/美卡桌宠副驾",
+          "description": "《欧洲卡车模拟2》/《美国卡车模拟》的 Coopanion 桌宠副驾：读取官方遥测，按游戏切换城市、州/国家边境和电子狗数据，播报事故、超速、罚款、收费站、任务和过境，并支持一键安装 scs-telemetry.dll。"
         },
         "en": {
-          "displayName": "ETS2 Euro Truck Copilot",
-          "description": "Cortico/Coopanion World for Euro Truck Simulator 2: reads SCS telemetry, reports accidents, speeding, fines, tolls, jobs, city entries, country borders and radar points, and installs scs-telemetry.dll in one click."
+          "displayName": "ETS2 / ATS Truck Copilot",
+          "description": "Cortico/Coopanion World for Euro Truck Simulator 2 and American Truck Simulator: reads SCS telemetry, switches city, state/country border and radar datasets by game, reports accidents, speeding, fines, tolls, jobs, crossings and installs scs-telemetry.dll in one click."
         }
       },
       "author": "mIneko__",
@@ -6581,6 +6581,8 @@
         "coopanion",
         "ets2",
         "euro-truck-simulator-2",
+        "ats",
+        "american-truck-simulator",
         "telemetry",
         "radar",
         "scs"
@@ -6595,8 +6597,8 @@
         "win32"
       ],
       "created": "2026-10-29T12:07:35.458Z",
-      "published": "2026-10-29T18:45:25.603Z",
-      "versionCount": 16,
+      "published": "2026-11-01T01:50:12.705Z",
+      "versionCount": 17,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -6618,12 +6620,13 @@
       },
       "summary": {
         "tools": 7,
-        "events": 16,
-        "toolTokens": 903,
+        "events": 17,
+        "toolTokens": 922,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.6.0",
           "0.5.1",
           "0.5.0",
           "0.4.4",
