@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-ets2-dafeiyu",
-  "version": "0.6.1",
+  "version": "0.7.7",
   "describe": {
     "tools": [
       {
@@ -23,7 +23,7 @@
       },
       {
         "name": "ets2_recent_events",
-        "description": "Return the most recent ETS2 / ATS events this World has reported (accident, speeding, fine, toll, job, radar, city, border, connection).",
+        "description": "Return the most recent ETS2 / ATS events this World has reported (accident, speeding, fine, toll, job, radar, city, border, navigation, vehicle, connection).",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -306,10 +306,32 @@
           "zh": "越过美国州界。",
           "en": "The truck crossed a US state border."
         }
+      },
+      {
+        "type": "ets2.navigation",
+        "description": {
+          "zh": "导航距离/预计时间播报。",
+          "en": "A navigation distance/ETA update."
+        }
+      },
+      {
+        "type": "ets2.vehicle-welcome",
+        "description": {
+          "zh": "进入游戏后启动引擎。",
+          "en": "The engine was started for this game session."
+        }
       }
     ]
   },
   "changelog": {
+    "0.7.7": "- Kept the final 200/100/50/10 km milestones.\n- Added a progress announcement every `navProgressEveryKm` travelled kilometres (default 200): current\n  fuel, remaining distance and a short praise from Coo.\n- Progress is based on `plannedDistanceKm - current navDistance`, with the same speech-delay\n  correction for the remaining-distance text.",
+    "0.7.6": "- Speech-delay distance correction now treats `navSpeechDelayS` as real seconds and converts using\n  telemetry `local.scale` (game seconds per real second). Fallback is 15× when scale is unavailable.\n  At 90 km/h, a 5-real-second delay now corrects ~1.9 km instead of ~0.1 km.",
+    "0.7.5": "- Navigation milestones reduced to 200 / 100 / 50 / 10 km.\n- Milestone distances are corrected by current speed and an estimated speech delay\n  (`navSpeechDelayS`, default 5 seconds), so Coo's delayed line matches the road position better.\n- Zero-distance guard from 0.7.3 remains.",
+    "0.7.4": "- Vehicle-start event now includes the absolute in-game clock (`HH:MM`, game time modulo 24h) and\n  omits the location entirely when no city geofence is known.\n- Coo's vehicle-start prompt now uses the included time/location when present and improvises without\n  inventing missing details.",
+    "0.7.3": "- Fixed navigation milestones firing at 0 km while a job is accepted but the trailer is not hooked\n  up yet. A zero navigation distance is now treated as “route not initialized”, not as arrival.\n- Milestones only start after the game reports a positive navigation distance.",
+    "0.7.2": "- Vehicle welcome is now per truck per game session: the first engine start of each truck announces;\n  stopping and restarting the same truck does not. Switching trucks and starting the new one announces\n  again.\n- Removed the fixed “和您一路同行” prompt. The event now includes the truck brand and current city\n  (country/state when known), and Coo improvises a short opening in her own voice.",
+    "0.7.1": "- Vehicle welcome is now once per game session when the engine starts, not once per truck forever.\n- A real telemetry disconnect (game closed or returned to menu) resets the welcome for the next\n  session; stopping/starting the engine inside one session does not repeat it.\n- Removed the persistent `*-vehicles.json` first-drive cache.",
+    "0.7.0": "- Phase-one navigation: while a job is active, reads the game's navigation distance/time and\n  announces route start, remaining-distance milestones, ETA and arrival. No turn-by-turn or\n  off-route detection yet.\n- First-drive truck welcome: reads telemetry brand/model/truck id, maps common brands to Chinese,\n  and asks Coo to say “（品牌）和您一路同行，让我们一起出发吧”. Seen trucks are remembered per game in\n  `<dataDir>/ets2-vehicles.json` / `ats-vehicles.json`.\n- New settings: `navAnnounceEnabled`, `vehicleWelcomeEnabled`.",
     "0.6.1": "- Local Chinese-name overlay: `assets/zh_names.json` maps 557 city tokens and 166 country/state names.\n- City entry, current-city status and country/state entry events now use Chinese display names when a\n  mapping exists; untranslated places fall back to the original map name.\n- This is local-only for testing; not published to npm or the marketplace yet.",
     "0.6.0": "- Added ATS support, selected automatically from the telemetry `game` field (ETS2 = 1, ATS = 2).\n- ATS data: 270 cities, 229 state border points, 541 radar/POI points.\n- Separate user files per game: `ets2-cities.json` / `ats-cities.json`, `ets2-radar-points.json` / `ats-radar-points.json`.\n- ATS state crossing uses `ets2.state-entered`; ETS2 retains `ets2.country-entered`.\n- Installer accepts either `eurotrucks2.exe` or `amtrucks.exe`.\n- Same-name cities in different states are kept distinct by map token.",
     "0.5.1": "- Fixed reversed country direction. Map node rotation points opposite to the side that\n  `ForwardCountry` represents at the tested crossings; the entered country is now the country on the\n  other side of the normal. Added regression tests using the real Sweden→Denmark and\n  Luxembourg→France border points.",
