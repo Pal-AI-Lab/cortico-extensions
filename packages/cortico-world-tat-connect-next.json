@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "name": "cortico-world-tat-connect-next",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "tat_message_send",
+        "description": "通过已连接的 TAT 机器人通道发送一条文字消息，并等待服务端回执。只发送、不等待对方回复。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "要发送的文字内容。"
+            },
+            "conversation_id": {
+              "type": "string",
+              "description": "目标会话 id；省略时使用配置里的默认会话。"
+            }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "用 botId + botKey 建立的长连接，以机器人身份发一条消息并等待服务端回执。",
+          "en": "Sends one message as the bot over the botId+botKey WebSocket and waits for the server receipt."
+        }
+      },
+      {
+        "name": "tat_channel_status",
+        "description": "读取 TAT 通道的连接状态、机器人 id 与当前退避重连次数，不发起网络请求。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读取通道连接状态、机器人 id 与重连次数，不访问网络。",
+          "en": "Reads channel state, bot id and reconnect count without network access."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "tat.message",
+        "description": {
+          "zh": "TAT 会话中的新消息；机器人自己发的消息不会重复推送。",
+          "en": "A new message from a TAT conversation; the bot's own messages are not pushed back."
+        },
+        "trigger": "flush"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "- New World package `cortico-world-tat-connect-next`, replacing the built-in `tat-connect`.\n- botId + botKey dual credentials via deployment secrets (`CORTICO_TAT_BOT_ID`, `CORTICO_TAT_BOT_KEY`) and a\n  preflight check; credentials never appear in config.json.\n- One long-lived WebSocket (`<baseUrl>/v1/bot/ws?bot_id=&key=`) for both directions; handles `ready`, `error`,\n  `pong` frames and keeps the connection alive with liveness checks.\n- Tools `tat_message_send` (waits for the server receipt, reports `[offline]` / `[timeout]` instead of faking\n  success) and `tat_channel_status`.\n- `tat.message` events carry the conversation, message and sender metadata; messages sent by the bot itself are\n  filtered by bot id, and incoming message ids are deduplicated.\n- Exponential reconnect with jitter and a 30-second cap; pending acknowledgements fail cleanly on disconnect."
+  }
+}
