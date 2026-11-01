@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-mspaint",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "describe": {
     "tools": [
       {
@@ -32,7 +32,7 @@
       },
       {
         "name": "paint_open",
-        "description": "打开 Windows 画图。它已经在跑就切成前台(最小化会先还原)。之后用 paint_see 看它。",
+        "description": "打开 Windows 画图。它已经在跑就切成前台(最小化会先还原)。之后用 paint_see 看它。注意:「待命」状态下不会被打开——老大在画图页点了「开工」才行。",
         "parameters": {
           "type": "object",
           "properties": {},
@@ -42,8 +42,8 @@
           "act"
         ],
         "summary": {
-          "zh": "打开画图,或把它切到前台。",
-          "en": "Open Paint, or bring it to the foreground."
+          "zh": "打开画图,或把它切到前台(待命时不让开)。",
+          "en": "Open Paint or bring it forward (refused while on standby)."
         }
       },
       {
@@ -93,26 +93,43 @@
       },
       {
         "name": "paint_color",
-        "description": "换前景色(颜色 1)。调色板有 20 个颜色:黑色、灰色、深红色、红色、橙色、黄色、绿色、青绿、靛蓝色、紫色、白色、浅灰、褐色、玫瑰红、金色、浅黄色、酸橙色、淡青绿色、蓝灰色、淡紫色;英文名也行。要这 20 个以外的颜色,先 paint_click 点「编辑颜色」(或 Edit colours)再在对话框里挑。",
+        "description": "换前景色(颜色 1)。两种给法,二选一:**name** = 调色板上的颜色名(黑色、灰色、深红色、红色、橙色、黄色、绿色、青绿、靛蓝色、紫色、白色、浅灰、褐色、玫瑰红、金色、浅黄色、酸橙色、淡青绿色、蓝灰色、淡紫色;英文名也行);**hex** = 任意颜色 `#RRGGBB`,它自己会去开「编辑颜色」对话框填进去(要一会儿,大概两秒)。**画之前先 paint_palette 看一眼**:20 个格子覆盖了 6 个色相的深浅,足够做体积感——同一色相取深/中/浅三格当暗部/固有色/高光,比一律用纯色好看得多。",
         "parameters": {
           "type": "object",
           "properties": {
             "name": {
               "type": "string",
               "description": "调色板上的颜色名"
+            },
+            "hex": {
+              "type": "string",
+              "description": "任意颜色 #RRGGBB,例如 \"#7FD4C1\""
             }
           },
-          "required": [
-            "name"
-          ],
           "additionalProperties": false
         },
         "tags": [
           "act"
         ],
         "summary": {
-          "zh": "换前景色(调色板上的 20 个颜色)。",
-          "en": "Pick a foreground colour from the palette."
+          "zh": "换前景色:调色板名字,或任意 #RRGGBB。",
+          "en": "Pick a foreground colour by palette name or any #RRGGBB."
+        }
+      },
+      {
+        "name": "paint_palette",
+        "description": "列调色板:每个格子叫什么、真实的色值是多少(本机画图上按像素采到的),外加最近用过的自定义色。选色前先调它一次,再按色相/明度挑,别老用那两三个默认色。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "列调色板与真实色值(含最近用过的自定义色)。",
+          "en": "List the palette with its real hex values, plus recently used custom colours."
         }
       },
       {
@@ -138,7 +155,7 @@
       },
       {
         "name": "paint_stroke",
-        "description": "用当前工具画一条折线(一笔)。points 是点的数组,每个点是 [x, y];坐标是**画布的相对位置**:画布左上角 (0,0),右下角 (1,1);(0.5,0.5) 是正中间。不用管像素和 DPI。 至少两个点。点越密线越顺(圆一般 48~128 个点)。这一笔从头到尾按住不放,所以它是一条连续线。",
+        "description": "用当前工具画一条折线(一笔)。points 是点的数组,每个点是 [x, y];坐标是**画布的相对位置**:画布左上角 (0,0),右下角 (1,1);(0.5,0.5) 是正中间。不用管像素和 DPI。 至少两个点。点越密线越顺(圆一般 48~128 个点)。这一笔从头到尾按住不放,所以它是一条连续线。例:水平线 [[0.1,0.5],[0.9,0.5]];斜线 [[0.2,0.8],[0.6,0.2]];波浪线给 10~20 个点。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -365,7 +382,7 @@
       },
       {
         "name": "paint_key",
-        "description": "按快捷键。同时按的键用 + 连,先后按的用空格隔开:\"ctrl+z\"、\"ctrl+a delete\"、\"ctrl+s\"、\"esc\"。有用的:ctrl+z 撤销、ctrl+s 保存、ctrl+a 全选。",
+        "description": "按快捷键。同时按的键用 + 连,先后按的用空格隔开。画图里常用的:ctrl+z 撤消、ctrl+y 重做、ctrl+a 全选、ctrl+s 保存、ctrl+shift+s 另存为、delete 删掉选中的内容、esc 取消当前操作/关掉弹出的框、ctrl+plus / ctrl+minus 放大缩小、ctrl+0 适应窗口。例:\"ctrl+z\"、\"ctrl+a delete\"(清空画布的底层做法)、\"ctrl+z ctrl+z\"(连退两步)。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -382,7 +399,7 @@
           "act"
         ],
         "summary": {
-          "zh": "按快捷键。",
+          "zh": "按快捷键(ctrl+z 撤消、ctrl+y 重做、ctrl+a delete 清空……)。",
           "en": "Press a key or a chord."
         }
       },
@@ -426,7 +443,7 @@
       },
       {
         "name": "paint_save",
-        "description": "把画面存成图片。path 给绝对路径,或者只给文件名(就存进画册目录)。按扩展名决定格式:png/jpg/jpeg/bmp/gif,不给扩展名就是 .png。存完回执里有真实路径与字节数。",
+        "description": "把画面存成图片。path 给绝对路径,或者只给文件名(就存进画册目录)。按扩展名决定格式:png/jpg/jpeg/bmp/gif,不给扩展名就是 .png。存完回执里有真实路径与字节数。存成之后记得用 paint_album_add 把这一笔记进画册(作品名 + 一句心得),那是老大回头看得见的东西。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -447,6 +464,111 @@
           "zh": "把画面存成图片文件。",
           "en": "Save the picture to a file."
         }
+      },
+      {
+        "name": "paint_album_add",
+        "description": "把一件画完的作品记进画册(她与老大共看的那本)。title 是作品名;note 是**一句话**心得:画的是什么、哪里不满意、下次怎么办——不要写过程流水账。path 一般给 paint_save 回执里的真实路径。画册是给老大看的成果,不是工作日志。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "maxLength": 60,
+              "description": "作品名,一句话"
+            },
+            "note": {
+              "type": "string",
+              "maxLength": 600,
+              "description": "一句话心得(可选)"
+            },
+            "path": {
+              "type": "string",
+              "description": "图片路径(可选,通常是 paint_save 给的那个)"
+            }
+          },
+          "required": [
+            "title"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "把一件作品记进画册:作品名 + 一句心得 + 路径。",
+          "en": "Record a finished work in the album: title, one-line note, path."
+        }
+      },
+      {
+        "name": "paint_album_list",
+        "description": "翻画册:按时间倒序列出画过的作品(作品名、心得、路径、时间)。开工前翻一翻,能知道自己以前画成过什么样。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "description": "最多列几条,默认 20"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "翻画册:她画过什么、当时怎么想的。",
+          "en": "List the album: what she drew and what she said about it."
+        }
+      },
+      {
+        "name": "paint_journal_add",
+        "description": "在心得本上写一条。写**可以复用的经验**,不是画的过程:什么参数顺手、哪一步容易错、老大教过什么。一次一条,一条两三句就够。开头那条会进她的长期提示词,所以写得像规矩,别写成日记。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string",
+              "maxLength": 600,
+              "description": "心得正文,两三句"
+            }
+          },
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "在心得本上写一条可复用的经验。",
+          "en": "Write one reusable lesson on the journal."
+        }
+      },
+      {
+        "name": "paint_journal_list",
+        "description": "翻心得本:她自己写的复盘,加上老大教她的规矩。最近几条其实每次开会话都随提示词送进来了,这条是用来翻更早的。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "description": "最多列几条,默认 30"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "翻心得本:她的复盘与老大的教导。",
+          "en": "Read the journal: her reviews and the deployer’s lessons."
+        }
       }
     ],
     "events": [],
@@ -455,11 +577,13 @@
         "key": "worlds.paint.envPrompt",
         "title": "画图 · 环境提示词",
         "role": "envPrompt",
-        "content": "画图这个环境给你一支手:你能在 Windows 的**画图**(Paint)里真的落笔——打开它、选工具与颜色、一笔一笔拉线、存成图片。\n工具都带 `paint_` 前缀。\n\n**坐标只有一种:画布相对位置。** 画布左上角 (0,0),右下角 (1,1),(0.5,0.5) 是正中间。\n不用算像素,不用管 DPI,不用管窗口多大:窗口挪了、缩放变了,同一组坐标画的仍然是同一张画。\n要摆得准就先 `paint_see` 看一眼,它会把画布的真实像素尺寸(通常 640×640)与缩放报给你,你在脑子里按 0..1 摆位置。\n\n**标准流程**\n\n1. `paint_open` 把它叫出来(第一次调任何画图工具时也会自己开);\n2. `paint_see` 看清三件事:窗口在不在前台、画布在哪、现在用的是哪支工具;\n3. `paint_tool` 选工具(或形状)、`paint_color` 选颜色、`paint_size` 调粗细;\n4. 落笔:线条用 `paint_stroke`(给一串点),圆/椭圆用 `paint_circle`,\n   矩形、三角、星形这类先用 `paint_tool` 选形状再用 `paint_shape` 拖包围盒;\n5. 每画完一批就 `paint_see` 复核,不对就 `paint_undo` 退掉重来;\n6. `paint_save` 存成图片,默认存进画册目录 `{{paint.outDir}}`。\n\n**画得像样一点的几条经验**\n\n- 一笔就是一整条**连续**线:要断开就松手再起一笔。圆给 48~128 个点,长线给 20~40 个点。\n- 折线越密越顺,但每个点之间有停顿(现在 {{paint.pace}} 毫秒/点),一笔几百个点就是几秒钟。\n  赶时间就把点给粗一点、少给几笔。\n- 先起草再描:草稿用铅笔配浅色,定稿再用画笔配深色描一遍,最后上色。`paint_undo` 一次退一步,\n  别指望一笔到位。\n- 几何的东西别用手画:`paint_tool ellipse` + `paint_shape` 拖出来的才是正圆;矩形、星形同理。\n- 眼睛、嘴、小装饰这种小块,先 `paint_see` 带 `mode=\"canvas\"` 看清相对位置再落笔,不要凭印象。\n- 整张图拆成 5~15 笔来画:每笔单独检查,错了只退一笔。\n\n**颜色**:能直接用调色板上的这 20 个——{{paint.colors}}。\n要这以外的颜色,先 `paint_click` 点「编辑颜色」,在弹出的对话框里挑;这一步要看着 `paint_see` 做。\n「颜色 2」是右键色,也是形状的填充色:先 `paint_click` 点「颜色 2」再点颜色,才改的是它。\n\n**边界与代价**\n\n- 只动画图这个窗口:别去点别的窗口,别碰她的对话框。落笔时鼠标会真的动一下(画完会放回原处),这是设计。\n- 一笔上限 {{paint.maxPoints}} 个点。整张画别超过十几笔,又慢又费钱。\n- 存图一律存到 `{{paint.outDir}}`;要存到别处得给绝对路径,给之前先想清楚该不该。\n- 桥接进程:{{paint.bridge}}。它没起来时第一次工具调用会把它拉起来,要一两秒,别以为卡死了。\n- 你的模型要是看不见图(`paint_see` 的回执里说截图没附上),就只能靠 `paint_ui` 的名字与相对位置盲画;\n  那就画得简单些,并如实告诉她你看不见。\n\n**卡住的时候**:`paint_ui` 能列出界面上所有能点的东西(工具、形状、颜色、按钮、菜单),\n带 `filter` 时还会给出每个元素在窗口里的相对位置,可以直接交给 `paint_click`。\n窗口被别的窗口盖住了、或者有个对话框挡着,就 `paint_open` 把它叫回前台再 `paint_see`。\n"
+        "content": "画图这个环境给你一支手:你能在 Windows 的**画图**(Paint)里真的落笔——打开它、选工具与颜色、一笔一笔拉线、存成图片。\n工具都带 `paint_` 前缀。但先说最要紧的一条。\n\n**现在是{{paint.gate}}。这道门叫「开工」,只有老大能开。**\n{{paint.gateLeft}}\n\n- **待命时**:不画、不打开画图、不去碰那个窗口。有人跟你聊到画图,你可以说你已经准备好了、\n  等老大点「开工」;不要自己先落一笔「试试看」。他还没布置,你就没有活儿。\n- **开工后**:才轮到下面这些。开工有时限,到点自动收回待命;你只在他布置的这一轮里画。\n- 你**没有**开工的工具,这是故意的:开不开工是老大的事,不是你的。别绕着它想办法\n  (不要用 `paint_click` 去点面板、不要去开画图窗口硬画)。\n\n**坐标只有一种:画布相对位置。** 左上角 (0,0),右下角 (1,1),(0.5,0.5) 是正中间。\n不用算像素,不用管 DPI,不用管窗口多大:窗口挪了、缩放变了,同一组坐标画的还是同一张画。\n\n**先看清手里是什么。** 开工后第一件事、以及每次换过工具/颜色之后,`paint_see` 会多报一行\n「手里:工具 X · 颜色1 Y · 颜色2 Z · 粗细 N」。\n看不见这一行就再 `paint_see` 一次——**别凭印象猜自己现在拿的是铅笔还是画笔、是黑还是白**;\n画错颜色、画错粗细,十有八九就是没看这一行。调色板有哪些色、各是什么色值,`paint_palette` 会给。\n\n**一幅画的标准流程**(每一步都别跳)\n\n1. `paint_see` 看清:窗口在不在前台、画布在哪、现在拿的是哪支笔;\n2. `paint_tool` 选工具或形状、`paint_color` 选色、`paint_size` 调粗细;\n3. 落笔:线条 `paint_stroke`(给一串点)、圆 `paint_circle`、几何形状 `paint_tool` + `paint_shape`;\n4. 一批画完 `paint_see mode=\"canvas\"` 复核,不对就 `paint_undo`;\n5. `paint_save` 存图(默认进 `{{paint.outDir}}`);\n6. `paint_album_add` 记一笔(作品名 + 一句心得)——**这是给人看的那一页**,别省;\n7. 收工(它会自己到期,老大也可能手动收)。收工之后就别再动笔了。\n\n**记录:只要「开始」和「结果」两笔,不要过程流水账。**\n\n- 开始时:自己心里记一句「要画什么」就够,不用写进任何地方;\n- 画的过程中:不要写笔记、不要往工作区贴日志、不要一条一条记「第几步选了什么颜色」;\n- 结束时:`paint_save` 一张图 + `paint_album_add` **一句**心得(哪儿不满意、下次怎么办);\n- 真需要边画边记的草稿(比如配色清单),就记在自己的临时笔记里,**收工前删掉**;\n- `paint_journal_add` 只写**能复用**的经验:什么参数顺手、哪一步容易错、老大教过什么。\n  一次一条、两三句。那不是日记,是下次开工能直接照着做的规矩。\n\n**快捷键与省事的做法**(`paint_key`,同时按用 `+`,先后按用空格)\n\n| 想干的事 | 快捷键 | 备注 |\n|---|---|---|\n| 撤消 / 重做 | `ctrl+z` / `ctrl+y` | 撤消一次退一步;`paint_undo times=3` 就是连按三次 |\n| 清空整张纸 | `paint_clear`(= `ctrl+a delete`) | 比逐笔擦快 |\n| 保存 / 另存为 | `ctrl+s` / `ctrl+shift+s` | 但存图请用 `paint_save`,它会把格式选好并验证真的落盘 |\n| 取消当前操作 / 关掉弹框 | `esc` | 有个对话框挡着落笔时先按它 |\n| 放大 / 缩小 / 适应窗口 | `ctrl+plus` / `ctrl+minus` / `ctrl+0` | 画细节先放大,再看 `paint_see` |\n| 整张纸全选 | `ctrl+a` | 清空、裁剪的前一步 |\n\n几件工具上的门道:\n\n- **形状工具是「选了再用」**:`paint_tool ellipse` 之后,`paint_shape` 从包围盒一角拖到对角,才有那个椭圆。\n  选完形状不拖,画布上什么都不会发生——这是最容易白干的一步。\n- **一笔就是一条连续线**:要断开就分两笔。圆给 48~128 个点,长线 20~40 个点。\n- **折线密度换平滑度**:每点之间现在停 {{paint.pace}} 毫秒,一笔几百点就是几秒。赶时间就少给点。\n- **几何别用手画**:`ellipse` / `rect` / `star5` 拖出来才是正的;手画一定歪。\n- **先薄后厚**:草稿用铅笔 + 浅色,定稿用画笔 + 深色,最后上色。一层一层来,错了只退一层。\n\n**用色:别只用一两个默认色**\n\n- **先 `paint_palette`**。它会给你 20 个格子各自的**真实色值**——那 20 个色其实覆盖了 6 个色相的深/中/浅,\n  做体积感够用了。开工时调它一次,后面一直用得上。\n- **同一件东西用三格,不要一格**:暗部取同色相深的一格、固有色取中间、高光取浅的一格。\n  例:阴影 `深红色 #880015` → 主体 `红色 #ED1C24` → 高光 `玫瑰红 #FFAEC9`;绿色系同理 `绿色` → `酸橙色` → `淡青绿色`。\n- **黑灰白只做线、阴影、高光,别拿来填大面积**:整片用纯黑会闷死,用 `深红色`/`靛蓝色` 当\"暗\"更有味道。\n- **要这 20 格以外的颜色就用 `paint_color hex=\"#RRGGBB\"`**:它自己会开「编辑颜色」把色值填进去(约两秒)。\n  适合肤色、天空、特定的品牌色;用过的自定义色会出现在 `paint_palette` 的\"最近用过\"里。\n- 「颜色 2」是右键色、也是形状的填充色:先 `paint_click` 点「颜色 2」再点颜色,改的才是它。\n  形状先用 `形状填充` 设填充、`形状轮廓` 设描边,再拖——不然只有一圈线。\n\n**解说的分寸**:解说模式现在是 {{paint.commentary}}。\n开着的时候,每画几笔会有人点你一句「说说思路」——那就**用一两句话**讲:这一段在画什么、为什么这么下笔(用色/构图)。\n说的是给自己和老大听的构思,不是操作日志:不要念坐标、不要报工具参数、不要复述回执。\n没点你的时候别中断手上的活去汇报,画完再说整体。\n\n**画册与心得本:你和老大之间的两页**\n\n- 画册 `paint_album_list` / `paint_album_add`:画过什么、当时怎么想的。他打开控制台就能一件件看。\n- 心得本 `paint_journal_list` / `paint_journal_add`:你写复盘,他写教导。**最近几条会随这段提示词一起给你**,\n  也就是:他教一次,你下次开工就记得。翻一翻、照着做,是这件事的意义。\n\n现在画册{{paint.album}};心得本最近这几条(第 1 条最新,总数上限 {{paint.journalMax}} 条):\n\n{{paint.journal}}\n\n**边界**\n\n- 只动画图窗口:别去点别的窗口、别碰她的对话框。落笔时鼠标会真的动一下(画完放回原处),这是设计。\n- 一笔上限 {{paint.maxPoints}} 个点;整张画别超过十几笔,又慢又费钱。\n- 存图一律进 `{{paint.outDir}}`;要存别处得给绝对路径,给之前想清楚该不该。\n- 桥接进程:{{paint.bridge}}。没起来时第一次调用会把它拉起来(一两秒),别以为卡住了。\n- 模型看不见图时(`paint_see` 回执里说截图没附上),只能按 `paint_ui` 的名字与相对位置盲画;\n  那就画得简单些,并如实告诉老大你看不见。\n\n**卡住的时候**:`paint_ui` 列出界面上所有能点的东西(工具、形状、颜色、按钮、菜单),带 `filter`\n还会给出每个元素在窗口里的相对位置,可以直接交给 `paint_click`。窗口被盖住或有个对话框挡着,\n就先 `paint_key esc`,再 `paint_see`。\n"
       }
     ]
   },
   "changelog": {
+    "0.3.0": "照着小鱼用下来的三个问题改的。\n\n- **看得见手里是什么(新)**:`paint_see` 的回执多一行「手里:工具 X · 颜色1 Y · 颜色2 Z · 粗细 N」,\n  读数取「在画布上使用 X 工具」这个 UIA 名与「颜色 1: 红色」这类单选名 —— 是画图自己报的,不是猜的。\n  控制台「画布」页也加了同一行。\n- **调色盘用起来(新)**:\n  - `paint_palette`(新工具):按像素采样出 20 格的**真实色值**(黑色 #000000、深红色 #880015、\n    红色 #ED1C24、玫瑰红 #FFAEC9 ……),按色相分组,并把最近用过的自定义色一起列出来;\n  - `paint_color` 现在收 `hex`:任意 `#RRGGBB` 由插件自己开「编辑颜色」对话框\n    (`HexTextBox` 走 ValuePattern,再点「确定」),回执告诉你它在调色板上叫什么;\n  - 提示词里给了挑色口诀:同一色相取深/中/浅三格做暗部/固有色/高光,黑灰白只勾线与阴影。\n- **解说模式(新)**:面板「开工」页一颗开关 + 「每几笔」;开着时每画 N 笔,回执末尾点她一句\n  「说说思路」,她就用一两句话讲在画什么、为什么这么下笔。状态也进提示词(`paint.commentary`)。\n- 配置新增 `commentary` / `commentaryEvery`;工具 21 个。",
+    "0.2.0": "听老大的话改的四件事。\n\n- **开工门禁(新)**:World 挂载后默认「**待命**」——不画、不自己开画图窗口。\n  操作者在控制台「画图 → 画布」页点「**开工**」才允许动笔,点「收工」或到点(`sessionMinutes`,\n  默认 25 分钟)自动收回。这道门**只有人能开**:她手上没有开工工具,`paint_open` 在待命时会被拒。\n  配置 `startInStandby` 可以整道关掉(回到旧行为)。\n- **记录瘦身(新规矩)**:提示词里写死「只要开始与结果两笔」——过程不写日志、不往工作区贴流水账;\n  结束就是 `paint_save` 一张图 + `paint_album_add` **一句**心得。要记的中间草稿在收工前删掉。\n- **画册(新)**:`paint_album_add` / `paint_album_list`,一件作品 = 作品名 + 一句心得 + 路径,\n  存在 `worlds.paint.album`;控制台「画册」页签按卡片看,带缩略图,点图放大。\n- **心得本(新)**:`paint_journal_add` / `paint_journal_list`,她的复盘与老大的教导共写一本,\n  存在 `worlds.paint.journal`;最近 `journalInPrompt` 条(默认 8)**随提示词送进去**,\n  控制台「心得本」页签里可以直接写、直接删。\n- **工具与快捷键讲透(改)**:`paint_key` 的描述补上 ctrl+z / ctrl+y / ctrl+a delete / ctrl+plus /\n  ctrl+0 等速查;`paint_stroke` 给具体坐标例子;`paint_tool` 说清「形状选了还要拖」这一步;\n  环境提示词里加了一张快捷键表与几条「最容易白干」的提醒。\n- **面板**:从 1 个页签变 3 个(`画布` / `画册` / `心得本`);`画布` 页顶部就是开工 / 收工,\n  待命时画布按钮全灰、截图也停。",
     "0.1.0": "第一个能用的版本。\n\n- **World**:`paint`(显示名「画图」),契约 `api: 6`,默认关闭。\n- **16 个工具**:`paint_see` / `paint_open` / `paint_ui` / `paint_tool` / `paint_color` / `paint_size` /\n  `paint_stroke` / `paint_circle` / `paint_shape` / `paint_drag` / `paint_click` / `paint_type` /\n  `paint_key` / `paint_clear` / `paint_undo` / `paint_save`。\n- **桥接**:`host/paint-host.ps1`,常驻的 Windows PowerShell 进程,NDJSON 协议。UI Automation 选工具\n  与颜色(不动鼠标)、GDI BitBlt 截屏、SendInput 落笔。\n- **坐标**:一律画布相对位置 0..1;画布由 UIA(`AutomationId=image`)或像素扫描定位,换算时带上缩放。\n- **存盘**:按扩展名走 `文件 > 另存为 > PNG/JPEG/BMP/GIF 图片`,存完用 `Test-Path` 验证。\n  之所以不走 Ctrl+S:这台机器上画图的另存为默认是 `.paint`(HEIF),直接填 `.png` 会得到 HEIF 文件。\n- **配置**:`worlds.paint.{outDir, shotWidth, pace, autoOpen, maxPoints}`,全部热生效。\n- **面板**:「画布」页签 —— 状态、截图(点图放大)、打开/清空/撤销、她最近的动作记录。\n- **提示词**:`src/ENV_PROMPT.md`,带 5 个占位符(`paint.bridge` / `paint.outDir` / `paint.maxPoints` /\n  `paint.pace` / `paint.colors`)。\n\n### 验证过的\n\n在 Coopanion 0.2.13(Windows 11 26200,x64,新版画图 `Microsoft.Paint 11.2605.81.0`)上:\n\n- `pnpm smoke` 全绿:导入包 → 造实例 → 开画图 → 选铅笔/红色/粗细 2 → 画圆 → 画波浪线 →\n  拖五角星(先选形状)→ 撤销 → 存 PNG → 校验 PNG 魔数(`89 50 4E 47`);\n- 面板 `status` 与 `invokeBinary('shot')` 可用;\n- 模板占位符与 `envPromptVars()` 一一对上。\n\n### 已知边界\n\n- 调色板只有 20 色;任意颜色要模型自己开「编辑颜色」对话框。\n- 新画布默认 640×640;要改尺寸得在「重设大小」里手动改。\n- 只验收了 Windows 11 新版画图;经典画图只有别名表兜底。\n- 落笔会真的移动鼠标(画完放回原处)。"
   }
 }

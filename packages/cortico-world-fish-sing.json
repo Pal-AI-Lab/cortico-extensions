@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-fish-sing",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "describe": {
     "schema": 1,
     "name": "cortico-world-fish-sing",
@@ -161,6 +161,7 @@
     }
   },
   "changelog": {
+    "0.4.6": "### 修复\n- **新数据训练 loss 从第 0 步就是 NaN**（导入 16 首新歌后必现）：数据准备把切片写成 **PCM_24 整型 wav**，而 RVC 训练用 `scipy.io.wavfile.read` 读音频——整型被当成 ±838 万的**原始整数**（不归一化），mel 炸到 1e11、判别器损失 1e18，fp16 下溢出成 NaN。老数据集是 float wav 所以一直没事。修复三件套：\n  - 数据准备改写 **FLOAT** wav（与 RVC 官方一致）；\n  - `prepare` 装载时把整型 wav 统一转 float32（**自动修复已有实验和老数据集**，不用重跑数据准备）；\n  - 低音增强的 40k 副本改写 `pcm_f32le`。\n- 顺手修：全 1x 采样权重时不再生成\"全 0.333\"的伪权重表（0.4.0 引入的副产品，会白跑加权采样路径）。\n- 测试：切片必须为 FLOAT、全 1x 权重不展开。",
     "0.4.5": "### 修复\n- CI 的 ubuntu runner 不再预装 ffmpeg，load_mono 解码起不来。补 apt 安装步骤。",
     "0.4.4": "### 修复\n- CI 的 setuptools 锁到 <81：setuptools 81 起移除了 pkg_resources，而 pyworld 还依赖它。",
     "0.4.3": "### 修复\n- CI 环境缺 setuptools（pyworld 的 pkg_resources 依赖），单测挂。补装。",

@@ -7933,82 +7933,6 @@
         "comments": 0
       }
     },
-    "cortico-world-figure-sound": {
-      "kind": "world",
-      "version": "1.2.1",
-      "displayName": "桌宠音效更换",
-      "description": "为桌宠形象更换或补充音效 / Replace or add sounds for desktop pet figures",
-      "locales": {
-        "zh": {
-          "displayName": "桌宠音效更换",
-          "description": "为已安装的形象包增加或替换音效"
-        },
-        "en": {
-          "displayName": "Desktop Pet Sound Changer",
-          "description": "Replace or add sounds for desktop pet figures"
-        }
-      },
-      "author": "Community",
-      "maintainers": [
-        "lian0721"
-      ],
-      "license": "MIT",
-      "keywords": [
-        "cortico-world",
-        "cortico",
-        "figure",
-        "sound",
-        "audio"
-      ],
-      "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-figure-sound",
-        "repository": "https://github.com/as124da1231/cortico-world-figure-sound",
-        "homepage": "https://github.com/as124da1231/cortico-world-figure-sound#readme",
-        "bugs": "https://github.com/as124da1231/cortico-world-figure-sound/issues"
-      },
-      "created": "2026-11-01T04:58:43.529Z",
-      "published": "2026-11-01T04:59:38.745Z",
-      "versionCount": 2,
-      "official": false,
-      "isNew": true,
-      "tags": [],
-      "icon": "assets/cortico-world-figure-sound/icon.svg",
-      "downloads": {
-        "total": 0,
-        "month": 0,
-        "week": 0
-      },
-      "summary": {
-        "tools": 0,
-        "events": 0,
-        "toolTokens": 0,
-        "envPromptTokens": 0
-      },
-      "changelog": {
-        "versions": [
-          "1.2.1",
-          "1.2.0",
-          "1.1.1",
-          "1.1.0",
-          "1.0.8",
-          "1.0.7",
-          "1.0.6",
-          "1.0.5",
-          "1.0.4",
-          "1.0.3",
-          "1.0.2",
-          "1.0.1"
-        ],
-        "url": "https://github.com/as124da1231/cortico-world-figure-sound/blob/HEAD/CHANGELOG.md"
-      },
-      "discussion": {
-        "number": 612,
-        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/612",
-        "up": 0,
-        "down": 0,
-        "comments": 0
-      }
-    },
     "cortico-world-filter-paper": {
       "kind": "world",
       "version": "0.3.0",
@@ -8063,7 +7987,7 @@
     },
     "cortico-world-fish-sing": {
       "kind": "world",
-      "version": "0.4.5",
+      "version": "0.4.6",
       "description": "让她真的开口唱：B 站点歌或本地文件 → 分离 → 换声 → 混音，本机出声或发 QQ 语音条",
       "author": "FXYXL",
       "maintainers": [
@@ -8086,8 +8010,8 @@
         "bugs": "https://github.com/FXYXL/cortico-world-fish-sing/issues"
       },
       "created": "2026-10-29T17:00:43.905Z",
-      "published": "2026-11-01T17:32:21.532Z",
-      "versionCount": 15,
+      "published": "2026-11-01T20:24:21.402Z",
+      "versionCount": 16,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -8116,6 +8040,7 @@
       },
       "changelog": {
         "versions": [
+          "0.4.6",
           "0.4.5",
           "0.4.4",
           "0.4.3",
@@ -11025,13 +10950,13 @@
     },
     "cortico-world-mspaint": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.3.0",
       "displayName": "画图",
-      "description": "Cortico World: 画图 —— 让 bot 亲手在 Windows 的「画图」里画画:开画图、选工具与颜色、一笔一笔拉线条、存成 PNG/JPEG。工具与调色板走 UI Automation(名字点选,不动鼠标),落笔走 SendInput(物理像素、按画布相对坐标),所以分辨率、DPI、窗口大小都不影响。要求 Cortico 0.2.0 及以上(扩展契约 world 6);已在 Coopanion 0.2.13 上装机验证。",
+      "description": "Cortico World: 画图 —— 让 bot 亲手在 Windows 的「画图」里画画:开画图、选工具与颜色、一笔一笔拉线条、存成 PNG/JPEG。**挂载即「待命」**,操作者在面板点「开工」她才动笔,到点自动收工;画完的作品进「画册」(一句心得)、复盘与教导进「心得本」(最近几条随提示词给她)。工具与调色板走 UI Automation(名字点选,不动鼠标),落笔走 SendInput(按画布相对坐标),所以分辨率、DPI、窗口大小都不影响。要求 Cortico 0.2.0 及以上(扩展契约",
       "locales": {
         "en": {
           "displayName": "Paint",
-          "description": "Cortico World: Paint —— the bot draws by hand in Windows Paint: opens it, picks tools and colours, lays down strokes, and saves a PNG/JPEG. Tools and palette are chosen through UI Automation (by name, without moving the mouse); strokes go through SendInput in canvas-relative coordinates, so DPI, resolution and window size do not matter. Requires Cortico 0.2.0+ (extension contract world 6); verified on Coopanion 0.2.13."
+          "description": "Cortico World: Paint —— the bot draws by hand in Windows Paint: opens it, picks tools and colours, lays down strokes, and saves a PNG/JPEG. It **starts on standby**: the operator presses Start on the panel before it may touch the canvas, and it returns to standby on its own. Finished works go to an album with a one-line note; reviews and your lessons go to a journal whose latest entries ride along in the prompt. Tools and palette are chosen through UI Automation (by name, without moving the mouse); strokes go through SendInput in canvas-relative coordinates, so DPI, resolution and window size do not matter. Requires Cortico 0.2.0+ (extension contract world 6); verified on Coopanion 0.2.15."
         }
       },
       "author": "Coopanion 画图扩展",
@@ -11057,8 +10982,8 @@
         "win32"
       ],
       "created": "2026-10-29T14:00:42.154Z",
-      "published": "2026-10-29T14:03:23.572Z",
-      "versionCount": 2,
+      "published": "2026-11-01T19:10:57.483Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11083,16 +11008,18 @@
         "week": 290
       },
       "summary": {
-        "tools": 16,
+        "tools": 21,
         "events": 0,
-        "toolTokens": 2119,
-        "envPromptTokens": 745
+        "toolTokens": 2913,
+        "envPromptTokens": 1640
       },
       "changelog": {
         "versions": [
+          "0.3.0",
+          "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-mspaint@0.1.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-mspaint@0.3.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 491,
@@ -13203,7 +13130,7 @@
     },
     "cortico-world-qq-final": {
       "kind": "world",
-      "version": "0.6.45",
+      "version": "0.6.46",
       "description": "Cortico World 扩展：QQ（OneBot v11 / NapCat）适配器。",
       "maintainers": [
         "hth768"
@@ -13222,8 +13149,8 @@
         "bugs": "https://github.com/hth768/cortico-world-qq-final/issues"
       },
       "created": "2026-10-06T07:39:25.866Z",
-      "published": "2026-10-31T13:25:56.288Z",
-      "versionCount": 78,
+      "published": "2026-11-01T17:46:49.685Z",
+      "versionCount": 79,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -13246,13 +13173,14 @@
         "week": 12826
       },
       "summary": {
-        "tools": 15,
-        "events": 14,
-        "toolTokens": 4694,
-        "envPromptTokens": 957
+        "tools": 16,
+        "events": 15,
+        "toolTokens": 4917,
+        "envPromptTokens": 1000
       },
       "changelog": {
         "versions": [
+          "0.6.46",
           "0.6.45",
           "0.6.44",
           "0.6.43",
