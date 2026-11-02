@@ -401,7 +401,7 @@
     },
     "@kmchai/cortico-world-service": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "displayName": "Kmch AI · 服务",
       "description": "Cortico World: host local inference services and expose them through one OpenAI-shaped speech API; audiocpp is only one backend",
       "locales": {
@@ -437,8 +437,8 @@
         "bugs": "https://github.com/Kmch-AI/cortico-world-service/issues"
       },
       "created": "2026-11-01T14:41:09.138Z",
-      "published": "2026-11-01T14:45:18.260Z",
-      "versionCount": 2,
+      "published": "2026-11-02T01:18:20.089Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -466,6 +466,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.0",
           "0.1.0"
         ],
         "url": "https://github.com/Kmch-AI/cortico-world-service/blob/HEAD/CHANGELOG.md"
@@ -480,7 +481,7 @@
     },
     "@kmchai/cortico-world-voice": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "displayName": "Kmch AI · 语音",
       "description": "Cortico World: voice tools, probabilistic reading, emotion and paralinguistic tags, text filtering and local playback; speech is synthesized by the Kmch AI service over HTTP",
       "locales": {
@@ -519,8 +520,8 @@
         "bugs": "https://github.com/Kmch-AI/cortico-world-voice/issues"
       },
       "created": "2026-11-01T09:11:59.759Z",
-      "published": "2026-11-01T14:42:23.229Z",
-      "versionCount": 3,
+      "published": "2026-11-02T01:18:22.626Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -546,10 +547,11 @@
         "tools": 3,
         "events": 2,
         "toolTokens": 735,
-        "envPromptTokens": 304
+        "envPromptTokens": 261
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0",
           "0.1.1",
           "0.1.0"
@@ -6869,7 +6871,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/438",
         "up": 0,
         "down": 0,
-        "comments": 2
+        "comments": 3
       }
     },
     "cortico-world-emote-pics": {
@@ -7562,7 +7564,7 @@
     },
     "cortico-world-feishu": {
       "kind": "world",
-      "version": "0.1.4",
+      "version": "0.1.5",
       "displayName": "飞书",
       "description": "让 Bot 通过飞书企业自建应用的长连接收发私聊和群聊：消息推给 Persona，用工具回话。同一个 Persona，不是分身。",
       "locales": {
@@ -7588,11 +7590,14 @@
         "im"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-feishu"
+        "npm": "https://www.npmjs.com/package/cortico-world-feishu",
+        "repository": "https://github.com/lwlong0922/cortico-world-feishu",
+        "homepage": "https://github.com/lwlong0922/cortico-world-feishu#readme",
+        "bugs": "https://github.com/lwlong0922/cortico-world-feishu/issues"
       },
       "created": "2026-10-27T09:28:31.566Z",
-      "published": "2026-10-30T07:35:29.075Z",
-      "versionCount": 5,
+      "published": "2026-11-02T01:24:58.234Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -7619,13 +7624,14 @@
       },
       "changelog": {
         "versions": [
+          "0.1.5",
           "0.1.4",
           "0.1.3",
           "0.1.2",
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-feishu@0.1.4/CHANGELOG.md"
+        "url": "https://github.com/lwlong0922/cortico-world-feishu/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 361,
