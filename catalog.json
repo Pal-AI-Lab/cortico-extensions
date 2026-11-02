@@ -1869,7 +1869,7 @@
       "published": "2026-10-26T04:39:54.135Z",
       "versionCount": 7,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "companion",
         "internal-state"
@@ -3151,6 +3151,7 @@
       "created": "2026-10-18T13:58:57.585Z",
       "published": "2026-10-25T08:32:00.982Z",
       "versionCount": 5,
+      "deprecated": "Deprecated: please use cortico-world-voice instead.",
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -3863,7 +3864,7 @@
       "discussion": {
         "number": 457,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/457",
-        "up": 3,
+        "up": 4,
         "down": 0,
         "comments": 0
       }
@@ -4706,7 +4707,7 @@
       "published": "2026-10-26T04:42:16.813Z",
       "versionCount": 8,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "apps",
         "sensitive-data"
@@ -4916,7 +4917,7 @@
       "discussion": {
         "number": 536,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/536",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -5809,7 +5810,7 @@
       "published": "2026-10-26T04:44:03.800Z",
       "versionCount": 8,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "apps",
         "memory",
@@ -6261,7 +6262,7 @@
       "published": "2026-10-26T04:40:10.788Z",
       "versionCount": 7,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "apps",
         "sensitive-data"
@@ -8005,7 +8006,7 @@
     },
     "cortico-world-fish-sing": {
       "kind": "world",
-      "version": "0.4.6",
+      "version": "0.4.7",
       "description": "让她真的开口唱：B 站点歌或本地文件 → 分离 → 换声 → 混音，本机出声或发 QQ 语音条",
       "author": "FXYXL",
       "maintainers": [
@@ -8028,8 +8029,8 @@
         "bugs": "https://github.com/FXYXL/cortico-world-fish-sing/issues"
       },
       "created": "2026-10-29T17:00:43.905Z",
-      "published": "2026-11-01T20:24:21.402Z",
-      "versionCount": 16,
+      "published": "2026-11-02T05:40:48.852Z",
+      "versionCount": 17,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -8058,6 +8059,7 @@
       },
       "changelog": {
         "versions": [
+          "0.4.7",
           "0.4.6",
           "0.4.5",
           "0.4.4",
@@ -9491,6 +9493,7 @@
       "created": "2026-10-16T15:24:26.356Z",
       "published": "2026-10-28T08:26:21.414Z",
       "versionCount": 9,
+      "deprecated": "Deprecated: please use cortico-world-voice instead.",
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -10743,7 +10746,7 @@
       "published": "2026-10-26T04:41:41.515Z",
       "versionCount": 7,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "companion",
         "sensitive-data",
@@ -10879,7 +10882,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/619",
         "up": 1,
         "down": 0,
-        "comments": 2
+        "comments": 3
       }
     },
     "cortico-world-mouse-polling-fix": {
@@ -12251,7 +12254,7 @@
       "published": "2026-10-26T04:40:17.847Z",
       "versionCount": 7,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "creative",
         "unsafe"
@@ -12287,7 +12290,7 @@
     },
     "cortico-world-postcard": {
       "kind": "world",
-      "version": "0.8.10",
+      "version": "0.8.11",
       "displayName": "旅行大肥鱼",
       "description": "让大肥鱼去远方走走，把想念寄回家：两小时旅行、水彩明信片、桌面邮箱取信与永久收藏。适用于 Coopanion。 扩展反馈QQ群：584685170。",
       "author": "oceanxuhaiao",
@@ -12309,8 +12312,8 @@
         "win32"
       ],
       "created": "2026-10-28T08:31:39.933Z",
-      "published": "2026-11-01T17:05:23.165Z",
-      "versionCount": 10,
+      "published": "2026-11-02T05:46:42.791Z",
+      "versionCount": 11,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -12346,11 +12349,16 @@
       "summary": {
         "tools": 15,
         "events": 5,
-        "toolTokens": 2374,
+        "toolTokens": 2409,
         "envPromptTokens": 2109
       },
       "changelog": {
         "versions": [
+          "0.8.11",
+          "0.8.11-r12.4",
+          "0.8.11-r12.3",
+          "0.8.11-r12.2",
+          "0.8.11-r12.1",
           "0.8.10",
           "0.8.9",
           "0.8.8-whaleart.1",
@@ -12546,7 +12554,7 @@
       "discussion": {
         "number": 482,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/482",
-        "up": 1,
+        "up": 2,
         "down": 0,
         "comments": 0
       }
@@ -14270,7 +14278,7 @@
       "published": "2026-10-26T04:43:34.100Z",
       "versionCount": 7,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "companion"
       ],
@@ -15141,7 +15149,7 @@
     },
     "cortico-world-social-media": {
       "kind": "world",
-      "version": "0.6.4",
+      "version": "0.6.5",
       "displayName": "社交视窗",
       "description": "社交视窗：B站视频、动态读写与评论，实验接入抖音、快手；按作品归档互动，分平台设置特别关注与闲逛，B站可选主动@关注、抖音可监听指定群。快手暂不支持图文发评与群聊。沿用现有模型。",
       "locales": {
@@ -15177,8 +15185,8 @@
         "bugs": "https://github.com/PeiKun123/cortico-world-social-media/issues"
       },
       "created": "2026-10-23T02:10:56.290Z",
-      "published": "2026-10-28T13:08:00.929Z",
-      "versionCount": 5,
+      "published": "2026-11-02T04:34:54.280Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -15217,6 +15225,7 @@
       },
       "changelog": {
         "versions": [
+          "0.6.5",
           "0.6.4",
           "0.6.3",
           "0.7.0-beta.20",
@@ -15262,7 +15271,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/204",
         "up": 0,
         "down": 0,
-        "comments": 15
+        "comments": 17
       }
     },
     "cortico-world-soft-voice": {
@@ -15624,7 +15633,7 @@
     },
     "cortico-world-starpost": {
       "kind": "world",
-      "version": "0.21.0",
+      "version": "0.22.0",
       "displayName": "星邮",
       "description": "星邮：让 Cortico bot 独立私聊、群聊、交换漂流瓶、分享动态并预约狼人杀的社交 World 扩展",
       "maintainers": [
@@ -15644,8 +15653,8 @@
         "bugs": "https://github.com/hth768/cortico-world-starpost/issues"
       },
       "created": "2026-10-27T17:41:43.822Z",
-      "published": "2026-11-01T22:59:42.142Z",
-      "versionCount": 37,
+      "published": "2026-11-02T05:37:43.637Z",
+      "versionCount": 38,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -15673,6 +15682,7 @@
       },
       "changelog": {
         "versions": [
+          "0.22.0",
           "0.21.0",
           "0.20.1",
           "0.20.0",
@@ -16198,6 +16208,7 @@
       "created": "2026-10-15T14:29:20.510Z",
       "published": "2026-10-23T13:28:53.827Z",
       "versionCount": 5,
+      "deprecated": "Deprecated: please use cortico-world-voice instead.",
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -17221,6 +17232,7 @@
       "created": "2026-10-14T14:56:54.671Z",
       "published": "2026-10-23T12:50:34.165Z",
       "versionCount": 6,
+      "deprecated": "Deprecated: please use cortico-world-voice instead.",
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -17824,7 +17836,7 @@
       "discussion": {
         "number": 326,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/326",
-        "up": 4,
+        "up": 3,
         "down": 0,
         "comments": 3
       }
@@ -17941,7 +17953,7 @@
       "published": "2026-10-26T04:43:09.463Z",
       "versionCount": 8,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "internet"
       ],
