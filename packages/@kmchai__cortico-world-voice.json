@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "@kmchai/cortico-world-voice",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "describe": {
     "tools": [
       {
         "name": "voice_speak",
-        "description": "Say a line aloud in your voice through the person's speakers, or only synthesize it when silent is true. Use it when the person asks for voice, when this line needs a specific emotion or voice, or when automatic reading is off. It only makes sound; the visible reply still goes through the channel's own send tool. When the speech service supports paralinguistic tags, keep them inline in the text: [Laughter], [Sigh], [Breathing], [Uhm], [Question-ei] and the like are performed, not read out.",
+        "description": "Say a line aloud in your voice through the person's speakers, or only synthesize it when silent is true. Use it when the person asks for voice, or when this line needs a specific emotion or voice. It only makes sound; the visible reply still goes through the channel's own send tool. When the speech service supports paralinguistic tags, keep them inline in the text: [Laughter], [Sigh], [Breathing], [Uhm], [Question-ei] and the like are performed, not read out.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -72,7 +72,7 @@
       },
       {
         "name": "voice_style",
-        "description": "Read or change the standing voice style used by automatic reading. Call with values to change them; call with no arguments to read the current style. Changes are saved to the World configuration and apply to later lines.",
+        "description": "Read or change the standing voice style used by later voice lines. Call with values to change them; call with no arguments to read the current style. Changes are saved to the World configuration and apply to later lines.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -104,8 +104,8 @@
           "write"
         ],
         "summary": {
-          "zh": "读或改自动朗读使用的长期音色与情绪。",
-          "en": "Read or change the standing voice style used by automatic reading."
+          "zh": "读或改后续语音使用的长期音色与情绪。",
+          "en": "Read or change the standing voice style used by later voice lines."
         }
       }
     ],
@@ -130,11 +130,12 @@
         "key": "worlds.voice.envPrompt",
         "title": "语音 · 环境提示词",
         "role": "envPrompt",
-        "content": "语音由 Voice 提供:它只把文字变成声音,从对方的扬声器念出来,不负责把回复发到聊天渠道;可见的回复仍然走渠道自己的发送工具。\n\n自动朗读现在是 {{voice.auto}}(音色 {{voice.voice}},情绪 {{voice.emotion}},指令 {{voice.instruct}})。自动朗读开着时,普通回复不必调用语音工具;关着时,想出声就调用 voice_speak。\n\n需要出声的时候:\n- 对方明确要语音、要你念出来、要听你的声音时,调用 voice_speak,把要念的正文放进 text。它会绕过概率,必定出声。\n- 这一句需要特定情绪、语气、音色或语速时,调用 voice_speak 并填对应参数。想让同样的语气之后一直生效,调用 voice_style;它影响之后的自动朗读。\n- 某一句只用于别的渠道(例如语音条),不要在本机播放:voice_speak 带 silent: true,音频随回执交给渠道。\n- 对方让你安静、停下时调用 voice_hush。\n\n文本规则:\n- text 只放真正要念的正文,不要放动作描写、Markdown、代码、网址或解释。\n- {{voice.modelPrompt}}\n- 不要把控制标记写进可见的回复正文;语音参数只放在工具调用里。\n"
+        "content": "语音由 Voice 提供:它只把文字变成声音,从对方的扬声器念出来,不负责把回复发到聊天渠道;可见的回复仍然走渠道自己的发送工具。\n\n当前默认音色是 {{voice.voice}},情绪是 {{voice.emotion}},指令是 {{voice.instruct}}。普通回复不会自己出声,需要语音时明确调用 voice_speak。\n\n需要出声的时候:\n- 对方明确要语音、要你念出来、要听你的声音时,调用 voice_speak,把要念的正文放进 text。\n- 这一句需要特定情绪、语气、音色或语速时,调用 voice_speak 并填对应参数。想让同样的语气之后一直生效,调用 voice_style;它影响之后的语音。\n- 某一句只用于别的渠道(例如语音条),不要在本机播放:voice_speak 带 silent: true,音频随回执交给渠道。\n- 对方让你安静、停下时调用 voice_hush。\n\n文本规则:\n- text 只放真正要念的正文,不要放动作描写、Markdown、代码、网址或解释。\n- {{voice.modelPrompt}}\n- 不要把控制标记写进可见的回复正文;语音参数只放在工具调用里。\n"
       }
     ]
   },
   "changelog": {
+    "0.4.0": "- 删除概率触发：不再有 `autoSpeak`、`autoProbability`、`autoFromText`、`autoTools`、`autoEvents`，也不再轮询事件或从工具参数自动找正文。\n- 语音只在三种显式路径出声：`voice_speak` 工具、最近用户消息命中 `explicitKeywords`、正文里的 `<tts>…</tts>`。`voice_style` 仍影响后续语音。\n- 环境提示词、工具说明、README 与配置页同步去掉自动朗读与概率文案；旧配置里的被删字段会被忽略。\n- 这是破坏性行为变更：升级后普通回复不再随机朗读。需要出声的调用方应改用 `voice_speak`，或在消息里明确要求语音。",
     "0.3.2": "- IndexTTS2 的模型提示词明确:`emotion` / `instruct` 传自然语言,由服务映射到 `emotion_text`;不要在正文写 `emotion_text` 或方括号标签。服务 0.4.2 起这两个 options 不再由模型页覆盖。",
     "0.3.1": "- 自动朗读不再把 `end_turn` 当成实质工具调用。模型说完正文再调 `end_turn` 结束这一轮时,正文照常按概率朗读;仍会压掉与 `web_search` 等实际工具同轮出现的中间正文。\n- 网关 0.1.1 已把 World 的 `outputTap` 扇进主 session;此前网关 bot 里概率朗读拿不到正文。",
     "0.3.0": "- 系统 Config tab 移除「音色与情绪」组;音色、情绪控制、默认情绪、默认表演指令、语速与副语言标签移到「模型」页。\n- 朗读风格按模型保存进 `worlds.voice.modelStyles[model]`;切换模型时面板读回该模型的音色、风格与参数,不用先保存。旧全局字段保留为没有模型设置时的回落。\n- `voice_style` 在选定模型后只写当前模型的风格;没有模型时仍写全局回落值。\n- 服务返回的 Ming 3.0 模型参数(模板、语言、指令语言、音高、音量、生成与分块参数)在模型页显示;IndexTTS2 的中文参数名继续保留。\n- 文本过滤、合成与 `tts.voice` 事件都使用当前模型生效的风格。",

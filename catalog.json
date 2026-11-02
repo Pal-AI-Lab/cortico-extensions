@@ -405,7 +405,7 @@
     },
     "@kmchai/cortico-world-service": {
       "kind": "world",
-      "version": "0.4.2",
+      "version": "0.4.3",
       "displayName": "Kmch AI · 服务",
       "description": "Cortico World: host local inference services and expose them through one OpenAI-shaped speech API; audiocpp is only one backend",
       "locales": {
@@ -441,8 +441,8 @@
         "bugs": "https://github.com/Kmch-AI/cortico-world-service/issues"
       },
       "created": "2026-11-01T14:41:09.138Z",
-      "published": "2026-11-02T06:37:20.750Z",
-      "versionCount": 7,
+      "published": "2026-11-02T10:11:11.620Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -470,6 +470,7 @@
       },
       "changelog": {
         "versions": [
+          "0.4.3",
           "0.4.2",
           "0.4.1",
           "0.4.0",
@@ -489,17 +490,17 @@
     },
     "@kmchai/cortico-world-voice": {
       "kind": "world",
-      "version": "0.3.2",
+      "version": "0.4.0",
       "displayName": "Kmch AI · 语音",
-      "description": "Cortico World: voice tools, probabilistic reading, emotion and paralinguistic tags, text filtering and local playback; speech is synthesized by the Kmch AI service over HTTP",
+      "description": "Cortico World: voice tools, explicit semantic speech, emotion and paralinguistic tags, text filtering and local playback; speech is synthesized by the Kmch AI service over HTTP",
       "locales": {
         "zh": {
           "displayName": "Kmch AI · 语音",
-          "description": "语音 World:工具、概率朗读、情绪与副语言标签、文本过滤、本机播放;协议与 HTTP 服务由 Kmch AI · 服务提供。"
+          "description": "语音 World:语音工具、显式语义朗读、情绪与副语言标签、文本过滤、本机播放;协议与 HTTP 服务由 Kmch AI · 服务提供。"
         },
         "en": {
           "displayName": "Kmch AI · Voice",
-          "description": "Voice World: tools, probabilistic reading, emotion and paralinguistic tags, text filtering and local playback; the Kmch AI service provides the protocol and HTTP API."
+          "description": "Voice World: voice tools, explicit semantic speech, emotion and paralinguistic tags, text filtering and local playback; the Kmch AI service provides the protocol and HTTP API."
         }
       },
       "author": "kmchai",
@@ -528,8 +529,8 @@
         "bugs": "https://github.com/Kmch-AI/cortico-world-voice/issues"
       },
       "created": "2026-11-01T09:11:59.759Z",
-      "published": "2026-11-02T06:37:23.359Z",
-      "versionCount": 6,
+      "published": "2026-11-02T10:15:27.250Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -554,11 +555,12 @@
       "summary": {
         "tools": 3,
         "events": 2,
-        "toolTokens": 735,
-        "envPromptTokens": 261
+        "toolTokens": 726,
+        "envPromptTokens": 241
       },
       "changelog": {
         "versions": [
+          "0.4.0",
           "0.3.2",
           "0.3.1",
           "0.3.0",
@@ -579,7 +581,7 @@
     },
     "@lily-cooperative/custom-farm": {
       "kind": "world",
-      "version": "0.40.0",
+      "version": "0.40.2",
       "displayName": "自定义农场",
       "description": "自定义农场（Custom Farm）—— 给你的桌宠自定义一个农场，让它开心地生活。田地、作物、动物、天气、状态、道具和贴图都可以自由调整。",
       "locales": {
@@ -615,8 +617,8 @@
         "win32"
       ],
       "created": "2026-10-28T10:41:49.268Z",
-      "published": "2026-10-31T03:26:21.209Z",
-      "versionCount": 14,
+      "published": "2026-11-02T10:30:12.699Z",
+      "versionCount": 16,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1559,7 +1561,7 @@
       "published": "2026-10-21T07:07:10.488Z",
       "versionCount": 4,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "memory"
       ],
@@ -3727,7 +3729,7 @@
     },
     "cortico-world-bloom": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.2.1",
       "displayName": "花语乡 Project Bloom",
       "description": "花语乡 Project Bloom：让 Cortico Bot 自主生活、交易、送礼与交流的 World 扩展",
       "locales": {
@@ -3756,8 +3758,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-bloom"
       },
       "created": "2026-11-01T13:44:52.761Z",
-      "published": "2026-11-01T13:49:00.870Z",
-      "versionCount": 2,
+      "published": "2026-11-02T10:07:54.565Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3774,16 +3776,18 @@
         "week": 0
       },
       "summary": {
-        "tools": 6,
+        "tools": 7,
         "events": 3,
-        "toolTokens": 500,
-        "envPromptTokens": 351
+        "toolTokens": 935,
+        "envPromptTokens": 656
       },
       "changelog": {
         "versions": [
+          "0.2.1",
+          "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-bloom@0.1.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-bloom@0.2.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 631,
@@ -4324,6 +4328,56 @@
       "discussion": {
         "number": 13,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/13",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-budget-alert": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "预算告警",
+      "description": "读本机 usage 账本算今天花了多少钱,超阈值发提醒。不联网、不用 API Key。",
+      "maintainers": [
+        "bylm"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "budget",
+        "usage",
+        "cost"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-budget-alert"
+      },
+      "created": "2026-11-02T08:50:09.568Z",
+      "published": "2026-11-02T08:52:16.502Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 1,
+        "toolTokens": 327,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-budget-alert@0.1.1/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 670,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/670",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -6012,7 +6066,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/601",
         "up": 1,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-doubao-tts": {
@@ -7186,6 +7240,59 @@
         "comments": 8
       }
     },
+    "cortico-world-extra-actions": {
+      "kind": "world",
+      "version": "0.3.3",
+      "displayName": "深深与额外动作拓展",
+      "description": "勾选动作库里的动作，写进形象包的「额外动作拓展」文件夹，让桌宠照着做。自带入门形象包与示例动作，装完即用。",
+      "locales": {
+        "zh": {
+          "displayName": "深深与额外动作拓展"
+        },
+        "en": {
+          "displayName": "Shenshen & Extra Actions"
+        }
+      },
+      "author": "Daniele贤狼赫萝 & 奶糖_Net",
+      "maintainers": [
+        "banacat06"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "coopanion",
+        "figure",
+        "action"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-extra-actions",
+        "repository": "https://github.com/DanieleWolfHOLO/cortico-world-extra-actions",
+        "homepage": "https://github.com/DanieleWolfHOLO/cortico-world-extra-actions#readme",
+        "bugs": "https://github.com/DanieleWolfHOLO/cortico-world-extra-actions/issues"
+      },
+      "created": "2026-11-02T08:22:35.091Z",
+      "published": "2026-11-02T09:33:11.478Z",
+      "versionCount": 10,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "icon": "assets/cortico-world-extra-actions/icon.webp",
+      "screenshots": [
+        "assets/cortico-world-extra-actions/screenshot-1.webp"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 671,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/671",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-extsearch": {
       "kind": "world",
       "version": "0.2.1",
@@ -7580,7 +7687,7 @@
     },
     "cortico-world-feishu": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "displayName": "飞书",
       "description": "让 Bot 通过飞书企业自建应用的长连接收发私聊和群聊：消息推给 Persona，用工具回话。同一个 Persona，不是分身。",
       "locales": {
@@ -7612,17 +7719,19 @@
         "bugs": "https://github.com/lwlong0922/cortico-world-feishu/issues"
       },
       "created": "2026-10-27T09:28:31.566Z",
-      "published": "2026-11-02T07:18:31.637Z",
-      "versionCount": 7,
+      "published": "2026-11-02T07:55:11.757Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
         "im",
+        "internet",
         "requires-key",
         "external-setup"
       ],
       "tags": [
         "im",
+        "internet",
         "external-setup",
         "requires-key"
       ],
@@ -7635,11 +7744,12 @@
       "summary": {
         "tools": 4,
         "events": 1,
-        "toolTokens": 759,
-        "envPromptTokens": 525
+        "toolTokens": 815,
+        "envPromptTokens": 659
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0",
           "0.1.5",
           "0.1.4",
@@ -8015,7 +8125,7 @@
     },
     "cortico-world-fish-sing": {
       "kind": "world",
-      "version": "0.4.7",
+      "version": "0.4.8",
       "description": "让她真的开口唱：B 站点歌或本地文件 → 分离 → 换声 → 混音，本机出声或发 QQ 语音条",
       "author": "FXYXL",
       "maintainers": [
@@ -8038,8 +8148,8 @@
         "bugs": "https://github.com/FXYXL/cortico-world-fish-sing/issues"
       },
       "created": "2026-10-29T17:00:43.905Z",
-      "published": "2026-11-02T05:40:48.852Z",
-      "versionCount": 17,
+      "published": "2026-11-02T08:50:01.565Z",
+      "versionCount": 18,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -8068,6 +8178,7 @@
       },
       "changelog": {
         "versions": [
+          "0.4.8",
           "0.4.7",
           "0.4.6",
           "0.4.5",
@@ -10794,17 +10905,17 @@
     },
     "cortico-world-mosey": {
       "kind": "world",
-      "version": "1.3.2",
+      "version": "1.4.2",
       "displayName": "摸鱼",
-      "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。关注流、周报、本地书库；视频、动态、专栏都能看能评；按额度点赞、评论、关注、发动态、私信；默认人审，三把工具、少 token。",
+      "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。评论和私信都能收能回；关注流、周报、本地书库；按额度点赞、评论、关注、发动态。默认人审，三把工具、少 token。",
       "locales": {
         "zh": {
           "displayName": "摸鱼",
-          "description": "让她自己去抖音/B站逛：刷候选、看关注流、看视频/动态/专栏、点赞、评论、回复楼中楼、关注、发动态、私信；还带周报和本地书库。公开动作有硬额度，默认先出草稿等你批准；三把工具，token 花得少。"
+          "description": "让她自己去抖音/B站逛：刷候选、看关注流、看视频/动态/专栏、点赞、评论、回复楼中楼；私信收发两边都通，面板上直接回。还带周报和本地书库。公开动作有硬额度，默认先出草稿等你批准。"
         },
         "en": {
           "displayName": "Mosey",
-          "description": "Let her browse Douyin and Bilibili: feeds, following updates, videos, dynamics and articles; like, comment, reply in threads, follow, post, DM. Plus weekly recap and a local book library. Hard caps and owner approval by default; only three tools."
+          "description": "Let her browse Douyin and Bilibili: feeds, following updates, videos, dynamics, articles. Comments and DMs work both ways, reply right from the panel. Plus weekly recap and a local book library. Hard caps and owner approval by default."
         }
       },
       "author": "lutsing",
@@ -10831,8 +10942,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-mosey/issues"
       },
       "created": "2026-11-01T08:17:38.660Z",
-      "published": "2026-11-01T16:01:28.512Z",
-      "versionCount": 8,
+      "published": "2026-11-02T07:55:43.576Z",
+      "versionCount": 9,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10870,11 +10981,14 @@
       "summary": {
         "tools": 3,
         "events": 6,
-        "toolTokens": 1122,
+        "toolTokens": 1142,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.4.2",
+          "1.4.1",
+          "1.4.0",
           "1.3.2",
           "1.3.1",
           "1.3.0",
@@ -10889,9 +11003,9 @@
       "discussion": {
         "number": 619,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/619",
-        "up": 1,
+        "up": 2,
         "down": 0,
-        "comments": 3
+        "comments": 4
       }
     },
     "cortico-world-mouse-polling-fix": {
@@ -11266,6 +11380,94 @@
         "comments": 0
       }
     },
+    "cortico-world-natural-voice": {
+      "kind": "world",
+      "version": "0.6.3",
+      "displayName": "自然语音",
+      "description": "作用：朗读桌宠回复，支持多平台联网 TTS、音色、试听与停止。\n影响：需 API Key；文字发往所选服务并可能收费，预合成和语气标注可能增加费用与等待。\n局限：仅 Windows，依赖桌宠；连续推流仅阿里，不保证零延迟、逐字或口型同步。\n反馈：用户请提供版本、模型音色、步骤和脱敏报错；agent 区分实测、推测及未验证项。描述不清可让 agent 代笔，核对后提交。\n[反馈入口](https://github.com/guyin24/coopanion-natural-voice/issues)",
+      "locales": {
+        "zh": {
+          "displayName": "自然语音",
+          "description": "作用：朗读桌宠回复，支持多平台联网 TTS、音色、试听与停止。\n影响：需 API Key；文字发往所选服务并可能收费，预合成和语气标注可能增加费用与等待。\n局限：仅 Windows，依赖桌宠；连续推流仅阿里，不保证零延迟、逐字或口型同步。\n反馈：用户请提供版本、模型音色、步骤和脱敏报错；agent 区分实测、推测及未验证项。描述不清可让 agent 代笔，核对后提交。\n[反馈入口](https://github.com/guyin24/coopanion-natural-voice/issues)"
+        },
+        "en": {
+          "displayName": "Natural Voice",
+          "description": "Read pet replies via online TTS. Needs keys; sends text to the selected service and may incur fees. Windows/desktop-pet required; no exact sync. Report versions, steps and redacted errors in GitHub Issues. Ask an agent to draft, then review it."
+        }
+      },
+      "author": "guyin24",
+      "maintainers": [
+        "biyuxiang"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "coopanion",
+        "tts"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-natural-voice",
+        "repository": "https://github.com/guyin24/coopanion-natural-voice",
+        "homepage": "https://github.com/guyin24/coopanion-natural-voice",
+        "bugs": "https://github.com/guyin24/coopanion-natural-voice/issues"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-11-02T08:41:06.671Z",
+      "published": "2026-11-02T09:30:24.553Z",
+      "versionCount": 4,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "voice",
+        "requires-key",
+        "requires-extension",
+        "experimental"
+      ],
+      "tags": [
+        "voice",
+        "requires-key",
+        "experimental",
+        "requires-extension"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 1,
+        "events": 0,
+        "toolTokens": 153,
+        "envPromptTokens": 218
+      },
+      "changelog": {
+        "versions": [
+          "0.6.3",
+          "0.6.2",
+          "0.6.1",
+          "0.6.0",
+          "0.5.0",
+          "0.4.3",
+          "0.4.2",
+          "0.4.1",
+          "0.4.0",
+          "0.3.0",
+          "0.2.1",
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://github.com/guyin24/coopanion-natural-voice/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 672,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/672",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-netease-companion": {
       "kind": "world",
       "version": "0.3.7",
@@ -11556,6 +11758,56 @@
         "comments": 0
       }
     },
+    "cortico-world-ocr": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "屏幕 OCR",
+      "description": "用 Windows 自带 OCR 读屏幕文字,不调视觉模型,省 token。",
+      "maintainers": [
+        "bylm"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "ocr",
+        "screen",
+        "windows"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-ocr"
+      },
+      "created": "2026-11-02T08:50:05.584Z",
+      "published": "2026-11-02T08:51:01.467Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 0,
+        "toolTokens": 371,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-ocr@0.1.1/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 673,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/673",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-onebot": {
       "kind": "world",
       "version": "0.3.1",
@@ -11624,6 +11876,106 @@
         "number": 162,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/162",
         "up": 1,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-onepiece": {
+      "kind": "world",
+      "version": "0.12.2",
+      "displayName": "海贼王大冒险",
+      "description": "给 Coopanion 桌宠的航海剧情世界：119 章连载、三回合 BOSS、同伴与船坞、名刀 / 果实 / 霸气 / 图鉴，四块石碑之后还有隐藏章。整块面板是复古羊皮纸风。",
+      "locales": {
+        "zh": {
+          "displayName": "海贼王大冒险",
+          "description": "给桌宠的赏金世界：119 章连载，她一章一章往前打，打不过就自己练级。三回合 BOSS、同伴与船坞、三档名刀、十八颗果实、三种霸气、132 条图鉴，四块石碑凑齐还有一段隐藏章。羊皮纸与木牌的复古航海界面，单机、不联网、不额外调用模型。"
+        },
+        "en": {
+          "displayName": "Bounty Seas",
+          "description": "A bounty world for your desktop pet: 119 serialized chapters she clears one at a time, three-round bosses, a crew and a six-part ship to build up, three tiers of named blades, 18 fruits, three kinds of aura, a 132-entry codex, four stone tablets and a hidden final chapter. Aged-parchment retro nautical UI. Single-player, offline, no extra model calls."
+        }
+      },
+      "author": "lutsing",
+      "maintainers": [
+        "lutsing"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "desktop-pet",
+        "pirate",
+        "bounty",
+        "adventure",
+        "story",
+        "voyage",
+        "crew",
+        "ship",
+        "collection",
+        "game",
+        "ui"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-onepiece",
+        "repository": "https://github.com/liqin1018/cortico-world-onepiece",
+        "homepage": "https://github.com/liqin1018/cortico-world-onepiece#readme",
+        "bugs": "https://github.com/liqin1018/cortico-world-onepiece/issues"
+      },
+      "created": "2026-11-02T09:47:22.516Z",
+      "published": "2026-11-02T11:02:54.501Z",
+      "versionCount": 4,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "game",
+        "companion",
+        "internal-state"
+      ],
+      "tags": [
+        "game",
+        "companion",
+        "internal-state"
+      ],
+      "icon": "assets/cortico-world-onepiece/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 2,
+        "toolTokens": 542,
+        "envPromptTokens": 105
+      },
+      "changelog": {
+        "versions": [
+          "0.12.2",
+          "0.12.1",
+          "0.12.0",
+          "0.11.1",
+          "0.11.0",
+          "0.10.1",
+          "0.10.0",
+          "0.9.0",
+          "0.8.0",
+          "0.7.0",
+          "0.6.0",
+          "0.5.0",
+          "0.3.2",
+          "0.3.1",
+          "0.3.0",
+          "0.2.1",
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://github.com/liqin1018/cortico-world-onepiece/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 674,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/674",
+        "up": 0,
         "down": 0,
         "comments": 0
       }
@@ -11752,7 +12104,7 @@
     },
     "cortico-world-parlor": {
       "kind": "world",
-      "version": "0.34.0",
+      "version": "0.35.2",
       "displayName": "鲸语茶室",
       "description": "鲸语茶室(共享客厅)：多只 Coo 与家长一起聊天、斗地主、掷骰子；附零构建网页牌桌与家长观战页。Cortico World: a shared parlor with many rooms where Coos sit, talk and play dice or 斗地主 — plus a zero-build web table and a read-only parent view",
       "locales": {
@@ -11786,6 +12138,7 @@
         "会馆",
         "大厅",
         "斗地主",
+        "狼人杀",
         "牌桌",
         "聊天",
         "多人",
@@ -11798,8 +12151,8 @@
         "bugs": "https://github.com/biliye/cortico-world-parlor/issues"
       },
       "created": "2026-10-30T12:05:22.925Z",
-      "published": "2026-11-02T01:28:12.058Z",
-      "versionCount": 20,
+      "published": "2026-11-02T10:00:43.269Z",
+      "versionCount": 23,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11821,13 +12174,16 @@
         "week": 0
       },
       "summary": {
-        "tools": 31,
+        "tools": 34,
         "events": 7,
-        "toolTokens": 5474,
-        "envPromptTokens": 2480
+        "toolTokens": 6010,
+        "envPromptTokens": 2455
       },
       "changelog": {
         "versions": [
+          "0.35.2",
+          "0.35.1",
+          "0.35.0",
           "0.34.0",
           "0.33.0",
           "0.32.0",
@@ -15034,6 +15390,55 @@
         "comments": 0
       }
     },
+    "cortico-world-snapshot": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "工作区快照",
+      "description": "给工作区做时间点快照:创建、列出、回滚、删除。",
+      "maintainers": [
+        "bylm"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "snapshot",
+        "backup"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-snapshot"
+      },
+      "created": "2026-11-02T08:49:57.338Z",
+      "published": "2026-11-02T08:50:53.304Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 0,
+        "toolTokens": 385,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-snapshot@0.1.1/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 675,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/675",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-snowluma": {
       "kind": "world",
       "version": "0.1.0",
@@ -16744,7 +17149,7 @@
     },
     "cortico-world-terrarium": {
       "kind": "world",
-      "version": "0.9.1-bugfix.2",
+      "version": "0.9.2",
       "displayName": "Terrarium",
       "description": "Claimable land and water ecosystems with plants, bugs, fish and a public leaderboard",
       "locales": {
@@ -16777,8 +17182,8 @@
         "bugs": "https://github.com/zhiyuHD/cortico-world-terrarium/issues"
       },
       "created": "2026-10-17T06:11:00.470Z",
-      "published": "2026-10-29T12:16:03.714Z",
-      "versionCount": 41,
+      "published": "2026-11-02T11:00:43.233Z",
+      "versionCount": 42,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -16796,11 +17201,13 @@
       "summary": {
         "tools": 14,
         "events": 13,
-        "toolTokens": 5967,
-        "envPromptTokens": 949
+        "toolTokens": 3194,
+        "envPromptTokens": 995
       },
       "changelog": {
         "versions": [
+          "0.9.2",
+          "0.9.1-bugfix.3",
           "0.9.1-bugfix.2",
           "0.9.1-bugfix.1",
           "0.9.1",
@@ -17525,7 +17932,7 @@
     },
     "cortico-world-voice": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.1.3",
       "displayName": "声音",
       "description": "让Coo能听能说。",
       "locales": {
@@ -17563,8 +17970,8 @@
         "win32"
       ],
       "created": "2026-11-01T15:07:11.682Z",
-      "published": "2026-11-01T15:08:08.622Z",
-      "versionCount": 2,
+      "published": "2026-11-02T10:49:24.017Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -17586,13 +17993,16 @@
         "week": 0
       },
       "summary": {
-        "tools": 8,
-        "events": 10,
-        "toolTokens": 1619,
+        "tools": 13,
+        "events": 9,
+        "toolTokens": 2898,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.1.3",
+          "0.1.2",
+          "0.1.1",
           "0.1.0"
         ],
         "url": "https://github.com/AqualCross/cortico-world-voice/blob/HEAD/CHANGELOG.md"

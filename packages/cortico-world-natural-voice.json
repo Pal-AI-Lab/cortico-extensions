@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "name": "cortico-world-natural-voice",
+  "version": "0.6.3",
+  "describe": {
+    "tools": [
+      {
+        "name": "voice_set_tone",
+        "tags": [
+          "write"
+        ],
+        "description": "Set brief tones for the beats of the next pet_say, or the next pet_ask question, in order. Call before that speech tool in the same response. Send tones only; never repeat the speech text. This tool does not speak or display anything.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "tones": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 5,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+              }
+            }
+          },
+          "required": [
+            "tones"
+          ]
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.natural-voice.envPrompt",
+        "title": "每句语气说明",
+        "role": "envPrompt",
+        "content": "Before each spoken reply, call voice_set_tone immediately before pet_say or pet_ask, earlier in the same response. Send a short tones array in beat order, for example {\"tones\":[\"轻声安慰\",\"开心上扬\"]}. Never repeat the speech text in this tool. Use one entry per pet_say beat, or one for a pet_ask question. Keep tones brief, fitting the context and the selected speaker; avoid forced happiness or exaggerated acting.\n\nThen use the ordinary pet_say or pet_ask tool to deliver the actual words. Tone labels are metadata: never put them into the visible speech, question, or options. If tone annotation is unavailable or fails, speak normally; existing expression metadata or the configured global style provides the fallback.\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.6.3": "- Keep the Chinese market introduction within npm's 255-character limit so the feedback guidance and link are not truncated.\n- Enforce that limit in the release checker; retain the full user/agent guides and issue forms from 0.6.2.",
+    "0.6.2": "- Make the market introduction Chinese-first, covering purpose, data/cost/playback effects, limitations and feedback links.\n- Add user and agent issue forms plus a bundled Chinese feedback guide with an agent drafting prompt and explicit review/evidence guidance.\n- Update GitHub documentation and agent contributor instructions; keep the speech runtime unchanged.",
+    "0.6.1": "- Prepare the first public npm release as `cortico-world-natural-voice` with the existing World API 6 manifest.\n- Include environment prompt metadata in the generated market description and verify it with the upstream describe checker.\n- Declare market tags for voice, required service credentials, the desktop-pet extension dependency and limited-environment validation.\n- Document market/npm installation; preserve the 0.6.0 voice runtime and configuration behavior.",
+    "0.6.0": "- Follow existing pet mood by default without extra model tokens/tools; optional tones-only ordinal annotations replace duplicated speech bodies.\n- Warm Aliyun WebSocket handshakes independently from model/voice/tone, then stream all PCM continuously into a persistent native waveOut player.\n- Stop audio in-process, preserve ordered playback, lock gain per reply, and prevent disposed players from reopening through stale tasks.\n- Bound speculative synthesis, isolate store-event failures, release rejected reply bubbles immediately, and invalidate cached audio after voice/model/provider settings change.\n- Scope bubble discovery to verified loopback pet upgrades, remove active-handle scanning, expose self-check/fail-open status and document the requested upstream hook.\n- Keep runtime/user docs in release packages; retain review evidence in source.",
+    "0.5.0": "- Let the reply model annotate each upcoming line with a separate delivery tone through a declared World tool and environment prompt.\n- Feed confirmed per-line instructions to supported Qwen Audio 3.0/3.1 models; preserve global style as fallback and add an opt-out toggle.\n- Keep annotated beats intact, distinguish punctuation and repeated text, retain tones after truncation and carry instructions with queued/prewarmed audio.\n- Bound and expire annotation plans, clear them on cancellation/turn completion, and prevent speculative tool output from controlling actual speech until execution confirms it.\n- Validate 254 automated tests and real installed-model generation of two distinct tones with cloud synthesis and native playback.",
+    "0.4.3": "- Add editable Qwen Audio 3.0/3.1 speaking instructions with a natural conversational default; an empty value restores model-default delivery.\n- Apply instructions to direct, prewarmed and duplex WebSocket tasks, and separate warm tasks by speaking style.\n- Show the style setting only for supported Qwen models; leave other provider protocols unchanged.\n- Verify same-text/same-voice live comparisons, browser save/clear behavior and 236 automated tests. Expressiveness remains a listening judgment; official demo settings were not established.",
+    "0.4.2": "- Preserve complete Alibaba workspace IDs and hostnames across HTTP, WebSocket and catalog requests; migrate the legacy duplicated-prefix template.\n- Reject malformed inline Base64 and incomplete PCM; cancel owned pending warm handshakes.\n- Match each bubble/status group to its own opening segment and ignore late readiness for expired groups.\n- Cancel incomplete streamed tool calls at round end while retaining completed pre-synthesis.\n- Release synchronized bubbles on the native player's loaded/playing acknowledgement rather than before file preparation.\n- Add protocol, endpoint identity, synchronization and native-readiness regression coverage; record live cloud and installed-app validation separately.",
+    "0.4.1": "- Replace generated Qwen voice suffixes with exact official per-model catalogs (Plus: 4; Flash: 139), preserving unknown custom IDs.\n- Close pending WebSocket upgrade requests on abort/timeout and reject late upgrades.\n- Observe first-chunk playback failures immediately; cancel and join playback when synthesis fails.\n- Keep valid pre-synthesis for other tool replies and discard audio whose streamed text differs from the final cleaned text.\n- Share store append subscriptions safely across World restarts and preserve later HTTP wrappers when removing the bubble hook.\n- Reserve playback submission order before asynchronous WAV preparation without serializing whole playback.\n- Lock credential clearing to the selected provider and remove its redundant stop request.",
+    "0.4.0": "- Support Alibaba Cloud DashScope `tts_v2` WebSocket protocol (canonical template after the 0.4.2 identity fix: `wss://{workspaceId}.cn-beijing.maas.aliyuncs.com/api-ws/v1/inference`, with the complete workspace ID) for `qwen-audio-3.1-tts-plus` and `qwen-audio-3.1-tts-flash` alongside CosyVoice HTTP `SpeechSynthesizer`.\n- Automatically converge endpoints, `workspaceId` extraction, and `_v3.1` voice suffixes when switching between CosyVoice and Qwen-Audio 3.1 TTS models, as well as root/base URLs across SiliconFlow, OpenAI, MiniMax, Volcano Engine, Azure and ElevenLabs.\n- Synchronize text and audio latency by pre-synthesizing the first beat during LLM streaming (`outputTap`), subscribing to `host.store.onAppend` for 0ms event reaction, splitting multi-beat/long replies into segments with concurrent next-segment synthesis prefetch, and keeping a warm persistent Windows `SoundPlayer` process (`warmPlayer`).",
+    "0.3.0": "- Load provider model and voice catalogs automatically, with readable dropdowns and custom-ID entry.\n- Query Aliyun compatible models/account voices, MiniMax voices, ElevenLabs models/voices, Azure voices, SiliconFlow models/account voices and OpenAI-compatible model endpoints.\n- Bundle model-bound official system voices where no account listing exists, label live/preset sources, and keep presets on lookup failures.\n- Allow credentials to be saved before selecting a model, ignore delayed provider results, and filter unverified Aliyun account voices out of automatic choices.\n- Include the live CosyVoice WAV playback fix from 0.2.1.",
+    "0.2.1": "- Finalize the streaming WAV length placeholders observed in real Alibaba CosyVoice responses before Windows playback.\n- Keep strict validation for other container lengths, format fields and sample alignment.\n- Place generation/playback status and errors next to the preview controls.",
+    "0.2.0": "- Add Alibaba Cloud CosyVoice, Volcano Engine/Doubao, Tencent Cloud, MiniMax, ElevenLabs and Azure Speech adapters.\n- Isolate saved credentials by provider; migrate the previous key only to its original endpoint's provider.\n- Add workspace/region/sample-rate settings, credential clearing and validation before saving.\n- Validate and normalize WAV/PCM audio, decode bounded Base64/hex envelopes, and sign Tencent requests without runtime dependencies.\n- Use English package paths and instruction/archive filenames.",
+    "0.1.0": "- Read new pet replies and questions through configurable online TTS.\n- Add SiliconFlow and OpenAI presets, key storage, preview and stop controls.\n- Serialize Windows WAV playback and interrupt it on new input."
+  }
+}

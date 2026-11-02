@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-voice",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "describe": {
     "tools": [
       {
@@ -31,15 +31,15 @@
               "type": "string",
               "description": "Absolute path to the audio file; give this or handle."
             },
+            "handle": {
+              "type": "string",
+              "description": "A log:/mem: blob handle for the audio; give this or path."
+            },
             "volume": {
               "type": "number",
               "minimum": 0,
               "maximum": 100,
               "description": "Volume for this item; defaults to the configured volume."
-            },
-            "handle": {
-              "type": "string",
-              "description": "A log:/mem: blob handle for the audio; give this or path."
             }
           }
         },
@@ -53,7 +53,7 @@
       },
       {
         "name": "audio_say",
-        "description": "Say a line with the configured speech engine and play it through the audio queue. Returns at once: synthesis and playback run in the background, and only a failure comes back as an audio.say_failed event. With silent=true it synthesizes in the background without playback and the file path comes back as an audio.say_done event.",
+        "description": "Say a line with the configured speech engine and play it through the audio queue. Returns at once: synthesis and playback run in the background, and only a failure comes back as an audio.failed event. With silent=true it synthesizes in the background without playback and the file path comes back as an audio.say_done event.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -86,22 +86,22 @@
       },
       {
         "name": "audio_convert",
-        "description": "Convert an audio file (a local path, or a log:/mem: blob handle) into the configured RVC voice and play the result through the audio queue. Returns at once: conversion runs in the background, the result lands in the speech records, and only a failure comes back as an audio.convert_failed event.",
+        "description": "Convert an audio file (a local path, or a log:/mem: blob handle) into the configured RVC voice and play the result through the audio queue. Returns at once: conversion runs in the background, the result lands in the speech records, and only a failure comes back as an audio.failed event.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "path": {
               "type": "string",
-              "description": "Absolute path to the audio file; give this or handle."
-            },
-            "voice": {
-              "type": "string",
-              "description": "Optional voice file name (the .pth in the voice folder); empty uses the configured one."
+              "description": "Absolute path to the audio file to convert; give this or handle."
             },
             "handle": {
               "type": "string",
               "description": "A log:/mem: blob handle for the audio; give this or path."
+            },
+            "voice": {
+              "type": "string",
+              "description": "Optional voice file name (the .pth in the voice folder); empty uses the configured one."
             },
             "silent": {
               "type": "boolean",
@@ -119,7 +119,7 @@
       },
       {
         "name": "audio_sing",
-        "description": "Sing the given lyrics with the configured DiffSinger voicebank and play the song through the audio queue. Returns at once: synthesis runs in the background, the result lands in the speech records, and only a failure comes back as an audio.sing_failed event.",
+        "description": "Sing the given lyrics with the configured DiffSinger voicebank and play the song through the audio queue. Returns at once: synthesis runs in the background, the result lands in the speech records, and only a failure comes back as an audio.failed event.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -148,7 +148,7 @@
       },
       {
         "name": "audio_transcribe",
-        "description": "Transcribe an audio file (a local path, or a log:/mem: blob handle) with the configured speech-to-text engine. Returns at once: transcription runs in the background, the text lands in the transcript records and comes back as an audio.transcribed event; a failure comes back as audio.transcribe_failed.",
+        "description": "Transcribe an audio file (a local path, or a log:/mem: blob handle) with the configured speech-to-text engine. Returns at once: transcription runs in the background, the text lands in the transcript records and comes back as an audio.transcribed event; a failure comes back as audio.failed.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -173,7 +173,7 @@
       },
       {
         "name": "audio_listen",
-        "description": "Start, stop or inspect hearing: system audio, the microphone, or one application. Lanes split audio by voice activity and transcribe each chunk, or — when a lane is set to streaming — transcribe live and cut sentences by the engine endpoints. Transcribed sentences land in the transcript records (no audio files are kept). With delivery set to notify, each audio.heard is pushed with trigger=debounce, so the core batches close sentences into one wake-up (window and batch limits come from the framework batching settings).",
+        "description": "Start, stop or inspect hearing: system audio, the microphone, or one application. Lanes split audio by voice activity and transcribe each chunk, or — when a lane is set to streaming — transcribe live and cut sentences by the engine endpoints. Transcribed sentences land in the transcript records (no audio files are kept). With the delivery setting on notify, each audio.heard is pushed with trigger=debounce, so the core batches close sentences into one wake-up (window and batch limits come from the framework batching settings).",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -237,42 +237,222 @@
           "zh": "查看或改动播放队列。",
           "en": "Inspect or change the playback queue."
         }
+      },
+      {
+        "name": "audio_separate",
+        "description": "Separate a local song into vocals and accompaniment with the installed Demucs model. Returns a job id immediately; completion arrives as audio.separated with both file paths, failure as audio.failed. Setup is obtained by the user in Music > Separate.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "Local audio file to separate."
+            }
+          },
+          "required": [
+            "path"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "把歌曲分成人声和伴奏。",
+          "en": "Separate a song into vocals and accompaniment."
+        }
+      },
+      {
+        "name": "audio_mix",
+        "description": "Mix 1–16 local audio tracks into a WAV with per-track volume and start delay. Returns a job id immediately; completion arrives as audio.mixed with the file path, failure as audio.failed. Does not play automatically.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "tracks": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 16,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "path": {
+                    "type": "string"
+                  },
+                  "volume": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 200,
+                    "description": "Volume percent; default 100."
+                  },
+                  "delaySec": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 3600,
+                    "description": "Start delay in seconds; default 0."
+                  }
+                },
+                "required": [
+                  "path"
+                ]
+              }
+            }
+          },
+          "required": [
+            "tracks"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "按音量和时间偏移混合多条音轨。",
+          "en": "Mix tracks with individual levels and start offsets."
+        }
+      },
+      {
+        "name": "audio_abc_music_score",
+        "description": "Validate, save or read ABC scores. Saved scores appear as sheet music in the Scores panel. Before editing, get the current score and save with expectedRevision. Audio rendering is separate. Validation and saving work without installed SoundFonts.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "check",
+                "save",
+                "get",
+                "list"
+              ]
+            },
+            "abc": {
+              "type": "string",
+              "maxLength": 48000,
+              "description": "One complete ABC tune with X/M/L/K headers; T/Q recommended. Use V: for independent voices and [CEG] for chords. Quoted chord names are labels and do not create accompaniment."
+            },
+            "id": {
+              "type": "string"
+            },
+            "expectedRevision": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string",
+              "maxLength": 160
+            },
+            "instrument": {
+              "type": "string",
+              "description": "Preset ID from audio_abc_music_control action=instruments. Selects the SoundFont and default MIDI patch. Explicit ABC %%MIDI program overrides individual voices within that SoundFont."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "检查、保存与读取 ABC 曲谱和版本。",
+          "en": "Validate, save and read ABC scores."
+        }
+      },
+      {
+        "name": "audio_abc_music_play",
+        "description": "Render a WAV in the background using an installed SoundFont. Supply exactly one of score or abc. Direct ABC is saved after rendering succeeds. Works retain the ABC snapshot and MIDI. return attaches audio to the tool receipt; event emits audio.abc_played. Playback and sending use other tools. Ask the user to obtain or import a SoundFont in Instruments when none is installed.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "string",
+              "description": "Saved score ID."
+            },
+            "abc": {
+              "type": "string",
+              "maxLength": 48000,
+              "description": "One complete ABC tune with X/M/L/K headers; T/Q recommended. Use V: for independent voices and [CEG] for chords. Quoted chord names are labels and do not create accompaniment."
+            },
+            "title": {
+              "type": "string",
+              "maxLength": 160
+            },
+            "instrument": {
+              "type": "string",
+              "description": "Preset ID from audio_abc_music_control action=instruments. Selects the SoundFont and default MIDI patch. Explicit ABC %%MIDI program overrides individual voices within that SoundFont."
+            },
+            "delivery": {
+              "type": "string",
+              "enum": [
+                "return",
+                "event"
+              ]
+            }
+          }
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "把 ABC 曲谱渲染为采样音源 WAV，并保存作品。",
+          "en": "Render ABC to sampled audio and retain a score snapshot."
+        }
+      },
+      {
+        "name": "audio_abc_music_control",
+        "description": "Read ABC Music status, list installed SoundFont presets, or set the default instrument and audio delivery. Use instruments before choosing a preset ID. SoundFonts are obtained or imported by the user in the Instruments panel.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "status",
+                "instruments",
+                "set"
+              ]
+            },
+            "instrument": {
+              "type": "string",
+              "description": "Preset ID from audio_abc_music_control action=instruments. Selects the SoundFont and default MIDI patch. Explicit ABC %%MIDI program overrides individual voices within that SoundFont."
+            },
+            "delivery": {
+              "type": "string",
+              "enum": [
+                "return",
+                "event"
+              ]
+            },
+            "eventDelivery": {
+              "type": "string",
+              "enum": [
+                "archive",
+                "model"
+              ]
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "列出音源预设、查看状态或设置乐器与交付方式。",
+          "en": "List SoundFont presets, read status or configure instruments and delivery."
+        }
       }
     ],
     "events": [
-      {
-        "type": "audio.started",
-        "description": {
-          "zh": "声音 World 已挂载。",
-          "en": "The audio World was mounted."
-        }
-      },
       {
         "type": "audio.heard",
         "description": {
           "zh": "从某一路声音里切出一块并（可自动）转成文字，正文存进转写记录；事件默认只归档，打开「通知 Coo」时按内核 debounce 投递，几句会在同一次唤醒里一起给到模型。",
           "en": "A chunk was cut from one listening lane and transcribed (when enabled); the text goes to the transcript records. Archived by default; with notify on the event is pushed with trigger=debounce, so the core batches close sentences into one wake-up."
-        }
-      },
-      {
-        "type": "audio.say_failed",
-        "description": {
-          "zh": "后台合成一句话失败了；成功不打扰。",
-          "en": "A background audio_say synthesis failed; successes stay silent."
-        }
-      },
-      {
-        "type": "audio.convert_failed",
-        "description": {
-          "zh": "后台变声失败了；成功不打扰。",
-          "en": "A background audio_convert conversion failed; successes stay silent."
-        }
-      },
-      {
-        "type": "audio.sing_failed",
-        "description": {
-          "zh": "后台唱歌失败了；成功不打扰。",
-          "en": "A background audio_sing synthesis failed; successes stay silent."
         }
       },
       {
@@ -283,17 +463,17 @@
         }
       },
       {
+        "type": "audio.failed",
+        "description": {
+          "zh": "后台说话、转写、变声、唱歌、分离或混音失败，正文包含工具名、任务编号与失败原因。",
+          "en": "A background speech, transcription, conversion, singing, separation, or mixing task failed; the text includes the tool name, job id, and error."
+        }
+      },
+      {
         "type": "audio.transcribed",
         "description": {
           "zh": "后台转写完成，带回文字。",
           "en": "A background transcription finished; it carries the text."
-        }
-      },
-      {
-        "type": "audio.transcribe_failed",
-        "description": {
-          "zh": "后台转写失败。",
-          "en": "A background transcription failed."
         }
       },
       {
@@ -309,6 +489,28 @@
           "zh": "silent 唱歌完成，带回本地路径与音频附件句柄。",
           "en": "A silent audio_sing finished; it carries the local path and the audio as a blob attachment."
         }
+      },
+      {
+        "type": "audio.separated",
+        "description": {
+          "zh": "歌曲分离完成，带回人声与伴奏路径。",
+          "en": "Song separation finished with paths to vocals and accompaniment."
+        }
+      },
+      {
+        "type": "audio.mixed",
+        "description": {
+          "zh": "混音完成，带回 WAV 路径。",
+          "en": "Mixing finished with the WAV file path."
+        }
+      },
+      {
+        "type": "audio.abc_played",
+        "description": {
+          "zh": "ABC 演奏完成：WAV 附件、曲谱版本与文件路径。",
+          "en": "ABC rendering completed, with a WAV attachment and score revision."
+        },
+        "trigger": "debounce"
       }
     ],
     "prompts": [
@@ -321,6 +523,9 @@
     ]
   },
   "changelog": {
+    "0.1.3": "- 修复 PCM 输出无声：打开流后先启动流；打断或切歌后关闭流，下一次播放会重新打开；每次播放新建输出以跟随当前默认音频设备；按 `openStream` 返回的实际帧长写 PCM，避免帧长不符时播放失败。",
+    "0.1.2": "- 新增「音乐」页，下设「分离」「混音」「ABC」「记录」：Demucs ONNX 人声/伴奏分离（有 NVIDIA 显卡时默认走 CUDA，执行器起不来时回退 CPU）、多轨音量与延迟混音、从 ABC 音乐扩展迁入的乐谱编辑、试听、作品与音源管理，以及汇总分离与混音成品的「记录」页。\n- 新增 `audio_separate`、`audio_mix`，迁入 `audio_abc_music_score`、`audio_abc_music_play`、`audio_abc_music_control`；音乐事件使用 `audio.separated`、`audio.mixed`、`audio.abc_played`。\n- 变声长音频自动分段：超过 90 秒按 90 秒一片、相邻 2 秒重叠送 RVC，转换后交叉淡化拼回原时长，不再需要手动切片。\n- 依赖页给本扩展装过的项目加了「卸载」按钮，确认后停掉占用文件的子进程并删除部署目录里的源码、环境、权重或模型；系统里已有的 uv / ffmpeg、用户导入的音色与声库、已生成的音频都不动。\n- 「工具」页为每个工具增加模型可见性开关，按部署保存；`audio_listen` 默认关闭，用户可自行开启，恢复默认后再次关闭。关闭项从工具表移除，保存后提示重载系统前缀。\n- 修复依赖安装：uv 的工作目录不存在时不再误报「uv 没装」；HTTP 超时放宽到 60 秒；失败信息去掉 ANSI 与进度残片，并按源保留完整输出；识别环境按实际依赖自检，不再统一 import `sherpa_onnx`。\n- 收紧扩展自身的网络与下载：不再改写宿主进程的代理环境变量，代理只按请求用于本扩展的请求；uv 固定 0.13.6、ffmpeg 固定 BtbN 构建，下载后校验大小与 SHA-256 再解压执行。",
+    "0.1.1": "- 事件统一按 `external` 投递；说话、转写、变声和唱歌的后台失败事件统一为 `audio.failed`。\n- 删除挂载时的 `audio.started` 事件及其声明。",
     "0.1.0": "- 首个版本：把「听、转写、说话、唱歌、变声、播放」收进一个 World，取代原来的 tts / stt / listen / audio-play 四个扩展。\n- 本机引擎：GPT-SoVITS（说话）、SenseVoice 与 Paraformer 流式（转写）、DiffSinger 绮萱（唱歌）、RVC（变声）；\n  说话/唱歌/变声的子进程按需启动、空闲退出。\n- 听：系统环回 / 按应用 / 麦克风，能量门限、Silero、FireRed VAD 切分，FireRed AED 区分说话 / 唱歌 / 音乐；\n  听到的话自动转成文字存进「记录 → 转写」，不落音频文件；「通知 Coo」按内核 debounce 合批唤醒。\n- 配音输出：说话、变声、唱歌的成品都在 `audio/out/`，面板可试听、复制路径、逐条删除或清空。\n- 依赖页一键获取：uv、ffmpeg、GPT-SoVITS 源码与权重、RVC 源码与资产、DiffSinger 声库与声码器、VAD 与识别模型；\n  运行时与权重放部署根，数据在 `data/audio/`。\n- 导航加了状态灯：听 / 说话 / 变声 / 唱歌各自可确认的状态（悬停说缺什么），开车时另有一个「在听 N 路」徽章；不展示依赖计数、档位这类技术细节。\n- 说话 / 变声 / 唱歌都有 `silent`：不播放，完成事件带回本地路径 + Core 分配的音频附件句柄（`audio.say_done` / `audio.convert_done` / `audio.sing_done`）；播放、变声、转写也接受 `log:`/`mem:` 句柄作为输入。\n- 工具全部非阻塞：`audio_say` 的 `silent` 与 `audio_transcribe` 也改为立刻回执，结果分别以 `audio.say_done` / `audio.transcribed` 事件带回（失败 `audio.say_failed` / `audio.transcribe_failed`）。\n- 工具：`audio_status`、`audio_play`、`audio_say`、`audio_convert`、`audio_sing`、`audio_transcribe`、`audio_listen`、`audio_queue`；\n  事件：`audio.started`、`audio.heard`、`audio.say_failed`、`audio.convert_failed`、`audio.sing_failed`。"
   }
 }
