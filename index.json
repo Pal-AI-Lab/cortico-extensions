@@ -387,6 +387,10 @@
         "zh": "加载时替换桌宠 World 的内部方法(DesktopPetWorld.prototype 上的 snapshot、onPage、onTouch 等六个)",
         "en": "On load it replaces internal methods of the pet World (six methods on DesktopPetWorld.prototype, including snapshot, onPage and onTouch)"
       },
+      "cortico-world-fishing": {
+        "zh": "钓鱼动作要按 README 给 Coopanion 桌宠打补丁(改 4 个文件 59 处),改动对所有形象生效;还直接读部署 .env 里的控制台密码登录控制台",
+        "en": "Its fishing poses need the Coopanion pet patched as the README describes (59 edits across 4 files), which affects every figure; it also reads the console password straight from the deployment .env to log in to the console"
+      },
       "cortico-world-filter-paper": {
         "zh": "加载时替换内置 Persona 的交接方法(Cormini.prototype.onHandoff),改动对所有 bot 生效",
         "en": "On load it replaces the built-in Persona's handoff method (Cormini.prototype.onHandoff), which changes every bot"
@@ -414,6 +418,10 @@
       "cortico-world-tat-connect-next": {
         "zh": "作者本人要求下架",
         "en": "Withdrawn at the author's request"
+      },
+      "cortico-world-vtube": {
+        "zh": "没填视觉模型的 key 时，从各模型服务的 .env 里借用任意一把 API Key 发给视觉接口(默认智谱),说明里没有写",
+        "en": "When no vision key is set it borrows any API key from the model providers' .env files and sends it to the vision endpoint (Zhipu by default), which its documentation does not mention"
       }
     },
     "publishers": {}
@@ -1270,6 +1278,72 @@
     },
     "better-cortico-world-netease-companion": {
       "removeTags": [
+        "sensitive-data"
+      ]
+    },
+    "cortico-world-switch": {
+      "addTags": [
+        "unsafe"
+      ]
+    },
+    "cortico-world-qqbot-feibi": {
+      "addTags": [
+        "unsafe",
+        "external-setup",
+        "requires-key"
+      ]
+    },
+    "cortico-world-wechat-clawbridge": {
+      "addTags": [
+        "unofficial-api"
+      ]
+    },
+    "cortico-world-sleep-meal": {
+      "addTags": [
+        "requires-extension"
+      ]
+    },
+    "@anwan172/cortico-world-style-miner": {
+      "addTags": [
+        "sensitive-data"
+      ],
+      "supersededBy": "cortico-world-style-miner"
+    },
+    "coopani-world-journey": {
+      "addTags": [
+        "internet"
+      ]
+    },
+    "cortico-world-vts-body": {
+      "addTags": [
+        "external-setup"
+      ]
+    },
+    "cortico-world-qiandengji-lite": {
+      "removeTags": [
+        "unsafe"
+      ]
+    },
+    "cortico-world-realtime-weather": {
+      "removeTags": [
+        "external-setup"
+      ]
+    },
+    "coopanion-video-storyboard": {
+      "addTags": [
+        "internet",
+        "local",
+        "external-setup"
+      ]
+    },
+    "cortico-world-voice": {
+      "addTags": [
+        "sensitive-data",
+        "injection-risk"
+      ]
+    },
+    "cortico-world-stickerbook": {
+      "addTags": [
         "sensitive-data"
       ]
     }
