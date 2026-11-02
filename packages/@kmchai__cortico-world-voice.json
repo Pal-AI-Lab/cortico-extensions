@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "@kmchai/cortico-world-voice",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "describe": {
     "tools": [
       {
@@ -135,6 +135,8 @@
     ]
   },
   "changelog": {
+    "0.3.2": "- IndexTTS2 的模型提示词明确:`emotion` / `instruct` 传自然语言,由服务映射到 `emotion_text`;不要在正文写 `emotion_text` 或方括号标签。服务 0.4.2 起这两个 options 不再由模型页覆盖。",
+    "0.3.1": "- 自动朗读不再把 `end_turn` 当成实质工具调用。模型说完正文再调 `end_turn` 结束这一轮时,正文照常按概率朗读;仍会压掉与 `web_search` 等实际工具同轮出现的中间正文。\n- 网关 0.1.1 已把 World 的 `outputTap` 扇进主 session;此前网关 bot 里概率朗读拿不到正文。",
     "0.3.0": "- 系统 Config tab 移除「音色与情绪」组;音色、情绪控制、默认情绪、默认表演指令、语速与副语言标签移到「模型」页。\n- 朗读风格按模型保存进 `worlds.voice.modelStyles[model]`;切换模型时面板读回该模型的音色、风格与参数,不用先保存。旧全局字段保留为没有模型设置时的回落。\n- `voice_style` 在选定模型后只写当前模型的风格;没有模型时仍写全局回落值。\n- 服务返回的 Ming 3.0 模型参数(模板、语言、指令语言、音高、音量、生成与分块参数)在模型页显示;IndexTTS2 的中文参数名继续保留。\n- 文本过滤、合成与 `tts.voice` 事件都使用当前模型生效的风格。",
     "0.2.1": "- 新增 World 页的「模型」面板:模型与音色在面板里选,不再占系统 Config tab 的字段。\n- 按服务 `/v1/models` 返回的参数元数据渲染字段:开关、枚举、数字与文本;IndexTTS2 的参数带中文名。\n- 模型专属参数存进 `worlds.voice.modelOptions[model]`,请求时作为 `options` 发给服务;空对象删掉该模型的条目。\n- 面板显示当前模型的提示词片段;目录缓存在进程内,服务不可达时保留上一次结果并报错。\n- 新增 `scripts/build-webui.mjs`(esbuild)与 `dist/webui.js` / `dist/webui.css`。",
     "0.2.0": "分层:协议、进程托管与 HTTP 网关移到 `@kmchai/cortico-world-service`;语音只保留工具、概率朗读、文本过滤、情绪与标签语义、队列和本机播放,经 HTTP 调服务。\n\n### 破坏性变更\n\n- 语音不再直连 TTS 后端,也不再监听本地 HTTP。合成统一走服务的 `/v1/audio/speech`,探活与目录用 `/health`、`/v1/models`、`/v1/audio/voices`;服务不可达时没有回退路径。\n- 新配置 `serviceUrl`(默认 `http://127.0.0.1:9883`)与 `serviceTokenSecret`;删除 `backend`、`baseUrl`、`apiKeySecret`、`custom*`、`http*`、`sing*`。这些后端配置改到服务 World 里。\n- 删除 `src/backends/`、`src/http.ts`、`src/sing.ts`;新增 `src/service.ts` 客户端。\n- 删除 `voice_sing` 工具、`【唱】` 前缀与全部唱歌配置;语音不唱歌,唱歌改由服务的 `/v1/audio/sing` 与网关接入。工具只剩 `voice_speak` / `voice_hush` / `voice_style`。\n- 情绪模式只决定发哪个语义字段:instruct 发 `instructions`,categorical 发 `emotion`,basic 发 `speed`,tags/none 不发;怎么落到具体模型由服务的模型 profile 决定。\n- 副语言标签 `auto` 一律保留,由服务里的模型决定演不演;保留 `keep` / `strip`。\n\n### 界面与目录\n\n- World 页改为服务灯与队列灯;徽标显示服务地址主机、模型与音色;音色与模型下拉从服务目录刷新,读不到时保留上次结果。\n- World 页链到服务 World 的配置页。\n- 环境提示词重写:只说明声音能力、工具与文本规则,不提后端、协议或 HTTP。",

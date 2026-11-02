@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "name": "cortico-world-usage",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "usage_today",
+        "description": "Return this deployment today usage: calls, prompt/cached/completion tokens and estimated cost, grouped by model.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看这个部署今天花了多少、花在哪个模型上。",
+          "en": "Today usage and cost, grouped by model."
+        }
+      },
+      {
+        "name": "usage_range",
+        "description": "Return usage between two local dates (inclusive), grouped by model.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "from": {
+              "type": "string",
+              "description": "Start date, YYYY-MM-DD."
+            },
+            "to": {
+              "type": "string",
+              "description": "End date, YYYY-MM-DD."
+            }
+          },
+          "required": [
+            "from",
+            "to"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看某段日期的用量与花费。",
+          "en": "Usage and cost between two dates."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.usage.envPrompt",
+        "title": "Usage · 环境提示词",
+        "role": "envPrompt",
+        "content": "Usage 这个 World 只读本机的用量账本（usage.jsonl），提供 `usage_today` 与 `usage_range`。用户问「今天花了多少」「这周用量」时调一次即可，不要反复轮询；金额按账本里的美元金额或配置的价格表估算，没配价格的模型只报 token。数据目录来自 {{usage.dataHome}}。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "- 首个版本：`usage_today`、`usage_range` 两个只读工具。\n- 面板：按模型的今日表 + 柱状图（纯静态）。\n- 价格表可配置；账本无金额且未配价格时只报 token。\n- 读不到账本时返回人话错误，不抛栈。"
+  }
+}

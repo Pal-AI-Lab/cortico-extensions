@@ -173,6 +173,9 @@
       "sensitive-data",
       "unsafe"
     ],
+    "cortico-world-usage": [
+      "sensitive-data"
+    ],
     "cortico-world-warthunder": [
       "injection-risk"
     ],
@@ -323,7 +326,7 @@
     },
     "@kmchai/cortico-bot-gateway": {
       "kind": "bot",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "Kmch AI · 网关",
       "description": "Cortico bot: Kmch AI gateway persona that declares voice, service and QQ capabilities",
       "locales": {
@@ -358,8 +361,8 @@
         "bugs": "https://github.com/Kmch-AI/cortico-bot-gateway/issues"
       },
       "created": "2026-11-01T14:41:42.522Z",
-      "published": "2026-11-01T14:42:58.741Z",
-      "versionCount": 2,
+      "published": "2026-11-02T06:38:39.190Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -387,6 +390,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.1",
           "0.1.0"
         ],
         "url": "https://github.com/Kmch-AI/cortico-bot-gateway/blob/HEAD/CHANGELOG.md"
@@ -401,7 +405,7 @@
     },
     "@kmchai/cortico-world-service": {
       "kind": "world",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "displayName": "Kmch AI · 服务",
       "description": "Cortico World: host local inference services and expose them through one OpenAI-shaped speech API; audiocpp is only one backend",
       "locales": {
@@ -437,8 +441,8 @@
         "bugs": "https://github.com/Kmch-AI/cortico-world-service/issues"
       },
       "created": "2026-11-01T14:41:09.138Z",
-      "published": "2026-11-02T03:11:26.532Z",
-      "versionCount": 6,
+      "published": "2026-11-02T06:37:20.750Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -466,6 +470,7 @@
       },
       "changelog": {
         "versions": [
+          "0.4.2",
           "0.4.1",
           "0.4.0",
           "0.3.0",
@@ -484,7 +489,7 @@
     },
     "@kmchai/cortico-world-voice": {
       "kind": "world",
-      "version": "0.3.0",
+      "version": "0.3.2",
       "displayName": "Kmch AI · 语音",
       "description": "Cortico World: voice tools, probabilistic reading, emotion and paralinguistic tags, text filtering and local playback; speech is synthesized by the Kmch AI service over HTTP",
       "locales": {
@@ -523,8 +528,8 @@
         "bugs": "https://github.com/Kmch-AI/cortico-world-voice/issues"
       },
       "created": "2026-11-01T09:11:59.759Z",
-      "published": "2026-11-02T03:11:49.987Z",
-      "versionCount": 5,
+      "published": "2026-11-02T06:37:23.359Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -554,6 +559,8 @@
       },
       "changelog": {
         "versions": [
+          "0.3.2",
+          "0.3.1",
           "0.3.0",
           "0.2.1",
           "0.2.0",
@@ -2928,7 +2935,7 @@
       "discussion": {
         "number": 9,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/9",
-        "up": 1,
+        "up": 2,
         "down": 0,
         "comments": 0
       }
@@ -3401,7 +3408,7 @@
     },
     "cortico-world-bili-video-pro": {
       "kind": "world",
-      "version": "0.2.4",
+      "version": "0.2.5",
       "displayName": "陪看",
       "description": "住在你电脑里的AI桌宠「她」：陪你看B站视频，也能自己看片、读弹幕字幕。",
       "author": "白菜和他的小汐小槿",
@@ -3424,8 +3431,8 @@
         "win32"
       ],
       "created": "2026-10-27T15:34:22.238Z",
-      "published": "2026-11-01T11:49:25.361Z",
-      "versionCount": 9,
+      "published": "2026-11-02T06:04:19.403Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3457,6 +3464,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.5",
           "0.2.4",
           "0.2.3",
           "0.2.2",
@@ -3471,7 +3479,7 @@
           "0.1.2",
           "0.1.1"
         ],
-        "url": "https://unpkg.com/cortico-world-bili-video-pro@0.2.4/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-bili-video-pro@0.2.5/CHANGELOG.md"
       },
       "discussion": {
         "number": 389,
@@ -7572,7 +7580,7 @@
     },
     "cortico-world-feishu": {
       "kind": "world",
-      "version": "0.1.5",
+      "version": "0.2.0",
       "displayName": "飞书",
       "description": "让 Bot 通过飞书企业自建应用的长连接收发私聊和群聊：消息推给 Persona，用工具回话。同一个 Persona，不是分身。",
       "locales": {
@@ -7604,8 +7612,8 @@
         "bugs": "https://github.com/lwlong0922/cortico-world-feishu/issues"
       },
       "created": "2026-10-27T09:28:31.566Z",
-      "published": "2026-11-02T01:24:58.234Z",
-      "versionCount": 6,
+      "published": "2026-11-02T07:18:31.637Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -7627,11 +7635,12 @@
       "summary": {
         "tools": 4,
         "events": 1,
-        "toolTokens": 580,
-        "envPromptTokens": 450
+        "toolTokens": 759,
+        "envPromptTokens": 525
       },
       "changelog": {
         "versions": [
+          "0.2.0",
           "0.1.5",
           "0.1.4",
           "0.1.3",
@@ -17266,6 +17275,63 @@
       "discussion": {
         "number": 67,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/67",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-usage": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "用量",
+      "description": "Cortico World: read-only local usage ledger, today and range totals with per-model cost",
+      "author": "bylm",
+      "maintainers": [
+        "bylm"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "usage",
+        "cost"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-usage"
+      },
+      "created": "2026-11-02T06:43:03.290Z",
+      "published": "2026-11-02T06:45:11.695Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "diagnostics",
+        "sensitive-data"
+      ],
+      "tags": [
+        "diagnostics",
+        "sensitive-data"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 0,
+        "toolTokens": 187,
+        "envPromptTokens": 76
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-usage@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 667,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/667",
         "up": 0,
         "down": 0,
         "comments": 0
