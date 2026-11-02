@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "better-cortico-world-netease-companion",
-  "version": "1.18.1",
+  "version": "1.18.2",
   "describe": {
     "tools": [
       {
@@ -444,6 +444,7 @@
     ]
   },
   "changelog": {
+    "1.18.2": "- 修复重启 Coopanion 后当前歌曲被再评论一遍：每次评论后把曲目与时间写进本机 `last-comment.json`；启动时若同一首（歌名/歌手/专辑一致）仍在播放且 30 分钟内评论过，只跳过这次开场，不同曲目照常评论，分段陪听不受影响。\n- 新增回归测试：重启接续不补开场、换歌后正常评论并更新标记。\n- 版本升至 1.18.2。",
     "1.18.1": "- 应用图标换成人物形象：从新插画裁出鲸鱼帽、耳机、磁带与黑胶唱片的全身画面，作为 512×512 的 `assets/icon.png`，替换 1.17.1 的鲸鱼图标。\n- 功能与 1.18.0 完全一致，只改图标与版本号。",
     "1.18.0": "- 响应官方认证审核：删除 `src/action-vocab.ts`，不再从 Coopanion 安装目录向上查找、也不读 `data/home/companion/config.json` 与桌宠包里的 `figure.json`。动作/表情词表改由桌宠自己的环境提示词提供，World 只给情绪倾向，不列举具体动作名。\n- 副歌 `style` 只保留 `id`、`label`、`estimated`、`source`，不再带 `actions`；提示词删掉 `music.actionVocab` 变量，改为要求动作词以桌宠环境提示词为准、没有合适词就不写。实时状态的「动作提示」不再显示形象动作数量。\n- 按维护者复核，从 `cortico.tags` 删除 `sensitive-data` 与 `unofficial-api`：本扩展只读五款白名单播放器的媒体会话元数据，窗口标题也只在这些进程上取；调用的公开接口都不带登录态。\n- 版本升至 1.18.0。",
     "1.17.1": "- 新增应用图标 `assets/icon.png`（512×512，圆角透明背景），并在 `cortico.icon` 声明；市场详情页与列表从此有图标。\n- 按官方标签词表校正 `cortico.tags`：删掉仅由维护者添加的 `coopanion`（作者声明会被忽略），补上 `apps`（读取其他应用）、`memory`（记住听歌历史与笔记）、`internal-state`（`music-soul.md` 是她自己的偏好并整篇注入提示词）与 `high-cost`（环境提示词约 4.8k tokens、评论事件携带较长外部资料）。其余标签保持不变。\n- 新增英文 locale：`cortico.locales.en` 提供 `Listening Companion` 与英文简介，英文界面不再只显示中文。\n- 功能与 1.17.0 完全一致，只改元数据。\n- 版本升至 1.17.1。",
