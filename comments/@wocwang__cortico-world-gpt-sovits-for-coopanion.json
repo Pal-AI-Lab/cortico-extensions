@@ -2,8 +2,24 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-  "total": 58,
+  "total": 60,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJyQd",
+      "author": "chenshaoju",
+      "avatar": "https://avatars.githubusercontent.com/u/515763?s=64&u=0a421646f970fb19a0f9bb196cc14540c6b73ac2&v=4",
+      "body": "AMD支持感谢，但是有一个奇怪的现象，试听始终能工作，但是实际语音频繁报 terminated ，日志中看不出所以然：\r\n```\r\n[10:53:12.313] INFO  worlds.gpt-sovits: GPT-SoVITS 推理服务就绪\r\n[10:53:36.247] INFO  worlds.fatfish: fatfish speaking: xxx\r\n[10:54:07.898] INFO  worlds.fatfish: fatfish speaking: xxx\r\n[10:54:12.412] INFO  worlds.fatfish: fatfish speaking: xxx\r\n[10:54:30.490] INFO  worlds.fatfish: fatfish speaking: xxx\r\n[10:54:36.290] INFO  worlds.gpt-sovits: 音频输出已打开：WASAPI\r\n[10:54:39.208] WARN  worlds.gpt-sovits: GPT-SoVITS 合成失败 { err: 'terminated' }\r\n[10:54:50.978] INFO  worlds.gpt-sovits: 音频输出已打开：WASAPI\r\n[10:54:51.190] INFO  worlds.gpt-sovits: GPT-SoVITS 一句合成完\r\n[10:54:54.609] INFO  worlds.gpt-sovits: GPT-SoVITS 一句合成完\r\n[10:55:09.222] WARN  worlds.gpt-sovits: GPT-SoVITS 合成失败 (×3) { err: 'terminated' }\r\n[10:57:24.057] INFO  worlds.gpt-sovits: 音频输出已打开：WASAPI\r\n[10:57:25.266] INFO  worlds.fatfish: fatfish speaking: xxx\r\n[10:57:27.037] WARN  worlds.gpt-sovits: GPT-SoVITS 合成失败 { err: 'terminated' }\r\n[10:57:28.277] INFO  worlds.fatfish: fatfish speaking: xxx\r\n[10:57:57.044] WARN  worlds.gpt-sovits: GPT-SoVITS 合成失败 (×2) { err: 'terminated' }\r\n```\r\n\r\n但是试听正常：\r\n```\r\n[10:58:49.354] INFO  worlds.gpt-sovits: 音频输出已打开：WASAPI\r\n[10:58:49.572] INFO  worlds.gpt-sovits: GPT-SoVITS 一句合成完\r\n[10:58:50.790] INFO  worlds.gpt-sovits: GPT-SoVITS 一句合成完\r\n[10:58:51.962] INFO  worlds.gpt-sovits: GPT-SoVITS 一句合成完\r\n[10:58:52.959] INFO  worlds.gpt-sovits: GPT-SoVITS 一句合成完\r\n[10:58:54.197] INFO  worlds.gpt-sovits: GPT-SoVITS 一句合成完\r\n[10:58:55.635] INFO  worlds.gpt-sovits: GPT-SoVITS 一句合成完\r\n[10:58:56.939] INFO  worlds.gpt-sovits: GPT-SoVITS 一句合成完\r\n[10:58:58.001] INFO  worlds.gpt-sovits: GPT-SoVITS 一句合成完\r\n```\r\n\r\nCoopanion 版本：0.2.17\r\n插件版本：0.6.1\r\n显卡：AMD RX9070 16G\r\n",
+      "createdAt": "2026-11-02T03:04:36Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJyTv",
+          "author": "wocwang",
+          "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+          "body": "@chenshaoju 这个 `terminated` 已经定位并修好，**0.6.2 已经发布**（npm latest）。\n\n原因：长句被切成多段后走流式返回，ROCm 这边服务端从第二段起会把连接关掉；试听那句只有一段，所以一直正常。\n\n0.6.2 对这一档改成**整句一次算、非流式返回**（和试听同一种形态），另外对 `terminated` / `ECONNRESET` 这类连接层错误自动重试一次；失败日志会带上是哪一档、流式还是非流式。代价是首音比流式晚 1–2 秒。\n\n更新到 0.6.2、重启 Coopanion 后再试一次。如果还有失败，把 `GPT-SoVITS 合成失败` 那一行连同 `tier` / `streaming` 一起贴回来。",
+          "createdAt": "2026-11-02T03:22:02Z"
+        }
+      ]
+    },
     {
       "id": "DC_kwDOVLPtGM4BJwYz",
       "author": "Lime809",
