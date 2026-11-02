@@ -1,0 +1,224 @@
+{
+  "schema": 1,
+  "name": "cortico-world-weixin-link",
+  "version": "0.2.7",
+  "describe": {
+    "tools": [
+      {
+        "name": "wechat_status",
+        "description": "Show whether the local WeChat bridge is up, which WeChat account it is attached to, and the bridge-side whitelists.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看微信桥通不通、挂的是哪个号、白名单是什么。",
+          "en": "Shows bridge health, the attached account and the whitelists."
+        }
+      },
+      {
+        "name": "wechat_chats",
+        "description": "List recent WeChat conversations with unread counts and the last message. Does not switch the WeChat window.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "How many conversations, default 30."
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "列最近的微信会话和未读数，不切微信窗口。",
+          "en": "Lists recent WeChat chats with unread counts, without switching windows."
+        }
+      },
+      {
+        "name": "wechat_read",
+        "description": "Read the latest messages of one WeChat conversation (private chat or group). Switches the WeChat window to that chat and marks it read.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "chat": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Exact conversation name as shown in WeChat, e.g. 文件传输助手."
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "description": "How many messages, default 10."
+            }
+          },
+          "required": [
+            "chat"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读某个私聊或群最近的消息（会切窗口并标记已读）。",
+          "en": "Reads recent messages of one chat (switches the window, marks read)."
+        }
+      },
+      {
+        "name": "wechat_send",
+        "description": "Send a WeChat text message to one conversation. Only conversations on the bridge allowSend whitelist are accepted; a refusal comes back as an error.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "chat": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Exact conversation name, e.g. 文件传输助手."
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000,
+              "description": "Message text."
+            }
+          },
+          "required": [
+            "chat",
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "给白名单里的会话发一条微信文字消息。",
+          "en": "Sends a text message to a whitelisted conversation."
+        }
+      },
+      {
+        "name": "wechat_send_voice",
+        "description": "Send a WeChat voice bubble (语音条) to one conversation: the bridge synthesizes the text into speech, plays it into a virtual microphone and records it as a voice message. Takes about 10-15 seconds. Only allowSend whitelist conversations are accepted.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "chat": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Exact conversation name, e.g. 文件传输助手."
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1500,
+              "description": "What the voice bubble should say."
+            }
+          },
+          "required": [
+            "chat",
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "给白名单里的会话发一条语音气泡（现场合成、经虚拟声卡录进微信）。",
+          "en": "Sends a voice bubble to a whitelisted conversation."
+        }
+      },
+      {
+        "name": "wechat_reply",
+        "description": "Reply to a WeChat conversation, randomly as a text message or as a voice bubble (~40% voice). Use this for ordinary replies in groups and private chats so the mix stays natural; it reports which form went out.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "chat": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Exact conversation name, e.g. 摸鱼🐟🐟🐟🐟F."
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1500,
+              "description": "What to say."
+            }
+          },
+          "required": [
+            "chat",
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "回一条微信消息，随机用文字或语音（四成语音）。",
+          "en": "Replies randomly as text or voice (~40% voice)."
+        }
+      },
+      {
+        "name": "wechat_emoji",
+        "description": "Send one of WeChat's own emoji/stickers chosen by keyword: the bridge opens the emoji panel, searches the keyword (Chinese works best: 摸鱼/无语/开心/晚安) and taps the first result. Only allowSend whitelist conversations are accepted.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "chat": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Exact conversation name, e.g. 摸鱼🐟🐟🐟🐟F."
+            },
+            "query": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 20,
+              "description": "Keyword searched in the emoji panel, e.g. 摸鱼."
+            }
+          },
+          "required": [
+            "chat",
+            "query"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "按关键词搜微信自带表情并点第一格发出去（笑脸→放大镜→搜索→点图）。",
+          "en": "Sends a built-in WeChat emoji by keyword (opens the panel, searches, taps the first result)."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "wechat.message",
+        "description": {
+          "zh": "白名单会话里来了新消息。",
+          "en": "A new message arrived in a whitelisted conversation."
+        }
+      }
+    ]
+  },
+  "changelog": {
+    "0.2.5": "- 首次公开发布（`cortico-world-weixin-link`）：本地 wxauto4 桥 + 状态/开关面板 + 微信自带表情",
+    "0.2.4": "- 新增 `worlds.wechat.stickerChance`：发完文字后跟一张微信表情的概率，面板「开关」里可调\n- 换掉旧的贴纸库表情：改为按关键词搜微信自带表情并点第一格发送（`wechat_emoji`）\n- 表情发送改为慢速点击 + 每步校验，主窗口/面板点击前抬到最前，切会话空面板时重试\n- 面板：「微信表情」功能行、扫描会话 + 下拉加入监听、监听名单勾选",
+    "0.2.3": "- 新增「扫描会话」：桥先把微信窗口恢复出来再读会话列表，结果进下拉菜单\n- 监听会话支持勾选与「跟随桥白名单」",
+    "0.2.2": "- 面板：状态与功能进度、开关、监听会话",
+    "0.2.1": "- 修正 WebUI 产物缓存：面板改动需要升版本",
+    "0.2.0": "- 第一个带 WebUI 面板的版本"
+  }
+}

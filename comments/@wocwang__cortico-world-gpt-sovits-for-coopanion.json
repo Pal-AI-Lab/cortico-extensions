@@ -2,8 +2,29 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-  "total": 62,
+  "total": 65,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJ1AG",
+      "author": "wocwang",
+      "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+      "body": "**【重要】0.6.4 在 Windows 上有静音回归，请升级到 0.6.5。**\r\n\r\n0.6.4 新增的「音频后端探针」把**两帧**静音写给了 audify（`write()` 只接受正好一帧），抛出的\r\n`Invalid size of the PCM data!` 被吞掉后，两只后端都被判成「开流成功但没在跑」→\r\n**0.6.4 在 Windows 上完全没声**（与「音频后端」设置无关；从 0.6.3 升上来会突然哑掉）。\r\n\r\n0.6.5 已修：探针只写一帧，长度与播放路径共用同一套算法；探针自己失败不再判后端死刑。\r\n\r\n已经在 0.6.4 上遇到「合成完成但没声音」或「打不开输出设备：WASAPI…；DirectSound…」的，请更新到 **0.6.5**\r\n（npm `@wocwang/cortico-world-gpt-sovits-for-coopanion`）。更新后重启 Coopanion 即可，日志应出现\r\n`音频输出已打开：<后端>`。",
+      "createdAt": "2026-11-02T15:00:34Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BJ0-p",
+      "author": "chenshaoju",
+      "avatar": "https://avatars.githubusercontent.com/u/515763?s=64&u=0a421646f970fb19a0f9bb196cc14540c6b73ac2&v=4",
+      "body": "更新到 0.6.4 后出现问题：\r\n```\r\n[22:42:43.671] INFO  worlds.gpt-sovits: GPT-SoVITS 推理服务就绪\r\n(node:27812) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.\r\n(Use `Coopanion --trace-deprecation ...` to show where the warning was created)\r\nproxy: https://raw.githubusercontent.com DIRECT\r\nproxy: https://api.npmjs.org DIRECT\r\nproxy: https://api.github.com DIRECT\r\n[22:42:57.575] WARN  market: 官方索引的 catalog.json 读取失败 {\r\n  error: 'raw.githubusercontent.com: The operation was aborted due to timeout; api.github.com: The operation was aborted due to timeout'\r\n}\r\n[22:43:19.672] WARN  worlds.gpt-sovits: GPT-SoVITS 合成失败 {\r\n  err: '打不开输出设备：WASAPI：开流成功但 120 ms 内停止运行（能开流却没声音，issue #8）；DirectSound：开流成功但 120 ms 内停止运行（能开流却没声音，issue #8）。请在「输出与保存」里换一个设备或后端，或留空用系统默认。',\r\n  tier: 'rocm',\r\n  streaming: 0\r\n}\r\n[22:43:27.576] WARN  market: 官方索引的 catalog.json 读取失败 (×5) {\r\n  error: 'raw.githubusercontent.com: The operation was aborted due to timeout; api.github.com: The operation was aborted due to timeout'\r\n}\r\n[22:43:49.673] WARN  worlds.gpt-sovits: GPT-SoVITS 合成失败 (×4) {\r\n  err: '打不开输出设备：WASAPI：开流成功但 120 ms 内停止运行（能开流却没声音，issue #8）；DirectSound：开流成功但 120 ms 内停止运行（能开流却没声音，issue #8）。请在「输出与保存」里换一个设备或后端，或留空用系统默认。',\r\n  tier: 'rocm',\r\n  streaming: 0\r\n}\r\n[22:46:41.287] WARN  worlds.gpt-sovits: GPT-SoVITS 合成失败 {\r\n  err: '打不开输出设备：WASAPI：开流成功但 120 ms 内停止运行（能开流却没声音，issue #8）；DirectSound：开流成功但 120 ms 内停止运行（能开流却没声音，issue #8）。请在「输出与保存」里换一个设备或后端，或留空用系统默认。',\r\n  tier: 'rocm',\r\n  streaming: 0\r\n}\r\n```\r\n\r\n尝试在输出设备里指定一个依然不工作。\r\n\r\n退回0.6.3 恢复正常。",
+      "createdAt": "2026-11-02T14:55:21Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BJ0zM",
+      "author": "Hemenotowa",
+      "avatar": "https://avatars.githubusercontent.com/u/351537345?s=64&v=4",
+      "body": "src/player.ts 第 381 行的探测 rt.write(Buffer.alloc(frameBytes * channels * 2)) 写了两帧，audify 只接受一帧，抛 Invalid size of the PCM data，被 catch 吞掉后误报成 issue #8。应为 frameBytes * channels。",
+      "createdAt": "2026-11-02T14:22:00Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJyQd",
       "author": "chenshaoju",

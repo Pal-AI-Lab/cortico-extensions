@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "name": "cortico-world-whale-balance",
+  "version": "0.2.0",
+  "describe": {
+    "tools": [],
+    "events": []
+  },
+  "changelog": {
+    "0.2.0": "- 点小鲸鱼:她会绕着脚底压扁再弹回来(和桌面小窗同一套曲线),同时查一次余额。\n- 余额数字会从上一个读数缓动滚到新读数,不再硬跳。\n- 面板加了 `cursor: pointer` 和 `prefers-reduced-motion` 之外的最小改动,不影响原有布局。",
+    "0.1.0": "- 第一个版本:面板画一只小鲸鱼和气泡,气泡里是 DeepSeek 余额、高峰/低谷、到下一次切换的倒计时和读数时间。\n- 在扩展设置里粘一把 DeepSeek API key 保存即可读数;key 存在 World 的设置里。\n- 峰谷按官方口径本地算:工作日 09:00–12:00、14:00–18:00 是高峰,其余是低谷。"
+  }
+}
