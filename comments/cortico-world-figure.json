@@ -5,11 +5,11 @@
   "total": 1,
   "comments": [
     {
-      "id": "DC_kwDOVLPtGM4BJqJX",
-      "author": "YXSXhyh",
-      "avatar": "https://avatars.githubusercontent.com/u/177908318?s=64&u=8424968e0ae1a7b0feb384d8964f078feab0149b&v=4",
-      "body": "点击安装无反应",
-      "createdAt": "2026-10-31T05:42:52Z"
+      "id": "DC_kwDOVLPtGM4BJ0lU",
+      "author": "3782125854-byte",
+      "avatar": "https://avatars.githubusercontent.com/u/350388638?s=64&v=4",
+      "body": "作者你好，这个扩展帮了我大忙——我自己的 Cubism 模型（moc3 + 8192 贴图）原本在桌宠里跑不起来，用它打包成形象包之后就站上桌了。谢谢。\r\n\r\n有一个请求：现在装出来的形象只暴露了 18 种底脸表情，模型的骨骼和 motions 完全没被用上。我试 wave、jump、spin 这些动作词，全都提示「这个词用不了」；移动只能整个人平移过去，看着像被提着走。\r\n\r\n如果 model3.json 里声明了 Motions，能不能在打包时一并扫进去，映射成形象的动作词（walk、wave、jump、nod 这一类）？没有动作的 Live2D 站在桌边，还是像一幅会换脸的画。\r\n\r\n具体一点的建议：\r\n- 按 Motions 里的组名做映射，Idle 组留作循环待机；\r\n- - HitAreas 接上「戳一下」的反应；\r\n- - 找不到对应组名的，退回到现在的 18 张底脸也行。\r\n再次谢谢，八十多兆的包打出来很稳。",
+      "createdAt": "2026-11-02T13:34:18Z"
     }
   ]
 }
