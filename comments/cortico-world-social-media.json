@@ -2,7 +2,7 @@
   "schema": 1,
   "name": "cortico-world-social-media",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/204",
-  "total": 13,
+  "total": 15,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BJfoB",
@@ -17,6 +17,13 @@
           "avatar": "https://avatars.githubusercontent.com/u/349777901?s=64&v=4",
           "body": "应该和我是同一种情况吧，估计是作者设置的超时时间太短，评论区还没加载出来就被判定超时自动退掉了",
           "createdAt": "2026-10-29T13:07:15Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BJxw2",
+          "author": "PeiKun123",
+          "avatar": "https://avatars.githubusercontent.com/u/200584930?s=64&v=4",
+          "body": "谢谢反馈！评论加载未完成就关闭的问题已复现并修复，开发版会等待评论面板、按编号翻找指定楼层，并允许调整加载及回执等待时间；任务结束关闭后台本身是释放内存的设计。若确实已点发送但未取得回执，会保留“待核对”，不会当成未发送自动重试。修复尚未发布到npm，0.6.4还没有新增的等待设置。若后续仍出现，请补充具体平台、World版本及失败提示原文；无需提供Cookie、密码或验证码，已点击发送的请先核对原评论以免重复。",
+          "createdAt": "2026-11-02T00:14:04Z"
         }
       ]
     },
@@ -25,7 +32,16 @@
       "author": "Aslyfox",
       "avatar": "https://avatars.githubusercontent.com/u/349777901?s=64&v=4",
       "body": "作者你好，就是我发现如果网络状态差一点的话抖音评论区加载的比较慢，但是这个扩展它打开评论区不会等加载，只要没第一时间看到就会直接关掉抖音，然后判定评论读取不出来，能不能加个设置栏可以设置超时时间啊",
-      "createdAt": "2026-10-29T10:36:59Z"
+      "createdAt": "2026-10-29T10:36:59Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJxw1",
+          "author": "PeiKun123",
+          "avatar": "https://avatars.githubusercontent.com/u/200584930?s=64&v=4",
+          "body": "谢谢反馈，确实复现了慢加载时评论面板被过早再次点击、以及重开页面后只读首屏的问题，不能简单归咎于网络或登录。修复已通过离线浏览器回归，并在此前打不开的真实旧楼层完成只读验证。开发版新增「配置 → 抖音 → 连接选项 → 网页加载等待上限（秒）」，默认45秒，可调15–120秒；成功会提前继续，任务结束仍释放浏览器。注意：这个设置尚未包含在已发布的0.6.4，会随下一补丁提供；不会为了超时自动重发结果不明的评论。",
+          "createdAt": "2026-11-02T00:14:02Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BJXbx",

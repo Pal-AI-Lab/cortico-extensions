@@ -227,7 +227,8 @@
       "tags": [
         "qq",
         "requires-key",
-        "experimental"
+        "experimental",
+        "sensitive-data"
       ],
       "downloads": {
         "total": 0,
@@ -1178,6 +1179,7 @@
         "creative"
       ],
       "tags": [
+        "internet",
         "apps",
         "memory",
         "companion",
@@ -1416,7 +1418,10 @@
         "video"
       ],
       "tags": [
-        "video"
+        "internet",
+        "video",
+        "local",
+        "external-setup"
       ],
       "downloads": {
         "total": 0,
@@ -8094,7 +8099,7 @@
       "published": "2026-10-30T11:20:28.375Z",
       "versionCount": 2,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "experimental",
         "internal-state",
@@ -10524,7 +10529,7 @@
       "published": "2026-11-01T15:10:08.623Z",
       "versionCount": 5,
       "official": false,
-      "isNew": false,
+      "isNew": true,
       "declaredTags": [
         "apps",
         "experimental",
@@ -12847,8 +12852,7 @@
         "game",
         "external-setup",
         "experimental",
-        "high-cost",
-        "unsafe"
+        "high-cost"
       ],
       "downloads": {
         "total": 0,
@@ -13255,7 +13259,7 @@
       "discussion": {
         "number": 46,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/46",
-        "up": 9,
+        "up": 10,
         "down": 0,
         "comments": 12
       }
@@ -13819,7 +13823,10 @@
         "im",
         "qq",
         "voice",
-        "local"
+        "local",
+        "external-setup",
+        "requires-key",
+        "unsafe"
       ],
       "downloads": {
         "total": 0,
@@ -14116,7 +14123,6 @@
       ],
       "tags": [
         "internet",
-        "external-setup",
         "requires-key"
       ],
       "downloads": {
@@ -14898,7 +14904,8 @@
         "im",
         "qq",
         "companion",
-        "internal-state"
+        "internal-state",
+        "requires-extension"
       ],
       "downloads": {
         "total": 0,
@@ -15241,7 +15248,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/204",
         "up": 0,
         "down": 0,
-        "comments": 13
+        "comments": 15
       }
     },
     "cortico-world-soft-voice": {
@@ -15603,7 +15610,7 @@
     },
     "cortico-world-starpost": {
       "kind": "world",
-      "version": "0.20.1",
+      "version": "0.21.0",
       "displayName": "星邮",
       "description": "星邮：让 Cortico bot 独立私聊、群聊、交换漂流瓶、分享动态并预约狼人杀的社交 World 扩展",
       "maintainers": [
@@ -15623,8 +15630,8 @@
         "bugs": "https://github.com/hth768/cortico-world-starpost/issues"
       },
       "created": "2026-10-27T17:41:43.822Z",
-      "published": "2026-11-01T14:32:55.121Z",
-      "versionCount": 36,
+      "published": "2026-11-01T22:59:42.142Z",
+      "versionCount": 37,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -15652,6 +15659,7 @@
       },
       "changelog": {
         "versions": [
+          "0.21.0",
           "0.20.1",
           "0.20.0",
           "0.19.0",
@@ -15883,7 +15891,8 @@
       "tags": [
         "im",
         "qq",
-        "companion"
+        "companion",
+        "sensitive-data"
       ],
       "icon": "assets/cortico-world-stickerbook/icon.png",
       "screenshots": [
@@ -16394,7 +16403,9 @@
       "versionCount": 2,
       "official": false,
       "isNew": true,
-      "tags": [],
+      "tags": [
+        "unsafe"
+      ],
       "icon": "assets/cortico-world-switch/icon.svg",
       "downloads": {
         "total": 0,
@@ -16669,7 +16680,7 @@
       "published": "2026-11-01T07:15:33.347Z",
       "versionCount": 3,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [],
       "downloads": {
         "total": 0,
@@ -17472,7 +17483,9 @@
       "tags": [
         "voice",
         "local",
-        "experimental"
+        "experimental",
+        "sensitive-data",
+        "injection-risk"
       ],
       "icon": "assets/cortico-world-voice/icon.svg",
       "downloads": {
@@ -17544,6 +17557,7 @@
       ],
       "tags": [
         "companion",
+        "external-setup",
         "experimental"
       ],
       "downloads": {
@@ -17591,7 +17605,7 @@
       "published": "2026-10-30T17:55:02.474Z",
       "versionCount": 3,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "streaming",
         "external-setup",
@@ -17796,7 +17810,7 @@
       "discussion": {
         "number": 326,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/326",
-        "up": 3,
+        "up": 4,
         "down": 0,
         "comments": 3
       }
@@ -18382,7 +18396,8 @@
         "im"
       ],
       "tags": [
-        "im"
+        "im",
+        "unofficial-api"
       ],
       "icon": "assets/cortico-world-wechat-clawbridge/icon.png",
       "downloads": {
