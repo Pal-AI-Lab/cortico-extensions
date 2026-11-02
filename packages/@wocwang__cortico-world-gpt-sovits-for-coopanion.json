@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "describe": {
     "tools": [
       {
@@ -78,6 +78,7 @@
     ]
   },
   "changelog": {
+    "0.6.4": "- **自备运行时预检**：启动前检查解释器与 `api_v2.py`，缺了直接报完整路径（macOS 是 `runtime/bin/python3`），\n  不再等 `spawn` 抛一个没上下文的 `ENOENT`。为 #5 的 macOS 实测准备。\n- **「自动」能识别「开流成功但没声音」的机器**（#8）：开流后写两帧静音、等 120 ms 查 `isStreamRunning()`，\n  停了就换下一个后端（WASAPI 在这类机器上约 100 ms 内自己停掉）。显式选的档失败时仍如实报错，不偷偷改。\n- **音频后端配置归一化**（#8）：`DirectSound`、`WASAPI`、`ds`、带空格都能认；认不出的值记一行 warn 按 `auto` 处理，\n  不再静默退回 WASAPI。配置描述里写明手填用小写 `directsound`。",
     "0.6.3": "- **ROCm 档不再因为一个英文单词整句失败**：0.6.0 的 ROCm 运行时漏打了 NLTK 语料，台词里夹英文时\n  `nltk` 找不到 `cmudict`，整句报 `tts failed: Resource 'cmudict' not found`（中文纯汉字不受影响）。\n  现在启动前检查运行时有没有 `nltk_data/corpora/cmudict`，缺了自动下 9.5 MB 补齐包到数据目录并设\n  `NLTK_DATA`；构建脚本也加了校验，缺语料直接不打包。\n- 连接断开重试、失败日志里的 `tier` / `streaming` 仍是 0.6.2 的行为，本次不动。",
     "0.6.2": "- **ROCm 档连着说话不再断**：0.6.1 在 RX 9070 上「试听正常、实际台词频繁 `terminated`」。根因是长句被切成多段后\n  走流式返回，服务端从第二段起把连接关掉；这一档改成 `cut0` + 非流式（整句一次算、一次返回），和短句试听的形态一致。\n  代价是首音晚 1–2 秒，换稳定。其它档位不变（仍是 `cut2` + 流式）。\n- **连接被断开时会重试一次**：`terminated` / `socket hang up` / `ECONNRESET` 这类连接层错误重发同样请求，\n  不再误走「去掉标点」那条路；失败日志补上当前档位与流式模式，方便下次定位。\n- **macOS 支持（自备运行时，尚未放开市场）**：内置运行时包仍然只有 win-x64，macOS 在配置里填「自备运行时目录」\n  （`runtime/bin/python3` + `api_v2.py`）即可用；播放改走系统自带的 `afplay`（不再依赖随包的 win32-x64 audify 预编译件），\n  `write()` 先攒 PCM、`flush()` 整段落成临时 WAV 排队播，`cut()` 停掉正在播的那条并清队列。\n  推理服务按平台选解释器（Windows `runtime/python.exe` / macOS `runtime/bin/python3`）、PATH 用平台分隔符，\n  macOS 子进程放进独立进程组、停服务按组收，不留孤儿进程占端口；权重目录在非 Windows 上建普通目录符号链接。\n- **非 Windows 不再跑 Windows 专有探测**：显卡探测（`powershell` / `nvidia-smi`）直接短路成「没有独显」，\n  ROCm 的长路径预检（读注册表）跳过；配置里的推理档只留「自动 / CPU」，音频后端只留「自动」，\n  面板说明改成「需自备运行时，播放走 afplay」。\n- `package.json` 的 `os` **仍是 `[\"win32\"]`**：代码已并入 0.6.2，但等 Apple 芯片真机实测通过再放开市场。",
     "0.6.1": "- **模型版本改成下拉**：不再让人手填，固定三个选项（跟随推理档 / V5 turbo / V2 Pro Plus），写错值也不会进配置。\n- **短句不会再被整段吞掉**（#11）：切句方法从 `cut5` 改成 `cut2`。`cut5` 逐标点切，像「晚安，」这种 2–4 字碎片会被\n  api_v2 当成无效片段跳过，声音里直接少一段；`cut2` 按 50 字凑句，既不出超短碎片，长台词也仍会分块。\n- **WASAPI 不灵时有退路**（#4、#8）：新增「音频后端」（自动 / WASAPI / DirectSound）。自动先试 WASAPI，\n  枚举不到设备或打不开就退 DirectSound；默认设备从枚举结果里挑（不再拿 RtAudio 的 0 去开流），\n  全失败时把每个后端的原因一起报出来。有的机器 WASAPI 能开流但没声音，这时手动选 DirectSound。\n- **接权重目录失败不再拖垮整个 App**（#9）：启动时联接失败会变成「接不上权重目录（错误码）」的可读状态，\n  只影响当前这一档，不再把异常冒到宿主。",

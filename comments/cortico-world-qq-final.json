@@ -2,8 +2,24 @@
   "schema": 1,
   "name": "cortico-world-qq-final",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/46",
-  "total": 12,
+  "total": 14,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJ0Hj",
+      "author": "ttor-rr",
+      "avatar": "https://avatars.githubusercontent.com/u/223088774?s=64&v=4",
+      "body": "反馈两个 QQ 插件的问题：①引用回复会串台，引我刚发的一条消息，引文却显示成几天前的旧消息，原因是插件按消息编号去协议端捞原文、重启后编号会被复用就撞上了，建议收到消息时把引用内容一起存本地，别事后按编号回捞；\n②发图静默失败，「图片:文件名」这版还没实现，「表情包:文件名」也只认目录第一层，写成子目录/文件名就发不出去，而且失败一点提示都没有、只当普通文字发出，看不出错在哪，建议支持子目录、解析不到时至少在日志里报一句，麻烦大佬看下",
+      "createdAt": "2026-11-02T11:51:53Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJ0SM",
+          "author": "ttor-rr",
+          "avatar": "https://avatars.githubusercontent.com/u/223088774?s=64&v=4",
+          "body": "发图小问题，可以直接转：表情包标记、图片标记在文件找不到或文件本身损坏时不会报错，会把标记原样当文字发出去，看上去像功能没做，实际是静默降级了，建议失败时回一条提示或者写一行日志，具体就是这样",
+          "createdAt": "2026-11-02T12:23:46Z"
+        }
+      ]
+    },
     {
       "id": "DC_kwDOVLPtGM4BJuOz",
       "author": "ttor-rr",
