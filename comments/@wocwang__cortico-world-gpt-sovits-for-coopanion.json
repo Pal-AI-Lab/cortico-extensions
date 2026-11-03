@@ -2,14 +2,23 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-  "total": 70,
+  "total": 71,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BJ68J",
       "author": "wocwang",
       "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
       "body": "@ANGOSUNG **0.6.7 已发布**（npm `latest`），你报的 NLTK 问题这版修好了。\r\n\r\n- 更新插件、重启 Coopanion 后，第一次启动会看到日志「**已把 NLTK 语料同步进运行时**」，后面就是正常合成；\r\n- 这次是**复制**进 `<运行时>/runtime/nltk_data`（上游会硬赋值 `NLTK_DATA` 到这个位置），不动 `portable_runtime.py`、不用重下 3 GB 运行包；\r\n- 预检同时看 `corpora/cmudict` 与 `taggers/averaged_perceptron_tagger_eng`，缺一个就补；\r\n- 每次启动都会检查，以后重下运行时也会自动同步，不会再「修好又复发」。\r\n\r\n另外 0.6.7 还带上了 AMD 支持名单补全：RX 7900 XT / 7900 GRE / PRO W7800、RX 7800 XT / 7700 XT / PRO W7700、RX 9070 GRE 现在会直接进 ROCm 档（之前会被判「不在名单」退 CPU）；识别时也忽略 WMI 名字里的 `(TM)` 和多余空格。\r\n\r\n麻烦更新后念一句夹英文的（`这次短点，ROCm 是零点四。`）确认，有异常继续在这里回。\r\n",
-      "createdAt": "2026-11-03T16:06:37Z"
+      "createdAt": "2026-11-03T16:06:37Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJ7CM",
+          "author": "ANGOSUNG",
+          "avatar": "https://avatars.githubusercontent.com/u/335377492?s=64&v=4",
+          "body": "已更新，目前一切正常，感谢~",
+          "createdAt": "2026-11-03T16:26:40Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BJ658",
