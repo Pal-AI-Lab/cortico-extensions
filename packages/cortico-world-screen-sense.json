@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-screen-sense",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "describe": {
     "tools": [
       {
@@ -92,6 +92,8 @@
     ]
   },
   "changelog": {
+    "0.1.7": "- 更新包简介（中文/英文）：从规格说明改成一句价值描述，保留「窥屏助手」语气与事实边界\n- README 英文摘要同步",
+    "0.1.6": "- 英文卡片名从自造的「Screen Peep」改回 `Screen Sense`，与技术标识一致；中文名「窥屏助手」不变\n- 代码与配置中没有 `peep` 标识：World id、配置键、事件名一直沿用 `screen-sense`",
     "0.1.5": "- 对外品牌改为「窥屏助手」（英文 Screen Peep）；World id、配置键与事件名保持 `screen-sense`，升级不丢配置\n- README 按品牌重写：两阶段视角、隐私边界、真实默认值与正确的数据流向（云端视觉端点会收到截图用于描述）\n- 修正文案中的事实：Phase 1 仍会唤醒主模型、默认关闭、`caption.protocol` 默认 openai、无自动密码管理器过滤、事件不含图片哈希、采集引擎为 fork 子进程",
     "0.1.4": "- 标签按功能边界收紧：`memory`、`experimental`、`sensitive-data`；去掉 `external-setup`（Phase 1 装完即用，Ollama/云端是 Phase 2 可选路径）\n- 简介与 README 写明 Phase 1（前台切换事件）与 Phase 2（截图 + 视觉描述）以及密钥/成本",
     "0.1.3": "- README 排版：英文摘要与发布前检查段前补空行（npm 页面显示修正）",

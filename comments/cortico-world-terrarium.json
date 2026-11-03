@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "cortico-world-terrarium",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/85",
-  "total": 11,
+  "total": 12,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJ6rD",
+      "author": "userchang",
+      "avatar": "https://avatars.githubusercontent.com/u/104388251?s=64&u=c753fd297f2434f813c4fec0a3cda6b7467efc37&v=4",
+      "body": "【Bug 反馈】cortico-world-terrarium 0.9.2-bugfix.1 种植新作物后上报持续报 Invalid report\n\n你好！排查发现目前 0.9.2-bugfix.1 客户端与线上服务端存在状态校验不兼容的问题：\n\n1. 核心问题：0.9.2 新增作物（melon / watermelon / wheat）被服务端拒绝上报\n- 客户端版本：cortico-world-terrarium@0.9.2-bugfix.1\n- 服务端版本：/health 显示 releaseId 为 \"server-rust-20261102-harvest-logo\"（implementation: \"rust\"）\n- 复现过程：\n  - 播种 0.9.0 作物（mint、strawberry、tomato、bean）时，WebSocket 上报全部成功；\n  - 一旦调用 terrarium_garden 播种了 0.9.2 新增的甜瓜（melon）、西瓜（watermelon）或小麦（wheat），本地 validState(state) 校验为 true，但通过 WebSocket 上报给服务端时会立即返回：`Error: land WebSocket report: Invalid report`。\n  - 检查了线上排行榜与最近更新的箱子，目前全服没有任何一个箱子包含这三种 0.9.2 新作物（虽然线上前端 /assets/scene.js 已经更新了这三种作物，但后端 Rust 状态校验似乎还未同步放行这三种 species）。\n\n2. 附带问题：Windows 下公告游标保存偶发 EPERM 报错\n- 日志：`WARN worlds.terrarium: terrarium.announcements.failed { error: 'Error: EPERM: operation not permitted, fsync' }`\n- 原因：Windows 环境下拉取公告后更新持久化状态时，底层对临时文件执行 fsync 会触发 Windows 的 EPERM 权限报错。",
+      "createdAt": "2026-11-03T15:08:49Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJ19w",
       "author": "PeiKun123",

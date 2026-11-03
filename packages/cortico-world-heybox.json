@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-heybox",
-  "version": "0.5.19",
+  "version": "0.5.21",
   "describe": {
     "tools": [
       {
@@ -1155,6 +1155,70 @@
             "action"
           ]
         }
+      },
+      {
+        "name": "heybox_hotspots",
+        "description": "聚合热榜信息流话题热度；不是独立实时热搜。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "limit": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      {
+        "name": "heybox_topic_plan",
+        "description": "选题参考：兴趣 + 热榜 + 模板 + 角度。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "limit": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      {
+        "name": "heybox_growth",
+        "description": "查看成长等级、XP、高质量来源学习数、行文节奏和热度话题；只保存聚合特征。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "status"
+              ]
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      },
+      {
+        "name": "heybox_find_images",
+        "description": "按游戏名查找官方封面/商店素材，下载校验后上传；只使用官方游戏资料，不抓随机网图。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "query": {
+              "type": "string"
+            },
+            "count": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "query"
+          ]
+        }
       }
     ],
     "events": [
@@ -1173,6 +1237,8 @@
     ]
   },
   "changelog": {
+    "0.5.21": "- 新增 `heybox_find_images`：按游戏名查找官方封面/商店素材，下载校验后上传；不抓随机网图。\n- `heybox_prepare` 支持 `imageQuery` / `imageCount` 自动配官方图并写入图源。\n- 新增截图日记、前后对比、游戏摄影、攻略步骤图 4 个图片模板。\n- 修复 ENV_PROMPT 对已删除 imagekit 的引用。",
+    "0.5.20": "- 新增发帖质检：具体性、个人角度、标题、分区、相似度和活人感/梗密度提示。\n- 新增 `heybox_hotspots` 与 `heybox_topic_plan`：热榜信息流话题聚合 + 兴趣/模板/角度选题。\n- 自动发帖增加 `postQualityThreshold` 门槛；低于门槛转预览，显式 go=true 仍可发。\n- 模板正文增加“像帖子聊天、短句、具体场景、梗贴上下文”的语气提示。\n- ENV_PROMPT 增加活人感、热度判断和结尾接话规则。\n- 新增 `heybox_find_images`：官方游戏封面/商店素材查找、下载校验和上传；不抓随机网图。\n- `heybox_prepare` 支持 `imageQuery/imageCount` 自动配官方图，并写入图源。\n- 修复 ENV_PROMPT 对已删除 imagekit 的引用。\n- 新增成长机制：只从高质量来源学习标题节奏、段落、第一人称和话题热度；低质/广告/水贴跳过。\n- 新增 `heybox_growth`，自动刷帖接入学习，帖子发布增加成长 XP。",
     "0.5.19": "- 模板与发件箱面板增加内容转化漏斗：兴趣 → 可发帖 → 准备 → 已发 → 记录数。\n- 展示本地表现摘要，不伪造平台数据。\n- 发帖内容面板增加编辑草稿、发布草稿、编辑帖子、删除帖子、删除自己的评论入口。",
     "0.5.18": "- 模板与发件箱面板补全：模板使用/改名/删除、草稿发布、发件箱 verify。\n- 面板增加本地定时队列：选择 prepare、设置时间、取消；只在 Coopanion 运行时执行。\n- 当前实例发帖额度保持 2 篇/天（配置项支持 0–5）。",
     "0.5.17": "- 内容面板「模板与发件箱」补全：模板使用/改名/删除、草稿发布、发件箱 verify。\n- 新增 `heybox_schedule` 本地定时发布队列；只在 Coopanion 运行时执行。\n- 新增 `write.dailyPosts` 可配置发帖额度（0–5/天）；默认仍为 1，不改变其他用户默认行为。\n- 当前实例按活跃玩家节奏调整为 2 篇/天、10 条评论/天、20 个赞/天，自动发送开关不变。\n- 更新 README、ENV_PROMPT、工具说明与市场描述。",
