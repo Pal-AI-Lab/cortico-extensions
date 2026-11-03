@@ -8362,10 +8362,10 @@
     },
     "cortico-world-fishing": {
       "kind": "world",
-      "version": "0.3.1",
+      "version": "0.4.0",
       "displayName": "星露谷（钓鱼与种田）",
       "description": "Cortico World：一个能过日子的迷你世界——坐在右下角那把椅子上钓鱼（40 种鱼、5 个星级、8 把鱼竿、传说鱼与鱼塘），桌面左下角 3×3 九格田可种可收，另有牧场、81 道菜、读书与收集册成就；季节一周一换，天气影响鱼获。",
-      "author": "DSH 侧的姐姐",
+      "author": "Cortina",
       "maintainers": [
         "binamii"
       ],
@@ -8377,9 +8377,12 @@
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-fishing"
       },
+      "os": [
+        "win32"
+      ],
       "created": "2026-10-30T11:07:05.310Z",
-      "published": "2026-10-30T11:20:28.375Z",
-      "versionCount": 2,
+      "published": "2026-11-03T13:51:06.042Z",
+      "versionCount": 3,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -8400,16 +8403,17 @@
       "summary": {
         "tools": 29,
         "events": 0,
-        "toolTokens": 4741,
-        "envPromptTokens": 1051
+        "toolTokens": 4750,
+        "envPromptTokens": 1223
       },
       "changelog": {
         "versions": [
+          "0.4.0",
           "0.3.1",
           "0.3.0",
           "0.2.0"
         ],
-        "url": "https://unpkg.com/cortico-world-fishing@0.3.1/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-fishing@0.4.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 560,
@@ -9056,17 +9060,17 @@
     },
     "cortico-world-heybox": {
       "kind": "world",
-      "version": "0.5.18",
+      "version": "0.5.19",
       "displayName": "小黑盒",
-      "description": "小黑盒 Coopanion World：账号/内容/成长三栏；模板与发件箱 UI、模板使用/改名/删除、草稿发布、本地定时队列、prepare/publish 幂等、可配置发帖额度、通知摘要、本地作息、兴趣阶段、热点刷帖、审计诊断。 / Heybox for Coopanion with Account/Content/Growth panels, template/outbox UI, template apply/edit/delete, draft publish, local scheduling",
+      "description": "小黑盒 Coopanion World：账号/内容/成长三栏；模板与发件箱、模板 CRUD、草稿/帖子编辑与删除、本地定时、内容转化漏斗、prepare/publish 幂等、可配置发帖额度、通知摘要、本地作息、兴趣阶段、热点刷帖、审计诊断。 / Heybox for Coopanion: Account/Content/Growth panels, template/outbox UI and CRUD, draft publishing, local scheduling, content funne",
       "locales": {
         "zh": {
           "displayName": "小黑盒",
-          "description": "让桌宠登录小黑盒，逛社区、按兴趣发帖。内容面板支持模板使用/改名/删除、从兴趣建模板、草稿发布、发件箱验证和本地定时队列；支持 prepare/publish 幂等、可配置发帖额度、通知摘要、本地作息、兴趣阶段、负反馈、热点刷帖、审计诊断。"
+          "description": "让桌宠登录小黑盒，逛社区、按兴趣发帖。内容面板支持模板使用/改名/删除、草稿发布、发件箱验证、本地定时和兴趣→可发帖→准备→已发的转化漏斗；支持 prepare/publish 幂等、可配置额度、通知摘要、本地作息、兴趣阶段、负反馈、热点刷帖、审计诊断。"
         },
         "en": {
           "displayName": "Heybox",
-          "description": "Heybox for Coopanion with Account/Content/Growth panels: template apply/edit/delete, interest templates, draft publishing, outbox verification, local scheduling, idempotent prepare/publish, configurable post budgets, notification digest, local routine, staged interests and diagnostics."
+          "description": "Heybox for Coopanion with Account/Content/Growth panels: template/outbox UI, template CRUD, draft publishing, local scheduling, content funnel, idempotent prepare/publish, configurable budgets, notification digest, local routine, staged interests and diagnostics."
         }
       },
       "author": "cortico-world-heybox contributors",
@@ -9087,8 +9091,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-heybox"
       },
       "created": "2026-10-24T14:30:19.968Z",
-      "published": "2026-11-03T13:41:40.013Z",
-      "versionCount": 15,
+      "published": "2026-11-03T14:09:48.725Z",
+      "versionCount": 16,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -9122,6 +9126,7 @@
       },
       "changelog": {
         "versions": [
+          "0.5.19",
           "0.5.18",
           "0.5.17",
           "0.5.16",
@@ -9174,7 +9179,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-heybox@0.5.18/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-heybox@0.5.19/CHANGELOG.md"
       },
       "discussion": {
         "number": 253,
@@ -15033,12 +15038,12 @@
     },
     "cortico-world-screen-sense": {
       "kind": "world",
-      "version": "0.1.4",
-      "displayName": "屏幕感知",
-      "description": "Cortico World：屏幕感知——Phase 1 把前台应用切换变成事件（装完即用）；Phase 2 可选截图与视觉描述，图留在本机相册、不进主上下文。默认关闭。",
+      "version": "0.1.5",
+      "displayName": "窥屏助手",
+      "description": "窥屏助手（Cortico World）：Phase 1 把前台应用切换变成事件；Phase 2 可选截图与视觉速写，图留在本机相册、不进入主上下文。默认关闭。",
       "locales": {
         "en": {
-          "displayName": "Screen sense",
+          "displayName": "Screen Peep",
           "description": "Phase 1 turns foreground-app switches into events out of the box; Phase 2 optionally keeps screenshots in a local album and adds one-line vision descriptions. Images stay out of the main context. Off by default."
         }
       },
@@ -15061,8 +15066,8 @@
         "bugs": "https://github.com/Wwhois163wW/cortico-world-screen-sense/issues"
       },
       "created": "2026-11-03T06:36:57.535Z",
-      "published": "2026-11-03T12:57:09.698Z",
-      "versionCount": 6,
+      "published": "2026-11-03T13:51:23.514Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -15089,6 +15094,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.5",
           "0.1.4",
           "0.1.3",
           "0.1.2",
@@ -18748,7 +18754,7 @@
     },
     "cortico-world-warthunder": {
       "kind": "world",
-      "version": "0.5.0",
+      "version": "0.5.5",
       "displayName": "war thunder安东星助手",
       "description": "在对话中提供战争雷霆的本地百科、战局播报与对局翻译。知识库覆盖概念、载具与玩法，可检索、可更新；读取本机 8111 遥测讲解战局、为击毁喝彩、为逆风打气，并可翻译对局聊天、代写要发的话；遥测不可用时可用截图 OCR 兜底；文案可按设定人格改写，模型与花费可配置。",
       "locales": {
@@ -18785,8 +18791,8 @@
         "bugs": "https://github.com/suhong11300/cortico-world-warthunder/issues"
       },
       "created": "2026-10-26T12:03:41.166Z",
-      "published": "2026-11-03T06:27:33.332Z",
-      "versionCount": 18,
+      "published": "2026-11-03T14:10:55.703Z",
+      "versionCount": 19,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -18825,11 +18831,16 @@
       "summary": {
         "tools": 15,
         "events": 7,
-        "toolTokens": 1929,
-        "envPromptTokens": 812
+        "toolTokens": 1958,
+        "envPromptTokens": 881
       },
       "changelog": {
         "versions": [
+          "0.5.5",
+          "0.5.4",
+          "0.5.3",
+          "0.5.2",
+          "0.5.1",
           "0.5.0",
           "0.4.8",
           "0.4.7",
