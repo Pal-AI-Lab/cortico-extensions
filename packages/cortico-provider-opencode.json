@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-provider-opencode",
-  "version": "0.3.7",
+  "version": "0.3.9",
   "describe": {
     "provider": {
       "protocols": [
@@ -48,6 +48,8 @@
     }
   },
   "changelog": {
+    "0.3.9": "- 真正修掉 Gemini 的 400:0.3.8 把问题判成「历史以 model 轮收尾」,方向错了。用真实会话重放才看清:框架给每个工具结果单独一条消息,而 0.3.8 让每个 `functionResponse` 各自成轮;一个 model 轮有 2–4 个 `functionCall` 时,response 数量就对不上,网关报 `number of function response parts is equal to the number of function call parts`。\n- 规则改成:同一轮的并行结果**必须合并进同一个 response 轮**(文本绝不混入),这样 3 个 call 对 3 个 response、4 对 4。\n- 修法用真实历史验证:把 `session-main.jsonl` 的 189 条真实条目喂给改后的翻译器,配对错位从 14 处降到 **0 处**,同一份 body 发到网关返回 **200**。\n- 测试 62 → 66 条,新增并行结果合并与「文本不混入 response 轮」两条。",
+    "0.3.8": "- 修 Gemini 方言的 `400 Requests ending with a model turn are not supported`:Gemini 要求 `contents` 以 user 轮结尾,而框架在「一轮以助手消息收尾」或「推送事件打断」时,历史正好停在 model 轮上。\n- 翻译器发现末轮是 model 时补一条极短的 user 轮(`(继续。)`),让请求重新合法;已经以 user 结尾的历史不动。悬空的 `functionCall` 也一并覆盖。\n- 实测:同一段历史以 model 结尾 → 400;补一条 user 轮 → 200 且正常作答(流式同样通过,并仍返回签名)。新增 3 条测试。",
     "0.3.7": "- 修 Gemini 方言在带工具的第二轮直接 400:`Function call is missing a thought_signature`。Gemini 3 起要求每个 `functionCall` 回传时带上模型给它的 `thoughtSignature`,而框架的 Chat 形状历史只保留 `{ id, type, function }`,签名放不进去。\n- 新增 `src/signatures.ts`:按 call id 记住签名(有上限,长对话不会无限增长),回放历史时按 id 取回。进程重启或遇到更早的历史时,用 Gemini 文档里的 `skip_thought_signature_validator` 兜底放行,而不是丢掉这一轮。\n- 实测确认:同一段历史不带签名 → 400;带哨兵 → 200 且模型正常回话(流式同样通过)。新增 4 条测试覆盖存、取、兜底与上限。",
     "0.3.6": "- 发布物带上 MIT 许可证文件 `LICENSE`;`package.json` 补 `repository` / `homepage` / `bugs`,npm 页因此链回仓库。\n- README 增加「安装」一节:包名、link 本地目录、npm 与仓库链接。\n- 新增 `.gitattributes`:行尾统一 LF,二进制不参与转换。\n- 代码与行为未变,这一版只为把这些元数据带进发布物。",
     "0.3.5": "- 默认协议从 `responses` 改成 `chat`。同一段 100k 上下文实测:chat 首字节 2.3 秒、总耗时 3.5 秒;responses 首字节 5.5 秒、总耗时 6.0 秒。Go 侧多数模型(GLM / Kimi / MiniMax / DeepSeek / Qwen-Max)都是 Chat 原生,responses 要网关逐条翻译整份上下文,上下文越长代价越大。GPT / Grok / Muse 这类 Responses 原生模型仍然可以手动切回。\n- 协议选项的说明写清了怎么选,不再只是列路径。**已保存的端点不受影响**(它们各自写了 `options.protocol`),只有没显式指定协议的老端点会跟着走新的默认值。",
