@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-wardrobe-studio",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "describe": {
     "tools": [
       {
@@ -73,7 +73,7 @@
       },
       {
         "name": "wardrobe_authoring_guide",
-        "description": "Read the staged character and outfit authoring workflow. This returns guidance and acceptance criteria; it does not run generation, download models, read conversations or upload assets.",
+        "description": "Read detailed character/outfit production steps, prompts, media acceptance requirements, wardrobe JSON fields/examples and troubleshooting. This returns guidance only; it does not generate assets, download models, read conversations or upload files.",
         "tags": [
           "read"
         ],
@@ -90,21 +90,24 @@
                 "review",
                 "matte",
                 "runtime",
-                "release"
+                "release",
+                "profile",
+                "troubleshooting"
               ]
             }
           },
           "additionalProperties": false
         },
         "summary": {
-          "zh": "读取从角色定稿到连续动画验收的制作指导。",
-          "en": "Read staged guidance for character references and reviewed continuous animation."
+          "zh": "读取详细制作步骤、衣橱 JSON 格式及故障排查。",
+          "en": "Read production steps, wardrobe JSON format and troubleshooting."
         }
       }
     ],
     "events": []
   },
   "changelog": {
+    "0.3.0": "- Default to Chinese with a shared, persistent Chinese/English panel selector; preserve pending choices and JSON drafts when switching.\n- Add a detailed bilingual manual with reference/motion prompts, raw video gates, temporal matting steps, figure runtime requirements and import troubleshooting.\n- Add full field tables, complete fictional profiles and a downloadable JSON Schema.\n- Add read-only configuration checks, local installed-ID inspection and example/manual downloads in the panel.\n- Enforce the profile limit in UTF-8 bytes, including pasted input.",
     "0.2.3": "- Follow the host theme with a dotted preview stage, compact outfit cards and horizontal option rows.\n- Show read-only thumbnails from the selected local figure pack, with origin/path and size restrictions.\n- Add isolated preview-asset security tests and responsive layout verification.",
     "0.1.1": "- Set an explicit root width for flex-based World panel hosts.\n- Verify the packaged panel against the actual Core extension service.",
     "0.1.0": "- Separate wardrobe panel with outfit-specific options mapped to existing figure schemes.\n- Local profiles, validated resource combinations and write-ahead appearance recovery.\n- Staged continuous-animation authoring guidance for people and agents.\n- Fictional preview and isolated lifecycle tests, without runtime package dependencies."
