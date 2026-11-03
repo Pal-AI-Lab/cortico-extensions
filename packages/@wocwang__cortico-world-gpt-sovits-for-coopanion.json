@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "describe": {
     "tools": [
       {
@@ -78,6 +78,7 @@
     ]
   },
   "changelog": {
+    "0.6.6": "- **macOS 正式可用**（#5）：`os` 加上 `darwin`，市场在 Mac 上也会展示。macOS 走「自备运行时目录」，\n  不下载内置运行时（内置包仍只有 win-x64），播放交给系统 `afplay`（整句播放、无设备选择、音量走 `afplay -v`）。\n  已在 Apple M3 上实测：自备运行时起服务约 11 s、试听出声、闲置停服后自动拉起、`api_v2.py` 保持上游原样即可\n  （解释器参数用 `-s` 而不是 `-I`，否则 `-E` 会忽略 `PYTHONPATH`，`import tools` 失败）。\n- **本地语音接口回传计时**（#7）：9880 的响应头多了 `x-sovits-first-chunk-ms`（首块就绪耗时）、\n  `x-sovits-synthesis-ms`（整句合成耗时）、`x-sovits-duration-ms`（这段音频的实际时长），\n  对方插件可以据此按真实时长撑气泡、按真实延迟安排开播。\n- **市场简介改短，突出 AMD 支持**：一行说明「支持 AMD（ROCm，实验性）与 NVIDIA 显卡、没独显自动 CPU」，\n  其余细节留给 README 与面板。\n- `scripts/analyze-noise.py` 支持流式 WAV（RIFF 长度是占位值也能读），并补了「裸 PCM 用 `--rate/--channels`」的说明（#6）。",
     "0.6.5": "- **修 0.6.4 的静音回归**：0.6.4 的「后端探针」把**两帧**静音写给了 audify（`write()` 只接受正好一帧），\n  抛出的 `Invalid size of the PCM data!` 被 catch 吞掉 → 两只后端都被判成「开流成功但没在跑」→\n  **0.6.4 在 Windows 上完全没声**（与 `audioBackend` 取什么无关；从 0.6.3 升上来会突然哑掉）。\n  现在探针只写一帧，长度统一走 `oneFrameBytes()`（与播放路径同一套算法），而且**探针自己失败不再判后端死刑**，\n  只记一行 warn 后放行；只有「流真的停了」才换下一个后端。\n- **自备运行时不再要求改 `api_v2.py`**：解释器参数从 `-I` 改成 `-s`（`-I` 会把脚本目录踢出 `sys.path`，\n  还连带 `-E` 忽略 `PYTHONPATH`，自备运行时的 venv python 因此 `import tools` 失败），同时给子进程带上\n  `PYTHONPATH=<运行时目录>`。上游 `api_v2.py` 在设置\n  `sys.path` 之前就 `from tools.portable_runtime import …`，而 `-I` 不把脚本目录放进 `sys.path`，\n  macOS 实测会 `ModuleNotFoundError: No module named 'tools'`。\n- **缺权重时点名缺哪个文件**：启动失败原因里附上 `pretrained_models` 下缺失的文件，并提示 CPU 档需要\n  `v2Pro/s2Gv2ProPlus.pth` 与 `sv/pretrained_eres2netv2w24s4ep4.ckpt`。\n- README 的 macOS 权重清单改正（CPU 档是 V2 Pro Plus，不是 V5 turbo），并写明新句**排队**、不打断正在播的那句。",
     "0.6.4": "- **自备运行时预检**：启动前检查解释器与 `api_v2.py`，缺了直接报完整路径（macOS 是 `runtime/bin/python3`），\n  不再等 `spawn` 抛一个没上下文的 `ENOENT`。为 #5 的 macOS 实测准备。\n- **「自动」能识别「开流成功但没声音」的机器**（#8）：开流后写两帧静音、等 120 ms 查 `isStreamRunning()`，\n  停了就换下一个后端（WASAPI 在这类机器上约 100 ms 内自己停掉）。显式选的档失败时仍如实报错，不偷偷改。\n- **音频后端配置归一化**（#8）：`DirectSound`、`WASAPI`、`ds`、带空格都能认；认不出的值记一行 warn 按 `auto` 处理，\n  不再静默退回 WASAPI。配置描述里写明手填用小写 `directsound`。",
     "0.6.3": "- **ROCm 档不再因为一个英文单词整句失败**：0.6.0 的 ROCm 运行时漏打了 NLTK 语料，台词里夹英文时\n  `nltk` 找不到 `cmudict`，整句报 `tts failed: Resource 'cmudict' not found`（中文纯汉字不受影响）。\n  现在启动前检查运行时有没有 `nltk_data/corpora/cmudict`，缺了自动下 9.5 MB 补齐包到数据目录并设\n  `NLTK_DATA`；构建脚本也加了校验，缺语料直接不打包。\n- 连接断开重试、失败日志里的 `tier` / `streaming` 仍是 0.6.2 的行为，本次不动。",
