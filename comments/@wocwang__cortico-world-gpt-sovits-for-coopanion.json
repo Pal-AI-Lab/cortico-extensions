@@ -2,8 +2,29 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-  "total": 67,
+  "total": 70,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJ68J",
+      "author": "wocwang",
+      "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+      "body": "@ANGOSUNG **0.6.7 已发布**（npm `latest`），你报的 NLTK 问题这版修好了。\r\n\r\n- 更新插件、重启 Coopanion 后，第一次启动会看到日志「**已把 NLTK 语料同步进运行时**」，后面就是正常合成；\r\n- 这次是**复制**进 `<运行时>/runtime/nltk_data`（上游会硬赋值 `NLTK_DATA` 到这个位置），不动 `portable_runtime.py`、不用重下 3 GB 运行包；\r\n- 预检同时看 `corpora/cmudict` 与 `taggers/averaged_perceptron_tagger_eng`，缺一个就补；\r\n- 每次启动都会检查，以后重下运行时也会自动同步，不会再「修好又复发」。\r\n\r\n另外 0.6.7 还带上了 AMD 支持名单补全：RX 7900 XT / 7900 GRE / PRO W7800、RX 7800 XT / 7700 XT / PRO W7700、RX 9070 GRE 现在会直接进 ROCm 档（之前会被判「不在名单」退 CPU）；识别时也忽略 WMI 名字里的 `(TM)` 和多余空格。\r\n\r\n麻烦更新后念一句夹英文的（`这次短点，ROCm 是零点四。`）确认，有异常继续在这里回。\r\n",
+      "createdAt": "2026-11-03T16:06:37Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BJ658",
+      "author": "wocwang",
+      "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+      "body": "@whshdh520 关于 RX 9060 XT「识别不了」：**这张卡本来就在支持名单里**（gfx1200），「大地之神」是盈通的板卡系列名，插件读的是 Windows 报的芯片名，不受板卡系列影响，所以不是名单的问题。\r\n\r\n为了定位，麻烦把这两条贴到 **#12**（我在那边也回了同一条）：\r\n\r\n1. PowerShell：`Get-CimInstance Win32_VideoController | ForEach-Object { $_.Name + ' | ' + $_.DriverVersion }`\r\n2. 面板「推理档」那一行显示什么（自动 / 显卡(AMD ROCm) / CPU），以及下面那行小字。\r\n\r\n顺带说明：这次核查发现名单漏了几个**同架构**型号（RX 7900 XT / 7900 GRE / PRO W7800、RX 7800 XT / 7700 XT / PRO W7700、RX 9070 GRE），已补进主线、随 0.6.7 发；你这张 9060 XT 不在其中，因此你的问题另有原因，按上面两条信息我继续查。\r\n",
+      "createdAt": "2026-11-03T15:59:52Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BJ657",
+      "author": "wocwang",
+      "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+      "body": "@ANGOSUNG 收到了，这份报告把根因钉死了，已按你说的第 3 条修好，随 **0.6.7** 发。\r\n\r\n**确认的机制**：`tools/portable_runtime.py:89` 是 `os.environ[\"NLTK_DATA\"] = str(RUNTIME_DIR / \"nltk_data\")`，硬赋值；`RUNTIME_DIR = PROJECT_ROOT / \"runtime\"`。所以插件传进子进程的 `NLTK_DATA` 一定被覆盖成 `<运行时>/runtime/nltk_data`，而 ROCm 包里没有这套语料——0.6.3–0.6.6 的「下到数据目录 + 设 `NLTK_DATA`」在 ROCm 档**必然无效**，你那个最小复现里 `before` / `after` 两行就是铁证。\r\n\r\n**修法**（不动上游文件、不改运行包）：\r\n\r\n- `ensureNltkData()` 补齐后，把语料**复制**进 `<运行时>/runtime/nltk_data`，已存在的文件不覆盖（运行包自带的优先）；\r\n- 预检从只看 `corpora/cmudict` 扩到 `cmudict` + `taggers/averaged_perceptron_tagger_eng` 两项——缺一项和缺全部，对 `g2p_en` 来说是一样的；\r\n- 每次启动都会检查并同步，所以重下运行时之后也不会再复发。\r\n\r\n**验证**：`tsc` 0 error、17 文件 **197 例全过**（新增 4 条：两项预检、复制不覆盖运行时自带文件、幂等）。我本机没有 A 卡，ROCm 真机复验还得麻烦你更新后念一句夹英文的，比如你报告里那句 `这次短点，ROCm 是零点四。`\r\n\r\n**给 0.6.6 用户的临时规避**（你写的那条）依然有效：把 `data\\gpt-sovits\\nltk_data` 复制到 `%USERPROFILE%\\nltk_data`——它在运行时目录之外，重装运行时也不会被冲掉。\r\n\r\n0.6.7 发布后我在这里补一条版本号，麻烦回个结果。\r\n",
+      "createdAt": "2026-11-03T15:59:50Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJ5JK",
       "author": "whshdh520",
