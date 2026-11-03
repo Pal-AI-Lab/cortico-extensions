@@ -2,14 +2,23 @@
   "schema": 1,
   "name": "cortico-world-social-media",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/204",
-  "total": 18,
+  "total": 19,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BJ1jf",
       "author": "funalin",
       "avatar": "https://avatars.githubusercontent.com/u/351599904?s=64&v=4",
       "body": "我调15到120 直接秒退窗口",
-      "createdAt": "2026-11-02T16:41:06Z"
+      "createdAt": "2026-11-02T16:41:06Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJ2rN",
+          "author": "PeiKun123",
+          "avatar": "https://avatars.githubusercontent.com/u/200584930?s=64&v=4",
+          "body": "谢谢反馈，这个情况需要继续排查，先不用反复调15–120秒。这个设置是加载等待的上限，不是窗口最短停留时间；如果提前遇到登录核对、浏览器启动或页面异常，也会结束任务并释放窗口。请补充一下具体平台、扩展版本，以及是在「检查读取」还是实际发评论时退出，最关键的是Bot或配置页最后显示的完整报错文字。无需提供Cookie、密码或验证码。我会补齐失败阶段和原因的提示，也在检查有没有未跟随新设置的等待环节；目前不能仅凭窗口关闭就判断与你之前的慢加载问题是同一个原因。",
+          "createdAt": "2026-11-02T21:01:41Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BJfoB",
