@@ -2,14 +2,23 @@
   "schema": 1,
   "name": "cortico-world-fish-sing",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/512",
-  "total": 3,
+  "total": 4,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BJ54N",
       "author": "YFEI-QWQ",
       "avatar": "https://avatars.githubusercontent.com/u/351040646?s=64&v=4",
       "body": "大佬，还有一个问题：更新到 0.4.16 后，人声分离每次都先去 HuggingFace 拉权重，被墙后反复重试，25 秒的唱段要等六分半。\n建议它分离前默认 HF_HUB_OFFLINE=1，或者只分离要用的那一段。加之前 396 秒，加之后 19 秒",
-      "createdAt": "2026-11-03T12:17:08Z"
+      "createdAt": "2026-11-03T12:17:08Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BJ6EF",
+          "author": "FXYXL",
+          "avatar": "https://avatars.githubusercontent.com/u/144140133?s=64&u=5f513e3f54ec93e87feacd38dce5c3e89849dddc&v=4",
+          "body": "感谢反馈，这条我们查过了。\n先说结论：不是每次都拉，是权重缓存丢了才下载。你那边大概是重装运行时或换环境后\n缓存没了，于是每次分离都触发一次 84MB 下载；而下载函数本身没有超时，被墙时就会\n一直挂着——25 秒的素材就变成了几分钟。\n补充一个技术细节：我们用的是 demucs 4.1.0，权重走的是 torch.hub\n（dl.fbaipublicfiles.com），不是 HuggingFace。不过你提的 HF_HUB_OFFLINE 思路是对的，\n我们已经在缓存命中时默认设上了。\n\n0.4.17 的改动：\n1. 联网调用加了 20 秒超时，不会再无限挂；\n2. 缓存命中时自动设 HF_HUB_OFFLINE=1 / TRANSFORMERS_OFFLINE=1；\n3. 分离的进度日志会明写「权重已缓存 84MB」或「首次需下载 84MB」，以后能看出到底卡在哪。\n\n关于「只分离要用的那一段」：唱歌是整首替换人声，必须整段分离，这条做不了；\n但短素材分离本身就很快，慢的一直是权重下载。\n升级到 0.4.17 再试，如果还是慢，把分离时 [worker]里带 weights的那行日志发我们。",
+          "createdAt": "2026-11-03T12:59:39Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BJvon",

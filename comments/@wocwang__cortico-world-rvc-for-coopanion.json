@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "name": "@wocwang/cortico-world-rvc-for-coopanion",
+  "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/466",
+  "total": 1,
+  "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJ5-K",
+      "author": "Sillyhou",
+      "avatar": "https://avatars.githubusercontent.com/u/175188106?s=64&v=4",
+      "body": "作者你好，首先非常感谢，RVC 这个 world 的「翻唱」整条链路（分离 → 变声 → 混音）用下来很顺，本地跑也不用联网，这点特别省心。\n\n有个小建议：目前默认的人声分离模型是 UVR-MDX-NET-Inst_HQ_3.onnx（66,759,214 字节），这个模型在 UVR 社区里已经算比较老了。实际听下来，齿音偏闷、高频乐器（镲片、弦乐泛音）留在人声轨里的残留也比较明显。UVR 后来又出了明显更好的模型，比如 Mel-Band Roformer 系列（个人感觉melband_roformer_instvox_duality_v2效果最好），代价是权重 1.7 GB、要 PyTorch 推理（插件这边 venv 里 torch 本来就有）。希望可以做成一键安装时的可选档：默认仍装轻量的 MDX ONNX，想要更好效果的再点一下下 Roformer。",
+      "createdAt": "2026-11-03T12:33:39Z"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-heybox",
-  "version": "0.5.16",
+  "version": "0.5.18",
   "describe": {
     "tools": [
       {
@@ -1124,6 +1124,37 @@
             "action"
           ]
         }
+      },
+      {
+        "name": "heybox_schedule",
+        "description": "本地定时发布队列；只在 Coopanion 运行时执行，不是平台定时。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "add",
+                "list",
+                "remove",
+                "run"
+              ]
+            },
+            "prepareId": {
+              "type": "string"
+            },
+            "at": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
       }
     ],
     "events": [
@@ -1142,6 +1173,8 @@
     ]
   },
   "changelog": {
+    "0.5.18": "- 模板与发件箱面板补全：模板使用/改名/删除、草稿发布、发件箱 verify。\n- 面板增加本地定时队列：选择 prepare、设置时间、取消；只在 Coopanion 运行时执行。\n- 当前实例发帖额度保持 2 篇/天（配置项支持 0–5）。",
+    "0.5.17": "- 内容面板「模板与发件箱」补全：模板使用/改名/删除、草稿发布、发件箱 verify。\n- 新增 `heybox_schedule` 本地定时发布队列；只在 Coopanion 运行时执行。\n- 新增 `write.dailyPosts` 可配置发帖额度（0–5/天）；默认仍为 1，不改变其他用户默认行为。\n- 当前实例按活跃玩家节奏调整为 2 篇/天、10 条评论/天、20 个赞/天，自动发送开关不变。\n- 更新 README、ENV_PROMPT、工具说明与市场描述。",
     "0.5.16": "- 内容面板新增「模板与发件箱」子页：模板浏览、从兴趣创建、发件箱状态。\n- 本地草稿支持 update 与 publish；发布需要真实 communityId，仍受写入开关和额度约束。\n- 更新说明与市场描述。",
     "0.5.15": "- 新增 `heybox_notifications`：未读摘要、列表、本地已读；不声称改变平台未读状态。\n- 新增 `heybox_routine`：本地作息，night 23:00–08:00 只读暂停自动刷帖。\n- 更新 README、ENV_PROMPT、工具说明与市场描述。\n- 说明限制：没有接入 presence 传感器；通知已读仅为本地。",
     "0.5.14": "- 新增模板库：10 种内置热门结构，支持按兴趣或热帖自建/更新/删除模板。\n- 新增 prepare → publish → outbox → verify 发布链路；requestId 幂等，帖子读回验证，评论/回复明确标注只能确认本地回执。\n- 新增编辑帖子、删除自己评论、发布前质检。\n- 更新 ENV_PROMPT、README、市场说明。",
