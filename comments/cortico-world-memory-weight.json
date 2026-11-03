@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "cortico-world-memory-weight",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/445",
-  "total": 2,
+  "total": 3,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJ3j1",
+      "author": "569075246a",
+      "avatar": "https://avatars.githubusercontent.com/u/325178483?s=64&v=4",
+      "body": "【Bug】「完整的一生」记忆卡片：建卡文件名序号会覆盖已有卡（丢卡）\n\n涉及文件：插件本体 world.js（手动建卡，约 1159 行）、distill.js（蒸馏建卡，约 527 行）\n\n现象：\n1. 同一天写多张卡时，后写的卡会把先写的同名文件直接覆盖，先写的那张彻底消失。\n2. 不进墓地：memories 没有、archive/年-月 里也没有，archive 目录甚至从没被创建过。是删除级丢失，不是遗忘。\n3. 自我强化：一处覆盖发生后，当天的文件数不再增长，之后每张新卡都算出同一个序号，持续覆盖。\n4. 两套编号错位：文件名序号=当天第几张，卡片 seq=全局递增。分叉后 mem_open 传纯数字会先按 seq 找，找不到再退化成按文件名后缀找，于是按编号取到错的卡。\n\n根因：建卡的文件名序号取的是「当天已有文件数 + 1」，而应为「当天已有最大序号 + 1」。",
+      "createdAt": "2026-11-03T01:31:08Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJuZ_",
       "author": "vwsabef",
