@@ -27,6 +27,9 @@
     "cortico-world-alive-alont1": [
       "sensitive-data"
     ],
+    "cortico-world-asr": [
+      "sensitive-data"
+    ],
     "cortico-world-auto-interact": [
       "sensitive-data"
     ],
@@ -331,6 +334,7 @@
       ],
       "tags": [
         "voice",
+        "creative",
         "local",
         "experimental"
       ],
@@ -905,7 +909,7 @@
       "discussion": {
         "number": 228,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-        "up": 20,
+        "up": 21,
         "down": 0,
         "comments": 77
       }
@@ -2545,7 +2549,7 @@
       "published": "2026-11-04T11:48:24.328Z",
       "versionCount": 4,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "requires-extension",
         "experimental"
@@ -3208,8 +3212,19 @@
     },
     "cortico-world-asr": {
       "kind": "world",
-      "version": "0.2.0",
-      "description": "Cortico World: microphone speech recognition — RtAudio capture, energy-gated segmentation, FireRedASR2-AED backend, subtitle overlay",
+      "version": "0.2.1",
+      "displayName": "语音识别",
+      "description": "Cortico World: lets the bot hear the microphone. Speech is transcribed locally by FireRedASR2-AED, merged into events, and can be shown as an OBS subtitle overlay.",
+      "locales": {
+        "zh": {
+          "displayName": "语音识别",
+          "description": "让 Coo 听见麦克风：你说的话在本机识别成文字，作为事件送给 Coo,由 Coo 自己决定怎么回。\n\n**功能**\n- 按音量门槛判断有没有人在说话，咳嗽、键盘声这类短促的声音会被挡掉\n- 本机 FireRedASR2-AED 识别中英文，有 NVIDIA 显卡用显卡，没有就用 CPU\n- 一口气说的几句并成一条送给 Coo,默认听见就叫醒\n- 结果转简体，可配纠错表，模型在噪声上编出来的句子会被丢掉\n- 自带字幕页，可作为 OBS 浏览器源叠在直播画面上\n\n**安装后还需要**\n1. 本机装好 git 与 uv 并放进 PATH;用显卡档要 NVIDIA 显卡和支持 CUDA 12.8 的驱动\n2. 在「收听」面板点「安装运行时」(PyTorch 约 3 GB)和「下载权重」(约 4.7 GB)\n3. 在「识别后端」那一栏点「启动」\n4. 详细步骤见 [README](https://github.com/Phantivia/cortico-world-asr#安装前准备)\n\n托管安装只支持 Windows 与 Linux,macOS 可以接自备的兼容转写端点。可缇 Corti 直播在用的语音识别。"
+        },
+        "en": {
+          "displayName": "Speech Recognition",
+          "description": "Lets Coo hear your microphone: what you say is transcribed on your machine and delivered to Coo as an event, and Coo decides how to reply.\n\n**Features**\n- A level threshold tells when someone is talking; short sounds such as coughs and keyboard clicks are filtered out\n- Local FireRedASR2-AED recognizes Chinese and English, on an NVIDIA GPU if present, otherwise on the CPU\n- Sentences said in one go reach Coo as one event; by default speech wakes Coo right away\n- Output in Simplified Chinese, an optional correction list, and phrases the model invents on noise are dropped\n- A built-in subtitle page that works as an OBS browser source\n\n**After installing you also need**\n1. git and uv installed and on PATH; the GPU profile needs an NVIDIA card with a driver that supports CUDA 12.8\n2. In the 收听 (Listen) panel, click 「安装运行时」 (install runtime, PyTorch about 3 GB) and 「下载权重」 (download weights, about 4.7 GB)\n3. Click 「启动」 (start) in the 「识别后端」 (backend) row\n4. Full steps in the [README](https://github.com/Phantivia/cortico-world-asr#before-you-install)\n\nManaged install supports Windows and Linux only; on macOS connect your own compatible transcription endpoint. The speech recognition used on Corti's live streams."
+        }
+      },
       "author": "Phantivia",
       "maintainers": [
         "phantivia"
@@ -3229,10 +3244,17 @@
         "bugs": "https://github.com/Phantivia/cortico-world-asr/issues"
       },
       "created": "2026-09-20T00:10:15.494Z",
-      "published": "2026-10-16T03:09:37.561Z",
-      "versionCount": 4,
+      "published": "2026-11-04T22:51:28.851Z",
+      "versionCount": 5,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "streaming",
+        "voice",
+        "local",
+        "external-setup",
+        "sensitive-data"
+      ],
       "tags": [
         "corti",
         "streaming",
@@ -3241,6 +3263,7 @@
         "external-setup",
         "sensitive-data"
       ],
+      "icon": "assets/cortico-world-asr/icon.png",
       "downloads": {
         "total": 884,
         "month": 507,
@@ -3254,6 +3277,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0"
         ],
         "url": "https://github.com/Phantivia/cortico-world-asr/blob/HEAD/CHANGELOG.md"
@@ -3821,7 +3845,7 @@
     },
     "cortico-world-bilibili": {
       "kind": "world",
-      "version": "0.2.12",
+      "version": "0.2.13",
       "displayName": "B 站直播间",
       "description": "Cortico World: read-only Bilibili live room — danmaku, gifts, super chats and guard events, with a local transparent overlay",
       "author": "Pal AI Lab",
@@ -3842,8 +3866,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:39.729Z",
-      "published": "2026-11-01T00:48:33.517Z",
-      "versionCount": 24,
+      "published": "2026-11-04T21:24:53.538Z",
+      "versionCount": 25,
       "official": true,
       "isNew": false,
       "tags": [
@@ -3872,9 +3896,19 @@
     },
     "cortico-world-bilibili-video": {
       "kind": "world",
-      "version": "0.2.3",
+      "version": "0.2.4",
       "displayName": "B 站视频",
-      "description": "Cortico World: watch a bilibili video in a logged-in browser, with frames, subtitles and the video's own danmaku delivered as events. 此乃直播测试验证之后的world，和其他 Persona / 非直播场景的兼容性有待测试。",
+      "description": "Cortico World: Coo browses and watches bilibili videos in a signed-in browser window, with frame grids, subtitles and the video's own danmaku delivered as events.",
+      "locales": {
+        "zh": {
+          "displayName": "B 站视频",
+          "description": "让 Coo 在一个登录了 B 站的浏览器窗口里逛 B 站、挑视频、看视频。这个窗口就是直播画面,观众和 Coo 看同一个窗口。\n\n**功能**\n- 搜索视频、打开视频页、看相关推荐、读评论区、滚动和截图\n- 网页全屏播放、暂停、跳转、切换画质,取当前画面的大图\n- 观看时每隔几秒把这段画面拼成分镜图,连同这段的字幕和视频自带的弹幕推给 Coo\n- 操作员在窗口里换视频或暂停、视频播完、播放卡住时,Coo 会收到通知\n- World 页签里扫码登录 B 站,打开或关闭浏览器\n\n**安装后还需要**\n1. 本机装好 Chrome 或 Edge,装在别处时在配置里填浏览器程序路径\n2. 在 World 页签的「B 站授权」面板用手机 B 站扫码登录;不登录看不到需要登录的清晰度和字幕\n3. 直播时在 OBS 里用窗口捕获这个浏览器窗口\n4. 详细步骤见 [README](https://github.com/Phantivia/cortico-world-bilibili-video#安装前准备)\n\n观看时 token 用得快。CortiV 直播验证过的参考实现,别的 Persona 或非直播场景的兼容性没测过。"
+        },
+        "en": {
+          "displayName": "Bilibili Video",
+          "description": "Lets Coo browse bilibili, pick videos and watch them in a signed-in browser window. That window is the stream picture, so the audience sees what Coo sees.\n\n**Features**\n- Search videos, open video pages, list related videos, read comments, scroll and take snapshots\n- Full-page playback, pause, seek, change quality, and a large image of the current frame\n- While watching, a grid of recent frames every few seconds, with that stretch's subtitles and the video's own danmaku\n- Coo is told when the operator changes video or pauses, when the video ends, and when playback stalls\n- QR-code sign-in and browser open and close from the World tab\n\n**Also needed after install**\n1. Chrome or Edge on this computer; if it is installed elsewhere, set the browser program path in the settings\n2. Sign in by scanning the QR code in the 「B 站授权」 panel of the World tab with the bilibili app; without it, login-only qualities and subtitles are unavailable\n3. For streaming, capture this browser window in OBS\n4. Full steps are in the [README](https://github.com/Phantivia/cortico-world-bilibili-video#before-you-install)\n\nUses tokens quickly while watching. Reference implementation verified on CortiV live streams; compatibility with other Personas and non-streaming setups is untested."
+        }
+      },
       "author": "Phantivia",
       "maintainers": [
         "phantivia"
@@ -3893,18 +3927,28 @@
         "bugs": "https://github.com/Phantivia/cortico-world-bilibili-video/issues"
       },
       "created": "2026-10-15T04:22:42.746Z",
-      "published": "2026-10-25T21:58:21.511Z",
-      "versionCount": 6,
+      "published": "2026-11-04T22:53:01.054Z",
+      "versionCount": 7,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "streaming",
+        "internet",
+        "browser",
+        "video",
+        "high-cost",
+        "external-setup"
+      ],
       "tags": [
         "corti",
         "streaming",
         "internet",
         "browser",
         "video",
+        "external-setup",
         "high-cost"
       ],
+      "icon": "assets/cortico-world-bilibili-video/icon.png",
       "downloads": {
         "total": 15905,
         "month": 15905,
@@ -3918,6 +3962,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.4",
           "0.2.3",
           "0.2.2",
           "0.2.1",
@@ -4634,9 +4679,20 @@
     },
     "cortico-world-buckshot": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "displayName": "恶魔轮盘",
-      "description": "Buckshot Roulette game events and player actions for Cortico. 此乃直播测试验证之后的world，和其他 Persona / 非直播场景的兼容性有待测试。",
+      "description": "Lets a Cortico bot play Buckshot Roulette (Steam, Windows) through live game events and in-game actions; verified on live streams, compatibility with other Personas and non-streaming setups is untested.",
+      "locales": {
+        "zh": {
+          "displayName": "恶魔轮盘",
+          "description": "让 Coo 玩 Steam 版《恶魔轮盘》:装填、开枪、道具、生命和字幕实时推给 Coo,Coo 自己拿枪、用道具、点菜单。\n\n**功能**\n- 单人剧情、Double or Nothing 与多人房间都能玩\n- 装填数、揭示的弹药、生命和字幕作为事件推给 Coo,关键时刻附游戏截图\n- Coo 用工具操作桌上目标、菜单和设置,也能发键盘、鼠标、手柄输入\n- 本地加入:操作员在本机再开一个游戏窗口,和 Coo 同桌对打\n- WebUI 页签可启动、关闭游戏,查看当前画面\n\n**安装后还需要**\n1. 在 Windows 上通过 Steam 安装《Buckshot Roulette》,版本须为 v2.2.0.6\n2. 在 World 页的配置里把「游戏程序」指向 `Buckshot Roulette.exe`\n3. 植入资源包由 World 首次启动游戏时自动生成,无需编译\n4. 详细步骤见 [README](https://github.com/Phantivia/cortico-world-buckshot#安装前准备)\n\n仅 Windows。CortiV 直播验证过的参考实现,和其他 Persona、非直播场景的兼容性有待测试。"
+        },
+        "en": {
+          "displayName": "Buckshot Roulette",
+          "description": "Lets Coo play Buckshot Roulette (Steam): loads, shots, items, health and dialogue reach Coo as they happen, and Coo picks up the shotgun, uses items and works the menus itself.\n\n**Features**\n- Plays the story, Double or Nothing and multiplayer lobbies\n- Shell counts, revealed shells, health and dialogue arrive as events, with a screenshot at key moments\n- Coo operates table targets, menus and settings through tools, and can send keyboard, mouse and gamepad input\n- Local join: the operator opens a second game window on the same PC and plays Coo at the same table\n- The WebUI tab starts and closes the game and shows the current view\n\n**After installing you also need**\n1. Buckshot Roulette from Steam on Windows, version v2.2.0.6\n2. Set 游戏程序 (game executable) in the World page settings to `Buckshot Roulette.exe`\n3. The implant pack is generated automatically the first time the World starts the game; nothing to compile\n4. Full steps in the [README](https://github.com/Phantivia/cortico-world-buckshot#before-you-install)\n\nWindows only. A reference implementation verified on CortiV live streams; compatibility with other Personas and non-streaming use has not been tested."
+        }
+      },
+      "author": "Phantivia",
       "maintainers": [
         "phantivia"
       ],
@@ -4656,10 +4712,17 @@
         "win32"
       ],
       "created": "2026-10-11T22:36:44.440Z",
-      "published": "2026-10-16T03:09:25.686Z",
-      "versionCount": 4,
+      "published": "2026-11-04T23:23:07.732Z",
+      "versionCount": 5,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "streaming",
+        "game",
+        "external-setup",
+        "experimental",
+        "high-cost"
+      ],
       "tags": [
         "corti",
         "streaming",
@@ -4668,6 +4731,7 @@
         "experimental",
         "high-cost"
       ],
+      "icon": "assets/cortico-world-buckshot/icon.png",
       "downloads": {
         "total": 891,
         "month": 891,
@@ -4675,12 +4739,13 @@
       },
       "summary": {
         "tools": 10,
-        "events": 22,
+        "events": 23,
         "toolTokens": 964,
         "envPromptTokens": 911
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0"
         ],
         "url": "https://github.com/Phantivia/cortico-world-buckshot/blob/HEAD/CHANGELOG.md"
@@ -4716,7 +4781,9 @@
       "versionCount": 2,
       "official": false,
       "isNew": true,
-      "tags": [],
+      "tags": [
+        "diagnostics"
+      ],
       "downloads": {
         "total": 338,
         "month": 338,
@@ -4788,8 +4855,19 @@
     },
     "cortico-world-canvas": {
       "kind": "world",
-      "version": "0.2.0",
-      "description": "Cortico World: a drawing studio and a draw-and-guess game — p5.brush strokes rendered in a headless browser, served as a live board",
+      "version": "0.2.1",
+      "displayName": "头像画室",
+      "description": "Cortico World: a drawing studio and a draw-and-guess game. Coo paints with p5.brush strokes rendered in a headless Chrome, shown live on a local page with an OBS overlay",
+      "locales": {
+        "zh": {
+          "displayName": "头像画室",
+          "description": "让 Coo 在本机画室网页上用 p5.brush 笔触画画，还能主持「你画我猜」。画的过程在网页和直播画面上实时播放，截图随工具回执回给 Coo。\n\n**功能**\n- 用命名的路径部件作画：实色或水彩铺色、带压力的线稿、铅笔、马克笔、炭笔、排线\n- 按步骤修改、整体移动缩放旋转、撤销，另存 PNG\n- 人在网页上传参考图，Coo 查看并临摹，可放大局部\n- 你画我猜：题目只显示字数和提示，倒计时到点通知 Coo，计分板跨局保留\n- 给 OBS 用的直播画面(/overlay)\n\n**安装后还需要**\n1. 本机安装 Google Chrome，或在配置里填一个 Chromium 系浏览器的路径\n2. 建议用能看图的模型，否则 Coo 看不到画面\n3. 详细步骤见 [README](https://github.com/Phantivia/cortico-world-canvas#安装前准备)\n\nCortiV 直播验证过的参考实现。网页上的「Corti」「可缇」字样来自直播画面。"
+        },
+        "en": {
+          "displayName": "Canvas Studio",
+          "description": "Lets Coo paint with p5.brush strokes on a local studio page and host a draw-and-guess game. Strokes play live on the page and the stream overlay, and screenshots come back to Coo in tool results.\n\n**Features**\n- Draws named path parts: solid or watercolor fills, pressure-sensitive line art, pencil, marker, charcoal, hatching\n- Edit by step, move, scale or rotate parts, undo, save as PNG\n- People upload reference images on the page; Coo views and copies them, with zoom\n- Draw-and-guess: the page shows only the answer length and a hint, Coo is notified when time runs out, and the scoreboard carries across rounds\n- An overlay view (/overlay) for OBS\n\n**After installing you also need**\n1. Google Chrome installed, or a Chromium-based browser path in the settings\n2. A model that can see images (recommended), or Coo cannot see the drawing\n3. See the [README](https://github.com/Phantivia/cortico-world-canvas#before-you-install) for details\n\nReference implementation tested on CortiV streams. The \"Corti\" and \"可缇\" text on the page comes from the stream look."
+        }
+      },
       "author": "Phantivia",
       "maintainers": [
         "phantivia"
@@ -4808,16 +4886,24 @@
         "bugs": "https://github.com/Phantivia/cortico-world-canvas/issues"
       },
       "created": "2026-09-20T00:10:00.147Z",
-      "published": "2026-10-16T03:09:40.150Z",
-      "versionCount": 4,
+      "published": "2026-11-04T23:44:24.923Z",
+      "versionCount": 5,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "streaming",
+        "game",
+        "creative",
+        "external-setup"
+      ],
       "tags": [
         "corti",
         "streaming",
         "game",
-        "creative"
+        "creative",
+        "external-setup"
       ],
+      "icon": "assets/cortico-world-canvas/icon.png",
       "downloads": {
         "total": 1127,
         "month": 764,
@@ -4831,6 +4917,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0"
         ],
         "url": "https://github.com/Phantivia/cortico-world-canvas/blob/HEAD/CHANGELOG.md"
@@ -5738,9 +5825,20 @@
     },
     "cortico-world-cortidrive": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "displayName": "教可缇开车",
-      "description": "Cortico World for Teach my little sister how to drive, with the bot in the driver seat: a BepInEx plugin replaces the sister model with the bot's drive tool and turns game calls into events. 此乃直播测试验证之后的world，和其他 Persona / 非直播场景的兼容性有待测试。",
+      "description": "Puts a Cortico bot in the driver seat of Teach my little sister how to drive through a BepInEx plugin that swaps the game's sister model for the bot; verified on live streams, compatibility with other Personas and non-streaming setups is untested.",
+      "locales": {
+        "zh": {
+          "displayName": "教可缇开车",
+          "description": "让 Coo 坐上《Teach my little sister how to drive》的驾驶座:副驾驶的人口头指挥,Coo 自己踩油门、打方向、系安全带。\n\n**功能**\n- Coo 用分步计划控制车速和方向,每步开几秒、几米、转几度或停稳再走下一步\n- 任务、画面提示、情境区、罚款、碰撞、地雷、违规倒计时、关卡结束实时推给 Coo,关键事件附截图\n- 关卡中定时附最新画面和俯视图,Coo 太久没操作时唤醒一次\n- Coo 可截图看路况,重开本关、进下一关或回主菜单\n- 游戏里原本的妹妹模型、游戏语音和麦克风都关掉,换成 Coo\n\n**安装后还需要**\n1. 用 Steam 安装游戏,复制一份到 Steam 库外,装 BepInEx 5\n2. 用 .NET 8 SDK 编译仓里 `plugin/` 的插件,放进副本的 `BepInEx/plugins/`\n3. 在配置里把「游戏程序」指向副本的 exe,启动时开着 Steam\n4. 详细步骤见 [README](https://github.com/Phantivia/cortico-world-cortidrive#安装前准备)\n\n仅 Windows。CortiV 直播验证过的参考实现,和其他 Persona、非直播场景的兼容性有待测试。同一游戏里 Coo 当教练的版本是 cortico-world-sisterdrive。"
+        },
+        "en": {
+          "displayName": "Teach Corti to Drive",
+          "description": "Puts Coo in the driver seat of Teach my little sister how to drive: the person in the passenger seat gives directions, and Coo works the throttle, the steering and the seatbelt itself.\n\n**Features**\n- Coo drives with a step-by-step plan of speed and steering, each step held for some seconds, metres, degrees turned or until stopped\n- Missions, on-screen hints, situation zones, fines, collisions, mines, violation countdowns and stage results reach Coo as they happen, key ones with a screenshot\n- During a stage, the latest view and a top-down view come along periodically; Coo is woken once if it has not driven for a while\n- Coo can take a screenshot to check the road, restart the stage, load the next one or go back to the menu\n- The game's own sister model, game voice and microphone are switched off and Coo takes their place\n\n**After installing you also need**\n1. The game from Steam, copied outside the Steam library, with BepInEx 5\n2. The plugin in `plugin/` built with the .NET 8 SDK and placed in the copy's `BepInEx/plugins/`\n3. 游戏程序 (game executable) in the settings pointed at the copy's exe, with Steam running when it starts\n4. Full steps in the [README](https://github.com/Phantivia/cortico-world-cortidrive#before-you-install)\n\nWindows only. A reference implementation verified on CortiV live streams; compatibility with other Personas and non-streaming use has not been tested. The version where Coo coaches from the passenger seat is cortico-world-sisterdrive."
+        }
+      },
+      "author": "Phantivia",
       "maintainers": [
         "phantivia"
       ],
@@ -5759,17 +5857,26 @@
         "win32"
       ],
       "created": "2026-10-11T22:36:53.168Z",
-      "published": "2026-10-16T03:10:15.820Z",
-      "versionCount": 4,
+      "published": "2026-11-04T23:44:36.923Z",
+      "versionCount": 5,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "streaming",
+        "game",
+        "external-setup",
+        "experimental",
+        "high-cost"
+      ],
       "tags": [
         "corti",
         "streaming",
         "game",
         "external-setup",
+        "experimental",
         "high-cost"
       ],
+      "icon": "assets/cortico-world-cortidrive/icon.png",
       "downloads": {
         "total": 724,
         "month": 724,
@@ -5783,6 +5890,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0"
         ],
         "url": "https://github.com/Phantivia/cortico-world-cortidrive/blob/HEAD/CHANGELOG.md"
@@ -6036,17 +6144,17 @@
     },
     "cortico-world-deepseek-usage": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "DeepSeek Usage",
       "description": "Cortico World: the bot reads DeepSeek account balances, with scheduled reports and low-balance alerts",
       "locales": {
         "zh": {
           "displayName": "DeepSeek 余额",
-          "description": "bot 查询 DeepSeek 账户余额，可定时播报、跌破警告线时提醒"
+          "description": "让 Coo 查你的 DeepSeek 账户余额，可以定时播报，跌破警告线时提醒 Coo。\n\n**功能**\n- 查一个或全部账户：各币种的余额、赠金、充值，以及余额够不够调用\n- 可登记多个账户，在 World 页签粘贴 Key 测试通过后保存，也可以让 Coo 登记\n- 每个账户可设警告线，余额跌破时通知 Coo\n- 按设定的时刻把全部账户的余额播报给 Coo，可选叫醒 Coo 或随下一批事件送达\n\n**安装后还需要**\n1. 在 DeepSeek 开放平台创建 API Key，或用调用模型的同一把 Key\n2. 在 World 页签「快速配置」里粘贴 Key 登记账户\n3. 详细步骤见 [README](https://github.com/Phantivia/cortico-world-deepseek-usage#安装前准备)\n\n实验中，只接 DeepSeek。"
         },
         "en": {
           "displayName": "DeepSeek Usage",
-          "description": "The bot reads DeepSeek account balances, with scheduled reports and low-balance alerts"
+          "description": "Lets Coo read your DeepSeek account balance, with scheduled reports and an alert when a balance drops below its warning line.\n\n**Features**\n- Read one or all accounts: balance per currency, granted and topped-up parts, and whether the balance is enough for calls\n- Register several accounts: paste a key in the World tab and save it once the test passes, or let Coo register it\n- Set a warning line per account; Coo is told when the balance drops below it\n- Report every account's balance to Coo at set times, either waking Coo or with the next batch of events\n\n**After installing you also need**\n1. An API key from the DeepSeek platform, or the key you already use for model calls\n2. Paste it under \"Quick setup\" in the World tab to register an account\n3. See the [README](https://github.com/Phantivia/cortico-world-deepseek-usage#before-you-install) for details\n\nExperimental. DeepSeek only."
         }
       },
       "author": "Phantivia",
@@ -6068,16 +6176,18 @@
         "bugs": "https://github.com/Phantivia/cortico-world-deepseek-usage/issues"
       },
       "created": "2026-10-22T01:36:42.508Z",
-      "published": "2026-10-22T01:38:00.143Z",
-      "versionCount": 2,
+      "published": "2026-11-04T23:44:30.454Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
         "diagnostics",
+        "requires-key",
         "experimental"
       ],
       "tags": [
         "diagnostics",
+        "requires-key",
         "experimental"
       ],
       "icon": "assets/cortico-world-deepseek-usage/icon.png",
@@ -6094,6 +6204,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.1",
           "0.1.0"
         ],
         "url": "https://github.com/Phantivia/cortico-world-deepseek-usage/blob/HEAD/CHANGELOG.md"
@@ -6974,8 +7085,20 @@
     },
     "cortico-world-dungeon": {
       "kind": "world",
-      "version": "0.2.0",
-      "description": "Cortico World for Cortico Dungeon Alpha: a persistent multi-bot world with production, crafting and turn-based raids",
+      "version": "0.2.1",
+      "displayName": "Dungeon 地下城",
+      "description": "Cortico World that connects a bot to a Cortico Dungeon Alpha server: a persistent multi-bot world with production, crafting, battles and turn-based team raids",
+      "locales": {
+        "zh": {
+          "displayName": "Dungeon 地下城",
+          "description": "让 Coo 住进 Cortico Dungeon 服务器上的持久世界：和别的 AI 居民一起生产、交易、聊天，组队打回合制副本。\n\n**功能**\n- 答入职问卷创建角色，问卷决定战斗职业与生产职业\n- 采集、钓鱼、制作、烹饪、种植、买卖、换装备\n- 单人遭遇战，以及和其他居民组队的 3 到 5 人回合制团队副本\n- 频道与私聊、公告板悬赏与代工委托、交换与赠送、家园互访\n- 拍像素照片，自拍或合影，照片作为图片交给 Coo\n- 私聊、交易、副本提醒、战斗回合等事件由服务器推给 Coo\n\n**安装后还需要**\n1. 向 Dungeon 服务器的运营者要服务器地址和一次性邀请码\n2. 在 World 页的配置里填「服务器地址」,重启这个 World\n3. 在「注册」页签填邀请码，按「注册」;成功后自动连接\n4. 详细步骤见 [README](https://www.npmjs.com/package/cortico-world-dungeon)\n\n这是 Alpha 测试中的世界：运营者会观察和记录世界里发生的事，世界可能重置。"
+        },
+        "en": {
+          "displayName": "Cortico Dungeon",
+          "description": "Moves Coo into the persistent world on a Cortico Dungeon server: Coo lives alongside other AI residents, produces, trades and chats, and teams up for turn-based raids.\n\n**Features**\n- An onboarding questionnaire creates the character and decides its combat and production classes\n- Gathering, fishing, crafting, cooking, planting, buying and selling, and gear\n- Solo encounters, and turn-based team raids for 3 to 5 residents\n- Channels and direct messages, board bounties and commissions, trades and gifts, home visits\n- Pixel-art photos, alone or together, delivered to Coo as images\n- The server pushes direct messages, trades, raid reminders, battle rounds and more to Coo\n\n**Needed after install**\n1. Ask the Dungeon server's operator for the server address and a single-use invite code\n2. Set the server address in the World page's config and restart the World\n3. Enter the invite code on the Register (注册) tab and press Register; the World connects on success\n4. Full steps in the [README](https://www.npmjs.com/package/cortico-world-dungeon)\n\nThe world is in alpha testing: the operator observes and records what happens there, and the world may be reset."
+        }
+      },
+      "author": "Phantivia",
       "maintainers": [
         "phantivia"
       ],
@@ -6988,19 +7111,22 @@
         "npm": "https://www.npmjs.com/package/cortico-world-dungeon"
       },
       "created": "2026-09-26T04:36:47.901Z",
-      "published": "2026-10-16T03:09:49.608Z",
-      "versionCount": 7,
+      "published": "2026-11-04T23:45:12.355Z",
+      "versionCount": 8,
       "official": false,
       "isNew": false,
       "declaredTags": [
         "game",
-        "external-setup"
+        "external-setup",
+        "experimental"
       ],
       "tags": [
         "pal-ai-world",
         "game",
-        "external-setup"
+        "external-setup",
+        "experimental"
       ],
+      "icon": "assets/cortico-world-dungeon/icon.png",
       "downloads": {
         "total": 1515,
         "month": 585,
@@ -7014,9 +7140,10 @@
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0"
         ],
-        "url": "https://unpkg.com/cortico-world-dungeon@0.2.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-dungeon@0.2.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 18,
@@ -7314,7 +7441,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/438",
         "up": 0,
         "down": 0,
-        "comments": 3
+        "comments": 4
       }
     },
     "cortico-world-emote-pics": {
@@ -7616,7 +7743,7 @@
     },
     "cortico-world-extra-actions": {
       "kind": "world",
-      "version": "0.3.18",
+      "version": "0.3.22",
       "displayName": "深深与额外动作拓展",
       "description": "勾选动作库里的动作，写进形象包的「额外动作拓展」文件夹，让桌宠照着做。自带入门形象包与示例动作；完整 105 段可一键下载安装（不用解压、不用选文件夹）。",
       "locales": {
@@ -7645,8 +7772,8 @@
         "bugs": "https://github.com/MOYU-AI-Lab/cortico-world-extra-actions/issues"
       },
       "created": "2026-11-02T08:22:35.091Z",
-      "published": "2026-11-04T16:18:19.561Z",
-      "versionCount": 24,
+      "published": "2026-11-04T17:34:14.734Z",
+      "versionCount": 28,
       "official": false,
       "isNew": true,
       "tags": [],
@@ -8056,7 +8183,7 @@
       "discussion": {
         "number": 580,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/580",
-        "up": 2,
+        "up": 3,
         "down": 0,
         "comments": 0
       }
@@ -8708,7 +8835,7 @@
       "published": "2026-11-03T13:51:06.042Z",
       "versionCount": 3,
       "official": false,
-      "isNew": false,
+      "isNew": true,
       "declaredTags": [
         "experimental",
         "internal-state",
@@ -8786,9 +8913,13 @@
         "local"
       ],
       "tags": [
+        "im",
         "qq",
         "memory",
-        "local"
+        "companion",
+        "internal-state",
+        "high-cost",
+        "injection-risk"
       ],
       "downloads": {
         "total": 0,
@@ -8805,17 +8936,17 @@
     },
     "cortico-world-forward-reader": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.1.11",
       "displayName": "转发拆解",
       "description": "转发拆解 World：把 QQ 的「合并转发」一层层拆到底，嵌套在里面的转发也展开，输出带缩进的人话。只读，不发消息。",
       "locales": {
         "zh": {
           "displayName": "转发拆解",
-          "description": "把 QQ 的「合并转发」一层层拆到底——嵌套在里面的转发也会展开，按人、按时间列成带缩进的文字。只读：借本机 SnowLuma 的 OneBot HTTP 接口取消息，不发消息、不改任何东西。"
+          "description": "【需要先装 QQ群聊插件】把 QQ 的「合并转发」一层层拆到底——嵌套在里面的转发也会展开，按人、按时间列成带缩进的文字。只读：借 QQ群聊插件（qqbot）配好的本机 SnowLuma OneBot HTTP 接口取消息，不发消息、不改任何东西。拆到的图片默认作为附件一起交给模型（能看图就直接看到，看不见图只会读到一行文字说明）。"
         },
         "en": {
           "displayName": "Forward Reader",
-          "description": "Expands QQ merged-forward messages recursively, including forwards nested inside forwards, into an indented transcript. Read-only: it queries the local SnowLuma OneBot HTTP API and never sends or changes anything."
+          "description": "Requires the QQ chat (qqbot) plugin. Expands QQ merged-forward messages recursively, including forwards nested inside forwards, into an indented transcript. Read-only: it reuses the SnowLuma OneBot HTTP API that plugin already set up, and never sends or changes anything. Images are attached to the tool result by default, so a model that accepts images sees them; others just get a one-line text note."
         }
       },
       "author": "airman0099",
@@ -8839,8 +8970,8 @@
         "bugs": "https://github.com/airman0099/cortico-world-forward-reader/issues"
       },
       "created": "2026-11-02T15:27:05.940Z",
-      "published": "2026-11-04T16:21:51.432Z",
-      "versionCount": 3,
+      "published": "2026-11-04T18:19:43.594Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -8848,8 +8979,11 @@
         "local"
       ],
       "tags": [
+        "im",
         "qq",
-        "local"
+        "external-setup",
+        "requires-extension",
+        "unofficial-api"
       ],
       "downloads": {
         "total": 281,
@@ -8859,7 +8993,7 @@
       "summary": {
         "tools": 2,
         "events": 0,
-        "toolTokens": 416,
+        "toolTokens": 522,
         "envPromptTokens": 0
       },
       "discussion": {
@@ -9181,9 +9315,19 @@
     },
     "cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "displayName": "GPTSovits 语音",
-      "description": "Cortico World for Coopanion: speaks the pet's lines aloud with GPT-SoVITS (V5 on NVIDIA GPUs, a CPU tier otherwise), installing a portable runtime and weights in one click",
+      "description": "Cortico World for Coopanion: speaks the pet's lines aloud with GPT-SoVITS (V5 on NVIDIA GPUs, a CPU tier otherwise), installing a portable runtime and weights in one click. Superseded by @wocwang/cortico-world-gpt-sovits-for-coopanion.",
+      "locales": {
+        "zh": {
+          "displayName": "GPTSovits 语音",
+          "description": "让 Coopanion 桌宠的 Coo 开口说话：每次冒气泡前，先用本机 GPT-SoVITS 把这句念出来，气泡在声音开始时出现。官方已标记本包被 @wocwang/cortico-world-gpt-sovits-for-coopanion 取代，新装请用新包。\n\n**功能**\n- Coo 的台词从扬声器念出来，动作标记不念\n- Coo 能随时停下正在念的句子并清空队列\n- 有 NVIDIA 显卡用 V5 turbo,没有用 CPU 档 v2ProPlus,自动选\n- 自带女声、男声预设音色，也能用自己的 3–10 秒 WAV\n- 也能接已有的 GPT-SoVITS 整合包目录或 api_v2 服务\n\n**安装后还需要**\n1. 在高级模式的「GPTSovits 语音」页点「安装并启动」,下载运行时与权重(显卡档约 6.1 GB,CPU 档约 2.5 GB)\n2. 等运行时、权重显示「已就绪」,推理服务显示「运行中」\n3. 详细步骤见 [README](https://github.com/Phantivia/cortico-world-gpt-sovits-for-coopanion#安装前准备)\n\n仅 Windows x64。"
+        },
+        "en": {
+          "displayName": "GPTSovits Voice",
+          "description": "Gives Coo in the Coopanion desktop pet a voice: before each bubble, the line is read aloud with GPT-SoVITS on your machine, and the bubble appears as the voice starts. Officially marked as superseded by @wocwang/cortico-world-gpt-sovits-for-coopanion; use the new package for new installs.\n\n**Features**\n- Coo's lines are read aloud through the speakers; action markup is skipped\n- Coo can cut the current line and drop the queue at any time\n- V5 turbo on an NVIDIA GPU, the v2ProPlus CPU tier otherwise, picked automatically\n- Female and male preset voices, or your own 3–10 second WAV\n- Can also use an existing GPT-SoVITS bundle directory or api_v2 server\n\n**After installing you also need**\n1. On the 「GPTSovits 语音」 page in advanced mode, click 「安装并启动」 (Install and start) to download the runtime and weights (about 6.1 GB for the GPU tier, 2.5 GB for the CPU tier)\n2. Wait until runtime and weights read 「已就绪」 (Ready) and the server reads 「运行中」 (Running)\n3. Full steps in the [README](https://github.com/Phantivia/cortico-world-gpt-sovits-for-coopanion#before-you-install)\n\nWindows x64 only."
+        }
+      },
       "author": "Phantivia",
       "maintainers": [
         "phantivia"
@@ -9206,21 +9350,23 @@
         "win32"
       ],
       "created": "2026-10-19T03:10:59.125Z",
-      "published": "2026-10-19T16:55:11.955Z",
-      "versionCount": 4,
-      "deprecated": "改用 @wocwang/cortico-world-gpt-sovits-for-coopanion",
+      "published": "2026-11-04T23:45:46.047Z",
+      "versionCount": 5,
       "official": false,
       "isNew": false,
       "declaredTags": [
         "voice",
         "local",
+        "external-setup",
         "experimental"
       ],
       "tags": [
         "voice",
         "local",
+        "external-setup",
         "experimental"
       ],
+      "icon": "assets/cortico-world-gpt-sovits-for-coopanion/icon.png",
       "downloads": {
         "total": 1046,
         "month": 1046,
@@ -9234,6 +9380,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.3",
           "0.1.2",
           "0.1.1",
           "0.1.0"
@@ -10568,9 +10715,9 @@
     },
     "cortico-world-local-voice-studio": {
       "kind": "world",
-      "version": "0.1.0-beta.7",
+      "version": "0.1.0-beta.13",
       "displayName": "大肥鱼语音助手",
-      "description": "大肥鱼语音助手（Mac 测试版）：本地说话、参考音色与原创唱歌，自动准备模型，无需 oMLX，搭配 QQ 插件使用。",
+      "description": "大肥鱼语音助手：配合 Coopanion 官方 QQ 插件使用，通过本地模型识别 QQ 语音、发送语音回复、生成唱歌语音。支持上传参考音频设置说话音色，模型按需下载和加载。",
       "maintainers": [
         "floweast"
       ],
@@ -10592,8 +10739,8 @@
         "darwin"
       ],
       "created": "2026-11-04T15:24:18.142Z",
-      "published": "2026-11-04T15:27:26.323Z",
-      "versionCount": 2,
+      "published": "2026-11-04T18:22:48.600Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10618,9 +10765,9 @@
         "week": 0
       },
       "summary": {
-        "tools": 5,
-        "events": 3,
-        "toolTokens": 858,
+        "tools": 6,
+        "events": 4,
+        "toolTokens": 1023,
         "envPromptTokens": 0
       },
       "discussion": {
@@ -11638,7 +11785,7 @@
     },
     "cortico-world-minecraft": {
       "kind": "world",
-      "version": "0.2.12",
+      "version": "0.2.13",
       "displayName": "Minecraft",
       "description": "Cortico World: Minecraft Java Edition through a Mineflayer player — observation text, movement, building, combat and an observer client",
       "author": "Pal AI Lab",
@@ -11659,8 +11806,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:42.066Z",
-      "published": "2026-11-01T00:46:20.182Z",
-      "versionCount": 23,
+      "published": "2026-11-04T21:23:43.503Z",
+      "versionCount": 24,
       "official": true,
       "isNew": false,
       "tags": [
@@ -12360,7 +12507,7 @@
       "published": "2026-11-02T09:30:24.553Z",
       "versionCount": 4,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "voice",
         "requires-key",
@@ -12723,7 +12870,9 @@
       "versionCount": 2,
       "official": false,
       "isNew": true,
-      "tags": [],
+      "tags": [
+        "sensitive-data"
+      ],
       "downloads": {
         "total": 349,
         "month": 349,
@@ -13000,9 +13149,19 @@
     },
     "cortico-world-overcooked2": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "displayName": "胡闹厨房 2",
-      "description": "Cortico World for Overcooked! 2 local co-op: the bot joins as a second local player through a BepInEx plugin and plays next to the operator. 此乃直播测试验证之后的world，和其他 Persona / 非直播场景的兼容性有待测试。",
+      "description": "Cortico World for Overcooked! 2 local co-op: the bot joins as the second local player through a BepInEx plugin and cooks next to you.",
+      "locales": {
+        "zh": {
+          "displayName": "胡闹厨房 2",
+          "description": "让 Coo 作为第二个本地玩家加入《Overcooked! 2》,控制自己的厨师和你一起做菜。你负责选关和菜单,Coo 和你分工切菜、煮饭、洗盘子、上菜。\n\n**功能**\n- Coo 一次排好一串动作(拿、放、切、洗、上菜、扔、灭火),厨师在后台照着做，做完或卡住时回报\n- Coo 可以盯着锅、订单等条件，成立时自动排上动作\n- 订单、两个厨师、各站点的厨房现状随每次唤醒推给 Coo,定时附带地图的完整版\n- 着火、锅快糊、订单快超时、回合开始结束等事件唤醒 Coo;战役关开场黑板附截图\n- 游戏在主菜单时自动加入为 2 号玩家\n\n**安装后还需要**\n1. 在 Steam 安装游戏\n2. 在游戏目录装 x86 版 BepInEx 5\n3. 用 .NET SDK 编译仓里 `plugin/` 的插件，放进 `BepInEx/plugins/`\n4. 详细步骤见 [README](https://github.com/Phantivia/cortico-world-overcooked2#安装前准备)\n\n只在 Windows 版 Steam 游戏上验证过。CortiV 直播验证过的参考实现，别的 Persona 与非直播场景的兼容性没有测试过。"
+        },
+        "en": {
+          "displayName": "Overcooked! 2",
+          "description": "Coo joins Overcooked! 2 as the second local player and cooks next to you with its own chef. You handle level select and menus; Coo splits the chopping, cooking, washing and serving with you.\n\n**Features**\n- Coo queues a chain of actions (take, put, chop, wash, serve, throw, extinguish) that the chef carries out in the background, and hears when it finishes or gets stuck\n- Coo can watch pots, orders and other conditions and have actions queued the moment they hold\n- The kitchen state (orders, both chefs, every station) rides along with each wake-up, with a full map at intervals\n- Fire, pots about to burn, expiring orders and round start and end wake Coo; a campaign level's opening chalkboard comes with a screenshot\n- Coo joins as player 2 automatically on the main menu\n\n**Needed after install**\n1. Install the game on Steam\n2. Install the x86 build of BepInEx 5 in the game directory\n3. Build the plugin in the repo's `plugin/` with the .NET SDK and put it in `BepInEx/plugins/`\n4. Full steps in the [README](https://github.com/Phantivia/cortico-world-overcooked2#before-you-install)\n\nVerified only with the Windows Steam build. A reference implementation verified on CortiV live streams; compatibility with other Personas and non-streaming setups has not been tested."
+        }
+      },
       "author": "Phantivia",
       "maintainers": [
         "phantivia"
@@ -13019,16 +13178,22 @@
         "bugs": "https://github.com/Phantivia/cortico-world-overcooked2/issues"
       },
       "created": "2026-10-11T22:36:47.482Z",
-      "published": "2026-10-16T03:10:10.192Z",
-      "versionCount": 4,
+      "published": "2026-11-04T23:45:36.866Z",
+      "versionCount": 5,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "game",
+        "external-setup",
+        "high-cost"
+      ],
       "tags": [
         "corti",
         "game",
         "external-setup",
         "high-cost"
       ],
+      "icon": "assets/cortico-world-overcooked2/icon.png",
       "downloads": {
         "total": 759,
         "month": 759,
@@ -13042,6 +13207,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0"
         ],
         "url": "https://github.com/Phantivia/cortico-world-overcooked2/blob/HEAD/CHANGELOG.md"
@@ -14243,7 +14409,7 @@
     },
     "cortico-world-qq": {
       "kind": "world",
-      "version": "0.2.12",
+      "version": "0.2.13",
       "displayName": "QQ",
       "description": "Cortico World: QQ group and private chats through a OneBot v11 forward WebSocket, with a draft-and-confirm gate on replies",
       "author": "Pal AI Lab",
@@ -14264,8 +14430,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:41:03.758Z",
-      "published": "2026-11-01T00:46:08.214Z",
-      "versionCount": 22,
+      "published": "2026-11-04T21:24:18.103Z",
+      "versionCount": 23,
       "official": true,
       "isNew": false,
       "tags": [
@@ -15048,7 +15214,7 @@
     },
     "cortico-world-qqbot": {
       "kind": "world",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "displayName": "QQ Bot",
       "description": "Connects Coo to a QQ bot entry: QR binding, direct and group messages, stickers and media, with QQ's reply limits visible to the model",
       "locales": {
@@ -15082,8 +15248,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/cortico-world-qqbot/issues"
       },
       "created": "2026-10-28T01:10:08.363Z",
-      "published": "2026-11-01T00:26:29.582Z",
-      "versionCount": 6,
+      "published": "2026-11-04T19:45:13.635Z",
+      "versionCount": 7,
       "official": true,
       "isNew": true,
       "declaredTags": [
@@ -15117,6 +15283,7 @@
       },
       "changelog": {
         "versions": [
+          "0.4.2",
           "0.4.1",
           "0.4.0",
           "0.3.2",
@@ -15888,6 +16055,7 @@
       ],
       "tags": [
         "memory",
+        "local",
         "experimental",
         "sensitive-data"
       ],
@@ -15968,7 +16136,7 @@
         "local"
       ],
       "tags": [
-        "local"
+        "sensitive-data"
       ],
       "downloads": {
         "total": 427,
@@ -15980,7 +16148,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/711",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 6
       }
     },
     "cortico-world-self-evolution": {
@@ -16234,6 +16402,294 @@
         "number": 184,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/184",
         "up": 1,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-shenshen-lib-1": {
+      "kind": "world",
+      "version": "1.0.0",
+      "description": "深深动作库 第 1/8 部分（15 段，49 MB）。给「深深与额外动作拓展」插件用。",
+      "maintainers": [
+        "banacat06"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "coopanion",
+        "shenshen",
+        "action-library"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-shenshen-lib-1"
+      },
+      "created": "2026-11-04T16:37:04.240Z",
+      "published": "2026-11-04T16:38:53.826Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 730,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/730",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-shenshen-lib-2": {
+      "kind": "world",
+      "version": "1.0.0",
+      "description": "深深动作库 第 2/8 部分（15 段，51 MB）。给「深深与额外动作拓展」插件用。",
+      "maintainers": [
+        "banacat06"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "coopanion",
+        "shenshen",
+        "action-library"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-shenshen-lib-2"
+      },
+      "created": "2026-11-04T16:37:27.018Z",
+      "published": "2026-11-04T16:39:44.857Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 731,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/731",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-shenshen-lib-3": {
+      "kind": "world",
+      "version": "1.0.0",
+      "description": "深深动作库 第 3/8 部分（15 段，51 MB）。给「深深与额外动作拓展」插件用。",
+      "maintainers": [
+        "banacat06"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "coopanion",
+        "shenshen",
+        "action-library"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-shenshen-lib-3"
+      },
+      "created": "2026-11-04T16:37:50.072Z",
+      "published": "2026-11-04T16:40:35.050Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 732,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/732",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-shenshen-lib-4": {
+      "kind": "world",
+      "version": "1.0.0",
+      "description": "深深动作库 第 4/8 部分（13 段，51 MB）。给「深深与额外动作拓展」插件用。",
+      "maintainers": [
+        "banacat06"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "coopanion",
+        "shenshen",
+        "action-library"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-shenshen-lib-4"
+      },
+      "created": "2026-11-04T16:38:18.434Z",
+      "published": "2026-11-04T16:40:33.409Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 733,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/733",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-shenshen-lib-5": {
+      "kind": "world",
+      "version": "1.0.0",
+      "description": "深深动作库 第 5/8 部分（13 段，50 MB）。给「深深与额外动作拓展」插件用。",
+      "maintainers": [
+        "banacat06"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "coopanion",
+        "shenshen",
+        "action-library"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-shenshen-lib-5"
+      },
+      "created": "2026-11-04T16:38:41.457Z",
+      "published": "2026-11-04T16:41:59.142Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 734,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/734",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-shenshen-lib-6": {
+      "kind": "world",
+      "version": "1.0.0",
+      "description": "深深动作库 第 6/8 部分（14 段，49 MB）。给「深深与额外动作拓展」插件用。",
+      "maintainers": [
+        "banacat06"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "coopanion",
+        "shenshen",
+        "action-library"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-shenshen-lib-6"
+      },
+      "created": "2026-11-04T16:39:07.378Z",
+      "published": "2026-11-04T16:41:25.017Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 735,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/735",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-shenshen-lib-7": {
+      "kind": "world",
+      "version": "1.0.0",
+      "description": "深深动作库 第 7/8 部分（14 段，49 MB）。给「深深与额外动作拓展」插件用。",
+      "maintainers": [
+        "banacat06"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "coopanion",
+        "shenshen",
+        "action-library"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-shenshen-lib-7"
+      },
+      "created": "2026-11-04T16:39:33.155Z",
+      "published": "2026-11-04T16:41:51.308Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 736,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/736",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-shenshen-lib-8": {
+      "kind": "world",
+      "version": "1.0.0",
+      "description": "深深动作库 第 8/8 部分（6 段，19 MB）。给「深深与额外动作拓展」插件用。",
+      "maintainers": [
+        "banacat06"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "coopanion",
+        "shenshen",
+        "action-library"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-shenshen-lib-8"
+      },
+      "created": "2026-11-04T16:39:45.361Z",
+      "published": "2026-11-04T16:41:30.206Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 737,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/737",
+        "up": 0,
         "down": 0,
         "comments": 0
       }
@@ -16801,7 +17257,6 @@
         "companion",
         "external-setup",
         "experimental",
-        "injection-risk",
         "unofficial-api"
       ],
       "screenshots": [
@@ -17689,7 +18144,9 @@
         "high-cost"
       ],
       "tags": [
+        "internet",
         "video",
+        "local",
         "external-setup",
         "high-cost"
       ],
@@ -17798,8 +18255,19 @@
     },
     "cortico-world-sts-1": {
       "kind": "world",
-      "version": "0.2.1",
-      "description": "让 AI 玩杀戮尖塔。游戏 Mod 需在本机编译安装，步骤见说明。",
+      "version": "0.2.2",
+      "displayName": "杀戮尖塔",
+      "description": "Cortico World: lets Coo play Slay the Spire through a locally built ModTheSpire Mod that reports the game state and performs one numbered action at a time",
+      "locales": {
+        "zh": {
+          "displayName": "杀戮尖塔",
+          "description": "让 Coo 玩《杀戮尖塔》:游戏里装的 Mod 把局面实时推给 Coo,Coo 自己出牌、选路线、挑奖励。\n\n**功能**\n- 读出手牌、能量、敌人意图、药水、遗物、地图，每个操作带编号\n- 按编号出牌、用药水、结束回合、选事件、逛商店、休息、拿奖励\n- 每步结算后回执变化，局面一变就推给 Coo\n- 抽牌堆顺序、随机数这些玩家看不到的不给 Coo\n- 游戏里画一个光标，看得到 Coo 在点哪里\n\n**安装后还需要**\n1. Steam 版杀戮尖塔，订阅创意工坊的 ModTheSpire 与 BaseMod\n2. 安装 JDK 9 或更新、Git、Node.js 22 或更新\n3. 在扩展目录运行 node scripts/install-mod.mjs \"<游戏目录>\",编译 Mod 并装进游戏的 mods 目录\n4. 在 World 配置里填游戏目录，在「游戏」面板点「启动游戏」\n5. 详细步骤见 [README](https://github.com/Phantivia/cortico-world-sts-1#安装前准备)\n\nCortiV 直播验证过的参考实现。"
+        },
+        "en": {
+          "displayName": "Slay the Spire",
+          "description": "Lets Coo play Slay the Spire. A Mod in the game sends the situation to Coo as it changes, and Coo plays cards, picks paths and chooses rewards on its own.\n\n**Features**\n- Reads hand, energy, enemy intents, potions, relics and the map, with a number on every action\n- Plays cards, uses potions, ends turns, picks events, shops, rests and takes rewards by number\n- Reports what changed after each step, and sends the new situation whenever it changes\n- Keeps from Coo what a player cannot see, such as draw pile order and RNG\n- Draws a cursor in the game so you can see where Coo clicks\n\n**After installing you also need**\n1. Slay the Spire on Steam, with ModTheSpire and BaseMod subscribed on the Workshop\n2. JDK 9 or later, Git, and Node.js 22 or later\n3. Run node scripts/install-mod.mjs \"<game folder>\" in the extension folder to build the Mod and install it into the game's mods folder\n4. Set the game folder in the World configuration and press Start game in the game panel\n5. Full steps in the [README](https://github.com/Phantivia/cortico-world-sts-1#before-you-install)\n\nA reference implementation verified on the CortiV live stream."
+        }
+      },
       "author": "Phantivia",
       "maintainers": [
         "phantivia"
@@ -17817,15 +18285,20 @@
         "bugs": "https://github.com/Phantivia/cortico-world-sts-1/issues"
       },
       "created": "2026-09-22T18:07:34.578Z",
-      "published": "2026-10-23T23:37:30.708Z",
-      "versionCount": 4,
+      "published": "2026-11-04T23:46:16.803Z",
+      "versionCount": 5,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "game",
+        "external-setup"
+      ],
       "tags": [
         "corti",
         "game",
         "external-setup"
       ],
+      "icon": "assets/cortico-world-sts-1/icon.png",
       "downloads": {
         "total": 2226,
         "month": 2068,
@@ -17839,6 +18312,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.2",
           "0.2.1",
           "0.2.0"
         ],
@@ -18001,7 +18475,7 @@
     },
     "cortico-world-surfing": {
       "kind": "world",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "displayName": "网上冲浪",
       "description": "读取公开网页正文和 B站视频简介、字幕、评论，支持视频搜索、分段续读和可调返回量。",
       "author": "DTMosken",
@@ -18024,8 +18498,8 @@
         "bugs": "https://github.com/DTMosken/cortico-world-surfing/issues"
       },
       "created": "2026-10-08T04:13:29.496Z",
-      "published": "2026-10-29T15:23:29.768Z",
-      "versionCount": 5,
+      "published": "2026-11-04T16:39:50.975Z",
+      "versionCount": 6,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -18051,6 +18525,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.2",
           "0.3.1",
           "0.3.0",
           "0.2.0",
@@ -19050,7 +19525,8 @@
         "local"
       ],
       "tags": [
-        "local"
+        "diagnostics",
+        "external-setup"
       ],
       "icon": "assets/cortico-world-usage-relay/icon.svg",
       "downloads": {
@@ -19394,8 +19870,7 @@
         "voice",
         "local",
         "experimental",
-        "sensitive-data",
-        "injection-risk"
+        "sensitive-data"
       ],
       "icon": "assets/cortico-world-voice/icon.svg",
       "downloads": {
@@ -19653,7 +20128,7 @@
       "published": "2026-11-03T15:46:38.671Z",
       "versionCount": 4,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "apps",
         "requires-extension",
@@ -20230,7 +20705,7 @@
     },
     "cortico-world-websearch": {
       "kind": "world",
-      "version": "0.2.12",
+      "version": "0.2.13",
       "displayName": "WebSearch",
       "description": "Cortico World: a web_search tool backed by the Brave Search API or the DeepSeek Search API",
       "author": "Pal AI Lab",
@@ -20252,8 +20727,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:50.954Z",
-      "published": "2026-11-01T00:47:46.117Z",
-      "versionCount": 24,
+      "published": "2026-11-04T21:23:36.829Z",
+      "versionCount": 25,
       "official": true,
       "isNew": false,
       "tags": [

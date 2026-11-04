@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-asr",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "describe": {
     "tools": [],
     "events": [
@@ -23,6 +23,7 @@
     ]
   },
   "changelog": {
+    "0.2.1": "- 中英双语 README,写清安装前准备(git、uv、显卡、运行时与权重);原 README 的实现说明原文挪到 `docs/internals.md`。\n- 扩展市场简介(`cortico.locales` 中英)、市场名「语音识别」与标签。\n- 新增图标 `assets/icon.png`。",
     "0.2.0": "- 适配 Cortico 0.2.0(world 契约 6):面板改名 WebUI,产物换成 `dist/webui.js` / `dist/webui.css`。\n- 定义加 `describe`,附 `describe.json` 给扩展市场读。"
   }
 }
