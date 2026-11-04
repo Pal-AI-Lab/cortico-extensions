@@ -197,6 +197,9 @@
     "cortico-world-watch-window": [
       "sensitive-data"
     ],
+    "cortico-world-weather": [
+      "injection-risk"
+    ],
     "cortico-world-wechat": [
       "sensitive-data"
     ],
@@ -15647,9 +15650,9 @@
     },
     "cortico-world-screen-diary": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "displayName": "活动日记",
-      "description": "活动日记：消费窥屏助手的事件流，把前台切换与视觉速写整理成可查询的时间线。需要先安装并启用 cortico-world-screen-sense。",
+      "description": "活动日记：消费窥屏助手的事件流，把工作状态投影到二维空间并平滑；细节会淡忘，只留大概。需要 cortico-world-screen-sense。",
       "locales": {
         "en": {
           "displayName": "Activity Diary",
@@ -15675,8 +15678,8 @@
         "bugs": "https://github.com/Wwhois163wW/cortico-world-screen-diary/issues"
       },
       "created": "2026-11-04T11:01:43.738Z",
-      "published": "2026-11-04T11:03:20.542Z",
-      "versionCount": 2,
+      "published": "2026-11-04T15:07:56.477Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -15698,13 +15701,14 @@
         "week": 0
       },
       "summary": {
-        "tools": 3,
+        "tools": 5,
         "events": 0,
-        "toolTokens": 285,
-        "envPromptTokens": 151
+        "toolTokens": 473,
+        "envPromptTokens": 190
       },
       "changelog": {
         "versions": [
+          "0.2.0",
           "0.1.0"
         ],
         "url": "https://github.com/Wwhois163wW/cortico-world-screen-diary/blob/HEAD/CHANGELOG.md"
@@ -19838,6 +19842,66 @@
         "up": 1,
         "down": 0,
         "comments": 1
+      }
+    },
+    "cortico-world-weather": {
+      "kind": "world",
+      "version": "0.1.2",
+      "displayName": "Weather",
+      "description": "Cortico World: hands Coo current weather, 1/6/12/24/48-hour forecasts and China Meteorological Administration-style alerts from seven selectable providers",
+      "locales": {
+        "zh": {
+          "displayName": "天气",
+          "description": "把现在天气、未来 1/6/12/24/48 小时天气和中央气象台体系的天气预警交给她；数据源可换，取数排在从凌晨 00:00 起算的时次，三类信息各有开关，还可每晚推送次日天气与预警。"
+        },
+        "en": {
+          "displayName": "Weather",
+          "description": "Hands Coo current conditions, 1/6/12/24/48-hour forecasts and CMA-style alerts. Seven providers, fetch slots counted from local midnight, per-section switches, and an optional nightly next-day push."
+        }
+      },
+      "author": "bluemika111",
+      "maintainers": [
+        "bluemika"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "weather",
+        "forecast",
+        "alerts",
+        "china"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-weather",
+        "repository": "https://github.com/bluemika111/cortico-world-weather",
+        "homepage": "https://github.com/bluemika111/cortico-world-weather#readme",
+        "bugs": "https://github.com/bluemika111/cortico-world-weather/issues"
+      },
+      "created": "2026-11-04T15:01:37.956Z",
+      "published": "2026-11-04T15:04:46.879Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "internet",
+        "injection-risk"
+      ],
+      "tags": [
+        "internet",
+        "injection-risk"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 726,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/726",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-weather-alont1": {
