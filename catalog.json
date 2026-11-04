@@ -669,7 +669,7 @@
     },
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.6.7",
+      "version": "0.6.8",
       "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
       "description": "GPT-SoVITS 语音插件：支持 AMD 显卡（ROCm，实验性）和 NVIDIA 显卡，没有独显自动走 CPU；全程本机合成、不上传录音，一键装运行时与权重。",
       "locales": {
@@ -705,8 +705,8 @@
         "darwin"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-11-03T16:05:58.919Z",
-      "versionCount": 39,
+      "published": "2026-11-04T06:01:08.679Z",
+      "versionCount": 40,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -728,11 +728,12 @@
       "summary": {
         "tools": 2,
         "events": 2,
-        "toolTokens": 507,
-        "envPromptTokens": 333
+        "toolTokens": 682,
+        "envPromptTokens": 339
       },
       "changelog": {
         "versions": [
+          "0.6.8",
           "0.6.7",
           "0.6.6",
           "0.6.5",
@@ -798,7 +799,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
         "up": 18,
         "down": 0,
-        "comments": 71
+        "comments": 72
       }
     },
     "@wocwang/cortico-world-rvc-for-coopanion": {
@@ -1172,7 +1173,7 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "0.5.27",
+      "version": "0.5.28",
       "displayName": "大肥鱼环游世界",
       "description": "陪着她真的出门旅行（需 Coopani 0.2.17+）。一百二十四座城，每座都有真实地标，不是随机抽地名。从你设定的家出发，她自己挑去哪、坐什么去，路上真的耗掉那么久——选了火车就在车上待十一小时，中间不打扰你。到了按当地时间吃饭、看日出、住店、写日记；路线是一条线，连着几天说的地名在地图上连得起来。雨天取消日出，钱不够会停下来打几天工，回家是一站一站走回去。没有机场的地方先落到能飞的城市再转。装了「一起听歌」，你放的歌会跟着她走；也能拍照，但要自己填一个生图接口。",
       "locales": {
@@ -1207,8 +1208,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-03T13:47:48.348Z",
-      "versionCount": 44,
+      "published": "2026-11-04T03:17:33.324Z",
+      "versionCount": 45,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1238,6 +1239,7 @@
       },
       "changelog": {
         "versions": [
+          "0.5.28",
           "0.5.27",
           "0.5.26",
           "0.5.25",
@@ -1296,7 +1298,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-journey@0.5.27/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-journey@0.5.28/CHANGELOG.md"
       },
       "discussion": {
         "number": 586,
@@ -2597,7 +2599,7 @@
       "discussion": {
         "number": 416,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/416",
-        "up": 1,
+        "up": 2,
         "down": 0,
         "comments": 0
       }
@@ -3935,7 +3937,7 @@
     },
     "cortico-world-bloom-kpect": {
       "kind": "world",
-      "version": "0.3.2-dev.v7.7",
+      "version": "0.3.2-dev.v8.1",
       "displayName": "花语乡 Project Bloom",
       "description": "花语乡 Project Bloom（群 1132517396）：让 Cortico Bot 自主生活、交易、送礼与交流的 World 扩展",
       "locales": {
@@ -3967,8 +3969,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-bloom-kpect"
       },
       "created": "2026-11-03T06:21:04.448Z",
-      "published": "2026-11-03T16:05:20.626Z",
-      "versionCount": 6,
+      "published": "2026-11-04T03:39:41.765Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -3986,13 +3988,18 @@
       },
       "summary": {
         "tools": 9,
-        "events": 4,
-        "toolTokens": 1296,
-        "envPromptTokens": 1937
+        "events": 5,
+        "toolTokens": 1489,
+        "envPromptTokens": 741
       },
       "changelog": {
         "versions": [
-          "0.3.2-dev.v7.7",
+          "0.3.2-dev.v8.1",
+          "0.3.2-dev.v8.0",
+          "0.3.2-dev.a8.4",
+          "0.3.2-dev.a8.3",
+          "0.3.2-dev.a8.2",
+          "0.3.2-dev.a8.1",
           "0.3.2-dev.v7.3.3",
           "0.3.1-dev.v7",
           "0.3.0",
@@ -4000,7 +4007,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-bloom-kpect@0.3.2-dev.v7.7/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-bloom-kpect@0.3.2-dev.v8.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 697,
@@ -8302,6 +8309,88 @@
         "comments": 0
       }
     },
+    "cortico-world-figure-sound": {
+      "kind": "world",
+      "version": "1.3.2",
+      "displayName": "桌宠音效更换",
+      "description": "为桌宠形象更换或补充音效，支持 WAV、MP3、OGG、AAC 等 11 种常见音频扩展名；部分格式应用时需本机 FFmpeg 转换。 / Replace or add desktop pet sounds; import 11 audio file extensions including WAV, MP3, OGG and AAC. Some formats require local FFmpeg conversion when applied.",
+      "locales": {
+        "zh": {
+          "displayName": "桌宠音效更换",
+          "description": "为桌宠形象更换或补充音效，支持 WAV、MP3、OGG、AAC 等 11 种常见音频扩展名；部分格式应用时需本机 FFmpeg 转换。"
+        },
+        "en": {
+          "displayName": "Desktop Pet Sound Changer",
+          "description": "Replace or add desktop pet sounds; import 11 audio file extensions including WAV, MP3, OGG and AAC. Some formats require local FFmpeg conversion when applied."
+        }
+      },
+      "author": "as124da1231",
+      "maintainers": [
+        "lian0721"
+      ],
+      "license": "AGPL-3.0-or-later",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "figure",
+        "sound",
+        "audio"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-figure-sound",
+        "repository": "https://github.com/as124da1231/cortico-world-figure-sound",
+        "homepage": "https://github.com/as124da1231/cortico-world-figure-sound#readme",
+        "bugs": "https://github.com/as124da1231/cortico-world-figure-sound/issues"
+      },
+      "created": "2026-11-01T04:58:43.529Z",
+      "published": "2026-11-04T05:49:59.927Z",
+      "versionCount": 4,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "external-setup"
+      ],
+      "tags": [
+        "external-setup"
+      ],
+      "icon": "assets/cortico-world-figure-sound/icon.svg",
+      "downloads": {
+        "total": 364,
+        "month": 364,
+        "week": 364
+      },
+      "summary": {
+        "tools": 0,
+        "events": 0,
+        "toolTokens": 0,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "1.3.0",
+          "1.2.1",
+          "1.2.0",
+          "1.1.1",
+          "1.1.0",
+          "1.0.8",
+          "1.0.7",
+          "1.0.6",
+          "1.0.5",
+          "1.0.4",
+          "1.0.3",
+          "1.0.2",
+          "1.0.1"
+        ],
+        "url": "https://github.com/as124da1231/cortico-world-figure-sound/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 612,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/612",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-filter-paper": {
       "kind": "world",
       "version": "0.3.0",
@@ -9614,7 +9703,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/23",
         "up": 0,
         "down": 0,
-        "comments": 5
+        "comments": 6
       }
     },
     "cortico-world-image-attach": {
@@ -11504,7 +11593,7 @@
       "discussion": {
         "number": 619,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/619",
-        "up": 2,
+        "up": 3,
         "down": 0,
         "comments": 8
       }
@@ -12615,7 +12704,7 @@
     },
     "cortico-world-parlor": {
       "kind": "world",
-      "version": "0.36.2",
+      "version": "0.36.3",
       "displayName": "鲸语茶室",
       "description": "鲸语茶室(共享客厅)：多只 Coo 与家长一起聊天、斗地主、掷骰子；附零构建网页牌桌与家长观战页。Cortico World: a shared parlor with many rooms where Coos sit, talk and play dice or 斗地主 — plus a zero-build web table and a read-only parent view",
       "locales": {
@@ -12662,8 +12751,8 @@
         "bugs": "https://github.com/biliye/cortico-world-parlor/issues"
       },
       "created": "2026-10-30T12:05:22.925Z",
-      "published": "2026-11-03T16:48:55.759Z",
-      "versionCount": 29,
+      "published": "2026-11-04T02:46:11.855Z",
+      "versionCount": 30,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -12692,6 +12781,7 @@
       },
       "changelog": {
         "versions": [
+          "0.36.3",
           "0.36.2",
           "0.36.1",
           "0.36.0",
@@ -13447,7 +13537,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/482",
         "up": 3,
         "down": 0,
-        "comments": 10
+        "comments": 12
       }
     },
     "cortico-world-private-companion-kpect": {
@@ -14173,7 +14263,7 @@
       "discussion": {
         "number": 46,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/46",
-        "up": 13,
+        "up": 14,
         "down": 0,
         "comments": 16
       }
@@ -16710,7 +16800,7 @@
     },
     "cortico-world-starpost": {
       "kind": "world",
-      "version": "0.25.0",
+      "version": "0.25.1",
       "displayName": "星邮",
       "description": "星邮：让 Cortico bot 独立私聊、群聊、交换漂流瓶、分享动态并预约狼人杀的社交 World 扩展",
       "maintainers": [
@@ -16730,8 +16820,8 @@
         "bugs": "https://github.com/hth768/cortico-world-starpost/issues"
       },
       "created": "2026-10-27T17:41:43.822Z",
-      "published": "2026-11-03T13:28:16.467Z",
-      "versionCount": 42,
+      "published": "2026-11-04T05:57:07.477Z",
+      "versionCount": 43,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -16759,6 +16849,7 @@
       },
       "changelog": {
         "versions": [
+          "0.25.1",
           "0.25.0",
           "0.24.1",
           "0.24.0",
@@ -16813,7 +16904,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/390",
         "up": 6,
         "down": 0,
-        "comments": 14
+        "comments": 15
       }
     },
     "cortico-world-steam": {
@@ -17119,7 +17210,7 @@
     },
     "cortico-world-storyboard": {
       "kind": "world",
-      "version": "0.9.1",
+      "version": "0.9.3",
       "displayName": "分镜",
       "description": "Coopanion (Cortico) World: turn a video into citable storyboard sheets with timecodes, local whisper.cpp transcription, on-screen subtitle OCR correction, and a pluggable cut detector. Cost: a 24-minute film came to ~37 sheets, ~14.2k tokens (384 tokens p",
       "locales": {
@@ -17156,8 +17247,8 @@
         "bugs": "https://github.com/YuYinDaJiang/cortico-world-storyboard/issues"
       },
       "created": "2026-11-03T04:45:09.449Z",
-      "published": "2026-11-03T05:01:18.490Z",
-      "versionCount": 3,
+      "published": "2026-11-04T03:47:32.824Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -17178,7 +17269,7 @@
       "summary": {
         "tools": 5,
         "events": 0,
-        "toolTokens": 6210,
+        "toolTokens": 5590,
         "envPromptTokens": 0
       },
       "discussion": {

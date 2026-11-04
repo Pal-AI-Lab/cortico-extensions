@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-  "total": 71,
+  "total": 72,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJ-Fe",
+      "author": "wocwang",
+      "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+      "body": "**0.6.8 已发布**（npm `latest`），这次把「文字 + 语音条」在两条 QQ 通道上都走通了，顺手把联动页改成了可折叠卡片。\r\n\r\n## 两条通道怎么配\r\n\r\n| 插件 | 本插件要开什么 | 对方要配什么 |\r\n|---|---|---|\r\n| **QQ Bot**（`cortico-world-qqbot`，官方 Bot） | 「QQ 机器人语音条」（`qqbotVoice`） | 装好 FFmpeg（PATH 里，或填 `ffmpegPath`） |\r\n| **旧 QQ 插件 / NapCat**（`cortico-world-qq-final`） | 「开放本地语音接口」+「其他渠道的语音交给对方插件」 | 语音实现方式选 `local`、语音模型网址填 `http://127.0.0.1:9880` |\r\n\r\n两条可以同时开，提示词按回复工具分开：走 `qqbot_send_message` 就先 `sovits_speak(silent: true)` 拿 `[blob …]` 句柄再填进 `voice`；走 `qq_send` 就直接 `voice=true`，由对方来取 9880。发往 QQ 的那句默认不在本机外放。\r\n\r\n## 两个容易踩的坑\r\n\r\n1. **`9880` 只对旧插件有效**：qqbot 只接受宿主句柄或公网 URL，把「语音模型网址」填成 `127.0.0.1:9880` 在 qqbot 那边一定失败。\r\n2. **地址不能混用**：QQ Bot 的地址是 `c2c:<OpenID>`（可能是一长串十六进制），旧插件只认 `private:<纯数字QQ号>` / `group:<群号>`。把 OpenID 填给 `qq_send` 会判「目标地址无效」，消息直接没了——这版提示词里已经写明按投递插件选工具、地址原样照抄。\r\n\r\n## 限制\r\n\r\n- qqbot 侧需要 FFmpeg（WAV → SILK）；语音仅私聊与群可用，频道/频道私信只收图片；单条上限 20 MiB。\r\n- 整句 45 秒没合成完时回执不带附件，只发文字。\r\n- NapCat 那条仍依赖 QQ 客户端保持连接（掉线时 `qq_send` 会报「未连接到 NapCat」，文字也发不出去）。\r\n\r\n## 界面\r\n\r\n「与其他插件联动」现在每个插件一张可折叠卡片（新版 QQ、QQ Bot、旧版 QQ、DiffSinger、RVC），折叠时右侧一行摘要，点开加号展开；折叠状态会记住，摘要随保存即时刷新。\r\n\r\n更新：`npm i @wocwang/cortico-world-gpt-sovits-for-coopanion@0.6.8` 或等市场刷新；改完重启 Coopanion 生效。有问题继续在这里回，把 `GPT-SoVITS 合成失败` / `qqbot_send_message` 的回执贴回来即可。\r\n",
+      "createdAt": "2026-11-04T06:02:20Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJ68J",
       "author": "wocwang",

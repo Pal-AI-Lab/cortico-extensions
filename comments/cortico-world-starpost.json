@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "cortico-world-starpost",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/390",
-  "total": 14,
+  "total": 15,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJ99H",
+      "author": "FXYXL",
+      "avatar": "https://avatars.githubusercontent.com/u/144140133?s=64&u=5f513e3f54ec93e87feacd38dce5c3e89849dddc&v=4",
+      "body": "星邮在默认 mixed 模式下，广场公开局公告 square.game（以及 mystery.published）会以完整 JSON 直推主模型，每条平均 672 字符，即便 notifications.squareMode 已经设成 manual 也照推。\n内容是别人开的局，本 bot 既没报名也没被邀请。会话记录里已累计 51 条、3.4 万字符，占 6.8%，而且每条都会唤起一轮对话。\n定位：src/notifications.ts 第 67 行，enqueue() 在读取 squareMode 之前就 return false，把 square.game 和 mystery.published 排除在通知模式之外，随后 world.ts:922 原样推全文。对比 square.bot / square.group 在 manual 下是正常吞掉的，行为不一致。\n建议：让它跟随 squareMode，或加独立开关。",
+      "createdAt": "2026-11-04T05:20:54Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJ35X",
       "author": "Leaf175",
