@@ -80,6 +80,9 @@
     "cortico-world-homeassistant": [
       "sensitive-data"
     ],
+    "cortico-world-humanize": [
+      "injection-risk"
+    ],
     "cortico-world-humanlike-alont1": [
       "sensitive-data"
     ],
@@ -1506,7 +1509,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/652",
         "up": 0,
         "down": 0,
-        "comments": 3
+        "comments": 4
       }
     },
     "cortico-bot-continuity": {
@@ -2376,6 +2379,87 @@
         "number": 6,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/6",
         "up": 1,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-provider-humanize": {
+      "kind": "provider",
+      "version": "0.1.0",
+      "displayName": "活人感（包住 Coo 连接）",
+      "description": "Cortico provider for Coopanion: wraps the app's own Coo connection and holds each reply until the Humanize World has written the pet's inner thought, then sends it along with the person's words",
+      "locales": {
+        "zh": {
+          "displayName": "活人感（包住 Coo 连接）",
+          "description": "和「活人感」World 搭配：你对桌宠说话时，先等 World 想好桌宠的心情，再连同你的话一起发给模型，省掉 humanize_feel 那一轮。World 关着时就是普通的 Coo 连接。"
+        },
+        "en": {
+          "displayName": "Humanize (wraps the Coo connection)",
+          "description": "Pairs with the Humanize World: each time you speak to the pet, waits for the World to write the pet's inner thought and sends it along with your words, saving the humanize_feel round. With the World off it is a plain Coo connection."
+        }
+      },
+      "author": "abbabanana",
+      "maintainers": [
+        "abbabanana"
+      ],
+      "license": "AGPL-3.0-or-later",
+      "keywords": [
+        "cortico-provider",
+        "cortico",
+        "coopanion",
+        "companion"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-provider-humanize",
+        "repository": "https://github.com/abbabanana/cortico-provider-humanize",
+        "homepage": "https://github.com/abbabanana/cortico-provider-humanize#readme",
+        "bugs": "https://github.com/abbabanana/cortico-provider-humanize/issues"
+      },
+      "created": "2026-11-03T23:17:16.500Z",
+      "published": "2026-11-03T23:19:53.954Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "requires-extension",
+        "experimental"
+      ],
+      "tags": [
+        "companion",
+        "experimental",
+        "requires-extension"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "protocols": [
+          "openai-responses",
+          "openai-chat",
+          "anthropic-messages",
+          "gemini"
+        ],
+        "auth": [
+          "api-key"
+        ],
+        "input": [
+          "text",
+          "image"
+        ],
+        "local": false
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/abbabanana/cortico-provider-humanize/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 713,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/713",
+        "up": 0,
         "down": 0,
         "comments": 0
       }
@@ -9069,17 +9153,17 @@
     },
     "cortico-world-heybox": {
       "kind": "world",
-      "version": "0.5.21",
+      "version": "0.5.22",
       "displayName": "小黑盒",
-      "description": "小黑盒 Coopanion World：账号/内容/成长三栏；官方配图查找与模板/发件箱、发帖质检与活人感提示、选题/热点聚合、高质量来源成长学习、草稿/帖子编辑删除、本地定时、prepare/publish 幂等、可配置发帖额度、通知摘要、本地作息、兴趣阶段、审计诊断。 / Heybox for Coopanion: Account/Content/Growth panels, official image finder, template/outbox, post quality and voice",
+      "description": "小黑盒 Coopanion World：账号/内容/成长三栏；本机截图优先/官方配图查找与模板/发件箱、发帖质检与活人感提示、选题/热点聚合、高质量来源成长学习、草稿/帖子编辑删除、本地定时、prepare/publish 幂等、可配置发帖额度、通知摘要、本地作息、兴趣阶段、审计诊断。 / Heybox for Coopanion: Account/Content/Growth panels, official image finder, template/outbox, post quality and",
       "locales": {
         "zh": {
           "displayName": "小黑盒",
-          "description": "让桌宠登录小黑盒，像活人一样逛社区、选题、发帖。内容面板支持官方配图、模板/草稿/帖子编辑与删除、发件箱、定时、内容漏斗；发帖前有具体性、个人角度、标题、分区和自动发送门槛，支持热点信息流聚合与选题参考，并从高质量来源学习行文节奏与话题热度。"
+          "description": "让桌宠登录小黑盒，像活人一样逛社区、选题、发帖。内容面板支持本机截图与官方配图、模板/草稿/帖子编辑与删除、发件箱、定时、内容漏斗；发帖前有具体性、个人角度、标题、分区和自动发送门槛，支持热点信息流聚合与选题参考，并从高质量来源学习行文节奏与话题热度。"
         },
         "en": {
           "displayName": "Heybox",
-          "description": "Heybox for Coopanion with Account/Content/Growth panels: official image finder, template/outbox, draft/post editing and deletion, local schedule, content funnel, post quality and voice checks, topic/hot-feed planning, quality-filtered growth learning, idempotent prepare/publish, configurable budgets, notifications, routine and interests."
+          "description": "Heybox for Coopanion with Account/Content/Growth panels: local screenshot/official image finder, template/outbox, draft/post editing and deletion, local schedule, content funnel, post quality and voice checks, topic/hot-feed planning, quality-filtered growth learning, idempotent prepare/publish, configurable budgets, notifications, routine and interests."
         }
       },
       "author": "cortico-world-heybox contributors",
@@ -9100,8 +9184,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-heybox"
       },
       "created": "2026-10-24T14:30:19.968Z",
-      "published": "2026-11-03T14:47:22.115Z",
-      "versionCount": 18,
+      "published": "2026-11-03T23:18:54.190Z",
+      "versionCount": 19,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -9128,13 +9212,14 @@
         "week": 2209
       },
       "summary": {
-        "tools": 52,
+        "tools": 53,
         "events": 1,
-        "toolTokens": 4460,
+        "toolTokens": 4595,
         "envPromptTokens": 66
       },
       "changelog": {
         "versions": [
+          "0.5.22",
           "0.5.21",
           "0.5.20",
           "0.5.19",
@@ -9190,7 +9275,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-heybox@0.5.21/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-heybox@0.5.22/CHANGELOG.md"
       },
       "discussion": {
         "number": 253,
@@ -9271,6 +9356,88 @@
         "number": 176,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/176",
         "up": 1,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-humanize": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "活人感",
+      "description": "Cortico World for Coopanion: before the pet answers, reads the situation, mood and the pet's own memory and hands it a short inner thought, and reminds it when it slips into stock AI sentence patterns",
+      "locales": {
+        "zh": {
+          "displayName": "活人感",
+          "description": "桌宠开口前，先读一下情境、心情和它自己的记忆，递给它一句「此刻心里的想法」；它要是用了「不是……而是……」、先复述你的话这类 AI 固定句式，下次就提醒它换个说法。口癖、语气、长短都不碰。搭配「活人感 provider」效果最好。"
+        },
+        "en": {
+          "displayName": "Humanize",
+          "description": "Before the pet answers, reads the situation, mood and the pet's own memory and hands it a short inner thought; when it slips into stock AI sentence patterns (\"not X but Y\", parroting your words back), it is reminded to say it another way next time. Catchphrases, tone and length are left alone. Works best with the Humanize provider."
+        }
+      },
+      "author": "abbabanana",
+      "maintainers": [
+        "abbabanana"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "companion",
+        "roleplay",
+        "qq"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-humanize",
+        "repository": "https://github.com/abbabanana/cortico-world-humanize",
+        "homepage": "https://github.com/abbabanana/cortico-world-humanize#readme",
+        "bugs": "https://github.com/abbabanana/cortico-world-humanize/issues"
+      },
+      "created": "2026-11-03T23:16:42.825Z",
+      "published": "2026-11-03T23:17:58.487Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion",
+        "internal-state",
+        "qq",
+        "im",
+        "high-cost",
+        "injection-risk",
+        "experimental"
+      ],
+      "tags": [
+        "im",
+        "qq",
+        "companion",
+        "experimental",
+        "internal-state",
+        "high-cost",
+        "injection-risk"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 1,
+        "events": 2,
+        "toolTokens": 103,
+        "envPromptTokens": 234
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/abbabanana/cortico-world-humanize/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 714,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/714",
+        "up": 0,
         "down": 0,
         "comments": 0
       }
@@ -10720,7 +10887,7 @@
       "discussion": {
         "number": 629,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/629",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -17019,7 +17186,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/695",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-streamvoice": {

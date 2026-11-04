@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-heybox",
-  "version": "0.5.21",
+  "version": "0.5.22",
   "describe": {
     "tools": [
       {
@@ -1219,6 +1219,38 @@
             "query"
           ]
         }
+      },
+      {
+        "name": "heybox_local_images",
+        "description": "扫描本机自己的截图：Steam screenshots、Game Bar、Pictures/Screenshots、data/heybox-images；list 只读，upload 才上传。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "upload"
+              ]
+            },
+            "query": {
+              "type": "string"
+            },
+            "appid": {
+              "type": "string"
+            },
+            "path": {
+              "type": "string"
+            },
+            "limit": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
       }
     ],
     "events": [
@@ -1237,7 +1269,8 @@
     ]
   },
   "changelog": {
-    "0.5.21": "- 新增 `heybox_find_images`：按游戏名查找官方封面/商店素材，下载校验后上传；不抓随机网图。\n- `heybox_prepare` 支持 `imageQuery` / `imageCount` 自动配官方图并写入图源。\n- 新增截图日记、前后对比、游戏摄影、攻略步骤图 4 个图片模板。\n- 修复 ENV_PROMPT 对已删除 imagekit 的引用。",
+    "0.5.22": "- 新增 `heybox_local_images`：扫描 Steam/Game Bar/Pictures 本机截图，默认只读，确认后上传。\n- `heybox_find_images` 支持 `source=auto|local|official`：本机截图优先，官方封面兜底。\n- `heybox_prepare` 支持 `imageSource`，自动配图会优先使用自己的截图并写入图源。\n- 修复发布页对此前版本的覆盖冲突。",
+    "0.5.21": "- 新增 `heybox_find_images`：按游戏名查找官方封面/商店素材，下载校验后上传；不抓随机网图。\n- `heybox_prepare` 支持 `imageQuery` / `imageCount` / `imageSource` 自动选本机截图或官方封面，并写入图源。\n- 新增 `heybox_local_images`：扫描 Steam/Game Bar/Pictures 自己的截图，默认只读。\n- 新增截图日记、前后对比、游戏摄影、攻略步骤图 4 个图片模板。\n- 修复 ENV_PROMPT 对已删除 imagekit 的引用。",
     "0.5.20": "- 新增发帖质检：具体性、个人角度、标题、分区、相似度和活人感/梗密度提示。\n- 新增 `heybox_hotspots` 与 `heybox_topic_plan`：热榜信息流话题聚合 + 兴趣/模板/角度选题。\n- 自动发帖增加 `postQualityThreshold` 门槛；低于门槛转预览，显式 go=true 仍可发。\n- 模板正文增加“像帖子聊天、短句、具体场景、梗贴上下文”的语气提示。\n- ENV_PROMPT 增加活人感、热度判断和结尾接话规则。\n- 新增 `heybox_find_images`：官方游戏封面/商店素材查找、下载校验和上传；不抓随机网图。\n- `heybox_prepare` 支持 `imageQuery/imageCount` 自动配官方图，并写入图源。\n- 修复 ENV_PROMPT 对已删除 imagekit 的引用。\n- 新增成长机制：只从高质量来源学习标题节奏、段落、第一人称和话题热度；低质/广告/水贴跳过。\n- 新增 `heybox_growth`，自动刷帖接入学习，帖子发布增加成长 XP。",
     "0.5.19": "- 模板与发件箱面板增加内容转化漏斗：兴趣 → 可发帖 → 准备 → 已发 → 记录数。\n- 展示本地表现摘要，不伪造平台数据。\n- 发帖内容面板增加编辑草稿、发布草稿、编辑帖子、删除帖子、删除自己的评论入口。",
     "0.5.18": "- 模板与发件箱面板补全：模板使用/改名/删除、草稿发布、发件箱 verify。\n- 面板增加本地定时队列：选择 prepare、设置时间、取消；只在 Coopanion 运行时执行。\n- 当前实例发帖额度保持 2 篇/天（配置项支持 0–5）。",
