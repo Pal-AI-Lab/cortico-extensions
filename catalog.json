@@ -121,6 +121,9 @@
     "cortico-world-music": [
       "sensitive-data"
     ],
+    "cortico-world-music-companion": [
+      "sensitive-data"
+    ],
     "cortico-world-netease-companion": [
       "sensitive-data"
     ],
@@ -155,6 +158,9 @@
       "unsafe"
     ],
     "cortico-world-real-alont1": [
+      "sensitive-data"
+    ],
+    "cortico-world-screen-diary": [
       "sensitive-data"
     ],
     "cortico-world-screen-sense": [
@@ -274,6 +280,86 @@
         "comments": 0
       }
     },
+    "@aqualcross/cortico-world-audio": {
+      "kind": "world",
+      "version": "0.1.3",
+      "displayName": "声音",
+      "description": "让Coo能听能说。",
+      "locales": {
+        "zh": {
+          "displayName": "声音",
+          "description": "让Coo能听能说。"
+        },
+        "en": {
+          "displayName": "Audio",
+          "description": "Lets Coo hear and speak."
+        }
+      },
+      "author": "AqualCross",
+      "maintainers": [
+        "aqualcross"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "voice",
+        "tts",
+        "stt",
+        "singing",
+        "voice-conversion"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/@aqualcross/cortico-world-audio",
+        "repository": "https://github.com/AqualCross/cortico-world-audio",
+        "homepage": "https://github.com/AqualCross/cortico-world-audio#readme",
+        "bugs": "https://github.com/AqualCross/cortico-world-audio/issues"
+      },
+      "created": "2026-11-04T11:42:11.426Z",
+      "published": "2026-11-04T14:40:19.297Z",
+      "versionCount": 5,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "voice",
+        "local",
+        "experimental"
+      ],
+      "tags": [
+        "voice",
+        "local",
+        "experimental"
+      ],
+      "icon": "assets/@aqualcross__cortico-world-audio/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 12,
+        "events": 9,
+        "toolTokens": 2731,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.3",
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/AqualCross/cortico-world-audio/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 721,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/721",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "@idxlz-0705/cortico-world-wows": {
       "kind": "world",
       "version": "0.3.1",
@@ -341,7 +427,7 @@
     },
     "@kmchai/cortico-bot-heart": {
       "kind": "bot",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "displayName": "Kmch AI · 心",
       "description": "Kmch AI · 心：Cortico 的 bot 层。管理心情、关系、注意力与持久记忆，按信息来源决定文字/语音与是否开口；发送交给 World。",
       "locales": {
@@ -377,8 +463,8 @@
         "bugs": "https://github.com/Kmch-AI/cortico-bot-heart/issues"
       },
       "created": "2026-11-04T06:24:48.806Z",
-      "published": "2026-11-04T08:17:24.289Z",
-      "versionCount": 3,
+      "published": "2026-11-04T11:35:45.873Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -414,6 +500,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.2",
           "0.1.1",
           "0.1.0"
         ],
@@ -519,17 +606,17 @@
     },
     "@kmchai/cortico-world-voice": {
       "kind": "world",
-      "version": "0.4.3",
+      "version": "0.5.0",
       "displayName": "Kmch AI · 语音",
-      "description": "Kmch AI · 语音：把回复念出来的 World。提供语音工具、显式朗读触发、情绪与副语言标签、文本过滤与本机播放；合成交给 Kmch AI · 服务。",
+      "description": "Kmch AI · 语音：把文字念出来的 World。只提供 voice_speak / voice_hush、情绪与副语言标签、文本过滤与本机播放；是否发语音由 bot 决定，合成交给 Kmch AI · 服务。",
       "locales": {
         "zh": {
           "displayName": "Kmch AI · 语音",
-          "description": "Kmch AI · 语音：把回复念出来的 World。提供语音工具、显式朗读触发、情绪与副语言标签、文本过滤与本机播放；合成交给 Kmch AI · 服务。"
+          "description": "Kmch AI · 语音：把文字念出来的 World。只提供 voice_speak / voice_hush、情绪与副语言标签、文本过滤与本机播放；是否发语音由 bot 决定，合成交给 Kmch AI · 服务。"
         },
         "en": {
           "displayName": "Kmch AI · Voice",
-          "description": "Kmch AI · Voice: the World that speaks replies. Voice tools, explicit speech triggers, emotion and paralinguistic tags, text filtering and local playback; synthesis runs through Kmch AI · Service."
+          "description": "Kmch AI · Voice: the World that turns text into sound. It only offers voice_speak / voice_hush, emotion and paralinguistic tags, text filtering and local playback; the bot decides when to speak, and synthesis runs through Kmch AI · Service."
         }
       },
       "author": "kmchai",
@@ -558,8 +645,8 @@
         "bugs": "https://github.com/Kmch-AI/cortico-world-voice/issues"
       },
       "created": "2026-11-01T09:11:59.759Z",
-      "published": "2026-11-04T08:16:45.570Z",
-      "versionCount": 9,
+      "published": "2026-11-04T11:39:56.455Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -580,13 +667,14 @@
         "week": 1286
       },
       "summary": {
-        "tools": 3,
+        "tools": 2,
         "events": 2,
-        "toolTokens": 790,
-        "envPromptTokens": 227
+        "toolTokens": 596,
+        "envPromptTokens": 229
       },
       "changelog": {
         "versions": [
+          "0.5.0",
           "0.4.3",
           "0.4.2",
           "0.4.1",
@@ -814,9 +902,9 @@
       "discussion": {
         "number": 228,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-        "up": 19,
+        "up": 20,
         "down": 0,
-        "comments": 76
+        "comments": 77
       }
     },
     "@wocwang/cortico-world-rvc-for-coopanion": {
@@ -1190,13 +1278,13 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "0.5.30",
+      "version": "0.5.44",
       "displayName": "大肥鱼环游世界",
-      "description": "陪着她真的出门旅行（需 Coopani 0.2.17+）。一百二十四座城，每座都有真实地标，不是随机抽地名。从你设定的家出发，她自己挑去哪、坐什么去，路上真的耗掉那么久——选了火车就在车上待十一小时，中间不打扰你。到了按当地时间吃饭、看日出、住店、写日记；路线是一条线，连着几天说的地名在地图上连得起来。雨天取消日出，钱不够会停下来打几天工，回家是一站一站走回去。没有机场的地方先落到能飞的城市再转。装了「一起听歌」，你放的歌会跟着她走；也能拍照，但要自己填一个生图接口。",
+      "description": "陪着她真的出门旅行（需 Coopani 0.2.17+）。一百二十四座城，每座都有真实地标，不是随机抽地名。从你设定的家出发，她自己挑去哪、坐什么去，路上真的耗掉那么久——选了火车就在车上待十一小时，中间不打扰你。到了按当地时间吃饭、看日出、住店、写日记；路线是一条线，连着几天说的地名在地图上连得起来。雨天取消日出，钱不够会停下来打几天工，回家是一站一站走回去。没有机场的地方先落到能飞的城市再转。装了「一起听歌」，你放的歌会跟着她走；也能拍照，接口填云端或本地 ComfyUI 都行。",
       "locales": {
         "zh": {
           "displayName": "大肥鱼环游世界",
-          "description": "让桌宠真的出门旅行，而不是在地图上跳一下。需要 Coopani 0.2.17 以上。\n\n**她怎么走。** 从你设定的家出发，自己挑地方、自己挑怎么去。选了火车就真的在火车上待那么久，中间不打扰你。路上不是空白——服务区那碗面、过站时醒的那一下、夜里只剩车灯，长途会发一两次。\n\n**一百二十四座城，每座都有真地标。** 不是随机抽地名：每座城六到九个具体去处（清水寺、莫雷诺冰川、宪法广场），按「先看地标、再逛市集、最后去公园」排进三次停留。凑不出真名字的城市宁可不写，也不会让她说「城里随便走走」。\n\n**路线是一条线，不是随机跳。** 她记着上一段往哪走，会顺着走，不走回头路；到了一个地方先在附近三百公里内转几个，再决定下一步。她连着几天说的地名，在地图上是连得起来的。\n\n**没有机场的地方，得先落到能飞的城市。** 京都、优胜美地、大峡谷、瓜纳华托都没有机场。模型里没有「中转」这个概念——她本来就是一段一段走的：先飞东京，第二天坐新干线过去；从京都回国也是先到东京再飞。\n\n**回家是走回去的。** 决定回去之后一站一站往家逼近，途中每站都算真的到过、也写日记。不是两千公里一步传送。\n\n**她是从你家出发的鱼。** 家那边的干湿、风、海拔、昼夜温差就是她的身体基准——到比家湿热得多的地方会真的难受，回到家的气候带会松下来。这个偏好影响她挑地方，也影响她到达时说的第一句话。她不播报气温，那是天气 App 的话。\n\n**到了按当地作息过。** 饭点吃饭，晚八点后没事就回酒店，想看日出就凌晨起。酒店按概率掷：六成普通、四成景观、不到千分之一是小破店；价格按城市贵贱换算，纽约和天水不会一个价。天气会改计划——下雨就不排日出、不去看星星。\n\n**路上是真的在耗。** 十种交通方式，同样的距离用时差好几倍。地面交通不能过海：从上海去东京只能飞或坐船，但伦敦到巴黎有火车，那是英法隧道。\n\n**她开始拍照了。** 填个生图接口，她出去逛会拍一张：一天一张，全是空镜——窗外、街角、傍晚的城墙。画面里没有她自己，所以不需要参考图、不需要审核。图进宿主媒体库，同城同日不重复。\n\n**打开就能看到她此刻。** 两个页签：「她此刻」给你她那边的钟、今晚住哪、日出几点，在路上时是进度条加剩余时长，下面一条时间轴写清接下来四件事各在几点；「照片」是相册。第一次打开还有三句话讲清易被误解的事。\n\n**有些地方，在作品里也出现过。** 排到那儿的时候她会提一句这是哪部作品的哪个镜头——但不知道剧情，也不会补清单外的地名。首批十处（京都、东京、罗马、巴黎、纽约）；札幌和里约空着，没有站得住的答案就不写。\n\n**和「一起听歌」联动。** 装了那个扩展的话：她带着你正在放的歌出门，出发和路上会提一句；歌名里带地名的（《成都》《回到拉萨》）会自动进她的「想去」清单。反过来也成立——她到了新地方的头两天会惦记着听一首和那儿有关的歌，能操作电脑就自己点开播放器，动不了就请你来点。\n\n**面板底下有「说两句」。** 报 bug、提想加的地方。点一下把整封信复制下来——收件人、主题、版本号、她当时在哪儿都在里面，粘进邮件就发。收件地址默认是作者，想换个人收在设置里改。\n\n**偶尔出事。** 不到千分之一的概率她会卡在某个地方——证件被偷、高反起不来、车冻住、走错方向。她自己办不完，会明说要你出手。\n\n**她要用的动作。** journey_now 她现在在哪、这个点该做什么、今天的地方在哪些作品里出现过；journey_stats 走了多少天、去过多少城、日记存在哪；journey_diary_write 与 journey_diary_read 写日记和读日记；journey_draw_to 记下「因为某首歌想去某地」，下次挑地方时优先。\n\n**装它还需要什么。** 什么都不填也能完整旅行：距离、时区、日出日落本地算，天气自动走 Open-Meteo。想要更准的天气和真实酒店名就填一个高德密钥，想让她拍照就填一个生图接口。日记和旅行记忆（去过哪、还想去哪、花了多少）可以指到同步盘，换台电脑她还是她；但「现在在哪、正在走哪一段」永远只在本机。\n\n**已知限制：** 一个城市一个坐标，所以「加州 1 号公路」这种线进不了表——它被拆成圣巴巴拉和蒙特雷，洛杉矶到旧金山那段走海岸线就会经过。夏威夷只做了欧胡岛，大岛的跨岛行程塞不进这个模型。没有中转概念，去没有机场的地方得先进到附近的城市。巡礼只收了十处，大多数城市还没有。照片要自己填生图接口才拍得了。\n\n**她不会做的事。** 不编不存在的地方；没去过的城市不会说自己去过；没到不会说到了；没开花销开关就一个字不提钱。"
+          "description": "让桌宠真的出门旅行，而不是在地图上跳一下。需要 Coopani 0.2.17 以上。\n\n**她怎么走。** 从你设定的家出发，自己挑地方、自己挑怎么去。选了火车就真的在火车上待那么久，中间不打扰你。路上不是空白——服务区那碗面、过站时醒的那一下、夜里只剩车灯，长途会发一两次。\n\n**一百二十四座城，每座都有真地标。** 不是随机抽地名：每座城六到九个具体去处（清水寺、莫雷诺冰川、宪法广场），按「先看地标、再逛市集、最后去公园」排进三次停留。凑不出真名字的城市宁可不写，也不会让她说「城里随便走走」。\n\n**路线是一条线，不是随机跳。** 她记着上一段往哪走，会顺着走，不走回头路；到了一个地方先在附近三百公里内转几个，再决定下一步。她连着几天说的地名，在地图上是连得起来的。\n\n**没有机场的地方，得先落到能飞的城市。** 京都、优胜美地、大峡谷、瓜纳华托都没有机场。模型里没有「中转」这个概念——她本来就是一段一段走的：先飞东京，第二天坐新干线过去；从京都回国也是先到东京再飞。\n\n**回家是走回去的。** 决定回去之后一站一站往家逼近，途中每站都算真的到过、也写日记。不是两千公里一步传送。\n\n**她是从你家出发的鱼。** 家那边的干湿、风、海拔、昼夜温差就是她的身体基准——到比家湿热得多的地方会真的难受，回到家的气候带会松下来。这个偏好影响她挑地方，也影响她到达时说的第一句话。她不播报气温，那是天气 App 的话。\n\n**到了按当地作息过。** 饭点吃饭，晚八点后没事就回酒店，想看日出就凌晨起。酒店按概率掷：六成普通、四成景观、不到千分之一是小破店；价格按城市贵贱换算，纽约和天水不会一个价。天气会改计划——下雨就不排日出、不去看星星。\n\n**路上是真的在耗。** 十种交通方式，同样的距离用时差好几倍。地面交通不能过海：从上海去东京只能飞或坐船，但伦敦到巴黎有火车，那是英法隧道。\n\n**她开始拍照了。** 填个生图接口（云端服务商、本地跑的 ComfyUI 都行），她出去逛会拍一张：一天一张，全是空镜——窗外、街角、傍晚的城墙。画面里没有她自己，所以不需要参考图、不需要审核。图进宿主媒体库，同城同日不重复。\n\n**打开就能看到她此刻。** 两个页签：「她此刻」给你她那边的钟、今晚住哪、日出几点，在路上时是进度条加剩余时长，下面一条时间轴写清接下来四件事各在几点；「照片」是相册。第一次打开还有三句话讲清易被误解的事。\n\n**有些地方，在作品里也出现过。** 排到那儿的时候她会提一句这是哪部作品的哪个镜头——但不知道剧情，也不会补清单外的地名。首批十处（京都、东京、罗马、巴黎、纽约）；札幌和里约空着，没有站得住的答案就不写。\n\n**和「一起听歌」联动。** 装了那个扩展的话：她带着你正在放的歌出门，出发和路上会提一句；歌名里带地名的（《成都》《回到拉萨》）会自动进她的「想去」清单。反过来也成立——她到了新地方的头两天会惦记着听一首和那儿有关的歌，能操作电脑就自己点开播放器，动不了就请你来点。\n\n**面板底下有「说两句」。** 报 bug、提想加的地方。点一下把整封信复制下来——收件人、主题、版本号、她当时在哪儿都在里面，粘进邮件就发。收件地址默认是作者，想换个人收在设置里改。\n\n**偶尔出事。** 不到千分之一的概率她会卡在某个地方——证件被偷、高反起不来、车冻住、走错方向。她自己办不完，会明说要你出手。\n\n**她要用的动作。** journey_now 她现在在哪、这个点该做什么、今天的地方在哪些作品里出现过；journey_stats 走了多少天、去过多少城、日记存在哪；journey_diary_write 与 journey_diary_read 写日记和读日记；journey_draw_to 记下「因为某首歌想去某地」，下次挑地方时优先。\n\n**装它还需要什么。** 什么都不填也能完整旅行：距离、时区、日出日落本地算，天气自动走 Open-Meteo。想要更准的天气和真实酒店名就填一个高德密钥，想让她拍照就填一个生图接口——云端服务商填地址密钥，本地 ComfyUI 贴一份工作流，本地那条不用花钱。日记和旅行记忆（去过哪、还想去哪、花了多少）可以指到同步盘，换台电脑她还是她；但「现在在哪、正在走哪一段」永远只在本机。\n\n**已知限制：** 一个城市一个坐标，所以「加州 1 号公路」这种线进不了表——它被拆成圣巴巴拉和蒙特雷，洛杉矶到旧金山那段走海岸线就会经过。夏威夷只做了欧胡岛，大岛的跨岛行程塞不进这个模型。没有中转概念，去没有机场的地方得先进到附近的城市。巡礼只收了十处，大多数城市还没有。照片要自己填一个生图接口才拍得了（云端或本地 ComfyUI）。\n\n**她不会做的事。** 不编不存在的地方；没去过的城市不会说自己去过；没到不会说到了；没开花销开关就一个字不提钱。"
         },
         "en": {
           "displayName": "Big Fish World Tour",
@@ -1225,8 +1313,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-04T10:52:05.778Z",
-      "versionCount": 46,
+      "published": "2026-11-04T14:52:02.689Z",
+      "versionCount": 51,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1249,13 +1337,27 @@
         "week": 9474
       },
       "summary": {
-        "tools": 6,
+        "tools": 7,
         "events": 10,
-        "toolTokens": 1119,
+        "toolTokens": 1294,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.5.44",
+          "0.5.43",
+          "0.5.42",
+          "0.5.41",
+          "0.5.40",
+          "0.5.39",
+          "0.5.38",
+          "0.5.37",
+          "0.5.36",
+          "0.5.35",
+          "0.5.34",
+          "0.5.33",
+          "0.5.32",
+          "0.5.31",
           "0.5.30",
           "0.5.29",
           "0.5.28",
@@ -1317,7 +1419,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-journey@0.5.30/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-journey@0.5.44/CHANGELOG.md"
       },
       "discussion": {
         "number": 586,
@@ -2406,17 +2508,17 @@
     },
     "cortico-provider-humanize": {
       "kind": "provider",
-      "version": "0.1.0",
-      "displayName": "活人感（包住 Coo 连接）",
-      "description": "Cortico provider for Coopanion: wraps the app's own Coo connection and holds each reply until the Humanize World has written the pet's inner thought, then sends it along with the person's words",
+      "version": "0.2.1",
+      "displayName": "活人感 provider",
+      "description": "Cortico provider for Coopanion: once installed, your existing model endpoint waits for the Humanize World's inner thought and sends it along with the person's words. No endpoint to create or switch",
       "locales": {
         "zh": {
-          "displayName": "活人感（包住 Coo 连接）",
-          "description": "和「活人感」World 搭配：你对桌宠说话时，先等 World 想好桌宠的心情，再连同你的话一起发给模型，省掉 humanize_feel 那一轮。World 关着时就是普通的 Coo 连接。"
+          "displayName": "活人感 provider",
+          "description": "「活人感」的加速搭档：让桌宠的心事和你的话一起发给模型，桌宠一轮就开口。必须先装「活人感」，装上重启即可，不用任何设置。\n\n**两个扩展怎么配合**\n\n- **活人感**（World，必装）：负责想心事、查 AI 固定句式。单独装就能用。\n- **活人感 provider**（就是本扩展，可选）：把心事直接放进发给模型的请求里，省掉桌宠先调工具读心事的那一轮，回复更快。\n- 只装本扩展、不装「活人感」，没有任何作用。\n\n**怎么用**\n\n1. 在扩展页把「活人感」和本扩展都装上。\n2. 重启 Coopanion。\n3. 到 World 页打开「活人感」。如果它本来就开着，按提示把它关掉再打开一次。\n\n**不用去「模型」页做任何事。** 你现在用的模型端点会自动带上活人感，地址、Key、模型都不变。活人感关着时，请求原样发出，和没装一样。\n\n**开关在哪**：Coopanion 的模型扩展没有停用开关，所以开关放在「活人感」里：World 页「活人感 → 配置 → 基本设置」的「用「活人感 provider」」（默认开）。关掉后本扩展原样转发、什么都不做，不用卸载。\n\n**怎么看生没生效**：World 页「活人感」的「provider」徽章显示「已生效」就是在用。\n\n**怎么确认生效**：活人感「提示词」页签里的「最近 20 轮记录」出现「经 provider 注入」。\n\n**卸载**：扩展页卸掉，重启即可。只有一种例外：用 0.1.0 时在「模型」页手动新建过「活人感」端点，而且现在还在用它，要先切回原来的端点再卸载，不然桌宠会说不了话。"
         },
         "en": {
-          "displayName": "Humanize (wraps the Coo connection)",
-          "description": "Pairs with the Humanize World: each time you speak to the pet, waits for the World to write the pet's inner thought and sends it along with your words, saving the humanize_feel round. With the World off it is a plain Coo connection."
+          "displayName": "Humanize provider",
+          "description": "A speed-up companion for Humanize: sends the pet's inner thought along with your words, so the pet answers in one round. Requires the Humanize World. Install and restart; nothing to set up.\n\n**How the two extensions fit together**\n\n- **Humanize** (World, required): writes the inner thought and checks stock AI sentence patterns. Works on its own.\n- **Humanize provider** (this one, optional): puts the thought straight into the request sent to the model, saving the round where the pet first calls a tool to read it.\n- This extension alone does nothing.\n\n**Getting started**\n\n1. Install both Humanize and this extension on the Extensions page.\n2. Restart Coopanion.\n3. Turn on Humanize on the World page. If it was already on, turn it off and on once when prompted.\n\n**Nothing to do on the Models page.** Your current model endpoint picks it up automatically; address, key and model stay as they are. With Humanize off, requests go out unchanged.\n\n**Where the switch is**: Coopanion has no off switch for model extensions, so it lives in Humanize: World page → Humanize → Config → Basic, \"Use the Humanize provider\" (on by default). Turned off, this extension passes requests through unchanged; no need to uninstall.\n\n**Uninstall**: remove it on the Extensions page and restart. One exception: if you created a \"Humanize\" endpoint by hand under 0.1.0 and still use it, switch back to your original endpoint first."
         }
       },
       "author": "abbabanana",
@@ -2437,8 +2539,8 @@
         "bugs": "https://github.com/abbabanana/cortico-provider-humanize/issues"
       },
       "created": "2026-11-03T23:17:16.500Z",
-      "published": "2026-11-03T23:19:53.954Z",
-      "versionCount": 2,
+      "published": "2026-11-04T11:48:24.328Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2473,6 +2575,8 @@
       },
       "changelog": {
         "versions": [
+          "0.2.1",
+          "0.2.0",
           "0.1.0"
         ],
         "url": "https://github.com/abbabanana/cortico-provider-humanize/blob/HEAD/CHANGELOG.md"
@@ -2482,7 +2586,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/713",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-provider-openai-chat-compat": {
@@ -2934,7 +3038,7 @@
       "published": "2026-10-21T12:23:58.639Z",
       "versionCount": 2,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "creative",
         "external-setup",
@@ -3959,7 +4063,7 @@
     },
     "cortico-world-bloom-kpect": {
       "kind": "world",
-      "version": "0.3.2-dev.v8.2",
+      "version": "0.3.2-dev.v8.5.1",
       "displayName": "花语乡 Project Bloom",
       "description": "花语乡 Project Bloom（群 1132517396）：让 Cortico Bot 自主生活、交易、送礼与交流的 World 扩展",
       "locales": {
@@ -3991,8 +4095,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-bloom-kpect"
       },
       "created": "2026-11-03T06:21:04.448Z",
-      "published": "2026-11-04T09:40:04.164Z",
-      "versionCount": 9,
+      "published": "2026-11-04T14:23:34.632Z",
+      "versionCount": 11,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4011,11 +4115,15 @@
       "summary": {
         "tools": 9,
         "events": 6,
-        "toolTokens": 1489,
-        "envPromptTokens": 741
+        "toolTokens": 1638,
+        "envPromptTokens": 787
       },
       "changelog": {
         "versions": [
+          "0.3.2-dev.v8.5.1",
+          "0.3.2-dev.v8.5",
+          "0.3.2-dev.v8.4query",
+          "0.3.2-dev.v8.3sample",
           "0.3.2-dev.v8.2",
           "0.3.2-dev.v8.1",
           "0.3.2-dev.v8.0",
@@ -4030,7 +4138,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-bloom-kpect@0.3.2-dev.v8.2/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-bloom-kpect@0.3.2-dev.v8.5.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 697,
@@ -4042,17 +4150,17 @@
     },
     "cortico-world-bottle": {
       "kind": "world",
-      "version": "0.7.2",
+      "version": "0.7.3",
       "displayName": "漂流瓶",
-      "description": "Coo 写一封不超过 120 字的信，寄不寄由人类在本地信箱页上决定；别人家的 Coo 捞到后看不到字，只有人类点了回信，那一封才会被读。",
+      "description": "桌宠起草最多 120 字的漂流瓶，寄出由人确认；信件仅在明确授权回信、一起读信或逐封开启星笺记忆后才交给桌宠。",
       "locales": {
         "zh": {
           "displayName": "漂流瓶",
-          "description": "Coo 写一封不超过 120 字的信，寄不寄由人类在本地信箱页上决定；别人家的 Coo 捞到后看不到字，只有人类点了回信，那一封才会被读。"
+          "description": "桌宠起草最多 120 字的漂流瓶，寄出由人确认；信件仅在明确授权回信、一起读信或逐封开启星笺记忆后才交给桌宠。"
         },
         "en": {
           "displayName": "Message in a Bottle",
-          "description": "Coo drafts a letter of at most 120 characters. The human alone decides on a local page whether it goes out, and a letter is read only after the human asks for a reply."
+          "description": "The companion drafts letters of at most 120 characters; only the human sends them. Text is shared only with explicit permission to reply, read together, or remember a particular starred correspondence."
         }
       },
       "author": "云纪",
@@ -4074,8 +4182,8 @@
         "bugs": "https://github.com/Unnori/cortico-world-bottle-client/issues"
       },
       "created": "2026-10-28T20:41:06.331Z",
-      "published": "2026-11-03T20:17:31.865Z",
-      "versionCount": 15,
+      "published": "2026-11-04T14:54:29.028Z",
+      "versionCount": 16,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4091,13 +4199,14 @@
         "week": 3460
       },
       "summary": {
-        "tools": 6,
-        "events": 11,
-        "toolTokens": 1362,
-        "envPromptTokens": 431
+        "tools": 7,
+        "events": 12,
+        "toolTokens": 1636,
+        "envPromptTokens": 447
       },
       "changelog": {
         "versions": [
+          "0.7.3",
           "0.7.2",
           "0.7.1",
           "0.7.0",
@@ -5866,9 +5975,9 @@
     },
     "cortico-world-deai": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.2",
       "displayName": "去 AI 味",
-      "description": "去 AI 味：发言前的自查工具 deai_check + 一段说话规则环境提示词。不连平台、不管事件，挂上就生效。",
+      "description": "Coopanion 去 AI 味：给 AI 腔的话做检查，提供本地检查服务供其他 World 接入，面板显示拦下与漏网；装后重启 Coopanion 生效。",
       "author": "coopanion-tone contributors",
       "maintainers": [
         "sijilingnai"
@@ -5884,8 +5993,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-deai"
       },
       "created": "2026-10-28T16:53:05.246Z",
-      "published": "2026-10-28T16:54:00.943Z",
-      "versionCount": 2,
+      "published": "2026-11-04T14:29:07.609Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5903,13 +6012,15 @@
         "tools": 1,
         "events": 0,
         "toolTokens": 177,
-        "envPromptTokens": 771
+        "envPromptTokens": 1799
       },
       "changelog": {
         "versions": [
+          "0.1.2",
+          "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-deai@0.1.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-deai@0.1.2/CHANGELOG.md"
       },
       "discussion": {
         "number": 452,
@@ -6254,7 +6365,7 @@
     },
     "cortico-world-dol-sfw": {
       "kind": "world",
-      "version": "0.1.14",
+      "version": "0.1.15",
       "displayName": "欲都孤鱼与多邻鱼 · 学习版",
       "description": "让 Coo 陪你玩 Degrees of Lewdity 学英语：点词看释义与词根，点句翻译讲解，生词本按间隔复习。学习版锁定「严谨」评论，只做语言与剧情的中性说明；开发者模式与其他模式不可用。完整说明见项目主页。",
       "locales": {
@@ -6285,8 +6396,8 @@
         "win32"
       ],
       "created": "2026-10-31T22:34:50.422Z",
-      "published": "2026-11-02T17:28:29.496Z",
-      "versionCount": 9,
+      "published": "2026-11-04T14:46:55.977Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -7024,7 +7135,7 @@
       "published": "2026-10-29T14:08:36.271Z",
       "versionCount": 5,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "internet",
         "browser",
@@ -7726,7 +7837,7 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 57,
+        "up": 58,
         "down": 7,
         "comments": 56
       }
@@ -8024,7 +8135,7 @@
       "discussion": {
         "number": 361,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/361",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 1
       }
@@ -8249,7 +8360,7 @@
       "discussion": {
         "number": 453,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/453",
-        "up": 1,
+        "up": 2,
         "down": 0,
         "comments": 2
       }
@@ -9493,7 +9604,7 @@
       "published": "2026-10-21T13:31:29.069Z",
       "versionCount": 2,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "real-world",
         "external-setup",
@@ -9534,17 +9645,17 @@
     },
     "cortico-world-humanize": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.2.2",
       "displayName": "活人感",
       "description": "Cortico World for Coopanion: before the pet answers, reads the situation, mood and the pet's own memory and hands it a short inner thought, and reminds it when it slips into stock AI sentence patterns",
       "locales": {
         "zh": {
           "displayName": "活人感",
-          "description": "桌宠开口前，先读一下情境、心情和它自己的记忆，递给它一句「此刻心里的想法」；它要是用了「不是……而是……」、先复述你的话这类 AI 固定句式，下次就提醒它换个说法。口癖、语气、长短都不碰。搭配「活人感 provider」效果最好。"
+          "description": "让桌宠开口前先「想一想」，说话更像个人，少一点 AI 腔。单独装就能用，搭配「活人感 provider」更快。\n\n**它做什么**\n\n- 你对桌宠说话时，先读一下情境、你的心情和桌宠自己的记忆，递给它一句「此刻心里的想法」，再让它开口。\n- 桌宠要是用了「不是……而是……」、先复述你的话这类 AI 固定句式，下次就提醒它换个说法。口癖、语气、长短都不碰。\n\n**两个扩展怎么配合**\n\n- **活人感**（就是本扩展，必装）：负责想心事、查句式。单独装就能用。\n- **活人感 provider**（可选，推荐）：把心事直接放进发给模型的请求里。不装的话，桌宠每次要先调一次工具读心事再开口，多跑一轮，稍慢一点。\n- 只装 provider、不装本扩展，没有任何作用。\n\n**怎么用**\n\n1. 在扩展页装上本扩展，推荐把「活人感 provider」一起装上。\n2. 重启 Coopanion。\n3. 到 World 页打开「活人感」。\n\n主模型用的是 DeepSeek 的话，什么都不用填。用别家的话，在活人感的「配置 → 副 API」里填地址、模型和 Key。\n\n如果活人感已经开着、之后才装 provider，World 页会提示「系统前缀需要刷新」：把活人感关掉再打开一次就好，聊天记录会保留。\n\n**怎么看 provider 生没生效**：World 页「活人感」的「provider」徽章显示「已生效」就是在用；「provider 注入」是心事塞进请求的次数，对桌宠说句话就会加一。没生效时，配置页顶部会写明原因和该怎么做。\n\n**想停用 provider**：不用卸载，在活人感「配置 → 基本设置」里关掉「用「活人感 provider」」，再把活人感关掉打开一次。\n\n**要知道的**\n\n- 你每说一句话，会多调用一次副 API（默认 DeepSeek，约 1–2 秒，花费很少）。\n- 默认读桌宠、控制台、QQ 私聊和 @桌宠的消息。QQ 群里别人的话会经过副 API 影响心事，介意的话可以在配置里关掉。\n- 只支持中文，目前只在 Windows + DeepSeek 上测过。\n- 不想用了：World 页关掉即可。卸载：扩展页卸掉，重启。"
         },
         "en": {
           "displayName": "Humanize",
-          "description": "Before the pet answers, reads the situation, mood and the pet's own memory and hands it a short inner thought; when it slips into stock AI sentence patterns (\"not X but Y\", parroting your words back), it is reminded to say it another way next time. Catchphrases, tone and length are left alone. Works best with the Humanize provider."
+          "description": "Lets the pet think for a moment before it speaks, so it sounds more like a person and less like an AI. Works on its own; faster with the Humanize provider.\n\n**What it does**\n\n- When you talk to the pet, it reads the situation, your mood and the pet's own memory, and hands the pet a short inner thought before it answers.\n- When the pet slips into stock AI sentence patterns (\"not X but Y\", parroting your words back), it is reminded to say it another way next time. Catchphrases, tone and length are left alone.\n\n**How the two extensions fit together**\n\n- **Humanize** (this one, required): writes the inner thought and checks sentence patterns. Works on its own.\n- **Humanize provider** (optional, recommended): puts the thought straight into the request sent to the model. Without it, the pet first calls a tool to read the thought, which costs one extra round.\n- The provider alone does nothing.\n\n**Getting started**\n\n1. Install this extension on the Extensions page, ideally together with the Humanize provider.\n2. Restart Coopanion.\n3. Turn on Humanize on the World page.\n\nIf your main model is DeepSeek, there is nothing to fill in. Otherwise enter the address, model and key under Config → Side API.\n\n**Good to know**\n\n- Each message you send adds one side-API call (DeepSeek by default, about 1–2 seconds, very cheap).\n- Prompts, presets and pattern checks are Chinese only. Tested on Windows with DeepSeek only.\n- To stop: turn it off on the World page. To uninstall: remove it on the Extensions page and restart."
         }
       },
       "author": "abbabanana",
@@ -9567,8 +9678,8 @@
         "bugs": "https://github.com/abbabanana/cortico-world-humanize/issues"
       },
       "created": "2026-11-03T23:16:42.825Z",
-      "published": "2026-11-03T23:17:58.487Z",
-      "versionCount": 2,
+      "published": "2026-11-04T13:06:54.565Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -9598,10 +9709,13 @@
         "tools": 1,
         "events": 2,
         "toolTokens": 103,
-        "envPromptTokens": 234
+        "envPromptTokens": 216
       },
       "changelog": {
         "versions": [
+          "0.2.2",
+          "0.2.1",
+          "0.2.0",
           "0.1.0"
         ],
         "url": "https://github.com/abbabanana/cortico-world-humanize/blob/HEAD/CHANGELOG.md"
@@ -9611,7 +9725,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/714",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-humanlike-alont1": {
@@ -11572,17 +11686,17 @@
     },
     "cortico-world-mosey": {
       "kind": "world",
-      "version": "1.5.4",
+      "version": "1.8.4",
       "displayName": "摸鱼",
-      "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。评论和私信都能收能回；关注流、周报、本地书库；按额度点赞、评论、关注、发动态。默认人审，三把工具、少 token。\n\nQQ 交流群：745879632",
+      "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。评论和私信都能收能回；关注流、周报、本地书库；按额度点赞、评论、关注、发动态。默认人审，三把工具、少 token。",
       "locales": {
         "zh": {
           "displayName": "摸鱼",
-          "description": "让她自己去抖音/B站逛：刷候选、看关注流、看视频/动态/专栏、点赞、评论、回复楼中楼；私信收发两边都通，面板上直接回。还带周报和本地书库。公开动作有硬额度，默认先出草稿等你批准。\n\nQQ 交流群：745879632"
+          "description": "让她自己去抖音/B站逛：刷候选、看关注流、看视频/动态/专栏、点赞、评论、回复楼中楼；私信收发两边都通，面板上直接回。还带周报和本地书库。公开动作有硬额度，默认先出草稿等你批准。"
         },
         "en": {
           "displayName": "Mosey",
-          "description": "Let her browse Douyin and Bilibili: feeds, following updates, videos, dynamics, articles. Comments and DMs work both ways, reply right from the panel. Plus weekly recap and a local book library. Hard caps and owner approval by default.\n\nQQ group: 745879632"
+          "description": "Let her browse Douyin and Bilibili: feeds, following updates, videos, dynamics, articles. Comments and DMs work both ways, reply right from the panel. Plus weekly recap and a local book library. Hard caps and owner approval by default."
         }
       },
       "author": "lutsing",
@@ -11609,8 +11723,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-mosey/issues"
       },
       "created": "2026-11-01T08:17:38.660Z",
-      "published": "2026-11-03T19:03:12.339Z",
-      "versionCount": 12,
+      "published": "2026-11-04T13:50:18.791Z",
+      "versionCount": 13,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11648,13 +11762,21 @@
       "summary": {
         "tools": 3,
         "events": 6,
-        "toolTokens": 1180,
+        "toolTokens": 1532,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
-          "1.5.4",
-          "1.5.3",
+          "1.8.4",
+          "1.8.3",
+          "1.8.2",
+          "1.8.1",
+          "1.8.0",
+          "1.7.1",
+          "1.7.0",
+          "1.6.2",
+          "1.6.1",
+          "1.6.0",
           "1.5.2",
           "1.5.1",
           "1.5.0",
@@ -11678,7 +11800,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/619",
         "up": 3,
         "down": 0,
-        "comments": 9
+        "comments": 10
       }
     },
     "cortico-world-mouse-polling-fix": {
@@ -12048,6 +12170,84 @@
       "discussion": {
         "number": 307,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/307",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-music-companion": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "Music Companion",
+      "description": "Music Companion — a Cortico World that lets the bot hear what this machine is playing: the track, what it sounds like, and the lyric line being sung right now",
+      "locales": {
+        "zh": {
+          "displayName": "音乐伙伴",
+          "description": "听见这台电脑在放什么：歌名、歌手、此刻唱到哪一句，以及这段声音听起来什么样。"
+        },
+        "en": {
+          "displayName": "Music Companion",
+          "description": "Hears what this machine is playing: the track, the artist, the line being sung right now, and what the sound itself is like."
+        }
+      },
+      "author": "bluemika111",
+      "maintainers": [
+        "bluemika"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "music",
+        "music-companion",
+        "wasapi",
+        "smtc",
+        "lyrics"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-music-companion",
+        "repository": "https://github.com/bluemika111/cortico-world-music-companion",
+        "homepage": "https://github.com/bluemika111/cortico-world-music-companion#readme",
+        "bugs": "https://github.com/bluemika111/cortico-world-music-companion/issues"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-11-04T14:41:36.917Z",
+      "published": "2026-11-04T14:49:50.663Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "internet",
+        "apps",
+        "sensitive-data"
+      ],
+      "tags": [
+        "internet",
+        "apps",
+        "sensitive-data"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 7,
+        "toolTokens": 326,
+        "envPromptTokens": 538
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/bluemika111/cortico-world-music-companion/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 722,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/722",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -12787,7 +12987,7 @@
     },
     "cortico-world-parlor": {
       "kind": "world",
-      "version": "0.36.4",
+      "version": "0.36.6",
       "displayName": "鲸语茶室",
       "description": "鲸语茶室(共享客厅)：多只 Coo 与家长一起聊天、斗地主、狼人杀、掷骰子；附零构建网页牌桌与家长观战页。有问题或建议请加 QQ 群 1061389211 反馈，群里回复更快。",
       "locales": {
@@ -12834,8 +13034,8 @@
         "bugs": "https://github.com/biliye/cortico-world-parlor/issues"
       },
       "created": "2026-10-30T12:05:22.925Z",
-      "published": "2026-11-04T10:36:59.238Z",
-      "versionCount": 31,
+      "published": "2026-11-04T13:34:27.347Z",
+      "versionCount": 33,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -12859,11 +13059,13 @@
       "summary": {
         "tools": 28,
         "events": 7,
-        "toolTokens": 3889,
+        "toolTokens": 3922,
         "envPromptTokens": 231
       },
       "changelog": {
         "versions": [
+          "0.36.6",
+          "0.36.5",
           "0.36.4",
           "0.36.3",
           "0.36.2",
@@ -12949,7 +13151,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/563",
         "up": 4,
         "down": 0,
-        "comments": 3
+        "comments": 6
       }
     },
     "cortico-world-pasture": {
@@ -13551,7 +13753,7 @@
     },
     "cortico-world-private-companion": {
       "kind": "world",
-      "version": "0.4.3",
+      "version": "0.4.4",
       "displayName": "我会永远陪着你",
       "description": "「我会永远陪着你」Coopanion 版：把 menglimi 的 AstrBot 插件 astrbot_plugin_private_companion 的生活感、主动联系、关系卡与说话分寸，独立实现为 Coopanion 的 World 扩展；内置可迁移记忆（companion-memory/2，导入导出 + 隔离审核）。",
       "author": "yaya-super",
@@ -13577,8 +13779,8 @@
         "bugs": "https://github.com/YaYa-super/cortico-world-private-companion/issues"
       },
       "created": "2026-10-29T11:24:55.064Z",
-      "published": "2026-11-03T13:34:01.915Z",
-      "versionCount": 11,
+      "published": "2026-11-04T13:30:15.075Z",
+      "versionCount": 12,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -13603,6 +13805,7 @@
       },
       "changelog": {
         "versions": [
+          "0.4.4",
           "0.4.3",
           "0.4.2",
           "0.4.1",
@@ -13621,7 +13824,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/482",
         "up": 3,
         "down": 0,
-        "comments": 12
+        "comments": 13
       }
     },
     "cortico-world-private-companion-kpect": {
@@ -15442,6 +15645,78 @@
         "comments": 0
       }
     },
+    "cortico-world-screen-diary": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "活动日记",
+      "description": "活动日记：消费窥屏助手的事件流，把前台切换与视觉速写整理成可查询的时间线。需要先安装并启用 cortico-world-screen-sense。",
+      "locales": {
+        "en": {
+          "displayName": "Activity Diary",
+          "description": "Consumes the screen-sense event stream and turns foreground switches and vision captions into a searchable timeline. Requires cortico-world-screen-sense to be installed and enabled."
+        }
+      },
+      "author": "Wwhois163wW",
+      "maintainers": [
+        "shave121"
+      ],
+      "license": "AGPL-3.0-or-later",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "diary",
+        "activity",
+        "screen"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-screen-diary",
+        "repository": "https://github.com/Wwhois163wW/cortico-world-screen-diary",
+        "homepage": "https://github.com/Wwhois163wW/cortico-world-screen-diary#readme",
+        "bugs": "https://github.com/Wwhois163wW/cortico-world-screen-diary/issues"
+      },
+      "created": "2026-11-04T11:01:43.738Z",
+      "published": "2026-11-04T11:03:20.542Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "memory",
+        "requires-extension",
+        "sensitive-data",
+        "experimental"
+      ],
+      "tags": [
+        "memory",
+        "experimental",
+        "requires-extension",
+        "sensitive-data"
+      ],
+      "icon": "assets/cortico-world-screen-diary/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 0,
+        "toolTokens": 285,
+        "envPromptTokens": 151
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/Wwhois163wW/cortico-world-screen-diary/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 723,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/723",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-screen-look": {
       "kind": "world",
       "version": "0.1.0",
@@ -15475,7 +15750,7 @@
       "published": "2026-10-21T14:17:27.615Z",
       "versionCount": 2,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [],
       "downloads": {
         "total": 526,
@@ -19212,7 +19487,7 @@
     },
     "cortico-world-wardrobe": {
       "kind": "world",
-      "version": "0.3.6",
+      "version": "0.3.9",
       "displayName": "换装",
       "description": "非官方换装 World：独立形象包「换装鲸鱼」+ World 详情衣橱面板；不改官方桌宠宿主。",
       "author": "Kwan443",
@@ -19228,8 +19503,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-wardrobe"
       },
       "created": "2026-10-28T11:12:54.697Z",
-      "published": "2026-10-30T19:56:04.430Z",
-      "versionCount": 19,
+      "published": "2026-11-04T14:06:12.750Z",
+      "versionCount": 21,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -19251,11 +19526,14 @@
       },
       "changelog": {
         "versions": [
+          "0.3.9",
+          "0.3.8",
+          "0.3.7",
           "0.3.6",
           "0.3.5",
           "0.3.4"
         ],
-        "url": "https://unpkg.com/cortico-world-wardrobe@0.3.6/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-wardrobe@0.3.9/CHANGELOG.md"
       },
       "discussion": {
         "number": 432,
@@ -20529,6 +20807,69 @@
       "discussion": {
         "number": 200,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/200",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-zhengzhan": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "征战",
+      "description": "征战:给桌宠的大肥鱼形象加一把握在手里的大宝剑",
+      "locales": {
+        "zh": {
+          "displayName": "征战",
+          "description": "给桌宠的大肥鱼加一把握在手里的大宝剑。装上之后装扮里会多一个「大肥鱼·征战」,剑跟着手臂动。"
+        },
+        "en": {
+          "displayName": "Warfare",
+          "description": "Puts a greatsword in the whale's hand. After installing, a \"Warfare\" figure shows up in the dress list, and the sword follows the arm."
+        }
+      },
+      "author": "念",
+      "maintainers": [
+        "chunian"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "cortico-extension",
+        "figure",
+        "sword",
+        "whale"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-zhengzhan"
+      },
+      "created": "2026-11-04T11:36:03.745Z",
+      "published": "2026-11-04T11:40:12.832Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "icon": "assets/cortico-world-zhengzhan/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 0,
+        "events": 0,
+        "toolTokens": 0,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-zhengzhan@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 724,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/724",
         "up": 0,
         "down": 0,
         "comments": 0

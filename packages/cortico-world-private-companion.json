@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-private-companion",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "describe": {
     "tools": [
       {
@@ -550,6 +550,7 @@
     ]
   },
   "changelog": {
+    "0.4.4": "- 主动回执识别 `pet_say` / `pet_ask` / `console_send` / `sovits_speak` 的参数为真正说出的内容；不再把“通过 speak 工具说话”误记成 silent。\n- 今日测试数据：15 次主动里 13 次实际走了 pet_say，旧回执误判为 silent、sentTexts 为空；修复后内容去重和面板回执才准确。\n- 新增可选 GitMem 读穿：主库仍是 companion-memory/2；`companion_recall` 主库没命中时只读检索旧 notes/handoffs；不投影、不写回、不做双向同步。",
     "0.4.3": "- 最近记忆拆成「你的情绪」和「我当时的感受」两列：前者来自 userEmotion，后者来自 howIFelt；没有则显示未标注/未记录。\n- 面板「此刻」移除已无意义的「下次主动」；日上限 0 显示「不限」而不是 6/0。\n- 实验认知：`thinkAll` 返回全部候选，最高分 silent 照记；意图从最高分可行动候选选；高显著 silent 晚上转 journal、其他时间转 remember，不再吞掉可行动候选。\n- 主动去重：同一 thread 每天最多触发/联系一次；最近 24h 说过相似内容（按正文相似度）不再推送，正常 proactive 与实验 contact 共用。\n- 主动回执：接主 session 输出流，唤醒后实际有正文记 `spoken`、无正文记 `silent`；`sentTexts` 改为只记录真正说出的正文，不再把“唤醒成功”当成“说过”。\n- 回执只在 `onEventsSettled(delivered)` 后开始，discarded/onAbort/超时不计 spoken；内容去重同时比对由头与实际正文。\n- 同一 thread 每天一次改为“投递成功后才占用”；held 联系意图 15 分钟后最多重试 3 次，12 小时过期。\n- 修复源码中的裸 NUL/控制字节；认知记忆候选先取 recent(20) 再筛 episode。",
     "0.4.2": "- 主动不再使用 90 分钟 + 抖动计时器：改为日程节点、醒来、低精力/低心情、到期/临近话头、去年今天、生日、饭点、晚间锚点、长时间没说话等事件/状态触发；P0 候选评分/复核继续生效。\n- 配置页移除最小间隔/抖动；`proactiveDueAt` 仅保留兼容字段，界面显示“等待生活/状态触发”。\n- 新增天气触发：Open-Meteo 免费接口，按城市查询，下雨/降温/高温/低温产生候选；默认关闭，无城市不请求。\n- 新增节日触发（固定公历 + nager.date 中国法定节假日，失败回退）、搁置 3 天以上的话头、状态好（精力/心情高）、明天转雨/降温；\n- 新增候选触发/天气/节日测试；77 用例。",
     "0.4.1": "- 情绪标签：episode 未显式写 `userEmotion` 时按文本保守识别；记忆面板对旧记录也做读取兜底，识别不到显示「未标注」，不再一律「平淡」。\n- 心理活动：主动被拦不再记成「主动」，单独标 `gate/未开口`；面板每 20 秒自动刷新最近记忆/心理活动，并同步顶部「今日主动」徽标（页面隐藏时暂停）。\n- 兼容 0.4.0 旧日志：`gate` 筛选会把旧的“没开口”proactive 记录也包含进来，面板按 summary 标成「未开口」。\n- 背景念头（Phase 0）：`cognitionMode=off/shadow/act`，每 N 分钟用状态/记忆/日程做一次便宜评估，写 `thought` 日志；shadow 不改行为，act 只允许写日记/休息，contact 仍走原主动闸门；同一条念头 6 小时内不重复。\n- 念头 → 意图：高显著性念头形成带到期时间的 intention；`act` 下 journal/rest 会真正执行，contact 只 hold（记「想找他但先放在心里」），不自动发消息；面板新增 `意图/行动` 筛选。\n- 自动日记正文改为当天 episode/事件摘要（`todayDigest`），不再只写“今天还没写日记”这句自指念头。\n- 念头去重：episode 与近期记忆共用 `memory:<id>` key，同一段记忆不会换种说法再次出现。\n- P0（直接启用）：正常主动加入候选评分、繁忙/重复/连续未回应发送前复核、候选/复核审计；未回应 3 小时降速。\n- P1（直接启用）：主动联系涉及话头时，用户回复后生成 `followup` 待复核并注入上下文；低精力优先休息；实验性认知保留 journal/rest 动作。\n- 实验性认知：`cognitionMode` 默认 off，配置页与面板标「实验性」；`cognitionContactMode=hold` 默认不发送。",
