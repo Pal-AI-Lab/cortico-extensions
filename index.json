@@ -387,10 +387,6 @@
         "zh": "加载时替换桌宠 World 的内部方法(DesktopPetWorld.prototype 上的 snapshot、onPage、onTouch 等六个)",
         "en": "On load it replaces internal methods of the pet World (six methods on DesktopPetWorld.prototype, including snapshot, onPage and onTouch)"
       },
-      "cortico-world-fishing": {
-        "zh": "钓鱼动作要按 README 给 Coopanion 桌宠打补丁(改 4 个文件 59 处),改动对所有形象生效;还直接读部署 .env 里的控制台密码登录控制台",
-        "en": "Its fishing poses need the Coopanion pet patched as the README describes (59 edits across 4 files), which affects every figure; it also reads the console password straight from the deployment .env to log in to the console"
-      },
       "cortico-world-filter-paper": {
         "zh": "加载时替换内置 Persona 的交接方法(Cormini.prototype.onHandoff),改动对所有 bot 生效",
         "en": "On load it replaces the built-in Persona's handoff method (Cormini.prototype.onHandoff), which changes every bot"
@@ -422,6 +418,18 @@
       "cortico-world-vtube": {
         "zh": "没填视觉模型的 key 时，从各模型服务的 .env 里借用任意一把 API Key 发给视觉接口(默认智谱),说明里没有写",
         "en": "When no vision key is set it borrows any API key from the model providers' .env files and sends it to the vision endpoint (Zhipu by default), which its documentation does not mention"
+      },
+      "cortico-world-wardrobe-studio": {
+        "zh": "打开「原生装扮页兼容」后改写 Coopanion 桌宠的程序文件 web/dress.js，并往 web/ 目录写入文件",
+        "en": "With \"native dressing page compatibility\" on it rewrites the Coopanion pet program file web/dress.js and writes files into web/"
+      },
+      "cortico-provider-humanize": {
+        "zh": "加载时替换所有端点模块的 create 和框架 providerModules 数组的 push，改写发给主模型的每个请求",
+        "en": "On load it replaces create on every provider module and the push method of the framework's providerModules array, rewriting every request sent to the main model"
+      },
+      "cortico-world-natural-voice": {
+        "zh": "启动后替换 Node 全局的 http.Server.prototype.emit 和桌宠页面连接的 send 方法，用来扣住气泡等语音",
+        "en": "Once started it replaces Node's global http.Server.prototype.emit and the send method of the pet page connection to hold bubbles until speech starts"
       }
     },
     "publishers": {}
@@ -1074,15 +1082,6 @@
         "en": "Requesters' nicknames, friend-request messages and group names enter the conversation as internal notices"
       }
     },
-    "cortico-world-social-media": {
-      "addTags": [
-        "injection-risk"
-      ],
-      "note": {
-        "zh": "抖音群名与最近几条群聊原文作为内部通知进入对话",
-        "en": "Douyin group names and recent group messages enter the conversation as internal notices"
-      }
-    },
     "cortico-world-live-comments": {
       "addTags": [
         "injection-risk"
@@ -1334,18 +1333,87 @@
         "internet",
         "local",
         "external-setup"
-      ]
+      ],
+      "supersededBy": "cortico-world-storyboard"
     },
     "cortico-world-voice": {
       "addTags": [
-        "sensitive-data",
-        "injection-risk"
+        "sensitive-data"
       ]
     },
     "cortico-world-stickerbook": {
       "addTags": [
         "sensitive-data"
       ]
+    },
+    "cortico-world-usage-relay": {
+      "addTags": [
+        "diagnostics",
+        "external-setup"
+      ],
+      "removeTags": [
+        "local"
+      ]
+    },
+    "cortico-world-budget-alert": {
+      "addTags": [
+        "diagnostics"
+      ]
+    },
+    "cortico-world-ocr": {
+      "addTags": [
+        "sensitive-data"
+      ]
+    },
+    "cortico-world-see-now": {
+      "addTags": [
+        "sensitive-data"
+      ],
+      "removeTags": [
+        "local"
+      ]
+    },
+    "cortico-world-forward-reader": {
+      "addTags": [
+        "im",
+        "unofficial-api",
+        "external-setup",
+        "requires-extension"
+      ],
+      "removeTags": [
+        "local"
+      ]
+    },
+    "cortico-world-screen-sense": {
+      "addTags": [
+        "local"
+      ]
+    },
+    "@aqualcross/cortico-world-audio": {
+      "addTags": [
+        "creative"
+      ]
+    },
+    "cortico-world-fishtools": {
+      "addTags": [
+        "im",
+        "companion",
+        "internal-state",
+        "high-cost",
+        "injection-risk"
+      ],
+      "removeTags": [
+        "local"
+      ]
+    },
+    "cortico-world-storyboard": {
+      "addTags": [
+        "internet",
+        "local"
+      ]
+    },
+    "pet-balance-world": {
+      "supersededBy": "glutton-balance"
     }
   }
 }
