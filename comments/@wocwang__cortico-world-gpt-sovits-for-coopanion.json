@@ -2,8 +2,36 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-  "total": 72,
+  "total": 76,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJ_VX",
+      "author": "wocwang",
+      "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+      "body": "@Sillyhou **0.6.9 已发布**（npm `latest`），你报的两条都修好了：\r\n\r\n- 「模型版本」「音频后端」恢复成下拉：`optionsFor()` 补了两个 case，并抽成导出的 `panelOptionsFor()`，四个选项源现在都有测试盯着（`tests/config-options.test.ts`）；`definition.ts` 那条路本来就有，这次是自定义配置页漏了。\r\n- 旧手填值不再拖死 World：`normalizeVoiceModel()` 会把 `V2 Pro Plus` / `v2 pro plus` / `V2ProPlus` / `V5 turbo` / `V5-Turbo` 归一回 key，认不出的回 `auto`，启动日志提示一次；面板按归一值显示，下拉直接能选中。`WeightsJob` 另加了空表兜底，`baseReady()` 不再抛，也不会把不认识的版本判成就绪。\r\n\r\n验证：`tsc` 0 error、19 文件 **212 例全过**、`check:extension passed`；本机已装 0.6.9 并重启确认。\r\n\r\n你那边更新后**不用手改 `config.json`**，旧值会自动归一；如果面板里看到启动日志那条「配置里的模型版本不是有效值，已按 auto 处理」，说明它已经帮你纠正了，按需要重新选一下即可。还有问题继续在这里回。\r\n",
+      "createdAt": "2026-11-04T11:04:15Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BJ_OQ",
+      "author": "wocwang",
+      "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+      "body": "@Sillyhou 两条都确认是 bug，不是有意保留手填——你定位得很准，代码位置也对上了。\r\n\r\n**1. 下拉退化成输入框**：`world.ts` 里配置页的 `x-options` 解析（`optionsFor()`）确实只登记了 VOICE / TEXT_LANGUAGE / PROMPT_LANGUAGE / TIER / DEVICE 五种，`MODEL_VERSION_OPTIONS` 与 `AUDIO_BACKEND_OPTIONS` 落到 `default: undefined`；前端只在 `options.length` 非空时才画 `select`。现在两条都补上，并把这套解析抽成导出的 `panelOptionsFor()`，配 `tests/config-options.test.ts` 盯着这四个选项源，以后少一个 case 测试会直接红。\r\n\r\n**2. 手填显示名把 World 拖死**：按你说的方向做了归一化，没有保留自由输入：\r\n\r\n- `normalizeVoiceModel()` 把 `V2 Pro Plus` / `v2 pro plus` / `V2ProPlus` / `V5 turbo` / `V5-Turbo` 这些写法映射回 `v2ProPlus` / `v5turbo`，认不出的值回退 `auto`；\r\n- 读配置时归一（`resolveModelVersion()` 内部也走同一份），面板按归一后的 key 显示，下拉能直接选中；非规范值在启动日志里提示一次；\r\n- `WeightsJob` 另加了兜底：版本 key 意外不认时按空文件表处理，`baseReady()` 不再抛 `Cannot read properties of undefined`，也不会误判成就绪。\r\n\r\n**验证**：`tsc` 0 error、19 文件 **212 例全过**（新增下拉选项断言 + 归一化用例）、`check:extension passed`。本机已装这版并在跑，两个下拉确认恢复。\r\n\r\n**0.6.9 已准备好，发布后我在这里补版本号**——你那边不用手改 `config.json`，更新后旧值会自动归一。\r\n\r\nPR 就不用提了，这两处我已经改完；谢谢你把行号和调用链一起贴出来，省了很多时间。\r\n",
+      "createdAt": "2026-11-04T10:36:15Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BJ_Ak",
+      "author": "29-lgtm",
+      "avatar": "https://avatars.githubusercontent.com/u/347343978?s=64&v=4",
+      "body": "话说作者大大，这个和你做的另外两个变音和唱歌的有联动吗？",
+      "createdAt": "2026-11-04T09:51:04Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BJ-nR",
+      "author": "Sillyhou",
+      "avatar": "https://avatars.githubusercontent.com/u/175188106?s=64&v=4",
+      "body": "在 0.6.8 上反馈两个和面板/配置有关的问题（Coopanion 0.2.17，Windows 11）：\n\n**1. 「模型版本」「音频后端」是输入框，不是下拉**\n\n`src/world.ts` 的 `optionsFor()` 只处理了 VOICE / TEXT_LANGUAGE / PROMPT_LANGUAGE / TIER / DEVICE 五种 kind，`MODEL_VERSION_OPTIONS` 和 `AUDIO_BACKEND_OPTIONS` 落到 `default: return undefined`；前端 `dist/webui.js` 里只有 `if (e.options?.length)` 才渲染 `select`，于是退化成 input。\n\n框架侧 `src/definition.ts` 的 `configOptions` 里有这两条，`src/config.ts` 里 `modelVersionOptions()` / `audioBackendOptions()` 也是现成的，看起来只是扩展面板这条路漏了。本地补两个 case 就恢复成下拉（补完 `voiceModel` 返回 3 项 options）。\n\n**2. 手填时代留下的值会让 world 起不来**\n\n之前手填了 UI 上显示的 `V2 Pro Plus`，升级后开 world 直接失败：\n\n```\nTypeError: Cannot read properties of undefined (reading 'every')\n    at WeightsJob.baseReady (src/install.ts:369)\n    at GptSovitsWorld.canStart (src/world.ts:1029)\n```\n\n应该是 `MODEL_FILES` 只有 `v5turbo` / `v2ProPlus` 两个 key，`resolveModelVersion()` 在非 cpu 档原样返回，`MODEL_FILES['V2 Pro Plus']` 为 undefined。面板接口也会报 `MODEL_FILES[this.version] is not iterable`。\n\n想请教两个方向：第 1 点是有意保留手填（允许实验值）还是漏了？第 2 点要不要在读配置时把显示名映射回 key（未知值回退 `auto` + 一条 warn），这样老用户升级不用手改 `config.json`。需要的话我可以直接提 PR。",
+      "createdAt": "2026-11-04T08:14:31Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJ-Fe",
       "author": "wocwang",

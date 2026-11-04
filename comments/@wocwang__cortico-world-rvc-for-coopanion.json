@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-rvc-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/466",
-  "total": 1,
+  "total": 2,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJ-nS",
+      "author": "Sillyhou",
+      "avatar": "https://avatars.githubusercontent.com/u/175188106?s=64&v=4",
+      "body": "反馈一个短音频必现的 bug（0.4.8，Coopanion 0.2.17，Windows 11）：\n\n「变声」和「翻唱」都报\n\n```\nValueError: invalid literal for int() with base 10: '【单次推理】\\n状态: 成功\\n\\n索引: ...\\n耗时: 特征 9.59s | F0 3.48s | 合成 117.90s'\n```\n\n变声报在 `worker.py:378`（`写出失败`），翻唱报在 `worker.py:492`（`混音失败`）。\n\n原因是 `run_vc()` 的非分段分支把上游返回值原样透传：\n\n```python\nif not chunked or len(audio) <= chunk:\n    return vc.vc_single(0, path, pitch, \"rmvpe\", current[\"index\"], index_rate, 0, 1.0, protect)\n```\n\n`vc.vc_single` 实际返回 `(状态文本, (采样率, 波形))`，而调用方按 `(采样率, 波形)` 解包，`int(result[0])` 就拿到整段日志。`CHUNK_SECONDS = 20.0`，所以短于 20 秒的音频必炸，长音频走分段分支反而正常；翻唱时分离出来的人声不足 20 秒也会炸。\n\n本地改成显式解包就好了：\n\n```python\nstatus, result = vc.vc_single(...)\nif not result or result[0] is None or result[1] is None:\n    return status, None\nreturn int(result[0]), result[1]\n```\n\n验证：4 秒「人声 + 伴奏」跑 `panels/cover/cover` → `phase=done`、`ms=2376`；3 秒纯音跑变声也正常。\n\n顺手提一句：失败时 `str(result[0])[-1500:]` 会把整段「【单次推理】…」塞进面板报错，看着比较长，方便的话可以只取最后一行。",
+      "createdAt": "2026-11-04T08:14:34Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJ5-K",
       "author": "Sillyhou",

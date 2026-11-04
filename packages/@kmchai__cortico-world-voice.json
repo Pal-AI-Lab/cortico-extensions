@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "@kmchai/cortico-world-voice",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "describe": {
     "tools": [
       {
@@ -135,6 +135,7 @@
     ]
   },
   "changelog": {
+    "0.4.3": "- 扩展介绍统一为中文的「定位 + 能力 + 边界」格式；npm `description`、市场中文介绍与 README 首段同步。\n- 标签按功能收紧：去掉 `local`。语音的合成在服务端完成，本包只做触发、过滤、队列与播放；保留 `voice`、`external-setup`、`requires-extension`、`experimental`。",
     "0.4.2": "- IndexTTS2 的模型提示词改为明确约束:调用 `voice_speak` 时只填 `text` 与 `instruct`,不要填 `emotion`、`voice`、`speed`;`instruct` 由服务映射到 `emotion_text`。\n- 通用环境提示词不再单独提 `voice_style`,并改成按模型片段决定可填字段;`voice_style` 只改后续语音的长期默认值,工具说明也注明不用于单句。",
     "0.4.1": "- 模型参数里的浮点输入改为 `step=\"0.01\"`，0–1 的强度、概率等参数用右侧步进器可精确到 0.01；整数参数仍是 1。",
     "0.4.0": "- 删除概率触发：不再有 `autoSpeak`、`autoProbability`、`autoFromText`、`autoTools`、`autoEvents`，也不再轮询事件或从工具参数自动找正文。\n- 语音只在三种显式路径出声：`voice_speak` 工具、最近用户消息命中 `explicitKeywords`、正文里的 `<tts>…</tts>`。`voice_style` 仍影响后续语音。\n- 环境提示词、工具说明、README 与配置页同步去掉自动朗读与概率文案；旧配置里的被删字段会被忽略。\n- 这是破坏性行为变更：升级后普通回复不再随机朗读。需要出声的调用方应改用 `voice_speak`，或在消息里明确要求语音。",

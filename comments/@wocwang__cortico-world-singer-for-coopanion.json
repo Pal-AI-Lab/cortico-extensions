@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-singer-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/467",
-  "total": 1,
+  "total": 2,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BJ-nv",
+      "author": "Sillyhou",
+      "avatar": "https://avatars.githubusercontent.com/u/175188106?s=64&v=4",
+      "body": "反馈一下资产下载源的问题。装声库的时候卡了很久，看了下 `src/catalog.ts` 和 `src/install.ts`，应该是源策略导致的（rvc / gpt-sovits 的 install 逻辑看起来是同一套拷贝，估计也一样）。\n\n**现状**\n\n`src/catalog.ts` 把源写死成镜像优先：\n\n```ts\nconst PROXIES = [\n  (url) => `https://ghfast.top/${url}`,\n  (url) => `https://gh-proxy.com/${url}`,\n  (url) => url,\n];\n```\n\n`src/install.ts` 的 `downloadFile()` 按顺序试 `for (const url of file.sources)`，但**只有抛错才换下一个**（HTTP 状态异常、大小不符、SHA-256 不符）。慢不算失败，所以一旦卡在第一个源，就会一直以那个速度下完整个文件。\n\n**实测**\n\n同一台机器、同一时段下 `Qixuan_v2.7.0_DiffSinger_OpenUtau.zip`（420,707,627 B）：\n\n| 源 | 速度 | 预计耗时 |\n| --- | --- | --- |\n| ghfast.top | 约 68 B/s | 1 个多小时 |\n| GitHub 直连 | 约 28 MB/s | 15 秒 |\n\n**还有一个坑**：没有任何代理检测。Node 内置 `fetch`（undici）默认不读系统代理和 `HTTP_PROXY`，所以开了代理它也还是先冲镜像。想走代理目前只能手动设环境变量，还得看 undici 认不认。\n\n**建议**\n\n1. 加个低速超时：比如 30 秒内平均速度低于 100 KB/s 就换下一个源（阈值你定），比现在的\"永不切换\"实用很多。\n2. 或者把 `PROXIES` 顺序暴露成配置项，让用户自己选先镜像还是先官方。\n3. 顺带可以考虑读一下 `HTTPS_PROXY` / `HTTP_PROXY`。\n\n我本地是先 curl 官方源下好、放到 `data/singer/` 目录（`hasFile` 只比大小，放对名字和大小就直接跳过下载），再触发 install 绕过去的。能用，但不太优雅，还是希望插件本身能自适应一下。",
+      "createdAt": "2026-11-04T08:16:50Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJkMz",
       "author": "YuYinDaJiang",

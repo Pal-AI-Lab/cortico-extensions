@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "@kmchai/cortico-world-service",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "describe": {
     "tools": [],
     "events": [
@@ -29,6 +29,7 @@
     ]
   },
   "changelog": {
+    "0.8.1": "- 扩展介绍统一为中文的「定位 + 能力 + 边界」格式；npm `description`、市场中文介绍与 README 首段同步；标签保持 `voice`、`local`、`external-setup`、`experimental`。\n- 只改元数据，无运行时变更；0.8.0 已发布 npm，按版本规则升 patch。",
     "0.8.0": "- llama.cpp 增加三种启动方式：`serve`（llama.app 的 `llama serve`）、`router`（ggml-org / Cortico 内置的 `llama-server --models-dir`）与 `single`（`-m` 单模型）。`options.launchMode` 显式选择；旧配置按 `args` 推断，空配置默认 `serve`。\n- `serve` 模式默认可执行文件改为 `llama(.exe)`，参数 `serve --host --port --models-dir`，任务按 `--embedding` / `--rerank` 开端点；`router` 保持 `llama-server`，任务按 `--embeddings` / `--reranking`。\n- 新增 `options.modelsDir`、`cacheDir`、`contextSize`、`nGpuLayers`、`parallel`；`cacheDir` 设为 `LLAMA_CACHE`，其余分别映射 `--models-dir`、`-c`、`-ngl`、`--parallel`。非 StartLux 条目现在也会补 `--host` / `--port`，不再依赖操作者在 `args` 里重复。\n- `/v1/embeddings` 与 `/v1/rerank` 在请求缺 `model` 时补条目的第一个模型（`models` 或目录里的第一个），适配路由模式必须带模型名的要求。\n- 修复「模型任务」选 `Embeddings + Rerank` 后回显成 `embeddings, rerank`：任务列表统一用无空格逗号匹配预设。\n- 服务地址的上游令牌字段改名为 `API Key`，与内置供应商一致；仍只存部署 `.env` 变量名。\n- 服务面板的 llama.cpp 运行时改为启动方式、GGUF 目录、缓存目录、上下文长度、GPU 层数、并行槽位；audiocpp 才显示后端、设备、线程与空闲卸载。\n- StartLux 伴生 `systemonePort` 默认从 8090 改为 8091，避开 Cortico 内置 llama.cpp 供应商的 8090。\n- 服务包 11 个文件 183 个测试全绿；typecheck、build:webui、smoke:webui 通过。\n- 版本按新增启动方式与配置项升 minor。",
     "0.7.0": "- 模型/任务层级修正：一个条目就是一个模型部署，`tasks` 决定路由；`systemone` 与 `embeddings` / `rerank` 同级。StartLux 不再是独立 systemone 服务，而是 `llamacpp` 条目下的模型（`tasks: ['systemone']`）。\n- llama.cpp 的 StartLux 条目同时托管 `llama-server`（条目端点）与伴生 `startlux-decide`（`options.systemonePort`，默认 8090）；两端都健康才算 online，任一端退出整组重启，停止结束两个进程。\n- StartLux 主进程自动补 `--host` / `--port`，强制 `--parallel 1 --ctx-checkpoints 0`，默认 `-b 16384 -ub 16384 -c 20480`；伴生进程自动设 `STARTLUX_LLAMACPP_BIDIR=server`，支持 `modelDir`、`startluxDir`、`startluxBinary`、`startluxArgs`、`thinkMode`、`gate`、`instant`。\n- `/v1/systemone` 按 `systemone` 任务选择条目：llama.cpp StartLux 走伴生端点，外部 `type: systemone` 走自己的 endpoint；`/v1/embeddings` 与 `/v1/rerank` 只选任务匹配的条目。\n- 服务面板新增「模型任务」；选择 SystemOne（StartLux）时显示模型目录、StartLux 目录/可执行文件、SystemOne 端口、思考模式/阈值与 Instant。外部 systemone 端点保留为独立类型。\n- 移除 0.6.0 的「systemone 托管 StartLux」预设；0.6.0 的本地配置需迁移到 llamacpp + tasks。\n- 服务包 11 个文件 177 个测试全绿；typecheck、build:webui、smoke:webui 通过。",
     "0.6.0": "- 新增 systemone 的 StartLux 本地启动预设：默认 `startlux-decide`，参数 `serve --model <options.modelDir> --backend llamacpp --llamacpp-url <options.llamacppUrl 或 http://127.0.0.1:8081> --host <endpoint host> --port <endpoint port>`；`options.thinkMode` 为 `auto` / `never` / `always` 时追加 `--think-mode`，`options.gate` 是有限数字时追加 `--gate`，最后追加条目 `args`。\n- 托管 systemone 时 `options.modelDir` 必填；缺失时条目保持 `off` 并给出原因，不拉起进程。外部 systemone（`manage:false`）仍只探活与转发。\n- 回环地址缺端口时 `systemone` 补 8090、`llamacpp` 补 8081；外部域名仍按 http/https 取 80/443。托管 systemone 的健康接口没给 `backend` 时，状态文案用 `llamacpp`。\n- 服务面板在 systemone 托管时显示「StartLux 本地预设」字段组：模型目录、llama.cpp 地址、思考模式与思考阈值；保存时校验模型目录、阈值范围与思考模式枚举，写回 `options` 并保留其他键；草稿切换不丢这些值。\n- README 补 StartLux 本地部署要点：GGUF 转换、`llama-server` 建议参数、Instant 模型限制与启动超时。\n- 新增 5 个测试（systemone 预设参数、缺省参数、缺 modelDir、外部 systemone、backend 文案），服务包 11 个文件 163 个测试全绿；typecheck、build:webui、smoke:webui、check:extension 通过。\n- 版本按新增启动预设升 minor。",
