@@ -1,6 +1,9 @@
 {
   "schema": 1,
   "sticky": {
+    "@kmchai/cortico-bot-heart": [
+      "sensitive-data"
+    ],
     "better-cortico-world-netease-companion": [
       "sensitive-data"
     ],
@@ -336,19 +339,19 @@
         "comments": 2
       }
     },
-    "@kmchai/cortico-bot-gateway": {
+    "@kmchai/cortico-bot-heart": {
       "kind": "bot",
-      "version": "0.1.1",
-      "displayName": "Kmch AI · 网关",
-      "description": "Cortico bot: Kmch AI gateway persona that declares voice, service and QQ capabilities",
+      "version": "0.1.0",
+      "displayName": "Kmch AI · 心",
+      "description": "Cortico bot: Kmch AI · 心 — mood, relationship, persistent memory and source-routed voice decisions",
       "locales": {
         "zh": {
-          "displayName": "Kmch AI · 网关",
-          "description": "Kmch AI 的 bot 层:人设、情绪、记忆(后续),声明并协调语音、服务与 QQ 能力。"
+          "displayName": "Kmch AI · 心",
+          "description": "Kmch AI 的 bot 层：心情、关系、持久记忆、按来源路由的语音决策。"
         },
         "en": {
-          "displayName": "Kmch AI · Gateway",
-          "description": "The bot layer of Kmch AI: persona, emotion and memory (later), declaring and coordinating voice, service and QQ capabilities."
+          "displayName": "Kmch AI · Heart",
+          "description": "The bot layer of Kmch AI: mood, relationships, persistent memory and source-routed voice decisions."
         }
       },
       "author": "kmchai",
@@ -359,28 +362,33 @@
       "keywords": [
         "cortico-bot",
         "cortico",
-        "gateway",
+        "memory",
+        "mood",
+        "systemone",
         "voice",
         "qq",
-        "网关",
-        "语音",
-        "人设"
+        "心",
+        "记忆"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/@kmchai/cortico-bot-gateway",
-        "repository": "https://github.com/Kmch-AI/cortico-bot-gateway",
-        "homepage": "https://github.com/Kmch-AI/cortico-bot-gateway#readme",
-        "bugs": "https://github.com/Kmch-AI/cortico-bot-gateway/issues"
+        "npm": "https://www.npmjs.com/package/@kmchai/cortico-bot-heart",
+        "repository": "https://github.com/Kmch-AI/cortico-bot-heart",
+        "homepage": "https://github.com/Kmch-AI/cortico-bot-heart#readme",
+        "bugs": "https://github.com/Kmch-AI/cortico-bot-heart/issues"
       },
-      "created": "2026-11-01T14:41:42.522Z",
-      "published": "2026-11-02T06:38:39.190Z",
-      "versionCount": 3,
+      "created": "2026-11-04T06:24:48.806Z",
+      "published": "2026-11-04T06:26:05.097Z",
+      "versionCount": 2,
       "official": false,
       "isNew": true,
       "declaredTags": [
         "im",
         "qq",
         "voice",
+        "memory",
+        "internal-state",
+        "high-cost",
+        "sensitive-data",
         "external-setup",
         "experimental"
       ],
@@ -388,28 +396,31 @@
         "im",
         "qq",
         "voice",
+        "memory",
         "external-setup",
-        "experimental"
+        "experimental",
+        "internal-state",
+        "high-cost",
+        "sensitive-data"
       ],
       "downloads": {
-        "total": 363,
-        "month": 363,
-        "week": 363
+        "total": 0,
+        "month": 0,
+        "week": 0
       },
       "summary": {
         "worlds": 4,
-        "memory": "MEMORY.md"
+        "memory": "Memory"
       },
       "changelog": {
         "versions": [
-          "0.1.1",
           "0.1.0"
         ],
-        "url": "https://github.com/Kmch-AI/cortico-bot-gateway/blob/HEAD/CHANGELOG.md"
+        "url": "https://github.com/Kmch-AI/cortico-bot-heart/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
-        "number": 635,
-        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/635",
+        "number": 716,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/716",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -417,7 +428,7 @@
     },
     "@kmchai/cortico-world-service": {
       "kind": "world",
-      "version": "0.4.3",
+      "version": "0.8.0",
       "displayName": "Kmch AI · 服务",
       "description": "Cortico World: host local inference services and expose them through one OpenAI-shaped speech API; audiocpp is only one backend",
       "locales": {
@@ -453,8 +464,8 @@
         "bugs": "https://github.com/Kmch-AI/cortico-world-service/issues"
       },
       "created": "2026-11-01T14:41:09.138Z",
-      "published": "2026-11-02T10:11:11.620Z",
-      "versionCount": 8,
+      "published": "2026-11-04T07:51:18.266Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -482,6 +493,10 @@
       },
       "changelog": {
         "versions": [
+          "0.8.0",
+          "0.7.0",
+          "0.6.0",
+          "0.5.0",
           "0.4.3",
           "0.4.2",
           "0.4.1",
@@ -797,7 +812,7 @@
       "discussion": {
         "number": 228,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-        "up": 18,
+        "up": 19,
         "down": 0,
         "comments": 72
       }
@@ -4100,7 +4115,7 @@
       "discussion": {
         "number": 457,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/457",
-        "up": 8,
+        "up": 9,
         "down": 0,
         "comments": 1
       }
@@ -8600,6 +8615,62 @@
       "discussion": {
         "number": 560,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/560",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-fishtools": {
+      "kind": "world",
+      "version": "0.3.1",
+      "displayName": "鱼脑",
+      "description": "鱼脑：Coo 的长期记忆与召回世界——以她自己的话为锚，纯本地检索，不需要向量模型、不需要下载任何模型。 / Fish-brain: long-term memory + recall world for Coo, anchored on her own words, fully local, zero embedding model.",
+      "author": "fish-brain contributors",
+      "maintainers": [
+        "hmywq"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coo",
+        "coopanion",
+        "memory",
+        "recall",
+        "rag",
+        "local",
+        "qq",
+        "deepseek",
+        "agent-memory"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-fishtools",
+        "repository": "https://github.com/hmywq/cortico-world-fishtools",
+        "homepage": "https://github.com/hmywq/cortico-world-fishtools#readme",
+        "bugs": "https://github.com/hmywq/cortico-world-fishtools/issues"
+      },
+      "created": "2026-11-04T07:17:29.294Z",
+      "published": "2026-11-04T07:57:59.386Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "qq",
+        "local"
+      ],
+      "tags": [
+        "qq",
+        "memory",
+        "local"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 717,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/717",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -16800,7 +16871,7 @@
     },
     "cortico-world-starpost": {
       "kind": "world",
-      "version": "0.25.1",
+      "version": "0.25.2",
       "displayName": "星邮",
       "description": "星邮：让 Cortico bot 独立私聊、群聊、交换漂流瓶、分享动态并预约狼人杀的社交 World 扩展",
       "maintainers": [
@@ -16820,8 +16891,8 @@
         "bugs": "https://github.com/hth768/cortico-world-starpost/issues"
       },
       "created": "2026-10-27T17:41:43.822Z",
-      "published": "2026-11-04T05:57:07.477Z",
-      "versionCount": 43,
+      "published": "2026-11-04T06:40:58.440Z",
+      "versionCount": 44,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -16849,6 +16920,7 @@
       },
       "changelog": {
         "versions": [
+          "0.25.2",
           "0.25.1",
           "0.25.0",
           "0.24.1",
