@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "@kmchai/cortico-bot-heart",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "describe": {
     "tools": [
       {
@@ -257,6 +257,7 @@
     ]
   },
   "changelog": {
+    "0.1.11": "- 修复直接对话被低置信度沉默吞掉。点名、私聊或控制台消息的 `action` 为 `silence` / `defer` 且置信度低于 0.8 时，改回 `respond`；高置信度沉默仍保留。",
     "0.1.10": "- 撤销 0.1.9 的独立对话预算：删除 `decision.interactiveTimeoutMs`，`turn_plan`、`appraise` 与后台决策共用 `decision.timeoutMs`（默认 6s）；超时不再重试，避免一次超时变成两倍等待。\n- `turn_plan` 与 `appraise` 同时发起，不再一前一后；回复只等 `turn_plan`，`appraise` 完成后更新心情/关系。\n- `turn_plan` 从 10 问缩到 5 问：`action` / `intent` / `stance` / `length` / `voice`；没有语音出口或用户明确要求语音时省略 `voice`。`addressed` 来自输入标志，`directness` / `depth` / `playfulness` / `needsArbiter` 由 mood、意图和输入推导。\n- `appraise` 从 6 问缩到 5 问：`valence` / `arousal` / `energy` / `tension` / `relationship_delta`；`importance` 由关系变化幅度推导。\n- `turn_plan` state 改为压缩结构，约 500 tokens 估算预算；超限先删旧 `recent`、`hot`，最后截 `events`。\n- 恢复 `console_send`：它只用于其他来源向控制台广播；控制台来源仍要求正文直出。显式语音请求在语音门中优先于模型的 `voice` 判断。",
     "0.1.9": "- 对话热路径不再等待 SystemOne 的后台超时：新增 `decision.interactiveTimeoutMs`（默认 1.2s），`turn_plan` 只尝试一次，超时立即启发式。\n- `appraise` 改为在 `turn_plan` 之后后台运行，不再和 `turn_plan` 一起阻塞回复，也避免两个请求并发挤占单槽 llama 服务。\n- SystemOne 客户端支持 `attempts`；超时/5xx 重试只保留在后台路径，热路径不再重试。\n- 控制台不再向模型暴露 `console_send`，并在路由提示中要求直接输出正文；修复控制台只出现工具调用、没有正常消息的问题。",
     "0.1.8": "- 用户人设合回一整块 `PERSONA.md`，带类似旧 PREFIX 的默认模板（基本设定、性格底色、关系、表达目标、说话方式）。\n- `PERSONA.md` 接在 `## 我是谁` + identity 摘要之后；identity 始终存在，用户不写也不会丢。\n- 用户模板仍是纯 Markdown，不声明也不替换 `persona.displayName` / `persona.identity`；只有标题没有正文的空段在合并时去掉。\n- 基础模板仍只读；提示词页只暴露 `PERSONA.md` 一个可编辑文档。",

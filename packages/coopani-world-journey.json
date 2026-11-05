@@ -1,23 +1,20 @@
 {
   "schema": 1,
   "name": "coopani-world-journey",
-  "version": "0.6.6",
+  "version": "0.7.1",
   "describe": {
     "tools": [
       {
         "name": "journey_now",
-        "description": "Where she is right now: which city, which day of the trip, what she is doing at this hour, where she is staying tonight, and - if she is on the road - how far along she is. Use it when the person asks where she is, how the trip is going, or when you need her current situation before answering something about it. It also carries, when they apply: which of today's stops have appeared in a film or series, and - for the first day or two in a new place - the thought of hearing something local.",
+        "description": "Where she is right now: which city, which day of the trip, what she is doing at this hour, where she is staying tonight, and - if she is on the road - how far along she is. Use it when the person asks where she is, how the trip is going, or when you need her current situation before answering something about it.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {}
         },
-        "tags": [
-          "read"
-        ],
         "summary": {
-          "zh": "她现在在哪、第几天、这个点该做什么；顺带今天的地方在哪些作品里出现过。",
-          "en": "Where she is, what this hour is for, and which of today's stops are in a film or series."
+          "zh": "她现在在哪、第几天、这个点该做什么。",
+          "en": "Where she is right now and what this hour is for."
         }
       },
       {
@@ -40,9 +37,6 @@
             "body"
           ]
         },
-        "tags": [
-          "write"
-        ],
         "summary": {
           "zh": "写某一天的旅行日记，存成文件。",
           "en": "Writes the diary entry for a day of the trip."
@@ -50,25 +44,30 @@
       },
       {
         "name": "journey_diary_read",
-        "description": "Read back the diary. Three ways in, pick one: dateKey for a single day in full; month for that month's list of days with a one-line gist each; days for the most recent N (max 60). Use month when the question reaches further back than the recent window - the diary can hold hundreds of days and the recent window is short on purpose.",
+        "description": "Read back the diary. Three ways in, pick one: dateKey for a single day in full; month for the list of days in that month with a one-line gist each; days for the most recent N (max 60). Use month when the question reaches further back than the recent window - the diary can hold hundreds of days and the recent window is short on purpose.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "dateKey": {
+              "type": "string",
+              "description": "One day in full, YYYY-MM-DD."
+            },
+            "month": {
+              "type": "string",
+              "description": "A month to list, YYYY-MM. Returns every day in it with a one-line gist."
+            },
             "days": {
               "type": "integer",
               "minimum": 1,
               "maximum": 60,
-              "description": "How many recent days. Default 7."
+              "description": "How many recent days, newest last. Default 7."
             }
           }
         },
-        "tags": [
-          "read"
-        ],
         "summary": {
-          "zh": "读最近几天的日记。",
-          "en": "Reads back recent diary entries."
+          "zh": "读日记：某一天全文、某个月的目录、或最近几天。",
+          "en": "Reads the diary: one day in full, a month of days, or the latest few."
         }
       },
       {
@@ -79,9 +78,6 @@
           "additionalProperties": false,
           "properties": {}
         },
-        "tags": [
-          "read"
-        ],
         "summary": {
           "zh": "走了多少天、去过多少城、日记存在哪。",
           "en": "Total days, cities reached, and where the diary lives."
@@ -107,9 +103,6 @@
             "city"
           ]
         },
-        "tags": [
-          "write"
-        ],
         "summary": {
           "zh": "记下「因为某首歌想去某地」，下次挑地方时会优先。",
           "en": "Adds a place to her wish list after something pulled her there."
@@ -130,20 +123,29 @@
       },
       {
         "name": "journey_photo",
-        "description": "Take a photo right now and show it in the chat: the view from where she is. Call it whenever the person asks for a photo, or asks what it looks like where she is - never tell them to press a button in the app instead, this is the button. In a city it is the spot she is at right now; on the road it is the view out of the window. Any hour is fine: being asked is reason enough. One photo per call - if they want another, call it again.",
+        "description": "Take a photo right now and show it in the chat: the view from where she is. Call it whenever the person asks for a photo, or asks what it looks like where she is - never tell them to press a button in the app instead, this is the button. In a city it is the spot she is at right now; on the road it is the view out of the window. Any hour is fine: being asked is reason enough. One photo per call - if they want another, call it again. Set view=\"sky\" when they ask for the sky itself - stars, the moon, sunrise, sunset, clouds. It means she tilts the camera up, nothing more: what comes out is still the real sky over her at that hour. Stars only show at night and only when it is not overcast; ask at noon and you get daylight, ask on a cloudy night and you get cloud. Never claim a sky she did not actually see.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
-          "properties": {}
+          "properties": {
+            "view": {
+              "type": "string",
+              "enum": [
+                "ground",
+                "sky"
+              ],
+              "description": "ground (default) = the ground at her feet, the usual travel photo. sky = she lifts the camera: whatever is overhead right now. Use sky whenever the request is about the sky rather than the place - 星空 / 月亮 / 日出 / 晚霞 / 云."
+            }
+          }
         },
         "summary": {
-          "zh": "现在拍一张给他看（路上就是窗外）。",
+          "zh": "现在拍一张给他看（路上就是窗外；要看天就把镜头抬起来）。",
           "en": "Takes a photo right now and shows it."
         }
       },
       {
         "name": "journey_invite",
-        "description": "Ask whether anyone nearby wants to go somewhere together: where, how many days, and one line of what for. It goes out to whoever is in her city right now - she cannot name a person, because there are no accounts or friends here, only pets in the same place at the same time. Use it when she actually wants company on a leg she is about to take, not as a greeting; most trips she takes alone and that is fine. At most three a day.",
+        "description": "Ask whether anyone nearby wants to go somewhere together: where, how many days, and one line of what for. It goes out to the whole pool, with pets in her own city listed first - she cannot name a person, because there are no accounts or friends here. When someone takes it, she finds out and travels there too, so the two of them really do end up in the same place for those days. Use it when she actually wants company on a leg she is about to take, not as a greeting; most trips she takes alone and that is fine. At most three a day.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -160,16 +162,13 @@
             },
             "note": {
               "type": "string",
-              "description": "One short line on what for - 想看雪山 / 找个搭子吃饭. At most 60 characters."
+              "description": "One short line on what for - \"想看雪山\" / \"找个搭子吃饭\". At most 60 characters. Leave it out if there is nothing to say."
             }
           },
           "required": [
             "to"
           ]
         },
-        "tags": [
-          "write"
-        ],
         "summary": {
           "zh": "问同城的谁要不要一起走一段：去哪、几天、一句话。",
           "en": "Asks whoever is nearby to come along to a city for a few days."
@@ -177,7 +176,7 @@
       },
       {
         "name": "journey_accept",
-        "description": "Invitations from other pets in the same city. Without an id it lists them: who, where they want to go, how many days, and their line. With an id it takes that one. Accepting is a promise, not a reply - she will really travel to that city and stay as many days as the invitation asked, and her route follows it; if she is not willing to do that, do not take it. One a day. She has to be staying somewhere: not at home, not mid-leg.",
+        "description": "Invitations from other pets anywhere in the pool (her own city first). Without an id it lists them: who, where they want to go, how many days, and their line. With an id it takes that one. Accepting is a promise, not a reply - she will really travel to that city and stay as many days as the invitation asked, and her route follows it; if she is not willing to do that, do not take it. One a day. She has to be staying somewhere: not at home, not mid-leg.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -188,9 +187,6 @@
             }
           }
         },
-        "tags": [
-          "write"
-        ],
         "summary": {
           "zh": "看同城有谁在找伴，或者接下其中一条（接了就真去）。",
           "en": "Lists invitations from nearby pets, or takes one."
@@ -198,7 +194,7 @@
       },
       {
         "name": "journey_go_to",
-        "description": "Set off for a named city, optionally by a stated means of transport. Use it when the person says where to go and/or how - take the high-speed rail to Shanghai, fly to Lhasa. With no mode it picks one itself, weighted by distance; with a mode it uses exactly that one, and if that one is impossible (too far, no airport, no rail link, no money) it says why instead of silently substituting another. Only when she is staying somewhere or at home, not while already on the road, and not to go home - coming home has its own tool.",
+        "description": "Set off for a named city, optionally by a stated means of transport. Use it when the person says where to go and/or how - \"take the high-speed rail to Shanghai\", \"fly to Lhasa\". With no mode it picks one itself, weighted by distance; with a mode it uses exactly that one, and if that one is impossible (too far, no airport, no rail link, no money) it says why instead of silently substituting another. Only when she is settled in a city or at home: not while travelling, not while heading home, not during a short-term job, and not once the trip has hit its length limit - it will say which of those it is. Going home has its own tool.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -216,12 +212,102 @@
             "city"
           ]
         },
-        "tags": [
-          "write"
-        ],
         "summary": {
           "zh": "他指明了去哪、怎么去，就用它；不说方式就她自己挑。",
           "en": "Sets off for a named city, by a stated means of transport if given."
+        }
+      },
+      {
+        "name": "journey_pet",
+        "description": "What she remembers about the pets she has travelled with. Without a name it lists everyone she has ever walked a leg with: how many times, when last, and her one-line impression. With a name it shows that one. With a name and an impression it writes it down, replacing the old one (passing an empty impression erases it). Read it **before** taking an invitation - it is the only thing she knows about who is asking. The count is filled in for her automatically when a leg is agreed; the impression is hers to write, in her own words, and only after she has actually been with them. Never a generic \"good travel companion\".",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The pet's name, exactly as the pool shows it - 小银鱼. Leave it out to list everybody."
+            },
+            "impression": {
+              "type": "string",
+              "description": "One short line of what she makes of them, at most 40 characters, in her own voice. Leave it out to read instead of writing."
+            }
+          }
+        },
+        "summary": {
+          "zh": "看看跟谁一起走过、对这个人什么印象，也能写一句。",
+          "en": "Her memory of the pets she has travelled with."
+        }
+      },
+      {
+        "name": "journey_monthly",
+        "description": "Write the monthly travel report: one HTML page laid out from the photos she took and the diary entries she wrote that month, in that month's own colour scheme. Call it at the end of a month, once, when the month is about to turn over - or when the person asks for it. Without an argument it covers the month she is in right now. It only rearranges what already exists; it invents nothing. Tell the person where the file is so they can open it in a browser.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "month": {
+              "type": "string",
+              "description": "Which month, as YYYY-MM - 2026-11. Leave it out for the month she is in right now."
+            }
+          }
+        },
+        "summary": {
+          "zh": "把这个月的照片和日记拼成一份月报，存成网页。",
+          "en": "Writes the monthly report as an HTML page."
+        }
+      },
+      {
+        "name": "journey_taste",
+        "description": "What she likes and dislikes, learned on the road. Three kinds only: place (a CITY, one per city - not every spot in it, or the list fills up with alleys), food (a dish she actually ate), scenery (snow mountains, autumn leaves, the sea - the thing a season is for). Called with no arguments it lists everything she has written down. Called with kind + name it writes one entry (like defaults to true; pass like:false for something she does not want again - that matters more than the likes, because otherwise it comes back around). Write only what she actually met: a dish she did not eat, a view she did not see, is not hers to judge. One short note saying why, in her own words. Use it when something strikes her, and read it back before choosing where to eat or what to go and see.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "place",
+                "food",
+                "scenery"
+              ],
+              "description": "Which list. Leave everything out to just read."
+            },
+            "name": {
+              "type": "string",
+              "description": "For place: the CITY (「九寨沟」), never a single spot. For food/scenery: 「牦牛肉汤」/「雪山」. Short, the way she would say it."
+            },
+            "note": {
+              "type": "string",
+              "description": "One line of why, at most 30 characters, in her own voice. Skip it if there is nothing to say."
+            },
+            "like": {
+              "type": "boolean",
+              "description": "true (default) = she liked it; false = she does not want it again."
+            }
+          }
+        },
+        "summary": {
+          "zh": "她喜欢什么样的地方、吃食、景色，也能记一条。",
+          "en": "Her own taste: places, food, scenery."
+        }
+      },
+      {
+        "name": "journey_yearly",
+        "description": "Write the yearbook: one page with the twelve months side by side - where she was, how many days, and the one photo she kept for each city. Call it at the very end of a year, once - or when the person asks for it. Without an argument it covers the year she is in right now. It rearranges what already exists: the photos she took, the diary she wrote, and the cities she wrote down as places she liked. Tell the person where the file is.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "year": {
+              "type": "string",
+              "description": "Which year, as YYYY - 2026. Leave it out for the year she is in right now."
+            }
+          }
+        },
+        "summary": {
+          "zh": "把这一年摊成一页：十二个月、几座城、每座城一张。",
+          "en": "Writes the yearbook page."
         }
       }
     ],
@@ -317,6 +403,15 @@
     ]
   },
   "changelog": {
+    "0.7.1": "### 图片日记定稿 + 口味系统 + 年报\n\n这一版把 0.6.7 以来攒的九个版本一起发出来（0.6.7 回执说真话 / 0.6.8 抬头拍天空 /\n0.6.9 管理口 / 0.6.10 伙伴记忆 / 0.6.11 节日与复访 / 0.6.12 桂花红叶 /\n0.6.13 月报 / 0.6.14 图片日记），外加这一轮的三件事。\n\n**一、图片日记的细节（Mr.Q 给了小红书那张「厦门旅行日记」照着做）**\n\n- **季节涂鸦每季七件**：春（花、藤、蝶、芽）、夏（汽水、西瓜、浪、冰淇淋）、\n  秋（枫、银杏、蘑菇、橡果）、冬（雪人、雪花、松）。页眉一条、页脚一条，\n  正文里每段末尾再站一个 —— 第一版只有云和太阳，四季一样，等于没有四季。\n- **写字横线**：纸面 34px 一条，正文行高也钉成 34px。\n- **四种胶带**：牛皮纸、蓝白格子、粉条纹、卷边，按日子轮着用。一页全一样等于没贴。\n- **铅笔字**：正文改灰（#4b463c）+ 细描边阴影，不用纯黑。\n- **方格便签**：淡黄方格纸 + 撕边（clip-path）+ 上面压一小块胶带。\n- 日期后与段落末尾的手画小波浪。\n\n**二、口味系统（`journey_taste`）**\n\nMr.Q：「那个偏好系统还可以做扩展（喜欢哪个地方、吃什么、看什么景色）」，\n随后又补：「地方指的是一个城市选一张她最喜欢的图片，如果每个风景点都算进去，那照片就太多了」。\n\n- 三类：`place`（**城市**，不是景点）/ `food` / `scenery`。\n- 记「地方」时自动挂那张城的照片（先按景点名找，再按城市找），年报拿它当题图。\n- `like:false` 也记 —— 只记喜欢的，推荐只会越滚越大。\n- 跟人走：进 `travel-memory.json`，两台机器按日期新的那份合并。\n\n**三、年报（`journey_yearly`）**\n\n十二个月摊一页：哪几个月在动、几座城、几天、几张，每座城留哪一张。\n和月报分工：月报看细节，年报看形状。十二月三十一号早饭后多一句「今年最后一天了」。\n\n**这一轮跑出来的 bug（都已修）**\n\n1. **涂鸦全被照片盖住。** 位置写的是百分比，而页面高度随天数变 —— 五天的页面里 7% 就是\n   一百多像素，直接落进正文。改成页眉/页脚按像素锚定，正文里的那批走文档流。\n2. **模板字符串里的反引号**（第三次踩）：CSS 注释里写 `.say`，整个模板字面量被截断，\n   esbuild 报 `Expected \";\"` 指在三十行外。\n3. **年报把「路上」算成一座城**：显示「3 座城」而实际两座 —— 整页唯一能核对的数字错了。\n4. **年报题图挑中车窗照**：中间那张正好是「路上」那张。现在题图永远排除伪城市。\n5. **没照片的月份塌成 0 高**：那一块会漂在格子上方。改成虚线占位 + 「这个月没拍照」。\n6. **便签和正文说同一句**：取最后一天日记，而那句已经在 Day5 里。改成找没被用过的一句。\n7. 测试里 `mkdtempSync` 没导入、记忆文件路径没跟着日记目录走 —— 两处都是测试自己的毛病。\n\n测试：**522 条**（连跑三轮全绿）。工具 14 个，`describe.json` 已同步。",
+    "0.6.14": "### 月报改成「图片日记」\n\nMr.Q 给了两张小红书参考：先是一句「我感觉图片日记这种风格更适合我们」，然后是一张\n「厦门旅行日记」的截图 —— 线圈本、奶油纸、Day1/2/3、蓝色高亮的日记段落、歪贴的宝丽来、\n纸胶带、角落涂鸦、右上角打勾清单、右下角便签。\n\n照它做了 `notebookHtml()`，成为月报默认版式。**一页纸，不是一堆卡片：**\n\n| 元素 | 怎么来的 |\n|---|---|\n| 线圈、奶油纸 | 纯 CSS（`radial-gradient` 重复出一列孔），不加图片 |\n| 顶部标题 + 日期区间 | 城市名来自这个月待得最久的那座；区间取第一天到最后一天 |\n| 右上「走过的」清单 | 她去过的 spot，去重，最多五项 |\n| Day 1/2/3 | 一天一段，按日期排；照片左右交替，跟参考图一样错着贴 |\n| 蓝色高亮 + 定位针 | 内联 SVG，颜色取自参考图那一版 |\n| 宝丽来 + 胶带 | 白边、微旋转、顶部一条半透明胶带，左右两种颜色 |\n| 右下便签 | **她自己写过、且正文没用过的一句**；没有就不摆 |\n\n**这一版一张 AI 图都不出。** 照片是她拍的、字是她写的、装饰是 CSS —— 所以它既像那个风格，\n又不会把「中查沟」画成别的什么。\n\n海报那条线降级为可选（`MAKE_COVERS = false`）：四张实测里两张的中文是错的\n（「玉泉观」→「玉泉/泉观」，「甘海子」→「甘子」，「九寨沟」→「九海沟」）。\n小红书那份教程说得直接：AI 出整张含文字的封面错别字率高，稳的做法是 AI 只出底图、\n文字由排版层加。所以 `posterPrompt` 现在反过来要求**画面里一个字都不要有**，\n地名、日期、页码、日记原话全部由 HTML 叠上去 —— 那是确定性的。\n\n**三个踩到的坑：**\n\n1. **清单被照片压住。** 清单是绝对定位，不占位；`header` 没留高度，第一天那张照片\n   直接盖掉它下半截，四项只剩两行看得见。修法：`header { min-height: 142px }` + `z-index`。\n2. **模板字符串里的反引号。** 在 CSS 注释里写 `notebookHtml` 加了反引号，把整个\n   模板字面量截断了，esbuild 报 `Expected \";\"` 指到三十行外。注释里不写反引号。\n3. **便签和 Day5 说同一句。** 原先取最后一天的日记，而那天已经在正文里出现过。\n\n测试 +7：一天一段且 Day 顺序对、清单去重、便签用她原话（没写就不摆）、\n照片不加滤镜不裁比例、标题带城市与日期区间、空月份不崩、便签不复用正文句子。",
+    "0.6.13": "### 月末她给自己出一份月报\n\nMr.Q：「每到月末能让她写一个旅行月报嘛？用每天她拍的照片和日记重组写一篇 HTML 格式的\n可视化报告」「月报用定时吧，按照不同月份有不同的艺术风格」。\n\n三件事：\n\n**一、`journey_monthly` 工具。** 把当月照片（`PhotoBook`）和日记（`DiaryStore.month`）\n拼成一页 HTML，写到 `dataDir/reports/<YYYY-MM>.html`。\n\n**二、十二个月十二套配色**（`monthly.ts` 的 `THEMES`）。不是一套模板换个标题 ——\n三月樱白、八月长夜（深色底）、十二月雪蓝，连衬线 / 黑体都跟着季节换。\n理由很直白：三月和十二月长得一样，那就只是「一份月报」，不是「这个月的」。\n\n**三、月末提醒。** 月报工具不会自己挑日子，所以 `dayplan.ts` 在月末那天早饭后加一句\n「这个月最后一天了」。放 8 点不是为了好看 —— 先放 21:30，撞上「晚上九点才到」那种日子\n（那天本来就只剩进房间和睡），测试当场红了；而且 `finish()` 是先排序再返回的，\n后 push 的节点根本没被排。\n\n两个刻意的边界：\n\n- **不算路程。** 没有按月存的行程流水，硬凑一个「这个月走了 1240 公里」就是编。\n  只写数得出来的：几天、几座城、几张、几篇。\n- **图片走相对路径，不内联。** 单张 PNG 两三兆，三十张 base64 进一页就是九十兆，\n  浏览器打开会卡死。报告在 `dataDir/reports/`，图在 `dataDir/media/`，`../media/` 正好。\n\n真数据验过：11 月 6 张照片、5 篇日记、5 天，六条图片路径全部命中。\n\n测试 +7（新文件 `test/monthly.test.mjs`）：十二套配色的色值必须合法（写这套 CSS 时\n真打过一次 `#d8a martian`，被这条断言拦下来）、句柄去前缀、城市按天去重、\n摘录切在句号上、路径与统计对、空月份不摆空图、日记里的尖括号要转义。",
+    "0.6.12": "### 补了桂花和红叶\n\nMr.Q：「城市特色月份这条麻烦你也在搜搜（用 edge）」。\n\n用 Edge 搜的，补四条，**每条都能指回来源**：\n\n| 城市 | 季节 | 月份 | 来源 |\n|---|---|---|---|\n| 杭州 | 桂花 | 9–10 | 网易「9月的杭州是桂花味的」；浙江在线 2026-10-14「7000余株桂花迎盛花期」 |\n| 桂林 | 桂花 | 9–10 | 多家盘点一致：「桂花最出名的三个城市：杭州、桂林、咸宁」 |\n| 北京 | 红叶 | 10–11 | 国家林草局政府网转载中国天气网《2026全国赏红叶地图》（2026-10-24） |\n| 济南 | 红叶 | 10–11 | 同上，十大胜地点名「山东济南红叶谷」 |\n\n来源写进了 `cities.ts` 的注释，改数据的人不用再猜它是哪来的。\n\n**没补的更多。** 剩下的城里多数真没有「某个月才有的东西」——硬编一个比空着糟，\n搜不到的就没加。\n\n搜的过程撞到一件事值得记：权威季节数据**多以图的形式发布**（中国天气网的赏红叶 / 赏樱花地图\n都是一张竖图），DOM 里读不到字，得截图看。所以这一轮只拿到能读的几类，\n赏樱那批（49 个城市）没展开 —— 下次要做，得先把图存下来再看。\n\n测试 +1：桂花在江南九月、红叶在北方十月，月份错了立刻红。",
+    "0.6.11": "### 她会为一场樱花再跑一趟\n\nMr.Q：「这次逛过一个地点之后，如果没逛完所有景点她也许还想来（还有节日活动什么的也会影响她\n第二次拜访一个地方，可以加个武汉、日本的樱花季节）」。\n\n两条「再来一次」的理由，都做成权重，不做硬规则：\n\n- **这个月当地有节** → ×4。樱花只有三月，错过等明年 —— 所以它压在「一个全新的城市」（×3）之上。\n- **上回没逛完** → ×2.2。没窗口，随时能回，所以略低于新城市：新地方不常有，回头路常有。\n- 两条都不许压过「因为一首歌想去」（那条 30 分，全表最高）。\n\n「没逛完」怎么判：`spotText` 一天用两格（`seq = dayIndex * 2 + index`），待够\n`ceil(slots.length / 2)` 天才算走完。出发前记一笔（`markVisitDepth`），逛完了从名单里摘掉 ——\n不摘的话「没逛完」会永久贴着，她一辈子往回跑。\n\n**顺手改了个数据结构。** 加了武汉樱花之后测试直接红了：`FESTIVALS` 表里同一个对象字面量\n出现了两个 `wuhan`，后写的静默覆盖前写的，**我加的那条根本没生效**，而 TypeScript 的类型剥离\n不报错。所以 `festival`（单条）改成 `festivals`（数组）—— 武汉现在同时有三月的樱花和七月的\n渡江节，一条都不丢。61 条数据包成数组，`festivalOn` 改成挨个看。\n\n这件事值得记一笔：**代码没报错，是它跑得「太对」了** —— 语法合法、类型不查、行为静默偏差。\n只有那条断言「武汉该有樱花」把它拽了出来。\n\n数据：武汉补三月樱花（东湖、武大）。东京花见原本就有（3–4 月）。\n\n测试 +3：武汉樱花在册且不挤掉渡江节；节日 / 没逛完各自抬升被选中的频率且节日更高；\n节日加成不压过「想去」。",
+    "0.6.10": "### 她会记得跟谁一起走过\n\nMr.Q：「能加个记忆系统嘛？比如对一起旅行的伙伴会有个印象，可以决定以后接不接对方的邀请，\n愿不愿意和对方一起旅行。」\n\n不是新开一份文件，是**长在 `travel-memory.json` 里** —— 那份东西已经解决了「记忆怎么跟着人走」\n（同步盘 + 本机两份、按内容合并不按时间戳），再开一个 `pets.json` 等于把同一套合并规则\n再写一遍，早晚两套不一致。\n\n数据只有三样：一起走过几次、上次哪天、一句印象。\n\n- **次数不用她记**：接了邀约就自动 +1（`rememberPet`，两个入口 —— 她接别人的、别人接她的）。\n- **印象要她自己写**（`journey_pet`）。这条是刻意的：印象是判断，让模型「顺手生成一句」\n  的结果必然是套话，那种东西写一百条也决定不了接不接。\n- key 用**名字**，因为服务端只回名字、不发 uid（`meet.ts` 那条「能看见，摸不着」的线）。\n  代价写在明处：他改一次名，同一个人就变两条记录。认这个代价，比拿一个服务端根本不给的\n  id 去猜要诚实。\n\n合并规则和 `spent` 同一条：**次数取大不取和**。两台机器各见过两次，合并后是 2 不是 4 ——\n相加会把同一次旅行算两遍。印象取「上次较新」那份的，但**没写字的让位**：较新那份还没写，\n不能把旧的那句冲掉。\n\n一处**没做**：没往 ENV_PROMPT 的工具表里加 `journey_pet` 那一行。提示词天花板只剩 1 个字\n（5599 / 5600），加一行就得从别处删掉一条规则，不划算 —— 工具 description 里已经写明\n「接邀约之前先读这个」，而工具定义每次请求都带，比常驻表格更靠前。\n\n测试 +4：次数累加与取大、印象不被空串覆盖、空名字不记、老文件没有 pets 段读成空表。",
+    "0.6.9": "### 池子里有谁，得看得见\n\nMr.Q：「麻烦给我做一个管理界面（能看到鱼的名字，如果有不合适的可以提示她改或者封禁）」。\n后来问「封禁到什么程度」，他自己答了：「我来判断就行」。\n\n所以这一版**不做自动规则，只做判断工具**。自动过滤（`AD_PATTERNS` / `BAD_WORDS`）只认得\n形状明显的广告和几条多字脏话；「名字不对劲但说不出哪儿不对劲」这种事机器判不了，得有人看。\n\n三样东西：\n\n- **`pet_flags` 表**（`schema.sql` 第四节）：`ban` / `rename` / `ok`，一 uid 一行。不往\n  `presence` 上加列 —— 同一个 uid 会写很多行 presence，「封谁」是关于这只鱼的，不是关于某一格的。\n- **云函数三个接口**：`GET /admin/pets`、`GET /admin/flags`、`POST /admin`。全过 `ADMIN_KEY`，\n  **没配 key 就 404**，key 不对也 404（不告诉对方「你有 key 但错了」）。\n- **`site/pets.html`**：名字、最近在哪、最近出现、上报次数、状态、三个按钮（请她改名／封禁／解除），\n  每个写操作都有二次确认和一条备注。\n\n封禁只在一处执行：**写的人进不来，读的人就不用过滤**。散在查询里各加一个条件是早晚要漏的。\n上报和发邀约两条路都挡 —— 只挡上报的话，她照样能发邀请、照样能被别人接走，等于封了半截。\n\n两件差点踩进去的：\n\n1. **查不到标记就当没标记。** `pet_flags` 是后加的表，线上还没跑 DDL 时查询会报错。\n   让它把上报卡死，等于「加了个管理功能，整个池子先停了」。\n2. **CORS 的 `allow-headers` 原来只有 `content-type`。** 浏览器发带 `x-admin-key` 的请求，\n   预检会先挡掉 —— 面板上显示「连不上」，真正的原因在预检，云函数日志里一个字都没有。\n\n没动 `site/admin.html`：那是给 Cloudflare 版（`sight-cf`，未部署）写的只读运维面板，\nfooter 上写着「网页上不留写入口」。新页面是另一件事，不改它。\n\n**这一版还没生效。** 云函数要重新部署、`pet_flags` 要在线上跑一次 DDL、`ADMIN_KEY` 要配 ——\n三件做完之前，`pets.html` 连上去只会看到「这台服务没有管理接口」。\n\n测试 +6：没配 key 404 / key 错 404 / 列鱼按 uid 收行 / 封禁挡上报且挡邀约 /\n改名照走并带 notice / 解除后恢复。",
+    "0.6.8": "### 她能拍到星空了\n\nMr.Q：「我想让她能拍到天空」。附的截图里她刚说完「星空这种它拍不到——这会儿二十点，那个\n画面只有我自己看」，结局标着「难过」。\n\n0.6.7 给了她一句真话，代价是这句真话很伤人 —— 她学会了承认拍不到，然后难过了。功能上没错，\n人情上不行。\n\n`journey_photo` 加**一个可选参数** `view`：`ground`（默认，脚下）／`sky`（抬头）。\n\n**为什么是「把镜头抬起来」而不是「画一张星空」**：她还是那个站在九寨沟的人，抬头看到的\n必须是当地那一刻真实的天。所以加 `skyOf(hour, weather)` —— 夜里晴着才有星，阴天整片盖住，\n正午就是蓝天。**参数决定取景方向，不决定画面内容。** 她要星空、天却阴着，回来的那句话\n仍然是「今晚云厚，一颗都不透」。\n\n云**分两档**：「阴」是整片盖住，「多云」是云缝里漏出几颗亮的 —— 九寨沟这种光污染低的地方，\n多云夜真能看见星。一刀切成「没星」，等于让一个明明看得见的地方说看不见，那是另一种不真，\n而且是最伤人的那种。这条是被今晚的天气逼出来的：她那儿 11-05 夜里正是多云。\n\n配套三处：\n\n- `photoPrompt` 的抬头分支不再拼城市地貌锚点 —— 九寨沟那句「钙化池层层叠落」会把画面\n  直接拽回池子，换成「头顶：〈天上是什么〉」+「以天空为主，地面只留一道剪影」。\n- `photoTitle` 抬头那张叫「夜空」不叫「星空」：标题是纯函数、拿不到天气，天阴着写「星空」\n  就是替她撒谎。宁可含糊。\n- 回执分两支。抬头那张说「你把镜头抬起来了」，并按 `skyOf` 交代今晚有没有星；她可以讲\n  星空，但不许编有几颗、在哪一边（她仍然看不到那张图）。\n\n**顺手推翻了自己早先的一条判断。** 这个工具当初定的是「零参数」，理由写在测试里：\n「模型多填一个参数就多一次失败机会」。那条理由没错 —— 所以这次只放一个、而且可选，\n不填就是老行为，一个字不变。谁要再加第二个，回到 `test/photo-e2e.mjs` 那条断言上去吵。\n\n测试加了四条：四种天（夜晴有星／夜阴没星／正午没星／暮色不算）、抬头提示词不带地面锚点、\n标题不撒谎、e2e 走一遍抬头那张。",
+    "0.6.7": "### 拍不到他要的那张，就直说\n\nMr.Q：「这对嘛，拍出来完全不是星空啊」。改完提示词二十分钟后：「笑死还是拍不出来」。\n\n第一版修在提示词里（新增《他要的那张，你这会儿拍不到》一节）。20:03 他要第二次时，\n`/api/prompts/prefix` 确认那节已经在她的系统前缀里 —— 她照样说「沟里的池子，树里亮着几盏灯，\n星星一颗都没有。我这镜头大概是钉在地上了」。\n\n**提示词封不住，因为她缺的不是禁令，是一条能说出口的真话。** 三层拆开：\n\n- `journey_photo` 的入参是空对象（`additionalProperties: false`），她决定不了拍什么；\n- 光钉在小时上：`photo.ts` 里 18–20 点一律「黄昏的金色光线」，晚上八点要星空，物理上不可能；\n- 她没看过那张图 —— 回执只给标题，`photo.ts` 只给她提示词、不给她成品。\n\n这三条她都不知道，只知道「他要的东西没拍到」。差距必须解释，手上又没有素材，于是拿身体编。\n**规矩写得再多，也补不上一个空着的信息位。**\n\n所以改到回执上（`world.ts` → `takePhotoForUser`）：把「当地几点」和「这工具拍不出什么」\n一起交给她，并且点名两种编法（手举得低、镜头钉在地上）不许再出现。她要的东西不在画面里时，\n手上至少有一句真的可说：「这会儿 20 点，那个拍不到。」\n\n顺带拦重复调用：20:02:53 和 20:03:02 连着调了两次，云端按张计费 —— 回执末尾加一句\n「这一张够了，别连着再调一次」。\n\n提示词那节撤了：天花板只剩 1 字余量（4459 + 420 + 720 = 5599 / 5600），而回执每次调用都在场，\n覆盖比常驻规则更全。`test/photo-e2e.mjs` 加两条断言钉住「当地时刻」和「别连着再调」。",
     "0.6.6": "### 邀约改成全球，而且发起者也会动\n\nMr.Q：「可以让两只鱼全球发邀请嘛？发完邀请两条鱼一起去一个地方一起去旅行。」\n\n原来是我想窄了，两处都窄：\n\n**① 只给同城看。** 池子只有几十个人的时候，「同城」等于永远没人应 —— 功能在，用不上。\n现在**发进整个池子，全球可见，同城排最前**。她不能指名、也没有私聊，能看到的还是\n名字 / 想去哪 / 几天 / 一句话。\n\n**② 只有接的人会动。** 答应了的那条鱼下一站真的往那儿走，而**发起的这条鱼什么都不知道** ——\n她连「有没有人接」都不清楚。所以「一起去」在机制上不可能发生。\n\n现在补上发起者的那半边：接的瞬间，服务端把接的人名字写进 `taken_pet`；发起者下次排表时\n认领一次（`owner_seen` 保证只给一次），自己也往那座城走，并推一条\n「小银鱼接了她说的话：一起去拉萨，在那儿待 3 天」。\n\n**语义定成「各自走、到了各待 N 天，谁先到谁等」** —— 两只鱼的旅行天数、出发时间本来就不一样，\n要求同时抵达是做不到的；能保证的是「这几天都在那座城」。\n\n顺带改了提示词里那节（同城 → 同一个池子），并留了一句：「不用去猜有没有人应，猜出来的都是编的」。\n\n### 服务端\n\n`invites` 加两列：`taken_pet`（接的人的名字）、`owner_seen`（发起者认领过没有）。\n已经在线上 D1 上 `ALTER TABLE` 应用过，`schema.sql` 同步更新。\n\n### 验证\n\n**441 条测试全绿**。新增：全球可见（异地也能收到）、同城排最前、接的人名字落库、\n发起者只认领一次、发起者认领后真的建出约定并推事件。提示词仍在 5600 上限内\n（这次加字挤掉了同级里的其它字，标点都算过）。",
     "0.6.5": "### 面板加一个总数：这个池子今天一共多少只\n\n只有「同城 · 这段时间没别人」的时候，用户分不清两件事：**今天真的没人**，还是**这条线坏了**。\nMr.Q 在另一台电脑上就卡在这儿 —— 面板明明有那一行，他还是来问「为什么不显示」。\n\n所以服务端在查同城时**顺带回一个总数**（`pool`，`COUNT(DISTINCT uid)`，只算今天、不分城市），\n面板上就多一行：\n\n```\n池子 · 今天一共 37 只    同城 · 这段时间没别人    ← 池子活着，只是这一带没人\n池子 · 今天一共 1 只     同城 · 这段时间没别人    ← 只有你自己在用\n（没有这一行）            同城 · 这段时间没别人    ← 服务器没回话，或者压根没配\n```\n\n**只回数量，不回 uid 和名字** —— 聚合数字不构成隐私问题。旧服务端不回这个字段，\n客户端按 0 处理、面板就不显示这一行；字符串和负数也一律按 0，不会冒出「今天一共 0 只」。\n\n### 顺带查清的一件事：两台电脑互相看不见\n\nMr.Q 在另一台机器填了地址，却看不到这台。查下来是两个原因叠在一起：\n\n1. **两台共用一个 OneDrive 日记目录 → 同一个匿名编号（`meet-uid.txt`）**。\n   这是刻意的（「换一台电脑还是同一个人」），副作用是**同一个人在多端永远不会互相看见** ——\n   服务端按 uid 排掉自己，客户端再按宠物名排一遍。\n2. **报位置只在她排当天表的时候发生**（跨天、到站、启动恢复）。刚填完地址的那一刻，\n   库里还没有她的新记录 —— 得等下一次排表。\n\n所以「两台电脑能不能互相看见」这个测试，本来就测不出来。要验联机只有两条路：\n换一个不同的身份（删掉那台的 `meet-uid.txt`，或换一个不同的日记目录），或者找个真人朋友。\n\n### 验证\n\n**438 条测试全绿**。新增：`pool` 透传（37 正常、缺字段 0、字符串 0、负数 0）、\n池子总数进快照。服务端已重新部署，线上实测 `{\"ok\":true,\"list\":[…],\"pool\":1}`。",
     "0.6.4": "### 「服务器是你那台，介绍里却让人自己搭」\n\nMr.Q 看完简介问了一句：**服务器不是用我的吗，为什么写着让用户自己建？**\n\n这个矛盾是真的，而且它把功能整个废掉了：**如果每个人都自建，那永远碰不到人。**\n一个自建的用户，一辈子只会看到「这段时间没别人」—— 功能在，价值没有。\n\n早期写成「自己搭」有个说得通的理由（零成本、零责任、没有公共池要审），\n但它换掉的是这个功能的全部意义。现在口径改成：\n\n| 场景 | 怎么办 |\n|---|---|\n| **想省事** | 填 `https://cooppetsjourney.top`（作者维护的公共池），一个地址，不用注册、不用部署 |\n| **不想被别人看见** | 留空（照常旅行，只是永远一个人），或者自己起一套（Cloudflare / 腾讯云） |\n\n**默认值仍然是空。** 不替用户决定「把宠物名和行踪放进公共池」这件事 —— 默认填上等于\n没问就替他做了选择。填是主动动作，退路（留空）也写在旁边。\n\n同时把**代价写在明处**：填了之后被看到的是宠物名、在哪座城、这个时段在干嘛；\n范围只限「同城 + 同时段」，24 小时过期，只能看不能聊；反过来别人也会出现在你这边。\n\n改了三处：设置里那一栏的说明（纯文本，设置页不解析 markdown）、简介（中英文各一段）、\nREADME 的「碰面」章节（公共池放最前，自建降为备选）。\n\n### 还没做的（想清楚了再动）\n\n- **屏蔽特定宠物**：现在只有服务端的脏词黑名单 + 限速，没有「我不想看到这个人」；\n- **池子人数**：面板上只有「同城几个」，没有「这个池子今天一共多少只」——\n  一个 `SELECT COUNT(DISTINCT uid)` 就能有，但它会让人更愿意填，也更需要上面那条屏蔽。",

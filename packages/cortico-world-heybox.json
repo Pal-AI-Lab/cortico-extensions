@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-heybox",
-  "version": "0.5.22",
+  "version": "0.5.24",
   "describe": {
     "tools": [
       {
@@ -95,12 +95,24 @@
       },
       {
         "name": "heybox_style",
-        "description": "查看小黑盒社区语感统计。",
+        "description": "查看评论/帖子分开的社区语感统计，或传 text 做语感/节奏预检；只存统计，不存原文。",
         "parameters": {
           "type": "object",
+          "additionalProperties": false,
           "properties": {
             "reset": {
               "type": "boolean"
+            },
+            "text": {
+              "type": "string"
+            },
+            "surface": {
+              "type": "string",
+              "enum": [
+                "comment",
+                "post",
+                "section"
+              ]
             }
           }
         },
@@ -1251,6 +1263,156 @@
             "action"
           ]
         }
+      },
+      {
+        "name": "heybox_emoji_review",
+        "description": "表情预检：按语境建议 0–1 个原生表情；严肃/负面/求助不加，不自动发送。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "type": "string"
+            },
+            "context": {
+              "type": "string"
+            },
+            "max": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "text"
+          ]
+        }
+      },
+      {
+        "name": "heybox_stickers",
+        "description": "本地表情包/评论图片素材库：save 保存、list 查看、use 上传后返回 URL、remove 删除；不自动转发。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "save",
+                "use",
+                "remove"
+              ]
+            },
+            "url": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "sourceLink": {
+              "type": "string"
+            },
+            "sourceComment": {
+              "type": "string"
+            },
+            "author": {
+              "type": "string"
+            },
+            "note": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
+      },
+      {
+        "name": "heybox_sections",
+        "description": "只读浏览情投一盒/盒友杂谈/沙雕日常，学习社区结构与话题；不自动互动。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "section": {
+              "type": "string"
+            },
+            "limit": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "section"
+          ]
+        }
+      },
+      {
+        "name": "heybox_memory",
+        "description": "内容记忆：记住具体观察/角度/来源，search/digest/forget；不存全文，不自动发布。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "remember",
+                "list",
+                "search",
+                "digest",
+                "forget",
+                "audit"
+              ]
+            },
+            "topic": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "community",
+                "own",
+                "lesson",
+                "saved"
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "note": {
+              "type": "string"
+            },
+            "sourceUrl": {
+              "type": "string"
+            },
+            "sourceId": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "query": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "limit": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        }
       }
     ],
     "events": [
@@ -1269,6 +1431,8 @@
     ]
   },
   "changelog": {
+    "0.5.24": "- 社区语感拆成评论/帖子两套统计；评论学短接节奏，帖子学场景+判断结构。\n- 新增评论/帖子的开头、提问、清单、表情密度、客服腔、个人视角等节奏指标。\n- `heybox_style` 支持传 text 做语感预检，区分 comment/post/section；只给建议，不强制改。\n- 从帖子正文、评论、栏目帖子继续学习语感，仍只保存聚合统计，不保存原文/昵称。\n- 补充“不总结全楼、不每楼提问、短答短接”的社区节奏提示。\n- 新增 `heybox_memory` 内容记忆：短笔记/来源/标签/检索/整理/遗忘；自己发帖和收藏自动入记忆。\n- 选题、prepare、review 会参考相关记忆；只作参考，不照抄、不自动发布。",
+    "0.5.23": "- 自动刷帖新增“每日主动焦点”：每天真实读 1 篇自己的在维持兴趣，记 1 条 read 证据，不自动点赞/评论。\n- 自动刷帖为自己的兴趣保留 1 个候选位，不再整轮被主人偏好占满。\n- 修复兴趣升级条件显示/浮点比较：1.4979 不再显示成 1.5/1.5 却卡住。\n- 泛化词扩展：动作/冒险/独立/RPG/主机/PS/Xbox/Switch/Epic 等不再算自己的兴趣。\n- 在维持阶段新增软灵感提示；7/14/30 天无证据显示提醒。\n- 新增每日焦点状态与软灵感展示。\n- 100 条刷帖改为按质量、主题/日上限的加权弱信号；避免 100 条直接刷爆兴趣。\n- 每日焦点支持最多 3 条真实阅读，并先于灵感计算。\n- 新增 `heybox_sections`：情投一盒 / 盒友杂谈 / 沙雕日常只读学习。\n- 泛化词扩展、条件浮点修复、7/14/30 天无证据提醒。\n- 兴趣证据拆分 `activeEvidence` / `feedEvidence`：升级只看真实主动证据，信息流只做发现排序。\n- 信息流候选可被每日焦点选中，读 1–2 次后转成自己的兴趣。\n- 主动证据 30 天后开始缓慢衰减；沉睡唤醒重置旧证据，避免瞬间复活。\n- 焦点搜索按质量过滤；栏目新增每日观察与 7 天 ID 缓存；灵感增加质量预检。\n\n- 新增表情意图（开心/无语/吃瓜/安慰/抱歉/惊讶/赞同/庆祝）与意图搜索。\n- 新增 `heybox_emoji_review`：按语境建议 0–1 个表情，严肃/负面/求助语境不加，不自动发送。\n- 评论/回复最多 1 个表情，帖子最多 2 个；重复 token 去重。\n- 未知表情 token 不再静默删除，改为明确报错并保留原文。\n- 修正文档：发送保留原生 token，Unicode 仅预览。\n- 新增 `heybox_stickers`：收藏评论/帖子里的表情包图片，记录作者/来源、去元数据、本地保存；use 时才上传，不自动转发。",
     "0.5.22": "- 新增 `heybox_local_images`：扫描 Steam/Game Bar/Pictures 本机截图，默认只读，确认后上传。\n- `heybox_find_images` 支持 `source=auto|local|official`：本机截图优先，官方封面兜底。\n- `heybox_prepare` 支持 `imageSource`，自动配图会优先使用自己的截图并写入图源。\n- 修复发布页对此前版本的覆盖冲突。",
     "0.5.21": "- 新增 `heybox_find_images`：按游戏名查找官方封面/商店素材，下载校验后上传；不抓随机网图。\n- `heybox_prepare` 支持 `imageQuery` / `imageCount` / `imageSource` 自动选本机截图或官方封面，并写入图源。\n- 新增 `heybox_local_images`：扫描 Steam/Game Bar/Pictures 自己的截图，默认只读。\n- 新增截图日记、前后对比、游戏摄影、攻略步骤图 4 个图片模板。\n- 修复 ENV_PROMPT 对已删除 imagekit 的引用。",
     "0.5.20": "- 新增发帖质检：具体性、个人角度、标题、分区、相似度和活人感/梗密度提示。\n- 新增 `heybox_hotspots` 与 `heybox_topic_plan`：热榜信息流话题聚合 + 兴趣/模板/角度选题。\n- 自动发帖增加 `postQualityThreshold` 门槛；低于门槛转预览，显式 go=true 仍可发。\n- 模板正文增加“像帖子聊天、短句、具体场景、梗贴上下文”的语气提示。\n- ENV_PROMPT 增加活人感、热度判断和结尾接话规则。\n- 新增 `heybox_find_images`：官方游戏封面/商店素材查找、下载校验和上传；不抓随机网图。\n- `heybox_prepare` 支持 `imageQuery/imageCount` 自动配官方图，并写入图源。\n- 修复 ENV_PROMPT 对已删除 imagekit 的引用。\n- 新增成长机制：只从高质量来源学习标题节奏、段落、第一人称和话题热度；低质/广告/水贴跳过。\n- 新增 `heybox_growth`，自动刷帖接入学习，帖子发布增加成长 XP。",
