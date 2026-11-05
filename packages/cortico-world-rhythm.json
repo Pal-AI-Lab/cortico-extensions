@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-rhythm",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "describe": {
     "tools": [],
     "events": [
@@ -31,6 +31,7 @@
     ]
   },
   "changelog": {
+    "1.0.6": "- 市场简介：cortico.locales 中英双语改为与顶层一致的「什么时候主动搭话、什么时候安静、什么时候睡觉和休息、有时还会做梦」。",
     "1.0.5": "- 新增 256×256 图标 `icon.png`（月亮下打瞌睡的小肥鱼）。\n- `package.json`：作者改为「大肥鱼」，contributors 保留上游；新增 `cortico.icon` 与中英双语 `locales`；`private: false` + `publishConfig.access: public`。\n- 重写 README 为面向用户的说明：功能、六张设置卡片、边界、隐私、离线安装、上游致谢与作者碎碎念。\n- 新增离线安装：`*-offline.tgz` + `install.bat` / `install.ps1`，不需要联网。\n- 修复：有梦时「梦的信息」插在醒来提示的开头之后、行为选项之前，不会被「结束这一轮」挡在后面。\n- 源码加入一条作者的彩蛋注释。",
     "1.0.4": "- 「该睡了 / 该醒了」改为「说话或动作，二选一，然后结束这一轮」，不再保留「做自己的事」；去掉 `pet_act` 工具名，避免工具改名后失效。\n- 做梦模板改用 `{date} · {type}梦` 占位符，明确只写两条分隔线之间的内容；写日记不算对外沟通；写完后保持睡姿并结束这一轮。\n- 提示词里的用户称呼统一为 `{user}`；梦的类型增加到 11 种（荒诞 / 冒险 / 怀旧 / 食物 / 紧张 / 安静 / 关于{user} 等）。",
     "1.0.3": "- `dreamEnabled` 与 `willingnessEnabled` 改为默认开启。",

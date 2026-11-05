@@ -1199,6 +1199,46 @@
         "comments": 8
       }
     },
+    "coo-whale-home": {
+      "kind": "world",
+      "version": "0.1.2",
+      "displayName": "小屋",
+      "description": "Coopanion 的「小屋」世界：Coo 桌面上那栋像素木屋，鱼在里面按 Coo 的状态走动、上班、睡觉，也能替你给 Coo 留话。",
+      "author": "上官祎涛",
+      "maintainers": [
+        "hoshino-tyut"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "desktop-pet",
+        "pixel-room"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/coo-whale-home"
+      },
+      "created": "2026-11-05T02:45:00.770Z",
+      "published": "2026-11-05T02:46:17.022Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "icon": "assets/coo-whale-home/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 744,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/744",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "coo-world-petdiary": {
       "kind": "world",
       "version": "0.3.6",
@@ -1285,17 +1325,17 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "0.5.44",
+      "version": "0.6.2",
       "displayName": "大肥鱼环游世界",
-      "description": "陪着她真的出门旅行（需 Coopani 0.2.17+）。一百二十四座城，每座都有真实地标，不是随机抽地名。从你设定的家出发，她自己挑去哪、坐什么去，路上真的耗掉那么久——选了火车就在车上待十一小时，中间不打扰你。到了按当地时间吃饭、看日出、住店、写日记；路线是一条线，连着几天说的地名在地图上连得起来。雨天取消日出，钱不够会停下来打几天工，回家是一站一站走回去。没有机场的地方先落到能飞的城市再转。装了「一起听歌」，你放的歌会跟着她走；也能拍照，接口填云端或本地 ComfyUI 都行。",
+      "description": "陪着她真的出门旅行（需 Coopani 0.2.17+）。一百二十四座城，每座都有真实地标，不是随机抽地名。从你设定的家出发，她自己挑去哪、坐什么去（你点名也照办），路上真的耗掉那么久——选了火车就在车上待十一小时，中间不打扰你。到了按当地时间吃饭、看日出、住店、写日记；路线是一条线，连着几天说的地名在地图上连得起来。雨天取消日出，钱不够会停下来打几天工，回家是一站一站走回去。没有机场的地方先落到能飞的城市再转。装了「一起听歌」，你放的歌会跟着她走；也能拍照，接口填云端或本地 ComfyUI 都行。",
       "locales": {
         "zh": {
           "displayName": "大肥鱼环游世界",
-          "description": "让桌宠真的出门旅行，而不是在地图上跳一下。需要 Coopani 0.2.17 以上。\n\n**她怎么走。** 从你设定的家出发，自己挑地方、自己挑怎么去。选了火车就真的在火车上待那么久，中间不打扰你。路上不是空白——服务区那碗面、过站时醒的那一下、夜里只剩车灯，长途会发一两次。\n\n**一百二十四座城，每座都有真地标。** 不是随机抽地名：每座城六到九个具体去处（清水寺、莫雷诺冰川、宪法广场），按「先看地标、再逛市集、最后去公园」排进三次停留。凑不出真名字的城市宁可不写，也不会让她说「城里随便走走」。\n\n**路线是一条线，不是随机跳。** 她记着上一段往哪走，会顺着走，不走回头路；到了一个地方先在附近三百公里内转几个，再决定下一步。她连着几天说的地名，在地图上是连得起来的。\n\n**没有机场的地方，得先落到能飞的城市。** 京都、优胜美地、大峡谷、瓜纳华托都没有机场。模型里没有「中转」这个概念——她本来就是一段一段走的：先飞东京，第二天坐新干线过去；从京都回国也是先到东京再飞。\n\n**回家是走回去的。** 决定回去之后一站一站往家逼近，途中每站都算真的到过、也写日记。不是两千公里一步传送。\n\n**她是从你家出发的鱼。** 家那边的干湿、风、海拔、昼夜温差就是她的身体基准——到比家湿热得多的地方会真的难受，回到家的气候带会松下来。这个偏好影响她挑地方，也影响她到达时说的第一句话。她不播报气温，那是天气 App 的话。\n\n**到了按当地作息过。** 饭点吃饭，晚八点后没事就回酒店，想看日出就凌晨起。酒店按概率掷：六成普通、四成景观、不到千分之一是小破店；价格按城市贵贱换算，纽约和天水不会一个价。天气会改计划——下雨就不排日出、不去看星星。\n\n**路上是真的在耗。** 十种交通方式，同样的距离用时差好几倍。地面交通不能过海：从上海去东京只能飞或坐船，但伦敦到巴黎有火车，那是英法隧道。\n\n**她开始拍照了。** 填个生图接口（云端服务商、本地跑的 ComfyUI 都行），她出去逛会拍一张：一天一张，全是空镜——窗外、街角、傍晚的城墙。画面里没有她自己，所以不需要参考图、不需要审核。图进宿主媒体库，同城同日不重复。\n\n**打开就能看到她此刻。** 两个页签：「她此刻」给你她那边的钟、今晚住哪、日出几点，在路上时是进度条加剩余时长，下面一条时间轴写清接下来四件事各在几点；「照片」是相册。第一次打开还有三句话讲清易被误解的事。\n\n**有些地方，在作品里也出现过。** 排到那儿的时候她会提一句这是哪部作品的哪个镜头——但不知道剧情，也不会补清单外的地名。首批十处（京都、东京、罗马、巴黎、纽约）；札幌和里约空着，没有站得住的答案就不写。\n\n**和「一起听歌」联动。** 装了那个扩展的话：她带着你正在放的歌出门，出发和路上会提一句；歌名里带地名的（《成都》《回到拉萨》）会自动进她的「想去」清单。反过来也成立——她到了新地方的头两天会惦记着听一首和那儿有关的歌，能操作电脑就自己点开播放器，动不了就请你来点。\n\n**面板底下有「说两句」。** 报 bug、提想加的地方。点一下把整封信复制下来——收件人、主题、版本号、她当时在哪儿都在里面，粘进邮件就发。收件地址默认是作者，想换个人收在设置里改。\n\n**偶尔出事。** 不到千分之一的概率她会卡在某个地方——证件被偷、高反起不来、车冻住、走错方向。她自己办不完，会明说要你出手。\n\n**她要用的动作。** journey_now 她现在在哪、这个点该做什么、今天的地方在哪些作品里出现过；journey_stats 走了多少天、去过多少城、日记存在哪；journey_diary_write 与 journey_diary_read 写日记和读日记；journey_draw_to 记下「因为某首歌想去某地」，下次挑地方时优先。\n\n**装它还需要什么。** 什么都不填也能完整旅行：距离、时区、日出日落本地算，天气自动走 Open-Meteo。想要更准的天气和真实酒店名就填一个高德密钥，想让她拍照就填一个生图接口——云端服务商填地址密钥，本地 ComfyUI 贴一份工作流，本地那条不用花钱。日记和旅行记忆（去过哪、还想去哪、花了多少）可以指到同步盘，换台电脑她还是她；但「现在在哪、正在走哪一段」永远只在本机。\n\n**已知限制：** 一个城市一个坐标，所以「加州 1 号公路」这种线进不了表——它被拆成圣巴巴拉和蒙特雷，洛杉矶到旧金山那段走海岸线就会经过。夏威夷只做了欧胡岛，大岛的跨岛行程塞不进这个模型。没有中转概念，去没有机场的地方得先进到附近的城市。巡礼只收了十处，大多数城市还没有。照片要自己填一个生图接口才拍得了（云端或本地 ComfyUI）。\n\n**她不会做的事。** 不编不存在的地方；没去过的城市不会说自己去过；没到不会说到了；没开花销开关就一个字不提钱。"
+          "description": "让桌宠真的出门旅行，而不是在地图上跳一下。需要 Coopani 0.2.17 以上。\n\n**她怎么走。** 从你设定的家出发，自己挑地方、自己挑怎么去。你说去哪、怎么去，她也照办——「坐高铁去上海」就是高铁；那种走法走不了（太远、没机场、钱不够），她说清是哪一条，不会偷偷换成别的。路上不是空白——服务区那碗面、过站时醒的那一下、夜里只剩车灯，长途会发一两次。\n\n**一百二十四座城，每座都有真地标。** 不是随机抽地名：每座城六到九个具体去处（清水寺、莫雷诺冰川、宪法广场），按「先看地标、再逛市集、最后去公园」排进三次停留。凑不出真名字的城市宁可不写，也不会让她说「城里随便走走」。\n\n**路线是一条线，不是随机跳。** 她记着上一段往哪走，会顺着走，不走回头路；到了一个地方先在附近三百公里内转几个，再决定下一步。她连着几天说的地名，在地图上是连得起来的。\n\n**没有机场的地方，得先落到能飞的城市。** 京都、优胜美地、大峡谷、瓜纳华托都没有机场。模型里没有「中转」这个概念——她本来就是一段一段走的：先飞东京，第二天坐新干线过去；从京都回国也是先到东京再飞。\n\n**回家是走回去的。** 决定回去之后一站一站往家逼近，途中每站都算真的到过、也写日记。不是两千公里一步传送。\n\n**她是从你家出发的鱼。** 家那边的干湿、风、海拔、昼夜温差就是她的身体基准——到比家湿热得多的地方会真的难受，回到家的气候带会松下来。这个偏好影响她挑地方，也影响她到达时说的第一句话。她不播报气温，那是天气 App 的话。\n\n**到了按当地作息过。** 饭点吃饭，晚八点后没事就回酒店，想看日出就凌晨起。酒店按概率掷：六成普通、四成景观、不到千分之一是小破店；价格按城市贵贱换算，纽约和天水不会一个价。天气会改计划——下雨就不排日出、不去看星星。\n\n**路上是真的在耗。** 十种交通方式，同样的距离用时差好几倍。地面交通不能过海：从上海去东京只能飞或坐船，但伦敦到巴黎有火车，那是英法隧道。\n\n**她开始拍照了。** 填个生图接口（云端服务商、本地跑的 ComfyUI 都行），她出去逛会拍一张：一天一张，全是空镜——窗外、街角、傍晚的城墙。画面里没有她自己，所以不需要参考图、不需要审核。图进宿主媒体库，同城同日不重复。\n\n**打开就能看到她此刻。** 两个页签：「她此刻」给你她那边的钟、今晚住哪、日出几点，在路上时是进度条加剩余时长，下面一条时间轴写清接下来四件事各在几点；「照片」是相册。第一次打开还有三句话讲清易被误解的事。\n\n**有些地方，在作品里也出现过。** 排到那儿的时候她会提一句这是哪部作品的哪个镜头——但不知道剧情，也不会补清单外的地名。首批十处（京都、东京、罗马、巴黎、纽约）；札幌和里约空着，没有站得住的答案就不写。\n\n**同城还有别人，可以找伴一起走一段。** 装一个碰面服务器（自己起一个免费环境就行 —— Cloudflare 免费额度最大，腾讯云也能起，见 README）之后，她到站能看见同一座城、同一时段还有谁；想找伴就问一句「我在西安，想去拉萨待三天」，谁看见谁接——不指名、不能私聊、也不发结果通知，24 小时没人接就自己过期。别人发的可以接，**接了就作数**：下一站真的往那儿走，到了按天数待着，待满才走。\n\n**和「一起听歌」联动。** 装了那个扩展的话：她带着你正在放的歌出门，出发和路上会提一句；歌名里带地名的（《成都》《回到拉萨》）会自动进她的「想去」清单。反过来也成立——她到了新地方的头两天会惦记着听一首和那儿有关的歌，能操作电脑就自己点开播放器，动不了就请你来点。\n\n**面板底下有「说两句」。** 报 bug、提想加的地方。点一下把整封信复制下来——收件人、主题、版本号、她当时在哪儿都在里面，粘进邮件就发。收件地址默认是作者，想换个人收在设置里改。\n\n**偶尔出事。** 不到千分之一的概率她会卡在某个地方——证件被偷、高反起不来、车冻住、走错方向。她自己办不完，会明说要你出手。\n\n**她要用的动作。** journey_now 她现在在哪、这个点该做什么、今天的地方在哪些作品里出现过；journey_stats 走了多少天、去过多少城、日记存在哪；journey_diary_write 与 journey_diary_read 写日记和读日记；journey_draw_to 记下「因为某首歌想去某地」，下次挑地方时优先；journey_go_to 你说去哪、怎么去；journey_return_home 现在就叫她回来；journey_photo 现在拍一张。\n\n**装它还需要什么。** 什么都不填也能完整旅行：距离、时区、日出日落本地算，天气自动走 Open-Meteo。想要更准的天气和真实酒店名就填一个高德密钥，想让她拍照就填一个生图接口——云端服务商填地址密钥，本地 ComfyUI 贴一份工作流，本地那条不用花钱。日记和旅行记忆（去过哪、还想去哪、花了多少）可以指到同步盘，换台电脑她还是她；但「现在在哪、正在走哪一段」永远只在本机。\n\n**已知限制：** 一个城市一个坐标，所以「加州 1 号公路」这种线进不了表——它被拆成圣巴巴拉和蒙特雷，洛杉矶到旧金山那段走海岸线就会经过。夏威夷只做了欧胡岛，大岛的跨岛行程塞不进这个模型。没有中转概念，去没有机场的地方得先进到附近的城市。巡礼只收了十处，大多数城市还没有。照片要自己填一个生图接口才拍得了（云端或本地 ComfyUI）。\n\n**她不会做的事。** 不编不存在的地方；没去过的城市不会说自己去过；没到不会说到了；没开花销开关就一个字不提钱。"
         },
         "en": {
           "displayName": "Big Fish World Tour",
-          "description": "She actually goes, instead of hopping around a map. Needs Coopani 0.2.17+.\n\n**How she travels.** She picks a place and a way to get there from wherever you set as home. Choose a train and she is really on it that long, without bothering you. The road is not blank - a bowl of noodles at a service area, waking up as the train passes a station, nothing but headlights at night.\n\n**124 cities, every one with real places in it.** Not dice rolled over place names: each city carries six to nine actual spots (Kiyomizu-dera, the Perito Moreno glacier, the Zocalo), ordered so the first days are landmarks, then a market street, then a park. A city she cannot name anything in stays empty rather than saying \"somewhere in town\".\n\n**A route, not a random walk.** She remembers which way the last leg went and keeps heading that way, doubling back only to go home. Arriving somewhere, she wanders within a few hundred kilometres before deciding next. The place names she mentions over consecutive days connect on a map.\n\n**Places without an airport, she reaches from somewhere that has one.** Kyoto, Yosemite, the Grand Canyon, Guanajuato have none. There is no \"transfer\" concept here - she already travels leg by leg: fly to Tokyo, take the shinkansen the next morning; leaving Kyoto, she rides to Tokyo first, then flies.\n\n**Going home is walking home.** Once she decides to return, she closes in stop by stop. Every stop counts as really visited, and gets a diary entry. Not a two-thousand-kilometre teleport.\n\n**She is a fish from wherever you call home.** The damp, the wind, the altitude, the swing between day and night - that is her baseline. Somewhere much hotter and wetter than home genuinely wears her down; back in her own climate she loosens up. It shapes where she goes and the first thing she says on arrival. She will not read out temperatures - that is the weather app's job.\n\n**Days follow local time.** Meals at mealtimes, back to the hotel after eight if there is nothing on, up before dawn for the sunrise. Hotels are rolled: mostly ordinary, sometimes a room with a view, rarely a bad one - and priced to the city, so New York and Tianshui are not the same night. Weather changes the plan: rain cancels the sunrise and the stargazing.\n\n**The road costs real time.** Ten ways to move, and the same distance takes wildly different time. Ground transport does not cross water: Shanghai to Tokyo is a plane or a ship, while London to Paris is a train, because of the tunnel.\n\n**She takes photos now.** Give her an image endpoint and she shoots one on her way out: one a day, always scenery - a window, a corner, a wall at dusk. She is never in the frame, so no reference image, no review pass. Bytes go into the host media library, once per city per day.\n\n**Open it and you see her right now.** Two tabs: *Right now* gives you her clock, tonight's room, the sunrise, plus a progress bar and remaining time while she travels, and a timeline of the next four things with the hour on each. *Photos* is the album. A three-step note on first open clears up what people get wrong.\n\n**Some places have been on screen.** When the plan lands on one she may mention which film or series it appeared in and which shot - not the plot, and never a place that is not on the list. Ten so far (Kyoto, Tokyo, Rome, Paris, New York); Sapporo and Rio are deliberately empty, because no answer held up.\n\n**Works with Listen With Me.** If that extension is installed: she carries whatever you are playing out the door and mentions it when she sets off; song titles with a place in them (the ones about Chengdu, Lhasa) go onto her wish list. The other direction works too - for the first day or two somewhere new she will want something local, and if she can drive this computer she opens the player herself; if not she hands it to you.\n\n**There is a feedback line at the bottom of the panel.** Bugs, places you want her to go. One press copies the whole letter - recipient, subject, version, where she was - ready to paste into any mail app. The recipient is the author by default; point it elsewhere in settings.\n\n**Occasionally something goes wrong.** Under one in a thousand, she gets stuck: papers stolen, altitude sickness, a frozen car, the wrong road at dusk. She cannot fix it alone and will say so plainly.\n\n**What she uses.** journey_now for where she is and what this hour is for, plus which of today's stops are in a film; journey_stats for days, cities and where the diary lives; journey_diary_write and journey_diary_read; journey_draw_to to note \"that song made me want to go there\", which weighs on her next choice.\n\n**What else it needs.** Nothing, to travel in full: distance, time zones, sunrise and sunset are computed locally, weather falls back to Open-Meteo. An Amap key buys sharper weather and real hotel names; an image endpoint lets her shoot. The diary lives on this machine by default and can point at a synced folder; trip state never leaves it.\n\n**Known limits:** one city is one coordinate, so a road like California's Highway 1 cannot be a row - it is broken into Santa Barbara and Monterey, and the Los Angeles to San Francisco leg passes them when she takes the coast. Hawaii is Oahu only; island-hopping does not fit the model. No transfer concept, so airport-less places are reached from a nearby city. Ten pilgrimage spots, not more. Photos need an image endpoint.\n\n**What she will not do.** Invent places. Claim a city she has not visited. Say she has arrived when she has not. Mention money when the spending switch is off."
+          "description": "She actually goes, instead of hopping around a map. Needs Coopani 0.2.17+.\n\n**How she travels.** She picks a place and a way to get there from wherever you set as home. Tell her where and how - \"take the high-speed rail to Shanghai\" - and that is what happens; if that way is impossible (too far, no airport, no money) she says which, instead of quietly substituting another. Choose a train and she is really on it that long, without bothering you. The road is not blank - a bowl of noodles at a service area, waking up as the train passes a station, nothing but headlights at night.\n\n**124 cities, every one with real places in it.** Not dice rolled over place names: each city carries six to nine actual spots (Kiyomizu-dera, the Perito Moreno glacier, the Zocalo), ordered so the first days are landmarks, then a market street, then a park. A city she cannot name anything in stays empty rather than saying \"somewhere in town\".\n\n**A route, not a random walk.** She remembers which way the last leg went and keeps heading that way, doubling back only to go home. Arriving somewhere, she wanders within a few hundred kilometres before deciding next. The place names she mentions over consecutive days connect on a map.\n\n**Places without an airport, she reaches from somewhere that has one.** Kyoto, Yosemite, the Grand Canyon, Guanajuato have none. There is no \"transfer\" concept here - she already travels leg by leg: fly to Tokyo, take the shinkansen the next morning; leaving Kyoto, she rides to Tokyo first, then flies.\n\n**Going home is walking home.** Once she decides to return, she closes in stop by stop. Every stop counts as really visited, and gets a diary entry. Not a two-thousand-kilometre teleport.\n\n**She is a fish from wherever you call home.** The damp, the wind, the altitude, the swing between day and night - that is her baseline. Somewhere much hotter and wetter than home genuinely wears her down; back in her own climate she loosens up. It shapes where she goes and the first thing she says on arrival. She will not read out temperatures - that is the weather app's job.\n\n**Days follow local time.** Meals at mealtimes, back to the hotel after eight if there is nothing on, up before dawn for the sunrise. Hotels are rolled: mostly ordinary, sometimes a room with a view, rarely a bad one - and priced to the city, so New York and Tianshui are not the same night. Weather changes the plan: rain cancels the sunrise and the stargazing.\n\n**The road costs real time.** Ten ways to move, and the same distance takes wildly different time. Ground transport does not cross water: Shanghai to Tokyo is a plane or a ship, while London to Paris is a train, because of the tunnel.\n\n**She takes photos now.** Give her an image endpoint and she shoots one on her way out: one a day, always scenery - a window, a corner, a wall at dusk. She is never in the frame, so no reference image, no review pass. Bytes go into the host media library, once per city per day.\n\n**Open it and you see her right now.** Two tabs: *Right now* gives you her clock, tonight's room, the sunrise, plus a progress bar and remaining time while she travels, and a timeline of the next four things with the hour on each. *Photos* is the album. A three-step note on first open clears up what people get wrong.\n\n**Some places have been on screen.** When the plan lands on one she may mention which film or series it appeared in and which shot - not the plot, and never a place that is not on the list. Ten so far (Kyoto, Tokyo, Rome, Paris, New York); Sapporo and Rio are deliberately empty, because no answer held up.\n\n**There are others in the same city.** With a meet server set up (a free one you host yourself - Cloudflare gives by far the most headroom, the README covers both) she sees who else is in town at the same time, and can ask for company - \"I am in Xian, want to come to Lhasa for three days?\" - a broadcast to whoever is there, no names, no chatting. Invitations from others can be taken, and taking one is a promise: she really goes, stays the number of days asked, and leaves when they are up. Unanswered ones simply expire, and the sender is never told.\n\n**Works with Listen With Me.** If that extension is installed: she carries whatever you are playing out the door and mentions it when she sets off; song titles with a place in them (the ones about Chengdu, Lhasa) go onto her wish list. The other direction works too - for the first day or two somewhere new she will want something local, and if she can drive this computer she opens the player herself; if not she hands it to you.\n\n**There is a feedback line at the bottom of the panel.** Bugs, places you want her to go. One press copies the whole letter - recipient, subject, version, where she was - ready to paste into any mail app. The recipient is the author by default; point it elsewhere in settings.\n\n**Occasionally something goes wrong.** Under one in a thousand, she gets stuck: papers stolen, altitude sickness, a frozen car, the wrong road at dusk. She cannot fix it alone and will say so plainly.\n\n**What she uses.** journey_now for where she is and what this hour is for, plus which of today's stops are in a film; journey_stats for days, cities and where the diary lives; journey_diary_write and journey_diary_read; journey_draw_to to note \"that song made me want to go there\", which weighs on her next choice.\n\n**What else it needs.** Nothing, to travel in full: distance, time zones, sunrise and sunset are computed locally, weather falls back to Open-Meteo. An Amap key buys sharper weather and real hotel names; an image endpoint lets her shoot. The diary lives on this machine by default and can point at a synced folder; trip state never leaves it.\n\n**Known limits:** one city is one coordinate, so a road like California's Highway 1 cannot be a row - it is broken into Santa Barbara and Monterey, and the Los Angeles to San Francisco leg passes them when she takes the coast. Hawaii is Oahu only; island-hopping does not fit the model. No transfer concept, so airport-less places are reached from a nearby city. Ten pilgrimage spots, not more. Photos need an image endpoint.\n\n**What she will not do.** Invent places. Claim a city she has not visited. Say she has arrived when she has not. Mention money when the spending switch is off."
         }
       },
       "author": "Mr.Q",
@@ -1320,8 +1360,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-04T14:52:02.689Z",
-      "versionCount": 51,
+      "published": "2026-11-05T05:11:37.808Z",
+      "versionCount": 53,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1344,13 +1384,20 @@
         "week": 9474
       },
       "summary": {
-        "tools": 7,
-        "events": 10,
-        "toolTokens": 1294,
+        "tools": 10,
+        "events": 11,
+        "toolTokens": 2091,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.6.2",
+          "0.6.1",
+          "0.5.49",
+          "0.5.48",
+          "0.5.47",
+          "0.5.46",
+          "0.5.45",
           "0.5.44",
           "0.5.43",
           "0.5.42",
@@ -1426,7 +1473,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-journey@0.5.44/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-journey@0.6.2/CHANGELOG.md"
       },
       "discussion": {
         "number": 586,
@@ -1562,7 +1609,7 @@
       "discussion": {
         "number": 384,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/384",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 6
       }
@@ -1644,7 +1691,7 @@
     },
     "cortico-bot-continuity": {
       "kind": "bot",
-      "version": "0.7.3",
+      "version": "0.8.0",
       "description": "Cortico 的 Bot 扩展，为机器人带来持续的记忆和鲜明的个性，记住经历，整理往事，延续对话。",
       "author": "DTMosken",
       "maintainers": [
@@ -1662,8 +1709,8 @@
         "bugs": "https://github.com/DTMosken/cortico-bot-continuity/issues"
       },
       "created": "2026-09-21T10:58:17.207Z",
-      "published": "2026-10-30T03:38:58.511Z",
-      "versionCount": 20,
+      "published": "2026-11-05T04:11:19.558Z",
+      "versionCount": 21,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -1685,6 +1732,7 @@
       },
       "changelog": {
         "versions": [
+          "0.8.0",
           "0.7.3",
           "0.7.2",
           "0.7.1",
@@ -4196,7 +4244,7 @@
       "discussion": {
         "number": 697,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/697",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -8047,6 +8095,88 @@
         "comments": 0
       }
     },
+    "cortico-world-feast": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "一桌菜",
+      "description": "一桌菜 · 给 Coo 一张会端菜的桌子：80 道带九维口味、香气、口感与实吃描写的菜品，她能自己挑、主人能从面板端一道过去；同一道菜每次吃到的都不一样，吃过什么和口味画像跨天攒着；另有一套可开关的饭点提醒。",
+      "locales": {
+        "zh": {
+          "displayName": "一桌菜",
+          "description": "给 Coo 一张会端菜的桌子：80 道菜，每道都有九维口味、香气、口感、余韵和一段实吃描写。她能自己按菜系挑，主人也能从面板把一道菜端到她面前；同一道菜每次吃到的都不一样（温度、状态、配的那口会变），吃过什么、对什么反应、口味画像跨天攒着。饭点提醒默认开着，可以在配置里一键关掉。"
+        },
+        "en": {
+          "displayName": "Table",
+          "description": "A table that serves food to your Coo: 80 dishes, each with a nine-axis flavour profile, aroma, texture, aftertaste and a full paragraph of how it actually eats. She can pick by cuisine, or you can put a dish down in front of her from the panel. The same dish never lands the same way twice, and what she ate, how it landed and her taste profile accumulate across days. Meal reminders are on by default and can be switched off in config."
+        }
+      },
+      "author": "青",
+      "maintainers": [
+        "bailuhanyi2"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "coo",
+        "food",
+        "eat",
+        "taste",
+        "flavor",
+        "dish",
+        "meal",
+        "hunger",
+        "companion"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-feast",
+        "repository": "https://github.com/bailuhanyi/cortico-world-feast",
+        "homepage": "https://github.com/bailuhanyi/cortico-world-feast#readme",
+        "bugs": "https://github.com/bailuhanyi/cortico-world-feast/issues"
+      },
+      "created": "2026-11-05T03:38:03.816Z",
+      "published": "2026-11-05T03:39:40.042Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion",
+        "internal-state",
+        "experimental"
+      ],
+      "tags": [
+        "companion",
+        "experimental",
+        "internal-state"
+      ],
+      "icon": "assets/cortico-world-feast/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 6,
+        "events": 2,
+        "toolTokens": 901,
+        "envPromptTokens": 308
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/bailuhanyi/cortico-world-feast/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 745,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/745",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-feeding": {
       "kind": "world",
       "version": "0.2.0",
@@ -10719,9 +10849,10 @@
     },
     "cortico-world-local-voice-studio": {
       "kind": "world",
-      "version": "0.1.0-beta.14",
+      "version": "0.1.0-beta.15",
       "displayName": "大肥鱼语音助手",
       "description": "大肥鱼语音助手：配合 Coopanion 官方 QQ 插件使用，通过本地模型识别 QQ 语音、发送语音回复、生成唱歌语音。支持上传参考音频设置说话音色，模型按需下载和加载。",
+      "author": "抖音博主 水流东",
       "maintainers": [
         "floweast"
       ],
@@ -10743,8 +10874,8 @@
         "darwin"
       ],
       "created": "2026-11-04T15:24:18.142Z",
-      "published": "2026-11-05T02:16:02.603Z",
-      "versionCount": 6,
+      "published": "2026-11-05T03:38:27.859Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11312,7 +11443,7 @@
     },
     "cortico-world-memory-core": {
       "kind": "world",
-      "version": "0.4.3",
+      "version": "0.4.4",
       "displayName": "记忆核心",
       "description": "Cortico World 长期记忆：一张卡片表 + 4 个工具 + 一段静态提示词，附状态、日程、主动开口与本地记忆地图。\n\nQQ 交流群：745879632",
       "locales": {
@@ -11344,8 +11475,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-memory-core/issues"
       },
       "created": "2026-11-01T13:09:43.487Z",
-      "published": "2026-11-05T02:34:46.417Z",
-      "versionCount": 10,
+      "published": "2026-11-05T02:40:23.877Z",
+      "versionCount": 11,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11380,6 +11511,7 @@
       },
       "changelog": {
         "versions": [
+          "0.4.4",
           "0.4.3",
           "0.4.2",
           "0.4.1",
@@ -11910,17 +12042,17 @@
     },
     "cortico-world-mosey": {
       "kind": "world",
-      "version": "1.8.4",
+      "version": "1.8.9",
       "displayName": "摸鱼",
-      "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。评论和私信都能收能回；关注流、周报、本地书库；按额度点赞、评论、关注、发动态。默认人审，三把工具、少 token。",
+      "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。评论和私信都能收能回；关注流、周报、本地书库；按额度点赞、评论、关注、发动态。默认人审，三把工具、少 token。\n\nQQ 交流群：745879632",
       "locales": {
         "zh": {
           "displayName": "摸鱼",
-          "description": "让她自己去抖音/B站逛：刷候选、看关注流、看视频/动态/专栏、点赞、评论、回复楼中楼；私信收发两边都通，面板上直接回。还带周报和本地书库。公开动作有硬额度，默认先出草稿等你批准。"
+          "description": "让她自己去抖音/B站逛：刷候选、看关注流、看视频/动态/专栏、点赞、评论、回复楼中楼；私信收发两边都通，面板上直接回。还带周报和本地书库。公开动作有硬额度，默认先出草稿等你批准。\n\nQQ 交流群：745879632"
         },
         "en": {
           "displayName": "Mosey",
-          "description": "Let her browse Douyin and Bilibili: feeds, following updates, videos, dynamics, articles. Comments and DMs work both ways, reply right from the panel. Plus weekly recap and a local book library. Hard caps and owner approval by default."
+          "description": "Let her browse Douyin and Bilibili: feeds, following updates, videos, dynamics, articles. Comments and DMs work both ways, reply right from the panel. Plus weekly recap and a local book library. Hard caps and owner approval by default.\n\nQQ group: 745879632"
         }
       },
       "author": "lutsing",
@@ -11947,8 +12079,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-mosey/issues"
       },
       "created": "2026-11-01T08:17:38.660Z",
-      "published": "2026-11-04T13:50:18.791Z",
-      "versionCount": 13,
+      "published": "2026-11-05T03:30:26.734Z",
+      "versionCount": 16,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11986,11 +12118,16 @@
       "summary": {
         "tools": 3,
         "events": 6,
-        "toolTokens": 1532,
+        "toolTokens": 1558,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.8.9",
+          "1.8.8",
+          "1.8.7",
+          "1.8.6",
+          "1.8.5",
           "1.8.4",
           "1.8.3",
           "1.8.2",
@@ -12024,7 +12161,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/619",
         "up": 3,
         "down": 0,
-        "comments": 10
+        "comments": 11
       }
     },
     "cortico-world-mouse-polling-fix": {
@@ -14067,7 +14204,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/482",
         "up": 3,
         "down": 0,
-        "comments": 14
+        "comments": 15
       }
     },
     "cortico-world-private-companion-kpect": {
@@ -15786,17 +15923,17 @@
     },
     "cortico-world-rhythm": {
       "kind": "world",
-      "version": "1.0.5",
+      "version": "1.0.6",
       "displayName": "作息",
       "description": "Coopanion 的作息扩展：让桌宠有自己的生活节律——什么时候主动搭话、什么时候安静、什么时候睡觉和休息、有时还会做梦。fork 自 cortico-world-selftalk 0.2.2。",
       "locales": {
         "zh": {
           "displayName": "作息",
-          "description": "让桌宠有自己的生活节律：安静后叫醒、睡觉与醒来、做梦、搭话意愿与场景感知。只给时机和事实，怎么回应由桌宠自己决定。"
+          "description": "让桌宠有自己的生活节律——什么时候主动搭话、什么时候安静、什么时候睡觉和休息、有时还会做梦。只给时机和事实，怎么回应由桌宠自己决定。"
         },
         "en": {
           "displayName": "Rhythm",
-          "description": "Give your desktop pet a daily rhythm: wake-ups after quiet time, sleep and mornings, dreams, talking willingness and presence facts. Timing and facts only; the pet decides how to respond."
+          "description": "Give your desktop pet a daily rhythm — when to reach out, when to stay quiet, when to sleep and rest, and sometimes to dream. Timing and facts only; the pet decides how to respond."
         }
       },
       "author": "大肥鱼 (BigFatFish)",
@@ -15824,8 +15961,8 @@
         "bugs": "https://github.com/alomoi/cortico-world-rhythm/issues"
       },
       "created": "2026-11-05T02:08:09.767Z",
-      "published": "2026-11-05T02:09:26.105Z",
-      "versionCount": 2,
+      "published": "2026-11-05T04:29:05.943Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -15848,6 +15985,7 @@
       },
       "changelog": {
         "versions": [
+          "1.0.6",
           "1.0.5",
           "1.0.4",
           "1.0.3",
@@ -17457,7 +17595,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/204",
         "up": 0,
         "down": 0,
-        "comments": 19
+        "comments": 20
       }
     },
     "cortico-world-soft-voice": {
@@ -20534,17 +20672,17 @@
     },
     "cortico-world-weather": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.2.0",
       "displayName": "Weather",
       "description": "Cortico World: hands Coo current weather, 1/6/12/24/48-hour forecasts and China Meteorological Administration-style alerts from seven selectable providers",
       "locales": {
         "zh": {
           "displayName": "天气",
-          "description": "把现在天气、未来 1/6/12/24/48 小时天气和中央气象台体系的天气预警交给她；数据源可换，取数排在从凌晨 00:00 起算的时次，三类信息各有开关，还可每晚推送次日天气与预警。"
+          "description": "把现在天气、未来 1/6/12/24/48 小时天气和中央气象台体系的天气预警交给她；数据源可换，取数排在从凌晨 00:00 起算的时次，三类信息各有开关，正文可简略可详细，未来的五个时次能逐个开关，还可每晚推送次日天气与预警。"
         },
         "en": {
           "displayName": "Weather",
-          "description": "Hands Coo current conditions, 1/6/12/24/48-hour forecasts and CMA-style alerts. Seven providers, fetch slots counted from local midnight, per-section switches, and an optional nightly next-day push."
+          "description": "Hands Coo current conditions, 1/6/12/24/48-hour forecasts and CMA-style alerts. Seven providers, fetch slots counted from local midnight, per-section switches, brief or detailed text, switchable forecast horizons, and an optional nightly next-day push."
         }
       },
       "author": "bluemika111",
@@ -20567,13 +20705,12 @@
         "bugs": "https://github.com/bluemika111/cortico-world-weather/issues"
       },
       "created": "2026-11-04T15:01:37.956Z",
-      "published": "2026-11-04T15:40:01.013Z",
-      "versionCount": 3,
+      "published": "2026-11-05T03:56:15.683Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
-        "internet",
-        "injection-risk"
+        "internet"
       ],
       "tags": [
         "internet",
@@ -20587,11 +20724,12 @@
       "summary": {
         "tools": 3,
         "events": 4,
-        "toolTokens": 311,
-        "envPromptTokens": 535
+        "toolTokens": 319,
+        "envPromptTokens": 733
       },
       "changelog": {
         "versions": [
+          "0.2.0",
           "0.1.3",
           "0.1.2",
           "0.1.1",
@@ -20602,7 +20740,7 @@
       "discussion": {
         "number": 726,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/726",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -21223,7 +21361,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/686",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-whale-balance": {
