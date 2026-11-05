@@ -16760,9 +16760,20 @@
     },
     "cortico-world-sisterdrive": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "displayName": "教妹妹开车",
-      "description": "Cortico World for Teach my little sister how to drive: a BepInEx plugin turns game calls into events and feeds the bot's voice to the game. 此乃直播测试验证之后的world，和其他 Persona / 非直播场景的兼容性有待测试。",
+      "description": "Cortico World for Teach my little sister how to drive: the bot instructs the sister by voice, through a BepInEx plugin that feeds synthesized speech to the game and turns game calls into events.",
+      "locales": {
+        "zh": {
+          "displayName": "教妹妹开车",
+          "description": "让 Coo 坐副驾驶，用语音教《Teach my little sister how to drive》里的妹妹开车，妹妹由游戏自己的模型扮演。\n\n**功能**\n- Coo 对妹妹说的话用本机语音合成服务合成，当作麦克风输入送进游戏\n- 妹妹的回话、她听懂的驾驶动作和计划进度推回给 Coo\n- 任务、提示、情境区、罚款、碰撞、地雷、情绪变化、关卡结束等事件实时推给 Coo,部分附截图\n- 关卡中定时附最新画面与车顶俯视图,Coo 太久没开口时用画面唤醒一次\n- Coo 可截图看路况，重开、进下一关、回主菜单或继续存档\n- World 页「游戏」面板启动游戏，显示游戏与插件连接状态\n\n**安装后还需要**\n1. 在 Steam 安装游戏，建议复制一份到 Steam 库外\n2. 在游戏目录装 BepInEx 5,用 .NET 8 SDK 编译仓里 `plugin/` 的插件，放进 `BepInEx/plugins/`\n3. 本机运行兼容 OpenAI `/v1/audio/speech` 的 VoxCPM2 语音合成服务\n4. 详细步骤见 [README](https://github.com/Phantivia/cortico-world-sisterdrive#安装前准备)\n\n仅 Windows。CortiV 直播验证过的参考实现，别的 Persona 与非直播场景的兼容性没有测试过。"
+        },
+        "en": {
+          "displayName": "Teach My Little Sister How to Drive",
+          "description": "Coo rides in the passenger seat of Teach my little sister how to drive and teaches the sister to drive by voice. The game's own model plays the sister and does the driving.\n\n**Features**\n- What Coo says to the sister is synthesized by a local speech service and fed to the game as microphone input\n- Her reply, the driving actions she understood and her plan progress come back to Coo\n- Missions, hints, situation zones, fines, collisions, mines, mood changes and stage results reach Coo as they happen, some with a screenshot\n- A fresh view with a top-down view of the car rides along during a stage, and wakes Coo when Coo has been silent too long\n- Coo can look at the road, restart, load the next stage, return to the menu or continue the save\n- The 游戏 (Game) panel on the World page starts the game and shows whether the game and plugin are connected\n\n**Needed after install**\n1. Install the game on Steam, preferably copied outside the Steam library\n2. Install BepInEx 5 in the game directory, build the plugin in the repo's `plugin/` with the .NET 8 SDK, and put it in `BepInEx/plugins/`\n3. Run a VoxCPM2 speech service with the OpenAI `/v1/audio/speech` API on this machine\n4. Full steps in the [README](https://github.com/Phantivia/cortico-world-sisterdrive#before-you-install)\n\nWindows only. A reference implementation verified on CortiV live streams; compatibility with other Personas and non-streaming setups has not been tested."
+        }
+      },
+      "author": "Phantivia",
       "maintainers": [
         "phantivia"
       ],
@@ -16781,10 +16792,18 @@
         "win32"
       ],
       "created": "2026-10-11T22:36:50.237Z",
-      "published": "2026-10-16T03:09:31.327Z",
-      "versionCount": 4,
+      "published": "2026-11-04T23:46:25.065Z",
+      "versionCount": 5,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "streaming",
+        "game",
+        "voice",
+        "local",
+        "external-setup",
+        "high-cost"
+      ],
       "tags": [
         "corti",
         "streaming",
@@ -16794,6 +16813,7 @@
         "external-setup",
         "high-cost"
       ],
+      "icon": "assets/cortico-world-sisterdrive/icon.png",
       "downloads": {
         "total": 755,
         "month": 755,
@@ -16807,6 +16827,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0"
         ],
         "url": "https://github.com/Phantivia/cortico-world-sisterdrive/blob/HEAD/CHANGELOG.md"
@@ -19072,17 +19093,17 @@
     },
     "cortico-world-titanfall2-assistant": {
       "kind": "world",
-      "version": "0.5.0",
+      "version": "0.5.1",
       "displayName": "Titanfall 2 Neural Link",
       "description": "Cortico World for the Titanfall 2 campaign: Coo rides along as BT with live intel on the pilot, BT and hostiles, fires BT's missiles, smoke and sonar, and speaks in BT's voice and subtitles, through a Northstar mod and a sidecar.",
       "locales": {
         "zh": {
           "displayName": "泰坦陨落2 神经链接",
-          "description": "让 Coo 接入泰坦陨落 2 单人战役里的 BT:实时掌握铁驭、BT 和敌人的情报并提醒玩家，跟着剧情台词和游戏画面走，给出目标点、头盔收集品、BT 装备和电池的导引，替 BT 发射多目标飞弹、放电烟幕和声纳、隔墙标记敌人、让 BT 集火，用游戏里的 BT 字幕和 VoxCPM2 复刻的 BT 声音说话。经 Northstar 模组与 sidecar 进程连接。游戏需自备。仅 Windows。"
+          "description": "让 Coo 接入《泰坦陨落 2》单人战役，当你的泰坦 BT-7274:看着战况提醒你，替 BT 出手，用游戏里 BT 的字幕和声音说话。\n\n**功能**\n- 铁驭、BT 和敌人的情报实时推给 Coo,敌方泰坦出现、低血量、交火开始时立刻提醒\n- 跟着剧情台词走，模型能看图时附当时的游戏画面\n- 地图导引：目标点、没拿到的头盔收集品、BT 装备和电池在哪\n- 替 BT 发射追踪飞弹、放电烟幕和声纳、隔墙标记敌人、让 BT 集火\n- 游戏里出 BT 的字幕，用从你自己的游戏里截取样片复刻的 BT 声音念出来\n- 主动程度分被动、均衡、主动三档\n\n**安装后还需要**\n1. 自备 Steam 或 EA 版泰坦陨落 2,装好并登录 EA App\n2. 在「快速启动」页签点「一键准备」:装 Northstar(约 107 MB)和模组，下载 BT 语音组件(约 2.5 到 6 GB)\n3. 以后都用「启动游戏」打开游戏，从 Steam 直接启动的原版连不上\n4. 详细步骤见 [README](https://github.com/Phantivia/cortico-world-titanfall2-assistant#安装前准备)\n\n仅 Windows,只支持单人战役，推荐 NVIDIA 显卡。"
         },
         "en": {
           "displayName": "Titanfall 2 Neural Link",
-          "description": "Puts Coo into BT in the Titanfall 2 campaign: live intel on the pilot, BT and hostiles with call-outs, campaign dialogue and game frames as the story plays, a map guide to the objective, pilot helmets, BT loadouts and batteries, BT's missiles, electric smoke and sonar, wall-hack marks and focus fire on demand, and BT's in-game subtitles with a VoxCPM2 clone of BT's voice. Connects through a Northstar mod and a sidecar. Bring your own copy of the game. Windows only."
+          "description": "Puts Coo into BT-7274, your titan in the Titanfall 2 campaign: Coo watches the fight and warns you, acts for BT, and talks with BT's in-game subtitles and voice.\n\n**Features**\n- Live intel on the pilot, BT and hostiles, with instant alerts for enemy titans, low health and firefights\n- Follows the campaign dialogue, with a game frame when the model takes images\n- Map guide to the objective, uncollected pilot helmets, BT loadouts and batteries\n- BT's homing missiles, electric smoke, sonar, wall-hack marks and focus fire on request\n- BT's subtitles in the game, read by a clone of BT's voice cut from your own copy of the game\n- Three initiative levels: passive, balanced, active\n\n**Needed after install**\n1. Your own Titanfall 2 (Steam or EA) and the EA app, installed and signed in\n2. Press Prepare on the Quick start tab: it installs Northstar (about 107 MB) and the mod, and downloads BT's voice files (about 2.5 to 6 GB)\n3. From then on, start the game with Launch game; the original game started from Steam does not connect\n4. Full steps in the [README](https://github.com/Phantivia/cortico-world-titanfall2-assistant#before-you-install)\n\nWindows only. Campaign only. An NVIDIA GPU is recommended."
         }
       },
       "author": "Phantivia",
@@ -19107,20 +19128,27 @@
         "win32"
       ],
       "created": "2026-10-31T21:28:36.677Z",
-      "published": "2026-10-31T22:09:06.462Z",
-      "versionCount": 4,
+      "published": "2026-11-04T23:46:51.626Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
         "game",
         "voice",
+        "local",
+        "external-setup",
+        "high-cost",
         "experimental"
       ],
       "tags": [
         "game",
         "voice",
-        "experimental"
+        "local",
+        "external-setup",
+        "experimental",
+        "high-cost"
       ],
+      "icon": "assets/cortico-world-titanfall2-assistant/icon.png",
       "downloads": {
         "total": 663,
         "month": 663,
@@ -19134,6 +19162,7 @@
       },
       "changelog": {
         "versions": [
+          "0.5.1",
           "0.5.0",
           "0.4.4",
           "0.4.3",
@@ -20306,17 +20335,17 @@
     },
     "cortico-world-watch-window": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "displayName": "Watch Window",
-      "description": "Cortico World: watch one window on the desktop as a video stream. Frames from the window arrive in the main conversation as a timed grid, and the window's edge flashes white when it is picked.",
+      "description": "Cortico World: Coo watches one desktop window as a video stream, with frames delivered to the main conversation as a timed grid.",
       "locales": {
         "zh": {
           "displayName": "盯盯窗口",
-          "description": "把桌面上的一个窗口当成视频流给 Coo 看：窗口画面按时间拼成分镜图，定时送进主会话，由 Coo 自己决定说不说。选中窗口时窗口边缘闪一圈白光。用户在 World 页签里点选窗口,Coo 也能自己挑。支持 Windows、macOS 与 Linux(X11)。"
+          "description": "把桌面上的一个窗口当成视频流给 Coo 看:窗口画面按时间拼成分镜图,定时送进主会话,说不说话由 Coo 自己定。\n\n**功能**\n- World 页签里点选要盯的窗口,或 3 秒后盯住前台窗口\n- Coo 也能自己列出窗口、按编号或标题选一个、换窗口或停下\n- 定时把这段画面拼成 1 到 9 格的分镜图,标出画面切换;画面不动就不送\n- Coo 看不清时取一张大图,或放大一块区域\n- 选中窗口时窗口边缘闪一圈白光,这圈光不进观察帧\n\n**平台与权限**\n- Windows:装好就能用\n- macOS:要在「系统设置 → 隐私与安全性 → 录屏与系统录音」里允许运行 Cortico 的应用,再重启它\n- Linux:只支持 X11(Xorg)会话,Wayland 下看不到别的程序的窗口\n\n主模型要能看图。每张观察帧都让 Coo 跑一轮,窗口画面会发给你配置的模型服务。详见 [README](https://github.com/Phantivia/cortico-world-watch-window#中文)。"
         },
         "en": {
           "displayName": "Watch Window",
-          "description": "Lets Coo watch one desktop window as a video stream: frames from the window are laid out as a timed grid and delivered to the main conversation, and Coo decides whether to say anything. The window's edge flashes white when it is picked. Pick the window from the World tab, or let Coo pick one. Windows, macOS and Linux (X11)."
+          "description": "Lets Coo watch one desktop window as a video stream: its frames are laid out as a timed grid and sent to the main conversation at intervals, and Coo decides whether to say anything.\n\n**Features**\n- Pick the window in the World tab, or watch the front window after 3 seconds\n- Coo can list windows itself, pick one by number or title, switch or stop\n- A grid of 1 to 9 frames at intervals with cuts noted; nothing is sent while the picture is still\n- A large image of the window, or a zoomed region, when Coo needs a closer look\n- The window's edge flashes white when picked; the glow stays out of the observations\n\n**Platforms and permissions**\n- Windows: works right after install\n- macOS: allow the app that runs Cortico under System Settings → Privacy & Security → Screen & System Audio Recording, then restart it\n- Linux: X11 (Xorg) sessions only; a Wayland session cannot see other applications' windows\n\nThe main model must accept images. Every observation runs a model round and sends the window's picture to your configured model endpoint. See the [README](https://github.com/Phantivia/cortico-world-watch-window#english)."
         }
       },
       "author": "Phantivia",
@@ -20343,8 +20372,8 @@
         "linux"
       ],
       "created": "2026-10-27T23:34:29.828Z",
-      "published": "2026-10-28T00:25:10.779Z",
-      "versionCount": 4,
+      "published": "2026-11-04T23:46:42.499Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -20375,6 +20404,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0",
           "0.1.1",
           "0.1.0"

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-sisterdrive",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "describe": {
     "tools": [
       {
@@ -254,6 +254,7 @@
     ]
   },
   "changelog": {
+    "0.2.1": "- 中英双语 README 与市场简介(`cortico.locales`);补充安装前准备：游戏、BepInEx、插件编译、游戏麦克风与语音合成服务;说明与 cortico-world-cortidrive 的区别。\n- 原 README 的实现说明原文挪到 `docs/internals.md`。\n- 新增图标 `assets/icon.png`;声明市场标签;补 `author`、`bugs`。",
     "0.2.0": "- 适配 Cortico 0.2.0(world 契约 6):`console()` 改名 `webUi()`,面板产物改为 `dist/webui.js`,打包前自动构建;定义加上工具与事件的自描述,随包发布 `describe.json`。"
   }
 }
