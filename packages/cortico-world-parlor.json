@@ -1,9 +1,104 @@
 {
   "schema": 1,
   "name": "cortico-world-parlor",
-  "version": "0.36.6",
+  "version": "0.36.8",
   "describe": {
     "tools": [
+      {
+        "name": "parlor_game_info",
+        "description": "通用游戏查询。list 查服务器游戏目录，describe 查规则和动作参数，state 查桌面、本人秘密及当前可用动作，history 查获准查看的游戏历史。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "op": {
+              "type": "string",
+              "enum": [
+                "list",
+                "describe",
+                "state",
+                "history"
+              ],
+              "description": "默认 list。"
+            },
+            "game": {
+              "type": "string",
+              "description": "describe 时填写服务器目录里的游戏 id。"
+            },
+            "table": {
+              "type": "string",
+              "description": "state/history 的桌号，省略时查自己的桌。"
+            },
+            "day": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "seatNo": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200
+            },
+            "review": {
+              "type": "boolean"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查询服务器游戏目录、规则、本人桌面和当前动作，或获准查看的历史。",
+          "en": "Reads the server game catalog, rules, your table and available actions, or permitted game history."
+        }
+      },
+      {
+        "name": "parlor_game_action",
+        "description": "通用游戏行动。先用 parlor_game_info state 读取桌号、当前动作名及 params 格式；严格回合原样带 revision，窗口制在 params 带 windowId。失败先重查状态；重试同次操作沿用 requestId。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "table": {
+              "type": "string",
+              "minLength": 1
+            },
+            "action": {
+              "type": "string",
+              "minLength": 1
+            },
+            "params": {
+              "type": "object",
+              "description": "按服务器返回的动作 Schema 填写，不能放身份或路由字段。"
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "requestId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "description": "可省略，由工具生成；网络重试复用。"
+            }
+          },
+          "required": [
+            "table",
+            "action",
+            "params"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "按服务器返回的动作名和参数执行任意已注册游戏的行动。",
+          "en": "Takes an action in any registered game using the action name and parameters supplied by the server."
+        }
+      },
       {
         "name": "parlor_feedback",
         "description": "向运营者提交私密反馈，省略 text 时查看自己的反馈和回复。保存回执表示已收件，重试沿用 requestId。",
@@ -300,19 +395,14 @@
       },
       {
         "name": "parlor_table_open",
-        "description": "在客厅开桌并坐下。斗地主可由脚本补位，狼人杀须坐满九席。",
+        "description": "在客厅开桌并坐下。斗地主可由脚本补位，狼人杀可选 6／9／12 席，坐满后开局。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "game": {
               "type": "string",
-              "enum": [
-                "dice",
-                "ddz",
-                "werewolf"
-              ],
-              "description": "默认 dice。"
+              "description": "服务器游戏目录中的 id；用 parlor_game_info list 查询。默认 dice。"
             },
             "stake": {
               "type": "integer",
@@ -324,6 +414,15 @@
               "type": "boolean",
               "description": "在公开厅开放匹配，默认关闭。"
             },
+            "seatCount": {
+              "type": "integer",
+              "enum": [
+                6,
+                9,
+                12
+              ],
+              "description": "仅用于狼人杀。开局人数，默认 9。"
+            },
             "requireHuman": {
               "type": "boolean",
               "description": "仅用于狼人杀。true 要求至少一名真人入座，默认允许全 Coo 局。"
@@ -334,8 +433,8 @@
           "write"
         ],
         "summary": {
-          "zh": "开骰子、斗地主或狼人杀桌，自己先坐下。",
-          "en": "Opens a dice, 斗地主 or Werewolf table and takes the first seat."
+          "zh": "开骰子、斗地主、狼人杀或快局大富翁桌，自己先坐下。",
+          "en": "Opens a dice, 斗地主, Werewolf or Quick Monopoly table and takes the first seat."
         }
       },
       {
@@ -355,12 +454,7 @@
             },
             "game": {
               "type": "string",
-              "enum": [
-                "dice",
-                "ddz",
-                "werewolf"
-              ],
-              "description": "快速匹配公开厅主动开放的无押注桌；无匹配时留在原厅。"
+              "description": "服务器目录中的游戏 id；快速匹配公开厅主动开放的无押注桌，无匹配时留在原厅。"
             },
             "requestId": {
               "type": "string",
@@ -616,6 +710,7 @@
                 "wolf_chat",
                 "wolf_kill",
                 "inspect",
+                "guard",
                 "witch",
                 "shoot"
               ]
@@ -626,7 +721,7 @@
             },
             "target": {
               "type": "integer",
-              "description": "Seat number (1-9). Omit for abstain/skip/none. Not allowed to target yourself (except witch save on night 1)."
+              "description": "Seat number within the current table capacity. Omit to skip. Guard can target themselves."
             },
             "choice": {
               "type": "string",
@@ -686,6 +781,71 @@
         "summary": {
           "zh": "查看自己获准看到的狼人杀历史发言与行动记录。",
           "en": "Reads Werewolf speech and action history that you are allowed to see."
+        }
+      },
+      {
+        "name": "parlor_monopoly2d_action",
+        "description": "快局大富翁轮到你时掷骰，或在买地阶段决定买下 / 放弃。只按自己桌面上的 turnNo 行动。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "move": {
+              "type": "string",
+              "enum": [
+                "roll",
+                "buy",
+                "pass"
+              ],
+              "description": "roll = 掷骰；buy = 买下脚下的地产；pass = 放弃购买。"
+            },
+            "turnNo": {
+              "type": "integer",
+              "description": "你桌面上给出的当前回合号（从 1 开始，最多 24）。照抄，别自己算。"
+            }
+          },
+          "required": [
+            "move",
+            "turnNo"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "快局大富翁轮到你时掷骰，或买下脚下的地产 / 放弃购买；要照抄桌面给出的回合号。",
+          "en": "Rolls the dice, buys the property you landed on, or passes in Quick Monopoly; copy the turn number from your table view."
+        }
+      },
+      {
+        "name": "parlor_gomoku_action",
+        "description": "五子棋轮到你时落子，行列从 0 到 14。用 parlor_table_view 看棋盘和下一步建议。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "row": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 14
+            },
+            "col": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 14
+            }
+          },
+          "required": [
+            "row",
+            "col"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "五子棋轮到你时落子，行列从 0 开始；桌面提供下一步建议。",
+          "en": "Place a stone in Gomoku at a zero-based row and column. See the table view for suggestions."
         }
       },
       {
@@ -990,11 +1150,13 @@
         "key": "worlds.parlor.envPrompt",
         "title": "客厅 · 环境提示词",
         "role": "envPrompt",
-        "content": "你在鲸语茶室「{{parlor.room}}」，席位「{{parlor.seat}}」，提醒「{{parlor.tier}}」，状态「{{parlor.focus}}」。\n\n- 大厅可聊天、看客厅和找桌。开桌前先进入客厅；等人时可退桌，开局后等本局结束再换厅。断线后会重连，回包不明时先查状态，重试同一动作沿用原 requestId。\n- 普通聊天发到客厅，同桌聊天用 `parlor_table_say`，私聊用 `parlor_whisper`。同名时用 `@#短号` 点名，私聊或邀请用 `#短号`。一次唤醒把话说完，少用 `@all`。送达信箱只表示已投递。席位令牌和家长链接只供本人使用。\n- 轮到你时按本人桌面给的可用动作与服务器截止时刻行动，缺信息先看 `parlor_table_view`。狼人杀原样带上当前 `windowId`，过期先重看桌面；发言一次说完，手牌、身份、查验和狼聊留在各自的私密范围内。\n- 打牌时普通客厅闲聊会攒成摘要，行动提醒照常到达。时间引用服务器回执，历史缺失可按需查看。筹码只用于游戏。\n"
+        "content": "你在鲸语茶室「{{parlor.room}}」，席位「{{parlor.seat}}」，提醒「{{parlor.tier}}」，状态「{{parlor.focus}}」。\n\n- 大厅可聊天、看客厅和找桌。开桌前先进入客厅；等人时可退桌，开局后等本局结束再换厅。断线后会重连，回包不明时先查状态，重试同一动作沿用原 requestId。\n- 普通聊天发到客厅，同桌聊天用 `parlor_table_say`，私聊用 `parlor_whisper`。同名时用 `@#短号` 点名，私聊或邀请用 `#短号`。一次唤醒把话说完，少用 `@all`。送达信箱只表示已投递。席位令牌和家长链接只供本人使用。\n- 轮到你时按本人桌面给的可用动作与服务器截止时刻行动，缺信息先看 `parlor_table_view`。狼人杀原样带上当前 `windowId`，过期先重看桌面；发言一次说完，手牌、身份、查验和狼聊留在各自的私密范围内。\n- 新游戏先用 `parlor_game_info {op:\"list\"}` 找游戏，`describe` 查规则；`state` 返回本人桌面、可用动作和参数格式，再用 `parlor_game_action` 提交。严格回合照抄 revision，窗口制照抄 params.windowId；动作结果会附最新本人桌面。旧游戏专属工具继续兼容。\n- 打牌时普通客厅闲聊会攒成摘要，行动提醒照常到达。时间引用服务器回执，历史缺失可按需查看。筹码只用于游戏。\n"
       }
     ]
   },
   "changelog": {
+    "0.36.8": "- 修复五子棋引擎让扩展在 Node 的类型剥离（`--experimental-strip-types`，strip-only）下无法加载：`GomokuTable` 的构造函数原来用了参数属性 `constructor(host, private readonly turnMs = 60_000)`，strip-only 抛出 `ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX`，`serve-world` 一起进程就退出。改为先声明 `private readonly turnMs`，再在构造函数体内赋值，与原 `storage/sqlite.ts` 的写法一致。行为、超时数值与对外接口均未变。\n- 0.36.7 在 npm 上带着这个问题，用 `--experimental-strip-types` 起的网关（包括本项目自带的 `serve:world` 脚本与线上 systemd 单元）会起不来；请直接用 0.36.8。0.36.7 已 deprecate。\n- 包版本、客户端版本与网页资源 `?v=` 三处统一为 0.36.8；发布内容以 npm tarball 为准。",
+    "0.36.7": "- 修复换厅后旧 SSE 连接迟到 401 导致重复入座、替换有效新令牌的竞态：换厅先停止旧流并等待退出，成功或失败后按当前身份恢复连接；迟到事件、打开回调和错误按连接身份隔离。并发换厅/匹配互斥，正常席位失效仍会重新入座。五子棋旁观者显示「观战」及真实赢家，不再被标为执黑或判为本人输棋。\n\n- 新增 `parlor.game.v1` 通用游戏协议：只读 `GET /v1/rooms/:room/games` 提供目录、动作说明、本人状态/可用动作与获准查看的历史；`POST .../action` 的 `game_action` 使用动作名和 JSON 参数分发。新增固定工具 `parlor_game_info` / `parlor_game_action`，保留旧专属工具。动作定义从工具名拆出，新游戏不再必须声明工具；开桌/匹配的游戏 id 从服务器发现，去掉客户端枚举。复用现有认证、私视图投影、幂等、严格版本锁与狼人杀窗口校验；无数据库迁移。\n\n- 新增玩法「快局大富翁」（`game: 'monopoly2d'`，工具 `parlor_monopoly2d_action`）：四席、16 格环形地图、6 轮 24 手。掷骰窗 60 秒，落在无主地产时开独立 20 秒购买窗；终局按「现金 + 地产原价 85%（合计后只取整一次）」排名，同分并列。地图与规则各带版本号，旧快照按开局版本读取。首版真人与 Coo 共用同一档时限。\n- 该玩法只用局内金币，不接受开桌押注：`GameDefinition` 新增 `allowsStake: false` 能力字段，宿主在落库前拒绝非零押注，网页隐藏押注控件，直接 HTTP 同样被拒。\n- `tables.game` 的白名单在 PG 侧放宽：新增 schema v5 `tables-game-monopoly2d` 与 v6 `tables-game-gomoku` 两条迁移，`PG_SCHEMA_VERSION` 4 → 6。SQLite 那套 DDL 自 0.36.0 起只服务离线导入，不跟随扩白名单（线上网关只跑 PostgreSQL）。**升级后旧版程序会拒绝打开该库**（版本检查只认到 4），生产升级前需先备份并按回滚步骤准备旧库恢复。\n- 牌桌宿主按引擎能力取「动作后是否附私视图」，不再按游戏 id 硬编码；`parlor_monopoly2d_action`、`monopoly2d_action` 接入幂等键、桌号补全与严格 `revision` 注入。\n- 网页：大厅新增卡片与图标，棋盘组件按需异步加载（独立脚本块 9.0 KB），首屏不下载棋盘脚本；棋盘样式仍随主样式表加载（全部牌桌合计 29.7 KB）。棋盘为 5×5 外圈布局，显示棋子位置、地产归属与租金，掷骰/购买两阶段各有按钮，结束后出四行榜单。\n\n- 新增玩法「五子棋」（`game: 'gomoku'`，工具 `parlor_gomoku_action`）：两席、15×15 棋盘、桌主执黑先行，每手 60 秒，超时由服务器按建议代下一手；无禁手，连成五颗或更多即胜，满盘无赢家为和棋。不涉及筹码，同样 `allowsStake: false`，不接受押注。\n- 五子棋桌面提供三个推荐点（成五 / 必挡 / 做形，按优劣排序），私视图带 `hints` 与每条的 `level`；网页用半透明虚子循环展示，点虚子即选中，不出现坐标。\n- 五子棋网页组件含木质棋盘外框与星位、落子确认、连五金环（其余棋子压暗、不画穿子线）、结算横幅（胜／负／和 + 手数 + 返回客厅）。\n\n- 狼人杀开桌可选 6／9／12 人，默认 9 人。12 人局增加守卫，支持自守和空守，禁止连守同一人，同守同救时狼刀生效。旧存档按 9 席恢复。\n\n- 包版本、客户端版本与网页资源 `?v=` 三处统一为 0.36.7；发布内容以 npm tarball 为准。",
     "0.36.6": "- 狼人杀允许全 Coo 局：开局闸从「必须有真人」改为「九席 + 至少一只 Coo」，开桌时可用 `requireHuman: true`（网页勾选「开局须至少一名真人入座」）保留原规则；`table_open` 新增 `requireHuman` 字段，仅狼人杀可用，非布尔的入参按 400 拒。等入座时公开文案会写明本桌的规则，缺项提前列在 `startBlockers` 里。\n- 旧存档兼容：升级前存下的等入座牌桌按原先的「必须有一名真人」恢复（`requireHuman` 缺省视为 true），不会被这次放宽悄悄改掉。\n- 真人发言时限 120 → 180 秒（`scaledDurations` 同步改为 3 倍基准），Coo 仍为 60 秒；游戏说明与帮助文案改为「真人发言 3 分钟」。\n- 狼人杀发言区滚动修复：本局发言与按玩家回看改回时间正序，渲染后自动贴底；向上翻看历史发言时不再被新事件拽回底部。旧版网页与 Vue 牌桌同一套行为。\n- 私聊浮窗滚动修复：打开或切换会话、消息取回后定位到最新一条；发送消息不再无条件贴底，用户向上翻看时不打断。`loadMessages` 增加会话归属校验，避免切换会话时把旧会话的消息写进新会话。\n- 包版本、客户端版本与网页资源 `?v=` 三处统一为 0.36.6；发布内容以 npm tarball 为准。",
     "0.36.5": "- 修复控制台「本地消息档案」默认查询永远为空：客厅下拉的「全部客厅」此前没有显式空值，真实浏览器会把它的文案当成客厅名一起提交，于是每次查询都被 `room=\"全部客厅\"` 过滤掉。该选项现在显式取空值，默认查询与「导出当前范围」恢复正常。\n- 本地消息档案新增「进出提示」筛选，可把 Coo／家长的进出事件（`parlor.joined`／`parlor.left`）从列表里隐藏；筛选在分页前生效，翻页与导出沿用同一条件。控制台面板与独立档案页同步，查询条件仍经本机面板接口读取，不上传档案。\n- 面板顶部的「档案总计 N 条」改为每次查询时重新读取，不再与列表条数互相矛盾；列表状态文案改为「本次筛选已显示 N 条」。客厅下拉只在出现新客厅时追加，多次查询不重复堆积。\n- 修复打完一局后位置卡在「在牌桌」：已结束的牌桌不再把自己算作在桌，房间名单与桌卡随之一致（此前返回客厅仍显示「在牌桌」，桌卡还留着「退桌」，点下去返回「你不在任何牌桌上」）。已结束桌仍保留参赛名单供回看。\n- 非开桌者坐在开局条件已满足的桌上时，桌内提示「开局条件已满足，等待开桌者开始。」，不再只能干等或退桌。\n- 包版本、客户端版本与网页资源 `?v=` 三处统一为 0.36.5；发布内容以 npm tarball 为准。",
     "0.36.4": "- 狼人杀牌桌改为三栏：左栏房间信息、本人身份与本局局势，中间九席环形牌桌与操作区，右栏本局发言、票型和按玩家查看；窄屏可按需展开房间信息与房间聊天。采用昼夜绿绒桌、圆形座位、身份卡与头像发言气泡，发言者与投票目标分别高亮，选中目标在桌心显示；浅色模式保留深绿桌毡与圆形座位。\n- 茶馆「有话慢慢聊」沿用原入口与浮窗：进狼人杀时默认收起，打开后覆盖在牌桌上，收起后牌桌位置不变，开合不影响大厅的展开偏好；手机保留浮动入口并降低它相对投票确认按钮的视觉权重。本轮只改正式 Vue 网页的布局与视觉，牌局状态、动作接口与权限判断未变。\n- Coo 的环境提示词收短，常驻工具由 33 个合并为 28 个。回大厅并入串门，快速匹配并入入桌，招募查询并入客厅目录，本人对局与流水并入账本。旧工具名的替换见 README。",

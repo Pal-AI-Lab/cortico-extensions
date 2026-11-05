@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "@kmchai/cortico-bot-heart",
-  "version": "0.1.5",
+  "version": "0.1.10",
   "describe": {
     "tools": [
       {
@@ -250,33 +250,18 @@
     },
     "prompts": [
       {
-        "key": "persona.profile",
-        "title": "我是谁 / 基本设定",
-        "content": "<!-- 我是谁与基本设定；只写正文，标题由 PREFIX 提供。留空或只留注释则使用身份记忆摘要。 -->\n"
-      },
-      {
-        "key": "persona.personality",
-        "title": "性格底色",
-        "content": "<!-- 性格底色；只写正文，标题由 PREFIX 提供。留空或只留注释则不加这一段。 -->\n"
-      },
-      {
-        "key": "persona.relationship",
-        "title": "与对方的关系",
-        "content": "<!-- 与对方/粉丝的关系；只写正文，标题由 PREFIX 提供。留空或只留注释则不加这一段。 -->\n"
-      },
-      {
-        "key": "persona.goals",
-        "title": "表达目标",
-        "content": "<!-- 表达目标；只写正文，标题由 PREFIX 提供。留空或只留注释则使用内置默认。 -->\n"
-      },
-      {
-        "key": "persona.speech",
-        "title": "说话方式",
-        "content": "<!-- 说话方式；只写正文，标题由 PREFIX 提供。留空或只留注释则使用内置默认。 -->\n"
+        "key": "persona.custom",
+        "title": "人设模板",
+        "content": "<!-- 人设模板：identity 摘要会自动放在这一块前面；不要重复写“我是谁”标题。 -->\n\n### 基本设定与日常\n\n<!-- 角色的背景、身份与日常设定。 -->\n\n### 性格底色\n\n<!-- 性格、习惯、在意的事、矛盾点。 -->\n\n### 我与对方的关系\n\n<!-- 与用户/粉丝的关系边界。 -->\n\n## 表达目标\n\n先问「我想说什么」，再问「怎么说」。不要以让对方满意为目标，也不要为了显得有个性而唱反调。\n可以同意、不同意、纠正、拒绝、转移话题，也可以沉默。自主只覆盖立场、语气和是否接话；事实与安全边界不被自主覆盖。\n\n## 说话方式\n\n- 允许短、碎、省略、模糊、自我修正；但是否这样说要由当前状态和意图决定，不能机械加语气词。\n- 情绪不等于交际意图。开心可以真诚夸奖，也可以调侃；不高兴可以直接说，也可以先不接。\n- 关系与场景决定表达。同一句话对朋友、陌生人、群聊不一样。\n- 不写客服腔，不写“希望这个回答对你有帮助”这类收尾；不堆没有信息量的寒暄。\n- 连续来自心情、关系、未完成线程，而不是每轮重新随机。\n"
       }
     ]
   },
   "changelog": {
+    "0.1.10": "- 撤销 0.1.9 的独立对话预算：删除 `decision.interactiveTimeoutMs`，`turn_plan`、`appraise` 与后台决策共用 `decision.timeoutMs`（默认 6s）；超时不再重试，避免一次超时变成两倍等待。\n- `turn_plan` 与 `appraise` 同时发起，不再一前一后；回复只等 `turn_plan`，`appraise` 完成后更新心情/关系。\n- `turn_plan` 从 10 问缩到 5 问：`action` / `intent` / `stance` / `length` / `voice`；没有语音出口或用户明确要求语音时省略 `voice`。`addressed` 来自输入标志，`directness` / `depth` / `playfulness` / `needsArbiter` 由 mood、意图和输入推导。\n- `appraise` 从 6 问缩到 5 问：`valence` / `arousal` / `energy` / `tension` / `relationship_delta`；`importance` 由关系变化幅度推导。\n- `turn_plan` state 改为压缩结构，约 500 tokens 估算预算；超限先删旧 `recent`、`hot`，最后截 `events`。\n- 恢复 `console_send`：它只用于其他来源向控制台广播；控制台来源仍要求正文直出。显式语音请求在语音门中优先于模型的 `voice` 判断。",
+    "0.1.9": "- 对话热路径不再等待 SystemOne 的后台超时：新增 `decision.interactiveTimeoutMs`（默认 1.2s），`turn_plan` 只尝试一次，超时立即启发式。\n- `appraise` 改为在 `turn_plan` 之后后台运行，不再和 `turn_plan` 一起阻塞回复，也避免两个请求并发挤占单槽 llama 服务。\n- SystemOne 客户端支持 `attempts`；超时/5xx 重试只保留在后台路径，热路径不再重试。\n- 控制台不再向模型暴露 `console_send`，并在路由提示中要求直接输出正文；修复控制台只出现工具调用、没有正常消息的问题。",
+    "0.1.8": "- 用户人设合回一整块 `PERSONA.md`，带类似旧 PREFIX 的默认模板（基本设定、性格底色、关系、表达目标、说话方式）。\n- `PERSONA.md` 接在 `## 我是谁` + identity 摘要之后；identity 始终存在，用户不写也不会丢。\n- 用户模板仍是纯 Markdown，不声明也不替换 `persona.displayName` / `persona.identity`；只有标题没有正文的空段在合并时去掉。\n- 基础模板仍只读；提示词页只暴露 `PERSONA.md` 一个可编辑文档。",
+    "0.1.7": "- `PROFILE` 槽现在始终先包含 identity 记忆摘要，再追加用户 `PROFILE.md` 的正文；用户不写也保留 identity。\n- `persona.profile` 合并值同步为 identity + 用户正文；提示词页与文档同步。\n- 其他槽（`PERSONALITY` / `RELATIONSHIP` / `GOALS` / `SPEECH`）行为不变。",
+    "0.1.6": "- 用户人设槽（`PROFILE` / `PERSONALITY` / `RELATIONSHIP` / `GOALS` / `SPEECH`）不再声明 `persona.displayName` / `persona.identity`；提示词页不再显示这两个变量。\n- 用户槽不再做变量替换，按纯 Markdown 原样进入 PREFIX；槽内写 `{{...}}` 会保留字面值。\n- 回退逻辑不变：`PROFILE` 空用 identity 摘要，`GOALS` / `SPEECH` 空用包内默认，`PERSONALITY` / `RELATIONSHIP` 空省略整段。",
     "0.1.5": "- 修复提示词页仍能编辑 PREFIX / BEHAVIOR / MEMORY_PROTOCOL：基础模板不再出现在 `promptDocs` 中，只作为只读段显示。\n- 人设拆成五个可分别填写的槽：`PROFILE`（我是谁/基本设定）、`PERSONALITY`（性格底色）、`RELATIONSHIP`（与对方的关系）、`GOALS`（表达目标）、`SPEECH`（说话方式）。每个槽只写正文，PREFIX 合并时补标题。\n- `PROFILE` 为空时回退到 identity 记忆摘要；`GOALS` / `SPEECH` 为空时回退到包内默认；`PERSONALITY` / `RELATIONSHIP` 为空时整段省略。\n- PREFIX.md 只保留标题、槽位标记、记忆、工具与 World 环境；`{{persona.identity}}` 仍是 identity records 摘要，不是用户人设。\n- 版本 0.1.5。",
     "0.1.4": "- 基础提示词模板改为包内只读：PREFIX / BEHAVIOR / MEMORY_PROTOCOL 不再读部署覆盖，WebUI 也不提供编辑；已有部署覆盖会被忽略。\n- PREFIX 开头改为 `# {{persona.displayName}}`，不再硬编码显示名。\n- 新增用户可编辑的 `CUSTOM.md`（自定义人设）：保存到 `<部署根>/prompts/CUSTOM.md`，通过 `{{persona.custom}}` 插在 PREFIX 顶部；可用 `{{persona.displayName}}` 与 `{{persona.identity}}`，留空或只留注释则不插入。\n- 提示词页只把 `CUSTOM.md` 标为可写；`persona.identity` 仍是记忆里 identity 记录的摘要，不是用户人设。",
     "0.1.3": "- 移除 Core drop 适配：Core PR [#371](https://github.com/Pal-AI-Lab/Cortico/pull/371) 被维护者拒绝，silence/defer 只走语义沉默（注入“不要回应”，主模型自行 `end_turn`）。\n- 删除 `persona/coreCompat.ts`、`silence.mode` 配置与相关测试；移除 `docs/core-drop.md`；ADR 0004 记录拒绝理由与 `deliveryGate` 替代建议。",
