@@ -2597,17 +2597,17 @@
     },
     "cortico-provider-humanize": {
       "kind": "provider",
-      "version": "0.2.1",
+      "version": "0.3.0",
       "displayName": "活人感 provider",
-      "description": "Cortico provider for Coopanion: once installed, your existing model endpoint waits for the Humanize World's inner thought and sends it along with the person's words. No endpoint to create or switch",
+      "description": "Cortico provider for Coopanion: a Humanize endpoint type that wraps the Coo connection, waits for the Humanize World's inner thought and sends it along with the person's words. Only endpoints you switch to it are affected",
       "locales": {
         "zh": {
           "displayName": "活人感 provider",
-          "description": "「活人感」的加速搭档：让桌宠的心事和你的话一起发给模型，桌宠一轮就开口。必须先装「活人感」，装上重启即可，不用任何设置。\n\n**两个扩展怎么配合**\n\n- **活人感**（World，必装）：负责想心事、查 AI 固定句式。单独装就能用。\n- **活人感 provider**（就是本扩展，可选）：把心事直接放进发给模型的请求里，省掉桌宠先调工具读心事的那一轮，回复更快。\n- 只装本扩展、不装「活人感」，没有任何作用。\n\n**怎么用**\n\n1. 在扩展页把「活人感」和本扩展都装上。\n2. 重启 Coopanion。\n3. 到 World 页打开「活人感」。如果它本来就开着，按提示把它关掉再打开一次。\n\n**不用去「模型」页做任何事。** 你现在用的模型端点会自动带上活人感，地址、Key、模型都不变。活人感关着时，请求原样发出，和没装一样。\n\n**开关在哪**：Coopanion 的模型扩展没有停用开关，所以开关放在「活人感」里：World 页「活人感 → 配置 → 基本设置」的「用「活人感 provider」」（默认开）。关掉后本扩展原样转发、什么都不做，不用卸载。\n\n**怎么看生没生效**：World 页「活人感」的「provider」徽章显示「已生效」就是在用。\n\n**怎么确认生效**：活人感「提示词」页签里的「最近 20 轮记录」出现「经 provider 注入」。\n\n**卸载**：扩展页卸掉，重启即可。只有一种例外：用 0.1.0 时在「模型」页手动新建过「活人感」端点，而且现在还在用它，要先切回原来的端点再卸载，不然桌宠会说不了话。"
+          "description": "「活人感」的加速搭档：让桌宠的心事和你的话一起发给模型，桌宠一轮就开口。必须先装「活人感」。\n\n**两个扩展怎么配合**\n\n- **活人感**（World，必装）：负责想心事、查 AI 固定句式。单独装就能用。\n- **活人感 provider**（就是本扩展，可选）：一种新的模型端点「活人感」，包住 Coo 连接，把心事直接放进发给模型的请求里，省掉桌宠先调工具读心事的那一轮。\n- 只装本扩展、不装「活人感」，没有任何作用。\n\n**怎么用**\n\n1. 在扩展页把「活人感」和本扩展都装上，重启 Coopanion。\n2. 到 World 页打开「活人感」，在「配置 → 基本设置」里勾「切换到活人感端点」：会照着你现在的端点复制一个「活人感」端点（地址、模型、Key 都一样）并切过去。\n3. 再重启一次 Coopanion，按提示把活人感关掉再打开一次。\n\n**只影响你切过去的那个端点**，别的端点和 Coopanion 本身都不动。目前只支持 Coo 连接的端点。\n\n**怎么看生没生效**：World 页「活人感」的「provider」徽章显示「已生效」。\n\n**不想用了**：「基本设置」里关掉「用「活人感 provider」」（请求原样发出），或者勾「切回原来的端点」。\n\n**卸载前一定先切回原来的端点**（勾「切回原来的端点」并重启），不然 Coopanion 找不到这种端点，桌宠会说不了话。"
         },
         "en": {
           "displayName": "Humanize provider",
-          "description": "A speed-up companion for Humanize: sends the pet's inner thought along with your words, so the pet answers in one round. Requires the Humanize World. Install and restart; nothing to set up.\n\n**How the two extensions fit together**\n\n- **Humanize** (World, required): writes the inner thought and checks stock AI sentence patterns. Works on its own.\n- **Humanize provider** (this one, optional): puts the thought straight into the request sent to the model, saving the round where the pet first calls a tool to read it.\n- This extension alone does nothing.\n\n**Getting started**\n\n1. Install both Humanize and this extension on the Extensions page.\n2. Restart Coopanion.\n3. Turn on Humanize on the World page. If it was already on, turn it off and on once when prompted.\n\n**Nothing to do on the Models page.** Your current model endpoint picks it up automatically; address, key and model stay as they are. With Humanize off, requests go out unchanged.\n\n**Where the switch is**: Coopanion has no off switch for model extensions, so it lives in Humanize: World page → Humanize → Config → Basic, \"Use the Humanize provider\" (on by default). Turned off, this extension passes requests through unchanged; no need to uninstall.\n\n**Uninstall**: remove it on the Extensions page and restart. One exception: if you created a \"Humanize\" endpoint by hand under 0.1.0 and still use it, switch back to your original endpoint first."
+          "description": "A speed-up companion for Humanize: sends the pet's inner thought along with your words, so the pet answers in one round. Requires the Humanize World.\n\n**How the two extensions fit together**\n\n- **Humanize** (World, required): writes the inner thought and checks stock AI sentence patterns. Works on its own.\n- **Humanize provider** (this one, optional): a new model endpoint type, \"Humanize\", that wraps the Coo connection and puts the thought straight into the request, saving the round where the pet first calls a tool to read it.\n- This extension alone does nothing.\n\n**Getting started**\n\n1. Install both Humanize and this extension, then restart Coopanion.\n2. On the World page, open Humanize → Config → Basic and tick \"Switch to the Humanize endpoint\": it copies your current endpoint (address, model, key) into a Humanize endpoint and switches to it.\n3. Restart Coopanion again, then turn Humanize off and on once when prompted.\n\n**Only the endpoint you switch to is affected**; other endpoints and Coopanion itself are left alone. Coo endpoints only for now.\n\n**Uninstall**: switch back to your original endpoint first (tick \"Switch back\" and restart), or the pet cannot speak."
         }
       },
       "author": "abbabanana",
@@ -2628,8 +2628,8 @@
         "bugs": "https://github.com/abbabanana/cortico-provider-humanize/issues"
       },
       "created": "2026-11-03T23:17:16.500Z",
-      "published": "2026-11-04T11:48:24.328Z",
-      "versionCount": 4,
+      "published": "2026-11-05T19:43:54.672Z",
+      "versionCount": 5,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2664,6 +2664,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.0",
           "0.2.1",
           "0.2.0",
           "0.1.0"
@@ -2675,7 +2676,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/713",
         "up": 0,
         "down": 0,
-        "comments": 2
+        "comments": 3
       }
     },
     "cortico-provider-openai-chat-compat": {
@@ -10194,17 +10195,17 @@
     },
     "cortico-world-humanize": {
       "kind": "world",
-      "version": "0.2.2",
+      "version": "0.3.0",
       "displayName": "活人感",
       "description": "Cortico World for Coopanion: before the pet answers, reads the situation, mood and the pet's own memory and hands it a short inner thought, and reminds it when it slips into stock AI sentence patterns",
       "locales": {
         "zh": {
           "displayName": "活人感",
-          "description": "让桌宠开口前先「想一想」，说话更像个人，少一点 AI 腔。单独装就能用，搭配「活人感 provider」更快。\n\n**它做什么**\n\n- 你对桌宠说话时，先读一下情境、你的心情和桌宠自己的记忆，递给它一句「此刻心里的想法」，再让它开口。\n- 桌宠要是用了「不是……而是……」、先复述你的话这类 AI 固定句式，下次就提醒它换个说法。口癖、语气、长短都不碰。\n\n**两个扩展怎么配合**\n\n- **活人感**（就是本扩展，必装）：负责想心事、查句式。单独装就能用。\n- **活人感 provider**（可选，推荐）：把心事直接放进发给模型的请求里。不装的话，桌宠每次要先调一次工具读心事再开口，多跑一轮，稍慢一点。\n- 只装 provider、不装本扩展，没有任何作用。\n\n**怎么用**\n\n1. 在扩展页装上本扩展，推荐把「活人感 provider」一起装上。\n2. 重启 Coopanion。\n3. 到 World 页打开「活人感」。\n\n主模型用的是 DeepSeek 的话，什么都不用填。用别家的话，在活人感的「配置 → 副 API」里填地址、模型和 Key。\n\n如果活人感已经开着、之后才装 provider，World 页会提示「系统前缀需要刷新」：把活人感关掉再打开一次就好，聊天记录会保留。\n\n**怎么看 provider 生没生效**：World 页「活人感」的「provider」徽章显示「已生效」就是在用；「provider 注入」是心事塞进请求的次数，对桌宠说句话就会加一。没生效时，配置页顶部会写明原因和该怎么做。\n\n**想停用 provider**：不用卸载，在活人感「配置 → 基本设置」里关掉「用「活人感 provider」」，再把活人感关掉打开一次。\n\n**要知道的**\n\n- 你每说一句话，会多调用一次副 API（默认 DeepSeek，约 1–2 秒，花费很少）。\n- 默认读桌宠、控制台、QQ 私聊和 @桌宠的消息。QQ 群里别人的话会经过副 API 影响心事，介意的话可以在配置里关掉。\n- 只支持中文，目前只在 Windows + DeepSeek 上测过。\n- 不想用了：World 页关掉即可。卸载：扩展页卸掉，重启。"
+          "description": "让桌宠开口前先「想一想」，说话更像个人，少一点 AI 腔。单独装就能用，搭配「活人感 provider」更快。\n\n**它做什么**\n\n- 你对桌宠说话时，先读一下情境、你的心情和桌宠自己的记忆，递给它一句「此刻心里的想法」，再让它开口。\n- 桌宠要是用了「不是……而是……」、先复述你的话这类 AI 固定句式，下次就提醒它换个说法。口癖、语气、长短都不碰。\n\n**两个扩展怎么配合**\n\n- **活人感**（就是本扩展，必装）：负责想心事、查句式。单独装就能用。\n- **活人感 provider**（可选）：一种新的模型端点「活人感」，把心事直接放进发给模型的请求里。不用它的话，桌宠每次要先调一次工具读心事再开口，多跑一轮，稍慢一点。\n- 只装 provider、不装本扩展，没有任何作用。\n\n**怎么用**\n\n1. 在扩展页装上本扩展，重启 Coopanion。\n2. 到 World 页打开「活人感」。\n\n主模型用的是 DeepSeek 的话，什么都不用填。用别家的话，在活人感的「配置 → 副 API」里填地址、模型和 Key。\n\n**想更快（用 provider）**\n\n1. 再装上「活人感 provider」，重启。\n2. 活人感「配置 → 基本设置」里勾「切换到活人感端点」：照着你现在的端点复制一个「活人感」端点（地址、模型、Key 都一样）并切过去。只支持 Coo 连接的端点。\n3. 再重启一次，按提示把活人感关掉再打开一次。\n\n「provider」徽章显示「已生效」就是在用；「provider 注入」是心事塞进请求的次数。没生效时，配置页顶部会写明原因和该怎么做。想停用：关掉「用「活人感 provider」」，或者勾「切回原来的端点」。**卸载 provider 之前一定先勾「切回原来的端点」并重启**，不然桌宠会说不了话。\n\n**要知道的**\n\n- 你每说一句话，会多调用一次副 API（默认 DeepSeek，约 1–2 秒，花费很少）。\n- 默认读桌宠、控制台、QQ 私聊和 @桌宠的消息。QQ 群里别人的话会经过副 API 影响心事，介意的话可以在配置里关掉。\n- 只支持中文，目前只在 Windows + DeepSeek 上测过。\n- 不想用了：World 页关掉即可。卸载：扩展页卸掉，重启。"
         },
         "en": {
           "displayName": "Humanize",
-          "description": "Lets the pet think for a moment before it speaks, so it sounds more like a person and less like an AI. Works on its own; faster with the Humanize provider.\n\n**What it does**\n\n- When you talk to the pet, it reads the situation, your mood and the pet's own memory, and hands the pet a short inner thought before it answers.\n- When the pet slips into stock AI sentence patterns (\"not X but Y\", parroting your words back), it is reminded to say it another way next time. Catchphrases, tone and length are left alone.\n\n**How the two extensions fit together**\n\n- **Humanize** (this one, required): writes the inner thought and checks sentence patterns. Works on its own.\n- **Humanize provider** (optional, recommended): puts the thought straight into the request sent to the model. Without it, the pet first calls a tool to read the thought, which costs one extra round.\n- The provider alone does nothing.\n\n**Getting started**\n\n1. Install this extension on the Extensions page, ideally together with the Humanize provider.\n2. Restart Coopanion.\n3. Turn on Humanize on the World page.\n\nIf your main model is DeepSeek, there is nothing to fill in. Otherwise enter the address, model and key under Config → Side API.\n\n**Good to know**\n\n- Each message you send adds one side-API call (DeepSeek by default, about 1–2 seconds, very cheap).\n- Prompts, presets and pattern checks are Chinese only. Tested on Windows with DeepSeek only.\n- To stop: turn it off on the World page. To uninstall: remove it on the Extensions page and restart."
+          "description": "Lets the pet think for a moment before it speaks, so it sounds more like a person and less like an AI. Works on its own; faster with the Humanize provider.\n\n**What it does**\n\n- When you talk to the pet, it reads the situation, your mood and the pet's own memory, and hands the pet a short inner thought before it answers.\n- When the pet slips into stock AI sentence patterns (\"not X but Y\", parroting your words back), it is reminded to say it another way next time. Catchphrases, tone and length are left alone.\n\n**How the two extensions fit together**\n\n- **Humanize** (this one, required): writes the inner thought and checks sentence patterns. Works on its own.\n- **Humanize provider** (optional): a new model endpoint type, \"Humanize\", that puts the thought straight into the request sent to the model. Without it, the pet first calls a tool to read the thought, which costs one extra round.\n- The provider alone does nothing.\n\n**Getting started**\n\n1. Install this extension on the Extensions page and restart Coopanion.\n2. Turn on Humanize on the World page.\n\nIf your main model is DeepSeek, there is nothing to fill in. Otherwise enter the address, model and key under Config → Side API.\n\n**Faster, with the provider**: install the Humanize provider and restart, tick \"Switch to the Humanize endpoint\" under Config → Basic (it copies your current Coo endpoint and switches to the copy), restart again, then turn Humanize off and on once. Before uninstalling the provider, tick \"Switch back\" and restart.\n\n**Good to know**\n\n- Each message you send adds one side-API call (DeepSeek by default, about 1–2 seconds, very cheap).\n- Prompts, presets and pattern checks are Chinese only. Tested on Windows with DeepSeek only.\n- To stop: turn it off on the World page. To uninstall: remove it on the Extensions page and restart."
         }
       },
       "author": "abbabanana",
@@ -10227,8 +10228,8 @@
         "bugs": "https://github.com/abbabanana/cortico-world-humanize/issues"
       },
       "created": "2026-11-03T23:16:42.825Z",
-      "published": "2026-11-04T13:06:54.565Z",
-      "versionCount": 5,
+      "published": "2026-11-05T19:43:23.436Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10262,6 +10263,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.0",
           "0.2.2",
           "0.2.1",
           "0.2.0",
@@ -10274,7 +10276,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/714",
         "up": 0,
         "down": 0,
-        "comments": 2
+        "comments": 4
       }
     },
     "cortico-world-humanlike-alont1": {
@@ -11718,7 +11720,7 @@
       "published": "2026-10-26T04:40:28.624Z",
       "versionCount": 7,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "memory",
         "diagnostics",
@@ -16906,17 +16908,17 @@
     },
     "cortico-world-see-now": {
       "kind": "world",
-      "version": "0.2.2",
+      "version": "0.2.4",
       "displayName": "看屏幕 See Now",
       "description": "看屏幕 See Now：让桌宠真的看见屏幕——后台一直看着，只留下画面变了的帧，拼成一张图交给模型；静止的画面几乎不花 token。工具 see_watch。",
       "locales": {
         "zh": {
           "displayName": "看屏幕 See Now",
-          "description": "看屏幕 See Now：让桌宠真的看见屏幕——盯一段时间，只留下画面变了的帧，拼成一张图交给模型；静止的画面几乎不花 token。工具 see_watch。"
+          "description": "看屏幕 See Now：让桌宠真的看见屏幕——盯一段时间，只留下画面变了的帧，拼成一张图交给模型；静止的画面几乎不花 token。工具 see_watch。（思路来自 B站 @苍穹晓雷 的 dsh-see-now）"
         },
         "en": {
           "displayName": "See Now",
-          "description": "Lets the pet actually see the screen: watch for a while, keep only frames that changed, stitch them into one image; static screens cost almost nothing. Tool: see_watch."
+          "description": "Lets the pet actually see the screen: watch for a while, keep only frames that changed, stitch them into one image; static screens cost almost nothing. Tool: see_watch. (Idea and prototype by 苍穹晓雷 / SAOS-3624, dsh-see-now.)"
         }
       },
       "maintainers": [
@@ -16939,8 +16941,8 @@
         "win32"
       ],
       "created": "2026-11-03T17:15:54.176Z",
-      "published": "2026-11-03T17:24:50.513Z",
-      "versionCount": 3,
+      "published": "2026-11-05T19:15:58.553Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -16959,7 +16961,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/711",
         "up": 0,
         "down": 0,
-        "comments": 6
+        "comments": 7
       }
     },
     "cortico-world-self-evolution": {
