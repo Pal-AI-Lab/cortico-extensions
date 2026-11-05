@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "name": "cortico-world-rhythm",
+  "version": "1.0.5",
+  "describe": {
+    "tools": [],
+    "events": [
+      {
+        "type": "rhythm.nudge",
+        "description": {
+          "zh": "安静了设定的时长后，应用叫醒 Coo 的一条作息提示：开不开口、做什么由 Coo 自己决定。",
+          "en": "After the configured quiet time the app wakes the bot with a rhythm line; whether to speak or act is the bot's own call."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "rhythm.hint",
+        "description": {
+          "zh": "睡眠时段给 Coo 的提示：入睡（该睡了）、醒来（该醒了），以及被吵醒时的兜底提示。文案可在 data/rhythm/messages.json 里改。",
+          "en": "Sleep-window lines for the bot: bedtime, wake-up, and a best-effort \"you were woken\" hint. Wording lives in data/rhythm/messages.json."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "rhythm.woke",
+        "description": {
+          "zh": "睡眠时段里被人打扰时留档的一条记录（只入库、不投递），供其他插件按时间轴读取「被吵醒」事件。",
+          "en": "An archived record of a person waking the bot during its sleep window (stored, never delivered) so other plugins can read the wake-ups."
+        }
+      }
+    ]
+  },
+  "changelog": {
+    "1.0.5": "- 新增 256×256 图标 `icon.png`（月亮下打瞌睡的小肥鱼）。\n- `package.json`：作者改为「大肥鱼」，contributors 保留上游；新增 `cortico.icon` 与中英双语 `locales`；`private: false` + `publishConfig.access: public`。\n- 重写 README 为面向用户的说明：功能、六张设置卡片、边界、隐私、离线安装、上游致谢与作者碎碎念。\n- 新增离线安装：`*-offline.tgz` + `install.bat` / `install.ps1`，不需要联网。\n- 修复：有梦时「梦的信息」插在醒来提示的开头之后、行为选项之前，不会被「结束这一轮」挡在后面。\n- 源码加入一条作者的彩蛋注释。",
+    "1.0.4": "- 「该睡了 / 该醒了」改为「说话或动作，二选一，然后结束这一轮」，不再保留「做自己的事」；去掉 `pet_act` 工具名，避免工具改名后失效。\n- 做梦模板改用 `{date} · {type}梦` 占位符，明确只写两条分隔线之间的内容；写日记不算对外沟通；写完后保持睡姿并结束这一轮。\n- 提示词里的用户称呼统一为 `{user}`；梦的类型增加到 11 种（荒诞 / 冒险 / 怀旧 / 食物 / 紧张 / 安静 / 关于{user} 等）。",
+    "1.0.3": "- `dreamEnabled` 与 `willingnessEnabled` 改为默认开启。",
+    "1.0.2": "- 称呼统一为「桌宠」；被吵醒提示改为「提示保鲜期」；影子模式移到诊断模式上方；「再次叫醒间隔」说明补充为递减基数；回执核对说明改写；做梦相关去掉「一次」。\n- 搭话意愿情绪提示改为依次递进：担心 → 寂寞 → 失落。",
+    "1.0.1": "- 设置面板按功能拆成 6 张卡片：基础作息 / 睡眠与休息 / 搭话意愿 / 做梦 / 场景感知 / 高级与排障。\n- 框架不支持真正的选项卡，多配置组会被渲染成同一页里的分区卡片，不引入自定义 WebUI bundle。",
+    "1.0.0": "第一个正式版本：P0–P8 全部功能。\n\n- **P0 正确性**：渠道无关的活动检测、空闲门控、状态持久化、结构化日志、状态灯/徽标。\n- **P1 作息时段**：睡眠/休息时段、每日上限、概率跳过。\n- **P2 睡眠表现**：该睡/该醒提示、可编辑 `messages.json`、被吵醒计数（30 分钟合并）、公开 `status.json`。\n- **P3 内容感知**：影子模式、上下文事实与引用、渠道中性措辞。\n- **退避改造**：渠道别名、回复排除、发送回执核对（失败不计）。\n- **P5 场景感知**：锁屏探测（纯 cmdlet，可选空闲探测）、写进叫醒正文。\n- **P6 做梦**：入夜掷骰、到点提示、由桌宠自己写 `partner/dreams.md`、早上只给事实。\n- **P7 搭话意愿**：未回应时 ×1.5 递减（封顶 8 小时）、对话清零、戳摸减半、睡醒减半、情绪提示；回合结束即结算。\n- **P8 诊断**：`debug` 开关，生成 `diagnostics.json` / `debug.log`，可分享排障。\n- `status.json` 增加 `version` / `debug` / `willingness` 字段。",
+    "0.3.0": "- 从已安装的 `cortico-world-selftalk@0.2.2` 取源码作为 fork 基线（上游 GitHub 不可达，无历史）。\n- **改名以匹配新目标（让桌宠有自己的作息）**：包名 `cortico-world-rhythm`、World id `rhythm`、\n  显示名「作息」、事件类型 `rhythm.nudge`、配置段 `worlds.rhythm`、日志前缀 `作息:叫醒 Coo`。\n  类与符号同步改名（`RhythmWorld` / `RhythmConfigSection` / `RHYTHM_DEFAULTS` / `rhythmConfigGroup`）。\n- `private: true`：本 fork 只装本机，不发布 npm / 扩展市场。\n- 修正 upstream 注释里「internal 事件落到系统提示位置」的说法：实际是 user 消息中的正文行。\n- 新增本地开发脚手架，不需要启动 Coopanion：\n  - `scripts/run.ps1`：用 Coopanion 自带 Node + `tsx` + 框架解析钩子跑脚本（GUI 子系统程序的输出重定向已封装）。\n  - `scripts/check.mjs`：干装载检查（manifest / `defaults` / `create` / `tools` / `webUi` / 配置路径 / `describe.json` 一致性），`--write` 重新生成 `describe.json`。\n  - `scripts/smoke.mjs`：假宿主 + 假时钟的行为冒烟测试（P0+P1 后 124 条断言）。\n- 新增 `docs/dev-notes.md`（环境与工作方式）与 `docs/fork-plan.md`（改进计划）。\n\n### P0：正确性与可观测性\n\n- **「有人回来了」改成渠道无关**：任何 `origin: 'external'` 且类型不以 `.self` 结尾的事件都算。\n  微信、QQ、B 站、Discord 等通讯扩展装上即自动生效，不再需要登记类型。\n  （`desktop-pet.self` 也是 external，只是 `deliver:false`，必须靠类型后缀排除。）\n  新增 `knownChannelsOnly` 可一键退回旧白名单。\n- 新增 `activityIgnore`：逗号分隔的事件类型，`qq.system*` 形式做前缀匹配，用来排除周期性系统事件。\n- **只在 Coo 空闲时叫醒**：新增 `onRunPhase` 记录主循环状态 + `onlyWhenIdle` 开关（缺省开），\n  模型或工具在跑时先不叫醒，避免 `flush` 排队迟到。\n- **状态持久化**（`src/state.ts`）：`<dataDir>/rhythm/state.json` 记今日叫醒次数、本轮轮次、\n  上次叫醒时刻与投递结果；原子写入、坏文件容错、跨天自动清零；重启时从事件库重算最近活动，\n  停机太久不补叫（`stretchAlive` 判定）。\n- **投递结果回写**：`onEventsSettled` 记 `delivered` / `discarded`；被丢弃时今日计数回退。\n- **状态灯倒计时 + 徽标**：灯里显示「约 X 分钟后叫醒 / 今日 N 次 / 本轮已到上限」，徽标显示今日次数。\n- **结构化日志**：`作息:启动`、`作息:叫醒 Coo`（含 phase、轮次、今日次数、最后活动类型）、\n  `作息:叫醒结果`、debug 级 `作息:有人回来了`。\n\n### P1：作息时段与节制\n\n- **睡眠时段** `sleepWindow`（缺省 `22:00-08:00`）与**休息时段** `restWindows`（可写多个，\n  逗号分隔，例如 `12:30-14:00, 18:00-18:30`）：时段内不主动叫醒；支持跨午夜；\n  坏条目跳过并在日志里 warn，不会让整个配置失效。\n- **离开时段重新计时**：从睡眠/休息进入正常时段时，安静计时从那一刻重新开始，不会在整点立刻跳出来。\n- **排队跨时段作废**：叫醒事件排队期间进入睡眠/休息时段，`render()` 返回 `null` 并回退今日计数。\n- **每日上限** `dailyCap`（缺省 12，0 = 不限）：按部署时区自然日计数，复用 `nudgesToday`。\n- **退避** `backoffAfter` / `backoffFactor` / `backoffMaxFactor`（缺省关闭）：\n  连续没人理时再次叫醒的间隔按倍数拉长、…",
+    "0.2.2": "- 包简介换成中文（npm 页面与扩展市场显示）。",
+    "0.2.1": "- 「间隔浮动」改为对**每个间隔**生效：第一次叫醒与每次再次叫醒都会各自乘一次随机倍数（之前只浮动第一次）。",
+    "0.2.0": "- 插件显示名改为「自主发言」（`cortico.displayName` 与 World 标签）。\n- 「最多叫醒几次」缺省改为 **0 = 不限**；正数（1–10）仍表示一段安静里的上限。",
+    "0.1.0": "- 第一个版本：安静计时后叫醒 Coo 的自主发言 World（`selftalk.nudge`，internal 投递）。\n- 时间参数（`quietMinutes` / `repeatMinutes` / `maxRounds` / `jitter`）在控制台 World 配置里，改完立即生效。\n- 检测使用者动作（桌宠与控制台的人侧事件），Coo 自己的发言不计入安静计时。\n- 支持 `describe.json` 自描述与本地干装载检查。"
+  }
+}

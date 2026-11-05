@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "cortico-world-private-companion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/482",
-  "total": 13,
+  "total": 14,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BKC1Z",
+      "author": "zaoyoujun",
+      "avatar": "https://avatars.githubusercontent.com/u/280946381?s=64&v=4",
+      "body": "Bug：陪伴上下文的「今天：」段会串前一天的日期\n\n11-05 09:00 的上下文里，「今天：」装的是 11-04 上午 11:07 的事，同段「最近」「最近日记」也都是前一天的。它自带绝对日期，说明取样窗口按「最近 24 小时」切，不是本地自然日。\n\n跨本地零点后第一次生成必现，不用重启应用，早上 8:45、9:00 两次都稳定复现。\n\n期望：「今天：」只装本机当天 00:00 之后的事（本地时区）；要留「最近」就另开字段并标日期。取段条件建议从 now-24h 改成 startOfLocalDay(now)。\n\n另外这段摘要会把私聊原话整条带进提示，建议默认脱敏或只留时间戳。</text>",
+      "createdAt": "2026-11-05T02:31:17Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJ9fi",
       "author": "694106757",

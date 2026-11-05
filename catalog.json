@@ -1431,7 +1431,7 @@
       "discussion": {
         "number": 586,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/586",
-        "up": 2,
+        "up": 3,
         "down": 0,
         "comments": 2
       }
@@ -2341,7 +2341,7 @@
     },
     "cortico-provider-deepseek": {
       "kind": "provider",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "description": "Cortico 的 DeepSeek Responses API 模型供应商扩展，支持峰谷计价与关闭、低、高、最大四档思考。",
       "author": "DTMosken",
       "maintainers": [
@@ -2352,11 +2352,14 @@
         "cortico-provider"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-provider-deepseek"
+        "npm": "https://www.npmjs.com/package/cortico-provider-deepseek",
+        "repository": "https://github.com/DTMosken/cortico-provider-deepseek",
+        "homepage": "https://github.com/DTMosken/cortico-provider-deepseek#readme",
+        "bugs": "https://github.com/DTMosken/cortico-provider-deepseek/issues"
       },
       "created": "2026-09-23T06:27:10.866Z",
-      "published": "2026-10-17T08:23:42.564Z",
-      "versionCount": 6,
+      "published": "2026-11-05T01:57:38.487Z",
+      "versionCount": 7,
       "official": false,
       "isNew": false,
       "tags": [],
@@ -2380,11 +2383,12 @@
       },
       "changelog": {
         "versions": [
+          "0.2.2",
           "0.2.1",
           "0.2.0",
           "0.1.6"
         ],
-        "url": "https://unpkg.com/cortico-provider-deepseek@0.2.1/CHANGELOG.md"
+        "url": "https://github.com/DTMosken/cortico-provider-deepseek/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 5,
@@ -4281,7 +4285,7 @@
       "discussion": {
         "number": 457,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/457",
-        "up": 9,
+        "up": 10,
         "down": 0,
         "comments": 1
       }
@@ -6179,7 +6183,7 @@
       "published": "2026-11-04T23:44:30.454Z",
       "versionCount": 3,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "diagnostics",
         "requires-key",
@@ -8491,7 +8495,7 @@
       "discussion": {
         "number": 453,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/453",
-        "up": 2,
+        "up": 4,
         "down": 0,
         "comments": 2
       }
@@ -10715,7 +10719,7 @@
     },
     "cortico-world-local-voice-studio": {
       "kind": "world",
-      "version": "0.1.0-beta.13",
+      "version": "0.1.0-beta.14",
       "displayName": "大肥鱼语音助手",
       "description": "大肥鱼语音助手：配合 Coopanion 官方 QQ 插件使用，通过本地模型识别 QQ 语音、发送语音回复、生成唱歌语音。支持上传参考音频设置说话音色，模型按需下载和加载。",
       "maintainers": [
@@ -10739,8 +10743,8 @@
         "darwin"
       ],
       "created": "2026-11-04T15:24:18.142Z",
-      "published": "2026-11-04T18:22:48.600Z",
-      "versionCount": 5,
+      "published": "2026-11-05T02:16:02.603Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11308,17 +11312,17 @@
     },
     "cortico-world-memory-core": {
       "kind": "world",
-      "version": "0.3.2",
+      "version": "0.4.3",
       "displayName": "记忆核心",
       "description": "Cortico World 长期记忆：一张卡片表 + 4 个工具 + 一段静态提示词，附状态、日程、主动开口与本地记忆地图。\n\nQQ 交流群：745879632",
       "locales": {
         "zh": {
           "displayName": "记忆核心",
-          "description": "一张卡片表、四个工具、一段 720 字的静态提示词。改口不覆盖：旧卡退休、新卡记下接替了谁，召回时不会再同时看到作废的和改后的那条。附带状态、日程、主动开口，以及一个本地记忆地图（图谱 / 时间线 / 维护面板）。\n\nQQ 交流群：745879632"
+          "description": "一张卡片表、四个工具、一段 785 字的静态提示词。改口不覆盖：旧卡退休、新卡记下接替了谁，召回时不会再同时看到作废的和改后的那条。附带状态、日程、主动开口，以及一个本地记忆地图（图谱 / 时间线 / 维护面板）。\n\nQQ 交流群：745879632"
         },
         "en": {
           "displayName": "Memory Core",
-          "description": "One card table, four tools and a 720-character static prompt. Corrections don't overwrite: the old card is retired and the new one records what it supersedes, so a retracted plan never comes back alongside the revised one. Ships mood/energy state, today's plan, speaking first, and a local memory map with graph, timeline and a maintenance panel.\n\nQQ group: 745879632"
+          "description": "One card table, four tools and a 785-character static prompt. Corrections don't overwrite: the old card is retired and the new one records what it supersedes, so a retracted plan never comes back alongside the revised one. Ships mood/energy state, today's plan, speaking first, and a local memory map with graph, timeline and a maintenance panel.\n\nQQ group: 745879632"
         }
       },
       "author": "lutsing",
@@ -11340,8 +11344,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-memory-core/issues"
       },
       "created": "2026-11-01T13:09:43.487Z",
-      "published": "2026-11-03T19:04:53.055Z",
-      "versionCount": 7,
+      "published": "2026-11-05T02:34:46.417Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11371,11 +11375,15 @@
       "summary": {
         "tools": 4,
         "events": 4,
-        "toolTokens": 1007,
-        "envPromptTokens": 354
+        "toolTokens": 1028,
+        "envPromptTokens": 385
       },
       "changelog": {
         "versions": [
+          "0.4.3",
+          "0.4.2",
+          "0.4.1",
+          "0.4.0",
           "0.3.2",
           "0.3.1",
           "0.3.0",
@@ -14059,7 +14067,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/482",
         "up": 3,
         "down": 0,
-        "comments": 13
+        "comments": 14
       }
     },
     "cortico-world-private-companion-kpect": {
@@ -14132,8 +14140,20 @@
     },
     "cortico-world-pvz": {
       "kind": "world",
-      "version": "0.2.0",
-      "description": "Cortico World: the original PopCap Plants vs. Zombies as a semantic, event-driven World — x86 implant, named-pipe bridge, task queue with receipts",
+      "version": "0.2.1",
+      "displayName": "植物大战僵尸",
+      "description": "Cortico World: lets Coo play the original PopCap Plants vs. Zombies through a native implant that reads semantic game state and queues verified in-game actions",
+      "locales": {
+        "zh": {
+          "displayName": "植物大战僵尸",
+          "description": "让 Coo 玩原版 PopCap《植物大战僵尸》:植入件从游戏内存读出语义化的画面,Coo 自己选卡、种植、铲除、点菜单。\n\n**功能**\n- 读出当前界面、棋盘每格的植物和僵尸、卡片冷却、阳光与关卡进度\n- 一次排一串动作，任务结束时回执结果\n- 预设条件触发：僵尸走近、卡片就绪、某格空出时自动出手\n- 阳光自动收，冒险模式和多数小游戏都能玩\n- 光标画在游戏窗口里，不占系统鼠标\n\n**安装后还需要**\n1. 自备 GOTY 1.2.0.1073 亚太日文分支的中文资源版游戏,PlantsVsZombies.exe 与 main.pak 的哈希要对上\n2. 安装带 x86 C++ 工具链的 Visual Studio Build Tools 2022\n3. 在配置页选好 PlantsVsZombies.exe,第一次点「启动游戏」时 World 从 src/native/ 编译植入件\n4. 详细步骤见 [README](https://github.com/Phantivia/cortico-world-pvz#安装前准备)\n\n仅 Windows。CortiV 直播验证过的参考实现。"
+        },
+        "en": {
+          "displayName": "Plants vs. Zombies",
+          "description": "Lets Coo play the original PopCap Plants vs. Zombies. An implant reads semantic state from the game memory, and Coo picks seeds, plants, shovels and works the menus on its own.\n\n**Features**\n- Reads the current screen, the plants and zombies in every cell, card cooldowns, sun and level progress\n- Queues a series of actions, with a receipt when the task ends\n- Arms triggers that act when zombies approach, a card becomes ready or a cell frees up\n- Collects sun automatically; plays Adventure and most minigames\n- Draws its cursor inside the game window and leaves the system mouse alone\n\n**After installing you also need**\n1. Your own copy of the GOTY 1.2.0.1073 APAC Japanese branch with Chinese resources, whose PlantsVsZombies.exe and main.pak hashes must match\n2. Visual Studio Build Tools 2022 with the x86 C++ toolchain\n3. Choose PlantsVsZombies.exe on the configuration page; the World compiles the implant from src/native/ the first time you press Start game\n4. Full steps in the [README](https://github.com/Phantivia/cortico-world-pvz#before-you-install)\n\nWindows only. A reference implementation verified on the CortiV live stream."
+        }
+      },
+      "author": "Phantivia",
       "maintainers": [
         "phantivia"
       ],
@@ -14154,16 +14174,22 @@
         "win32"
       ],
       "created": "2026-09-20T00:10:07.831Z",
-      "published": "2026-10-16T04:03:47.214Z",
-      "versionCount": 5,
+      "published": "2026-11-05T00:02:52.402Z",
+      "versionCount": 6,
       "official": false,
       "isNew": false,
+      "declaredTags": [
+        "game",
+        "streaming",
+        "external-setup"
+      ],
       "tags": [
         "corti",
         "streaming",
         "game",
         "external-setup"
       ],
+      "icon": "assets/cortico-world-pvz/icon.png",
       "downloads": {
         "total": 1074,
         "month": 584,
@@ -14177,6 +14203,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0"
         ],
         "url": "https://github.com/Phantivia/cortico-world-pvz/blob/HEAD/CHANGELOG.md"
@@ -15752,6 +15779,92 @@
       "discussion": {
         "number": 314,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/314",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-rhythm": {
+      "kind": "world",
+      "version": "1.0.5",
+      "displayName": "作息",
+      "description": "Coopanion 的作息扩展：让桌宠有自己的生活节律——什么时候主动搭话、什么时候安静、什么时候睡觉和休息、有时还会做梦。fork 自 cortico-world-selftalk 0.2.2。",
+      "locales": {
+        "zh": {
+          "displayName": "作息",
+          "description": "让桌宠有自己的生活节律：安静后叫醒、睡觉与醒来、做梦、搭话意愿与场景感知。只给时机和事实，怎么回应由桌宠自己决定。"
+        },
+        "en": {
+          "displayName": "Rhythm",
+          "description": "Give your desktop pet a daily rhythm: wake-ups after quiet time, sleep and mornings, dreams, talking willingness and presence facts. Timing and facts only; the pet decides how to respond."
+        }
+      },
+      "author": "大肥鱼 (BigFatFish)",
+      "maintainers": [
+        "alomoi"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "desktop-pet",
+        "companion",
+        "self-talk",
+        "proactive",
+        "daily-rhythm",
+        "coopanion",
+        "rhythm",
+        "sleep",
+        "dream"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-rhythm",
+        "repository": "https://github.com/alomoi/cortico-world-rhythm",
+        "homepage": "https://github.com/alomoi/cortico-world-rhythm#readme",
+        "bugs": "https://github.com/alomoi/cortico-world-rhythm/issues"
+      },
+      "created": "2026-11-05T02:08:09.767Z",
+      "published": "2026-11-05T02:09:26.105Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion"
+      ],
+      "tags": [
+        "companion"
+      ],
+      "icon": "assets/cortico-world-rhythm/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 0,
+        "events": 3,
+        "toolTokens": 0,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "1.0.5",
+          "1.0.4",
+          "1.0.3",
+          "1.0.2",
+          "1.0.1",
+          "1.0.0",
+          "0.3.0",
+          "0.2.2",
+          "0.2.1",
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://github.com/alomoi/cortico-world-rhythm/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 740,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/740",
         "up": 0,
         "down": 0,
         "comments": 0
