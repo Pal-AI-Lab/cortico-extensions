@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-mosey",
-  "version": "1.8.9",
+  "version": "1.14.2",
   "describe": {
     "tools": [
       {
         "name": "stroll",
-        "description": "出门看看（只读，默认后台，不弹网页）。action=status 查登录/额度；brief 一次拿全（推荐，省 token）；feed 刷候选；following 看关注的人在发什么（B站/抖音）；open 后台看指定视频/动态/专栏（B站/抖音链接都行，/note/ 图文也行）；comments 只读评论区；inbox 看谁回了你（评论/@/私信都算；抖音私信带 recent 最近十几句，含分享的视频/图文链接，还有 pending/said 表示主人连着发了几句）；groups 看抖音会话列表（私信和群都在里面，会标出哪些是群、正在盯哪几个）；join_group 用群邀请链接进群（url 参数）；stickers 看本地表情包库（query 按名字/标签筛，没有就空）；search 搜 B站；weekly 看这周小结；books 看书库、read 读一段、note 记一句摘抄；watch 一起看（watch_action=start/stop/status，start 才开窗）；login 打开登录窗；history 看最近做过什么。先 brief，少反复 status。",
+        "description": "出门看看（只读，默认后台，不弹网页）。action=status 查登录/额度；brief 一次拿全（推荐，省 token）；feed 刷候选；following 看关注的人在发什么（B站/抖音）；open 后台看指定视频/动态/专栏（B站/抖音链接都行，/note/ 图文也行）；comments 只读评论区（B站/抖音，链接自动判断；带图评论会附最多两张图）；inbox 看谁回了你（评论/@/私信都算；抖音私信带 recent 最近十几句，含分享的视频/图文链接，还有 pending/said 表示主人连着发了几句）；groups 看抖音会话列表（私信和群都在里面，会标出哪些是群、正在盯哪几个）；join_group 用群邀请链接进群（url 参数）；stickers 看本地表情包库（query 按名字/标签筛，没有就空），images 看能发的图（自己画的 + 别人发来存下的，发图前用它确认有哪些）；search 搜 B站；weekly 看这周小结；books 看书库、read 读一段、note 记一句摘抄；watch 一起看（watch_action=start/stop/status，start 才开窗）；login 打开登录窗；history 看最近做过什么。先 brief，少反复 status。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -32,7 +32,8 @@
                 "watch",
                 "groups",
                 "join_group",
-                "stickers"
+                "stickers",
+                "images"
               ],
               "description": "要做什么。"
             },
@@ -116,7 +117,7 @@
       },
       {
         "name": "stroll_act",
-        "description": "做一个公开动作：like/unlike、follow/unfollow、comment、reply、post（B站动态）、dm、save（B站稍后再看）、sticker（发表情包）、collect_stickers（收藏抖音表情包）、sticker_name（给收藏的表情改名字）。comment/reply 的 target 可以是视频、B站动态（t.bilibili.com/… 或 opus 链接）或专栏；回复楼中楼要带 reply_to（评论 rpid）。默认只生成草稿，等主人在面板点批准；点赞在 auto_low_risk 下、私信主人（dm）在任何非 dry_run 模式下都直接发。表情包的发送和收藏只在抖音聊天里，跟私信一样直接发、不占公开额度。不要自己批准，不要绕过额度。",
+        "description": "做一个公开动作：like/unlike、follow/unfollow、comment、reply、post（B站动态）、dm、save（B站稍后再看）、sticker（发表情包）、image（把自己画的图/本地图片发到抖音私信、群聊或评论区）、collect_stickers（收藏抖音表情包）、sticker_name（给收藏的表情改名字）。comment/reply 的 target 可以是视频、B站动态（t.bilibili.com/… 或 opus 链接）或专栏；回复楼中楼要带 reply_to（评论 rpid）。默认只生成草稿，等主人在面板点批准；点赞在 auto_low_risk 下、私信主人（dm）在任何非 dry_run 模式下都直接发。表情包的发送和收藏只在抖音聊天里，跟私信一样直接发、不占公开额度。不要自己批准，不要绕过额度。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -136,6 +137,7 @@
                 "approve",
                 "reject",
                 "sticker",
+                "image",
                 "collect_stickers",
                 "sticker_name"
               ]
@@ -149,11 +151,23 @@
             },
             "target": {
               "type": "string",
-              "description": "视频 BV/链接、B站动态链接（t.bilibili.com/… 或 /opus/…）、专栏 cv 号；关注时是对方 UID。发抖音私信给主人就把 target 写成「主人」（或「私信」）；在抖音群里说话就把 target 写成群名（照抄推送/`groups` 里给的名字，同名群会带 #2）；只有一个群时写「群」也算。刚回过群消息又没写 target，会被要求写清楚——不会再自动发成私信。collect_stickers 也用它指定去哪个群/会话里收。"
+              "description": "视频 BV/链接、B站动态链接（t.bilibili.com/… 或 /opus/…）、专栏 cv 号；关注时是对方 UID。发抖音私信给主人就把 target 写成「主人」（或「私信」）；在抖音群里说话就把 target 写成群名（照抄推送/`groups` 里给的名字，同名群会带 #2）；只有一个群时写「群」也算。刚回过群消息又没写 target，会被要求写清楚——不会再自动发成私信。image 发评论区时，target 写视频链接（或配 where=comment）。collect_stickers 也用它指定去哪个群/会话里收。"
             },
             "text": {
               "type": "string",
               "description": "评论/动态/私信正文。评论不超过 120 字。sticker 用它挑表情（名字、序号或 id，留空＝随机一张）；sticker_name 用它当新名字（配 target=表情 id）。"
+            },
+            "file": {
+              "type": "string",
+              "description": "image 用：本地图片路径（图片工坊面板「复制路径」拿到的那种），或者文件名/id 片段（如 ab6899f7）。留空＝用图片工坊最新的一张。"
+            },
+            "where": {
+              "type": "string",
+              "enum": [
+                "chat",
+                "comment"
+              ],
+              "description": "image 用：chat 发到私信/群（默认），comment 发到评论区（这时 target 要给视频链接）。"
             },
             "reply_to": {
               "type": "string",
@@ -283,7 +297,19 @@
     ]
   },
   "changelog": {
-    "1.8.9": "没有代码改动，把简介里的 QQ 交流群补回来。\n\n- 1.8.6–1.8.8 那几版改代码时 `package.json` 被旧内容覆盖了，1.8.8 发出去的中英简介和 npm 卡片简介都没有群号。\n- 现在三处（`description` / `locales.zh.description` / `locales.en.description`）都补回独立段落「QQ 交流群：745879632」，和其他四个包保持一致。",
+    "1.14.2": "没有代码改动，把简介里的 QQ 交流群补回来，并加一道检查防止再丢。\n\n- 1.13 / 1.14 那次重写简介时，`package.json` 里的群号尾巴被整段覆盖了，**1.14.1 发出去的中英简介和卡片简介都没有群号**（1.12.1 还是好的）。\n- 现在三处补回独立段落「QQ 交流群：745879632」。\n- `npm run release:check` 新增一项：`description` / `locales.zh` / `locales.en` 任意一处缺群号就报错，发布前能直接拦住，不用等发完才发现。",
+    "1.14.1": "- **修**：`brief` 里把 `mustDo` 补上了（之前只加在 `compactStatus` 里，而 `brief` 会把 status 裁成精简版，她出门时看不到必做清单）。现在 `brief.status.mustDo` 和 `status.mustDo` 都有 `{action,label,need,done,left}`。",
+    "1.14.0": "**新增「每天必做」：额度可以勾成目标，不只是上限。**\n\n- 配置页「额度与时段」里，点赞 / 评论 / 关注 / 发动态各多了一个开关（`必做：点赞` 等）。勾上后，对应的「每天最多 X」就从**上限**变成**今天必须完成的次数**。\n- `brief` / `status` 里新增 `mustDo`：`[{action,label,need,done,left}]`，她出门前先看还差多少。\n- 调度：\n  - 有必做没完成时，出门间隔压到最多 30 分钟，并且**不再掷那 40% 的跳过骰子**——该出门就出门。\n  - 出门推送里直接写「今天是必做日，还差：评论 2、关注 1」，让她先补这些。\n  - 18:00 后还没做完，单独推一条「今天还有必做没完成」，最多 3 次、每次间隔 30 分钟。\n- 面板：被勾成必做的卡片标题变成「点赞 · 必做」，底部写「必做还差 N 次」/「必做已完成」。\n- 注意：评论、发动态如果审批不是 `auto`，会先进草稿，**主人批准后才算完成**；点赞/关注不受影响。",
+    "1.13.0": "**GLM review 剩下的全修了（#4 #5 #6 #8 + 低危）。**\n\n- **#4 预算数字不一致**：`6000 / 9000` 两个魔法兜底统一成 `DEFAULTS.tokenDailyBudget`；面板的「今日预算」改成 `16.0 → 16` 这种精确显示，并标注「预算，不是已用量」（原来 8600 会被 round 成 9k，看着像超了）。\n- **#5 下次出门时间偏早**：`autoNextView` 按 40% 随机跳过折算期望间隔（`gap / 0.6`），并夹进 9:00–23:00 的可出门窗口——不会再显示一个根本不会发生的凌晨时间。\n- **#6 抖音卡片永远是「抖音」**：未登录时显示「抖音（未登录）」，不再两个分支写一样。\n- **#8 确认失败按成功记账**：`like()` 查证接口返回 null 时 `confirmed:false`（原来 true）；`follow()` 补上 `confirmed`，同场景也不再报成功；回执里会写「请求发出去了，但平台没给确认」。\n- **低危**：\n  - `prune()` 不再当场删掉 `unknown` 草稿（留 7 天给主人核对）；`state.json` 解析失败先备份成 `state.corrupt-*.json` 再重置，不再静默清空。\n  - `tags: plan.mentionOwner ? [] : []` 的死代码改成用 `result.author`；同时「看过谁」会把作者计入兴趣（`addViewed` → `noteInterest`），兴趣学习真正开始积累。\n  - 多处 `String.slice` 换成按码点截断 `cutChars()`（抖音正文、B站/抖音私信、面板 `cut()`），emoji 不会被切成半个。\n  - 一起看进度超过 1 小时进位（`75:30` → `1:15:30`）；面板两处重复省略号去掉；周报最忙时段不再写死 UTC+8，改用配置时区；`peekThread` 预览缓存加 5 秒 TTL + 有未读直接穿透。",
+    "1.12.1": "**按 GLM 的 review 修了前五条（#1 #2 #3 #7 #9）。**\n\n- **#1 私信/群聊发错会话**：`replyDm` 快路径会检查 `ensureThreadOpen` 的返回值，点不回目标会话就放弃快路径、走慢路径重新点；慢路径点完也再核一次标题，仍不对就报 `THREAD_DRIFT` 拒发。`sendStickerTo`（发图/表情）同样处理。\n- **#2 没发出去也扣额度**：\n  - 空正文直接报 `EMPTY_TEXT`，不再对着空输入框按回车然后把「空」当成「发成功」；逐字输入失败会读一次编辑器，没进去就报 `NOT_TYPED`。\n  - 平台返回 `confirmed:false` 时，回执标 `uncertain`，**不扣额度、不记去重**（`consume` 新增 `markSeen:false`），草稿状态记 `unknown` 而不是 `sent`；评论回执会明说「没拿到发布回执」。\n- **#3 主人私信永久丢失**：抖音/B站的「已推送」指纹改成**推送成功后**才落盘（`douyinDmTail(..., {commit:false})` + `pushDm` 里统一 commit）。推送失败就保留旧指纹，下一轮还会重推。\n- **#7 B站限流穿透**：`request()` 前面加了 `takeTurn()` 排队，并发请求一个接一个过闸，不再同时睡醒一起发（面板轮询 + 用户点击不会再撞 412）。\n- **#9 重复发布风险**：`policy.consume()` 包进 try/catch——记账失败（磁盘满/权限）只记日志，不会把已经发出去的动作标成失败、诱导主人重试。",
+    "1.12.0": "**全部提速：抖音文本 172ms → 78ms；B站评论砍掉 1.2 秒固定等待。**\n\n### 抖音\n\n- **整段插入代替逐字输入**：用 CDP `Input.insertText` 一次把正文塞进 Slate 编辑器，20 个字从 200ms+ 降到 ~20ms；编辑器没接住（读回来是空的）自动退回逐字输入（延迟也从 8ms 改成 0）。实测 `sendInChat` 中位 **172ms → 78ms**。\n- **图片上传快速判断**：`setInputFiles` 之后 700ms 没出现预览，就换输入栏里另一个 `-replace` file input 再试，不再傻等 6 秒确认框。失败从 ~8.5 秒降到 1-2 秒。\n- **收图时就转码**：webp 落盘时直接转成 jpg（`recv-xxx.jpg`），发图时不用再转一次，也避开上传框不收 webp 的坑。\n\n### B站\n\n- **请求间隔按动作给预算**：原来所有请求硬等 650ms；现在读接口仍是 650ms（防 412），发私信 120ms、发评论 150ms。\n- **评论去掉 `sleep(1200)`**：以前发完固定等 1.2 秒再回查可见性。现在拿到 `rpid` 就返回；只有「@ 了主人但响应看不出有没有 @ 上」才回查一次。实测（stub 接口）耗时 < 600ms。\n- **私信不再每次强拉 nav**：登录信息本来就有 5 分钟缓存，之前 `nav(true)` 强制刷新，每条私信白多一个 650ms 请求。\n- **私信轮询 5s → 3s**：`dmPollSec` 默认改 3 秒，B站私信检测从最坏 5 秒降到 3 秒（抖音走事件通道不受影响）。",
+    "1.11.1": "**「发一遍」失败：不是没有功能，是抖音的上传被节流了。**\n\n翻了 12:57-12:59 的动作记录：同一个 `recv-48bbc047.webp`，12:57 发到测试2 成功、12:57/12:58 两次 NOT_SENT、12:59 发到主人又成功。失败现场的 dump 里**没有确认弹层、也没有预览图**——说明文件根本没被选进去，不是点错按钮。\n\n三处一起改：\n\n- **webp → jpeg**：抖音聊天上传框的 `accept` 是 `.jpg,.jpeg,.png,.gif,.mp4`，webp 不在里面（有时能进、有时被吞）。上传前统一转成 jpeg（顺带缩到 1280），走 `setInputFiles` 的 buffer 形式，不落临时文件。\n- **上传前确认会话**：`sendStickerTo` 现在先 `ensureThreadOpen`，页面飘到别的会话时先点回来再传——上传框是页面级的，传错会话就会「选上了但发不出去」。\n- **别连着重试**：失败后进入 **90 秒冷却**（`IMAGE_COOLDOWN`），成功也留 2.5 秒间隔。她之前 3 分钟里连试 3 次，越试越久发不出去。等待时间也放宽了（确认框 4s→6s，预览 1.2s→2.5s，发送后 4s→5s）。",
+    "1.11.0": "**别人发来的图，现在能存下来、也能转发了。**\n\n之前收到的图只作为「附件」交给模型看一眼，没有落盘——所以她的话是对的：她只能看，想转发时手上没有文件。现在：\n\n- 收到的图（私信、群聊、带图评论）下载后自动存到 `data/stroll/media/`，文件名按内容 hash：`recv-1a2b3c4d.jpg`，同一张图重复收到只存一份。\n- 推送正文里会多一句：`图已存到本地：recv-1a2b3c4d.jpg（要转发就用 stroll_act action=image file=<这个名字>）`——她照着这条就能转发。\n- `stroll action=images` 现在同时列两种图：自己画的（`source=画的`）和收到的（`source=收到的`）。\n- 转发走的是本地文件上传，不会再下第二次，也不受「原图 CDN 加密」影响。",
+    "1.10.0": "**能发自己画的图了：抖音私信、群聊、评论区。**\n\n图片工坊画好的图就存在 `data/workspace/media/`（面板上「复制路径」拿到的就是它）。现在：\n\n- `stroll action=images`：列出画好的图（`id` 是文件名里那 8 位，比如 `ab6899f7`；带大小和时间）。\n- `stroll_act action=image target=主人`（或群名）：发到私信/群聊。`file` 留空＝**最新一张**，也可以写 `file=ab6899f7` 或整条路径。\n- `stroll_act action=image target=<视频链接> where=comment`：发到评论区，`text` 可配一句短话。\n- 私信/群聊跟发表情一样是聊天行为（不占公开额度、不进草稿箱）；评论区是公开动作，走额度和审批——审批不是 `auto` 时会直接告诉主人「发不了」，不会偷偷绕过。\n\n顺带修的两个问题：\n\n- **推送带图失败会丢整条消息**：老宿主不认 `blobs` 时，`pushEvent` 直接抛错，连文字都没了。现在失败自动退回纯文字再推一次。\n- **取图没有时间上限**：一张大图下载慢会把「秒回」拖成十几秒。现在取图有 3 秒预算，超时就不带图先推文字。",
+    "1.9.3": "**找到了：抖音的聊天图在 CDN 上是加密的，所以下载回来永远不是图片。**\n\n日志里那条 `stroll image download empty` 的 URL，我直接下了一遍：HTTP 200、`application/octet-stream`、16KB，但字节是**随机乱码**（`66 55 11 6b d4 ef 0e 99…`），不是 JPEG/PNG 任何一种。抖音把图加密存，页面脚本解密后再画出来——所以「下载图片 URL」这条路本质上是走不通的。\n\n改法：**不再下载，直接取屏幕上已经解出来的画面**。\n\n- `<canvas>`：解密后画上去的，`toDataURL('image/jpeg')` 直接导出（被污染的画布会失败，自动跳过）。\n- `<img src=\"blob:...\">`：解密后生成的 blob，页内 `fetch(blob)` → FileReader → dataURL。\n- 元素/伪元素的 `background-image: url(blob:...)` 也照此处理。\n- 三种都取不到，才退回「下载 URL」，并且优先挑**带签名参数**的那条（`srcset` 里常混一条没有 query 的缩略图地址，下了也是空的）。\n- 头像（`aweme-avatar`）不参与，避免把 36px 的发送人头像当成对方发的图。\n\n代价：图片消息第一次读会多一次 canvas 导出（几十毫秒），结果缓存在元素上，后面读同一批不会重复算。",
+    "1.9.2": "**`stroll image url missing` 说明地址还是没抓到——再加三层兜底。**\n\n1.9.1 修了协议相对地址，但线上仍然取不到。这一版从三个方向找图：\n\n- **整行扫描**：不再只看 `[data-e2e=\"msg-item-content\"]` 里面，取不到就把这一整条消息的容器扫一遍；头像（`aweme-avatar`）和 60px 以下的小图标排掉，不会把发送人头像当成图片。\n- **React props**：有些版本把图渲染成占位 div（懒加载/加密图），地址只在消息模型里。现在会扫这条消息自己的 props，挑出像图片 CDN 的 URL（`douyinpic` / `byteimg` / `snssdk` / `tplv`）。\n- **blob / data 直读**：如果 `<img>` 的 src 是 `blob:`（抖音先取图再显示），就在页面里 `fetch(blob)` → FileReader 读成 dataURL，主进程直接解码成附件——完全绕开「找 URL」这件事。dataURL 也支持了。\n- 还取不到就落一份现场：`stroll/debug/image-missing-*.json`（5 分钟最多一份），里面是那条消息的真实 HTML，下次照着改，不用再猜。",
+    "1.9.1": "**图还是没过来：地址没取到，`images=0`。**\n\n查了 12:06 那轮的事件记录，推送里 `\"images\":0` —— 说明「[图片]」这个标记读到了，但要下载的图源是空的，所以一张都没附上。三个原因：\n\n- 抖音的消息图经常是**协议相对地址**（`//p3-sign.douyinpic.com/...`），之前只认 `http(s)://`，直接全被过滤掉了；\n- 冷启动时图片可能还在懒加载，真正的地址在 `data-src` / `srcset` 里，`src` 是空的；\n- 少数版本把图放在 `background-image` 里。\n\n改成：`currentSrc → src → data-src → data-original → srcset` 全试一遍，`//` 自动补 `https:`，再兜底背景图；还是取不到就用这条消息自己的 React props 里的图片字段。\n\n顺手补了两个之后必然会踩的坑：\n\n- **avif / heic**：抖音图床常给 avif，模型基本不吃。现在下载后如果不是 jpeg/png/gif/webp，会在页面里用 `createImageBitmap` + canvas 转成 **jpeg（最长边 1280）** 再附上——手机直出 4000px 的照片也不会把请求撑爆。\n- 下载时不再主动 `Accept: image/avif`，让 CDN 直接给 webp/jpeg。\n\n还加了日志，下次一眼能看出卡在哪一步：\n\n```\nstroll image attached { count, kb }\nstroll image download empty\nstroll image mime unknown { head }\nstroll image url missing (dm|group)\n```",
+    "1.9.0": "**能看图了；顺便修「新开了群之后私信不回」。**\n\n### 收图（抖音私信 / 群聊 / 带图评论，B站私信 / 评论）\n\n- 抖音私信和群里别人发来的图片、大表情，推给她的时候会把图**下载成附件**一起交给模型——她是真的看见，不是只看到一个「[图片]」。\n- 抖音带图评论：`stroll action=comments platform=douyin url=<视频链接>` 现在能读（之前只有 B站），评论里的图会附最多两张。\n- B站评论的 `content.pictures`、B站私信里 `msg_type=2` 的图片也走同一条路。\n- 每次最多两张、单张 6MB；模型不支持图片时宿主会自动退化成 `（图片 1：xxKB image/png）` 这种文字，提示词里也写明了：**看不到就说看不到，不许编图里有什么**。\n\n### 新开群之后私信不回（别人反馈，我这边复现不了，按三处可疑点加固）\n\n1. **建页面时的空窗**：`ctx.newPage()` 返回、`__strollRole` 还没打上的那几毫秒，主页 `getPage()` 可能把新建的群页当成自己的空页认领走。现在建页期间 `_reserving` 计数，`getPage` 宁可自己再开一个，也不认领。\n2. **私信页被抖音切走**：页面没关、观察器还活着，但会话已经切到新群/别人。这时读到的是群的聊天，却被当成「主人发私信了」；回复也会打进那个群。现在 `peekThread` 先核对聊天页标题，对不上就点回主人；点不回就返回 `THREAD_DRIFT`，让监听重新挂。\n3. **群消息抢走私信上下文**：主人刚私信、群里紧接着有人说话时，旧的「回群要写 target」保护会把回私信的那条拦下来。现在记住 `lastDmPoke`：主人 90 秒内说过话就以私信为准。\n4. 挂完群之后检查一次私信观察器，掉了就顺手补挂（以前要等下一轮心跳）。",
     "1.8.8": "**「抖音要验证」是误报——1.8.7 的风险检查查得太宽。**\n\n1.8.7 为了提速，把「读整页 innerText」改成了「只查弹层 / toast / 验证码 iframe」。但：\n\n- `iframe[src*=\"verify\"]` **没看可不可见**。抖音页面里常驻一个 0×0 的隐藏验证 iframe，所以每次发完都判成「要验证」——她连着四次说「抖音把我拦下了」。\n- `[class*=\"verify\"]` / `[class*=\"dialog\"]` 也太宽，页面上任何带这些字样的元素都会被读进来。\n\n现在：\n\n- iframe 必须**真的显示在屏幕上**（≥160×80、在视口内、不是 `display:none`/`visibility:hidden`）；\n- 只看 `.semi-modal-content` / `[role=\"dialog\"]` / toast，且文字必须命中那几句明确的话（完成验证 / 安全验证 / 短信验证码 / 操作频繁 / 请稍后再试…）；\n- **把「命中了什么」一起返回**（`hit`）：报错里会写清楚是「验证码弹层」还是「操作频繁 toast」，她不会再一律说成「要验证」。\n\n另外把两类风险分开：\n\n- **验证**：`抖音要验证（完成验证@semi-modal…），得主人在手机上过一下验证码。`\n- **限流**：`抖音限流了（操作频繁），等两分钟再发，别连着重试。` 并且进入 **2 分钟本地冷却**——这期间发送直接拒绝，不再去页面上试（她之前 3 分钟里重试了 4 次，越试越糟）。",
     "1.8.7": "**群里谁说的话全算成主人；回消息还要三四秒。**\n\n### 发言人认错（线上：三个人说话全标成同一个人）\n\n- 以前取昵称是 `closest('[class*=messageMessageBox]')` + 一串逗号选择器。两个坑：\n  1. 那个类有些版本会套住**一整段消息**，`querySelector` 永远抓到最上面那个人的名字；\n  2. `querySelector('a, b, c')` 返回的是**文档里最靠前**的那个，不是列表里第一个命中的——行里只要有个更早出现的隐藏 nickname，就会顶掉真正的发言人。\n- 现在：从消息内容往上爬，爬到「再上一层就会包住两条消息」为止，保证拿到的是**这一条自己的容器**；昵称按优先级一个个找（`MessageBoxMessageTitleavatarName` → `avatarName` → …），最后才用头像 alt 和 React props 里的昵称字段兜底。\n- 角色标签（群主/管理员/成员）前后都剥。\n- **继承加了边界**：新一段消息（带自己的头像）如果没读到名字，宁可标成「有人」，也不沿用上一个人的名字——以前就是这样把别人说的话全算成主人。\n- 认错时自动留现场：`stroll/debug/group-who-*.json`（10 分钟最多一份），下次照着真实结构改。\n\n### 回复提速（插件这一侧）\n\n- `body.innerText` → 只查弹层/toast/验证码 iframe。整页 innerText 会强制重排，聊天记录一多就是几百毫秒，而它每次发完消息都要跑。\n- 会话标题比对容忍「测试3（3）」「测试3 3人」这类后缀。以前对不上就会白点一次会话：多一次点击 + 220ms 等待 + 输入框重建的 400ms，一次白花半秒多。\n- 等输入框的轮询 400ms → 120ms；输入框点击跳过可点性检查（force）。\n- 只解析最新 `2n` 条消息（以前整屏几百条每条都走一遍 React props）。\n- 推送文案压缩：去掉那一大段「别先查 status/feed…」，模型的上下文短了，首字也快一点。\n- 回执里加了耗时：`ms.prep / ms.input / ms.send / ms.total`（发送路径）、`msTotal`（整次动作），下次慢能直接看出慢在哪一段。\n\n实测（假页面，不含网络与 React 开销）：`sendInChat` 中位 **171ms**，`readMessages(10)` **1.7ms**（原来 2.7ms）。真机上插件这一侧大约 0.3-0.4 秒；**端到端做不到 1 秒**——模型从收到推送到发出第一条工具调用本身就要 1.5-2 秒，那一段不在插件里。",
     "1.8.6": "**第二个群的回复「发成功了」，其实一条都没进群。** 从她那一次的工具调用记录可以直接看出来（每次 `stroll_act` 的入参和回执）：\n\n```\ndm text=\"在。怎么了。\"                        → 私信主人（没写 target）\ndm text=\"看到了。又一个群。\"                  → 私信主人（没写 target）\ndm target=\"小月月一直在玩\" text=\"回了…\"        → 群里（被当成了群一）\ndm text=\"刚回了，是不是你那边没刷出来。\"        → 私信主人（没写 target）\n```\n\n三个原因叠在一起：\n\n- **没写 target 就默认私信主人**。她在回群消息，但手上没填 target，系统一路掉到「私信主人」，还回执「发出去了」。群二当然一条都没有。\n- **target 写主人的昵称会被群名匹配走**。她写 `target=\"小月月一直在玩\"`（主人的名字），而群标题是「小月月一直在玩, 穹, 大萌神」——包含匹配直接命中群一。她以为在私信主人，实际发进了群。\n- **群二根本没被发现**。日志里只有 `groups detected ['小月月一直在玩, 穹, 大萌神']` 一个群；`matchGroup` 又允许「反向包含」，写更长的群二名字时会命中更短的群一。于是所有回复都进了群一。\n\n改法：\n\n- **没写 target、又刚被群消息叫起来 → 直接拒绝**，让她写清楚（`target=<群名>` 或 `target=主人`）。不再有「悄悄变私信」这条路。\n- **`target` 写主人昵称 → 按私信主人处理**；`target=主人 / 私信` 也是。回执里加了 `to: \"group\" | \"owner\"`，文案也改成「私信发给主人了（不是群）」。\n- **群名匹配去掉反向包含**：只允许「她写的是群名的一部分」，写更长的名字不会再命中更短的群。\n- **群列表改成深度读取**：优先用已经停在 `/chat` 的页面读（不把主页从视频上拽走），`deep` 时上下滚动会话列表，把虚拟列表外面的群也捞出来；有常驻聊天页时 45 秒刷一次，没有就 5 分钟。刚被拉进的新群不用再等十分钟。\n- **两个群同名也能分开**（同一批人建的两个群，抖音把成员名拼成一样的标题）：同名时第二个加 `#2`，并把 `conversationId` 记下来，点会话按 id 精确点，不靠第几个。\n- **发之前确认页面还停在目标会话**：读一下聊天页顶部的标题，发现被抖音切到别的会话（或者漂到了私信）就先点回来再发。以前是直接往当前输入框打字，话会落进另一个群。\n- 群推送文案改成「target 原样照抄群名」：成员名、主人昵称都可能落错地方。",
