@@ -4891,7 +4891,7 @@
       "published": "2026-10-29T09:20:06.044Z",
       "versionCount": 11,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "experimental",
         "high-cost"
@@ -8334,17 +8334,17 @@
     },
     "cortico-world-feast": {
       "kind": "world",
-      "version": "0.5.0",
+      "version": "0.6.0",
       "displayName": "一桌菜",
-      "description": "一桌菜 · 给 Coo 一张会端菜的桌子：500 道带九维口味、香气、口感与实吃描写的菜品（24 个菜系组），她能自己挑、主人能从面板端一道过去；同一道菜每次吃到的都不一样，吃过什么和口味画像跨天攒着；另有一套可开关的饭点提醒。",
+      "description": "一桌菜 · 给 Coo 一张会端菜的桌子：701 道带九维口味、香气、口感与实吃描写的菜品（28 个菜系组），她能自己挑、主人能从面板端一道过去，也能整桌端过去（8 套内置套餐 + 自己攒桌），还能和她一起吃一顿、互相喂一口；同一道菜每次吃到的都不一样，吃过什么和口味画像跨天攒着；另有一套可开关的饭点提醒。",
       "locales": {
         "zh": {
           "displayName": "一桌菜",
-          "description": "给 Coo 一张会端菜的桌子：500 道菜（24 个菜系组），每道都有九维口味、香气、口感、余韵和一段实吃描写。她能自己按菜系挑，主人也能从面板把一道菜端到她面前；同一道菜每次吃到的都不一样（温度、状态、配的那口会变），吃过什么、对什么反应、口味画像跨天攒着。饭点提醒默认开着，可以在配置里一键关掉。"
+          "description": "给 Coo 一张会端菜的桌子：701 道菜（28 个菜系组），每道都有九维口味、香气、口感、余韵和一段实吃描写。她能自己按菜系挑，主人也能从面板把一道菜端到她面前，或者整桌端过去（8 套内置套餐，也能自己勾几道攒成一桌存下来）；还能和她一起吃一顿：邀请她、互相喂一口，你吃了什么她也知道。同一道菜每次吃到的都不一样（温度、状态、配的那口会变），吃过什么、对什么反应、口味画像跨天攒着。饭点提醒默认开着，可以在配置里一键关掉。"
         },
         "en": {
           "displayName": "Table",
-          "description": "A table that serves food to your Coo: 500 dishes across 24 cuisines, each with a nine-axis flavour profile, aroma, texture, aftertaste and a full paragraph of how it actually eats. She can pick by cuisine, or you can put a dish down in front of her from the panel. The same dish never lands the same way twice, and what she ate, how it landed and her taste profile accumulate across days. Meal reminders are on by default and can be switched off in config."
+          "description": "A table that serves food to your Coo: 701 dishes across 28 cuisines, each with a nine-axis flavour profile, aroma, texture, aftertaste and a full paragraph of how it actually eats. She can pick by cuisine, or you can put a dish down in front of her from the panel — or serve a whole table at once (8 built-in set meals, plus your own saved tables). You can also share a meal with her: invite her, feed each other a bite, and tell her what you are eating. The same dish never lands the same way twice, and what she ate, how it landed and her taste profile accumulate across days. Meal reminders are on by default and can be switched off in config."
         }
       },
       "author": "青",
@@ -8373,8 +8373,8 @@
         "bugs": "https://github.com/bailuhanyi/cortico-world-feast/issues"
       },
       "created": "2026-11-05T03:38:03.816Z",
-      "published": "2026-11-05T10:37:20.122Z",
-      "versionCount": 6,
+      "published": "2026-11-05T13:53:49.131Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -8394,14 +8394,14 @@
         "week": 0
       },
       "summary": {
-        "tools": 6,
-        "events": 2,
-        "toolTokens": 924,
-        "envPromptTokens": 308
+        "tools": 9,
+        "events": 4,
+        "toolTokens": 1455,
+        "envPromptTokens": 531
       },
       "changelog": {
         "versions": [
-          "0.5.0",
+          "0.6.0",
           "0.4.0",
           "0.3.0",
           "0.2.0",
@@ -9966,17 +9966,17 @@
     },
     "cortico-world-heybox": {
       "kind": "world",
-      "version": "0.5.24",
+      "version": "0.5.25",
       "displayName": "小黑盒",
-      "description": "让桌宠真正住进小黑盒：会逛、会读、会挑，也只在真有话说时发帖。刷到的内容先沉淀成自己的兴趣，再按具体角度选题；配图默认只碰游戏截图，上传需确认并去元数据；评论和帖子分开写，内容记忆可检索，评论短接、不总结，帖子再展开；表情按语境加，不硬塞。还有模板/草稿/发件箱/定时、发帖质检、幂等发布和回执，适合想让她长期混社区、慢慢写出自己风格的人。",
+      "description": "让桌宠真正住进小黑盒：会逛、会读、会挑，也只在真有话说时发帖。刷到的内容先沉淀成自己的兴趣，再按具体角度选题；配图默认只碰游戏截图，上传需确认并去元数据；评论和帖子分开写，内容记忆可检索，评论短接、不总结，帖子再展开；表情按语境加，不硬塞。自动发帖决策、模板/草稿/发件箱/定时、发帖质检、幂等发布和回执，适合想让她长期混社区、慢慢写出自己风格的人。",
       "locales": {
         "zh": {
           "displayName": "小黑盒",
-          "description": "让桌宠真正住进小黑盒：会逛、会读、会挑，也只在真有话说时发帖。评论短接、帖子展开，内容记忆可检索；配图更安全，兴趣更真实，发布更可控。"
+          "description": "让桌宠真正住进小黑盒：会逛、会读、会挑，也只在真有话说时发帖。评论短接、帖子展开，内容记忆可检索；配图更安全，兴趣更真实，自动发帖决策更可控。"
         },
         "en": {
           "displayName": "Heybox",
-          "description": "A companion that actually lives in Heybox: browses, reads and chooses, and posts only when she has something real to say. Short replies, fuller posts; safer media, real interests, controllable publishing."
+          "description": "A companion that actually lives in Heybox: browses, reads and chooses, and posts only when she has something real to say. Short replies, fuller posts; safer media, real interests, autonomous posting decisions with controllable risk."
         }
       },
       "author": "cortico-world-heybox contributors",
@@ -10000,8 +10000,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-heybox"
       },
       "created": "2026-10-24T14:30:19.968Z",
-      "published": "2026-11-05T13:17:34.927Z",
-      "versionCount": 21,
+      "published": "2026-11-05T14:02:39.637Z",
+      "versionCount": 22,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10029,12 +10029,13 @@
       },
       "summary": {
         "tools": 57,
-        "events": 1,
-        "toolTokens": 5197,
+        "events": 4,
+        "toolTokens": 5243,
         "envPromptTokens": 66
       },
       "changelog": {
         "versions": [
+          "0.5.25",
           "0.5.24",
           "0.5.23",
           "0.5.22",
@@ -10093,7 +10094,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-heybox@0.5.24/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-heybox@0.5.25/CHANGELOG.md"
       },
       "discussion": {
         "number": 253,
