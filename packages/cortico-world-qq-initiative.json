@@ -1,0 +1,139 @@
+{
+  "schema": 1,
+  "name": "cortico-world-qq-initiative",
+  "version": "0.4.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "qq_initiative_send",
+        "description": "主动搭话专用发信渠道：向指定 QQ 私聊或群发送一条消息",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "to": {
+              "type": "string",
+              "description": "投递地址（private:<QQ号> 或 group:<群号>）"
+            },
+            "text": {
+              "type": "string",
+              "description": "消息正文"
+            }
+          },
+          "required": [
+            "to",
+            "text"
+          ]
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "主动搭话专用发信渠道。",
+          "en": "Send a proactive QQ message."
+        }
+      },
+      {
+        "name": "qq_initiative_status",
+        "description": "查询当前 QQ主动搭话引擎的运行状态、作息时段、今日已发配额及会话活跃度统计",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string",
+              "description": "可选的指定会话地址（private:<QQ号>）"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查询 QQ主动搭话运行状态与配额。",
+          "en": "Check QQ proactive chat status and quota."
+        }
+      },
+      {
+        "name": "qq_initiative_trigger",
+        "description": "手动触发对指定白名单会话的主动搭话测试（调试与强制唤醒用）",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string",
+              "description": "目标会话地址（private:<QQ号>）"
+            },
+            "scene": {
+              "type": "string",
+              "description": "主动场景类型：idle_chat、routine_wake、routine_noon、routine_sleep",
+              "enum": [
+                "idle_chat",
+                "routine_wake",
+                "routine_noon",
+                "routine_sleep"
+              ]
+            },
+            "force": {
+              "type": "boolean",
+              "description": "是否放宽今日配额与同会话最小区间（默认 false）"
+            }
+          },
+          "required": [
+            "address"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "手动触发对指定会话的主动搭话测试。",
+          "en": "Manually trigger proactive test for a session."
+        }
+      },
+      {
+        "name": "qq_initiative_reset",
+        "description": "手动重置 QQ主动搭话配额或会话未回复冷却计数（管理与自测用）",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "target": {
+              "type": "string",
+              "description": "重置目标类型：daily_quota、session、all",
+              "enum": [
+                "daily_quota",
+                "session",
+                "all"
+              ]
+            },
+            "address": {
+              "type": "string",
+              "description": "当 target 为 session 时必须指定的会话地址"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "重置主动搭话配额或会话冷却计数。",
+          "en": "Reset proactive quota or session cooldown."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "im.proactive.turn",
+        "description": {
+          "zh": "主动搭话触发事件：唤醒桌宠主模型按白名单与防打扰纪律自主决定是否发信。",
+          "en": "Proactive chat nudge: wakes the main model to decide whether to speak."
+        }
+      }
+    ]
+  },
+  "changelog": {
+    "0.4.0": "> 本版把主动搭话从「只会发文字」补成完整回路：三种发信通道可切、配图交给表情扩展、提示词单源且逐步收敛。\n\n### 新增\n\n- **三种发信通道**：`builtin`（自建 OneBot v11 直发，以平台回执为准）/ `external`（交给外部 World 的发信工具，不可观测失败）/ `bridge`（AstrBot 桥接，模型调桥的发信工具并经桥发回）；面板可切换，模式类改动需重启 World。\n- **主动轮配图联动**：主动搭话轮不再自行处理图片，文字发出后由模型调表情扩展的 `qq_sticker_send` 补一张，掷骰与频控统一由表情扩展裁决；文字与表情包分两条发送，与日常对话的分段形态一致。\n- **发信通道面板入口**：面板顶部显示当前通道与生效提示。\n\n### 修复\n\n- 关闭「自行判断」后主动回合仍可能不发送：提示词里另一处默许沉默的引导语一并移除。\n- 派发后仍每分钟重派：改为派发后（含模型选择安静）立即写回冷却，到期前不再选中该会话。\n- 提示词死代码：`EMOTION_LADDERS` / `getEmotionGuidance` 等从未接入，现按 `unrepliedCount` 接上语气阶梯（未回 1 次→语气放软；2 次以上→只留一句关怀就收）。\n\n### 优化\n\n- 提示词单源：场景短名、时段、语气阶梯统一收在 `templates.ts`，`ENV_PROMPT.md` 与每轮 nudge 不再重复「1~3 句」。\n- 默认引导改为讲怎么开口（别汇报、别念总结、别问「在干嘛」），一轮提示控制在 400 字符内。\n- 措辞中性化，技术细节降到 debug 级日志。",
+    "0.3.1": "### 修复\n\n- 主动搭话现在能正常发表情包了，此前即使配了图也只会把标记当文字发出去。\n\n### 优化\n\n- 主动搭话的环境提示补上表情包说明，它知道什么时候该配图。",
+    "0.3.0": "### 优化\n\n- 配置按基础 / 高级 / 运营三层分级，运营项不进面板。\n- 默认值改为安全态：默认关闭、白名单与发信地址留空、移除占位号码。\n- 启动防呆校验与令牌脱敏。\n- 用户可见文案改为人话，技术细节降到 debug。\n- nudge 压到 400 字符内、环境提示词压到 220 字符内，两处不再重复。\n- 措辞去点名，改为中性描述。",
+    "0.2.0": "### 新增\n\n- 自建 OneBot v11 HTTP 发信通道与 `qq_initiative_send`。\n- 补全 `describe.json`、事件声明与开源文档。\n\n### 优化\n\n- 工具统一 `qq_proactive_*` 命名。\n- `external` 模式改为不可观测失败。",
+    "0.1.0": "### 新增\n\n- 初版：抽象发信契约 + 三阶段事务配额 + 作息状态机 + 三元组 Nudge。"
+  }
+}

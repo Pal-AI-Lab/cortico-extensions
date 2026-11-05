@@ -1,0 +1,204 @@
+{
+  "schema": 1,
+  "name": "cortico-world-qq-stickers",
+  "version": "0.3.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "qq_sticker_pick",
+        "description": "【每轮回复前必调一次，不要和发消息放在同一轮】决定这一轮要不要配表情包。工具按设定概率掷骰：通过时返回候选列表，由你挑一张合适的，把 [表情包:分类/文件名] 原样写进正文；未命中或冷却中返回 [出图跳过: ...]，请直接用纯文字自然回复。可传情感/场景词（如 开心、得意、困了、晚安，支持同义词转换），也可按分类、角色或关键词筛选候选。返回 [出图跳过: ...] 属于正常的节流结果，不是报错，绝不要道歉或提及冷却。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "mood": {
+              "type": "string",
+              "title": "情感 / 场景",
+              "description": "想表达的情感、场景或分类，如 开心、得意、被夸了、难过、困了；支持同义词转换（快乐->开心、认真->坚定）。留空则从全库挑选。"
+            },
+            "category": {
+              "type": "string",
+              "title": "情感分类",
+              "description": "按一级文件夹筛选，如 开心、得意、困惑、难过；支持模糊匹配与同义词转换。留空时不限制分类。"
+            },
+            "character": {
+              "type": "string",
+              "title": "角色",
+              "description": "按文件名前缀的角色筛选，如 小明、助手、猫猫；模糊匹配。"
+            },
+            "keyword": {
+              "type": "string",
+              "title": "关键词",
+              "description": "在分类、角色、文件名里模糊综合匹配。"
+            },
+            "random": {
+              "type": "boolean",
+              "title": "随机打乱",
+              "description": "是否打乱返回顺序（默认 true，乱序挑选；false 则按分类/角色/名称确定性排序）。"
+            },
+            "avoid": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "title": "避开的表情",
+              "description": "需要临时避开的表情包路径或文件名列表（如最近几轮发过的图），匹配充足时优先排除。"
+            },
+            "force": {
+              "type": "boolean",
+              "title": "强制出图",
+              "description": "是否绕过概率掷骰与冷却时间限制（测试或极关键情绪场景使用）。"
+            },
+            "limit": {
+              "type": "number",
+              "title": "条数",
+              "description": "本次返回多少条候选，默认取配置值，最大 20。"
+            },
+            "offset": {
+              "type": "number",
+              "title": "偏移",
+              "description": "从第几条开始，用于翻页，默认 0。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "每轮回复前必调：按概率掷骰决定是否配图，通过时返回候选列表，挑一张用 [表情包:路径] 发送。",
+          "en": "Call before each reply: dice by configured chance, return candidates on pass, send via [sticker:path]."
+        }
+      },
+      {
+        "name": "qq_sticker_file",
+        "description": "把本机表情包里的一张图片作为附件取出来（回执里会带一个 log: 开头的句柄）。把句柄填进 astrbot_send_message 的 image 参数即可发到 QQ。不依赖 AstrBot 侧的 send_meme，主动搭话也能用。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "mood": {
+              "type": "string",
+              "title": "情感 / 场景",
+              "description": "想表达的情绪或场景。可以直接写一句话或口语描述（如「没听懂但还得点头」「被夸了有点飘」），会走语义检索匹配最贴切的那几张；也可以写标准分类词（开心、得意、困了），走同义词表。留空则全库随机。"
+            },
+            "category": {
+              "type": "string",
+              "title": "分类",
+              "description": "如 开心 / 得意 / 担心"
+            },
+            "file": {
+              "type": "string",
+              "title": "文件名",
+              "description": "精确到某一张（含扩展名）"
+            }
+          }
+        }
+      },
+      {
+        "name": "qq_sticker_send",
+        "description": "配图：在正文发出后调用，为这条消息补一张表情包（单独一段收尾）。配不配图由它内部掷骰（概率/保底/冷却统一仲裁），没通过就纯文字收尾，不要重试也不要向对方解释。mood 可写一句话描述此刻的情绪或场景（如「被夸了有点不好意思」），挑图会更贴。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "to": {
+              "type": "string",
+              "title": "投递地址",
+              "description": "private:<QQ号> 或 group:<群号>（原样照抄提示词里给的）"
+            },
+            "mood": {
+              "type": "string",
+              "title": "情感 / 场景",
+              "description": "想表达的情绪或场景，可写整句话（如「被夸了有点不好意思」），掷骰通过时按语义选图；也可写标准分类词；留空则全库随机。"
+            }
+          },
+          "required": [
+            "to"
+          ]
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "按掷骰补一张本机表情包（经 AstrBot Open API 独立一段发出），对话轮与主动搭话轮通用。",
+          "en": "Attach a sticker after a proactive message via the AstrBot Open API."
+        }
+      },
+      {
+        "name": "qq_sticker_curate",
+        "description": "表情库策展：新图入库、补语义描述、维护分类别名。判断交给模型、落盘由插件完成。operation=audit 列缺描述/待归类清单；inspect 取图给你看；describe 提交看图后的 caption 与 tags（顺带生成向量）；alias 维护分类口语别名；organize 把 incoming 里的新图归入分类。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "operation": {
+              "type": "string",
+              "enum": [
+                "audit",
+                "inspect",
+                "describe",
+                "alias",
+                "organize"
+              ],
+              "description": "要做的策展动作。"
+            },
+            "rel": {
+              "type": "string",
+              "title": "图片路径",
+              "description": "库内相对路径，如「开心/小明-开心-001.gif」；organize 时可只给文件名。"
+            },
+            "caption": {
+              "type": "string",
+              "title": "画面描述",
+              "description": "describe 用：看完图后的一句话描述。"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "title": "标签",
+              "description": "describe 用：3~10 个口语标签。"
+            },
+            "category": {
+              "type": "string",
+              "title": "分类",
+              "description": "alias / organize 的目标分类。"
+            },
+            "aliases": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "title": "别名列表",
+              "description": "alias 用：并入该分类的口语说法。"
+            },
+            "limit": {
+              "type": "number",
+              "title": "清单条数",
+              "description": "audit 最多列多少条（默认 8）。"
+            }
+          },
+          "required": [
+            "operation"
+          ]
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.qq-stickers.envPrompt",
+        "title": "QQ表情管理 · 环境提示词",
+        "role": "envPrompt",
+        "content": "## 表情包使用纪律\n{{stickerLibraryLine}}\n【先文字后图】正文先用 astrbot_send_message 发出，随后调 qq_sticker_send（mood 可写一句话描述此刻的情绪或场景，如「被夸了有点不好意思」）补一张表情包；它内部掷骰，没过就到此为止。\n【一轮最多一张】只补一张；发完不用解释为什么配这张图。\n【该不发就不发】对方在说正事、心情不好、刚道过歉，或者你这条只是把结论复述一遍，就不调 qq_sticker_send，纯文字收尾。\n【[出图跳过] 是正常的】那是节流，不是报错；接着把话说完，别解释冷却，也别道歉。\n【别写路径标记】不要写 [表情包:路径] 或 [图片:路径]，桥接链路上发不出去。\n【发指定图片】主人点名要某张图时才用 qq_sticker_file 拿 log: 句柄，再 astrbot_send_message(image=\"log:…\")。屏幕截图仍然只在主人要求时才允许。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.3.0": "> 本版把「按分类随机配图」升级为「按语义描述选图」，并补齐桥接直发与策展工具：\n> 对话轮与主动搭话轮共用一套掷骰账本，图片不再依赖 QQ 协议扩展的标记解析。\n\n### 新增\n\n- **语义检索**：每张表情的 caption 与 tags 经 embedding 建索引，`mood` 直接写一句话（如「被夸了有点不好意思」）即可召回最贴切的候选；检索引擎复用 cortico-world-memory 的 Hybrid Recall（BM25 + Cosine + RRF），跨包动态加载。\n- **三级退化**：语义检索 → 同义词表匹配 → 全库随机，任一环节不可用都不影响出图；embedding 端点留空时只走 BM25 文本检索。\n- **桥接直发 `qq_sticker_send`**：经 AstrBot Open API 直接把本机表情发到 QQ（独立一段收尾），不依赖真实 QQ 事件，对话轮与主动搭话轮通用。\n- **附件通道 `qq_sticker_file`**：把一张表情作为附件取出（`log:` 句柄），配合 `astrbot_send_message(image=…)` 使用。\n- **策展工具 `qq_sticker_curate`**：`audit` 列缺描述/待补向量/incoming 未归类文件，`inspect` 取图给模型看，`describe` 提交描述与标签（自动建向量），`alias` 维护分类口语别名，`organize` 把 incoming 新图归入分类。\n- **分类别名外置**：别名存于 `sticker-semantic/aliases.json`，不同表情库无需改代码。\n\n### 修复\n\n- 掷骰通过但所选分类没有匹配图时，不再把「通过但没图」发回模型，而是全库兜底随机一张并在回执写明。\n- 复合情感词（「得意 开心」「害羞 被抓包」）整句比分类名必然落空：改为先切词再逐个过同义词表。\n- 工具带屏障导致同一轮里后续发信工具被拦成未执行：已移除屏障。\n- 情绪词带修饰语（「有点得意」「特别难过」）匹配落空：补子串匹配；否定说法（「不开心」「没有生气」）会被识别拦下，不会反着配图。\n- `qq_sticker_file` 未接语义索引导致口语 mood 被掰成粗略分类、选图跑偏。\n- `incoming/` 不再被当成分类参与选图；空语义索引不再判定为不可用（冷启动逐条 describe 即可自举）。\n\n### 优化\n\n- 选图路由改为「分类优先、语义兜底」：标准情绪词走分类池，整句/口语描述才进语义检索；语义命中收窄到 top-3 且优先向量路命中，串图明显减少。\n- 单次候选上限 50 → 20，避免候选列表挤占上下文。\n- 提示词改为每个通道一份成品模板，面板只显示当前通道那份、正文可直接编辑；提示词单源校验并入 `npm run check`。\n- 工具回执直接写明本轮掷骰结果与保底进度，被跳过时写明冷却或概率原因。",
+    "0.2.0": "### 新增\n\n- 新增 `qq_sticker_pick`，与 catalog 共用同一实现。\n\n### 优化\n\n- 工具按 QQ 生态官方前缀收口为 `qq_sticker_catalog`。\n- 同步 `describe.json` / `ENV_PROMPT.md` / README。\n- 包描述改为「QQ 生态表情管理」定位。",
+    "0.1.0": "### 新增\n\n- 首个可用版本，`sticker_catalog` 单工具 + 情感分类 + 频控冷却 + 概率掷骰 + 同义词 + 防重复。"
+  }
+}
