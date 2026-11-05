@@ -8427,7 +8427,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/745",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-feeding": {
@@ -10472,7 +10472,7 @@
       "published": "2026-10-23T10:22:55.659Z",
       "versionCount": 3,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "unsafe"
       ],
@@ -12097,7 +12097,7 @@
     },
     "cortico-world-milkcoo-app": {
       "kind": "world",
-      "version": "0.3.34-beta.5",
+      "version": "0.4.0-beta.6",
       "displayName": "奶CooApp",
       "description": "奶CooApp 测试版：Coo 安卓手机客户端通道，iOS 未签名测试包待验证。",
       "locales": {
@@ -12124,8 +12124,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-milkcoo-app"
       },
       "created": "2026-10-31T08:51:11.589Z",
-      "published": "2026-11-01T15:10:08.623Z",
-      "versionCount": 5,
+      "published": "2026-11-05T16:28:44.683Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -12147,13 +12147,18 @@
         "week": 918
       },
       "summary": {
-        "tools": 7,
-        "events": 4,
-        "toolTokens": 917,
+        "tools": 8,
+        "events": 5,
+        "toolTokens": 1052,
         "envPromptTokens": 488
       },
       "changelog": {
         "versions": [
+          "0.4.0-beta.6",
+          "0.4.0-beta.5",
+          "0.4.0-beta.4",
+          "0.4.0-beta.3",
+          "0.3.34-beta.6",
           "0.3.34-beta.5",
           "0.3.34-beta.4",
           "0.3.34-beta.3",
@@ -12178,7 +12183,7 @@
           "0.3.15",
           "0.3.14"
         ],
-        "url": "https://unpkg.com/cortico-world-milkcoo-app@0.3.34-beta.5/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-milkcoo-app@0.4.0-beta.6/CHANGELOG.md"
       },
       "discussion": {
         "number": 589,
@@ -12367,17 +12372,17 @@
     },
     "cortico-world-mosey": {
       "kind": "world",
-      "version": "1.15.0",
+      "version": "1.21.2",
       "displayName": "摸鱼",
-      "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。评论和私信都能收能回；关注流、周报、本地书库；按额度点赞、评论、关注、发动态。默认人审，三把工具、少 token。\n\nQQ 交流群：745879632",
+      "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。评论和私信都能收能回；能一起看视频（B站带字幕弹幕，抖音可自动连刷）；关注流、周报、本地书库；按额度点赞、评论、关注、发动态。默认人审，三把工具、少 token。\n\nQQ 交流群：745879632",
       "locales": {
         "zh": {
           "displayName": "摸鱼",
-          "description": "让她自己去抖音/B站逛：刷候选、看关注流、看视频/动态/专栏、点赞、评论、回复楼中楼；私信收发两边都通，面板上直接回。还带周报和本地书库。公开动作有硬额度，默认先出草稿等你批准。\n\nQQ 交流群：745879632"
+          "description": "让她自己去抖音/B站逛：刷候选、看关注流、看视频/动态/专栏、点赞、评论、回复楼中楼；私信收发两边都通，面板上直接回。能一起看视频——B站带字幕和弹幕，抖音可以自动连刷、边刷边说。还带周报和本地书库。公开动作有硬额度，默认先出草稿等你批准。\n\nQQ 交流群：745879632"
         },
         "en": {
           "displayName": "Mosey",
-          "description": "Let her browse Douyin and Bilibili: feeds, following updates, videos, dynamics, articles. Comments and DMs work both ways, reply right from the panel. Plus weekly recap and a local book library. Hard caps and owner approval by default.\n\nQQ group: 745879632"
+          "description": "Let her browse Douyin and Bilibili: feeds, following updates, videos, dynamics, articles. Comments and DMs work both ways, reply right from the panel. Co-watch supported: Bilibili subtitles/danmaku, Douyin auto-swipe with reactions. Plus weekly recap and a local book library. Hard caps and owner approval by default.\n\nQQ group: 745879632"
         }
       },
       "author": "lutsing",
@@ -12404,8 +12409,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-mosey/issues"
       },
       "created": "2026-11-01T08:17:38.660Z",
-      "published": "2026-11-05T07:37:24.392Z",
-      "versionCount": 20,
+      "published": "2026-11-05T16:40:33.554Z",
+      "versionCount": 21,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -12443,12 +12448,12 @@
       "summary": {
         "tools": 3,
         "events": 6,
-        "toolTokens": 1730,
+        "toolTokens": 1748,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
-          "1.15.0",
+          "1.21.2",
           "1.9.3",
           "1.9.2",
           "1.9.1",
@@ -12491,6 +12496,105 @@
         "up": 3,
         "down": 0,
         "comments": 14
+      }
+    },
+    "cortico-world-mota": {
+      "kind": "world",
+      "version": "0.1.35",
+      "displayName": "h5魔塔（50层）",
+      "description": "让桌宠自主游玩 HTML5 魔塔。理论上支持所有基于 HTML5 样板制作的经典魔塔及其衍生变体，支持原生地形探索、全塔物资统筹与陪伴式互动。",
+      "author": "userchang",
+      "maintainers": [
+        "userchang"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "mota",
+        "magic-tower",
+        "h5mota",
+        "game"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-mota",
+        "repository": "https://github.com/userchang/cortico-world-mota",
+        "homepage": "https://github.com/userchang/cortico-world-mota#readme",
+        "bugs": "https://github.com/userchang/cortico-world-mota/issues"
+      },
+      "created": "2026-11-05T17:06:27.098Z",
+      "published": "2026-11-05T17:57:02.550Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "game",
+        "high-cost"
+      ],
+      "tags": [
+        "game",
+        "high-cost"
+      ],
+      "icon": "assets/cortico-world-mota/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 14,
+        "events": 2,
+        "toolTokens": 1625,
+        "envPromptTokens": 1634
+      },
+      "changelog": {
+        "versions": [
+          "0.1.35",
+          "0.1.34",
+          "0.1.33",
+          "0.1.32",
+          "0.1.31",
+          "0.1.30",
+          "0.1.29",
+          "0.1.28",
+          "0.1.27",
+          "0.1.26",
+          "0.1.25",
+          "0.1.24",
+          "0.1.23",
+          "0.1.22",
+          "0.1.21",
+          "0.1.20",
+          "0.1.19",
+          "0.1.18",
+          "0.1.17",
+          "0.1.16",
+          "0.1.15",
+          "0.1.14",
+          "0.1.13",
+          "0.1.12",
+          "0.1.11",
+          "0.1.10",
+          "0.1.9",
+          "0.1.8",
+          "0.1.7",
+          "0.1.6",
+          "0.1.5",
+          "0.1.4",
+          "0.1.3",
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/userchang/cortico-world-mota/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 760,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/760",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-mouse-polling-fix": {
@@ -13163,7 +13267,7 @@
       "published": "2026-10-27T14:16:22.276Z",
       "versionCount": 12,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "internet",
         "companion"
@@ -13696,7 +13800,7 @@
     },
     "cortico-world-parlor": {
       "kind": "world",
-      "version": "0.36.8",
+      "version": "0.36.9",
       "displayName": "鲸语茶室",
       "description": "鲸语茶室(共享客厅)：多只 Coo 与家长一起聊天、斗地主、狼人杀、五子棋、快局大富翁、掷骰子；附零构建网页牌桌与家长观战页。有问题或建议请加 QQ 群 1061389211 反馈，群里回复更快。",
       "locales": {
@@ -13746,8 +13850,8 @@
         "bugs": "https://github.com/biliye/cortico-world-parlor/issues"
       },
       "created": "2026-10-30T12:05:22.925Z",
-      "published": "2026-11-05T10:17:40.959Z",
-      "versionCount": 35,
+      "published": "2026-11-05T16:46:42.999Z",
+      "versionCount": 36,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -13769,13 +13873,14 @@
         "week": 7016
       },
       "summary": {
-        "tools": 32,
+        "tools": 9,
         "events": 7,
-        "toolTokens": 4635,
-        "envPromptTokens": 305
+        "toolTokens": 1591,
+        "envPromptTokens": 283
       },
       "changelog": {
         "versions": [
+          "0.36.9",
           "0.36.8",
           "0.36.7",
           "0.36.6",
@@ -15083,7 +15188,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/280",
         "up": 0,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-qq-better-alont1": {
@@ -16859,17 +16964,17 @@
     },
     "cortico-world-self-evolution": {
       "kind": "world",
-      "version": "0.1.0-preview.2",
+      "version": "0.1.0-preview.3",
       "displayName": "自我进化",
-      "description": "Self Evolution: unattended Linux Cortico World for native DSH and Codex work agents",
+      "description": "Self Evolution: unattended Cortico World for native DSH and Codex work agents on Linux and Windows",
       "locales": {
         "zh": {
           "displayName": "自我进化",
-          "description": "Cortico 发起的 Linux 工作会话：注入 Cortina 创作规则，DSH 自动处理权限并提供完全访问。"
+          "description": "Cortico 发起的 Windows 和 Linux 工作会话：注入 Cortina 创作规则，DSH 自动处理权限并提供完全访问。"
         },
         "en": {
           "displayName": "Self Evolution",
-          "description": "Unattended Linux DSH and Codex work sessions with Cortina creator guidance."
+          "description": "Unattended Windows and Linux DSH and Codex work sessions with Cortina creator guidance."
         }
       },
       "maintainers": [
@@ -16881,17 +16986,19 @@
         "dsh",
         "codex",
         "linux",
+        "windows",
         "unattended"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-self-evolution"
       },
       "os": [
-        "linux"
+        "linux",
+        "win32"
       ],
       "created": "2026-10-31T14:54:28.983Z",
-      "published": "2026-10-31T14:55:24.960Z",
-      "versionCount": 2,
+      "published": "2026-11-05T16:19:08.707Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -16912,8 +17019,15 @@
       "summary": {
         "tools": 8,
         "events": 1,
-        "toolTokens": 1059,
-        "envPromptTokens": 712
+        "toolTokens": 1062,
+        "envPromptTokens": 716
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0-preview.3",
+          "0.1.0-preview.2"
+        ],
+        "url": "https://unpkg.com/cortico-world-self-evolution@0.1.0-preview.3/CHANGELOG.md"
       },
       "discussion": {
         "number": 599,
@@ -20314,7 +20428,7 @@
       "published": "2026-10-22T16:35:01.315Z",
       "versionCount": 4,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [
         "video",
         "external-setup"
@@ -22140,7 +22254,7 @@
       "published": "2026-10-23T00:46:59.937Z",
       "versionCount": 3,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "apps",
         "external-setup",
@@ -22308,7 +22422,7 @@
     },
     "glutton-balance": {
       "kind": "world",
-      "version": "0.0.4",
+      "version": "0.0.5",
       "displayName": "GluttonBalance",
       "description": "🤖 AI 一键安装（把链接交给 AI 助手）：https://raw.githubusercontent.com/ink1453/glutton-balance/main/AI-INSTALL.md ｜ 在桌宠头顶或脚边摆一只只小饭桶，用米饭多少显示 DeepSeek 等 AI 余额，低额亮红灯；只读余额接口，不调模型、不扣额度。",
       "locales": {
@@ -22346,8 +22460,8 @@
         "darwin"
       ],
       "created": "2026-11-02T13:01:21.490Z",
-      "published": "2026-11-02T13:04:06.666Z",
-      "versionCount": 1,
+      "published": "2026-11-05T15:39:03.094Z",
+      "versionCount": 2,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -22381,6 +22495,7 @@
       },
       "changelog": {
         "versions": [
+          "0.0.5",
           "0.0.4",
           "0.0.3",
           "0.0.2",

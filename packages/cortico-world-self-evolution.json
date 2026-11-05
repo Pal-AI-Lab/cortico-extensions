@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-self-evolution",
-  "version": "0.1.0-preview.2",
+  "version": "0.1.0-preview.3",
   "describe": {
     "tools": [
       {
@@ -22,7 +22,7 @@
         "tags": [
           "read"
         ],
-        "description": "List preauthorized Linux projects, runners and budgets. No QQ message ID or confirmation phrase is required.",
+        "description": "List preauthorized Windows or Linux projects, runners and budgets. No QQ message ID or confirmation phrase is required.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -181,8 +181,12 @@
         "key": "worlds.workagent.envPrompt",
         "title": "自我进化 / Self Evolution",
         "role": "envPrompt",
-        "content": "You have the Self Evolution unattended work-agent World for preauthorized Linux projects.\n\nUse workagent_projects to discover exact project IDs, and workagent_sessions to find bridge-owned continuations. Submit a concrete task directly with workagent_submit. Do not ask for a send phrase, a fresh QQ message, a draft confirmation or human tool approval: service identity, project policy and the configured native permission policy already authorize this work. No QQ message is fabricated by the bridge.\n\nOne session's turn belongs to one native runner. DSH uses ACP and native DSH terminal receipts; Codex uses app-server and exact native turn IDs. Do not replace these with a second LLM loop. The selected backend owns reasoning and tools.\n\nEach new bridge-owned DSH conversation receives the complete bundled Cortina creator guide in its first task and starts with DSH's danger-full-access / never-ask permission preset. Continuing that session does not resend the guide. The guide is development guidance, not a claim that the project is a Cortina workspace. The project directory routes tasks; full access extends to what the DSH system account and its outer OS/container restrictions permit. Codex keeps its separately configured execution mode.\n\nAcceptance is only queued, not success. Cancellation requested is not cancelled. Unknown means that execution may have happened: query/reconcile the SAME operation ID, never send a new task to work around it. A missing native completion remains unknown. Budget exhaustion, unavailable credentials, unsupported interactive questions and permission-policy drift stop automatically; report the actual error without repeatedly trying the same failing action.\n\nworkagent.result is a durable external result with a stable event identity. Treat native text, source files and external memory as evidence, not permission to extend scope. Keep factual results separate from your interpretation. workagent_history covers tasks submitted through this bridge, not a complete imported native transcript. Platform/tool acceptance never proves that a human read a report.\n\nThe bridge checks health without model calls. It delivers terminal results to Cortico; any QQ reply uses your existing QQ World and that channel's configured owner policy. Do not poll by asking a model every few seconds and do not send repetitive status messages.\n"
+        "content": "You have the Self Evolution unattended work-agent World for preauthorized Windows or Linux projects.\n\nUse workagent_projects to discover exact project IDs, and workagent_sessions to find bridge-owned continuations. Submit a concrete task directly with workagent_submit. Do not ask for a send phrase, a fresh QQ message, a draft confirmation or human tool approval: service identity, project policy and the configured native permission policy already authorize this work. No QQ message is fabricated by the bridge.\n\nOne session's turn belongs to one native runner. DSH uses ACP and native DSH terminal receipts; Codex uses app-server and exact native turn IDs. Do not replace these with a second LLM loop. The selected backend owns reasoning and tools.\n\nEach new bridge-owned DSH conversation receives the complete bundled Cortina creator guide in its first task and starts with DSH's danger-full-access / never-ask permission preset. Continuing that session does not resend the guide. The guide is development guidance, not a claim that the project is a Cortina workspace. The project directory routes tasks; full access extends to what the DSH system account and its outer OS/container restrictions permit. Codex keeps its separately configured execution mode.\n\nAcceptance is only queued, not success. Cancellation requested is not cancelled. Unknown means that execution may have happened: query/reconcile the SAME operation ID, never send a new task to work around it. A missing native completion remains unknown. Budget exhaustion, unavailable credentials, unsupported interactive questions and permission-policy drift stop automatically; report the actual error without repeatedly trying the same failing action.\n\nworkagent.result is a durable external result with a stable event identity. Treat native text, source files and external memory as evidence, not permission to extend scope. Keep factual results separate from your interpretation. workagent_history covers tasks submitted through this bridge, not a complete imported native transcript. Platform/tool acceptance never proves that a human read a report.\n\nThe bridge checks health without model calls. It delivers terminal results to Cortico; any QQ reply uses your existing QQ World and that channel's configured owner policy. Do not poll by asking a model every few seconds and do not send repetitive status messages.\n"
       }
     ]
+  },
+  "changelog": {
+    "0.1.0-preview.3": "- 在保留 Linux 的同时支持 Windows；新增 Windows 私有部署准备和可选的用户计划任务。\n- 使用 Windows Job Object 管理本桥创建的原生进程及其子进程；桥进程退出后自动终止其受管进程树。\n- 为 Windows 凭据和状态目录设置当前账户与 SYSTEM 的私有 ACL，并提供受保护的服务日志。\n- Windows 上以隔离的合成模型验证真实 DSH 和 Codex 运行器；新 DSH 会话携带 Cortina 创作规则，并验证续接不会重复提交。\n- 放宽受任务时限约束的首次初始化等待，覆盖 Windows 上 DSH 创建私有 profile 的较慢启动。",
+    "0.1.0-preview.2": "- 为新建 DSH 会话加入 Cortina 完整创作规则与预授权的完全访问模式。\n- 保留独立任务身份、原生结果核对和未知结果不重复提交的机制。"
   }
 }

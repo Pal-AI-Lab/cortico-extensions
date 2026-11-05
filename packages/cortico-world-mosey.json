@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-mosey",
-  "version": "1.15.0",
+  "version": "1.21.2",
   "describe": {
     "tools": [
       {
         "name": "stroll",
-        "description": "出门看看（只读，默认后台，不弹网页）。action=status 查登录/额度；brief 一次拿全（推荐，省 token）；feed 刷候选；following 看关注的人在发什么（B站/抖音）；open 后台看指定视频/动态/专栏（B站/抖音链接都行，/note/ 图文也行）；comments 只读评论区（B站/抖音，链接自动判断；带图评论会附最多两张图）；inbox 看谁回了你（评论/@/私信都算；抖音私信带 recent 最近十几句，含分享的视频/图文链接，还有 pending/said 表示主人连着发了几句）；groups 看抖音会话列表（私信和群都在里面，会标出哪些是群、正在盯哪几个）；join_group 用群邀请链接进群（url 参数）；stickers 看本地表情包库（query 按名字/标签筛，没有就空），images 看能发的图（自己画的 + 别人发来存下的，发图前用它确认有哪些）；search 搜 B站；weekly 看这周小结；books 看书库、read 读一段、note 记一句摘抄；watch 一起看（watch_action=start/stop/status，start 才开窗）；login 打开登录窗；history 看最近做过什么。先 brief，少反复 status。",
+        "description": "出门看看（只读，默认后台，不弹网页）。action=status 查登录/额度；brief 一次拿全（推荐，省 token）；feed 刷候选；following 看关注的人在发什么（B站/抖音）；open 后台看指定视频/动态/专栏（B站/抖音链接都行，/note/ 图文也行；B站视频会带字幕和弹幕）；comments 只读评论区（B站/抖音，链接自动判断；带图评论会附最多两张图）；inbox 看谁回了你（评论/@/私信都算；抖音私信带 recent 最近十几句，含分享的视频/图文链接，还有 pending/said 表示主人连着发了几句）；groups 看抖音会话列表（私信和群都在里面，会标出哪些是群、正在盯哪几个）；join_group 用群邀请链接进群（url 参数）；stickers 看本地表情包库（query 按名字/标签筛，没有就空），images 看能发的图（自己画的 + 别人发来存下的，发图前用它确认有哪些）；search 搜 B站；weekly 看这周小结；books 看书库、read 读一段、note 记一句摘抄；watch 一起看（watch_action=start/stop/status，start 才开窗）；login 打开登录窗；history 看最近做过什么。先 brief，少反复 status。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -100,7 +100,7 @@
                 "stop",
                 "status"
               ],
-              "description": "watch 用：start 和主人一起看（会开一个窗口，主人可以在里面翻页）；stop 结束；status 看现在看到哪。"
+              "description": "watch 用：start 和主人一起看（会开一个窗口，主人可以在里面翻页；开了「抖音一起刷」时会自动切下一条）；stop 结束；status 看现在看到哪。"
             }
           },
           "required": [
@@ -297,7 +297,7 @@
     ]
   },
   "changelog": {
-    "1.15.0": "**群数量上限做成配置项了，不再写死 3。**\n\n之前名单里最多 3 个群（手填群名时甚至只认 2 个），第 4 个群会被判成「不认识的群」，所以 4 个群时总有一个发不出去。现在：\n\n- 新增 **「最多认几个群」**（`maxGroups`，1-10，默认 6）：名单、发送解析、自动识别缓存都按它来；顺手修掉了「手填群名反而只认 2 个」的 `slice(0,2)`。\n- 新增 **「最多常驻几个群监听页」**（`groupTabs`，1-8，默认 3）：每个常驻群占一个后台标签页（约 100-150MB）。超过这个数的群**仍然能发消息**，只是发的时候才临时点进去，不会一直挂着占内存。\n- 两个都在「私信」设置组里，带说明和单位。\n\n例：4 个群 → `maxGroups=6`、`groupTabs=3`：4 个群都能收到消息、都能发；只给 3 个群常驻监听，第 4 个群发的时候临时开一下。",
+    "1.21.2": "**一起看的边界情况都收了，这版可以放出去跑。**\n\n- **暂停不再刷屏**：以前暂停后每 60 秒重复推「一起看中：…（暂停）」。现在只在刚暂停那一下说一次，之后安静；恢复播放再按节奏说。\n- **暂停时不会被切走**：一起刷原来只看「停留时长」，暂停 90 秒也会被判定该切。现在暂停期间冻结计时，也不切。\n- **切完自动播**：抖音新视频常停在暂停态（浏览器拦自动播放），原来会卡住。现在切完主动 `play()` 一次，打开一起看时也补一次。\n- **不会叠着跑**：定时器 4 秒一轮，而切视频最坏要 20 多秒，原来会重入。现在上一轮没跑完就跳过这轮。\n- **改开关立即生效**：一起看中途改「抖音一起刷」，轮询间隔马上在 15 秒 / 4 秒之间切换（原来要重新开一次一起看）。\n- **假成功**：推荐列表 `goto` 失败时，原来只要地址里有 `/video/` 就返回成功；现在要求 id 真的变了。\n- **空白窗口**：一起看打开 about:blank / 错误页时返回 `WATCH_OPEN_FAILED`，不再假装「已经在看」。\n- 「下一个」按钮只在播放器容器里找，避免点到页面上别的轮播箭头。",
     "1.9.3": "**找到了：抖音的聊天图在 CDN 上是加密的，所以下载回来永远不是图片。**\n\n日志里那条 `stroll image download empty` 的 URL，我直接下了一遍：HTTP 200、`application/octet-stream`、16KB，但字节是**随机乱码**（`66 55 11 6b d4 ef 0e 99…`），不是 JPEG/PNG 任何一种。抖音把图加密存，页面脚本解密后再画出来——所以「下载图片 URL」这条路本质上是走不通的。\n\n改法：**不再下载，直接取屏幕上已经解出来的画面**。\n\n- `<canvas>`：解密后画上去的，`toDataURL('image/jpeg')` 直接导出（被污染的画布会失败，自动跳过）。\n- `<img src=\"blob:...\">`：解密后生成的 blob，页内 `fetch(blob)` → FileReader → dataURL。\n- 元素/伪元素的 `background-image: url(blob:...)` 也照此处理。\n- 三种都取不到，才退回「下载 URL」，并且优先挑**带签名参数**的那条（`srcset` 里常混一条没有 query 的缩略图地址，下了也是空的）。\n- 头像（`aweme-avatar`）不参与，避免把 36px 的发送人头像当成对方发的图。\n\n代价：图片消息第一次读会多一次 canvas 导出（几十毫秒），结果缓存在元素上，后面读同一批不会重复算。",
     "1.9.2": "**`stroll image url missing` 说明地址还是没抓到——再加三层兜底。**\n\n1.9.1 修了协议相对地址，但线上仍然取不到。这一版从三个方向找图：\n\n- **整行扫描**：不再只看 `[data-e2e=\"msg-item-content\"]` 里面，取不到就把这一整条消息的容器扫一遍；头像（`aweme-avatar`）和 60px 以下的小图标排掉，不会把发送人头像当成图片。\n- **React props**：有些版本把图渲染成占位 div（懒加载/加密图），地址只在消息模型里。现在会扫这条消息自己的 props，挑出像图片 CDN 的 URL（`douyinpic` / `byteimg` / `snssdk` / `tplv`）。\n- **blob / data 直读**：如果 `<img>` 的 src 是 `blob:`（抖音先取图再显示），就在页面里 `fetch(blob)` → FileReader 读成 dataURL，主进程直接解码成附件——完全绕开「找 URL」这件事。dataURL 也支持了。\n- 还取不到就落一份现场：`stroll/debug/image-missing-*.json`（5 分钟最多一份），里面是那条消息的真实 HTML，下次照着改，不用再猜。",
     "1.9.1": "**图还是没过来：地址没取到，`images=0`。**\n\n查了 12:06 那轮的事件记录，推送里 `\"images\":0` —— 说明「[图片]」这个标记读到了，但要下载的图源是空的，所以一张都没附上。三个原因：\n\n- 抖音的消息图经常是**协议相对地址**（`//p3-sign.douyinpic.com/...`），之前只认 `http(s)://`，直接全被过滤掉了；\n- 冷启动时图片可能还在懒加载，真正的地址在 `data-src` / `srcset` 里，`src` 是空的；\n- 少数版本把图放在 `background-image` 里。\n\n改成：`currentSrc → src → data-src → data-original → srcset` 全试一遍，`//` 自动补 `https:`，再兜底背景图；还是取不到就用这条消息自己的 React props 里的图片字段。\n\n顺手补了两个之后必然会踩的坑：\n\n- **avif / heic**：抖音图床常给 avif，模型基本不吃。现在下载后如果不是 jpeg/png/gif/webp，会在页面里用 `createImageBitmap` + canvas 转成 **jpeg（最长边 1280）** 再附上——手机直出 4000px 的照片也不会把请求撑爆。\n- 下载时不再主动 `Accept: image/avif`，让 CDN 直接给 webp/jpeg。\n\n还加了日志，下次一眼能看出卡在哪一步：\n\n```\nstroll image attached { count, kb }\nstroll image download empty\nstroll image mime unknown { head }\nstroll image url missing (dm|group)\n```",

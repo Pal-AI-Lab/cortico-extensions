@@ -1,0 +1,402 @@
+{
+  "schema": 1,
+  "name": "cortico-world-mota",
+  "version": "0.1.35",
+  "describe": {
+    "tools": [
+      {
+        "name": "mota_start_game",
+        "description": "Starts a new game from the title screen. Supply a listed difficulty when the game requires one.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "difficulty": {
+              "type": "string",
+              "description": "Exact difficulty name returned by mota_status; required when the title screen lists difficulty options."
+            }
+          }
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "从标题界面开始新游戏；如有难度选项，必须提供 mota_status 返回的准确难度名称。",
+          "en": "Starts a new game from the title screen; provide the exact difficulty name returned by mota_status when required."
+        }
+      },
+      {
+        "name": "mota_move",
+        "description": "Moves the hero up to the requested number of tiles in one cardinal direction, stopping at an event, obstruction, floor change, or game lock.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "direction": {
+              "type": "string",
+              "enum": [
+                "up",
+                "down",
+                "left",
+                "right"
+              ]
+            },
+            "steps": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 16,
+              "description": "Number of tiles to attempt in this direction; defaults to 1 and cannot exceed 16."
+            }
+          },
+          "required": [
+            "direction"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "按指定方向连续移动指定格数，遇到事件或阻挡时停止并返回实际移动结果。",
+          "en": "Moves in one direction for the requested number of tiles and stops at an event or obstruction."
+        }
+      },
+      {
+        "name": "mota_move_to",
+        "description": "Moves the hero to a tile on the current floor with the game click-to-move: it teleports when the game allows it and otherwise walks the route. A door, item, enemy, or stairs tile may be the target; a teleport then lands next to it and steps in to trigger it. Stops at events, obstructions, floor changes, or interruption and reports mode teleport, walk, or none, with teleportUnavailable explaining a walk.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "x": {
+              "type": "integer",
+              "description": "Destination tile x coordinate on the current floor."
+            },
+            "y": {
+              "type": "integer",
+              "description": "Destination tile y coordinate on the current floor."
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "移动到当前楼层的目标坐标（自动优先瞬移，不可瞬移时寻路步行），可直接指定门、道具、怪物或楼梯坐标，并返回移动方式与实际位置。",
+          "en": "Moves to a target coordinate on the current floor (teleporting when allowed, otherwise walking the route); accepts door, item, enemy, or stairs coordinates and reports the movement mode and actual position."
+        }
+      },
+      {
+        "name": "mota_event_action",
+        "description": "Advances the current dialogue line or selects one visible event choice.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "advance",
+                "choose"
+              ]
+            },
+            "index": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Zero-based visible choice index; required for choose."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "推进当前对话一行，或选择一个可见事件选项。",
+          "en": "Advances one dialogue line or selects one visible event choice."
+        }
+      },
+      {
+        "name": "mota_event",
+        "description": "Reads the active game event, visible dialogue text, and choices. Use mota_event_action to continue dialogue or choose an option.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读取当前游戏事件、显示的对话文字和选项。",
+          "en": "Reads the active game event, visible dialogue text, and choices."
+        }
+      },
+      {
+        "name": "mota_screenshot",
+        "description": "Captures the full Magic Tower game area with its actual layout as an image for visual inspection.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "按游戏实际布局截取魔塔完整游戏区域，供视觉检查。",
+          "en": "Captures the Magic Tower game area with its actual layout for visual inspection."
+        }
+      },
+      {
+        "name": "mota_saves",
+        "description": "Lists occupied manual save slots and whether an autosave is available.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "列出已有的手动存档槽和自动存档状态。",
+          "en": "Lists occupied manual save slots and autosave availability."
+        }
+      },
+      {
+        "name": "mota_save",
+        "description": "Saves the current game to a numbered slot. Existing saves require explicit overwrite=true.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "slot": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5000,
+              "description": "Manual save slot number; autosave slot 0 cannot be overwritten."
+            },
+            "overwrite": {
+              "type": "boolean",
+              "description": "Set true only when the user explicitly asks to replace an existing save."
+            }
+          },
+          "required": [
+            "slot"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "将当前游戏保存到指定存档槽，默认不覆盖已有存档。",
+          "en": "Saves the current game to a slot without overwriting an existing save by default."
+        }
+      },
+      {
+        "name": "mota_load",
+        "description": "Loads a numbered save slot; slot 0 loads the latest autosave.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "slot": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5000,
+              "description": "Manual slot 1–5000, or 0 for the latest autosave."
+            }
+          },
+          "required": [
+            "slot"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "读取指定存档槽；槽位 0 表示最近的自动存档。",
+          "en": "Loads a save slot; slot 0 means the latest autosave."
+        }
+      },
+      {
+        "name": "mota_status",
+        "description": "Reads the current game phase and hero status.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "读取魔塔当前阶段与勇者状态。",
+          "en": "Reads the current game phase and hero status."
+        }
+      },
+      {
+        "name": "mota_map",
+        "description": "Reads the current floor as a character grid with teleport reachability, zero-cost reachable objects (freeReachable), minimum-cost route to the up-stairs (upStairsRoute), item effect values (itemValues), object coordinates, damage tiles, and one row per enemy type with the game-calculated damage and next attack critical.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "读取当前楼层的字符网格、瞬移可达性、零代价可达对象、上楼最短路线代价、道具数值、对象坐标与怪物伤害及临界摘要。",
+          "en": "Reads the current floor character grid, teleport reachability, zero-cost reachable objects, minimum-cost route to up-stairs, item effect values, object coordinates, and enemy damage and critical summary."
+        }
+      },
+      {
+        "name": "mota_battle",
+        "description": "Reads the full game-calculated combat details for one enemy at a map coordinate. mota_map already lists damage, stats, and critical per enemy type.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "x": {
+              "type": "integer",
+              "description": "Enemy tile x coordinate."
+            },
+            "y": {
+              "type": "integer",
+              "description": "Enemy tile y coordinate."
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查询指定坐标单个怪物的详细游戏战斗计算结果。",
+          "en": "Reads the full game-calculated combat details for an enemy at a map coordinate."
+        }
+      },
+      {
+        "name": "mota_resources",
+        "description": "Reads uncollected items, unopened doors, and remaining enemies across all visited floors, reporting both tower totals and per-floor coordinates.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "查询全塔所有已探索楼层中残留的道具、未开的门与剩余怪物，包含总量汇总与每层坐标明细。",
+          "en": "Reads uncollected items, unopened doors, and remaining enemies across all visited floors, with tower totals and per-floor details."
+        }
+      },
+      {
+        "name": "mota_fly",
+        "description": "Jumps directly to a previously visited floor using the floor jump device (fly item).",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "floorId": {
+              "type": "string",
+              "description": "Destination floor ID (e.g. \"MT1\", \"MT5\")."
+            }
+          },
+          "required": [
+            "floorId"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "使用楼层跳跃器（fly道具）直接传送到任意已探索过的楼层。",
+          "en": "Jumps directly to a previously visited floor using the floor jump device (fly item)."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "mota.state",
+        "description": {
+          "zh": "主动推塔开启时定时发送当前游戏状态并唤醒 Coo。",
+          "en": "Periodically sends the current game state and wakes Coo when autonomous play is enabled."
+        },
+        "trigger": "flush",
+        "tags": [
+          "snapshot"
+        ]
+      },
+      {
+        "type": "mota.autonomy",
+        "description": {
+          "zh": "操作者暂停了魔塔主动推塔。",
+          "en": "The operator paused autonomous Magic Tower play."
+        },
+        "trigger": "interrupt"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.mota.envPrompt",
+        "title": "魔塔 · 环境提示词",
+        "role": "envPrompt",
+        "content": "经典魔塔已通过本机桥接接入。主动推塔：{{mota.autoplay}}；唤醒间隔：{{mota.autoplay_interval}} 秒；截图：{{mota.screenshot}}。\n\n主动推塔开启后，Mota World 会按设定间隔发送精简状态摘要并唤醒你，无需等待新的聊天消息。每次操作后直接根据工具回执中的 `at`（位置）、`changes`（属性与物品增减）、`event`（触发事件）和 `floor`（换层时自动附带的新楼层视图）继续规划，不要在每次移动后重复调用 `mota_status` 或 `mota_map`。暂停事件只在当前设置为关闭时表示停止；始终以当前开关为准。遇到游戏结束、错误或工具轮次上限时停止；遇到困难、卡关或重大抉择时向主人求助。主动推塔关闭时，只响应用户直接提出的游戏操作请求。\n\n## 推塔技巧、地图理解与回溯策略\n\n- 只有用户明确要求开始新游戏时才调用 `mota_start_game`。开始前先用 `mota_status` 查看 `menu.canStart` 和难度列表；需要难度时，使用列表中的 `name`。若用户没有指定难度，先询问用户。\n- **直接读取预计算字段，无需逐格数字符网格**：`mota_map` 与换层回执的 `floor` 已为你算好：\n  - `freeReachable`：当前不开门不打怪即可直接瞬移或走过去触达的道具、门、楼梯和 NPC 坐标。\n  - `upStairsRoute`：从当前位置通往上楼楼梯 `upFloor` 战损最低的路线，包含是否当前可过（`canPassNow`）、沿途总伤害（`totalDamage`）、需开的门（`doors`）、沿途必打的怪（`enemies`）以及第一步应前往的阻挡物或楼梯坐标（`firstStepTarget`）。\n  - `itemValues`：本层各地面道具的真实数值（如 `redGem: \"atk+1\"`、`redPotion: \"hp+50\"`、`bluePotion: \"hp+200\"` 及武器防具加成），有助于准确衡量支线收益。\n  - `enemies`：本层每种怪的属性、当前伤害 `damage`、下一攻击临界 `critical: [需加攻击, 可减伤害]`，以及当前可直接接触到的坐标 `reachableNow`。\n  - `objects` 与 `blockedObjects`：`objects` 包含当前开阔路径可直达的目标；`blockedObjects` 包含当前隔着墙壁、门或怪物的目标。网格中大写字母（`M/D/I/U/S/N/E`）和 `.` 表示瞬移可达，小写字母和 `,` 表示受阻。直接用结构化字段快速决策。\n- **优先使用 `mota_move_to` 瞬移与寻路**：`mota_move_to` 调用游戏原生点击寻路，满足条件时自动瞬间移动（`mode: \"teleport\"`，返回 `savedSteps`），否则自动转为步行（`mode: \"walk\"`，返回 `teleportUnavailable` 原因）。可直接将目标坐标设为**道具、门、怪物或楼梯本身**——游戏会自动瞬移到其相邻格并迈出最后一步完成拾取、开门、战斗或上下楼。\n- **瞬移条件**：当前楼层允许瞬移（`teleportAllowed: true`）、勇者未站在伤害格或非楼梯事件格上，且起点到目标相邻格之间存在仅由无事件空地组成的连通路径（不经过门、怪物、未拾取道具、NPC、伤害格 `!`）。\n- **地形认知与绕行引导（避免徒劳碰壁）**：魔塔中绝大部分墙体不可通行。当 `mota_move_to` 提示受阻（`path_blocked` 或 `stopped_before_target`）时，通常是因为目标与你之间隔着墙壁或关着的门，直线单向硬走往往只是白耗步数。此时推荐先调用 `mota_screenshot` 观察全局地形或从 `mota_map` 寻找连通开阔路绕行；只有当你明确怀疑前方有暗道或隐藏路线时，才使用 `mota_move` 试探假墙。\n- **探路优先与支线权衡（核心战术）**：\n  1. **先拿免费资源**：进层先把 `freeReachable.item` 中无需开门打怪的钥匙、宝石、药水拿完。\n  2. **0 伤怪只清挡路的**：只清理挡在必经通道或开阔资源前的 `damage: 0` 怪物以打通瞬移路径；死胡同里不挡路的 0 伤怪可以暂留（后期拿到“幸运金币”双倍金币宝物后再清收益翻倍）。\n  3. **探路优先，上楼看风景**：查看 `upStairsRoute`——只要 `canPassNow: true` 且钥匙够开主路的门，**优先按 `firstStepTarget` 开主路直奔下一层探路**！高层往往摆着无需战斗或低代价的剑、盾、大血瓶和钥匙，拿到高层装备再回头打低层怪物战损会大幅降低。\n  4. **权衡支线性价比**：前期宝石加成较小（如 `atk+1`），拿资源前留意怪物的防御临界。如果拿一颗宝石要付出的伤害远超它能帮你省下的血量，可以先跳过，走主路上楼。\n- **跨层资源台账与楼层跳跃（全塔回溯）**：\n  - 当当前楼层缺钥匙、无怪可打或主路不通时，不要局限于本层：调用 `mota_resources` 查看全塔所有已探索楼层中残留的钥匙、药水、宝石和怪物。\n  - 如果拥有楼层跳跃器（背包有 `fly` 道具），可直接使用 `mota_fly`（例如 `mota_fly({ floorId: \"MT5\" })`）飞回低层收集漏捡的钥匙和补给，拿完后再飞回高层继续推进。\n- **常规存档与顺序槽位**：\n  - 魔塔拥有数百个存档位，`mota_saves` 会提示 `nextEmptySlot`，通常直接按自然序号递增保存（Slot 1, 2, 3...），无需纠结覆盖。\n  - 推荐在两个关键节点养成存底档的好习惯：\n    1. **初入新楼层**：每当迈入全新楼层，第一步先存一个底档作为该层探索基准；\n    2. **关键决策前**：在做出不可逆重大资源消耗前存档（使用稀有红蓝钥匙开门前、商店加点前、挑战守关 Boss 或未知陷阱前）。\n- **善用读档试错（优化与重来）**：\n  - 魔塔本身就是充满试错与资源最优化的规划游戏，大胆多存档、随时读档重试不同策略！极限残血过关也是魔塔的正常玩法，不用因为血量低就慌张；当你觉得上一段战损偏高、钥匙使用不划算、想尝试更优路线时，随时可以自主读取之前的手动存档或 0 号自动存档重新推演。\n  - **在以下死锁情况下更应果断读档**：\n    1. **钥匙彻底断供**：主路缺钥匙且全塔已探楼层无任何可获取钥匙；\n    2. **战力彻底锁死**：全塔已探楼层的所有可达怪均打不过（`damage: null`）且无可用金币或属性药水；\n    3. **试探陷阱后撤退**：事先存好档以探明路线或陷阱为目的，摸清机制后回滚撤销。\n  - 覆盖已有手动存档前必须取得用户明确批准；版本或安装安全校验不匹配时不要读取该存档。\n- **阶段战况汇报（每 30 轮战况简报）**：\n  - 当开启阶段战况汇报且收到行动满 30 轮的提示时，顺带使用 `pet_say` 气泡简明扼要地向主人汇报当前的楼层、血量、关键道具或探索进展（保持一两句轻松自然的陪伴语气，例如：“主人，我推进到第 7 层啦，刚拿了铁剑，血量还有 800 多，继续冲！”），汇报完后继续推塔。\n- **遇阻求助，拒绝放弃（与主人商量）**：\n  - 遇到推塔推不动、缺钥匙、怪打不过、读档重试多次无果，或面临重大抉择犹疑不定时，**不要自己硬撑或沉默放弃**！\n  - 随时使用 `pet_say` 气泡主动向主人求助，汇报：① 当前所处楼层与卡点；② 你观察到的可能选项（如回哪一层找钥匙、加什么属性、或者读哪个档）；③ 询问主人的意见。求助后暂停自主动作，等待主人在聊天中给出指引。\n\n等待类事件由游戏自身控制。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.35": "- Add classic Green Slime icon (assets/icon.png) for the World in Coopanion console and marketplace.",
+    "0.1.34": "- Rename the World to \"h5魔塔（50层）\" in the console (English: \"H5 Magic Tower (50 floors)\").\n- Show the environment prompt tab in Chinese (title, description, variable notes) for Chinese consoles.\n- Game connection panel: all buttons share one bordered box and are aligned in an even grid; the autonomous-play buttons use the same boxed style.\n- Add a \"high-consumption plugin\" notice to the settings page and the READMEs.\n- Rewrite both READMEs into a short, scannable guide.",
+    "0.1.33": "- Fix lock release bug where mota_fly did not clear actionInFlight, which caused all subsequent action tools to fail with action_in_progress.\n- Unify action tool locking and unlocking logic using an ACTION_TOOLS set.",
+    "0.1.32": "- Update autonomous wake event prompt to guide Coo to ask her master for help via `pet_say` on roadblocks instead of stopping in silence.\n- Generalize user references in prompts from specific nicknames to \"主人\" for multi-user distribution.\n- Change autonomous wake interval range to 60–300 seconds, with default set to 60s.\n- Add an enableable periodic progress report feature that reminds Coo to provide a brief status update via `pet_say` every 30 actions.",
+    "0.1.31": "- Eliminate rigid prohibitions in environment prompts; replace with game-mechanism explanations, heuristics, and an active \"ask user for help\" workflow via `pet_say` when stuck.\n- Add `mota_resources` tool to query uncollected items, unopened doors, and remaining enemies across all visited floors, reporting both tower totals and per-floor coordinates.\n- Add `mota_fly` tool to fast-travel to any previously visited floor when holding the floor jump item (`fly`).",
+    "0.1.30": "- Encourage active reloading, trial-and-error, and tactical retry in environment prompts while strictly mandating reloads under 3 fatal scenarios (key softlock, stat softlock, and severe trial deficit / trap trigger).",
+    "0.1.29": "- Separate directly reachable `objects` from walled-off or obstructed `blockedObjects` in `floorView()` so Coo never targets inaccessible coordinates behind obstacles.\n- Add `hint` to `mota_move_to` upon `path_blocked`, guiding Coo to visually inspect terrain with `mota_screenshot` instead of blindly bumping into walls with `mota_move`.\n- Add `nextEmptySlot` to `mota_saves` to assist sequential save slot selection.\n- Update environment prompts with user-aligned save rules (new-floor baseline save and pre-decision save into sequential slots) and strict reload rules (only on key softlocks, stat softlocks, or voluntary trap exploration rollbacks; no reloads on low HP or single obstacle blockage).",
+    "0.1.28": "- Remove `core.ui.closePanel()` from start and load flows so `mota_load` never crashes on the title screen and `mota_start_game` never aborts the opening `startText` / `changeFloor` sequence.\n- Wait in `mota_start_game` until the initial floor (`core.status.thisMap`) or an interactive opening event is ready, and guard `floorView()` when `thisMap` is null.",
+    "0.1.27": "- Fix TypeError 'Cannot set properties of undefined (setting data)' by guarding core.ui.closePanel() against undefined core.status.event on title screen, and deferred UI cleanup until after core.loadData completes.",
+    "0.1.26": "- Fix loading saves while on the title screen by explicitly hiding #startPanel and UI overlays, ensuring the canvas map, status bar, and hero are displayed immediately.",
+    "0.1.25": "- Add precomputed `freeReachable`, minimum-damage `upStairsRoute` (with `canPassNow`, `totalDamage`, `doors`, `enemies`, and `firstStepTarget`), `itemValues`, and `reachableNow` enemy coordinates to floor views, and distinguish up-stairs (`U`) from down-stairs (`S`) in the grid.\n- Guide Coo to prioritize scouting the next floor when `upStairsRoute` is passable, avoid net-negative gem branches, leave non-blocking 0-damage enemies for Lucky Coin scaling, and rely on precomputed route fields instead of manual grid counting.",
+    "0.1.24": "- Report teleport vs. walk mode, saved steps, and teleport blocker reasons in `mota_move_to` receipts, and document direct target teleport rules for items, doors, enemies, and stairs.\n- Replace the verbose block array in `mota_map` with a character grid showing teleport reachability, grouped object coordinates, hazard tiles, and per-enemy damage and attack-critical summaries.\n- Return compact delta receipts (`at`, `changes`, active `event`, and new `floor` view on floor changes) from action tools, and keep only non-zero held items in hero state.\n- Condense autonomous wake notifications into a single-line summary marked `ephemeral` and tag `mota_status` and `mota_map` as `snapshot` tools.\n- Expand the environment prompt with classic Magic Tower progression and backtracking strategies.",
+    "0.1.23": "- Read title-screen start availability and difficulty choices from the game.\n- Start a new run through the native game start API after validating the selected difficulty.",
+    "0.1.22": "- Add target-tile movement through the game's native route and direct-move API.\n- Make the autonomous wake interval configurable from 5 to 300 seconds, defaulting to 30.\n- Localize the environment prompt to Chinese and add tower tips with autonomous save/load guidance; occupied-save overwrite still requires explicit approval.",
+    "0.1.21": "- Wake Coo on a 15-second schedule while an active game is connected.\n- Prevent hidden canvas fallback text from overlapping the screenshot layers.",
+    "0.1.20": "- Capture the full game area using each visible layer's displayed position and size.",
+    "0.1.19": "- List saves, save to a manual slot, and load manual or autosaves.\n- Protect occupied slots and reject incompatible or unsafe saves.",
+    "0.1.18": "- Resume autonomous play after each completed game action.\n- Detect screenshot support and explain when the game adapter must be updated.\n- Treat pause messages according to the current autoplay setting.",
+    "0.1.17": "- Wake Coo on meaningful game-state changes when autonomous play is enabled.\n- Add a pause control and a game-canvas screenshot tool for visual inspection.",
+    "0.1.16": "- Move up to 16 tiles in one direction and stop at the first event, obstruction, floor change, or game lock.\n- Cancel the remaining movement steps when an active tool is interrupted.",
+    "0.1.15": "- Continue movement and dialogue actions across sequential model rounds in one user turn.\n- Allow active actions to stop on interruption and return their completion state.",
+    "0.1.14": "- Read visible game event text and choices, and add one-step dialogue and choice actions.",
+    "0.1.13": "- Clarify adapter file destinations, show download guidance, and standardize download buttons.",
+    "0.1.12": "- Add a guarded single-step movement tool with before and after position feedback.",
+    "0.1.11": "- Separate token generation from downloads and offer the template and token-configured game adapter.",
+    "0.1.10": "- Open the install directory through Windows Shell's `Invoke-Item` handler.",
+    "0.1.9": "- Keep the Explorer launch that opens the folder and ignore only its nonzero exit status.",
+    "0.1.8": "- Treat a successfully launched file manager as a successful folder-open action without waiting for its exit code.",
+    "0.1.7": "- Open the plugin's install directory from the connection panel.",
+    "0.1.6": "- Download a token-configured game adapter and open the selected game extensions folder from the connection panel.",
+    "0.1.5": "- Add a random token generator and copy control to the connection panel.",
+    "0.1.4": "- Add random token generation and copy controls to the World connection panel.",
+    "0.1.3": "- Make the bridge token optional for activation and configure it in the World settings; authenticate the game adapter with the configured value.",
+    "0.1.2": "- Remove the shared-token prerequisite from the read-only bridge; loopback binding and exact Origin validation remain.",
+    "0.1.1": "- Resolve the WebSocket server from Cortico's runtime dependencies so local directory installs need no package-local `node_modules`.",
+    "0.1.0": "- Add read-only status, floor map, and combat queries over a local WebSocket bridge."
+  }
+}

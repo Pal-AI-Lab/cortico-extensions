@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-milkcoo-app",
-  "version": "0.3.34-beta.5",
+  "version": "0.4.0-beta.6",
   "describe": {
     "tools": [
       {
@@ -84,6 +84,27 @@
             }
           },
           "required": []
+        }
+      },
+      {
+        "name": "milkcoo_app_pet_interrupt",
+        "tags": [
+          "flow"
+        ],
+        "description": "Explicitly interrupt the current animation of the specified phone pet. Use the phone device_id from its real event; a queued event is not proof the phone received it. Does not require a desktop pet window.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "device_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          },
+          "required": [
+            "device_id"
+          ]
         }
       },
       {
@@ -197,6 +218,13 @@
         "trigger": "piggyback"
       },
       {
+        "type": "coo_mobile.pet_control",
+        "description": {
+          "zh": "Cortico 明确请求中断指定手机的桌宠动作。",
+          "en": "An explicit Cortico request to interrupt a specific phone pet."
+        }
+      },
+      {
         "type": "coo_mobile.screen",
         "description": {
           "zh": "用户开启主动查看时的手机屏幕画面。",
@@ -216,13 +244,18 @@
     "prompts": [
       {
         "key": "worlds.milkcoo_app.envPrompt",
-        "title": "本地奶coo",
+        "title": "奶CooApp",
         "role": "envPrompt",
         "content": "你通过奶coo与手机交谈。`coo_mobile.message` 中的 device_id 和 message_id 是此次手机输入的来源与回复地址。普通正文不会自动发到手机；请用 `milkcoo_app_reply` 发送文字。\n\n`coo_mobile.pet_touch` 是用户在手机小人上的实际触碰；该触碰的手机本地动作已经发生，事件默认随下一次对话带入。不要把它误认为手机上输入的文字，也不要称其是电脑桌宠的触碰。\n\n手机也可以发送图片、录音、短视频或文件。附件会带入事件；只有当前模型或相关识别工具实际支持对应媒体格式，才能说自己看见、听懂或读过了。无法识别时如实说明，使用合适的识别工具，不要猜测内容。\n\n当手机输入内容是“请看一眼我当前的手机屏幕”并带有截图时，这是用户主动请求的一次查看。根据该图回答，并使用这一事件自身的 device_id 和 message_id，通过 milkcoo_app_reply 把回答发回手机；截图的采集时间不等于现在。\n\n用户明确开启屏幕感知时，`milkcoo_app_read_screen` 可以按需查看手机最新画面；采集时间不等于当前时间。此版本不提供电脑屏幕感知。用户选择主动查看后，对应的屏幕事件才会唤醒对话。画面可能包含隐私，模型不支持图片时不要假称看见。\n\n用户在手机开启摄像头观察后，可用 `milkcoo_app_read_camera` 查看最新一帧；`milkcoo_app_camera_control` 可以调整已开启会话的清晰度、基础间隔和自适应，但不能打开镜头或开启主动观察。用户选择主动观察时 `coo_mobile.camera` 会带来一张有时间标记的抽帧；要回应手机，用 `milkcoo_app_camera_say(device_id,text)`。摄像头观察是抽帧，不能假称连续视频或实时看见所有变化。\n\n如已有其他工具生成、返回或者保存在上下文中的 `log:` / `mem:` 附件句柄，可调用 `milkcoo_app_send_media` 发给手机；原文件名可从来源核实后通过 `file_name` 附带。不要编造句柄或文件名。工具返回的是服务端已保存、等待手机拉取，不代表人已阅读或播放。文字可由支持的手机客户端本机朗读；此 World 不自动生成语音。\n"
       }
     ]
   },
   "changelog": {
+    "0.4.0-beta.6": "- World 总览卡片直接提供安卓专属 APK 与未签名 iOS IPA 的下载入口，同时保留安装指南与苹果配对入口。\n- 保留旧 World 标识、数据、连接和事件来源；Coopanion 0.2.13 的通用详情页仍不接受此标识，可直接使用卡片入口。\n- 延用上一候选附带的安卓客户端和 iOS 未签名测试包；本次没有完成手机或 iPhone 真机验收。",
+    "0.4.0-beta.5": "- 小人气泡关闭按钮跟随气泡下缘，关闭当前内容后仍可显示后续消息。\n- 小人对话按钮打开悬浮输入窗口，支持保留草稿并通过手机原有队列发送。",
+    "0.4.0-beta.4": "- 本机管理、配对和下载页面校验实际 Host 与端口；手机 API 的认证和跨网访问保持不变。\n- 更新安卓客户端，修正深色模式标题的对比度；聊天图片直显与输入法在真机隔离测试中通过。",
+    "0.4.0-beta.3": "- 安卓新增漂流瓶信箱入口、Compose 界面与外观设置。\n- 手机通道增加漂流瓶桥接及设备定向的小人中断事件；正式真机验收待完成。\n- iOS 保留原有未签名测试包，本次未新增漂流瓶入口。",
+    "0.3.34-beta.6": "- 延长手机附件上传时间上限，减少慢速网络传输大图时被中断的情况；同一消息重试仍使用原编号。\n- 更新安卓候选至 0.3.38-beta.1：发送和接收分开运行，上传失败自动退避重试，同时保持待发顺序。",
     "0.3.34-beta.5": "- 不再访问未列为公开契约的扩展市场、扩展清单、模型目录与提供商能力目录；手机市场目录暂不可用，World 列表只反映公开运行列表，模型 ID 支持手动输入。",
     "0.3.34-beta.4": "- 移除替换桌宠内部方法的逻辑和对内部读屏代码的导入；电脑桌宠动作镜像及电脑读屏目前不可用。\n- 手机消息、媒体、屏幕分享与原有数据路径保持独立；悬浮小人仍依赖宿主网页资源，待确认公开接口。\n- 尚未通过社区复核，手机端和 iOS 候选的验收状态分别记录。",
     "0.3.34-beta.3": "- 提供未签名的 iOS 0.2.2 测试 IPA 和 AltStore Classic Windows 安装说明；签名、安装及 iPhone 真机联调均待验证。\n- 合并 iOS 编译修复与地址解析测试；特别鸣谢墨韵瞳对 iOS 构建和测试的帮助。\n- 不改变现有安卓通用安装包；更新 World 内安卓图文指南的鸣谢。",
