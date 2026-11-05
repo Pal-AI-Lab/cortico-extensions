@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-  "total": 78,
+  "total": 79,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BKFXW",
+      "author": "wocwang",
+      "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+      "body": "@wangz0713-dot 安装/启动是灰的，常见是这几种，先对一下：\r\n\r\n1. **macOS**：内置运行时只有 Windows 版，安装按钮永远是灰的，需要在配置里填「自备运行时目录」（含 `runtime/` 与 `api_v2.py`）。\r\n2. **已经装好并在跑**：安装灰是正常的，右边会显示「停止 / 重启」，「启动」不显示。\r\n3. **正在下载**：按钮灰、旁边有「取消」和百分比；长时间不动就是网络断了，点取消重装。\r\n4. **后端选了「已有服务 / 自备目录」**：不需要安装。\r\n5. **很旧的版本 + ROCm 档**：那一档曾经没发布包，会灰并标「未发布」；0.6.7 起三档都有包。\r\n\r\n麻烦截一张整个插件页的图（能看到「推理档 / 运行时 / 权重 / 推理服务」四行和按钮），再补：系统与 Coopanion/插件版本、「推理档」选的是什么、`core.log` 里最近带 `gpt-sovits` 的 20 行。\r\n",
+      "createdAt": "2026-11-05T14:58:18Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJ_qe",
       "author": "wangz0713-dot",
