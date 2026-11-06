@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-fish-sing",
-  "version": "0.4.20",
+  "version": "0.4.21",
   "describe": {
     "schema": 1,
     "name": "cortico-world-fish-sing",
@@ -161,6 +161,7 @@
     }
   },
   "changelog": {
+    "0.4.21": "### 新增\n- **「音量跟随 rms-mix-rate」可配置**（设置 → 大肥鱼唱歌 → 换声）：轻唱、渐弱能不能还原全看它。\n  - `0` = 完全跟随原唱的音量起伏（**新默认**，用户实测温柔原唱用它最好听）\n  - `0.25` = 保留一点模型自己的动态（RVC 官方默认）\n  - `0.5+` = 轻唱被\"唱满\"，渐弱消失\n  - `1` = 完全不跟随（**老版本的默认值，现已废弃**）\n- 点歌工具 `fish_sing_song` 也加了同名可选参数 `rmsMixRate`，可以单首歌覆盖。\n\n### 修复\n- **翻唱丢失\"轻唱/渐弱\"**：`engine.convert()` 的 `rms_mix_rate` 默认值是 `1.0`，而 RVC 里 `1` 表示\"**跳过**音量包络对齐\"（`if rms_mix_rate != 1` 直接跳过），所以模型一直用自己的音量唱——温柔段落被唱满。《雨爱》实测：原唱结尾比副歌轻 5.0 dB，旧版只轻 3.0 dB，改成 0 后回到 5.0 dB。\n- `ab_test`（选模对比）也改用 0.0，对比时听到的是真实动态。",
     "0.4.20": "### 修复\n- **训练页三个折叠块贴左（进度条却居中）**：`.fs-sec` 上写了 `margin:10px 0`，把宿主 `.panelslot > :where(...)` 里的 `margin-right/left:auto` 覆盖成 0，块就不再居中了——而 `.fs-prog` / `.fs-msg` 没有 margin，所以照常居中。改成 `margin-block:10px`，水平方向留给宿主的 auto。这是 .fs-wrap 这些\"宽度\"改动一直没解决的真凶：问题不在 width，在水平 margin。",
     "0.4.19": "### 修复\n- 面板满宽再补一层兜底：`.fs-wrap` 加上 `flex:1 1 auto; align-self:stretch`。之前只有 `width:100%`，如果宿主把面板塞进一个**收缩成内容宽**的 flex/grid 容器里，百分比会解析成 auto，结果就是\"内容按最宽的子元素缩起来、靠左\"。现在块 / flex / grid 三种父容器都能撑满。\n- （0.4.18 的 `max-width` 移除保留：宽度上限仍交给宿主的 `--content-width`。）",
     "0.4.18": "### 修复\n- **插件页面不满宽**：`.fs-wrap` 上写了 `max-width:980px; margin:0 auto`，把宿主的 `.panelslot > :where(...)`（`width:100%` + `max-width:var(--content-width)`=1120px）覆盖掉了，看起来内容缩在中间。现在宽度完全交给宿主，只补 `min-width:0` 和 `box-sizing:border-box`（含 `.fs-wrap *`，避免根元素 padding 撑出容器、内容向左溢出——见 coopanion-plugin-dev-guide 的「自定义面板的宽度」）。",

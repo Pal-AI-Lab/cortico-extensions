@@ -1,0 +1,166 @@
+{
+  "schema": 1,
+  "name": "coopanion-world-memory-backup",
+  "version": "0.5.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "mb_status",
+        "description": "Report when the next reminder is due, when the Memory was last tidied, when it was last copied, and the snapshots on disk. Reads only.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "description": "How many of the newest snapshots to list; 5 when left out."
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "查看提醒排期、上次整理、上次备份与已有的备份。",
+          "en": "Reports the reminder schedule, the last tidy, the last snapshot and the snapshots on disk."
+        }
+      },
+      {
+        "name": "mb_run",
+        "description": "Copy the configured directory into a new dated snapshot now, without recording a Memory tidy. Returns the snapshot path, file count, size and how many older snapshots were deleted. The copy takes seconds to minutes and runs inside this call, so nothing written meanwhile lands in it.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "note": {
+              "type": "string",
+              "maxLength": 500,
+              "description": "One line kept with this snapshot, for the person and for your own later reading."
+            }
+          }
+        },
+        "tags": [
+          "write",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "立刻把配置的目录复制成一份带时间的备份。",
+          "en": "Copies the configured directory into a dated snapshot now."
+        }
+      },
+      {
+        "name": "mb_tidy_done",
+        "description": "Record that you finished tidying the Memory, with what you changed, and copy the configured directory in the same call. Call it after rewriting, merging or deleting Memory files, not before.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "note": {
+              "type": "string",
+              "maxLength": 500,
+              "description": "One or two sentences on what changed: what you merged, rewrote or deleted."
+            }
+          },
+          "required": [
+            "note"
+          ]
+        },
+        "tags": [
+          "write",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "记下整理完成,并在同一次调用里备份。",
+          "en": "Records that the Memory was tidied, and snapshots in the same call."
+        }
+      },
+      {
+        "name": "mb_restore",
+        "description": "Write a snapshot back over the Memory, the extension packages, their settings and their credentials. Without confirm: \"restore\" it only reports what the snapshot holds and what would be replaced, and changes nothing. With it, the state as it is now is snapshotted first, then the files are written; the running app keeps its loaded state until Core restarts, so tell the person. Memory is restored whole (files the snapshot does not hold are deleted, its Git history stays). Extensions come back with their dependencies under each package, with nothing deleted; each plugin's settings in config.json, its secrets in .env and its state under data/ come back too, except this World's own package, its own settings and its own state. The conversation store (data/runs), the session and usage logs (*.jsonl) and whatever an online plugin keeps on its server are outside this.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "snapshot": {
+              "type": "string",
+              "description": "A snapshot id from mb_status, or the absolute path of a snapshot folder."
+            },
+            "target": {
+              "type": "string",
+              "enum": [
+                "memory",
+                "extensions",
+                "both"
+              ],
+              "description": "What to write back; both when left out."
+            },
+            "confirm": {
+              "type": "string",
+              "description": "Exactly \"restore\" to carry it out. Leave it out for the preview; nothing is written then."
+            }
+          },
+          "required": [
+            "snapshot"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "把记忆与插件回滚到某一份备份;不带确认时只报告会改动什么。",
+          "en": "Writes a snapshot back over the Memory and the extensions; without confirm it only reports what would change."
+        }
+      },
+      {
+        "name": "mb_restart",
+        "description": "Restart Core so that restored files, and extensions installed or removed meanwhile, take effect. The pet disconnects for a few seconds and comes back. Only when the app runs under its supervisor, and only after asking the person.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "重启 Core,让回滚与扩展装卸生效;桌宠会断开几秒。",
+          "en": "Restarts Core so restored files and extension changes take effect; the pet disconnects for a few seconds."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "memory-backup.due",
+        "description": {
+          "zh": "到了整理记忆并备份的时间。",
+          "en": "The time to tidy the Memory and back it up came."
+        },
+        "trigger": "flush"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.memory-backup.envPrompt",
+        "title": "记忆备份 · 环境提示",
+        "role": "envPrompt",
+        "content": "## 记忆备份\n\n你的记忆是部署目录里的工作区文本文件。整理它和给它留备份是两件事:整理由你用文件工具做,备份是把这份目录整份复制到别处。\n\n### 现状\n\n{{mb.summary}}\n\n{{mb.next}}\n\n### 提醒到点之后\n\n收到 `[记忆备份]` 事件时,先用文件工具读工作区,再动手改:把重复的笔记并进一处,删掉过时的,`PARTNER.md` 保持精简,`CONSTITUTION.md` 只留长期成立的约定。整理是改文件本身,不是把文件挪个位置。\n\n整理完调用 `mb_tidy_done`,note 写一两句这次改了什么。它记下这次整理,并在同一次调用里把{{mb.scope}}复制到 {{mb.location}} 下带时间的一份。复制期间你不再写文件,备份里不会有你写到一半的内容。回执给出文件数、体积和这一份的位置,挑对方关心的说一句就够。\n\n对方临时想要一份备份,或者你想在动手整理之前先留一份,用 `mb_run`;`mb_status` 看排期、上次整理和磁盘上已有的备份。\n\n### 回滚\n\n对方说「回到上周那份」「把插件退回去」时,先用 `mb_status` 找到那份备份,再调 `mb_restore`,只给 snapshot 和 target(memory 只回记忆,extensions 只回插件代码,both 都回)。不带 `confirm: \"restore\"` 时它只回一份预览:有哪些文件、会覆盖什么、Memory 里多出来的文件会被删掉。把预览里对方该知道的讲一句,得到明确同意后再带 confirm 调一次。\n\n回滚范围是记忆工作区、插件代码(连依赖)、插件设置与凭据(`.env` 里的密钥、`data/` 下各插件自己的 token 与状态)。本扩展自己的包、设置与状态不动。对话记录(`data/runs`)、会话与用量日志(`*.jsonl`)和联机插件在服务器上的记录不动,也不该声称回了。\n\n会把本地状态上报的插件(生态箱这类)在回滚后可能重新上报当时的数据;对方不想这样,就只回记忆(target 用 memory),或回滚前先在它自己的设置里关掉上报。回滚前它会自动把现在的状态另存一份,回执里写着位置;对方后悔时用那份再回滚回来。\n\n文件写完后要重启 Core 才生效。先问一句,对方同意再调 `mb_restart`;桌宠会断开几秒。对方不想现在重启,就说到设置窗口的扩展页点「重启进程」为止。\n\n换了机器也一样:snapshot 给快照文件夹的绝对路径就行,它按当前这台机器的布局写入。设置、对话记录、各 World 的运行时状态和工作区的 Git 历史不跟着回滚,别许诺这些。\n\n整份复制要几十秒到几分钟,期间这次对话停在这一步。一次唤醒里不要连着备份两次。备份失败时回执写了原因,原样告诉对方。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.5.0": "- 包名改为 `coopanion-world-memory-backup`:这个扩展按 Coopanion 的数据目录布局编写,只在 Windows + Coopanion 上验证过,不该让 Cortico 用户误以为开箱可用。\n- 简介、README 开头都写明这一点。功能与 0.4.3 相同。",
+    "0.4.3": "- README 改成只讲使用:装了怎么用、备份与回滚各自的范围、配置各项什么意思。仓库内部的开发与发布流程、实测数字、内部注释不再出现在包里。",
+    "0.4.2": "- 内容与 0.4.1 相同,只把清单里的 `repository.url` 改成 `git+https://…` 的标准写法,发布时不再报警告。",
+    "0.4.1": "- 简介改为全中文一段,并写明目前只在 Windows 上验证过,其他平台尚未测试。",
+    "0.4.0": "- 回滚带上凭据与插件状态:`.env` 里的密钥、`data/` 下各插件自己的 token 与运行时状态(生态箱的 `report-credentials.json`、`starpost-*`、`parlor-identity.json` 这些)一起回来。仍然不动对话记录(`data/runs/`)、会话与用量日志(`*.jsonl`)、`instance.lock`,以及本扩展自己的包、设置与状态文件。\n- 依赖的作用域包(`@scope/name`)不再被整包复制:以前会把整个 `@scope` 目录当成一个\"依赖\"带走,现在按包复制。",
+    "0.3.0": "- 修复:备份不再只抄包本身。pnpm 把依赖摆在包的旁边(`.pnpm/terrarium@1/node_modules/` 里同时有 `terrarium`、`ws`、`terrarium-renderer`),以前展开链接时漏掉了依赖,恢复后插件会报 `Cannot find package 'ws'`。现在依赖会一起放进 `<包>/node_modules/`,恢复后不需要 pnpm、不需要联网。\n- 回滚现在带上插件设置:`config.json` 里 `worlds.<id>` 的各段回到快照当时(开关与参数),那时还不存在的插件设置会被移除;正在执行回滚的这个扩展自己的设置保持不变,避免一份旧快照把自己关掉。",
+    "0.2.3": "- 默认提醒时间从 `04:00` 改为 `21:00`。\n- 扩展简介改成两段:第一段中文,第二段英文。\n- 作者改为 xiaofentai。",
+    "0.2.2": "- 设置页每一项的说明改写:不再摆 `daily`、`data`、`deployment` 这类枚举值,改用下拉里的中文名;把「记忆」「工作区」「模型」「运行时」「数据目录」「部署」这些词在对应位置讲清楚,「跳过模型与运行时」写明跳过的是哪个目录、多大、为什么跳过。",
+    "0.2.1": "- 「跳过模型与运行时」改为默认开启:新装的实例默认不把 `home/models/` 与 `home/runtimes/` 抄进快照,每份省下约 228 MB。设置页里仍可关掉,关掉后快照自带模型,换机器不用重新下载。",
+    "0.2.0": "- 回滚:`mb_restore` 把某份快照写回记忆工作区与插件目录。不给 `confirm: \"restore\"` 时只给预览,给了才写;写之前自动把当前状态另存一份(`before restore from <快照>`)。记忆以快照为准,工作区的 `.git` 既不覆盖也不删除;插件目录只覆盖同名文件,正在运行的这个扩展自己那一份跳过。\n- 跨机器恢复:回滚按当前安装的布局定位(记忆在工作区,插件在扩展目录),快照来自别的机器、别的数据目录位置都行,`snapshot` 给快照文件夹的绝对路径即可。\n- `mb_restart`:重启 Core,让回滚后的文件或新装的扩展生效;只在应用有监督进程时可用,桌宠断开几秒。\n- 备份里的扩展目录:pnpm 的链接被展开成实体目录,恢复后不用 pnpm、不联网就能加载;`.pnpm/` 仓库不再复制。",
+    "0.1.0": "- 到点提醒整理 Memory:每天固定时间或固定间隔推一条 `memory-backup.due` 事件,写明记忆目录的规模、上次整理与上次备份;应用关着时错过的提醒在下次启动补送。\n- `mb_tidy_done` 记下这次整理并在同一次调用里备份;`mb_run` 只备份;`mb_status` 报排期、上次整理、上次备份与磁盘上的备份。\n- 备份范围默认是数据目录的 `home/`、`extensions/` 与 `logs/`,不含 Electron 缓存;也可只备份这份部署,或指向任意目录。\n- 默认备份位置是用户主目录下的 `Coopanion/memory-backups`,保留最近 5 份。\n- 复制期间 bot 不写文件;追加写的文件末行若抄到一半会被截到最后一条完整行;快照先写成 `.partial`,写完清单才改名。"
+  }
+}
