@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "@kmchai/cortico-bot-heart",
-  "version": "0.1.13",
+  "version": "0.2.0",
   "describe": {
     "tools": [
       {
@@ -257,6 +257,7 @@
     ]
   },
   "changelog": {
+    "0.2.0": "- 删除输出 arbiter：不再生成候选、不再用 SystemOne 选候选、不再注入 `[arbiter]` 参考；`output.mode` / `output.candidates` / `output.timeoutMs` 与 `output/arbiter.ts` 一并移除。\n- 删除 `turn_plan`：回复、沉默、意图、长度、立场和语音不再由小模型预先决定。`onDelivery` 只整理来源、点名、私聊、文字/语音出口等事实；主模型在主 session 里结合完整对话自行判断。\n- 决策面只保留后台窄判断：`appraise`（心情/关系 5 个分数）与 `memory_write`（保存/更新/合并分类）。删除未接线的 `memory_rerank` 和 `decision.confidenceThreshold` / `decision.fallbackToMain`。\n- 语音改为确定性放行：配置、出口、冷却、群聊默认、情绪强度决定“能不能发”；“这一句要不要发”由主模型决定。明确要求语音优先于冷却。\n- `output` 配置只剩 `output.segmentReplies`；`decision.timeoutMs` 只用于 appraise 与记忆保存决策。\n- WebUI「本轮」改为显示回合上下文（场景、点名、出口、语音放行），不再显示 TurnPlan。\n- 版本 0.2.0。",
     "0.1.13": "- 新增 `output.segmentReplies`（默认开启），控制 QQ 文字是否按句拆成多条消息。关闭后整段作为一条发送，句末不用句号的规则不变。\n- 分段规则从静态 `BEHAVIOR.md` 移到每回合 delivery 约束，避免开关关闭时提示词互相冲突。",
     "0.1.12": "- QQ 文字只说要说的，不解释自己为什么这么说；多句按句拆成多条消息，每条末尾不用句号，问号、感叹号、省略号可以保留。\n- QQ 触发语音时语音替代文字，不再重复发送同一段文字；语音保持完整，可以较长，不拆成多条。语音失败才补文字。",
     "0.1.11": "- 修复直接对话被低置信度沉默吞掉。点名、私聊或控制台消息的 `action` 为 `silence` / `defer` 且置信度低于 0.8 时，改回 `respond`；高置信度沉默仍保留。",
