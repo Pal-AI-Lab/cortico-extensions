@@ -1748,6 +1748,75 @@
         "comments": 4
       }
     },
+    "coopanion-world-github": {
+      "kind": "world",
+      "version": "0.2.0",
+      "displayName": "GitHub",
+      "description": "Coopanion World：让桌宠读你的 GitHub 动态和反馈（提交、PR、issue、release、评论、review、@、星标），定时用她自己的口吻向你汇报；也能把本地文件或整个项目传到你的仓库，先给计划、确认后才写。",
+      "locales": {
+        "zh": {
+          "displayName": "GitHub",
+          "description": "让桌宠看着你的 GitHub：自己的提交、PR、issue、release，别人给的评论、review、@、指派、星标和 fork。背景里定时看，有新东西就用她自己的话告诉你；也可以随时问她「我 GitHub 最近怎么样」。\n\n读取是只读的；**上传是唯一的写操作**——把本地文件或整个项目传到你的仓库，先给计划（文件数、大小、公开/私有、会覆盖什么），你确认后才写，仓库默认私有。\n\n没有 Token 也能用，但只看得到公开动态和仓库计数；想要通知、@ 和私有仓库，在 World 页签的 Token 卡片里贴一个 Token（`GITHUB_TOKEN`）。上传需要 Token 带写权限。"
+        },
+        "en": {
+          "displayName": "GitHub",
+          "description": "Lets the pet watch your GitHub: your commits, PRs, issues and releases, plus the comments, reviews, mentions, assignments, stars and forks you get. It checks in the background and tells you in its own voice when something new lands; you can also just ask how your GitHub is doing.\n\nReading is read-only; **uploading is the only write**: local files or a whole project go to your repository after she shows you a plan (file count, size, public/private, what would be overwritten) and you confirm. Repositories default to private.\n\nWorks without a token, but only sees public activity and repository counts. For notifications, mentions and private repositories, paste a token in the Token card on the World tab (`GITHUB_TOKEN`). Uploads need a token with write access."
+        }
+      },
+      "author": "ZhuJi-255215189",
+      "maintainers": [
+        "zhuji6100"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "companion",
+        "github",
+        "notifications",
+        "upload"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/coopanion-world-github",
+        "repository": "https://github.com/ZhuJi-255215189/coopanion-world-github",
+        "homepage": "https://github.com/ZhuJi-255215189/coopanion-world-github#readme",
+        "bugs": "https://github.com/ZhuJi-255215189/coopanion-world-github/issues"
+      },
+      "created": "2026-11-06T18:52:09.364Z",
+      "published": "2026-11-06T18:55:17.635Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [
+        "companion"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 2,
+        "toolTokens": 743,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://github.com/ZhuJi-255215189/coopanion-world-github/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 783,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/783",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "coopanion-world-memory-backup": {
       "kind": "world",
       "version": "0.5.0",
@@ -1818,6 +1887,78 @@
       "discussion": {
         "number": 772,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/772",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "coopanion-world-threads": {
+      "kind": "world",
+      "version": "0.1.2",
+      "displayName": "多线程",
+      "description": "Coopanion 多线程 World：让桌宠同时开几条独立的对话/任务线程，始终留一条空闲线程接新消息；一条在干活时另一条能顺便接话。",
+      "locales": {
+        "zh": {
+          "displayName": "多线程",
+          "description": "让桌宠同时开几条独立的对话/任务线程：一条在干活时，另一条还能顺便接话；同时有两件事在跑时自动开第三条；池子始终至少留一条空闲线程接新消息。带一块实时线程池面板。"
+        },
+        "en": {
+          "displayName": "Threads",
+          "description": "Runs several independent conversation/task lanes at once. A spare lane is always kept idle for new messages, another lane opens when two are busy, and a live pool panel shows what each lane is doing."
+        }
+      },
+      "author": "coopanion-threads contributors",
+      "maintainers": [
+        "zhuji6100"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "companion",
+        "threads",
+        "concurrency"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/coopanion-world-threads",
+        "repository": "https://github.com/ZhuJi-255215189/coopanion-world-threads",
+        "homepage": "https://github.com/ZhuJi-255215189/coopanion-world-threads#readme",
+        "bugs": "https://github.com/ZhuJi-255215189/coopanion-world-threads/issues"
+      },
+      "created": "2026-11-06T18:52:05.379Z",
+      "published": "2026-11-06T18:56:15.180Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion"
+      ],
+      "tags": [
+        "companion"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 2,
+        "toolTokens": 547,
+        "envPromptTokens": 516
+      },
+      "changelog": {
+        "versions": [
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/ZhuJi-255215189/coopanion-world-threads/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 784,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/784",
         "up": 0,
         "down": 0,
         "comments": 0

@@ -1,0 +1,154 @@
+{
+  "schema": 1,
+  "name": "coopanion-world-github",
+  "version": "0.2.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "github_brief",
+        "description": "看一眼对方的 GitHub：最近自己做了什么（提交、PR、issue、release、新建仓库），以及别人给了什么反馈（评论、review、提及、指派、星标、fork）。对方问「我 GitHub 最近怎么样」「有人回我吗」「我那个 PR 呢」时用它。hours 是回看多少小时，默认 24，最多 720。不要凭记忆编数字，以回执为准。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "hours": {
+              "type": "integer",
+              "description": "回看多少小时，默认 24。",
+              "minimum": 1,
+              "maximum": 720
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看一眼最近的 GitHub 动态和反馈，可以按小时数回看。",
+          "en": "Reads recent GitHub activity and feedback, looking back a number of hours."
+        }
+      },
+      {
+        "name": "github_check",
+        "description": "立刻检查一次有没有新的 GitHub 动态或反馈，马上把结果给你。对方问「现在有新的吗」时用；有新东西就用自己的话告诉对方，没有就直说没有。这个工具不会另外再推一条汇报。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "立刻查一次有没有新的动态或反馈。",
+          "en": "Checks right now whether there is new activity or feedback."
+        }
+      },
+      {
+        "name": "github_watch",
+        "description": "看 GitHub 监视的状态，或者暂停/继续后台检查。对方说「先别盯着了」「继续看我的 GitHub」时用 pause / resume；问「你现在在看我的 GitHub 吗」时用 status。暂停只停定时检查，别的工具照常能用。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "status",
+                "pause",
+                "resume"
+              ],
+              "description": "要做什么。"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "查看、暂停或恢复 GitHub 监视。",
+          "en": "Shows, pauses or resumes the GitHub watch."
+        }
+      },
+      {
+        "name": "github_upload",
+        "description": "把本机的一个文件或整个项目目录传到对方的 GitHub。这是写操作，必须分两步：先不带 confirm 调一次，把返回的计划原样告诉对方——多少文件、多大、传到哪个仓库、公开还是私有、会覆盖什么、跳过了什么——等对方明确同意；对方同意后再带 confirm=true 调一次。不要自己替对方决定，也不要跳过计划。默认传到仓库根、默认私有；要公开必须对方明说。路径可以是绝对路径，也可以是 mem: 开头的 workspace 相对路径。.env、密钥这类文件会被工具直接跳过，不要绕过。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "本机文件或目录；支持 mem: 开头的 workspace 路径。"
+            },
+            "repo": {
+              "type": "string",
+              "description": "owner/name；只写 name 时传到对方名下。"
+            },
+            "target": {
+              "type": "string",
+              "description": "仓库里的目录前缀；省略就是仓库根。"
+            },
+            "branch": {
+              "type": "string",
+              "description": "分支，默认 main。"
+            },
+            "message": {
+              "type": "string",
+              "description": "提交说明；省略时用「上传 <名字>」。"
+            },
+            "visibility": {
+              "type": "string",
+              "enum": [
+                "private",
+                "public"
+              ],
+              "description": "新建仓库时用；默认 private。已有仓库忽略。"
+            },
+            "confirm": {
+              "type": "boolean",
+              "description": "必须为 true 才真的上传；第一次调用不要带。"
+            }
+          },
+          "required": [
+            "path",
+            "repo"
+          ]
+        },
+        "tags": [
+          "write",
+          "act"
+        ],
+        "summary": {
+          "zh": "把本地文件或项目传到 GitHub，先给计划，确认后才写。",
+          "en": "Uploads local files or a project to GitHub: plan first, write only after confirmation."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "github.report",
+        "description": {
+          "zh": "GitHub 上有新的动态或反馈（也可能是每日汇总、刚开始监视）：带一份整理好的短报，让桌宠用自己的口吻转述。",
+          "en": "New GitHub activity or feedback (or a daily digest / a just-started notice): a short brief for the pet to relay in its own voice."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "github.error",
+        "description": {
+          "zh": "GitHub 这轮没看成（网络、Token、限额）：带原因，让桌宠决定怎么说明。",
+          "en": "A GitHub check failed (network, token, rate limit): the reason, for the pet to explain."
+        },
+        "trigger": "flush"
+      }
+    ]
+  },
+  "changelog": {
+    "0.2.0": "- 新增 `github_upload`：把本地一个文件或整个项目传到 GitHub。\n  - 两步确认：先给计划（文件数、大小、公开/私有、会覆盖什么、跳过了什么），确认后才写。\n  - 走 Git Data API，所有文件合成一个 commit，不刷「Add file」。\n  - 自动跳过 `.env`、密钥、`node_modules` 等；没有强制上传开关。\n  - 默认私有仓库、仓库根、`main`；不删除已有文件，同名覆盖会提前列出。\n  - 上限：单文件 20 MB、总计 50 MB、800 个文件。\n- 新增配置项 `allowUpload`（默认开），关掉后上传工具只拒绝。\n- 面板的 Token 说明补上写权限要求；扩展不再是全局「只读」。\n- 工具与提示词同步更新。",
+    "0.1.0": "第一个版本。\n\n- 读 GitHub 公开动态（提交、PR、issue、release、新建仓库、star/fork）与自己的仓库计数。\n- 可选的只读 Token：读未读通知（评论、review、@、指派、状态变化、安全提醒）与私有仓库。\n- 定时检查，只把新出现的条目整理成 `github.report` 推给桌宠；有每日汇总与免打扰时段。\n- 工具：`github_brief`、`github_check`、`github_watch`。\n- World 页签面板：最近看到的条目、API 余量、暂停/继续、Token 测试与保存。"
+  }
+}
