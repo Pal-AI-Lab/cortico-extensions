@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qqbot-feibi",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "describe": {
     "tools": [
       {
@@ -614,6 +614,7 @@
     ]
   },
   "changelog": {
+    "0.4.0": "身份、准入与几处发送修复。\n\n- **通用身份约定**：每条 `qqbot.message` 的 meta 增加 `speaker = { id, name?, kind, role? }`（id 是 openid，kind 是 c2c/group/channel/dm）。上游记忆系统只认这个约定，不用知道 QQ 私有字段。\n- **单聊白名单**：`c2c.whitelist`（逗号分隔 openid，空=不限制）。非白名单私聊不进上下文、不建短号；可选 `c2c.rejectNotice` 回一句说明（按 `c2c.rejectOnceMin` 限流）。\n- **管理者**：`c2c.ownerId` / `c2c.ownerName`。管理者私聊始终放行，事件带 `speaker.role='owner'` 与配置称呼，用来区分「我」和陌生人。\n- **`/id` 指令**：仅单聊生效，回对方自己的 openid；不在白名单也回，方便自助取号。群里不响应。\n- **群白名单（可选）**：`group.whitelist`（group_openid，空=不限制）。填了只响应列表内的群；每个群首次收到消息会在日志打印完整 group_openid。\n- **修：短号当 target 发送**。模型把 `M8` 填进 `target` 时，之前会原样当 group_openid 发出去（400 资源不存在）；现在自动换成真实 id 并补 `msg_id`，解析不到则明确报错。\n- **修：`/id` 回执**。发送字段应为 `text`（不是 `content`），之前报「text 是空的」。\n- 测试：新增 `test/identity.mjs`（10 条），离线套件 470+ 条。",
     "0.3.0": "npm 上首个公开发布版本。包名用 `cortico-world-qqbot-feibi`：`cortico-world-qqbot` 已被 Pal AI Lab 的另一个 QQ 世界占用，世界 id 仍是 `qqbot-official`，配置段与事件不变。\n\n- **QQ 官方机器人 v2**：自建 WebSocket 网关（Identify / 心跳 / Resume / 退避重连），REST 层带 token 缓存、401 重试与错误码翻人话。\n- **收发**：单聊、群聊、频道、频道私信；文本 / markdown / ark / 富媒体 / 图文卡片 / 输入中状态 / 撤回 / 表情表态。\n- **语音**：本机 GPT-SoVITS → ffmpeg 转 24000Hz 单声道 pcm → 内置 silk-wasm 编 silk v3 → `file_type=3` → `msg_type=7`；四种情绪（calm / happy / sad / angry）。失败会说明卡在哪，不用文字假装出过声。\n- **固定指令 `/菲比啾比`**：四条预渲染 silk 随包走（`assets/voice/`），随机挑一条；同一秒内不重复；语音发不出去退成「菲比啾比（情绪）」。\n- **群里只在被提及时收**：`@` / 关键词 / 被叫之后同一个人的连续放行（默认 3 条、120 秒；模型回话按 `n - used` 续额度）；`/` 开头的指令不推给模型。\n- **指令台面板**：「指令」页从 `GET /v2/panels` 拉官方指令，逐条绑到本机目录——语音指令随机发 `.silk`，表情包指令随机发图片；支持添加、编辑（改路径 / 改名）、删除，类型必填。\n- **被动回复记账**：单聊 60 分钟 4 次、群聊 5 分钟 5 次；`msg_seq` 自动递增，同一 `msg_id` 重投只回一次。\n- 离线自测 563 项（contract / 规则 / 指令 / 提及 / 指令台 / 本地假接口 / 假网关 / 真合成链路）。"
   }
 }

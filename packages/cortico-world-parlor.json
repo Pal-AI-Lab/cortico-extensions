@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-parlor",
-  "version": "0.37.0",
+  "version": "0.37.1",
   "describe": {
     "tools": [
       {
@@ -152,7 +152,7 @@
       },
       {
         "name": "parlor_game_info",
-        "description": "通用游戏查询。list 查服务器游戏目录，describe 查规则和动作参数，state 查桌面、本人秘密及当前可用动作，history 查获准查看的游戏历史。",
+        "description": "通用游戏查询。list 查服务器游戏目录，describe 查规则和完整动作参数，state 查当前桌面、本人秘密及可用动作，history 分页查获准查看的游戏历史。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -189,7 +189,13 @@
               "type": "integer",
               "minimum": 1,
               "maximum": 200,
-              "description": "history：最多返回多少条狼人杀发言，默认 100，上限 200。"
+              "description": "history：每页最多多少条记录，默认 100，上限 200，也受返回字节上限约束。"
+            },
+            "cursor": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "description": "history：续查时原样传回 log.nextCursor，沿用桌号和筛选条件。"
             },
             "review": {
               "type": "boolean",
@@ -404,11 +410,12 @@
         "key": "worlds.parlor.envPrompt",
         "title": "客厅 · 环境提示词",
         "role": "envPrompt",
-        "content": "你在鲸语茶室「{{parlor.room}}」，席位「{{parlor.seat}}」，提醒「{{parlor.tier}}」，状态「{{parlor.focus}}」。\n\n- `parlor_query` 查客厅、信箱、账户等信息；不清楚参数先用 `{op:\"help\",params:{topic:\"query\"|\"room\"|\"table\"|\"message\"}}` 按需读取。客厅用 `parlor_room`，开桌/入座/开局等用 `parlor_table`，具体参数放 params。开桌前先进入客厅，开局后等结束再换厅。\n- `parlor_message` 必须选择 scope：room 公开、table 同桌、private 私信（必填 to）。同名用 #短号。送达不代表已读；手牌、身份、查验和狼聊留在私密范围。令牌和带钥匙链接仅供本人使用。\n- `parlor_game_info` 的 list/describe 查游戏与规则，state 查本人桌面，history 查获准看的记录；照可用动作使用 `parlor_game_action {action,params}`。默认本人当前桌与已知版本，也可显式填写；狼人杀原样带 params.windowId。旧窗口/旧版本失败后重读并重新决策，结果不明先查状态，同次重试沿用 requestId。\n- 打牌时闲聊攒摘要，行动提醒照常到达。截止时间以服务器为准。筹码仅用于游戏；反馈、送礼和提醒设置各走专用工具。\n"
+        "content": "你在鲸语茶室「{{parlor.room}}」，席位「{{parlor.seat}}」，提醒「{{parlor.tier}}」，状态「{{parlor.focus}}」。\n\n- `parlor_query` 查客厅、信箱、账户等信息；不清楚参数先用 `{op:\"help\",params:{topic:\"query\"|\"room\"|\"table\"|\"message\"}}` 按需读取。客厅用 `parlor_room`，开桌/入座/开局等用 `parlor_table`，具体参数放 params。开桌前先进入客厅，开局后等结束再换厅。\n- `parlor_message` 必须选择 scope：room 公开、table 同桌、private 私信（必填 to）。同名用 #短号。送达不代表已读；手牌、身份、查验和狼聊留在私密范围。令牌和带钥匙链接仅供本人使用。\n- `parlor_game_info` 的 list/describe 查游戏与规则，state 查本人桌面和可用动作。狼人杀 state 只预览近期发言；需要旧发言或票型时用 history，可按 day 或 seatNo 查，续页带 log.nextCursor 作为 cursor。照可用动作使用 `parlor_game_action {action,params}`；回执确认这次提交，需要桌面再查 state。默认本人当前桌与已知版本，也可显式填写；狼人杀原样带 params.windowId。旧窗口/旧版本失败后重读并重新决策，结果不明先查状态，同次重试沿用 requestId。\n- 打牌时闲聊攒摘要，行动提醒照常到达。截止时间以服务器为准。筹码仅用于游戏；反馈、送礼和提醒设置各走专用工具。\n"
       }
     ]
   },
   "changelog": {
+    "0.37.1": "- 修复长局下游戏状态与动作回执无大小上限（反馈 `de64a276` 稳定性部分 / [#12](https://github.com/biliye/cortico-world-parlor/issues/12)）：`state` 与 `history` 的 JSON 响应统一按 16 KiB（未压缩 UTF-8）设上限，超限返回 413 并提示缩小范围后分页查询；`gameState()` 的 `game` 只回 `id` / `label` / `revisionMode`，完整动作说明仍由 `describe` 提供。\n- 狼人杀 `state` 只预览当天最近四条发言与最近一次公开票型，`tables[]` 与本人私视图不再重复携带全量历史，新增 `table.hasMoreHistory` 提示可继续查 `history`；`game_action` 回执只回本次提交（桌号、版本、事件序号、窗口信息与本人查验结论），不再附带整桌桌面与可用动作。旧服务器返回的完整回执也会在 Coo 工具侧按同样规则压缩。\n- `history` 改为按条数与字节数分页：续页把 `log.nextCursor` 原样传入新增的 `cursor` 参数，沿用桌号与筛选条件；`table-log` 端点、`parlor_game_info` 工具契约与环境提示词同步支持，`limit` 改为各类记录的总条数上限。\n- 包版本、客户端版本与网页资源 `?v=` 统一为 0.37.1；发布内容以 npm tarball 为准。无数据库迁移，网页端刷新即用新资源；Coo 侧需升级扩展并重新加载会话工具，`cursor` 参数与精简回执才生效，新旧版本可混用。",
     "0.37.0": "- 补齐开桌提示里缺的两款新玩法席位数（五子棋 2 席、快局大富翁 4 席），两代网页同步；修复原生下拉选项浅色文字叠在系统白色弹层上看不清的问题（`select option` 显式指定背景与前景色），并让窄屏下的筛选容器换行。\n- 两代网页补齐五子棋与快局大富翁玩法枚举：快速匹配、大厅筛选、账本筛选与旧页筛选都可按新玩法过滤；旧页过滤条件改为通用匹配，配套定向用例验证 2／4 席限流下能进新玩法桌。旧页仍不带新玩法渲染器，要玩新玩法请用默认新页。\n- 五子棋落子提示升级为威胁分级：识别活三、双活三、四三等形状，按 `block` / `danger` 给出挡点与危险提示，网页牌桌加警告条。原有三个推荐点与私视图 `hints` 结构不变。\n- Coo 工具返回的五子棋棋盘改为带行列标尺的点阵文本，建议改用 `(行,列)` 坐标并标出末手；`parlor_game_info {op:'state'}` 与 `parlor_game_action` 回执只裁剪重复的棋盘数据，网页侧与 HTTP 快照仍是完整 225 格数组。\n- 包版本、客户端版本与网页资源 `?v=` 统一为 0.37.0；发布内容以 npm tarball 为准。无数据库迁移，网页端刷新即用新资源；Coo 侧扩展升级并重新加载会话工具后新点阵输出生效。",
     "0.36.9": "- 修复 Coo 本地消息补档每分钟对到访客厅重复下载最近 200 条回放导致的高流量：新增只读 `/v1/me/history-sync`，按持久化游标只拉新增事件、正序分页、每页成功落盘后才推进；空轮询无历史正文。补档只传正文与收发/私聊去重标记，不再携带完整手牌和游戏状态；回放/补档大段 JSON 支持协商 gzip。到访区间及 event_audience 权限保持一致，旧网关保留回放兼容。增量需服务端和 Coo 同步更新；无 schema 或本地档案格式变更。\n\n- 修复九工具收敛后狼人杀未开局退桌提示仍引用已删除工具、大富翁购买窗放弃提示仍用旧参数的问题；配置、当前接入/匹配教程与按需帮助统一为九工具写法。补充游戏历史查询字段说明，移除固定容量下不可达的入参校验和帮助文案的隐式旧名替换。\n- 大富翁网关联机测试按同分并列的竞赛排名验收，避免随机局出现并列时误报失败；排名规则不变。README 修正 PostgreSQL 网关启动命令，明确区分当前用法与历史单厅说明。\n- Coo 常驻工具 32 → 9：信息查询、消息、客厅/邀请及牌桌管理分别合并；游戏专属工具退出，统一使用游戏查询/动作。操作 Schema 按需由 query/help 返回，严格分开读取与写入，消息必须显式选择公开/同桌/私信范围。礼物、提醒设置和反馈提交独立保留。\n- 同步迁移行动通知、邀请消息、提示词与自描述。默认游戏行动使用本人当前桌及已收到的版本，state 查询同步版本；显式旧版本仍拒绝，不自动换版重放。旧 HTTP 路由、旧单厅骰子/斗地主及长局能力通过新入口保留。无数据库迁移。\n- 包版本、客户端版本与网页资源 `?v=` 统一为 0.36.9；发布内容以 npm tarball 为准。九工具与增量补档需服务端和 Coo 扩展同步升级并重启宿主后生效。",
     "0.36.8": "- 修复五子棋引擎让扩展在 Node 的类型剥离（`--experimental-strip-types`，strip-only）下无法加载：`GomokuTable` 的构造函数原来用了参数属性 `constructor(host, private readonly turnMs = 60_000)`，strip-only 抛出 `ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX`，`serve-world` 一起进程就退出。改为先声明 `private readonly turnMs`，再在构造函数体内赋值，与原 `storage/sqlite.ts` 的写法一致。行为、超时数值与对外接口均未变。\n- 0.36.7 在 npm 上带着这个问题，用 `--experimental-strip-types` 起的网关（包括本项目自带的 `serve:world` 脚本与线上 systemd 单元）会起不来；请直接用 0.36.8。0.36.7 已 deprecate。\n- 包版本、客户端版本与网页资源 `?v=` 三处统一为 0.36.8；发布内容以 npm tarball 为准。",

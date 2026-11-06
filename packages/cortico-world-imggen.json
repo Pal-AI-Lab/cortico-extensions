@@ -1,0 +1,235 @@
+{
+  "schema": 1,
+  "name": "cortico-world-imggen",
+  "version": "0.3.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "imggen_draw",
+        "description": "调生图模型画一张图，存到本地文件夹，并直接把图发到 QQ。prompt 写画面本身：发生了什么、在哪、什么风格；神态、动作、镜头、光线由下面的关键词控制，别在 prompt 里重复写。有人物出镜时用 characters 指定参考库里的人物（保证长相一致），服饰/场景/道具同理。keywords：situation（情境）、expression（神态）、pose（动作）、shot（镜头）、light（光线）各填一个词表里的名字。to 用当前 QQ 消息 meta 里的 conv（group:<群号> 或 private:<QQ号>），原样复制；不填就发到默认目标。回执里有本地路径、尺寸、用了哪些关键词和参考图、发送结果；开头是「生成失败」时不要当作成功。一张图要几十秒，调用后耐心等回执。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "prompt": {
+              "type": "string",
+              "description": "画面描述：主体在做什么、在哪里、什么风格。中英文都行，一句到三句。"
+            },
+            "characters": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "出镜的人物，填参考库里的名字（可多个）。人物的长相和默认服饰从参考图来。"
+            },
+            "outfits": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "指定服饰，填库里的名字。不填按「人物情境穿搭 > 情境默认 > 场景默认 > 人物默认」自动搭配。"
+            },
+            "scene": {
+              "type": "string",
+              "description": "场景，填库里的名字。"
+            },
+            "props": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "道具，填库里的名字。"
+            },
+            "situation": {
+              "type": "string",
+              "description": "情境关键词，例如 在家休息 / 睡前 / 刚睡醒 / 工作学习 / 外出。"
+            },
+            "expression": {
+              "type": "string",
+              "description": "神态关键词，例如 开心 / 害羞 / 困倦 / 委屈 / 得意。"
+            },
+            "pose": {
+              "type": "string",
+              "description": "动作关键词，例如 抱膝坐 / 趴着 / 托腮 / 伸懒腰。"
+            },
+            "shot": {
+              "type": "string",
+              "description": "镜头关键词，例如 自拍 / 近景 / 全身 / 俯视 / 第一人称。"
+            },
+            "light": {
+              "type": "string",
+              "description": "光线关键词。不填用情境的默认光线。"
+            },
+            "size": {
+              "type": "string",
+              "description": "可选，覆盖配置里的尺寸，例如 1024x1024、1280x720。"
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 4,
+              "description": "要几张，默认 1。多张更贵更慢，除非对方明确要几张。"
+            },
+            "to": {
+              "type": "string",
+              "description": "发送目标：group:<群号> 或 private:<QQ号>。不填用默认目标。"
+            },
+            "caption": {
+              "type": "string",
+              "description": "可选，跟图一起发出的一句话。"
+            },
+            "send": {
+              "type": "boolean",
+              "description": "可选，false 表示只生成不发。"
+            }
+          },
+          "required": [
+            "prompt"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "按描述和参考库画一张图，存本地并发到 QQ。",
+          "en": "Draws an image using the reference library, saves it and sends it to QQ."
+        }
+      },
+      {
+        "name": "imggen_send",
+        "description": "把之前生成过的一张图再发一次（不重新生成，不花钱）。file 填 imggen_list 给出的文件名，不填就发最新的一张。对方说「再发一次」「发刚才那张」时用它，不要重新 imggen_draw。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "file": {
+              "type": "string",
+              "description": "文件名或完整路径（必须在本扩展的图片目录内）。不填 = 最新一张。"
+            },
+            "to": {
+              "type": "string",
+              "description": "发送目标：group:<群号> 或 private:<QQ号>。不填用默认目标。"
+            },
+            "caption": {
+              "type": "string",
+              "description": "可选，跟图一起发出的一句话。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "把之前画好的图再发一次，不重新生成。",
+          "en": "Resends an image that was already generated."
+        }
+      },
+      {
+        "name": "imggen_list",
+        "description": "列出本地已生成的图片（文件名、大小、时间）和保存目录。想知道有哪些图、或要给 imggen_send 挑文件名时用。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "description": "最多列几张，默认 10。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "列出本地已生成的图。",
+          "en": "Lists generated images on disk."
+        }
+      },
+      {
+        "name": "imggen_library",
+        "description": "本地参考库：人物、服饰、场景、道具。action=list 看有什么（可按分类过滤）；action=get 看某个条目的设定和参考图；action=add 把一张图存成新条目（file 填本地图片路径或 http 地址）；action=update 改条目的名字/描述/别名/标签/人设/默认服饰；action=remove 把条目挪进回收站（不硬删）。对方发来一张图说「记住这个角色」，先拿到图片路径再 add；只是想出图时用 list 确认名字，别猜。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "get",
+                "add",
+                "update",
+                "remove"
+              ],
+              "description": "要做的事。"
+            },
+            "category": {
+              "type": "string",
+              "enum": [
+                "characters",
+                "outfits",
+                "scenes",
+                "props"
+              ],
+              "description": "库分类：characters 人物 / outfits 服饰 / scenes 场景 / props 道具。"
+            },
+            "name": {
+              "type": "string",
+              "description": "条目名字（get/update/remove 用；add 时是新条目的名字）。"
+            },
+            "description": {
+              "type": "string",
+              "description": "add/update：外观描述，只写长相或设计，不写表情、姿势。会进生图提示词。"
+            },
+            "aliases": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "add/update：别名，方便以后用别的叫法指定。"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "add/update：标签，例如 蓝发、猫耳、JK。"
+            },
+            "persona": {
+              "type": "string",
+              "description": "add/update：人设，只给你自己看，不会发给生图接口。"
+            },
+            "expressions": {
+              "type": "string",
+              "description": "add/update：神态特点，例如「开心时尾巴会摇」，会写进提示词。"
+            },
+            "defaultOutfit": {
+              "type": "string",
+              "description": "add/update：默认服饰（服饰条目的名字）。"
+            },
+            "file": {
+              "type": "string",
+              "description": "add：参考图，本地绝对路径或 http(s) 图片地址。"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "read",
+          "act"
+        ],
+        "summary": {
+          "zh": "查本地参考库（人物/服饰/场景/道具），也能把图存成新条目。",
+          "en": "Queries or edits the local reference library."
+        }
+      }
+    ],
+    "events": []
+  }
+}
