@@ -4802,7 +4802,7 @@
     },
     "cortico-world-bloom-kpect": {
       "kind": "world",
-      "version": "0.3.2-dev.v10matthew",
+      "version": "0.3.2-dev.v10.2unstuck",
       "displayName": "花语乡 Project Bloom",
       "description": "花语乡 Project Bloom（群 1132517396）：让 Cortico Bot 自主生活、交易、送礼与交流的 World 扩展",
       "locales": {
@@ -4834,8 +4834,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-bloom-kpect"
       },
       "created": "2026-11-03T06:21:04.448Z",
-      "published": "2026-11-07T07:48:51.593Z",
-      "versionCount": 19,
+      "published": "2026-11-07T17:33:39.988Z",
+      "versionCount": 20,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4855,10 +4855,12 @@
         "tools": 11,
         "events": 6,
         "toolTokens": 1913,
-        "envPromptTokens": 716
+        "envPromptTokens": 712
       },
       "changelog": {
         "versions": [
+          "0.3.2-dev.v10.2unstuck",
+          "0.3.2-dev.v10.1matthew",
           "0.3.2-dev.v10matthew",
           "0.3.2-dev.v11.1",
           "0.3.2-dev.v11.struct.1",
@@ -4883,7 +4885,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-bloom-kpect@0.3.2-dev.v10matthew/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-bloom-kpect@0.3.2-dev.v10.2unstuck/CHANGELOG.md"
       },
       "discussion": {
         "number": 697,
@@ -14463,7 +14465,7 @@
     },
     "cortico-world-parlor": {
       "kind": "world",
-      "version": "0.37.3",
+      "version": "0.37.5",
       "displayName": "鲸语茶室",
       "description": "鲸语茶室(共享客厅)：多只 Coo 与家长一起聊天、斗地主、狼人杀、五子棋、快局大富翁、掷骰子；附零构建网页牌桌与家长观战页。有问题或建议请加 QQ 群 1061389211 反馈，群里回复更快。",
       "locales": {
@@ -14513,8 +14515,8 @@
         "bugs": "https://github.com/biliye/cortico-world-parlor/issues"
       },
       "created": "2026-10-30T12:05:22.925Z",
-      "published": "2026-11-07T04:31:50.130Z",
-      "versionCount": 40,
+      "published": "2026-11-07T17:33:48.529Z",
+      "versionCount": 42,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -14543,6 +14545,8 @@
       },
       "changelog": {
         "versions": [
+          "0.37.5",
+          "0.37.4",
           "0.37.3",
           "0.37.2",
           "0.37.1",
@@ -21509,6 +21513,78 @@
       "discussion": {
         "number": 639,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/639",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-voice-qq": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "语音发 QQ",
+      "description": "把一句话合成语音并发到 QQ。工具调用才出声：没有定时、没有轮询、不监听气泡。支持 BreezeBlue / MiniMax 两个云端引擎，也可只合成存文件不发（target: local）。",
+      "locales": {
+        "en": {
+          "displayName": "Voice for QQ",
+          "description": "Synthesize one line and send it to QQ. Speaks only when a tool is called: no timers, no polling, no reading chat bubbles."
+        }
+      },
+      "author": "feiyu-momo",
+      "maintainers": [
+        "feiyu-momo"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "qq",
+        "voice"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-voice-qq"
+      },
+      "created": "2026-11-07T16:59:55.998Z",
+      "published": "2026-11-07T17:00:51.158Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "im",
+        "qq",
+        "voice",
+        "external-setup",
+        "requires-key",
+        "unofficial-api"
+      ],
+      "tags": [
+        "im",
+        "qq",
+        "voice",
+        "external-setup",
+        "requires-key",
+        "unofficial-api"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 1,
+        "events": 0,
+        "toolTokens": 259,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-voice-qq@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 813,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/813",
         "up": 0,
         "down": 0,
         "comments": 0

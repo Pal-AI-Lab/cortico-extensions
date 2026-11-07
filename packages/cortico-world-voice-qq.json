@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "name": "cortico-world-voice-qq",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "voice_qq_say",
+        "description": "把一句话合成语音并发到 QQ：合成 WAV、存进 data/voice-qq/，默认再发出去，回 messageId、音频时长、字节数。target 必须写成字符串 private:<QQ号> 或 group:<群号>，或 local（只合成存文件、不发送）——光写号码会报错，传数字也报错。一次调用只出一句话，不会自己朗读气泡。想真的用嘴说话、或者想把一句话留在对方手机上时用它；日常打字别用。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "text"
+          ],
+          "properties": {
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "description": "要念的那一句话，纯文本。"
+            },
+            "target": {
+              "type": "string",
+              "description": "发去哪，必须带前缀：private:<QQ号> 或 group:<群号>；local 只合成不发。不填用配置里的默认目标。光写号码、或传数字，都会被拒——猜错就是把私聊语音发给陌生人。"
+            },
+            "speed": {
+              "type": "number",
+              "description": "语速倍率 0.5~2，1 是原速。不填用配置里的默认值。"
+            }
+          }
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "把一句话合成语音发到 QQ：合成、存盘、发出去，回 messageId 和时长。",
+          "en": "Speak one line as a QQ voice message: synthesize, save, send; returns messageId and duration."
+        }
+      }
+    ],
+    "events": []
+  },
+  "changelog": {
+    "0.1.0": "首个版本。\n\n- 工具 `voice_qq_say(text, target?, speed?)`：合成一句语音、存成 WAV、发到 QQ，回 messageId、时长与字节数。\n- 两个云端合成引擎：BreezeBlue（`brz_` 密钥）与 MiniMax（国内 / 国际两个端点）。\n- 两个发送通道：OneBot WebSocket（默认，能自动从别的 QQ 扩展配置里找到地址与 token）与 OneBot HTTP（兜底，端口手填或试 3000 / 5700）。\n- 目标写法：`private:<QQ号>`、`group:<群号>`、纯号码（按群白名单判断是私聊还是群）、`local`（只合成不发送）。\n- 群发走白名单：`groupAllowList` 里没写的群号一律拒绝。\n- 每天有调用次数上限，落盘记账；按数量与总体积清理旧 WAV。\n- 扩展面板：「配置」页签 11 项（引擎、音色、默认目标、群白名单、每天上限、保留个数、通信方式、端口、超时等），「密钥」页签填 Breeze 密钥与 OneBot token，走 `storeSecret` 写部署根 `.env`，不回显、不进日志。\n- 扩展面板的「密钥」页签下半部分有「排查」块：最近 20 条失败记录，只读、可复制，QQ 号 / 密钥 / 路径在后端打码（`src/scrub.js`），负数 messageId 不动。\n- 失败分 18 类各一句中文（合成 6 类、写盘 1 类、发送 5 类、WebSocket 4 类、无可用通道 1 类、参数 1 类），不糊成「失败」。\n- 不做：不监听气泡、不定时说话、不自动重试、不进常驻提示词。"
+  }
+}
