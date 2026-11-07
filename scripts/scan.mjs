@@ -253,22 +253,33 @@ function changelogUrl(name, latest, repository, file) {
   return `https://unpkg.com/${name}@${latest.version}/${file}`;
 }
 
-/** 下载量:累计(npm 批量接口最多一年)、近 30 天、近 7 天。作用域包不能批量查,单个查。 */
+/**
+ * 下载量:累计(npm 批量接口最多一年)、近 30 天、近 7 天。作用域包不能批量查,单个查。
+ * 下载量接口会被 Cloudflare 按 IP 限流(429/1015),查不全的包沿用 catalog 里上次的数,不挡版本同步。
+ */
 async function fetchDownloads(all) {
   const out = {};
   const periods = { total: 'last-year', month: 'last-month', week: 'last-week' };
   const plain = all.filter((n) => !n.startsWith('@'));
-  for (let i = 0; i < plain.length; i += 100) {
-    const batch = plain.slice(i, i + 100);
-    for (const [key, period] of Object.entries(periods)) {
-      const data = await fetchJson(`https://api.npmjs.org/downloads/point/${period}/${batch.join(',')}`) ?? {};
-      for (const n of batch) (out[n] ??= {})[key] = data[n]?.downloads ?? 0;
+  try {
+    for (let i = 0; i < plain.length; i += 100) {
+      const batch = plain.slice(i, i + 100);
+      for (const [key, period] of Object.entries(periods)) {
+        const data = await fetchJson(`https://api.npmjs.org/downloads/point/${period}/${batch.join(',')}`) ?? {};
+        for (const n of batch) (out[n] ??= {})[key] = data[n]?.downloads ?? 0;
+      }
     }
-  }
-  for (const n of all.filter((x) => x.startsWith('@'))) {
-    for (const [key, period] of Object.entries(periods)) {
-      const data = await fetchJson(`https://api.npmjs.org/downloads/point/${period}/${n}`);
-      (out[n] ??= {})[key] = data?.downloads ?? 0;
+    for (const n of all.filter((x) => x.startsWith('@'))) {
+      for (const [key, period] of Object.entries(periods)) {
+        const data = await fetchJson(`https://api.npmjs.org/downloads/point/${period}/${n}`);
+        (out[n] ??= {})[key] = data?.downloads ?? 0;
+      }
+    }
+  } catch (err) {
+    console.warn(`::warning::下载量没查完，其余包沿用上次的数:${err.message.split('\n')[0]}`);
+    for (const n of all) {
+      if (Object.keys(periods).every((k) => k in (out[n] ?? {}))) continue;
+      out[n] = previous.packages?.[n]?.downloads;
     }
   }
   return out;
