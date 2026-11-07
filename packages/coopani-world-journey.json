@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-journey",
-  "version": "0.8.7",
+  "version": "0.9.0",
   "describe": {
     "tools": [
       {
@@ -185,13 +185,17 @@
           "properties": {
             "to": {
               "type": "string",
-              "description": "Which city she wants to go to, by name - 拉萨 / 成都 / 巴黎. Must be one of the built-in cities."
+              "description": "Which city they end up in together, by name - 拉萨 / 成都 / 巴黎. Must be one of the built-in cities. This is also where the two of them part ways afterwards."
             },
             "days": {
               "type": "integer",
               "minimum": 1,
               "maximum": 14,
-              "description": "How many days she means to stay there. Default 2."
+              "description": "How many days they stay there together. Default 2."
+            },
+            "meet": {
+              "type": "string",
+              "description": "Where they meet up first, before going on to that city together. By name. Leave it out and the meeting point is wherever she is right now - which is the normal case. Only set it when they asked to meet somewhere specific, e.g. she is in 兰州 and they want to start from 成都."
             },
             "note": {
               "type": "string",
@@ -411,7 +415,16 @@
             },
             "ev": {
               "type": "boolean",
-              "description": "true = an electric car (0.15 a km instead of 0.7, so cheaper on long days). Leave it out and she takes whatever the lot gives her."
+              "description": "true = an electric car (cheaper per km, a bit more on the daily rate). Leave it out and she takes whatever the lot gives her."
+            },
+            "tier": {
+              "type": "string",
+              "enum": [
+                "economy",
+                "comfort",
+                "luxury"
+              ],
+              "description": "Which car. economy = a small city car, 100 a day, thrifty on fuel; comfort = a compact sedan, 200 a day (this is the default); luxury = a larger SUV, 450 a day, roomier but thirstier and harder to park. Pick by what they said, or by how long she is staying and how far the spots are. Do not upsell: if they just want to get around, economy is the honest answer."
             }
           }
         },
@@ -421,6 +434,27 @@
         "summary": {
           "zh": "在待着的这座城里租辆车。",
           "en": "Rent a car to get around this city."
+        }
+      },
+      {
+        "name": "journey_rest",
+        "description": "Call this the moment she decides to stop for the day - when she says she is tired, when it is raining too hard, when the place turned out not worth it, or when the person suggests taking it easy. It cancels the rest of today's sightseeing for real: the spots still on the plan will not happen, and she will stay in or around where she is sleeping. Meals and going back to the hotel still happen - resting is not fasting. Tomorrow runs as planned. Say why in one short line of her own; \"just felt like it\" is not a reason, \"走了两万步，脚起泡了\" is. Do not call it and then still describe going out - if she says she is resting, this is what makes it true.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "reason": {
+              "type": "string",
+              "description": "Why she stopped, one short sentence in her own voice."
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "今天剩下的不逛了，真的歇下来。",
+          "en": "Stop for the day - for real."
         }
       }
     ],
@@ -532,6 +566,8 @@
     ]
   },
   "changelog": {
+    "0.9.0": "### 城市从 128 座到 183 座\n\n**俄罗斯（原来只有莫斯科）**：圣彼得堡、喀山、伊尔库茨克、符拉迪沃斯托克、\n叶卡捷琳堡、摩尔曼斯克、索契、加里宁格勒、苏兹达尔、下诺夫哥罗德。\n\n**波兰**：华沙、克拉科夫、格但斯克、弗罗茨瓦夫、波兹南、罗兹、托伦、扎科帕内。\n\n**西欧与中欧 37 座**：德国 7（柏林、慕尼黑、汉堡、科隆、德累斯顿、海德堡、纽伦堡）、\n奥地利 3（维也纳、萨尔茨堡、哈尔施塔特）、瑞士 3（苏黎世、因特拉肯、卢塞恩）、\n法国 6（里昂、马赛、尼斯、波尔多、斯特拉斯堡、阿维尼翁）、\n英国 5（爱丁堡、巴斯、约克、曼彻斯特、牛津）、\n爱尔兰 2（都柏林、戈尔韦）、荷兰 3（阿姆斯特丹、鹿特丹、海牙）、\n比利时 3（布鲁日、布鲁塞尔、根特）、捷克 3（布拉格、克鲁姆洛夫、库特纳霍拉）、\n匈牙利 2（布达佩斯、埃格尔）。\n\n从 20 个国家和地区变成 **28 个**。\n\n每座都带**六个景点（按「地标 → 老城 → 第四处 → 水边」的顺序排）、吃食、\n夜间去处、演出、地方节、一句来历、一张出图的画面锚点**和住宿价格系数。\n时区按真实位置给（伊尔库茨克是 `Asia/Irkutsk`，不是统一的莫斯科时间）。\n\n**俄罗斯的冬天不会再画成绿的。** 季节描述原来只覆盖中国，非中国城市\n一句季节都不生成 —— 于是摩尔曼斯克一月的照片里树叶是绿的。现在加了\n「东欧」气候区（俄、波），索契单独归到亚热带：它冬天有棕榈。\n\n### 晚上能去哪儿：补了 26 条，演出 127 场\n\n128 座城里原来有 48 座「晚上没有非做不可的事」，现在剩 22 座。\n地方节从 66 座补到 95 座（119 条），另外新加一张表：**演出**\n（剧院 / 音乐厅 / 驻场乐队），88 座城共 127 个能站得住的场子。\n\n演出和「夜间去处」**分开存**，因为这两件事常常同时存在 ——\n苏州有网师园夜花园，也有昆剧院。挤在一个字段里就只能二选一，\n等于每次都替她扔掉一个。\n\n排期规则：**第二天晚上去看戏，第一晚还是这座城本来的夜色。**\n只排一次 —— 天天看戏不真实，也会把夜市、开桥这些本地东西盖掉。\n\n### 同一座城，「吃」的照片却变成江南了\n\n用户反馈：「我那那张街景对得上，湖面结冰、红石头都在；换成吃的就变江南去了。」\n\n查下来不是模型的问题：**街景那条会拼上这座城的视觉锚点和季节，食物那条一个字都没提城市。**\n`foodPrompt` 只用菜名的字面挑一套碗筷 —— 而那一套（白瓷大碗、红油泼辣子、翠绿香菜、\n一次性竹筷）是江南/川渝路边馆子的默认值，不管在哪儿拍都是它。\n\n现在食物那条也带上了「这是哪儿」的证据：\n\n- **桌子按气候区给**：华北的贴皮木桌配搪瓷缸、川渝的仿石桌面配香油碟、\n  俄波是深色木桌配亚麻桌布、华南是不锈钢桌面配冰镇啤酒。\n- **窗外只看两件事**：这个季节、这一带。冬天的高纬度是「玻璃上结着水汽、外面白亮的雪光」，\n  不是绿树。\n- **器物分中国 / 中国以外两套**：出了国就没有红油、竹筷、香菜，\n  换成陶盘、厚玻璃杯、金属勺。\n- 顺带修了三处：饺子/包子不再被当成汤面（原来「华沙的波兰饺子」出来是一碗汤）；\n  盘子里的东西不冒热气（原来按时刻无条件加）；盘子说「盘沿」，碗说「碗沿」。\n\n同一个毛病还波及另外两个题材，一并修了：**街景和细节原来也是提前 return 的，季节一句都拼不上**。\n街景的「小城」档还写死了白墙黛瓦、乌篷船 —— 那是江南，平遥承德不是那样，\n现在按气候区分成青砖灰瓦 / 白墙黛瓦两套。细节照的那十来件小东西（盖碗、搪瓷杯、\n竹竿晒的被子）也只在中国的城市里挑，出国只从车票、钥匙、雨车窗、一袋橙子里取。\n\n### 照片要认地方：欧洲分出五个气候区\n\n补完俄波之后发现一个问题：**非中国的城市一句季节描述都不生成**。\n表现是摩尔曼斯克一月的照片里树叶是绿的 —— 模型手里没有一句「现在是冬天」。\n\n所以这次不是加一条文案，是把结构改对：\n\n| 气候区 | 代表 | 画面上的关键差别 |\n|---|---|---|\n| 西欧海洋性 | 伦敦、巴黎、阿姆斯特丹、布鲁日 | **冬天草地是绿的、几乎不积雪** |\n| 中欧大陆性 | 柏林、维也纳、布拉格、布达佩斯 | 阔叶落尽，屋顶的雪能留几天 |\n| 阿尔卑斯 | 因特拉肯、哈尔施塔特、萨尔茨堡 | 雪厚、针叶林、雾挂在半山 |\n| 地中海 | 尼斯、马赛、阿维尼翁、罗马 | **冬天是绿的，夏天反而枯黄** |\n| 东欧 | 莫斯科、华沙、圣彼得堡 | 积雪压低树枝，天铅灰 |\n\n伦敦和柏林同纬度，但这两座城的照片不该长得一样 —— 分区的依据就是这一条。\n\n顺带把**南…",
+    "0.8.8": "### 约在哪儿见面，一起去，再分开\n\n以前的邀约只有一件事：「我在这座城，谁跟我去那座城」。所以两个人是**各自往目的地走**，\n到的时候可能差好几天 —— 那不叫一起走。\n\n现在多了「碰头的地方」这一级，只需要一个字段：目的地本来就是最后分开的城。\n\n- 邀约可以说「在成都碰头，一起去稻城待三天」。不指定就在她现在待的城见。\n- **先到先等。** 到了会合点，同城今天有没有对方，查得到才走；查不到就继续等。\n  等到三天还不见人，算这趟没成 —— 她会说出为什么，而不是默默换地方。\n- `journey.day` 每天会说「你在等谁、等第几天、等到了要去哪」。\n  等的那几天也有日记可写。\n- 等的那几天，**「一起待三天」的账一天都没开始** —— 那三天从到了一起走的那座城才起算。\n\n### 两边时间跑得不一样，约不到一起\n\n「三次元的 24 倍速」和「一次元的 1 倍速」算不出同一个「明天」。以前会变成\n「约了但从没见过面」，现在在接约那一步就直说：那边的一天比这边短得多，凑不到一起。\n\n不超过两倍还能赴约（约好的三天在对方那边是一天半，等一下圆得回来）。\n\n### 部署注意\n\n服务端加了两列（`meet_city`、`pace`）。**先跑迁移，再部署 Worker** ——\n反过来的话 `/sight/invite` 和 `/sight/status` 会一路 500，直到表补上。\n迁移脚本：`cloud/sight-cf/migrate-2026-11-07-meet.sql`。\n\n老服务端 / 老客户端都不用动：没有这个字段时，行为就是这个版本之前的样子。",
     "0.8.7": "### 「拍晚饭」出来的还是巷子\n\n有用户让她拍晚饭，她说「端上来我就拍给你看」—— 后来发现**拍是拍了，出来的不是饭**。\n\n根因不在生图，在参数没接到线上：0.8.5 给 `journey_photo` 加了 `subject`（拍什么），\n但通往生图那一环把它丢了，六个题材模板永远走第一套。日志里那次调用\n`{\"subject\":\"food\"}` 写得清清楚楚，出来的图标题是「黄昏的宽窄巷子」。\n\n顺带修了两处同源的问题：\n\n- **标题不认题材**，图对了回执还说「黄昏的XX」—— 她照着标题跟你说话，就又错一次。\n- **回执里「别连着再调一次」被她读成了「以后都别拍」**，于是改口答应「等端上来就拍」——\n  一个她兑现不了的未来（这个世界没有闹钟）。现在写明「同一次回答里别调第二遍；\n  你过会儿再要，那是新的一张」。\n\n### 一起旅行：日记里终于有人\n\n邀约、约定、一起待几天，机制一直都在。问题是「一起」这件事**只在到站那条说过一次**，\n之后那几天的每日开篇一个字不提 —— 她写日记时手上没有「今天和谁在一起」这个事实，\n只能写风景。\n\n现在每天开篇会说清「跟谁、第几天、还剩几天」，最后一天会说「明天各走各的」。\n提示词里那节也从 3 行扩成整节：一起不等于粘在一起（他有自己的事）、\n你对他只知道名字和「他这会儿在干嘛」、**没约过的同城撞见不算认识**。\n\n### 城里也能租车了\n\n群里的反馈：「他说租车只是换城市用的，在城里玩还是只能靠腿」。\n\n城际交通选自驾确实会带出一辆车，城里也确实会开 —— 但**没有「在当地租一辆」的入口**。\n新增 `journey_rent_car`：一天 200，租几天自己定（最多 7 天），到期自动还，\n还车那天会说一声「接下来靠公交和腿」。\n\n顺带修了个死字段：`car.days` 从写下来那天起就没被读过，「租三天」永远不到期 ——\n异地出发那 600 块买到的其实是无限期。\n\n### 面板说 240，她说 560\n\n查了，数据里没有 560。「快捷宾馆」命中的是「连锁商务酒店 240」；560 属于\n「高档商务酒店」，名字得带「酒店/商务/国际」。\n\n但确实有个让她说错的坑：**面板给她看的和给你看的不是同一句** ——\n面板是「时尚睡吧快捷宾馆(避暑山庄店)（连锁商务酒店）· 240」，她手上只有「连锁商务酒店」。\n现在两边用同一个函数，一字不差。\n\n另外，有车这件事以前也不在她的现状里：车在、城里也确实开着去景点，\n但那段摘要不提，被问「你在城里怎么走」她只能猜「靠腿」。现在会说清。\n\n（还剩一条没改：钱紧了会静默换房，价格变了没有任何提示 —— 那是「感觉被刷掉了」\n的真正来源，下个版本处理。）\n\n### 另外四个 bug（144 天长跑抓的）\n\n四档 144 天，不变量全绿，但输出里有两行不对劲 —— 顺着查出四个：\n**约定和当前航向打架**（在飞布宜诺斯艾利斯，却挂着去稻城亚丁的承诺）、\n**同一条邀约被反复认领**（事件重复推送，而且 pledge 常年占着）、\n**让位之后还能再接同一条**（同一句「只能算了」推两遍）、\n**过期约定不自愈**（只在过期时清，不管方向不符）。",
     "0.8.6": "### 负向提示词：他说得对，主拍照那条路根本没传\n\n用户（Jo）19:05：\n\n> 更新到 0.8.4 试了一下，补拍似乎负向提示词没生效。\n\n**他说得对。** 0.8.2 加负向的时候只改到了「出海报」那一条，\n主拍照 —— 也就是他说「补一张」走的那条 —— 一个字都没传。\n设置填了、界面也认了，但请求里没有这个字段。\n\n这类漏法的特点是**不报错**：参数可选，少传一个编译器不会说话。\n所以补了一条静态检查：源码里每一处 `shootComfy({` 都必须带 `negative:`，少一处就红。\n\n### 出图超时可以调了\n\n同一个人 19:08：「180 秒的渲染超时是否能扩展一些时间，有概率会图没渲染完导致失效」。\n\n设置里新增「出图最多等几秒」（0 = 默认：本地 180、云端 90）。\n超时只是「还没画完」，不是坏了 —— 大图、多步、刚加载完大模型的时候确实要等更久。\n\n四条出图路径（主拍照 / 海报 × ComfyUI / 云端）全部接上，同一条静态检查守着。",
     "0.8.5": "### 拍照终于听指令了（六种题材）\n\n一位用户（沃兔）报的 bug，原话：\n\n> 拍照固定在同一个场景，无论我提出什么拍摄要求（比如拍晚饭等），\n> 都只会生成同一处风景画面。\n\n**根因**：工具上只有一个 `view`（ground / sky）。他说「拍晚饭」，能动的只有「抬不抬头」，\n题材一个字都改不了 —— 提示词照样按「城市 + 景点」拼，出来当然还是那处风景。\n\n现在 `journey_photo` 多一个可选参数 `subject`，六档：\n\n| 题材 | 拍什么 | 素材从哪来 |\n|---|---|---|\n| `ground` | 脚下这片地方（默认，老行为） | 城市 + 景点 + 视觉锚点 |\n| `sky` | 抬头：星空/月亮/日出 | 当地时刻 + 天气 |\n| **`food`** | 正在吃什么 | `pickFood` 给的**真实当地菜名** |\n| **`street`** | 街本身：立面、招牌、杂物 | 按城市档次分一线老街/县城/古镇三套 |\n| **`festival`** | 节日与季节 | 按日期算（春节/清明/端午/中秋 + 四季） |\n| **`detail`** | 一件小东西的特写 | 车票、旅馆钥匙、茶碗、晒的被子…… |\n\n素材是查来的（2026-11-06），不是编的：兰州牛肉面「汤清到能看见碗底、红油不搅开」、\n县城街景「瓷砖发黄、雨痕成竖向条纹、电线在头顶织成网」、银河「暗尘带把乳白的带子剖开」。\n**写材质不写形容词** —— 「好吃」画不出来，「碗沿那圈油光」画得出来。\n\n两个都是可选参数，不填就是脚下那张，老调用方一个字不用改。\n\n### 顺带\n\n- 那八条题材测试里有一条专门守「不传 subject 时和以前完全一样」，防止哪天悄悄改了老路径。\n- 工具表从「只能有一个参数」变成两个 —— 那条测试里写着「谁要再加第二个，回到这条测试上来吵」。\n  我回来了，理由写在注释里了。",

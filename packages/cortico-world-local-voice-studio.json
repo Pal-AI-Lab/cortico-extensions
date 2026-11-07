@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-local-voice-studio",
-  "version": "0.1.0-beta.17",
+  "version": "0.1.1",
   "describe": {
     "tools": [
       {
@@ -65,7 +65,7 @@
         "tags": [
           "act"
         ],
-        "description": "仅在用户已开启唱歌功能后，用本地模型把原创歌词作曲并唱成30秒中文短歌。先用当前聊天能力根据用户主题创作歌名和四句歌词，必须提供 title 与 lines；用户只需给主题，不要让用户写词。可选男声、女声和演唱风格；省略时使用面板保存的默认选择。每次覆盖只影响本任务。异步任务；插件完成后按 playback 播放。不承诺固定歌手音色、真人声音克隆或指定现成歌曲。",
+        "description": "仅在用户已开启唱歌功能后，用本地模型把原创歌词作曲并唱成30秒中文短歌。先用当前聊天能力根据用户主题创作歌名和四句歌词，必须提供 title 与 lines；用户只需给主题，不要让用户写词。可选男声、女声和快捷风格，也可通过 description 自由描述曲风、乐器、情绪和唱法。非空描述优先于快捷风格；可使用用户在唱歌页上传的演唱参考。省略时使用面板保存的默认选择。每次覆盖只影响本任务。异步任务；插件完成后按 playback 播放。不承诺固定歌手音色、真人声音克隆或指定现成歌曲。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -92,7 +92,16 @@
                 "pop",
                 "jazz"
               ],
-              "description": "本次风格：gentle 温柔，folk 民谣，pop 流行，jazz 爵士。省略则使用保存的默认值。"
+              "description": "本次快捷风格：gentle 温柔，folk 民谣，pop 流行，jazz 爵士。其他风格写入 description。省略则使用保存的默认值。"
+            },
+            "description": {
+              "type": "string",
+              "maxLength": 1000,
+              "description": "自然语言演唱描述，支持中文或英文，如摇滚、电子、R&B、说唱，乐器、情绪和唱法。非空时优先于快捷风格；不确定时可用清楚的英文音乐描述。省略沿用面板；空字符串恢复快捷风格。"
+            },
+            "useReference": {
+              "type": "boolean",
+              "description": "是否使用用户在唱歌页上传的演唱参考（有则使用）；false 本次忽略参考。只参考声音和音乐质感，不复刻原曲或保证固定歌手。省略沿用面板。不接受文件路径或网址。"
             },
             "title": {
               "type": "string",
