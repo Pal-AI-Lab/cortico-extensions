@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-astrbot-livingmemory",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "describe": {
     "tools": [
       {
@@ -69,6 +69,7 @@
     ]
   },
   "changelog": {
-    "0.1.0": "> 首个正式版：桌宠侧接入 AstrBot 的 LivingMemory，与 QQ 端共用同一套记忆库与知识图谱。\n\n### 新增\n\n- **记忆工具**：`mem_search`（混合向量 / BM25 / 图谱召回）与 `mem_record`（沉淀关键事实，支持 `topics` 参与建边）。\n- **环境提示词**：`src/ENV_PROMPT.md` 规定何时检索（具体话题而非「以前的事」）、何时记录（明确要求 / 约定 / 偏好，不记寒暄）、`topics` 怎么给、称谓纪律；通过 `webUi().promptDocs` 在面板直接编辑。\n- **对话流捕获**：按周期从宿主事件流增量提取对话轮次并推送到桥端，统一纳入 LivingMemory 的反思蒸馏（`captureIntervalMs` / `captureMinLength` / `autoCapture` 可配）。\n- **鉴权**：`authToken` 与桥端 `auth_token` 同值，请求自动带 `Authorization: Bearer`。\n\n### 修复\n\n- 扩展加载失败（`mod.envPromptVars is not a function`）：补齐 World 接口要求的 `envPromptVars()`。\n- `start()` / `stop()` 改为 async，与宿主契约一致（同步返回导致卸载时报 `reading 'then'`）。\n- 对话流推送失败时不再推进游标：失败保留游标下轮重试，连续失败 5 次才跳过并记警告，避免桥短暂不可用就永久丢对话。\n- `defaults` 改为工厂函数、`tools()` 返回 `ToolDef[]`，对齐 World API 6 契约。\n\n### 优化\n\n- 面板分两级：「连接」3 项 + 「高级（默认即推荐）」5 项，全部配置项可见，不再藏起有默认值的项。\n- 请求超时 3s → 5s（桥触发总结后回执偶尔偏慢）；对话捕获最短长度默认 2 → 6，避免「嗯」「哦」变成噪声记忆。\n- 开源脱敏：默认值不含真实账号与人名，`sessionId` / `personaId` 默认留空自动继承桥端配置。\n- README 重写为开源向：安装、配对要求、配置表与常见排障（查不到记忆 / 人物分裂 / 401 / 记忆不生成 / 延迟）。"
+    "0.2.0": "> 与 AstrBot 桥接插件 0.2.0 配套：新增记忆状态自检，配置项与文档口径同步。\n\n### 新增\n\n- **记忆状态自检**：新增 `mem_status` 工具，用一句话查看桥接是否正常、上游记忆库是否连上、当前接入 QQ 还是纯桌宠、记忆共享模式和默认会话 / 人格。\n\n### 变更\n\n- **人格不再由桌宠侧重复指定**：移除「记忆存给哪个人格」，统一在 AstrBot 侧的桥接插件设置；已有配置里的原值保留，但不再读取。\n- **会话设置移入高级区**：「记忆存到哪个会话」放到高级项末尾，平时留空跟随 AstrBot。\n\n### 优化\n\n- 面板配置项改用普通用户能看懂的标题和说明；「记忆存到哪个会话」注明当前平台类型。\n- 文档统一整理：安装、配置速查、相关项目和常见问题重写，和桥接侧「QQ + 桌宠本地」口径一致；示例账号使用占位符。\n- 版本号与桥接插件对齐到 `0.2.0`。",
+    "0.1.1": "> 首个正式版：桌宠侧接入 AstrBot 的 LivingMemory，与 QQ 端共用同一套记忆库与知识图谱。\n\n### 新增\n\n- **记忆工具**：`mem_search`（混合向量 / BM25 / 图谱召回）与 `mem_record`（沉淀关键事实，支持 `topics` 参与建边）。\n- **环境提示词**：`src/ENV_PROMPT.md` 规定何时检索（具体话题而非「以前的事」）、何时记录（明确要求 / 约定 / 偏好，不记寒暄）、`topics` 怎么给、称谓纪律；通过 `webUi().promptDocs` 在面板直接编辑。\n- **对话流捕获**：按周期从宿主事件流增量提取对话轮次并推送到桥端，统一纳入 LivingMemory 的反思蒸馏（`captureIntervalMs` / `captureMinLength` / `autoCapture` 可配）。\n- **鉴权**：`authToken` 与桥端 `auth_token` 同值，请求自动带鉴权请求头。\n\n### 修复\n\n- 扩展加载失败（`mod.envPromptVars is not a function`）：补齐 World 接口要求的 `envPromptVars()`。\n- `start()` / `stop()` 改为 async，与宿主契约一致（同步返回导致卸载时报 `reading 'then'`）。\n- 对话流推送失败时不再推进游标：失败保留游标下轮重试，连续失败 5 次才跳过并记警告，避免桥短暂不可用就永久丢对话。\n- `defaults` 改为工厂函数、`tools()` 返回 `ToolDef[]`，对齐 World API 6 契约。\n\n### 优化\n\n- 面板分两级：「连接」3 项 + 「高级（默认即推荐）」5 项，全部配置项可见，不再藏起有默认值的项。\n- 请求超时 3s → 5s（桥触发总结后回执偶尔偏慢）；对话捕获最短长度默认 2 → 6，避免「嗯」「哦」变成噪声记忆。\n- 开源脱敏：默认值不含真实账号与人名，`sessionId` / `personaId` 默认留空自动继承桥端配置。\n- README 重写为开源向：安装、配对要求、配置表与常见排障（查不到记忆 / 人物分裂 / 401 / 记忆不生成 / 延迟）。"
   }
 }

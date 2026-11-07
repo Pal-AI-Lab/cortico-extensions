@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-memory-extra",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "describe": {
     "tools": [
       {
@@ -405,7 +405,7 @@
       },
       {
         "name": "mem_transfer",
-        "description": "记忆迁移操作：导出快照或从 JSON/SQLite 快照迁入。用 action 选择 export 或 import。",
+        "description": "记忆快照导入导出及单写者同步交接。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -418,9 +418,12 @@
               "type": "string",
               "enum": [
                 "export",
-                "import"
+                "import",
+                "status",
+                "checkpoint",
+                "handoff"
               ],
-              "description": "export=导出记忆快照；import=迁入记忆快照"
+              "description": "export=导出记忆快照；import=迁入记忆快照；status=同步状态；checkpoint=立即上传检查点；handoff=交出写入权"
             },
             "format": {
               "type": "string",
@@ -440,7 +443,7 @@
             },
             "mode": {
               "type": "string",
-              "title": "merge/replace"
+              "title": "merge/replace/snapshot"
             }
           },
           "required": [
@@ -452,8 +455,8 @@
           "act"
         ],
         "summary": {
-          "zh": "导出记忆快照,或从 JSON/SQLite 快照迁入。",
-          "en": "Export a memory snapshot, or import one from JSON/SQLite."
+          "zh": "导入导出记忆快照，查看同步状态并交接写入权。",
+          "en": "Import or export a memory snapshot, inspect sync status and hand off the writer lease."
         }
       }
     ],

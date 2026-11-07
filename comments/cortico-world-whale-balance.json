@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "name": "cortico-world-whale-balance",
+  "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/687",
+  "total": 3,
+  "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BKOo6",
+      "author": "ForgottenLH",
+      "avatar": "https://avatars.githubusercontent.com/u/53442452?s=64&v=4",
+      "body": "这两条 是我家两只鱼写的 我不懂代码 需要你自己判断一下",
+      "createdAt": "2026-11-07T12:43:03Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BKOoh",
+      "author": "ForgottenLH",
+      "avatar": "https://avatars.githubusercontent.com/u/53442452?s=64&v=4",
+      "body": "> 2026-11-07 20:40。承接 20:16 已经发出去的那一条（气泡自动收起 + 点 X 要重启才回来）。\n> 这一条是**技术细节**，用词往「可核对」上靠，别写成要求。\n\n---\n\n你好，接上一条补一点技术细节，方便你判断值不值得做。\n\n**环境**：插件 0.4.2，Windows 10 19045，`assets\\balance-widget.ps1` 由 PowerShell 5.1 起 WinForms。小窗靠 `BackColor` + `TransparencyKey` 抠透明，**窗口尺寸是固定的**。\n\n**这一点是好消息**：因为透明靠抠色不靠窗口大小，做「收起」**不用改窗口尺寸和布局**，只要在 `Paint` 开头加一个分支——收起时只画鲸鱼那一块然后 `return`，命中区原样不动就行。我们本地就是这么做的，改动很小。\n\n## 我们本地改了什么（仅供参考，不用照抄）\n\n| # | 改动 |\n|---|---|\n| 1 | `Paint` 开头：`if ($script:collapsed) { 画鲸鱼; return }` |\n| 2 | 加状态：`$CollapseSeconds`、`$script:collapsed`、`Set-Collapsed()`（改状态 + `Invalidate()`） |\n| 3 | 1 秒 tick 的倒计时；`MouseEnter` 只在展开态重置计数；点击分支加 `-not $script:collapsed -and` 保护 X |\n\n结果：769 行 → 819 行（第一版）→ **814 行**（现在的版本），`Parser.ParseFile` 0 错误，跑起来正常。\n\n## 三个坑，按我们踩到的顺序\n\n1. **收起态点 X 会把挂件整个关掉。** `closeRect` 的命中判断写在点击分支最前面，收起时照样生效；而收起态**根本不画 X**，用户以为那片是空白，一点就没了。建议：X 的绘制和点击命中**共用同一个「是否显示 X」的判断**，别分两处写。\n2. **改 `assets\\balance-widget.ps1` 之后必须重启挂件才生效。** 正在跑的是旧进程，文件改了看不出来。当时我们是靠「面板里换一次皮肤」触发宿主重新 `startWidget()` 才让它生效的——这个入口很难被发现。\n3. **`assets\\` 属于插件文件，插件一更新就覆盖**，用户改过的全部静默消失（我们这版也一样，下次更新就没了）。\n\n## 三条建议\n\n**① 「收起」做成配置项，别让用户改 ps1。**\n现在想改成 3 秒、8 秒，或者想「悬停展开」而不是「点击展开」，只能改源码。宿主已经通过环境变量传 `WHALE_BALANCE_SKIN` / `WHALE_BALANCE_SHAPE`，再加一个 `WHALE_BALANCE_COLLAPSE` 是同样的路子，成本很低，大概像：\n\n```json\n{ \"collapse\": { \"enabled\": true, \"seconds\": 4, \"openOn\": \"click\" } }\n```\n\n**② 给「挂件被关掉」一个回来的入口。**\n现在点 X 是 `$form.Close()` → 进程退出，宿主那边 `child.on('exit')` 只把 `widget` 置空，**没有重启逻辑**。用户关掉之后只能重启 Coopanion，或者靠「换皮肤」这种副作用把它叫回来。建议面板上加一个显式的「显示挂件」按钮。\n\n**③ 如果做了配置项，顺手解决「改完要重启」这件事。**\n支持的可以热重载；不支持的，保存后弹一句「重启挂件后生效」也行。不然坑只是从 ps1 挪到了配置文件上——用户改完没反应，还是不知道该找谁。\n\n需要的话我可以把我们这版 814 行的文件和 diff 贴上来给你参考，**只是给一个能跑的形状，取舍你自己定**。辛苦啦。",
+      "createdAt": "2026-11-07T12:40:22Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BKOlJ",
+      "author": "ForgottenLH",
+      "avatar": "https://avatars.githubusercontent.com/u/53442452?s=64&v=4",
+      "body": "你好！0.4.2 先谢一句：小窗不再永远置顶之后好用太多了，之前压着浏览器和编辑器挡字，现在点一下就落下去，正合适。\n\n用了几天，有一件事想请你加，另一件事想反馈。我们本地已经在 `assets/balance-widget.ps1` 上改了一版，能用，但要能进你的版本才活得下去（插件一更新 `assets/` 就被覆盖）。\n\n## 一、希望气泡能自动收起\n\n小窗常驻右下角，气泡里是余额、峰谷和倒计时。它一直摊着，桌面上一小块地方就被吃掉了。\n\n想要的行为：\n\n- **收起 = 只留小鲸鱼，不画气泡、不画字**；\n- **点一下小鲸鱼展开**（悬停展开也行，二选一或给个开关）；\n- 展开后隔几秒（我们用 4 秒）自动再收起；\n- **收起时点哪儿都只是展开**，尤其别让右上角那块（原来 `x` 的位置）还能把整个挂件关掉——我们本地踩过，手一滑就关没了。\n\n一个实现上的好消息：**窗口尺寸不用动。** 窗口是靠 `BackColor` + `TransparencyKey` 抠透明的，不是靠大小，所以 Paint 里加个分支、收起时只画鲸鱼那块（`$script:charRect`）就够了，命中区和布局都不用重算。\n\n我们踩到的几个点：\n\n1. 收起状态要用 `$script:` 变量存，否则定时重绘会把它刷掉、气泡自己弹回来；\n2. 5 分钟的数据刷新、换皮肤、换气泡形状都**不要把气泡画回来**；\n3. 定时器只留一个实例（Stop → Start，别叠）；\n4. **拖动（`MouseDown`）和「点一下展开」（`Click`）会互相误触**——我们最后用「收起态点击只展开、展开态点击才刷新」把两者分开，你也许有更干净的做法。\n\n## 二、点了 `x` 关掉之后，就没有入口把它叫回来了\n\n这条跟上面是同一处：点 `x` → `$form.Close()` → `ShowDialog()` 返回 → PowerShell 进程结束，宿主 `src/index.js` 里只是把 `this.widget` 置空，**没有重启逻辑**。\n\n结果：手滑点掉之后，只能重启 Coopanion，或者在面板里换一次皮肤／气泡形状（`setSkin` / `setBubble` 里发现 widget 为空会顺手起来）才叫得回来。这两个办法用户猜不到。\n\n**建议**：面板里加一个「重新显示挂件」的按钮，或者点 World 电源图标时顺手拉起来。\n\n## 三、本地改的几处（供参考，觉得不合适直接丢掉）\n\n769 → 814 行，只加分支，没重写那个单 Paint：\n\n| 改动 | 位置 |\n|---|---|\n| `$script:collapsed` + `Set-Collapsed()`，`$CollapseSeconds = 4` | 变量区 |\n| Paint 最前面一个分支：收起时只 `Draw-Whale` 然后 `return` | `TextRenderingHint` 那行之后 |\n| 点击分支：`if (-not $script:collapsed -and $closeRect.Contains(...)) { Close } elseif ($script:collapsed) { 展开; 重置计时 } else { 原来的刷新 }` | 点击处理 |\n| 一个 1 秒倒计时定时器 + 点击展开 | `ShowDialog()` 之前 |\n\n改前备份成 `.bak-日期`，写前做语法检查，实测可用（点一下展开、4 秒收回、收起态点 `x` 的位置不会整个关掉）。\n\n**要补丁脚本（PowerShell，直接改文件的那种）我可以贴在下面**，不过它是照 0.4.2 的文件写的，锚点对不上新版本就跑不了。\n\n另外提一句：改完 ps1 **必须重启挂件才生效**，光替换文件没用——这点写进 README 大概能省下不少人的困惑。",
+      "createdAt": "2026-11-07T12:10:53Z"
+    }
+  ]
+}

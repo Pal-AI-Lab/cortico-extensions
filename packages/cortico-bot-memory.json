@@ -1,30 +1,31 @@
 {
   "schema": 1,
   "name": "cortico-bot-memory",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "describe": {
     "id": "bot-memory",
     "name": "记忆 Bot 模板",
     "description": "在 Persona 层面复现五层长期记忆(事实库/知识库/反思/人格/档案 + 三级底座 + 混合检索),记忆归 bot 私有,经系统前缀注入、对话实时沉淀。工具与 cortico-world-memory 同源。",
-    "version": "0.1.0",
+    "version": "0.3.0",
     "kind": "bot",
     "api": 7,
     "author": "hth768",
     "license": "MIT",
-    "homepage": "https://github.com/hth768/cortico-extensions",
-    "repository": "git+https://github.com/hth768/cortico-extensions.git",
+    "homepage": "https://github.com/hth768/cortico-bot-memory",
+    "repository": "git+https://github.com/hth768/cortico-bot-memory.git",
     "keywords": [
       "cortico-bot",
       "cortico-kit",
       "memory",
       "memory-management",
       "agent-memory",
-      "bm25"
+      "bm25",
+      "embedding"
     ],
     "tools": [
       {
         "name": "mem_remember",
-        "description": "把值得长期记住的事写进记忆库(事实库去重重排 + 向量索引,之后 mem_recall 可语义找回)。",
+        "description": "把一件值得长期记住的事写进记忆库(同时落「事实库」做去重重排 + 建向量索引,之后 mem_recall 可按语义找回)。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -36,6 +37,22 @@
             "scope": {
               "type": "string",
               "title": "记忆域"
+            },
+            "kind": {
+              "type": "string",
+              "title": "raw/confirmed/inference"
+            },
+            "user_id": {
+              "type": "string",
+              "title": "来源用户"
+            },
+            "session_id": {
+              "type": "string",
+              "title": "来源会话"
+            },
+            "source_ids": {
+              "type": "string",
+              "title": "衍生来源ID"
             }
           },
           "required": [
@@ -47,8 +64,111 @@
         ]
       },
       {
+        "name": "mem_inspect",
+        "description": "查看长期记忆来源与历史状态。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "title": "记忆ID"
+            },
+            "scope": {
+              "type": "string",
+              "title": "记忆域"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "mem_correct",
+        "description": "按 ID 纠正长期记忆，并清理旧索引和关联衍生内容。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "title": "旧记忆ID"
+            },
+            "text": {
+              "type": "string",
+              "title": "正确内容"
+            },
+            "scope": {
+              "type": "string",
+              "title": "记忆域"
+            }
+          },
+          "required": [
+            "id",
+            "text"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "mem_forget",
+        "description": "预览或确认完整遗忘记忆及关联衍生内容。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "title": "记忆ID"
+            },
+            "scope": {
+              "type": "string",
+              "title": "记忆域"
+            },
+            "confirm": {
+              "type": "number",
+              "title": "传 1 执行"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "mem_consolidate",
+        "description": "预览或合并同域重复事实。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "scope": {
+              "type": "string",
+              "title": "记忆域"
+            },
+            "confirm": {
+              "type": "number",
+              "title": "传 1 执行"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
         "name": "mem_recall",
-        "description": "按语义+关键词混合检索长期记忆(scope 留空/填 main = 跨全部域;可填 qq:<QQ号>)。",
+        "description": "按语义+关键词混合检索长期记忆。默认 main 域，scope=ALL 显式跨域。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -64,6 +184,10 @@
             "scope": {
               "type": "string",
               "title": "记忆域"
+            },
+            "session_id": {
+              "type": "string",
+              "title": "来源会话"
             }
           },
           "required": [
@@ -76,7 +200,7 @@
       },
       {
         "name": "mem_recent",
-        "description": "回看本域最近短期对话。",
+        "description": "回看本域最近的短期对话(最多 maxHistory 条)。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -99,7 +223,7 @@
       },
       {
         "name": "mem_overflow",
-        "description": "短期记忆快满时取出最旧的一半条目,便于压缩进 mem_summary。",
+        "description": "短期记忆快满时,取出最旧的一半条目(出窗),让它们被压缩进 mem_summary。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -117,7 +241,7 @@
       },
       {
         "name": "mem_summary",
-        "description": "读或写本域的对话摘要。",
+        "description": "读或写本域的对话摘要。带 text 为写;不带为读。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -129,6 +253,10 @@
             "scope": {
               "type": "string",
               "title": "记忆域"
+            },
+            "source_ids": {
+              "type": "string",
+              "title": "衍生来源ID"
             }
           },
           "required": []
@@ -140,7 +268,7 @@
       },
       {
         "name": "mem_topic",
-        "description": "读或写当前话题。",
+        "description": "读或写当前话题(话题切换时更新它,帮助上下文连贯)。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -152,6 +280,10 @@
             "scope": {
               "type": "string",
               "title": "记忆域"
+            },
+            "source_ids": {
+              "type": "string",
+              "title": "衍生来源ID"
             }
           },
           "required": []
@@ -163,7 +295,7 @@
       },
       {
         "name": "mem_note",
-        "description": "记一条重要信息(硬约束/偏好),常驻进系统前缀。",
+        "description": "记一条「重要信息」(用户明确要求记住的事/硬约束),它会常驻进环境提示词。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -175,6 +307,10 @@
             "scope": {
               "type": "string",
               "title": "记忆域"
+            },
+            "source_ids": {
+              "type": "string",
+              "title": "衍生来源ID"
             }
           },
           "required": [
@@ -187,7 +323,7 @@
       },
       {
         "name": "mem_notes",
-        "description": "列出本域全部重要信息及编号。",
+        "description": "列出本域的全部「重要信息」及编号(编号用于删除)。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -205,7 +341,7 @@
       },
       {
         "name": "mem_forget_note",
-        "description": "按编号(1起)删除一条重要信息。",
+        "description": "按编号(1 起)删掉一条「重要信息」。先 mem_notes 确认编号再用。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -229,7 +365,7 @@
       },
       {
         "name": "mem_knowledge",
-        "description": "沉淀一条通用知识(主题+要点+关键词,同主题合并去重)。",
+        "description": "沉淀一条「通用知识」(主题化的知识条目,区别于 mem_remember 的零散事实)。同主题会合并,事实级去重。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -240,15 +376,19 @@
             },
             "facts": {
               "type": "string",
-              "title": "要点(换行分隔)"
+              "title": "知识要点(多条用换行分隔)"
             },
             "keywords": {
               "type": "string",
-              "title": "关键词"
+              "title": "关键词(逗号分隔,可选)"
             },
             "sources": {
               "type": "string",
-              "title": "来源"
+              "title": "来源(逗号分隔,可选)"
+            },
+            "source_ids": {
+              "type": "string",
+              "title": "衍生来源ID"
             }
           },
           "required": [
@@ -262,7 +402,7 @@
       },
       {
         "name": "mem_knowledge_fact",
-        "description": "把单条知识直接记进知识库(自动提炼关键词)。",
+        "description": "把单条知识文本直接记进知识库(主题取前 30 字,自动提炼关键词)。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -270,6 +410,10 @@
             "content": {
               "type": "string",
               "title": "知识内容"
+            },
+            "source_ids": {
+              "type": "string",
+              "title": "衍生来源ID"
             }
           },
           "required": [
@@ -282,14 +426,14 @@
       },
       {
         "name": "mem_knowledge_recall",
-        "description": "回答问题前先查知识库,命中则直接复用。",
+        "description": "回答问题前先查知识库,命中就直接复用(省去重复搜索)。返回最相关主题及要点。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "query": {
               "type": "string",
-              "title": "查询"
+              "title": "查询/问题"
             },
             "top_k": {
               "type": "number",
@@ -306,7 +450,7 @@
       },
       {
         "name": "mem_knowledge_list",
-        "description": "列出知识库主题数量。",
+        "description": "列出知识库全部主题及数量。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -324,34 +468,38 @@
       },
       {
         "name": "mem_reflect",
-        "description": "沉淀一条反思/交互偏好/纠错;可执行的提炼为交互规则。",
+        "description": "沉淀一条「反思/交互偏好/纠错」(preference/style/insight/correction/pattern)。可执行的会被提炼为常驻交互规则。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "content": {
               "type": "string",
-              "title": "内容"
+              "title": "反思内容(一句话)"
             },
             "type": {
               "type": "string",
-              "title": "类型"
+              "title": "类型:preference/style/insight/correction/pattern"
             },
             "evidence": {
               "type": "string",
-              "title": "证据"
+              "title": "支撑证据(可选)"
             },
             "user_id": {
               "type": "string",
-              "title": "用户ID"
+              "title": "用户ID(默认 main)"
             },
             "confidence": {
               "type": "number",
-              "title": "置信度"
+              "title": "置信度0-1"
             },
             "actionable": {
               "type": "number",
-              "title": "可执行"
+              "title": "是否可执行(1/0)"
+            },
+            "source_ids": {
+              "type": "string",
+              "title": "衍生来源ID"
             }
           },
           "required": [
@@ -365,14 +513,14 @@
       },
       {
         "name": "mem_reflect_rules",
-        "description": "列出已沉淀的交互规则。",
+        "description": "列出已沉淀的交互规则(从可执行反思提炼,常驻指导后续交互)。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "user_id": {
               "type": "string",
-              "title": "用户ID"
+              "title": "用户ID(默认 main)"
             }
           },
           "required": []
@@ -383,22 +531,26 @@
       },
       {
         "name": "mem_persona",
-        "description": "记录某用户的独特相处模式(特征+风格,去重上限20)。",
+        "description": "记录与某用户的独特相处模式(特征列表 + 风格描述,per-user 隔离、特征去重、上限20)。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "user_id": {
               "type": "string",
-              "title": "用户ID"
+              "title": "用户ID(默认 main)"
             },
             "traits": {
               "type": "string",
-              "title": "特征"
+              "title": "相处特征(多条用换行或逗号分隔)"
             },
             "style": {
               "type": "string",
-              "title": "风格"
+              "title": "整体风格描述(可选)"
+            },
+            "source_ids": {
+              "type": "string",
+              "title": "衍生来源ID"
             }
           },
           "required": [
@@ -412,14 +564,14 @@
       },
       {
         "name": "mem_persona_get",
-        "description": "读取某用户人格记忆。",
+        "description": "读取某用户的人格记忆(特征+风格),不存在则提示。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "user_id": {
               "type": "string",
-              "title": "用户ID"
+              "title": "用户ID(默认 main)"
             }
           },
           "required": []
@@ -430,14 +582,18 @@
       },
       {
         "name": "mem_persona_global",
-        "description": "设置/读取全局风格。",
+        "description": "设置/读取全局风格(跨用户统一的人格基调,可选)。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "style": {
               "type": "string",
-              "title": "全局风格"
+              "title": "全局风格(留空为读)"
+            },
+            "source_ids": {
+              "type": "string",
+              "title": "衍生来源ID"
             }
           },
           "required": []
@@ -449,18 +605,22 @@
       },
       {
         "name": "mem_profile",
-        "description": "记/更新某用户人物档案(常驻前缀)。",
+        "description": "记/更新某用户的「人物档案」(称呼/身份/关系等),常驻进环境提示词。合并新事实+去重+上限50。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "user_id": {
               "type": "string",
-              "title": "用户ID"
+              "title": "用户ID(默认 main)"
             },
             "facts": {
               "type": "string",
-              "title": "事实"
+              "title": "人物事实(多条用换行或逗号分隔)"
+            },
+            "source_ids": {
+              "type": "string",
+              "title": "衍生来源ID"
             }
           },
           "required": [
@@ -474,18 +634,22 @@
       },
       {
         "name": "mem_profile_replace",
-        "description": "整体替换某用户人物档案(纠错)。",
+        "description": "整体替换某用户人物档案(用于纠错)。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "user_id": {
               "type": "string",
-              "title": "用户ID"
+              "title": "用户ID(默认 main)"
             },
             "facts": {
               "type": "string",
-              "title": "事实"
+              "title": "正确的人物事实(多条用换行或逗号分隔)"
+            },
+            "source_ids": {
+              "type": "string",
+              "title": "衍生来源ID"
             }
           },
           "required": [
@@ -506,7 +670,7 @@
           "properties": {
             "user_id": {
               "type": "string",
-              "title": "用户ID"
+              "title": "用户ID(默认 main)"
             }
           },
           "required": []
@@ -517,7 +681,7 @@
       },
       {
         "name": "mem_stats",
-        "description": "记忆库统计(域/条数/向量索引/向量来源)。",
+        "description": "记忆库统计:记忆域/条数/向量索引覆盖/当前配置的向量来源。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -531,7 +695,7 @@
       },
       {
         "name": "mem_capture_now",
-        "description": "立即落盘并报告状态(自动捕获为事件驱动)。",
+        "description": "把记忆立即落盘并报告状态(自动捕获为事件驱动,对话实时沉淀,无需轮询)。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -544,7 +708,7 @@
       },
       {
         "name": "mem_flush",
-        "description": "立即落盘。",
+        "description": "把记忆立即落盘(平时自动防抖落盘,一般不用调)。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -557,22 +721,26 @@
       },
       {
         "name": "mem_export",
-        "description": "导出记忆(json/markdown/sqlite,遵循 cortico-memory-export 规范)。",
+        "description": "把全部记忆导出为文件(json/markdown/sqlite 三选,导出与迁入共用同一 cortico-memory-export 规范)。知识库全局包含,其他可按作用域/用户过滤。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "format": {
               "type": "string",
-              "title": "格式"
+              "optional": true,
+              "title": "格式",
+              "description": "json | markdown | sqlite | both(json+md) | all(三者),或用逗号/竖线组合;默认 both。"
             },
             "scope": {
               "type": "string",
-              "title": "作用域"
+              "optional": true,
+              "title": "作用域过滤"
             },
             "outDir": {
               "type": "string",
-              "title": "目录"
+              "optional": true,
+              "title": "导出目录"
             }
           },
           "required": []
@@ -583,7 +751,7 @@
       },
       {
         "name": "mem_import",
-        "description": "迁入导出的记忆文件(默认 merge,可选 replace)。",
+        "description": "把导出的记忆文件(.json 或 .sqlite)迁移/恢复进当前记忆库。snapshot 完整覆盖 ALL 域。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -594,7 +762,9 @@
             },
             "mode": {
               "type": "string",
-              "title": "模式"
+              "optional": true,
+              "title": "合并模式",
+              "description": "merge(默认) | replace | snapshot。"
             }
           },
           "required": [
@@ -604,6 +774,81 @@
         "tags": [
           "write",
           "act"
+        ]
+      },
+      {
+        "name": "mem_sync_status",
+        "description": "查看同步写入权与快照版本。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "mem_sync_checkpoint",
+        "description": "续租并上传当前完整记忆快照。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "act"
+        ]
+      },
+      {
+        "name": "mem_sync_handoff",
+        "description": "上传快照并交出写入权。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "act"
+        ]
+      },
+      {
+        "name": "mem_backfill",
+        "description": "对已捕获但未生成嵌入向量的事实补算向量(用于嵌入提供方离线/故障后的回填)。可选 limit 限制本轮条数,默认 20。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "limit": {
+              "type": "number",
+              "title": "本轮最多处理条数"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "act"
+        ]
+      },
+      {
+        "name": "mem_purge_capture",
+        "description": "预览并清理被误当作入站用户消息的非真人数据(如 self/persona/桌宠互动)。不传 confirm 仅预览;confirm=1 才真正删除疑似 scope。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "confirm": {
+              "type": "number",
+              "title": "传 1 才真正删除;缺省或 0 只预览"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
         ]
       }
     ],
@@ -615,6 +860,7 @@
     }
   },
   "changelog": {
+    "0.3.0": "- 同步 world 版 0.5.0 的持久化、fp16 次正规数修复、向量模型版本管理及完整快照恢复。\n- 新增自动捕获来源排除配置、事实来源与类别、更正/遗忘/重复整理，以及关联衍生内容清理。\n- 新增单写者 Hub 同步：写入租约、定期快照、手动交接和待机保护；同步模式使用 SQLite。\n- 修复 Bot 自动捕获事件域、事实与向量索引关联，增加双设备交接和可靠性测试。",
     "0.2.0": "- (同步 world 版 0.2.5) 捕获过滤加强：`isInboundUser` 新增黑名单，排除 `.self` 结尾、`meta.kind∈{activity,delivered}`、桌宠互动 `desktop-pet.touch`、`persona` 交接笔记，避免非真人消息污染事实库。\n- (同步 world 版 0.2.5) `VectorStore.add` 增加「前 200 字相同」去重，新增 `pendingVectors`/`setVector` 原语与后台回填机制 `backfillVectors`/`scheduleBackfill`；捕获/记忆仅在事实新增时才嵌入，避免重复 embed 与向量堆积；新增 `mem_backfill` 手动回填工具。\n- (同步 world 版 0.2.6) 新增 `mem_purge_capture` 清理捕获污染工具：默认仅预览各 scope 条数并标注疑似非真人域，`confirm=1` 才真正删除；`FactStore` 新增 `listScopes`/`purge`。\n- (同步 world 版 0.2.7) 记忆页新增「清理捕获污染」存储项：点击弹危险确认框，预览写在 `note` 中，确认后只删除疑似 scope，其余数据不动。",
     "0.1.0": "- 初版：在 Persona 层面复现 cortico-world-memory 的五层长期记忆系统，发布为 **bot 扩展**（kind=bot, api=7）。\n- 记忆归 bot 私有：存于 `persona.memoryDir`，经系统前缀注入对话。\n- `systemSegments` 替代 world 的 `envPromptVars` + piggyback 快照（persona 无 `WorldHost.push`，记忆进前缀更干净，且不需要快照去重）。\n- 自动捕获改为 **事件驱动**（`onDelivery` 钩子捕获外部用户消息），替代 world 的 30s 轮询定时器，天然不堆积。\n- 工具表与 world 版同源（`mem_*` 全部保留），移除 piggyback 推送逻辑。\n- `mem_recall` 沿用总量 ≤8000 / 单条 ≤1500 的双截断兜底（防止上下文爆炸）。\n- WebUI Memory 页：记忆统计 / 回忆检索 / 重要信息（可删除）/ 知识库列表。\n- 导出 / 迁入沿用 cortico-memory-export 规范（specVersion 1，json/markdown/sqlite 同源可互换）。"
   }

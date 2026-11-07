@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-fatfish",
-  "version": "0.6.18",
+  "version": "0.6.20",
   "describe": {
     "tools": [
       {
@@ -124,6 +124,8 @@
     ]
   },
   "changelog": {
+    "0.6.20": "- **纯描述修复版，代码与 0.6.19 完全一致**：0.6.19 发布时漏更新了 package.json 的 `cortico.locales` 双语描述与 README（扩展市场「介绍」的数据源），市场详情页看不到 0.6.19 的两个新功能——上下文将满自动交接（需 connector-dsh ≥ 0.2.18）与「只当嘴」模式。本版补齐这两处描述\n- 发布脚本 `release.mjs` 新增硬断言：`cortico.locales.zh/en.description` 必须包含当前版本号，否则发布在阶段 0 直接失败——不再依赖记忆防漏",
+    "0.6.19": "- **上下文接近满时自动交接会话（PR [#15](https://github.com/blacksunshy/coopanion-fatfish/pull/15)，致谢 @yuwanyou）**：DSH 在 `turn-end` 报上下文用量（需 `coopanion-connector-dsh` ≥ 0.2.18）时，桌宠在用量到 90% 自动新建会话、钉住、切过去，并投递一句交接种子；DSH 不报用量时回退到 400 轮兜底。每个会话最多交接一次，新会话绑定（`ready`）后立即发种子，不再等兜底计时器\n- **「只当嘴」模式**：另一个 world 注入 `globalThis.__cooPetSayRaw(text): boolean` 后，批准 / 回答 / 出错 / 回复直接进气泡、不叫醒桌面 AI；回合标记与工具调用保持静默。需要批准/回答时仍会推气泡，人不在线也看得到\n- 修复：原 PR 把 `ready` 处理放进了 `onFrame`，但 `ready` 只走 `onState` 从不进 `onFrame`，导致种子永远要等 4 秒兜底、手动切会话也不会重新上膛——已移到 `onState`；另修正了 `newSession` / `say` 的返回形状与当前 `client.ts` 不符（`{ok:true}` / `{ok:false}`、`string|null`）的编译错误；以及「只当嘴」模式下 `turn-end` 被提前 return 导致交接永不触发的问题",
     "0.6.18": "- **DSH 通知新增 `decisions` 档（默认仍 `results`）**：只穿透 `approval` / `question` / `error` 三类需要人拍板或出错的帧；`turn-start` / `turn-end` / 回复（连同工具调用）**不推、不缓存、不排队**，直接丢弃，普通回合不会叫醒桌宠。`askRemind` 仍独立于档位（它只念白、不叫醒）——两者同时打开时，`question` 由提醒接管，不再额外推一条文字通知，与 `results` 档一致。不写这个新值时行为与 0.6.17 完全一致\n- 非法或缺失的 `notify` 值照旧回落 `results`；从 `results` 热切到 `decisions` 时会清掉尚未发出的回合缓存，兜底计时器不会在切换后补推一条\n- 测试：新增 3 条用例（`decisions` 只放行批准/回答/出错、且不留下回合缓存；`askRemind` 与 `decisions` 互不影响；从 `results` 热切到 `decisions` 且无新帧时，兜底计时器不补推）",
     "0.6.17": "- **选择框提醒（`askRemind`，默认关）**：DSH 弹选择框（`ask_user_question`）时，桌宠直接念一句固定的「请选择」，0/10/60/120 秒各一次，用户选中/跳过/超时立即停；**不叫醒桌面 AI**——省 token，也避免和「DSH 通知」的提醒叠成两句。下一个回合开始（`turn-start` / `turn-end`）也会清掉剩余提醒，不会在已经继续干活之后还在催\n- 开关在「DSH 桥接」组里，可随时关；关闭时行为与旧版完全一致。按住说话键（hush）或关掉朗读时，提醒同样不发声\n- 配套：`coopanion-connector-dsh` ≥ 0.2.17（新增 `question` / `question-end` 帧）。旧 Host 不发帧时该开关无副作用；本扩展也忽略它不认识的帧\n- 测试：新增 4 条 `askRemind` 用例（提醒计时器建立 / 收到答案清除 / 下一回合清除 / 关闭时只发通知），`tsc --noEmit` 通过，`vitest` 93 passed",
     "0.6.16": "合入社区 PR [#11](https://github.com/blacksunshy/coopanion-fatfish/pull/11)（对应 issue [#10](https://github.com/blacksunshy/coopanion-fatfish/issues/10) 的建议 1 与建议 3）。两项都是 opt-in：**不写新键时，行为与 0.6.15 完全一致**。\n\n### 1) 可插拔朗读引擎\n\n- 新增 `engine`：`edge`（默认，内置微软 Edge TTS）或 `http`（你自己的语音服务）\n- `http` 引擎按最小契约工作：`POST {input, voice, speed}` 到 `httpUrl`，返回 `audio/wav` 或 `audio/mpeg`；音频落临时文件后仍走原来的播放链路（Windows MCI / macOS afplay），打断与 `tts_hush` 全部不变\n- `fallbackEdge`（默认开）：HTTP 服务失败或超时**静默回退 Edge**，宠物不会失声；关掉则跳过该句\n- `timeoutMs`（默认 20000）是单次请求上限；`speed`（默认 1，范围 0.25–4）随请求体发出\n- Windows 播放入口改为按文件扩展名选设备（`.wav` → `waveaudio`，`.mp3` → `mpegvideo`），HTTP 返回 wav 也能直接播\n- 桥接半边零改动，无新依赖（用 Node ≥22 自带的 fetch）\n\n### 2) 分句流水线（opt-in，默认关）\n\n- `sentencePipelineEnabled`（默认 `false`）打开后：不超过 `sentencePipelineMaxChars`（默认 40）的气泡按中英句末标点切开，播第 k 句的同时预合成第 k+1 句，句间空隙只剩剩余合成时间\n- 超过阈值的长句仍整段一次合成：首声慢一些，但绝对没有句缝\n- `tts_hush` 兼容：预合成但还没播的片段会被丢弃，不会在打断之后补念\n- 过短的片段（少于 6 字）会并入下一句，不会单独成片段\n\n### 配置文件写坏也不会失声\n\n非法 `engine` 当 `edge` 处理，数值越界会被钳制，缺省的键全部回落到安全默认值。\n\n关于「说话键取消朗读」和「跨扩展一次只一个声音」：这两项的事件源与约定在 desktop-pet core，本包只消费事件，已在主仓提 issue 跟踪（[Pal-AI-Lab/Coopanion#556](https://github.com/Pal-AI-Lab/Coopanion/issues/556)），不在本版范围。",

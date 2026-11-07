@@ -1,0 +1,230 @@
+{
+  "schema": 1,
+  "name": "coopani-world-pz",
+  "version": "0.5.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "pz_state",
+        "description": "The survivor right now, as the game itself wrote it out: in-game day and clock, whether it is night, indoors or outside and which room, health, infection, hunger, thirst, fatigue, stamina, and the mood stats (pain, panic, stress, unhappiness, boredom), how many zombies are visible, what is in your hands and its condition, and roughly what the bag holds. Also says whether the data is still arriving. Use this whenever you need to know what is happening right now.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "读此刻的完整处境：第几天、几点、血、感染、饿渴累、心情、视野里多少僵尸、手上拿的什么、背包有什么。",
+          "en": "The current situation in full: day, clock, health, infection, needs, mood, visible zombies, weapon and bag."
+        }
+      },
+      {
+        "name": "pz_recent",
+        "description": "The last few things that actually happened, oldest first: damage taken, getting infected, kills, nightfall, death. Each carries the in-game day it happened on. Use it to remember the run of play instead of guessing.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "description": "How many to return, 1-20. Defaults to 8.",
+              "minimum": 1,
+              "maximum": 20
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "最近发生的事：掉血、感染、击杀、入夜、死亡，按时间顺序。",
+          "en": "The last things that happened: damage, infection, kills, nightfall, death."
+        }
+      },
+      {
+        "name": "pz_tips",
+        "description": "A checklist computed from the current state, not from opinion: missing bandages, no water, no light source after dusk, weapon about to break, stamina gone, infection. Empty when nothing is wrong. Use it when the person asks what they should do next or why they keep dying.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "按当前状态算出来的检查清单：缺绷带、没水、没光源、武器快断、体力见底、感染。没问题时是空的。",
+          "en": "A checklist computed from the state: bandages, water, light, weapon condition, stamina, infection."
+        }
+      },
+      {
+        "name": "pz_journal",
+        "description": "Your own survivor notebook — first person, across runs. Read it with no arguments. `add` writes one short line into a section (alive = how this run is being lived, death = which step killed me, next = what to watch for, unsure = not figured out yet). `drop` removes the first line containing that text. This is NOT a tips sheet: bandages and stamina belong in pz_tips. Write only after a run ends or after a mistake worth remembering — not every close call.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "add": {
+              "type": "string",
+              "description": "One line, first person, at most 120 characters. A conclusion you actually reached, not a sentence copied from a guide."
+            },
+            "section": {
+              "type": "string",
+              "enum": [
+                "alive",
+                "death",
+                "next",
+                "unsure"
+              ],
+              "description": "Where it belongs. Required with `add`."
+            },
+            "drop": {
+              "type": "string",
+              "description": "Remove the first line containing this text."
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "读/写她自己的陪玩日记：这局怎么活的、死在哪一步、下回注意、还没想明白。",
+          "en": "Reads and writes her own survivor notebook, across runs."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "pz.session.start",
+        "description": {
+          "zh": "他进游戏了。",
+          "en": "A save was loaded."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "pz.day.start",
+        "description": {
+          "zh": "游戏内换了一天。",
+          "en": "A new in-game day started."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "pz.dusk",
+        "description": {
+          "zh": "天在暗了（19 点后、还没入夜）。",
+          "en": "Dusk: past 19:00 and not yet night."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "pz.night",
+        "description": {
+          "zh": "刚入夜。",
+          "en": "Nightfall."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "pz.danger",
+        "description": {
+          "zh": "视野里的僵尸跨了一档。",
+          "en": "The visible-zombie count jumped a band."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "pz.hurt",
+        "description": {
+          "zh": "掉血。",
+          "en": "Took damage."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "pz.need",
+        "description": {
+          "zh": "他自己的状态跨了一档：饿、渴、累、体力、疼、惊恐、压力、心情、无聊。",
+          "en": "One of his own condition stats crossed a band: hunger, thirst, fatigue, stamina, pain, panic, stress, mood, boredom."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "pz.weapon",
+        "description": {
+          "zh": "手上的武器耐久见底了（20% 以下，5% 以下会再报一次）。",
+          "en": "The weapon in hand is nearly worn out: under 20%, and again under 5%."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "pz.tv",
+        "description": {
+          "zh": "前期电视上有技能课（Life and Living TV）：烹饪、木工、钓鱼、农业、采集。开播前 30 分钟到开播后 60 分钟之间提一次，一天最多一次，第 5 天之后不提。",
+          "en": "A free skill programme is on or starting soon on Life and Living TV. Mentioned once a day, first five days only."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "pz.loot",
+        "description": {
+          "zh": "他正打开的那个容器里有值得停一下的东西（大锤、发电机、好武器、工具、背包、光源、车钥匙）。只看他已经打开的那一个，不预告没翻过的地方。",
+          "en": "The container he has open holds something worth pausing for. Only the one he opened - never a room he has not searched."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "pz.infected",
+        "description": {
+          "zh": "被感染了。",
+          "en": "Got infected."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "pz.death",
+        "description": {
+          "zh": "死了。",
+          "en": "Died."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "pz.kill",
+        "description": {
+          "zh": "一小会儿里连杀了好几只。",
+          "en": "Several kills in a short stretch."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "pz.nudge",
+        "description": {
+          "zh": "清单里那条还悬着（没水、没绷带、武器快断这类），隔一阵提醒一次，换着说法。",
+          "en": "A checklist item is still open; a periodic nudge, reworded each time."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "pz.setup",
+        "description": {
+          "zh": "这台机器的环境不对：找不到存档目录、mod 没装进去、或者一直没有数据。",
+          "en": "Environment problem: no save dir, mod not installed, or no data at all."
+        },
+        "trigger": "flush"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.4": "**我上一轮把方向给反了，而且前几轮追错了优先级。**\n他从第二句起问的其实是「肥鱼能不能出现在画面上」，我却一直在修数据通道。\n\n### 「勾上无边框」是错的\n\n0.1.1 说独占全屏绕开 DWM、改成无边框就好。实测：他照改成\n`borderless=true / fullScreen=false` 之后依旧看不见她。\n\n游戏在前台时的真机事实：桌宠窗口 `0,0-2560,1437`、`WS_EX_TOPMOST`、\n`IsWindowVisible=true`、在 `GetTopWindow` 的 Z 序里位于所有可见窗口最顶；\n`desktop-pet` world 是 active、桌宠窗口灯 online；可屏幕画面里没有她一个像素。\n**Windows 11 对独占全屏和无边框满屏都会启用全屏优化 / 独立翻转，绕开 DWM 合成** ——\n这不是 Z 序问题，`SetWindowPos` 再多次也没用。0.1.2 加的置顶守护对这种情形无效，\n只在「普通窗口抢了 Z 序」时有用。\n\n唯一可靠解法是**带标题栏的普通窗口模式**：`fullScreen=false` + `borderless=false`。\n\n### 本轮改动\n\n- `readDisplayMode`：`exclusiveFullscreen` 从「仅 `fullScreen=true 且 !borderless`」\n  改成「`fullScreen=true` **或** `borderless=true`」。用户实际踩的正是\n  `borderless=true / fullScreen=false` 这一档，上一版判成 false，所以一直没提醒。\n- `pz_tips` / `pz_state` / 灯 / 提示词 / README 里所有「勾上无边框」全部订正成\n  「**关掉**无边框，用带标题栏的窗口模式」，并写明重新置顶对全屏路径无效。\n- `petlift.ts` 注释写清能力边界，不再暗示它能解决全屏合成问题。\n- 测试补了一档 `borderless=true / fullScreen=false` 必须判 true。54/54 通过。\n\n### 两个踩坑（供以后别再犯）\n\n1. **运行中的 PZ 会把 `options.ini` 写回去。** 我在游戏开着时把 `borderless` 改成 false，\n   几秒后读回来又是 true。要改只能在游戏完全退出后，或者让他在游戏内选项里点保存。\n   备份留在 `Zomboid/options.ini.bak-coopani`。\n2. **GDI `BitBlt` 抓屏对透明分层窗口不可靠。** 我拿它当「她不在画面上」的证据查了几轮，\n   实际上 layered 窗口可能根本不进 GDI 抓到的画面。以后这类判断要么用\n   DXGI Desktop Duplication，要么直接问用户一个能一刀切开现象的确认问题。\n\n另外把 `worlds.desktop-pet.window.hideWhenFullscreen` 显式写成 `false`\n（原来只是没存、走默认），排除「她被自动隐藏」这个变量；\n`config.json` 备份在 `config.json.bak-pz-pet`。",
+    "0.1.3": "**这一轮才是真根因。** 上一版让他「完全退出游戏重开」，他照做了：\n`console.txt` 里 `loading CoopaniBridge` 有了，`[CoopaniBridge]` 横幅也有了，\n存档 66 个文件在 15:33 后写入（`exit GameLoadingState`），人确实站在地图上了 ——\n**可 `state.json` 一个字节都没有**。\n\n### 根因：`getFileWriter` 少传了第三个参数\n\nB42 的 vanilla 和所有已装 mod 都写 `getFileWriter(path, true, false)`（三参数）：\n`MainOptions.lua` 写 `keysB42.ini`、`ISLayoutManager.lua` 写 `layout.ini`，全是这个形状。\n我们那份是 `getFileWriter(B.OUT_FILE, true)` —— 少一个参数，Java 侧直接失败。\n而 `writeState` 和 `buildJson` 外面各套了一层 `pcall`，错误全被吞掉，\n`if not w then return end` 之后连一句日志都没有。**这是我自己 0.1.0 时改坏的**，\n当时为了躲「`w:flush()` 方法不一定存在」，顺手把三参数改成了两参数。\n\n- 恢复 `getFileWriter(B.OUT_FILE, true, false)`，仍不调 `w:flush()`。\n- 输出路径改成**单文件名** `coopani-pz-state.json`，跟 `layout.ini` 一样落在 `Zomboid/Lua/` 根；\n  不再用 `coopani-pz/state.json` 子目录（`create=true` 不保证建中间目录）。`paths.ts` 同步。\n- **加一次性诊断**（全 ASCII，GBK 日志不会乱码，最多 8 行）：\n  `OnGameStart fired` / `OnTick fired` / `writer returned nil` / `write failed: ...` /\n  `json failed: ...` / `first state written (N bytes)`。\n  以后再失败，日志直接指出卡在哪一步，不用再查三轮。\n- `gamewatch` 的 bridge-error 判定改成「行首是 ERROR/WARN」，否则诊断里的\n  `failed` / `nil` 会被误判成「脚本炸了」。\n- 新 `test/lua-contract.test.mjs`（10 条）钉死这条跨语言契约：\n  两份 Lua 一致、三参数、单文件名、Node 读的是同一个文件、失败有日志、横幅是 ASCII。\n\n### 顺带\n\n- `diagnoseNoData` 的 `not-loaded` 不再一口咬定「他没读档」：\n  真站在地图上时，文案会指向 `console.txt` 里的 `[CoopaniBridge]` 诊断行。\n- 测试 44 → **54** 条，自检 33/33 全过。",
+    "0.1.2": "反馈：「mod 也找不到，也浮不上来」。这一轮两条都是**我上一版判断漏了**。\n\n### 一、mod 找不到：B42 的模组选择器不列没声明版本的本地 mod\n\n`mods/CoopaniBridge/mod.info` 里只有 `name/id/author/modversion/description`，\n**没有 `poster`，也没有 `versionMin`** —— 而 B42（本机 `42.21.0`）的模组选择器\n会把这类 mod 归成旧版，列表里根本不出现。文件明明在，人就是勾不着。\n\n- `mod.info` 补 `poster=poster.png` + `versionMin=42.0`，生成海报。\n- 补一份 `42.0/` 版本目录（`mod.info` + `poster.png` + `media/lua/client/`），\n  照 B42 现有 mod 的目录规范来 —— CommonSense 就是根 + `42.0/` 两份并存。\n- Lua 加 `_registered` 锁：B42 可能把根 `media` 和 `42.0/media` 都挂进 Lua 路径，\n  同名脚本跑两遍会让 `OnTick` 注册两次，state.json 每拍写两遍、事件计数翻倍。\n- **不再让他去找。** `ensureModEnabled()` 直接把 `mod = CoopaniBridge,` 写进\n  `mods/default.txt` —— 格式是 `mod = <ID>,`，**不是** `ID=ID`（写错会静默失效）。\n  只加自己那一行，别人勾的 mod 原样不动；游戏退出时若抹掉，30 秒内自动补回。\n  `pz_state` 回执里多了「模组列表」一行。\n\n### 二、浮不上来：无边框满屏照样被 Windows 当全屏\n\n上一版归因为「独占全屏」，他改成 `borderless=true / fullScreen=false` 之后依旧。\n查实：桌宠窗口是 `TOPMOST` 且可见，宿主也设了 `alwaysOnTop('screen-saver')`，\n「全屏时自动隐藏」那个开关在配置里根本没存（默认关）。所以不是被隐藏，是层级。\n\n- `src/petlift.ts`：游戏在跑时每 5 秒把桌宠窗口重新 `SetWindowPos(HWND_TOPMOST)`，\n  用宿主自带的 koffi 直接调 `user32.dll`，不 spawn 进程、不抢焦点、不改位置大小。\n  找不到窗口或加载不了就安静降级，绝不拖累数据通道。\n  真机日志已确认：`桌宠置顶：ok`。\n- 新增设置「游戏运行时把她抬到最上层」（默认开）。关掉不影响她说话，只影响看不见她。\n- 提示词加了分寸：还看不见就把游戏窗口改小一档（关掉无边框），这条只说一次。\n\n### 三、顺带\n\n- `diagnoseNoData` 的 `not-loaded` 补了一句：**改过模组列表要完全退出游戏重开**，回主菜单不算。\n- 测试 35 → **44** 条（新增一组专盯模组列表写入：格式、幂等、保留他人 mod、换行风格、格式异常不动手）。\n- 自检 33/33 全过。",
+    "0.1.1": "反馈：「打开了游戏，怎么感觉没反应」。查下来两件事：**没建过档**、**模组列表里没勾**。\n但扩展当时只会说一句「游戏还没写出数据」——四种原因混成一句，他只能猜。这一版把诊断拆开。\n\n### 新：能分清「读不到」是哪一步没成\n\n`src/gamewatch.ts`，三个判据全来自游戏自己写的文件：\n\n| 判据 | 来源 | 回答什么 |\n|---|---|---|\n| 在不在跑 | `console.txt` 是否还在被写（90 秒内） | 「游戏没开」还是「开着」 |\n| 有没有档 | `Saves/<模式>/<档名>` 的层数 | 「还没建过档」还是「有档」 |\n| mod 勾没勾 | `mods/default.txt` 里有没有 `CoopaniBridge` | 「文件放了」还是「游戏里也勾上了」 |\n\n诊断顺序就是修的顺序：没开 → 没勾 → 脚本报错 → 没建过档 → 没读档进世界。\n每种给的是**下一步点哪儿**，不是「扩展坏了」。\n\n- **新**：`bridgeError` —— console.txt 里「同一行既提到 CoopaniBridge 又像报错」才算。PZ 启动时会念一遍 mod 名，光看见名字就判报错会制造新的误诊。这条专门用来区分「还没读档」和「读档了但 Lua 炸了」。\n- **新**：`pz_state` 的回执里摊开这三个事实，她答「怎么没反应」时不用猜。\n- **新**：桥接那盏灯现在看的是「游戏里勾没勾」，不是「文件放没放」。文件在但没勾 = 红。\n- **新**：游戏那盏灯三态分清 —— 灰＝他没在玩（正常，不是故障），红＝在玩但我读不到。\n\n### 修：去过重的是「说过没有」，不是「哪一步没成」\n\n`setupDone` 是个布尔值 —— 说过一次就永远 true。\n\n实测翻车：14:28 那句「去找游戏」发出时他还没启动游戏，之后就一直是 true；\n14:45 他真的开了游戏，情况已经变成「模组没勾」，**这是新情况**，\n但布尔值只知道「说过了」，于是她一句不再说，他只能在群里问「怎么感觉没反应」。\n\n改成按**原因**去重（`setupKey` = closed / mod-off / bridge-error / no-save / not-loaded / no-root）：\n原因变了就再说一次，同一种情况十五分钟内不重复，数据通了就把钥匙清掉。\n\n顺带两条：\n- 游戏重开（`console.txt` 被重写、变小）时也清一次钥匙。\n- 世界刚挂上头四秒不推 —— 那时宿主的事件流水线还没转起来。\n\n### 新：独占全屏她会浮不到画面上\n\n「僵毁打开的时候肥鱼到不了屏幕上」不是扩展的锅：PZ 默认 `fullScreen=true` + `borderless=false`，\n那是**独占全屏**，绕开桌面合成器，任何置顶窗口物理上都画不上去。\n\n- 读 `options.ini` 的 `fullScreen` / `borderless`，`exclusiveFullscreen` 进 `pz_state` 的回执和检查清单。\n- `pz_tips` 里会出现一条：改「选项 → 视频 → 无边框」。\n- 提示词加了一条分寸：这条只提一次，别每回合念。\n\n### 修：手填的路径不再偷偷回落到默认位置\n\n之前「填的路径不存在」会继续去 `%USERPROFILE%\\Zomboid` 找 —— 填错一个路径，扩展照常在别处工作，\n他改了半天配置看不出改的是什么。现在填了只认那一处，错了就明说错了。\n\n- 测试从 24 条加到 35 条（多的一组专盯几种诊断不串味，外加独占全屏的判定）。",
+    "0.1.0": "第一版。形态是**桌面陪玩**：她坐在旁边看，不是游戏内的 NPC（那一期单独做，数据格式已经留了口子）。\n\n### 数据通道\n\n- 新：`pzmod/CoopaniBridge` Lua mod，把玩家状态与事件覆盖写到 `Zomboid/Lua/coopani-pz/state.json`，约两秒一次。\n- 新：扩展启动时自动把 mod 拷进 `Zomboid/mods/CoopaniBridge`，带版本戳，升级会覆盖。不写 README 让人手动拷 —— 换台机器就是缺的，而缺了不报错。\n- 新：解析器兼容「追加写」的实现，读不到整份时取文件里最后一个完整对象。\n- 取值取不到时写 `null` 而不是 `0`：0 是「身上真没有」，null 是「不知道」，这两种说法在她嘴里必须分开。\n\n### 感知与事件\n\n- 新：`perception.ts` —— 把字段翻成人话（血量档位、需求档位、僵尸档位、位置描述）。**不推算日落时间**，只有「游戏说现在算不算夜里」和「天在暗了」这一个定性判断。\n- 新：十种事件 —— 开局、换天、天在暗了、入夜、僵尸跨档、掉血、感染、死亡、连杀、环境不对。\n- 新：僵尸档位按天记，「同一档一天只说一次」，档位边界抖动不会反复报。\n- 新：一分钟最多八条主动事件，urgent 的（感染、死亡、重创）绕过节流。\n- 修：判断「第一次读到数据」用独立的 `armed` 标志，不用 `lastN === 0`。后者会让第一份「从来没出过事」的数据一直停在 0，于是第一次真出事（掉血、死亡）被当成「刚启动」吞掉。\n\n### 工具\n\n- `pz_state` / `pz_recent` / `pz_tips` / `pz_journal`。\n- `pz_tips` 是按状态算的检查清单（缺绷带、没水、没光源、武器快断、体力见底、感染），不是建议。\n- `pz_journal` 是跨档的陪玩日记，四节（这局怎么活的 / 死在哪一步 / 下回注意 / 还没想明白），一节上限 8 条，原子写。\n\n### 提示词与界面\n\n- 新：`ENV_PROMPT.md`，含四条口吻、三条硬约束（不许编 / 不许替他打 / 不许说教）。\n- 新：面板显示她此刻看到的东西，三盏灯（游戏 / 桥接 / 日记）。\n- 新：口吻做成设置页下拉框，四档。\n\n### 测试\n\n- 24 条：契约（describe.json 与代码一致、配置键前缀）、数据通道（追加写、半截 JSON）、感知（未知 ≠ 零）、事件（不重放历史、档位只报一次、安静模式）、端到端（找不到目录怎么说、装 mod、读档后开口）。"
+  }
+}

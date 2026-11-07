@@ -2,8 +2,31 @@
   "schema": 1,
   "name": "coopani-world-journey",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/586",
-  "total": 17,
+  "total": 20,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BKOdH",
+      "author": "fateSSD",
+      "avatar": "https://avatars.githubusercontent.com/u/120785478?s=64&v=4",
+      "body": "ok，感谢\r\n\r\n\r\n\r\n\r\n\r\n\r\n一个普通的上班族\r\n***@***.***",
+      "createdAt": "2026-11-07T11:26:09Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BKOce",
+      "author": "JoL1013",
+      "avatar": "https://avatars.githubusercontent.com/u/15888066?s=64&u=7198a26929ae996cda131944a44240dd3cd3683c&v=4",
+      "body": "您好，测试了一下0.9.7和最新0.9.8，在婺源还是会出现油菜花。用工具跑了一下原因，看起来是 geo/cities.ts 中wuyuan会有“油菜花田成片明黄”的描述，导致生图时的正向提示词会有油菜花的描述，负向提示词会削弱效果，但不能完全规避油菜花。\n```markdown\n# 0.9.7 反馈：视觉锚点不分季节，「11 月还有整片油菜花」\n\n**环境**：Coopani + 大肥鱼环游世界 **0.9.7**；生图走本地 ComfyUI（API 模式），\nworkflow 是 Z-Image 那一套（`UNETLoader` + `CLIPLoader` + `KSampler`，cfg 4.0、25 步、1216×832）。\n\n## 一、现象\n\n在婺源，11 月拍地面照。提示词里已经有季节句（「香樟和女贞还是深绿，银杏金黄，乌桕转红…」），\n但画面正中仍然是一整片明黄的油菜花田——**秋天和春天同框**。\n\n负向提示词（`油菜花、rapeseed flowers`）确认已经送到 ComfyUI（负向节点非空），压不住。\n按前一版的结论，这是正常的：负向只是一个词，压不过一句具体的、带位置的正向描述。\n\n## 二、定位\n\n`geo/cities.ts` 的视觉锚点是**全年一句话**：\n\n```ts\nwuyuan: '山谷里白墙黛瓦的徽派村落，马头墙层层跌落，油菜花田成片明黄，溪水清浅，背后是常绿低山',\n```\n\n`photo.ts` 里 `vistaOf(cityId)` 只吃 cityId，不看月份：\n\n```ts\nconst vista = sky || scene.onRoad ? '' : vistaOf(scene.cityId);\n```\n\n而同一个文件里，`FESTIVALS` 早就记着花期了：\n\n```ts\nwuyuan: [{ name: '油菜花', months: [3], what: '田里全黄了，村子被围在中间' }],\n```\n\n只是没人用它。`seasonLine`（0.9.7 新加的）是**追加在锚点后面**的，于是两句话并存：\n模型两边都听，就成了「银杏红枫 + 整片油菜花」。\n\n## 三、对照实验\n\n固定同一颗种子、同一个负向词，**只改正向里的一小段**（本地 ComfyUI 直接提交，绕开 UI）：\n\n| 正向改了什么 | 明黄像素占比 | 画面 |\n|---|---|---|\n| 原样（0.9.7 实际发的） | **9.7%** | 中间一整片油菜花 + 秋天树 |\n| 只删掉「，油菜花田成片明黄」 | **2.3%** | 花田消失，剩下的是银杏落叶 |\n| 删掉整个视觉锚点 | 0.4% | 只有街和树 |\n| 换成「新翻的土和收过的稻茬」 | 2.4% | 收割后的稻田 |\n\n判据很直白：**锚点里那半句就是唯一的触发源**。删它，画面立刻干净。\n\n## 四、建议修法\n\n让锚点跟着花期走。改动两处：\n\n**`geo/cities.ts`**——`vistaOf` 加月份，不在花期就把带花名的那一小段摘掉：\n\n```ts\nexport function vistaOf(cityId: string | undefined, month = 0): string {\n  if (!cityId) return '';\n  const v = VISTA[cityId] ?? '';\n  if (!v || month < 1 || month > 12) return v;          // 不传月份＝老行为\n  const drop = (seg: string): boolean =>\n    FLORA.some((flower) => seg.includes(flower)\n      && (FESTIVALS[cityId] ?? []).some((f) => f.name.includes(flower) && !f.months.includes(month)));\n  const kept = v.split('，').filter((seg) => !drop(seg));\n  return kept.length ? kept.join('，') : v;\n}\n\n/** 会被写进锚点的花木名。只列「一开就占满画面、过季完全消失」的那几种。 */\nconst FLORA: readonly string[] = [\n  '油菜花', '樱花', '桃花', '杏花', '梨花', '梅花', '牡丹', '荷花', '桂花', '红叶', '杜鹃', '薰衣草',\n];\n```\n\n**`photo.ts`**——把月份传进去（`scene.month` 本来就有）：\n\n```ts\nconst vista = sky || scene.onRoad ? '' : vistaOf(scene.cityId, scene.month ?? 1);\n```\n\n设计上两个取舍：\n\n- **花期一律以 `FESTIVALS` 为准**，不另造数据；\n- 城市没有对应节日数据的，**一律不动**——宁可不改，不要瞎改。\n  （汉中那种「汉中油菜花节」和锚点「春季油菜花铺成明黄」字样对不齐的，\n  靠 3 字窗口或花名表兜住，我这里用花名表，行为可预期。）\n\n## 五、改完的验证\n\n同一套代码、同一个场景，只改月份：\n\n```\n11 月：…马头墙层层跌落，溪水清浅，背后是常绿低山…  银杏金黄，乌桕转红…      → 无「油菜花」\n 3 月：…马头墙层层跌落，油菜花田成片明黄，溪水清浅… 柳芽嫩黄绿，玉兰和樱花先开… → 有「油菜花」\n```\n\n- 11 月实际补拍：负向节点非空，正向里已无「油菜花」，成图明黄 4.2% → **0.9%**（只剩银杏落叶）\n- 3 月同种子重跑：油菜花回来了，季节句自动换成春天那套（玉兰、樱花）\n\n两张对照图见附件（11 月版 / 3 月版）。\n\n## 六、附\n\n- 这类「锚点是全年一句、花是季节性」的城不止婺源：汉中（油菜花）、无锡（樱花）、\n  北京/济南（红叶）都是同一个形状，一起改比较划算。\n- 0.9.7 的季节句方向是对的，只是它救不了锚点里写死的那半句。\n\n```",
+      "createdAt": "2026-11-07T11:21:03Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BKOma",
+          "author": "fateSSD",
+          "avatar": "https://avatars.githubusercontent.com/u/120785478?s=64&v=4",
+          "body": "已修，感谢🙏",
+          "createdAt": "2026-11-07T12:22:19Z"
+        }
+      ]
+    },
     {
       "id": "DC_kwDOVLPtGM4BKJ1y",
       "author": "fateSSD",
