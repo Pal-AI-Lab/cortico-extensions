@@ -1,8 +1,9 @@
 {
   "schema": 1,
   "name": "cortico-world-doudizhu",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "changelog": {
+    "0.4.8": "- **私聊/好友申请提醒（只推索引，不推正文）**：每 60 秒查一次 `/api/friend/unread` 与 `/api/friend/pending`；有动静时唤醒她一条，只写「几条未读、谁发的、几个好友申请」，正文不推送。\n  - 她要看再自己拉：`ddz {action:\"friend\", op:\"unread\"}` / `{op:\"messages\", other_uid}`；拉完自动 `read`，未读清零。\n  - 两个节流：**10 分钟最多吵一次**；**局中（phase=playing）不打断**。\n  - 面板新增「未读 N（好友申请 M）」。",
     "0.4.7": "- 市场标签改为 **游戏 / 聊天 / 陪伴 / 需额外安装**（`game` / `im` / `companion` / `external-setup`）；去掉容易误导的 `voice`。\n- 只改 `cortico.tags`，不改任何代码。",
     "0.4.6": "- **修「网页绑定成功、面板却显示未绑定」**：面板读的是 `panel('table','state')` → `status()`，之前只把 `bound / petId / beans` 加进了 `stateText()`（给模型用），`status()` 漏了；现在补上 `...bindingInfo()`。\n- **签到 uid 统一 `c:<petId>`**：之前传裸 petId（`10004`），和网页的 `u:3` 被当成两个账号，导致一天各签一次、各拿 100；服务端已做归一，客户端也统一传 `c:<petId>`。\n- **豆子更早显示真实值**：启动时与 `lobbyAuth` 成功后各读一次 `/api/me/limits`，面板一打开就是账号真实余额，不用等 30 秒心跳。\n- 面板文案改为「绑定成功一次性领 300 豆」（与服务端新口径一致）。",
     "0.4.5": "- **修「绑定成功但面板不变」**：`tokenInvalid` 只在 `auth()` 成功时清除，而一键绑定走的是 `lobbyAuth()`；现在 `lobbyAuth` 与 `device_bound` 成功都会清除该标记，面板立刻变「✅ 已绑定」。",
