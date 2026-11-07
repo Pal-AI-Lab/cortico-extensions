@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-bili-watch",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "describe": {
     "tools": [
       {
@@ -584,7 +584,7 @@
       },
       {
         "name": "bili_publish",
-        "description": "Publish a PUBLIC comment. Preparation binds platform, account, target and draft; never reuse\na brief across destinations. A changed draft returns a renewed needs_review brief without sending.\n\nFor a notification supply `inboxId`; otherwise supply a full target and a **stable requestId**.\nReuse the same requestId when checking a retry. An unknown result is pending confirmation,\nnot a definite failure - do not bypass it by changing text or requestId at the same target.\n\n`sent` means accepted, not verified public visibility. Check `delivery`: public is guest-list\nverified, self-only is platform restricted, unconfirmed is inconclusive.\n**Never repost self-only or unconfirmed receipts automatically.**",
+        "description": "Publish a PUBLIC comment. Preparation binds platform, account, target and draft; never reuse\na brief across destinations. A changed draft returns a renewed needs_review brief without sending.\n\nFor a notification supply `inboxId`. For a prepared reply just pass `briefId` — the target\nand a stable requestId are derived from the brief, so do **not** re-supply them.\nOnly a bare new comment (no preparation) needs a full `target` plus a **stable requestId**.\nReuse the same requestId when checking a retry. An unknown result is pending confirmation,\nnot a definite failure - do not bypass it by changing text or requestId at the same target.\n\n`sent` means accepted, not verified public visibility. Check `delivery`: public is guest-list\nverified, self-only is platform restricted, unconfirmed is inconclusive.\n**Never repost self-only or unconfirmed receipts automatically.**",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -633,7 +633,7 @@
             "requestId": {
               "type": "string",
               "maxLength": 180,
-              "description": "Stable idempotency key for a new top-level comment or an unsolicited thread reply."
+              "description": "Stable idempotency key for a new top-level comment or an unsolicited thread reply. Omit it when `briefId` is given (derived from the brief)."
             },
             "text": {
               "type": "string",
@@ -1088,6 +1088,7 @@
     ]
   },
   "changelog": {
+    "0.2.7": "修「bili_publish 明明传了 target、oid、root、parent、type=1，还是报『评论类型仅支持\n视频(1)、动态(11/17)』；补上 retryRejected 又变成『新评论必须提供固定 requestId』；\n最后自己编了个 requestId 才发出去」。\n\n**根因：publish 不会从凭据里取目标。** `bili_prepare` 返回的 brief 里明明存着\ntarget，但 publish 是先 `normalizeTarget(input.target)`、后读 brief —— 于是\n「只传 briefId」必然被判成缺 target；补上 target 又卡在 requestId 上；模型只好\n自己编一个（这次编的是 `reply-323189507152-20261107`），四层防重直接失效。\n\n连带发现（鱼自己也看出来了：「带 briefId 的回复被当成新评论处理」）：kind 判定\n只看 `inboxId`，凭据接楼（`parent≠0`）一律记成 `proactive`。今早 13:51 那条回复\n就是这么落库的 —— 扣的是「主动发言」额度、单人每日上限没生效、记录页还显示成\n主动评论。\n\n- **target 来源**：`input.target ?? brief.target`；两个都没有时给明确提示\n  「缺少发送目标：给 briefId 或完整 target」，而不是误导性的类型错误。\n- **requestId 自动派生**：有 briefId 就用 `brief:<briefId>`，同一个凭据重试必然\n  复用同一键；显式传 target + requestId 的旧用法原样保留。\n- **kind 按目标判定**：接楼（`parent≠0`）记 `reply`，新评论记 `proactive`，\n  推荐仍记 `recommend`。\n- 工具描述同步：有 briefId 就不必再传 target / requestId。\n\n离线验证 5/5（真实 state 副本 + 假网络，不真的发出去，脚本在 `test/publish-brief.mts`）：\n① 只给 briefId 的接楼 → `kind=reply`、`req=brief:71f211fc…`、真正 POST 到 reply/add；\n② 只给 briefId 的新评论 → `kind=proactive`；③ 什么都不给 → 「缺少发送目标」；\n④ 显式 target + requestId 的旧用法仍然 `sent`；⑤ 同一 brief 重发 → `reused`、零重复提交。",
     "0.2.6": "修「评论永远发不出去：发送前的网页会话初始化未完成，第五次了」（鱼的今早反馈，\n01:09 / 01:50 / 07:13 连续同一条失败，含那条推荐）。**根因是我们自己的正则太严**：\n\nB 站 `/x/frontend/finger/spi` 现在返回的 `buvid4` 形如\n`0756E691-…-026110710-L+vm2UgL2gLgfi0jMRiupw==`，**带 `+` 和 `=`**；旧校验\n`^[A-Za-z0-9_-]{8,200}$` 不含这两个字符，于是每次都被判「形状不对」，直接抛错，\n一条都没提交到 B 站。\n\n为什么之前好好的：11-04/05 用的是手动粘贴的浏览器完整 cookie，里面本来就带\n`buvid3/buvid4`，`prepareSession` 直接早退；重新扫码登录后 cookie 只有\n`SESSDATA/bili_jct/DedeUserID`，每次发送都要去要 buvid —— 于是从那天起全灭。\n\n- 正则改为 `^[\\w+/=.-]{8,400}$`，只挡真正会破坏 cookie 拼接的字符（`;`、空白、引号、控制符）。\n- **`buvid` 降级为非必需**：`spi` 拿不到或字段仍不合法就跳过、照常发送。\n  设备指纹只是「让请求更像正常浏览器」，不该成为发送的硬门槛；真有问题让 POST\n  返回准确错误码，比在本地把评论拦死有用。\n- 顺带把 CHANGELOG 里被误插到顶部的 `0.1.15` 挪回原位。",
     "0.2.5": "修推荐额度提示与实际不一致（鱼提出的：机会文本写「还能推荐 1 次」，真去 prepare\n被拒「额度已用完 2/1」）。**根因是事件文本是快照、配置会热变更**：hint 打包时\n上限还是 3（3−2=1），之后主人把上限调成 1，prepare 按实时的 1 算就拒了。\n\n- **hint 明确时效**：`今天还能推荐 N 次（上限 M，**这是打包这句时的数字，\n  以 prepare 返回的实际剩余为准**）`。\n- **拒绝文案解释反常比值**：`已用 2 次 / 上限 1 次，上限比已用次数小——可能被调小过`\n  —— 不再让人以为「2/1」是 bug。\n- 「剩余为 0 时整段不出现」本来就有（离线验证：上限 1 / 已用 2 → 返回 0 行）；\n  离线 6/6：整段消失、上限 3 时出现且含免责、剩余不为负。",
     "0.2.4": "**观察帧全灭的真凶抓到了（真机复现）**：`browser.montage` 用 `page.evaluate(fn, a, b, c, d, e, f)`\n**多参数传参 —— 那是 puppeteer 的签名，playwright 的 evaluate 只接受一个参数**。\n于是 `nc/nr/w/h/q` 全是 undefined → canvas 尺寸算成 NaN → 拼图抛错被吞成 null →\n`renderScene` 每次都\"拼图返回空\"。`look` 一直正常是因为它用字符串内联参数。\n\n- 修：montage 改为传**单个对象参数** `{ jpegs, nc, nr, w, h, q }`。\n- 真机复现验证（8 秒间隔跑 45 秒）：**5 帧全部投出**，每帧带图 37–92KB，\n  自动检测到「0:34 画面切换」，分镜/弹幕/进度齐全，`scenes=5`。\n- 顺带保留 0.2.3 的诊断日志（采样失败/候选池空/拼图空/投递异常）——\n  这次就是靠「观察帧跳过：页面拼图返回空」一句话定位到 montage 的。\n- 启动期前几秒 `readyState<2` 会有几次采样失败（正常，日志只在首次和每 60 次时打）。",
