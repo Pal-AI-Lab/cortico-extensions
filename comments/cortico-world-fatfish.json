@@ -2,14 +2,23 @@
   "schema": 1,
   "name": "cortico-world-fatfish",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-  "total": 62,
+  "total": 63,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BKR5t",
       "author": "blacksunshy",
       "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
       "body": "@YuYinDaJiang 两个问题都跟到底了，结论不一样：**「切过去还是旧对话」是我们这边的真 bug，已经修了**；**「新建/列会话一直超时」是没有任何超时上限、也不告诉你原因，现在改成带原因失败**。两个都发了新版本。\n\n## 1. 手动切会话被抢回去（真 bug，已修）\n\n小肥鱼身上钉着会话时，它每次收到 Host 的 `ready` 都会把本地那个固定重新 `pick` 一次。而 connector ≥ 0.2.5 的自动跟随，会在你于另一个会话里说话时把归属切过去、清掉 pin，然后发一个 `ready` 给桌宠。于是变成拉锯：\n\n1. 你切到 App-mock 说话 → Host 把归属切到 App-mock，清 pin，发 `ready(App-mock)`\n2. 小肥鱼发现「本地固定 = 分镜 ≠ App-mock」→ 立刻 `pick(分镜)`\n3. Host 把归属拉回分镜、重新 pin → 再发 `ready(分镜)`\n4. 稳态回到分镜 —— 你怎么切都白切\n\n**修复（fatfish 0.6.21）**：连续在线时以 Host 的归属为准，跟随你切到的会话并丢掉本地固定；只有「断线重连后的第一个 ready」才恢复自己的固定（那种情况是 DSH 重启把 pin 丢了）。\n\n> 在升级前想立刻绕开：设置 → 大肥鱼 → DSH 桥接里点「解除固定」，之后 DSH 切会话就能跟上。\n\n## 2. 新建 / 列会话一直是「超时」\n\n- **新建会话**：`sessionController.commands.create` 没有任何超时。如果 DSH 把新建排在正在跑的回合之后，或这个版本命令形状变了而永不返回，插件就一直不回帧 —— 桌宠只能干等 20 秒后报 `DSH did not answer in time`，看起来就是「接口超时」。**connector 0.2.19** 改成 8 秒带原因失败，并把原因写进 Host 日志（`could not create a conversation: …`）。\n- **列会话**：Host 侧是同步返回，正常不会慢。超时说明桌宠没等到 `session-list` —— 最可能是连了不支持列会话的老 Host：这时 Host 回的是 `error` 帧，而旧桌宠只认 `session-list`，于是白等满超时。**fatfish 0.6.21** 把 `error` 帧当作对应请求的回答立即返回，并把 Host 的原话记进日志。\n\n## 升级\n\n- 桌宠：扩展市场更新 `cortico-world-fatfish` ≥ **0.6.21**，或 `npm i cortico-world-fatfish@0.6.21`\n- Host 插件：`dsh plugin add github:blacksunshy/coopanion-connector-dsh` ≥ **0.2.19**\n- 两个都要重启（DSH 与 Coopanion）\n\n升级后如果「新建会话」还失败，现在会直接告诉你原因。方便的话把 DSH 日志里 `could not create a conversation` 那一行贴出来，另外 `dsh plugin list` 里 connector 的版本号也发一下 —— 如果真是 `create` 被排在运行中的回合之后卡住，我们还需要在 DSH 侧再往前一步处理。\n",
-      "createdAt": "2026-11-08T10:57:23Z"
+      "createdAt": "2026-11-08T10:57:23Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BKSeK",
+          "author": "YuYinDaJiang",
+          "avatar": "https://avatars.githubusercontent.com/u/36914633?s=64&u=43d37a9b29ac64839c103ad167f7b0b1f35fccb0&v=4",
+          "body": "感谢大佬",
+          "createdAt": "2026-11-08T14:46:12Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BKQ8U",

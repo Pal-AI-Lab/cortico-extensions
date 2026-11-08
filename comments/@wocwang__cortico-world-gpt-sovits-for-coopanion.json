@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-  "total": 79,
+  "total": 80,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BKScX",
+      "author": "YimengQiannian0320",
+      "avatar": "https://avatars.githubusercontent.com/u/347069827?s=64&v=4",
+      "body": "作者你好，我因为一些原因，现在电脑用的核显，在使用插件的时候会出现生成音频时间>实际播放时间的问题，导致大肥鱼说话一顿一顿（接收到的音频不连续），我自己用dsh写了个预缓存的补丁：通过调节“在音频生成到一定量时（比如生成速度是播放速度的0.6倍就调成60%）开始播放音频”解决了说话卡卡的问题，同时也会比生成完全部音频再播放延迟低且更灵活，希望这个建议能被采纳加入到新版里，谢谢\n\n以下为我的部分提示词原文：你看看我和设计区3的这轮对话，鲸鲸现在说话会因为cpu生成速度跟不上语速而导致断断续续的，我不想损失语速，又想尽可能降低延迟所以，在gptsovits模组的基础上帮我搭建一个可以自动识别并调节说话延迟的功能：播放音频所需时间为x，音频生成总时间为y，y’为已生成音频所花费的时间，当y-y‘<x时音频开始播放，由“设计区3”agent信息得，x=0.62y，则留出0.12y为缓冲，实际默认按x=0.5y计算,即在2x-2x’<x时开始播放音频（x前系数最好能自定义，有个配置框，方便我在使用过程中动态优化延迟）；若不能实现，则向我汇报原因，我来1决定是否使用plant2：当音频生成完时开始播放音频",
+      "createdAt": "2026-11-08T14:36:03Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BKFXW",
       "author": "wocwang",

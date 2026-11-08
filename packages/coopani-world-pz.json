@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-pz",
-  "version": "0.6.9",
+  "version": "0.7.4",
   "describe": {
     "tools": [
       {
@@ -106,10 +106,10 @@
       },
       {
         "name": "pz_play",
-        "description": "Actually do one thing in the game, as the survivor. Only works when the person has switched on \"let her play\" in the settings. Verbs: walk (x, y, optional stance), face (x, y), attack (nearest zombie within two tiles), take (x, y plus objIdx and itemIdx, all four printed by pz_state), door (nearest door; x, y optional), eat / drink (no arguments), cook (the first Cooking recipe that is possible now), craft (recipe name copied from pz_recipes), stop. The reply only means the game accepted it, not that the action finished.",
+        "description": "Not available in this version. The play pipeline is still being tested; the extension does not expose the switch. Calling this returns not-authorized.",
         "summary": {
-          "zh": "真的做一个动作：走过去、转身、打身边的僵尸、拿东西、开关门、吃东西、喝水、做饭、做东西（点名配方）、停下。要打开「让她自己动手玩」。",
-          "en": "Do one thing in the game: walk, face, attack, take, door, eat, drink, cook, craft, stop."
+          "zh": "（这一版未开放）让她在游戏里做一个动作。",
+          "en": "(not available in this version) Make her do one thing in the game."
         }
       }
     ],
@@ -245,6 +245,7 @@
     ]
   },
   "changelog": {
+    "0.7.4": "这一版只做感知和稳定性，没有新增操作类功能。\n\n**看得更准**\n\n- `pz_state` 里多了身边的威胁读数：三格之内有几只僵尸、最近那只几格。\n  这个数比原来的\"视线内几只\"准 —— 僵尸从背后摸上来的时候，视线里是零。\n- 打开着的容器会列出里面到底有什么（前 10 件，带序号）。\n  以前只报\"值得拿的\"，于是会出现\"柜子里有 2 件但不知道是什么\"。\n  现在读不出来会直说读不出来，不假装看过了。\n\n**不再对着关掉的游戏说话**\n\n- 状态数据陈旧时（游戏退了、没在读档、文件读不出来）不再推送事件。\n  以前会出现这种情况：游戏关了半天，她还在念\"该喝水了\"——\n  那不是她啰嗦，是我们给了她一份几小时前的数据。\n\n**更安静**\n\n- 说话和\"轮到你决定了\"分成两套额度，互不挤占。\n- 有事发生之后的一小段时间里，别的话题先压住。\n\n**更结实**\n\n- 状态文件的读写失败会把原因写进 `dbg`，不会静默停住。",
     "0.6.9": "做东西。上一版只能「随便做一道菜」，这一版能**点名做任何一样**，而且她知道自己能做哪些。\n\n### 两个新东西\n\n- **`pz_recipes`（第六个工具）**：问游戏「现在到底能做什么」，带配方名。\n  扫的是 `getAllCraftRecipes()` 逐个 `canPerformCurrentRecipe()` —— 材料、技能、台面、热源\n  全由游戏判，所以这是「真能做」而不是「理论上能做」。\n- **`craft`（动词）**：点名做。名字从 `pz_recipes` 里抄，大小写不敏感（她抄名字时大小写最容易错）。\n\n### 为什么扫描要「问一次、等一拍」\n\n全量配方逐个判可做性是有代价的（要翻每个容器的材料）。放进每拍循环里会卡顿，\n所以做成按需：工具写一条 `scan`，游戏算完把结果塞进下一次 state，这边最多等 4.5 秒。\n**等不到就明说没等到**，不拿旧结果冒充新的。\n\n扫描本身有两道闸：最多 12 条、最多 2 秒。超了标 `partial` —— 让她知道这份清单不全，\n比假装完整要好。\n\n### 顺序知识写进了提示词\n\n早期该按什么做，写死了一条线，而且是按「为什么」排的：\n\n| 序 | 做什么 | 为什么 |\n|---|---|---|\n| 1 | `MakeStoneBlade` 石刀 | 有刃就能割：布条、削木 |\n| 2 | `MakeCrudeStoneAxe` 粗石斧 | 能砍树，木头才有着落 |\n| 3 | `CarveSpear` → `FireHardenSpear` | 长兵器能在僵尸够不到的距离出手 |\n| 4 | `MakeStoneHammer` 石锤 | 拆家具取材料 |\n| 5 | 之后按需要 | 木工 / 裁缝 / 医疗 |\n\n同时也写清了**做不了的那些**：火堆、集雨桶、木箱在建造菜单里，不是合成配方，\n她要老实说「那个得你自己搭」。\n\n155 条测试（新增 2 条：craft 编码与含空格的名字、扫描的两道闸）。",
     "0.6.8": "做饭。**没有自己重建一套合成** —— 走的是游戏自己的那条路。\n\n### 抄的是「右键制作」\n\n`ISInventoryPaneContextMenu.OnNewCraft` 就三步：\n\n1. `HandcraftLogic.new(player, bench, surface)` —— 判断\"这份配方现在能不能做\"（材料、技能、工作台、热源）\n2. `logic:setRecipe(recipe)` → `canPerformCurrentRecipe()`\n3. `ISEntityUI.HandcraftStart(...)` + `logic:startCraftAction(action)`\n\n我照抄这三步，唯一自己写的是**挑哪道菜**：从 `ScriptManager.instance:getAllCraftRecipes()`\n里筛 `category == 'Cooking'`，逐个问 `canPerformCurrentRecipe()`，第一道能做的就做它。\n\n### 为什么不让她报菜名\n\n多一层「名字记错」的失败面，收益只有一个「做指定的那道」。所以 `cook` 不带参数，\n回执里把做的是哪道带回来（`recipe:MakeSalad`），她能说清\"我做了什么\"。\n\n### 一个坑：容器列表不能靠 UI\n\n`ISInventoryPaneContextMenu.getContainers` 翻的是\n`getPlayerInventory(num).inventoryPane.inventoryPage.backpacks` —— **物品栏面板**。\n她从不开那个面板，那条路要么报错、要么给空表，表现就是永远 `no-recipe`。\n\n改成自己组：身上 + 脚下这一格和八个邻格里的 `getContainer()`。\n**这类\"读 UI 状态\"的 API，在无人操作的角色身上全都不可靠** —— 和 `getPlayerLoot` 是同一个教训。\n\n### 诚实边界\n\n- 做不了时我们**说不出具体缺什么**，`canPerformCurrentRecipe()` 只回布尔。措辞是「现在做不了」，\n  提示词里也明确不许编「缺一口锅」这种细节。\n- 需要灶台/热源的菜，附近没有就是做不了。这时该提醒他找厨房，或者先吃现成的。\n- 做出来的东西进包，想吃还得再 `eat` —— 两件事分开。\n\n153 条测试（新增 2 条：cook 编码与菜名回执、合成走游戏那套 + 不许用依赖 UI 的容器接口）。",
     "0.6.7": "她能自己吃了。\n\n### 先确认一件事：属性确实读到了\n\n1.2.18 修完作用域之后，真机数据是 `hunger 0.0262 / thirst 0.1067 / fatigue 0.1657` ——\n不是 null 了。以前她看不见身体状态，是因为**数据全是 null**；现在看得见，只是**没有行动能力**。\n这两件事得分开修，混在一起会一直以为是提示词的问题。\n\n### 新增 `eat` / `drink`\n\n两个都不带参数，Lua 侧自己从背包里挑：\n\n- `eat` → 找 `getHungChange() < 0` 里最负的那样\n- `drink` → 先找 `getThirstChange() < 0`；没有就找有液体的容器（B42 的水瓶是流体容器）\n\n执行交给游戏自己的动作类：吃东西 `ISEatFoodAction`，喝水 `ISDrinkFluidAction`（老式瓶子兜底\n`ISDrinkFromBottle`）。**不自己改饱食度** —— 食物中毒、动作时长、喝水动画全在游戏那边，\n手改数值会漏掉一堆副作用。\n\n自动节拍里也加了一句：饿或渴过 0.55 时直接点出来「背包里有吃的就 eat」，\n省得她自己去一长串状态里挑。\n\n### 修：拿东西时被派到院子里\n\n真机：「我拿毛巾的时候把自己挪到院子里去了。」\n\n`adjacentSquare` 原来取**第一个能站的空格**。衣柜贴着外墙，按固定顺序扫到的第一个空格在墙外，\n于是她绕出屋再绕回来。现在按两条排序：**先看和玩家是不是同一侧（屋里/屋外）**，再比距离。\n跨墙永远是错的，哪怕那一格更近。\n\n### 还没做的：做饭\n\n没有灶台、配方、烹饪这一套。现在只能吃现成的。他要问「你会做饭吗」，\n提示词里让她老实说「现在只会吃手里有的」。\n\n151 条测试（新增 3 条：吃/喝编码与原因、动作类选择、选站位不许跨墙）。",

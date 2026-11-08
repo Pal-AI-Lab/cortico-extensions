@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "@aqualcross/cortico-world-audio",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/721",
-  "total": 1,
+  "total": 2,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BKSZ7",
+      "author": "AqualCross",
+      "avatar": "https://avatars.githubusercontent.com/u/130270771?s=64&u=1c23c4322a7781d16ce1a75a598839403449a10d&v=4",
+      "body": "感谢排查，方向判断是对的，已经在 **0.1.4** 里修了。\n\n先确认结论：我在本机（Windows 11 / 64 线程）用扩展自己的 `FireRedSegmenter` 复现，默认会话占 30.8 个核，传入单线程 + 关自旋后 0.04 核；单帧推理 p50 从 1.6 ms 降到 1.4 ms。根因就是 onnxruntime 默认按物理核数开 intra-op 线程池、线程空闲时自旋等活，20 ms 一次的小模型推理让整套线程池一直转。\n\n你本地那组 `extra` 在 onnxruntime-node 1.31.1 的 Node 绑定里确实生效：绑定会把 `{ session: { intra_op: { allow_spinning: '0' } } }` 拍平成 `session.intra_op.allow_spinning`，值必须是字符串（传数字会抛 `sessionOptions.extra value must be a string in Node.js binding`）。我另外在不限制线程数、只加 extra 的情况下测了一次，空闲自旋从 11 核降到 0.03 核，可以确认配置真的被读进去了。\n\n0.1.4 的改动：\n- `src/firered.ts`、`src/firered-aed.ts` 建会话时统一传 `FIRERED_SESSION_OPTIONS`，就是你本地那组（单线程、sequential、关自旋），并加了测试防止以后漏掉。\n- AED 单线程跑长块也测了：30 秒块约 0.2 秒、60 秒块约 0.38 秒，和默认多线程基本相同，单线程不会拖慢块分类。\n- `cortico-world-listen` 与 `cortico-world-voice` 里的同一份 FireRed 代码也一起修了；这两个暂未发版。\n- sherpa-onnx 那两处不是漏设：silero 设 `numThreads: 1`、流式 Paraformer 设 2，是有意为之。\n\n另外 `package.json` 里的仓库链接之前 404，是因为 `AqualCross/cortico-world-audio` 当时是私有库；现在已设为公开，链接可以正常打开了，也欢迎以后直接在那里提 issue。\n\n升级到 0.1.4 后，同样的监听场景 Core 进程应该会回落到接近空闲的水平。再次感谢这份带数据和复现脚本的报告，帮了大忙。\n",
+      "createdAt": "2026-11-08T14:24:11Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BKNPg",
       "author": "YihaoYin-Nue",
