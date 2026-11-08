@@ -2,8 +2,31 @@
   "schema": 1,
   "name": "cortico-world-fatfish",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-  "total": 56,
+  "total": 59,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BKQ8U",
+      "author": "YuYinDaJiang",
+      "avatar": "https://avatars.githubusercontent.com/u/36914633?s=64&u=43d37a9b29ac64839c103ad167f7b0b1f35fccb0&v=4",
+      "body": "小肥鱼: 11-08 11:36:28\n不过 DSH 现在钉在分镜那个会话上。要它去 App-mock 里抽，得你在 DSH 里切过去（或者新开一个），我再指过去——我这边开新会话的接口还是超时。\n\n欲音大酱: 11-08 11:37:40\n我切过去了\n\n小肥鱼: 11-08 11:37:51\n好，已经派过去了。它出结果我再跟你说。\n\n欲音大酱: 11-08 11:38:20\n我看了下你派的还是在旧对话上\n\n小肥鱼: 11-08 11:38:28\n那我这边还钉在旧会话上——自动跟最新那条没跟上。你把 App-mock那个会话的 id 抄给我（DSH 里应该能看到），我用 pick 指过去再发一次。或者你嫌麻烦，直接把我那段 enemyDeck 的请求粘给它也一样。\n\n我这边「列会话 / 开新会话」两个接口一直是超时的，所以只能靠 id 硬指。\n目前会这样，麻烦大佬看下",
+      "createdAt": "2026-11-08T03:47:24Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BKQ8m",
+          "author": "YuYinDaJiang",
+          "avatar": "https://avatars.githubusercontent.com/u/36914633?s=64&u=43d37a9b29ac64839c103ad167f7b0b1f35fccb0&v=4",
+          "body": "切不过去——回执原话是「this Host does not support session switching」，这个桥就只认一个会话。\n\n所以现在的事实是：我 `dsh_send` 只会落到分镜那个会话上，App-mock 的话我发不进去，得你在那边粘。反过来它从分镜会话回的东西我能看到。要是你也想让我收到 App-mock 那边的回话，大概得等插件的切换支持补上，或者你把它的话转给我。\n\nApp-mock 那条你就直接粘给它吧，我在这边等结果，你贴回来我接着判断。",
+          "createdAt": "2026-11-08T03:49:58Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BKQ82",
+          "author": "YuYinDaJiang",
+          "avatar": "https://avatars.githubusercontent.com/u/36914633?s=64&u=43d37a9b29ac64839c103ad167f7b0b1f35fccb0&v=4",
+          "body": "是忘了更新host了，更新后报错换了：不是刚才那个「Host 不支持切换」，现在是 `unsent`（消息没发出去）。我连试两次都是这个。\n\n看着像是这条路终于通了、只是请求没送到 DSH 那边",
+          "createdAt": "2026-11-08T03:53:15Z"
+        }
+      ]
+    },
     {
       "id": "DC_kwDOVLPtGM4BJkq_",
       "author": "blacksunshy",
