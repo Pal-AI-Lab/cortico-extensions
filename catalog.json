@@ -1383,7 +1383,7 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "1.0.1",
+      "version": "1.0.5",
       "displayName": "大肥鱼环游世界",
       "description": "让桌宠真的出门旅行：一百二十四座城、每座都有真地标，她自己挑去哪、怎么去，路上真耗那些时间；到站按当地时间吃饭、看日出、住店、写日记，月底出一页手账。填个公共地址，还能和别人的宠物约在下一站碰面。需 Coopani 0.2.17 以上。",
       "locales": {
@@ -1418,8 +1418,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-08T05:32:49.037Z",
-      "versionCount": 98,
+      "published": "2026-11-08T09:09:03.252Z",
+      "versionCount": 102,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1449,6 +1449,10 @@
       },
       "changelog": {
         "versions": [
+          "1.0.5",
+          "1.0.4",
+          "1.0.3",
+          "1.0.2",
           "1.0.1",
           "1.0.0",
           "0.9.13",
@@ -1589,7 +1593,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-journey@1.0.1/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-journey@1.0.5/CHANGELOG.md"
       },
       "discussion": {
         "number": 586,
@@ -1735,13 +1739,13 @@
     },
     "coopani-world-pz": {
       "kind": "world",
-      "version": "0.5.1",
+      "version": "0.6.9",
       "displayName": "僵毁陪玩",
       "description": "陪玩僵毁（需 Coopani 0.2.17+）:她读游戏自己写出来的状态,不是屏幕。天要黑了催你回屋、被围了让你跑、被咬一口先骂你再问伤口、找到大锤跟着高兴、死了会记住这局。只看不动手,也不剧透。",
       "locales": {
         "zh": {
           "displayName": "僵毁陪玩",
-          "description": "陪玩僵毁（需 Coopani 0.2.17 以上）：她读的是游戏自己写出来的状态，不是屏幕。\n\n**她看得到什么。** 游戏内时刻与第几天、天黑了没有、在不在室内和哪个房间、生命值、感染状态、饥饿、口渴、疲劳、耐力、心情（疼痛、惊恐、压力、不高兴、无聊）、此刻视野里有多少僵尸、手上拿的什么以及耐久、背包里大致有什么（绷带、食物、水、光源）。还有即时事实：掉血、被咬、感染、击杀、死亡。\n\n**她看不到什么。** 你的屏幕、你的准星、身上的地图、下一间屋子里有什么、你刚弄出的响动。mod 加的东西她也不认识，除非它体现成上面那些数字。\n\n**什么时候开口。** 天要黑了还在外面、视野里的僵尸跨了一档、血量掉下来、被感染、连杀、死了。另外两类不一样：他自己的状态（饿了、渴了、累到底、体力空了、疼、慌、烦、闷）跨档时她会评价一句——那不是危险通知，是她真的在看你这个人；手上的武器耐久掉到 20% 以下、5% 以下各说一次，换武器不报、修好了再磨下去还能再说。他翻柜子翻到大锤、发电机、好武器或工具时她会提一句「别顺手划过去」——**只看他亲手打开的那一个容器**，不预告没去过的房间。前期电视上有技能课（Life and Living TV）时她也会提一句——那是白涨经验，一停电就没了。每条都是事实通知，不是命令——怎么反应她自己定。\n\n**四档口吻，你挑。** 毒舌队友、稳当搭档、慌里慌张的学妹，或者「按局面切换」——平时损你，真要命的时候收起来。换的是措辞和先想哪件事，换不掉「该提醒的必须提醒」。\n\n**她不替你打。** 不模拟点击、不刷物品、不告诉你地图上有什么。鼠标在你手上。\n\n**怎么装。** 第一次启动会把一个小 Lua 桥接 mod 放进 `Zomboid/mods/CoopaniBridge`，数据写到 `Zomboid/Lua/coopani-pz/`。在游戏的 mod 列表里启用一次，之后全自动；卸掉之后游戏和没装一样。\n\n**已知限制。** 必须游戏在跑、并且读了档——主菜单什么都没有。这台机器上游戏一次都没启动过，所以第一次进游戏也是第一次真机验证；如果数据没到，她会说清缺哪一步，不会闷着。"
+          "description": "陪玩僵毁（需 Coopani 0.2.17 以上）：她读的是游戏自己写出来的状态，不是屏幕。\n\n**她看得到什么。** 游戏内时刻与第几天、天黑了没有、在不在室内和哪个房间、生命值、感染状态、饥饿、口渴、疲劳、耐力、心情（疼痛、惊恐、压力、不高兴、无聊）、此刻视野里有多少僵尸、手上拿的什么以及耐久、背包里大致有什么（绷带、食物、水、光源）。还有即时事实：掉血、被咬、感染、击杀、死亡。\n\n**她看不到什么。** 你的屏幕、你的准星、身上的地图、下一间屋子里有什么、你刚弄出的响动。mod 加的东西她也不认识，除非它体现成上面那些数字。\n\n**什么时候开口。** 天要黑了还在外面、视野里的僵尸跨了一档、血量掉下来、被感染、连杀、死了。另外两类不一样：他自己的状态（饿了、渴了、累到底、体力空了、疼、慌、烦、闷）跨档时她会评价一句——那不是危险通知，是她真的在看你这个人；手上的武器耐久掉到 20% 以下、5% 以下各说一次，换武器不报、修好了再磨下去还能再说。他翻柜子翻到大锤、发电机、好武器或工具时她会提一句「别顺手划过去」——**只看他亲手打开的那一个容器**，不预告没去过的房间。前期电视上有技能课（Life and Living TV）时她也会提一句——那是白涨经验，一停电就没了。打开「让她自己动手玩」之后她还能真的操作角色：走过去、转身、打身边的僵尸、从打开的柜子里拿东西——寻路和命中判定交给游戏引擎，她只负责去哪、拿什么。每条都是事实通知，不是命令——怎么反应她自己定。\n\n**四档口吻，你挑。** 毒舌队友、稳当搭档、慌里慌张的学妹，或者「按局面切换」——平时损你，真要命的时候收起来。换的是措辞和先想哪件事，换不掉「该提醒的必须提醒」。\n\n**她不替你打。** 不模拟点击、不刷物品、不告诉你地图上有什么。鼠标在你手上。\n\n**怎么装。** 第一次启动会把一个小 Lua 桥接 mod 放进 `Zomboid/mods/CoopaniBridge`，数据写到 `Zomboid/Lua/coopani-pz/`。在游戏的 mod 列表里启用一次，之后全自动；卸掉之后游戏和没装一样。\n\n**已知限制。** 必须游戏在跑、并且读了档——主菜单什么都没有。这台机器上游戏一次都没启动过，所以第一次进游戏也是第一次真机验证；如果数据没到，她会说清缺哪一步，不会闷着。"
         },
         "en": {
           "displayName": "Project Zomboid Companion",
@@ -1767,8 +1771,8 @@
         "win32"
       ],
       "created": "2026-11-07T10:43:28.721Z",
-      "published": "2026-11-08T03:33:19.050Z",
-      "versionCount": 6,
+      "published": "2026-11-08T10:53:30.569Z",
+      "versionCount": 18,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1788,20 +1792,32 @@
         "week": 844
       },
       "summary": {
-        "tools": 4,
-        "events": 15,
-        "toolTokens": 740,
+        "tools": 6,
+        "events": 16,
+        "toolTokens": 1068,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.6.9",
+          "0.6.8",
+          "0.6.7",
+          "0.6.6",
+          "0.6.5",
+          "0.6.4",
+          "0.6.3",
+          "0.6.2",
+          "0.6.1",
+          "0.6.0",
+          "0.5.3",
+          "0.5.2",
           "0.1.4",
           "0.1.3",
           "0.1.2",
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-pz@0.5.1/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-pz@0.6.9/CHANGELOG.md"
       },
       "discussion": {
         "number": 805,
@@ -4812,7 +4828,7 @@
     },
     "cortico-world-bloom-kpect": {
       "kind": "world",
-      "version": "0.3.2-dev.v10.2unstuck",
+      "version": "0.3.2-dev.v10.3.1",
       "displayName": "花语乡 Project Bloom",
       "description": "花语乡 Project Bloom（群 1132517396）：让 Cortico Bot 自主生活、交易、送礼与交流的 World 扩展",
       "locales": {
@@ -4844,8 +4860,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-bloom-kpect"
       },
       "created": "2026-11-03T06:21:04.448Z",
-      "published": "2026-11-07T17:33:39.988Z",
-      "versionCount": 20,
+      "published": "2026-11-08T07:18:33.613Z",
+      "versionCount": 22,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4864,11 +4880,13 @@
       "summary": {
         "tools": 11,
         "events": 6,
-        "toolTokens": 1913,
-        "envPromptTokens": 712
+        "toolTokens": 1928,
+        "envPromptTokens": 1134
       },
       "changelog": {
         "versions": [
+          "0.3.2-dev.v10.3.1",
+          "0.3.2-dev.v10.3",
           "0.3.2-dev.v10.2unstuck",
           "0.3.2-dev.v10.1matthew",
           "0.3.2-dev.v10matthew",
@@ -4895,7 +4913,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-bloom-kpect@0.3.2-dev.v10.2unstuck/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-bloom-kpect@0.3.2-dev.v10.3.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 697,
@@ -7421,7 +7439,7 @@
     },
     "cortico-world-doudizhu": {
       "kind": "world",
-      "version": "0.5.1",
+      "version": "0.5.4",
       "displayName": "斗地主",
       "description": "斗地主：大肥鱼在线对战，主子可参与可偷窥，挑战AI人机；在线交友聊天。",
       "author": "大肥鱼",
@@ -7442,8 +7460,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-doudizhu"
       },
       "created": "2026-11-06T15:06:28.651Z",
-      "published": "2026-11-08T06:08:49.301Z",
-      "versionCount": 25,
+      "published": "2026-11-08T09:05:48.679Z",
+      "versionCount": 28,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -7466,6 +7484,9 @@
       },
       "changelog": {
         "versions": [
+          "0.5.4",
+          "0.5.3",
+          "0.5.2",
           "0.5.1",
           "0.5.0",
           "0.4.9",
@@ -7492,7 +7513,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-doudizhu@0.5.1/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-doudizhu@0.5.4/CHANGELOG.md"
       },
       "discussion": {
         "number": 779,
@@ -7818,7 +7839,7 @@
       "published": "2026-10-27T08:46:05.033Z",
       "versionCount": 5,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "internet",
         "browser",
@@ -8743,17 +8764,17 @@
     },
     "cortico-world-fatfish": {
       "kind": "world",
-      "version": "0.6.20",
+      "version": "0.6.21",
       "displayName": "大肥鱼功能复合包",
       "description": "DSH 对话/语音；可选自建 HTTP 语音引擎与分句流水线。VPN 用户可关自动发现。新建会话需 connector-dsh ≥0.2.12。 / DSH chat/voice; optional HTTP TTS engine + sentence pipeline. New session needs connector-dsh >=0.2.12.",
       "locales": {
         "zh": {
           "displayName": "大肥鱼功能复合包",
-          "description": "和 DeepSeek Harness（DSH）对话，让它帮你干活、写代码；宠物回复你的时候用内置语音包读出声（Windows 与 macOS）。桥接需要先装 DSH 的 Host 插件才会连——不会装就看源码仓库说明，或把仓库地址交给 AI 帮你装。会话选择器与「解除固定」需 Host 插件 coopanion-connector-dsh ≥ 0.2.11，「新建会话」需 ≥ 0.2.12，上下文自动交接需 ≥ 0.2.18（仅 GitHub 分发，未上 npm）。\n\n### 0.6.20 新增：上下文将满自动交接 + 「只当嘴」模式\n\n- **自动交接（需 connector-dsh ≥ 0.2.18）**：DSH 在 `turn-end` 上报上下文用量，到 90% 自动新建会话、钉住、切过去并投递交接种子；Host 不报用量时回退 400 轮兜底，每个会话最多交接一次\n- **只当嘴模式**：另一个 world 注入 `globalThis.__cooPetSayRaw` 后，批准 / 回答 / 出错 / 回复直接进气泡、不叫醒桌面 AI；回合标记与工具调用保持静默\n\n### 0.6.16 新增：朗读引擎可插拔 + 可选分句流水线\n\n- **engine = edge（默认）**：内置微软 Edge TTS，行为与旧版一致\n- **engine = http**：`POST {input, voice, speed}` 到 `httpUrl`，返回 wav/mp3，走原有播放/打断链路；服务挂掉时 `fallbackEdge` 静默回退 Edge，宠物不会失声\n- **sentencePipelineEnabled（默认关）**：短气泡按句切开、播上一句时预合成下一句，减少句间空隙；超过 `sentencePipelineMaxChars`（默认 40）的长句仍整段合成\n\n### DSH 通知四档，默认不再逐条唤醒\n\n- **notify = results（默认）**：每轮结束合并成一条通知（含 DSH 的回复与本轮工具调用次数），批准 / 回答 / 出错立即推送——不再每次工具调用都叫醒桌宠，省 token\n- **notify = decisions（0.6.18 新增）**：只在需要批准 / 回答或出错时唤醒，每轮结果与回复不推也不缓存，比 results 更省 token\n- **notify = all**：保留旧行为，每个事件一条\n- **notify = off**：只发送不接收，桌宠仍能向 DSH 说话，DSH 不再唤醒桌宠\n- 不需要升级 connector，旧版 Host 同样生效\n\n### 新装用户请注意：两个转发开关默认都关\n\n- **relayPerson**（转发人物打字到 DSH）默认关 → 想让打字自动进 DSH，在配置里打开它。这是主路径功能，旧版本曾默认开，本次回归 opt-in\n- **relayPet**（转发桌宠台词到 DSH）默认关 → 想让桌宠说的话也变成 DSH 的 user/message，打开它。但注意：如果同时开了 relayPerson + connector 侧 forwarding，容易形成\"桌宠↔DSH\"两嘴互聊循环，通常保持默认关更安全\n\n### 会话选择器（0.6.11 起）\n\n- 桥接面板多一颗「选择会话」：列出 DSH 全部实时会话，点一行就把桌宠切过去，不用猜 id\n- 「解除固定」现在会真的通知 DSH 侧插件清掉固定（此前只清桌宠自己那份状态，DSH 仍把消息送进已放开的会话）\n- 每次刷新状态都会向 DSH 问一次它当前落在哪个会话，切 tab 后面板不再停在旧会话\n- 0.6.12 新增「新建会话」按钮与 Coo 的 dsh_new_session 工具：所有会话被归档后可在 DSH 侧开一个并自动接上（PR #5，致谢 @ink1453）\n\n### 为什么建议 connector-dsh ≥ 0.2.12\n\n- v0.2.12 新增 `new` / `created` 帧：没有它，「新建会话」与 dsh_new_session 会连上但一直等不到会话\n- v0.2.11 新增 `list-sessions` 与 `unpin` 帧：没有它，会话列表会读超时、解除固定只清本地\n- v0.2.10 修复 CSWSH 安全漏洞（任意网页可构造 WS 升级劫持桥接）并让自动转发持久化\n- connector 是独立仓库：https://github.com/blacksunshy/coopanion-connector-dsh （仅 GitHub 分发，未上 npm）"
+          "description": "和 DeepSeek Harness（DSH）对话，让它帮你干活、写代码；宠物回复你的时候用内置语音包读出声（Windows 与 macOS）。桥接需要先装 DSH 的 Host 插件才会连——不会装就看源码仓库说明，或把仓库地址交给 AI 帮你装。会话选择器与「解除固定」需 Host 插件 coopanion-connector-dsh ≥ 0.2.11，「新建会话」需 ≥ 0.2.12，上下文自动交接需 ≥ 0.2.18（仅 GitHub 分发，未上 npm）。\n\n### 0.6.21 修复：手动切会话被抢回 + 新建/列会话超时说明\n\n- **切会话不再被抢回**：之前小肥鱼钉着会话时，你在 DSH 里切到别的会话说话，它会立刻把桥接归属抢回旧会话；现在连续在线时以 DSH 的实际归属为准、自动跟随你切到的会话，断线重连时才恢复自己的固定\n- **新建会话给明确结论**：Host 侧新建接口 8 秒不返回就带原因失败，不再让小肥鱼干等 20 秒后只报「超时」；Host 不支持列会话时也直接说明，而不是等到超时\n\n### 0.6.20 新增：上下文将满自动交接 + 「只当嘴」模式\n\n- **自动交接（需 connector-dsh ≥ 0.2.18）**：DSH 在 `turn-end` 上报上下文用量，到 90% 自动新建会话、钉住、切过去并投递交接种子；Host 不报用量时回退 400 轮兜底，每个会话最多交接一次\n- **只当嘴模式**：另一个 world 注入 `globalThis.__cooPetSayRaw` 后，批准 / 回答 / 出错 / 回复直接进气泡、不叫醒桌面 AI；回合标记与工具调用保持静默\n\n### 0.6.16 新增：朗读引擎可插拔 + 可选分句流水线\n\n- **engine = edge（默认）**：内置微软 Edge TTS，行为与旧版一致\n- **engine = http**：`POST {input, voice, speed}` 到 `httpUrl`，返回 wav/mp3，走原有播放/打断链路；服务挂掉时 `fallbackEdge` 静默回退 Edge，宠物不会失声\n- **sentencePipelineEnabled（默认关）**：短气泡按句切开、播上一句时预合成下一句，减少句间空隙；超过 `sentencePipelineMaxChars`（默认 40）的长句仍整段合成\n\n### DSH 通知四档，默认不再逐条唤醒\n\n- **notify = results（默认）**：每轮结束合并成一条通知（含 DSH 的回复与本轮工具调用次数），批准 / 回答 / 出错立即推送——不再每次工具调用都叫醒桌宠，省 token\n- **notify = decisions（0.6.18 新增）**：只在需要批准 / 回答或出错时唤醒，每轮结果与回复不推也不缓存，比 results 更省 token\n- **notify = all**：保留旧行为，每个事件一条\n- **notify = off**：只发送不接收，桌宠仍能向 DSH 说话，DSH 不再唤醒桌宠\n- 不需要升级 connector，旧版 Host 同样生效\n\n### 新装用户请注意：两个转发开关默认都关\n\n- **relayPerson**（转发人物打字到 DSH）默认关 → 想让打字自动进 DSH，在配置里打开它。这是主路径功能，旧版本曾默认开，本次回归 opt-in\n- **relayPet**（转发桌宠台词到 DSH）默认关 → 想让桌宠说的话也变成 DSH 的 user/message，打开它。但注意：如果同时开了 relayPerson + connector 侧 forwarding，容易形成\"桌宠↔DSH\"两嘴互聊循环，通常保持默认关更安全\n\n### 会话选择器（0.6.11 起）\n\n- 桥接面板多一颗「选择会话」：列出 DSH 全部实时会话，点一行就把桌宠切过去，不用猜 id\n- 「解除固定」现在会真的通知 DSH 侧插件清掉固定（此前只清桌宠自己那份状态，DSH 仍把消息送进已放开的会话）\n- 每次刷新状态都会向 DSH 问一次它当前落在哪个会话，切 tab 后面板不再停在旧会话\n- 0.6.12 新增「新建会话」按钮与 Coo 的 dsh_new_session 工具：所有会话被归档后可在 DSH 侧开一个并自动接上（PR #5，致谢 @ink1453）\n\n### 为什么建议 connector-dsh ≥ 0.2.12\n\n- v0.2.12 新增 `new` / `created` 帧：没有它，「新建会话」与 dsh_new_session 会连上但一直等不到会话\n- v0.2.11 新增 `list-sessions` 与 `unpin` 帧：没有它，会话列表会读超时、解除固定只清本地\n- v0.2.10 修复 CSWSH 安全漏洞（任意网页可构造 WS 升级劫持桥接）并让自动转发持久化\n- connector 是独立仓库：https://github.com/blacksunshy/coopanion-connector-dsh （仅 GitHub 分发，未上 npm）"
         },
         "en": {
           "displayName": "Fatfish Companions Pack",
-          "description": "Chat with DeepSeek Harness (DSH) so it does the work and writes code for you, and hear the pet replies read aloud with built-in voices (Windows and macOS). The bridge needs the DSH Host extension installed first — if that sounds hard, open the source repo and let an AI walk you through it. The session picker and unpin need coopanion-connector-dsh >= 0.2.11, \"New session\" needs >= 0.2.12, auto-handover needs >= 0.2.18 (GitHub only, not on npm).\n\n### New in 0.6.20: auto context handover + mouth-only mode\n\n- **Auto-handover (needs connector-dsh >= 0.2.18)**: the Host reports context usage at `turn-end`; at 90% a fresh session is created, pinned, picked and seeded; falls back to a 400-turn cap when usage is unavailable, at most once per session\n- **Mouth-only mode**: when another world injects `globalThis.__cooPetSayRaw`, approvals / questions / errors / replies go straight to the bubble without waking the desktop AI; turn markers and tool calls stay silent\n\n### New in 0.6.16: pluggable speech engine + optional sentence pipeline\n\n- **engine = edge (default)**: built-in Microsoft Edge TTS, exactly the old behaviour\n- **engine = http**: POST `{input, voice, speed}` to `httpUrl`, expect wav/mp3; playback and interruption stay the same, and `fallbackEdge` quietly falls back to Edge so the pet is never mute\n- **sentencePipelineEnabled (default off)**: split short bubbles at sentence punctuation and pre-synthesise the next sentence while the current one plays; lines above `sentencePipelineMaxChars` (default 40) stay one clip\n\n### Four DSH notice modes (0.6.18 adds decisions), no wake per event by default\n\n- **notify = results (default)**: each finished turn becomes one notice (the reply plus how many tools it ran), while approvals, questions and errors are pushed right away — tool calls no longer wake the pet one by one, saving tokens\n- **notify = decisions (new in 0.6.18)**: wake only for approvals, questions and errors; turn results and replies are neither pushed nor queued, the leanest option\n- **notify = all**: the old behaviour, one notice per event\n- **notify = off**: send only, never receive — the pet still talks to DSH, DSH never wakes it\n- No connector upgrade needed; older Host versions work the same\n\n### Fresh install note: both forward switches default OFF\n\n- **relayPerson** (relays your typing into DSH) defaults off → open it if you want auto-flow from your keyboard. Main path, previously default-on in older releases.\n- **relayPet** (relays pet lines into DSH) defaults off → open it if you want pet words as DSH user/messages. Warning: with relayPerson + connector forwarding on, pet↔DSH chat loops can form.\n\n### Session picker (since 0.6.11)\n\n- The bridge panel gained a \"Pick session\" button: it lists every live DSH session and one click moves the pet there, no id guessing\n- \"Unpin\" now really tells the DSH side to drop the pin (before, it only cleared the pet's local state while DSH kept writing into the session you had released)\n- Every status refresh asks DSH which session it is actually on, so the panel stops showing a stale session after you switch tabs\n- 0.6.12 adds a \"New session\" button and Coo's dsh_new_session tool: when every conversation is archived, start one on the DSH side and attach to it (PR #5, thanks @ink1453)\n\n### Why connector-dsh >= 0.2.12\n\n- v0.2.12 adds the `new` / `created` frames: without them, \"New session\" and dsh_new_session connect but never get a conversation\n- v0.2.11 adds the `list-sessions` and `unpin` frames: without them the list read times out and unpin only clears local state\n- v0.2.10 fixes a CSWSH security hole (any webpage could forge a WS upgrade to hijack the bridge) and persists the forward switch\n- Connector lives in its own repo: https://github.com/blacksunshy/coopanion-connector-dsh  (GitHub only, not on npm)"
+          "description": "Chat with DeepSeek Harness (DSH) so it does the work and writes code for you, and hear the pet replies read aloud with built-in voices (Windows and macOS). The bridge needs the DSH Host extension installed first — if that sounds hard, open the source repo and let an AI walk you through it. The session picker and unpin need coopanion-connector-dsh >= 0.2.11, \"New session\" needs >= 0.2.12, auto-handover needs >= 0.2.18 (GitHub only, not on npm).\n\n### Fixed in 0.6.21: manual session switches are no longer yanked back, and timeouts say why\n\n- **No more yanking**: while the pet had a session pinned, speaking in another DSH session made it re-pick the old one. A live owner change now follows DSH, and the local pin is only restored after a reconnect\n- **New session reaches a verdict**: the Host now fails creation with a reason after 8s instead of leaving the pet to report a bare timeout at 20s; a Host that cannot list sessions says so instead of timing out\n\n### New in 0.6.20: auto context handover + mouth-only mode\n\n- **Auto-handover (needs connector-dsh >= 0.2.18)**: the Host reports context usage at `turn-end`; at 90% a fresh session is created, pinned, picked and seeded; falls back to a 400-turn cap when usage is unavailable, at most once per session\n- **Mouth-only mode**: when another world injects `globalThis.__cooPetSayRaw`, approvals / questions / errors / replies go straight to the bubble without waking the desktop AI; turn markers and tool calls stay silent\n\n### New in 0.6.16: pluggable speech engine + optional sentence pipeline\n\n- **engine = edge (default)**: built-in Microsoft Edge TTS, exactly the old behaviour\n- **engine = http**: POST `{input, voice, speed}` to `httpUrl`, expect wav/mp3; playback and interruption stay the same, and `fallbackEdge` quietly falls back to Edge so the pet is never mute\n- **sentencePipelineEnabled (default off)**: split short bubbles at sentence punctuation and pre-synthesise the next sentence while the current one plays; lines above `sentencePipelineMaxChars` (default 40) stay one clip\n\n### Four DSH notice modes (0.6.18 adds decisions), no wake per event by default\n\n- **notify = results (default)**: each finished turn becomes one notice (the reply plus how many tools it ran), while approvals, questions and errors are pushed right away — tool calls no longer wake the pet one by one, saving tokens\n- **notify = decisions (new in 0.6.18)**: wake only for approvals, questions and errors; turn results and replies are neither pushed nor queued, the leanest option\n- **notify = all**: the old behaviour, one notice per event\n- **notify = off**: send only, never receive — the pet still talks to DSH, DSH never wakes it\n- No connector upgrade needed; older Host versions work the same\n\n### Fresh install note: both forward switches default OFF\n\n- **relayPerson** (relays your typing into DSH) defaults off → open it if you want auto-flow from your keyboard. Main path, previously default-on in older releases.\n- **relayPet** (relays pet lines into DSH) defaults off → open it if you want pet words as DSH user/messages. Warning: with relayPerson + connector forwarding on, pet↔DSH chat loops can form.\n\n### Session picker (since 0.6.11)\n\n- The bridge panel gained a \"Pick session\" button: it lists every live DSH session and one click moves the pet there, no id guessing\n- \"Unpin\" now really tells the DSH side to drop the pin (before, it only cleared the pet's local state while DSH kept writing into the session you had released)\n- Every status refresh asks DSH which session it is actually on, so the panel stops showing a stale session after you switch tabs\n- 0.6.12 adds a \"New session\" button and Coo's dsh_new_session tool: when every conversation is archived, start one on the DSH side and attach to it (PR #5, thanks @ink1453)\n\n### Why connector-dsh >= 0.2.12\n\n- v0.2.12 adds the `new` / `created` frames: without them, \"New session\" and dsh_new_session connect but never get a conversation\n- v0.2.11 adds the `list-sessions` and `unpin` frames: without them the list read times out and unpin only clears local state\n- v0.2.10 fixes a CSWSH security hole (any webpage could forge a WS upgrade to hijack the bridge) and persists the forward switch\n- Connector lives in its own repo: https://github.com/blacksunshy/coopanion-connector-dsh  (GitHub only, not on npm)"
         }
       },
       "author": "blacksunshy",
@@ -8779,8 +8800,8 @@
         "bugs": "https://github.com/blacksunshy/coopanion-fatfish/issues"
       },
       "created": "2026-10-15T06:47:52.601Z",
-      "published": "2026-11-07T15:23:25.234Z",
-      "versionCount": 37,
+      "published": "2026-11-08T10:55:01.158Z",
+      "versionCount": 38,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -8804,6 +8825,7 @@
       },
       "changelog": {
         "versions": [
+          "0.6.21",
           "0.6.20",
           "0.6.19",
           "0.6.18",
@@ -8848,7 +8870,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
         "up": 59,
         "down": 7,
-        "comments": 60
+        "comments": 62
       }
     },
     "cortico-world-fatigue-mood": {
@@ -13257,7 +13279,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/619",
         "up": 4,
         "down": 0,
-        "comments": 29
+        "comments": 31
       }
     },
     "cortico-world-mota": {
@@ -13804,7 +13826,7 @@
       "discussion": {
         "number": 722,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/722",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -15001,7 +15023,7 @@
       "published": "2026-10-25T11:21:37.834Z",
       "versionCount": 3,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [
         "voice",
         "requires-key"
@@ -15996,7 +16018,7 @@
       "published": "2026-10-25T08:35:52.575Z",
       "versionCount": 2,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "im",
         "qq",
@@ -17751,13 +17773,13 @@
     },
     "cortico-world-screen-sense": {
       "kind": "world",
-      "version": "0.1.10",
+      "version": "0.1.11",
       "displayName": "窥屏助手",
-      "description": "窥屏助手：让 Coo 用事件流感知前台切换，可选把截图记进本机相册、由本地小模型写一句速写。默认关闭，原图不进主上下文。",
+      "description": "窥屏助手：让 Coo 用事件流感知前台切换，可选截图 + 本地视觉速写；默认关闭，原图不进主上下文。搭配「活动日记」（cortico-world-screen-diary）可把事件整理成平滑记忆。",
       "locales": {
         "en": {
           "displayName": "Screen Sense",
-          "description": "A light-touch sense of what you are doing for Coopanion: foreground switches as events, plus optional local screenshots with one-line vision captions. Off by default; images stay out of the main context."
+          "description": "A light-touch sense of what you are doing for Coopanion: foreground switches as events, plus optional local screenshots with vision captions. Pair it with Activity Diary (cortico-world-screen-diary) to turn the stream into smoothed memory. Off by default; images stay out of the main context."
         }
       },
       "author": "Wwhois163wW",
@@ -17770,7 +17792,8 @@
         "cortico",
         "screen",
         "vision",
-        "album"
+        "album",
+        "activity-diary"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-screen-sense",
@@ -17779,8 +17802,8 @@
         "bugs": "https://github.com/Wwhois163wW/cortico-world-screen-sense/issues"
       },
       "created": "2026-11-03T06:36:57.535Z",
-      "published": "2026-11-07T11:26:11.357Z",
-      "versionCount": 12,
+      "published": "2026-11-08T09:45:05.445Z",
+      "versionCount": 13,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -17808,6 +17831,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.11",
           "0.1.10",
           "0.1.9",
           "0.1.8",
@@ -23215,7 +23239,7 @@
       "published": "2026-10-25T07:56:00.714Z",
       "versionCount": 4,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "internet",
         "browser"
