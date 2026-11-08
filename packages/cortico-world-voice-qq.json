@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-voice-qq",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "describe": {
     "tools": [
       {
@@ -41,6 +41,8 @@
     "events": []
   },
   "changelog": {
+    "0.1.2": "- 简介里补上那句邀请说明和邀请链接（市场详情页只读 description，之前写在 README 里看不到）。\n- 英文简介同步补上。\n- 功能一字未改。",
+    "0.1.1": "改名与文案。\n\n- 名字从「语音发 QQ」改成「鲸鱼的小嗓子」（英文 `Whale's Little Voice`），`package.json`、World 的 `label`、配置组标题、README 六处一致改到。\n- 简介改一句话：让 Bot 有自己的小嗓子——想说的那句，真的发出声来。\n- README 开头换成第一人称的说明，写清「配起来只填一把 key」「要自己申请、要花钱」「只被叫到才动一次」，并给了 Breeze 的邀请链接。\n- 补一句「不在你电脑上跑模型：不下载模型、不占显卡、不占内存，声音全在云端合成」——详情页正文与简介里都点明。\n- 加图标：`assets/icon.png`（512×512，`cortico.icon` 指过去）。\n- 功能与出错行为一个字没改，纯文案与版本号。",
     "0.1.0": "首个版本。\n\n- 工具 `voice_qq_say(text, target?, speed?)`：合成一句语音、存成 WAV、发到 QQ，回 messageId、时长与字节数。\n- 两个云端合成引擎：BreezeBlue（`brz_` 密钥）与 MiniMax（国内 / 国际两个端点）。\n- 两个发送通道：OneBot WebSocket（默认，能自动从别的 QQ 扩展配置里找到地址与 token）与 OneBot HTTP（兜底，端口手填或试 3000 / 5700）。\n- 目标写法：`private:<QQ号>`、`group:<群号>`、纯号码（按群白名单判断是私聊还是群）、`local`（只合成不发送）。\n- 群发走白名单：`groupAllowList` 里没写的群号一律拒绝。\n- 每天有调用次数上限，落盘记账；按数量与总体积清理旧 WAV。\n- 扩展面板：「配置」页签 11 项（引擎、音色、默认目标、群白名单、每天上限、保留个数、通信方式、端口、超时等），「密钥」页签填 Breeze 密钥与 OneBot token，走 `storeSecret` 写部署根 `.env`，不回显、不进日志。\n- 扩展面板的「密钥」页签下半部分有「排查」块：最近 20 条失败记录，只读、可复制，QQ 号 / 密钥 / 路径在后端打码（`src/scrub.js`），负数 messageId 不动。\n- 失败分 18 类各一句中文（合成 6 类、写盘 1 类、发送 5 类、WebSocket 4 类、无可用通道 1 类、参数 1 类），不糊成「失败」。\n- 不做：不监听气泡、不定时说话、不自动重试、不进常驻提示词。"
   }
 }

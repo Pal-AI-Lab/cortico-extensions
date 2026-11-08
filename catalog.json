@@ -49,6 +49,9 @@
     "cortico-world-codex-monitor": [
       "sensitive-data"
     ],
+    "cortico-world-coding-agent-notify": [
+      "sensitive-data"
+    ],
     "cortico-world-companion": [
       "sensitive-data"
     ],
@@ -1380,7 +1383,7 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "0.9.12",
+      "version": "0.9.13",
       "displayName": "大肥鱼环游世界",
       "description": "让桌宠真的出门旅行：一百二十四座城、每座都有真地标，她自己挑去哪、怎么去，路上真耗那些时间；到站按当地时间吃饭、看日出、住店、写日记，月底出一页手账。填个公共地址，还能和别人的宠物约在下一站碰面。需 Coopani 0.2.17 以上。",
       "locales": {
@@ -1415,8 +1418,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-07T14:31:08.412Z",
-      "versionCount": 95,
+      "published": "2026-11-08T03:11:19.078Z",
+      "versionCount": 96,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1446,6 +1449,7 @@
       },
       "changelog": {
         "versions": [
+          "0.9.13",
           "0.9.12",
           "0.9.11",
           "0.9.10",
@@ -1583,12 +1587,12 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-journey@0.9.12/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-journey@0.9.13/CHANGELOG.md"
       },
       "discussion": {
         "number": 586,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/586",
-        "up": 8,
+        "up": 9,
         "down": 0,
         "comments": 20
       }
@@ -1729,7 +1733,7 @@
     },
     "coopani-world-pz": {
       "kind": "world",
-      "version": "0.5.0",
+      "version": "0.5.1",
       "displayName": "僵毁陪玩",
       "description": "陪玩僵毁（需 Coopani 0.2.17+）:她读游戏自己写出来的状态,不是屏幕。天要黑了催你回屋、被围了让你跑、被咬一口先骂你再问伤口、找到大锤跟着高兴、死了会记住这局。只看不动手,也不剧透。",
       "locales": {
@@ -1761,8 +1765,8 @@
         "win32"
       ],
       "created": "2026-11-07T10:43:28.721Z",
-      "published": "2026-11-07T12:10:25.369Z",
-      "versionCount": 5,
+      "published": "2026-11-08T03:33:19.050Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1795,7 +1799,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-pz@0.5.0/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-pz@0.5.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 805,
@@ -2100,7 +2104,7 @@
     },
     "cortico-bot-continuity": {
       "kind": "bot",
-      "version": "0.8.1",
+      "version": "0.8.2",
       "description": "Cortico 的 Bot 扩展，为机器人带来持续的记忆和鲜明的个性，记住经历，整理往事，延续对话。",
       "author": "DTMosken",
       "maintainers": [
@@ -2118,8 +2122,8 @@
         "bugs": "https://github.com/DTMosken/cortico-bot-continuity/issues"
       },
       "created": "2026-09-21T10:58:17.207Z",
-      "published": "2026-11-06T07:30:55.357Z",
-      "versionCount": 22,
+      "published": "2026-11-08T03:01:43.644Z",
+      "versionCount": 23,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2141,6 +2145,7 @@
       },
       "changelog": {
         "versions": [
+          "0.8.2",
           "0.8.1",
           "0.8.0",
           "0.7.3",
@@ -6081,6 +6086,85 @@
       "discussion": {
         "number": 463,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/463",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-coding-agent-notify": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "Coding Agent Notify",
+      "description": "Coopanion World for short coding-agent completion notifications",
+      "locales": {
+        "zh": {
+          "displayName": "Coding Agent 任务通知",
+          "description": "在 World 配置页按需安装 Codex、Claude Code、OpenCode、DSH hook，由 Coopanion 简要播报任务报告。Windows 适配待验证。"
+        },
+        "en": {
+          "displayName": "Coding Agent Notify",
+          "description": "Install native Codex, Claude Code, OpenCode and DSH hooks from the World panel. Coopanion summarizes completion reports. Windows compatibility is unverified."
+        }
+      },
+      "author": "ThermalEng",
+      "maintainers": [
+        "wcysylmc"
+      ],
+      "license": "AGPL-3.0-or-later",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "coding-agent",
+        "notifications",
+        "codex",
+        "claude-code",
+        "opencode",
+        "dsh"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-coding-agent-notify",
+        "repository": "https://github.com/ThermalEng/coopanion-agent-notify-world",
+        "homepage": "https://github.com/ThermalEng/coopanion-agent-notify-world#readme",
+        "bugs": "https://github.com/ThermalEng/coopanion-agent-notify-world/issues"
+      },
+      "created": "2026-11-08T03:36:20.254Z",
+      "published": "2026-11-08T03:37:36.276Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "apps",
+        "external-setup",
+        "experimental",
+        "sensitive-data"
+      ],
+      "tags": [
+        "apps",
+        "external-setup",
+        "experimental",
+        "sensitive-data"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 0,
+        "events": 1,
+        "toolTokens": 0,
+        "envPromptTokens": 262
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/ThermalEng/coopanion-agent-notify-world/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 815,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/815",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -12603,7 +12687,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/454",
         "up": 0,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-memory-weight": {
@@ -13015,7 +13099,7 @@
     },
     "cortico-world-mosey": {
       "kind": "world",
-      "version": "2.1.0",
+      "version": "2.1.2",
       "displayName": "摸鱼",
       "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。评论和私信都能收能回；能一起看视频（B站带字幕弹幕，抖音可自动连刷）；关注流、周报、本地书库；按额度点赞、评论、关注、发动态。默认人审，三把工具、少 token。\n\nQQ 交流群：745879632",
       "locales": {
@@ -13052,8 +13136,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-mosey/issues"
       },
       "created": "2026-11-01T08:17:38.660Z",
-      "published": "2026-11-07T13:34:27.058Z",
-      "versionCount": 32,
+      "published": "2026-11-08T00:57:17.318Z",
+      "versionCount": 34,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -13090,6 +13174,8 @@
       },
       "changelog": {
         "versions": [
+          "2.1.2",
+          "2.1.1",
           "2.1.0",
           "2.0.4",
           "2.0.2",
@@ -13162,7 +13248,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/619",
         "up": 4,
         "down": 0,
-        "comments": 27
+        "comments": 29
       }
     },
     "cortico-world-mota": {
@@ -14392,6 +14478,81 @@
         "comments": 0
       }
     },
+    "cortico-world-ops": {
+      "kind": "world",
+      "version": "0.2.1",
+      "displayName": "本机操作",
+      "description": "给 Coopanion 桌宠一套有界、可批量的本机操作工具：读、写、改写、查找、跑命令。所有输出封顶并带续读指针，失败返回结构化错误码而不是抛异常。",
+      "locales": {
+        "zh": {
+          "displayName": "本机操作",
+          "description": "读、写、改写、查找、跑命令——有界输出，失败给错误码，不空转。"
+        },
+        "en": {
+          "displayName": "Local Ops",
+          "description": "Read, write, patch, find and run commands — bounded output, structured failures."
+        }
+      },
+      "author": "HirannU",
+      "maintainers": [
+        "hirannu"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "world",
+        "ops",
+        "filesystem",
+        "shell",
+        "powershell",
+        "agent-tools",
+        "token-economy"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-ops",
+        "repository": "https://github.com/HirannU-OVO/cortico-world-ops",
+        "homepage": "https://github.com/HirannU-OVO/cortico-world-ops#readme",
+        "bugs": "https://github.com/HirannU-OVO/cortico-world-ops/issues"
+      },
+      "created": "2026-11-08T03:35:22.095Z",
+      "published": "2026-11-08T03:36:37.975Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "experimental"
+      ],
+      "tags": [
+        "experimental"
+      ],
+      "icon": "assets/cortico-world-ops/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 10,
+        "events": 0,
+        "toolTokens": 2481,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.2.1",
+          "0.2.0"
+        ],
+        "url": "https://github.com/HirannU-OVO/cortico-world-ops/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 816,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/816",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-overcooked2": {
       "kind": "world",
       "version": "0.2.1",
@@ -15463,7 +15624,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/36",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-pwa": {
@@ -15734,7 +15895,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/39",
         "up": 16,
         "down": 3,
-        "comments": 6
+        "comments": 7
       }
     },
     "cortico-world-qq-all": {
@@ -21522,13 +21683,13 @@
     },
     "cortico-world-voice-qq": {
       "kind": "world",
-      "version": "0.1.0",
-      "displayName": "语音发 QQ",
-      "description": "把一句话合成语音并发到 QQ。工具调用才出声：没有定时、没有轮询、不监听气泡。支持 BreezeBlue / MiniMax 两个云端引擎，也可只合成存文件不发（target: local）。",
+      "version": "0.1.2",
+      "displayName": "鲸鱼的小嗓子",
+      "description": "让 Bot 有自己的小嗓子——想说的那句，真的发出声来。声音在云端合成，不占你的显卡。Breeze 现在有免费额度（每天登录送积分，新用户也有），以现在这个用法能用很久，不用怕贵；想用我的邀请链接也行：https://breezeblue.ai/zh?code=7YPCL8 ——我能蹭一点积分。",
       "locales": {
         "en": {
-          "displayName": "Voice for QQ",
-          "description": "Synthesize one line and send it to QQ. Speaks only when a tool is called: no timers, no polling, no reading chat bubbles."
+          "displayName": "Whale's Little Voice",
+          "description": "Give the bot a little voice of its own — the line it wants to say, actually spoken aloud. Cloud-synthesized: no model on your machine, no GPU. Breeze offers free daily credits plus a signup bonus, which at this usage lasts a long time; my invite link, if you like: https://breezeblue.ai/zh?code=7YPCL8 (it earns me a few credits)."
         }
       },
       "author": "feiyu-momo",
@@ -21547,8 +21708,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-voice-qq"
       },
       "created": "2026-11-07T16:59:55.998Z",
-      "published": "2026-11-07T17:00:51.158Z",
-      "versionCount": 2,
+      "published": "2026-11-08T03:26:20.356Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -21567,6 +21728,7 @@
         "requires-key",
         "unofficial-api"
       ],
+      "icon": "assets/cortico-world-voice-qq/icon.png",
       "downloads": {
         "total": 0,
         "month": 0,
@@ -21580,9 +21742,11 @@
       },
       "changelog": {
         "versions": [
+          "0.1.2",
+          "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-voice-qq@0.1.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-voice-qq@0.1.2/CHANGELOG.md"
       },
       "discussion": {
         "number": 813,
