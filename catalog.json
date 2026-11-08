@@ -799,17 +799,17 @@
     },
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.6.10",
+      "version": "0.7.5",
       "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
-      "description": "GPT-SoVITS 语音插件：支持 AMD 显卡（ROCm，实验性）和 NVIDIA 显卡，没有独显自动走 CPU；全程本机合成、不上传录音，一键装运行时与权重。",
+      "description": "给 Coopanion 桌宠用的 GPT-SoVITS 语音插件：默认全程本机合成，按 NVIDIA / AMD（ROCm，实验性）/ CPU 自动选档；也可切到云端 OpenAI 兼容接口（填自己的 Key）。内置大肥鱼、星落落音色，支持自备权重与自定义音色、QQ 语音与唱歌联动；CPU / 核显档可开播放预缓冲（默认关闭）。",
       "locales": {
         "zh": {
           "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
-          "description": "支持 AMD 显卡（ROCm，实验性）和 NVIDIA 显卡，没有独显自动走 CPU。全程本机合成、不上传录音，一键装好运行时与模型；内置大肥鱼 / 星落落音色，支持自备权重与自定义音色，也能把声音交给 QQ 插件。"
+          "description": "Coopanion 桌宠的 GPT-SoVITS 语音插件：默认全程本机合成，按 NVIDIA / AMD（ROCm，实验性）/ CPU 自动选档；也可切到云端 OpenAI 兼容接口（需填 Key）。内置大肥鱼 / 星落落音色，支持自备权重与自定义音色，能把语音交给 QQ、把歌词转给唱歌插件；CPU / 核显档可开「播放预缓冲」（默认关闭）。"
         },
         "en": {
           "displayName": "Better GPTSovits Voice — Fatfish",
-          "description": "Works with AMD GPUs (ROCm, experimental) and NVIDIA GPUs, and falls back to CPU without a discrete GPU. Everything is synthesized locally, nothing is uploaded; runtime and models install in one click. Ships the Fatfish / Xll voices, supports your own weights and custom voices, and can hand the audio to QQ plugins."
+          "description": "GPT-SoVITS voice for Coopanion pets: local synthesis by default with automatic NVIDIA / AMD (ROCm, experimental) / CPU tiers; optionally switch to any OpenAI-compatible cloud endpoint with your own API key. Ships the Fatfish / Xll voices, supports your own weights and custom voices, hands audio to QQ plugins and lyrics to the singing plugin. A playback pre-buffer (off by default) smooths CPU / iGPU stutter."
         }
       },
       "author": "wocwang",
@@ -835,8 +835,8 @@
         "darwin"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-11-06T10:47:36.552Z",
-      "versionCount": 42,
+      "published": "2026-11-08T15:51:26.383Z",
+      "versionCount": 43,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -863,6 +863,13 @@
       },
       "changelog": {
         "versions": [
+          "0.7.5",
+          "0.7.4",
+          "0.7.3",
+          "0.7.2",
+          "0.7.1",
+          "0.7.0",
+          "0.6.10",
           "0.6.9",
           "0.6.8",
           "0.6.7",
@@ -929,8 +936,8 @@
         "number": 228,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
         "up": 22,
-        "down": 0,
-        "comments": 80
+        "down": 1,
+        "comments": 82
       }
     },
     "@wocwang/cortico-world-rvc-for-coopanion": {
@@ -1827,7 +1834,7 @@
       "discussion": {
         "number": 805,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/805",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -5020,7 +5027,7 @@
       "discussion": {
         "number": 457,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/457",
-        "up": 13,
+        "up": 14,
         "down": 0,
         "comments": 2
       }
@@ -13642,7 +13649,7 @@
       "published": "2026-10-26T12:49:57.299Z",
       "versionCount": 3,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "voice",
         "requires-key",
@@ -15974,7 +15981,7 @@
       "discussion": {
         "number": 39,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/39",
-        "up": 16,
+        "up": 17,
         "down": 3,
         "comments": 7
       }
@@ -17690,13 +17697,13 @@
     },
     "cortico-world-screen-diary": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.6.0",
       "displayName": "活动日记",
-      "description": "活动日记：消费窥屏助手的事件流，把工作状态投影到二维空间并平滑；细节会淡忘，只留大概。需要 cortico-world-screen-sense。",
+      "description": "活动日记：把窥屏助手的事件流整理成平滑的活动记忆与二维状态；细节会淡忘，只留大概。先安装并启用 cortico-world-screen-sense。",
       "locales": {
         "en": {
           "displayName": "Activity Diary",
-          "description": "Consumes the screen-sense event stream and turns foreground switches and vision captions into a searchable timeline. Requires cortico-world-screen-sense to be installed and enabled."
+          "description": "Activity Diary turns the Screen Sense event stream into smoothed activity memory and a two-axis state; details fade, only the gist remains. Install and enable cortico-world-screen-sense first."
         }
       },
       "author": "Wwhois163wW",
@@ -17709,7 +17716,8 @@
         "cortico",
         "diary",
         "activity",
-        "screen"
+        "screen",
+        "screen-sense"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-screen-diary",
@@ -17718,8 +17726,8 @@
         "bugs": "https://github.com/Wwhois163wW/cortico-world-screen-diary/issues"
       },
       "created": "2026-11-04T11:01:43.738Z",
-      "published": "2026-11-04T15:07:56.477Z",
-      "versionCount": 3,
+      "published": "2026-11-08T15:44:13.299Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -17741,13 +17749,24 @@
         "week": 518
       },
       "summary": {
-        "tools": 5,
-        "events": 0,
-        "toolTokens": 473,
-        "envPromptTokens": 190
+        "tools": 7,
+        "events": 2,
+        "toolTokens": 768,
+        "envPromptTokens": 243
       },
       "changelog": {
         "versions": [
+          "0.6.0",
+          "0.5.4",
+          "0.5.3",
+          "0.5.2",
+          "0.5.1",
+          "0.5.0",
+          "0.4.2",
+          "0.4.1",
+          "0.4.0",
+          "0.3.0",
+          "0.2.1",
           "0.2.0",
           "0.1.0"
         ],

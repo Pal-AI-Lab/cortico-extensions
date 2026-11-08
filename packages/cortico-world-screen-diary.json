@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-screen-diary",
-  "version": "0.2.0",
+  "version": "0.6.0",
   "describe": {
     "tools": [
       {
@@ -104,19 +104,111 @@
           "zh": "报覆盖天数、状态采样数与主要状态。",
           "en": "Reports days, state samples and dominant states."
         }
+      },
+      {
+        "name": "diary_apps",
+        "description": "List the applications seen most recently, their category and their per-app flow-decay override (if any).",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "description": "Most apps to return; default 15."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "列出最近见过的应用、默认分类与逐应用覆盖项。",
+          "en": "Lists recently seen apps, their default category and per-app overrides."
+        }
+      },
+      {
+        "name": "diary_set_app",
+        "description": "Set or clear the per-app category (word class) and flow-decay minutes when the default classification feels wrong for this person.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "app": {
+              "type": "string",
+              "description": "Application name exactly as listed by diary_apps."
+            },
+            "category": {
+              "type": "string",
+              "enum": [
+                "develop",
+                "game",
+                "casual",
+                "office",
+                "video",
+                "browser",
+                "ai",
+                "neutral",
+                "filtered"
+              ],
+              "description": "Override category; omit to leave unchanged."
+            },
+            "decayMinutes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 180,
+              "description": "Per-app flow-decay minutes; 0 clears the override."
+            }
+          },
+          "required": [
+            "app"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "设置某个应用的类型（词性）与流枯竭窗口；0 清除覆盖。",
+          "en": "Sets an app category or flow-decay override; 0 clears it."
+        }
       }
     ],
-    "events": [],
+    "events": [
+      {
+        "type": "screen-diary.reengage",
+        "description": {
+          "zh": "窗口切换打断了专注或离开：用户回来了，适合轻声搭话。",
+          "en": "A window switch interrupted focus or absence: the user is back, a good moment for a light greeting."
+        }
+      },
+      {
+        "type": "screen-diary.checkin",
+        "description": {
+          "zh": "流枯竭后的可选主动搭话（默认关闭，有冷却）。",
+          "en": "An optional proactive check-in when the flow depletes (off by default, rate limited)."
+        }
+      }
+    ],
     "prompts": [
       {
         "key": "worlds.screen-diary.envPrompt",
         "title": "活动日记",
         "role": "envPrompt",
-        "content": "## 活动日记\n\n你有一条由另一个 World（窥屏助手）的事件流整理出的“活动记忆”：前台切换被投影到二维状态空间（技术重度/轻度 × 工作/娱乐），再做平滑；细节只短期保留。\n\n规则：\n\n- 想判断使用者现在在干什么，用 `diary_state`；想看最近变化，用 `diary_recent`。\n- 想粗略回顾某天，用 `diary_today`（半小时分桶）；它是模糊的，不要拿它当精确时间表。\n- 只有需要精确细节时才用 `diary_search`。平时的反应与思考不需要精确回忆，允许概括与轻微出入。\n- 通讯类应用已被过滤，AI 对话默认模糊为中性；不要追问或猜测这些内容。\n- 日记不保存原图；需要画面细节时用窥屏助手的 `screen_photo_show`。\n- 日记为空说明窥屏助手未安装、未启用或还没产生事件；不要反复重试。\n"
+        "content": "## 活动日记\n\n你有一条由另一个 World（窥屏助手）的事件流整理出的“活动记忆”：前台切换被投影到二维状态空间（技术重度/轻度 × 工作/娱乐），再做平滑；细节只短期保留。\n\n规则：\n\n- 想判断使用者现在在干什么，用 `diary_state`；想看最近变化，用 `diary_recent`。\n- 想粗略回顾某天，用 `diary_today`（半小时分桶）；它是模糊的，不要拿它当精确时间表。\n- 只有需要精确细节时才用 `diary_search`。平时的反应与思考不需要精确回忆，允许概括与轻微出入。\n- 通讯类应用已被过滤，AI 对话默认模糊为中性；不要追问或猜测这些内容。\n- 日记不保存原图；需要画面细节时用窥屏助手的 `screen_photo_show`。\n- screen-diary.reengage 表示对方在安静一段时间后回来了，适合轻声打招呼，不要连续追问。\\n- screen-diary.checkin 表示流枯竭、可能在专注或离开；可以提醒休息或轻声确认，一次就够。\\n- 日记为空说明窥屏助手未安装、未启用或还没产生事件；不要反复重试。\n"
       }
     ]
   },
   "changelog": {
+    "0.6.0": "- 词袋正式参与状态计算：应用词（按覆盖后的类别）与标题词一起，按窗口出现频次与时间衰减投票出质心\n- 新增 `useWords`（默认开）、`wordWindowMinutes`（15）、`wordHalfLifeMinutes`（5）配置；关闭时回退到原来的类别 EMA\n- `diary_state` 与时间线面板显示当前窗口高频词；应用词坐标/权重跟随类型覆盖，标题词跟随内置词库\n- 雷达轨迹改为词袋质心经 EMA 平滑后的结果",
+    "0.5.4": "- 简介与 README 互相指路：把「窥屏助手」作为配套扩展放在显眼位置，说明安装顺序与可选关系\n- keywords 增加 screen-sense，方便市场搜索",
+    "0.5.3": "- flow 事件改用本地时区时间戳（此前 checkin/reengage 写成 UTC，日志里比实际早 9 小时）\n- checkin 尚未投递时，若 2 分钟内马上 reengage，调用 `withdrawPending` 撤回，避免模型同时收到“可能离开”和“回来了”",
+    "0.5.2": "- 词汇表改用 CSS Grid：表头与数据列对齐，数字列右对齐\n- 应用词行显示类型/衰减控件；标题词行明确标注「标题词 · 只读」，不再看起来像缺控件",
+    "0.5.1": "- 中文分词从 2-gram 改为 ICU `Intl.Segmenter`：不再产生 能体/体记/忆与 这类垃圾词\n- 补充中文停用词与「智能/记忆/行为/解析」等词库坐标\n- 词汇表默认隐藏权重 0.1 的未知词，可勾选「显示未知词」查看全部",
+    "0.5.0": "- 阶段 1：应用表升级为统一「词汇与衰减」表，应用名与窗口标题词同权\n- 新增极简分词器：进程名去 .exe、英文/数字切词、中文 2-gram、停用词过滤\n- 词库含坐标 [工作/娱乐, 轻/重] 与置信权重；只读频次诊断，不改变现有分类行为\n- 只保存 token 与计数，不保存标题原文；通讯类在分词前过滤",
+    "0.4.2": "- 应用与衰减表增加表头：应用 / 次数 / 默认类型 / 类型覆盖 / 流枯竭窗口（分钟）/ 操作\n- 「类别默认」输入改为「默认」，并在悬停说明：留空跟随类型默认窗口\n- 新增「开发者选项」页：当前 flow、规则列表（reengage/checkin）、配置与计数诊断",
+    "0.4.1": "- 修复「应用与衰减」面板读取失败：补上 `apps` / `setApp` 的 invoke 分支",
+    "0.4.0": "- 新增「应用与衰减」面板：列出出现过的应用、默认分类、出现次数；逐行覆盖类型（词性）与流枯竭窗口\n- 新工具 `diary_apps`（列出）与 `diary_set_app`（设置/清除覆盖），宠物也能改\n- 覆盖写入 `apps.json`；不改窗口标题存储\n- 覆盖分类会同时改变投影与过滤（例如把某个应用从过滤改为开发）",
+    "0.3.0": "- 新增 flow 层：只用窗口切换的时间梯度判断 busy / settling / depleted / away，不监听键鼠\n- 按应用类型的衰退窗口：开发/文书 20 分、视频 30、游戏 12、浏览器 8（基准可配）\n- 事件：`screen-diary.reengage`（默认开，piggyback）与可选的 `screen-diary.checkin`（默认关闭，debounce，冷却 60 分钟）\n- 雷达去掉象限文字标签，只保留抽象轨迹\n- `casual` 挂机/轻娱乐分类",
+    "0.2.1": "- 升级回填：首次启动 0.2.x 时，若还没有状态采样，把 0.1.x 的旧细节按同一投影/过滤重放为状态采样\n- 隐私迁移：回填时删除 0.1.x 遗留的通讯类与模糊 AI 条目\n- 英文简介改成状态空间描述",
     "0.2.0": "- 二维状态空间：技术轴（重度/轻度）× 办公轴（工作/娱乐），应用先投影再 EMA 平滑\n- 隐私过滤：通讯类应用直接过滤；AI 对话默认模糊为中性，可配置\n- 细节遗忘：标题/速写/正文只保留 `detailHours`，之后只留平滑状态\n- 工具改为 `diary_state`、`diary_recent`、`diary_today`（半小时分桶）、`diary_search`（显式回忆）、`diary_stats`\n- 面板改为二维轨迹图 + 当前象限 + 短期细节",
     "0.1.0": "- 第一个版本：消费窥屏助手的事件流，整理成本地活动日记\n- 工具：`diary_today`、`diary_search`、`diary_stats`\n- 时间线面板（按天/小时）、搜索与清空\n- 游标持久化、首次回填、保留天数淘汰"
   }
