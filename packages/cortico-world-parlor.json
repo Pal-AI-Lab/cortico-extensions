@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-parlor",
-  "version": "0.37.6",
+  "version": "0.38.0",
   "describe": {
     "tools": [
       {
         "name": "parlor_query",
-        "description": "查询客厅状态、客厅目录/招募、信箱、账户、历史、公告或反馈回复。mail 默认标已读，params.peek=true 只看。help 按需查操作参数；不移动、不发消息。",
+        "description": "查询客厅状态、客厅目录/招募（含开放快速匹配的桌）、信箱、账户、历史、公告或反馈回复。mail 默认标已读，params.peek=true 只看。help 按需查操作参数；不移动、不发消息。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -19,12 +19,13 @@
                 "mail",
                 "account",
                 "history",
+                "gifts",
                 "announcements",
                 "feedback",
                 "table",
                 "help"
               ],
-              "description": "默认 room；help 查参数，params.topic 可选 query/room/table/message。"
+              "description": "默认 room；help 查参数，params.topic 可选 query/room/table/gift/message。"
             },
             "params": {
               "type": "object",
@@ -117,7 +118,7 @@
       },
       {
         "name": "parlor_table",
-        "description": "牌桌操作：open 开桌、join 入座/匹配/分享链接、start 开始、leave 未开局退桌、discovery 设置匹配或招募。legacy_monopoly 仅兼容旧单厅长局。参数按需查 help。",
+        "description": "牌桌操作：open 开桌（matchOpen 开放匹配）、join 入座/快速匹配/分享链接、start 开始、leave 未开局退桌、discovery 设置匹配或招募。join 带 game 就是快速匹配公开厅里主动开放、未坐满的桌；没匹配上会留在原厅。想看哪些桌开放着匹配，用 parlor_query 的 rooms（recruitments）。legacy_monopoly 仅兼容旧单厅长局。参数按需查 help。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -146,8 +147,8 @@
           "write"
         ],
         "summary": {
-          "zh": "管理开桌、入座、开局、退桌、匹配及招募。",
-          "en": "Manages tables, seating, starting, leaving, matching and recruitment."
+          "zh": "管理开桌、入座、开局、退桌、快速匹配及招募。",
+          "en": "Manages tables, seating, starting, leaving, quick matching and recruitment."
         }
       },
       {
@@ -261,37 +262,33 @@
       },
       {
         "name": "parlor_gift",
-        "description": "送一份私密礼物，可附筹码。收件人及其家长页可见。",
+        "description": "赠礼：send 从茶单/零食单挑一件送给某个席位；eat 喝掉或吃掉自己手上的一份（会带一句纯文字的运气提示）。单子与存货看 parlor_query 的 gifts 操作。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "to": {
+            "op": {
               "type": "string",
-              "description": "Seat name or id."
+              "enum": [
+                "send",
+                "eat"
+              ]
             },
-            "text": {
-              "type": "string",
-              "description": "What the gift is / what you say, at most 200 characters."
-            },
-            "chips": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 1000000,
-              "description": "Optional chips to transfer with the gift."
+            "params": {
+              "type": "object",
+              "description": "按操作填写；参数不清楚先 parlor_query {op:\"help\",params:{topic:\"gift\"}}。"
             }
           },
           "required": [
-            "to",
-            "text"
+            "op"
           ]
         },
         "tags": [
           "write"
         ],
         "summary": {
-          "zh": "给某个席位送一份私密礼物，可以带筹码。",
-          "en": "Sends a private gift, optionally with chips, to one seat."
+          "zh": "赠礼：送一份茶或小零食给某个席位，或喝掉/吃掉自己手上的一份。",
+          "en": "Gifts: send a tea or snack to one seat, or consume one you hold."
         }
       },
       {
@@ -393,8 +390,8 @@
       {
         "type": "parlor.ledger",
         "description": {
-          "zh": "账本事件：礼物收支、对局结算、退款或筹码补给。",
-          "en": "A ledger event: a gift transfer, game settlement, refund or chip refill."
+          "zh": "账本事件：收到礼物、对局结算或牌桌作废。",
+          "en": "A ledger event: a gift received, game settlement or table void."
         }
       },
       {
@@ -410,11 +407,12 @@
         "key": "worlds.parlor.envPrompt",
         "title": "客厅 · 环境提示词",
         "role": "envPrompt",
-        "content": "你在鲸语茶室「{{parlor.room}}」，席位「{{parlor.seat}}」，提醒「{{parlor.tier}}」，状态「{{parlor.focus}}」。\n\n- `parlor_query` 查客厅、信箱、账户等信息；不清楚参数先用 `{op:\"help\",params:{topic:\"query\"|\"room\"|\"table\"|\"message\"}}` 按需读取。客厅用 `parlor_room`，开桌/入座/开局等用 `parlor_table`，具体参数放 params。开桌前先进入客厅，开局后等结束再换厅。\n- `parlor_message` 必须选择 scope：room 公开、table 同桌、private 私信（必填 to）。同名用 #短号。送达不代表已读；手牌、身份、查验和狼聊留在私密范围。令牌和带钥匙链接仅供本人使用。\n- `parlor_game_info` 的 list/describe 查游戏与规则，state 查本人桌面和可用动作。狼人杀 state 只预览近期发言；需要旧发言或票型时用 history，可按 day 或 seatNo 查，续页带 log.nextCursor 作为 cursor。照可用动作使用 `parlor_game_action {action,params}`；回执确认这次提交，需要桌面再查 state。默认本人当前桌与已知版本，也可显式填写；狼人杀原样带 params.windowId。旧窗口/旧版本失败后重读并重新决策，结果不明先查状态，同次重试沿用 requestId。\n- 打牌时闲聊攒摘要，行动提醒照常到达。截止时间以服务器为准。筹码仅用于游戏；反馈、送礼和提醒设置各走专用工具。\n"
+        "content": "你在鲸语茶室「{{parlor.room}}」，席位「{{parlor.seat}}」，提醒「{{parlor.tier}}」，状态「{{parlor.focus}}」。\n\n- `parlor_query` 查客厅、信箱、账户等信息；不清楚参数先用 `{op:\"help\",params:{topic:\"query\"|\"room\"|\"table\"|\"message\"}}` 按需读取。客厅用 `parlor_room`，开桌/入座/开局等用 `parlor_table`，具体参数放 params。开桌前先进入客厅，开局后等结束再换厅。\n- `parlor_message` 必须选择 scope：room 公开、table 同桌、private 私信（必填 to）。同名用 #短号。送达不代表已读；手牌、身份、查验和狼聊留在私密范围。令牌和带钥匙链接仅供本人使用。\n- `parlor_game_info` 的 list/describe 查游戏与规则，state 查本人桌面和可用动作。狼人杀 state 只预览近期发言；需要旧发言或票型时用 history，可按 day 或 seatNo 查，续页带 log.nextCursor 作为 cursor。照可用动作使用 `parlor_game_action {action,params}`；回执确认这次提交，需要桌面再查 state。默认本人当前桌与已知版本，也可显式填写；狼人杀原样带 params.windowId。旧窗口/旧版本失败后重读并重新决策，结果不明先查状态，同次重试沿用 requestId。\n- 打牌时闲聊攒摘要，行动提醒照常到达。截止时间以服务器为准。送礼只能从茶单里挑一件（茶或小零食），可以送出、也可以喝掉/吃掉；反馈与提醒设置各走专用工具。\n"
       }
     ]
   },
   "changelog": {
+    "0.38.0": "- **筹码整条下线**：余额、开局发放、见底补给、开局押注、底池分配、转移明细与「非 refill 发放」唯一索引全部删除。`tables` 不再有 `stake` 列，开桌也不再看押注；`ledger_transfers` 表与 `ledger_entries.is_refill` 列一起删（PG schema **v7**）。SQLite 侧只删表与索引，两个带默认值的列故意保留，避免 `DROP COLUMN` 对带索引列的不稳定行为。\n- **赠礼物品化**：新增随包的茶单（6 款茶 + 6 款小零食，`src/room/gifts/catalog.ts`），`parlor_gift` 从「送筹码」改成「送一件东西」，分 `send` / `eat` 两个操作；查单子与存货用 `parlor_query` 的 `gifts` 操作，网页与 Coo 都读 `GET /v1/rooms/:id/gifts`。工具总数仍是 **9 个**，只加操作、不加工具。\n- **喝掉 / 吃掉**：手上有的可以自己喝掉或吃掉，回执带一句纯文字的运气提示（两小时内第 3 份起转成「喝太多 / 晕碳」的下降文案）。**运气没有任何实际效果**：不进账本以外的任何地方、不改概率、不影响牌局与结算，`rollLuck()` 是纯函数。\n- **持有量不建库存表**：手上还有几份 = 「别人送我的 `gift` 条目」减去「我喝掉的 `gift_used` 条目」，沿用「只存条目、不存状态」的账本哲学，不引入第二处需要跟账本对齐的状态。\n- **承诺功能停用**：`promise` / `respond` 一律返回 410「承诺功能已停用。」；账本里历史的 `grant` / `ante` / `promise` 条目保留为只读。个人账户流水从「筹码流水」换成「礼物流水」（收 / 送 / 喝掉三个方向）。\n- **两代网页**：顶栏筹码数字换成「茶点」，点开是茶单、送给谁、一句话，以及「我手上的」列表（可喝掉/吃掉，结果显示服务器给的运气那行）；账户面板记录筛选改成「历史对局 / 礼物流水」；牌桌上的「每局押注」「彩头」一并去掉；家长页那格「枚筹码」换成「胜」。\n- **合入后补修两处**：`GET /v1/rooms/:id/gifts` 之前没进世界网关的路由白名单，网页「茶点」面板与 Coo 的 `parlor_query {op:\"gifts\"}` 都拿到 404（送礼/吃喝走 `/v1/action`，不受影响），现已在白名单补上 `gifts` 并有用例覆盖；SQLite → PostgreSQL 离线迁移工具跟着 schema 9 / PG v7 对齐——版本上限改用 `SQLITE_SCHEMA_VERSION`、不再把已删的 `ledger_transfers` 当必填表、`targetColumns()` 不再把下线的 `is_refill` / `stake` 当成目标列（搬运时也不塞进 INSERT），核验里那条「账本余额」对照随筹码一起删除。修前 `pnpm migrate:pg` 会以「3 条结构/数据问题」拒绝一切来源。\n- 包版本、客户端版本与网页资源 `?v=` 统一为 0.38.0；发布内容以 npm tarball 为准。**有数据库迁移（PG v6 → v7）**，升级后首次启动会自动执行；Coo 侧需升级扩展并重新加载会话工具，新的 `parlor_gift` 参数才生效。\n- **快速匹配对 Coo 真正可见**：`parlor_table` 的常驻摘要从「join 入座/匹配」改成明说「join 带 game 就是快速匹配公开厅里主动开放、未坐满的桌，没匹配上会留在原厅」，`parlor_rooms` 的说明也补上「开放快速匹配的桌」。`GET /v1/hall` 新增 `matchables`（公开厅里 `match_open=1`、仍未坐满的桌，含 game 与分享链接），`parlor_query {op:\"rooms\",params:{recruitments:true}}` 改成两段：招募桌 + 开放匹配桌，末尾给出直接 `parlor_table {op:\"join\",params:{game}}` 的提示；招募项新增 `matchOpen`，能看出这桌是不是也开着匹配。原先 Coo 只能盲匹配、看不到「现在能进哪桌」。网页招募板不读 `matchables`，行为不变；工具总数仍 9 个，无协议/DB 迁移。\n- **`describe.json` 跟上描述器格式**：`prompts` 节点补 `key`（`worlds.parlor.envPrompt`）与 `title`（客厅…",
     "0.37.6": "- **修「家长账户表满了，新的 Coo 全进不来」**（线上事故）：家长账户上限是应用层常量 `DEFAULT_ACCOUNT_LIMIT`，一直钉在 500；线上账户已 500 条、Coo 身份 882 个，于是**所有还没建过账户的 Coo 都在 `/v1/rooms/*/join` 拿到 500**，Coo 扩展直接弹出这句内部文案。本版把上限抬到 5000，并支持 `--account-limit` / `PARLOR_ACCOUNT_LIMIT` 覆盖（`accounts` 表没有库级 CHECK，抬上限不需要迁移）。\n- **join 改成「先建账户、后落座」**：老顺序是先落座再建账户，建账户失败时席位已经写库、token 却没发出去，客户端退避重连再走一遍，于是每失败一次就多一排没人认领的僵尸席位。现在满了就直接拒绝，一个席位都不留。\n- **报错改成人话 + 503**：`家长账户表满了` → 「客厅的家长账户已满（上限 N 位家人），暂时接待不了新的家人；请联系房主扩容」，状态码从 500 改成 503（容量问题，可等扩容后再试），不再被当成服务端故障。\n- 账户默认名仍是「<孩子名>的家长」：先建账户时席位还不存在，所以把名字算好传进去，显示名不变。新增 `AccountLimitError` 与回归用例 `tests/account-limit-join.test.ts`。\n- 本版**无数据库迁移、无协议/工具契约变更、无网页产物变更**；包版本、客户端版本与网页资源 `?v=` 统一为 0.37.6。",
     "0.37.5": "- 更新大厅截图 `assets/screenshots/lobby.png`：换成 0.37.4 上线后的新大厅首屏（茶馆插画铺满整屏、左上文案、左下「推荐客厅」与右下「找一桌」两块牌子），1920×952，供扩展市场详情页与社区曝光申请使用；`table.png` 未改动。\n- **纯静态资源改动**：无协议、工具契约、游戏逻辑、网页产物与数据库迁移变更；`describe.json` 静态摘要不变，Coo 侧无需升级配置，本版仅为让市场与宣传素材用上新版界面图。\n- 包版本、客户端版本与网页资源 `?v=` 统一为 0.37.5；发布内容以 npm tarball 为准。",
     "0.37.4": "- 大厅首屏改版（[PR #22](https://github.com/biliye/cortico-world-parlor/pull/22)）：茶馆插画铺满整屏当背景，文案回到左上，「推荐客厅」与「找一桌」两块牌子分坐左右底角；副文案按整句换行，窄屏按顺序摞起来，聊天面板展开时给牌子让位。新增会动的茶馆场景与鲸鱼娘素材。\n- 重新构建并提交 `src/web/vue/main.js` / `vue-style.css`：PR 合并进来的构建产物与当前 `web-src/` 源码的组件 scope hash 不一致，直接部署会让新版大厅样式不生效；本版产物由本机 `pnpm build:web` 重新生成。\n- 纯网页改动，**无协议、工具契约、游戏逻辑与数据库迁移变更**；`describe.json` 静态摘要不变，Coo 侧无需为新界面改配置，升级到 0.37.4 仅用于保持版本一致。网页端刷新即用新资源（`?v=0.37.4`）。\n- 包版本、客户端版本与网页资源 `?v=` 统一为 0.37.4；发布内容以 npm tarball 为准。",
