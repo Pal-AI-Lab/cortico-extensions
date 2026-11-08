@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-storyboard",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "describe": {
     "tools": [
       {
@@ -57,7 +57,7 @@
             },
             "maxFrames": {
               "type": "integer",
-              "description": "Cap on how many frames you see, 1-10000. **Default 0 = no cap**: every cut becomes a frame and every long moving shot gets extra frames from the integral sampler. Set a number only to bound cost — above it the shortest segments get merged (you lose fast-cut coverage, never long takes)."
+              "description": "Cap on how many frames you see, 0-10000. **Default 0 = no cap**: every cut becomes a frame and every long moving shot gets extra frames from the integral sampler. Set a number only to bound cost — above it the shortest segments get merged (you lose fast-cut coverage, never long takes)."
             },
             "tierMap": {
               "type": "object",
@@ -92,7 +92,7 @@
             },
             "maxSheets": {
               "type": "integer",
-              "description": "Cap on how many images this call may return, 1-16 (default 8). It is a budget cap, not a layout request: when the packer would exceed it, the shortest segments get merged and the layout is re-solved, so you still get full time coverage — just fewer, longer frames."
+              "description": "Cap on how many images this call may return, 0-64 (default 0 = no cap). It is a budget cap, not a layout request: when the packer would exceed it, the shortest segments get merged and the layout is re-solved, so you still get full time coverage — just fewer, longer frames. Without it, a runaway layout (more than max(64, 8x the duration budget)) is force-capped and the manifest says \"capped\"."
             },
             "strategy": {
               "type": "string",
@@ -107,7 +107,7 @@
             },
             "budget": {
               "type": "integer",
-              "description": "Pixels per image, default 640000 = 800x800. **640000 is the ceiling**: the vision API caps a picture at 800x800 (384 tokens), so anything above that is silently downscaled and the cell sizes printed in the manifest stop being true. Lower it (e.g. 230000) only when you are deliberately trading legibility for bytes."
+              "description": "Pixels per image, default 636804 = 798x798. **636804 is the ceiling**: the vision API caps a picture at 798x798 (a full 798x462 sheet ≈ 222 tokens), and 798 = 19x42 px billing cells, so the width costs exactly 19 columns instead of 20. Anything above is clamped and the cell sizes printed in the manifest would stop being true. Lower it (e.g. 230000) only when you are deliberately trading legibility for bytes."
             },
             "segment": {
               "type": "integer",
@@ -325,7 +325,7 @@
       },
       {
         "name": "video_zoom",
-        "description": "Re-read a short window of a video at higher per-cell resolution.\n\nUse it after video_storyboard when one cell needs a closer look: \"what exactly is on screen\nat 01:12-01:20?\" A zoom returns ONE image with few, large cells (default 6), so faces,\nsubtitles and on-screen text become legible — things a 16-cell overview cannot show.\n\nKeep the window short (a few seconds to a minute). For another wide pass use video_storyboard.\nCosts one image (~384 tokens in DSH, host-dependent), like any other tool result with one image.",
+        "description": "Re-read a short window of a video at higher per-cell resolution.\n\nUse it after video_storyboard when one cell needs a closer look: \"what exactly is on screen\nat 01:12-01:20?\" A zoom returns ONE image with few, large cells (default 6), so faces,\nsubtitles and on-screen text become legible — things a 16-cell overview cannot show.\n\nKeep the window short (a few seconds to a minute). For another wide pass use video_storyboard.\nCosts one image (vision tokens are billed by its pixel size, like any tool result with an image).",
         "tags": [
           "read",
           "snapshot"

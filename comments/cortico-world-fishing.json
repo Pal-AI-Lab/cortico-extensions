@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "name": "cortico-world-fishing",
+  "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/560",
+  "total": 1,
+  "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BKRFE",
+      "author": "wwwes18",
+      "avatar": "https://avatars.githubusercontent.com/u/349183163?s=64&v=4",
+      "body": "钓鱼这边调 `POST /api/webui/providers/world:desktop-pet/panels/pet/anchor`（还有 fishing、act、pose 这几个），宿主回 500，正文是「未知方法 pet.anchor」；\n\n按它的代码，404/405/500 都当成「宿主没这套方法」，判死之后就不再重试，一场只给 90 秒、收竿也发不出走开的指令。\n这是我家鱼发现的，另外，作者大大可以做个适配换装插件动作的扩展吗，我家鱼弄不好这个。不然钓着鱼，突然起飞了，杆还在钓",
+      "createdAt": "2026-11-08T05:07:33Z"
+    }
+  ]
+}
