@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-wardrobe-studio",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "describe": {
     "tools": [
       {
@@ -107,6 +107,8 @@
     "events": []
   },
   "changelog": {
+    "0.5.0": "- Add bilingual topology-first white-background matting guidance and an optional offline Python helper, without adding generation jobs, downloads or dependencies to the World runtime.\n- Separate border-connected background, enclosed gaps, protected light foreground and ambiguous regions; preserve original opaque RGB and record leakage warnings instead of assuming dark outlines are always closed.\n- Document same-frame raw/alpha playback, white recomposition, real display-size/floor calibration, idle breathing, reusable expression anchors and reversible versioned delivery.\n- Keep authoring requirements separate from actual production acceptance; no personal references, media, wardrobe profiles or deployment paths are bundled.",
+    "0.4.1": "- Support optional embedded PNG/WebP thumbnails for outfits and individual options in both native and separate wardrobes.\n- Keep previews local and bounded: 12 KiB per image and the existing 64 KiB total profile limit; reject remote URLs and non-raster payloads.",
     "0.4.0": "- Add an opt-in native wardrobe compatibility adapter for the checksum-verified desktop-pet 0.2.0 page: outfits followed by outfit-specific controls.\n- Keep standard native appearance persistence, Coo/unconfigured figures, preview and import/removal flows.\n- Back up before patching; restore on normal stop, recover interrupted installation and refuse overwriting external changes.\n- Use an origin/token-checked, read-only loopback feed without weakening CSP or modifying figure resources.\n- Document supported versions, explicit configuration, uninstall/recovery and the distinction from an official host API.\n- Refresh bilingual project documentation and make the GitHub README English by default.",
     "0.3.0": "- Default to Chinese with a shared, persistent Chinese/English panel selector; preserve pending choices and JSON drafts when switching.\n- Add a detailed bilingual manual with reference/motion prompts, raw video gates, temporal matting steps, figure runtime requirements and import troubleshooting.\n- Add full field tables, complete fictional profiles and a downloadable JSON Schema.\n- Add read-only configuration checks, local installed-ID inspection and example/manual downloads in the panel.\n- Enforce the profile limit in UTF-8 bytes, including pasted input.",
     "0.2.3": "- Follow the host theme with a dotted preview stage, compact outfit cards and horizontal option rows.\n- Show read-only thumbnails from the selected local figure pack, with origin/path and size restrictions.\n- Add isolated preview-asset security tests and responsive layout verification.",
