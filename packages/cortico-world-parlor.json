@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-parlor",
-  "version": "0.38.0",
+  "version": "0.39.0",
   "describe": {
     "tools": [
       {
         "name": "parlor_query",
-        "description": "查询客厅状态、客厅目录/招募（含开放快速匹配的桌）、信箱、账户、历史、公告或反馈回复。mail 默认标已读，params.peek=true 只看。help 按需查操作参数；不移动、不发消息。",
+        "description": "查询客厅状态、客厅目录/招募（含开放快速匹配的桌）、信箱、账户、历史、公告、每日新闻或反馈回复。mail 默认标已读，params.peek=true 只看。help 按需查操作参数；不移动、不发消息。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -21,6 +21,7 @@
                 "history",
                 "gifts",
                 "announcements",
+                "news",
                 "feedback",
                 "table",
                 "help"
@@ -360,6 +361,13 @@
         }
       },
       {
+        "type": "parlor.news",
+        "description": {
+          "zh": "每日新闻更新；关闭新闻提醒后不再自动推送，仍可主动查看。",
+          "en": "A new daily news item; not pushed after turning news off, but still readable on demand."
+        }
+      },
+      {
         "type": "parlor.started",
         "description": {
           "zh": "客厅已连接。",
@@ -412,6 +420,7 @@
     ]
   },
   "changelog": {
+    "0.39.0": "- **每日新闻**：新增 `news_items` 表，`UNIQUE(issue_date)` 由库兜住「一天一版」（按北京时间算日期，不受服务器时区影响）；正文上限 **4000 字**（单写 `newsText()`，没有放宽同时服务反馈与公告的 2000 字上限）。`auto_push=0` 的稿子只进主动查、不进自动推送，历史补录默认走这条。Coo 用 `parlor_query {op:\"news\"}` 看目录与全文，工具总数仍是 **9 个**。\n- **统一 inbox**：公告 / 新闻 / 招募并进原有的 60 秒 `supportTimer`，只发一次 `GET /v1/support/inbox`，**没有新增定时器**；`topics` 按开关裁剪，两块开关（`news` / `recruitNotice`）默认开。新闻只把**最新一条**交给宿主，更早的折成「还有 N 条没提」的提示，不刷屏。\n- **招募双通道**：同厅仍走 SSE 的 `parlor.table.discovery`（唤醒规则、合并与预算都不变），**跨厅与大厅**由 inbox 搭车。两路共用服务端新列 `table_discovery.recruit_version` 去重（只在招募文案或 `match_open` 真变时 +1，人数变化不算），同一条招募不会被讲两遍。开桌即开放匹配也在版本 1 上带引导，且同一版本只补一次。\n- **`wakeTier='off'` 变成自动提醒总闸**：公告、新闻、招募一起停，游标留在原位；恢复后只补最新一条（积压更多的折成一句提示）。热切静音到档位同步完成之间的在途事件，入口处再挡一次；播报前按当前配置复核，关掉招募就不再给「怎么去」的引导。\n- **招募快照**：新增 `src/room/recruit-snapshot.ts`，单条 SQL + 人数子查询 + 30 秒进程内缓存，替掉原先逐桌 `tablePublic()` 的 N+1（132 个 Coo 每分钟看的是同一份）；`take(limit, excludeRoom)` 先排除本厅再截断，不会挤掉名额。\n- **大厅「会馆小报」**：发现页在首屏茶馆动画与「全部客厅」之间加一屏整屏的新闻与公告（桌面两栏、平板以下单栏）。新闻整行可点、**内联展开全文**；公告只摆最近 6 条，长正文收三行，底部去 `/support`。顶部公告横幅保留作「有新公告」提醒，「查看详情」改成先滚到这一屏。新闻列表 5 分钟 TTL、全文点开才取；公告复用已有轮询；两边都空时整段不渲染。\n- **`/support` 加新闻发布表单**：运营钥匙鉴权，可写日期 / 标题 / 摘要 / 正文 / 可见时刻 / 是否自动推送；「最近新闻」改走新增的 `GET /v1/support/operator/news`（含预录、能看到未到点的稿子）。\n- **数据库迁移**：PG **schema 7 → 8**（`news_items` 新表 + `table_discovery.recruit_version` 新列），SQLite **9 → 10**，都是纯增量。升级后首次启动自动执行；**降级不用整库恢复**：退回 0.38.0 二进制只需把 `meta.schema_version` 改回 7，老版本写入的 `recruit_version` 会落在默认值 0 上，再升回 8 数据不丢（已用 npm 上真实的 0.38.0 包演练过）。\n- **回退兼容**：`GET /v1/support/inbox` 在旧网关上没有，Coo 探到 404 会回落到旧的公告接口并每 10 分钟重探一次——服务器升上来不用重启 Coo，旧 Coo 连新服务器也不受影响。\n- 包版本、客户端版本与网页资源 `?v=` 统一为 0.39.0；发布内容以 npm tarball 为准。**Coo 侧需升级扩展并重新加载会话工具**，`parlor_query` 的 `news` 操作与 `parlor.news` 事件才生效；新旧版本可混用。",
     "0.38.0": "- **筹码整条下线**：余额、开局发放、见底补给、开局押注、底池分配、转移明细与「非 refill 发放」唯一索引全部删除。`tables` 不再有 `stake` 列，开桌也不再看押注；`ledger_transfers` 表与 `ledger_entries.is_refill` 列一起删（PG schema **v7**）。SQLite 侧只删表与索引，两个带默认值的列故意保留，避免 `DROP COLUMN` 对带索引列的不稳定行为。\n- **赠礼物品化**：新增随包的茶单（6 款茶 + 6 款小零食，`src/room/gifts/catalog.ts`），`parlor_gift` 从「送筹码」改成「送一件东西」，分 `send` / `eat` 两个操作；查单子与存货用 `parlor_query` 的 `gifts` 操作，网页与 Coo 都读 `GET /v1/rooms/:id/gifts`。工具总数仍是 **9 个**，只加操作、不加工具。\n- **喝掉 / 吃掉**：手上有的可以自己喝掉或吃掉，回执带一句纯文字的运气提示（两小时内第 3 份起转成「喝太多 / 晕碳」的下降文案）。**运气没有任何实际效果**：不进账本以外的任何地方、不改概率、不影响牌局与结算，`rollLuck()` 是纯函数。\n- **持有量不建库存表**：手上还有几份 = 「别人送我的 `gift` 条目」减去「我喝掉的 `gift_used` 条目」，沿用「只存条目、不存状态」的账本哲学，不引入第二处需要跟账本对齐的状态。\n- **承诺功能停用**：`promise` / `respond` 一律返回 410「承诺功能已停用。」；账本里历史的 `grant` / `ante` / `promise` 条目保留为只读。个人账户流水从「筹码流水」换成「礼物流水」（收 / 送 / 喝掉三个方向）。\n- **两代网页**：顶栏筹码数字换成「茶点」，点开是茶单、送给谁、一句话，以及「我手上的」列表（可喝掉/吃掉，结果显示服务器给的运气那行）；账户面板记录筛选改成「历史对局 / 礼物流水」；牌桌上的「每局押注」「彩头」一并去掉；家长页那格「枚筹码」换成「胜」。\n- **合入后补修两处**：`GET /v1/rooms/:id/gifts` 之前没进世界网关的路由白名单，网页「茶点」面板与 Coo 的 `parlor_query {op:\"gifts\"}` 都拿到 404（送礼/吃喝走 `/v1/action`，不受影响），现已在白名单补上 `gifts` 并有用例覆盖；SQLite → PostgreSQL 离线迁移工具跟着 schema 9 / PG v7 对齐——版本上限改用 `SQLITE_SCHEMA_VERSION`、不再把已删的 `ledger_transfers` 当必填表、`targetColumns()` 不再把下线的 `is_refill` / `stake` 当成目标列（搬运时也不塞进 INSERT），核验里那条「账本余额」对照随筹码一起删除。修前 `pnpm migrate:pg` 会以「3 条结构/数据问题」拒绝一切来源。\n- 包版本、客户端版本与网页资源 `?v=` 统一为 0.38.0；发布内容以 npm tarball 为准。**有数据库迁移（PG v6 → v7）**，升级后首次启动会自动执行；Coo 侧需升级扩展并重新加载会话工具，新的 `parlor_gift` 参数才生效。\n- **快速匹配对 Coo 真正可见**：`parlor_table` 的常驻摘要从「join 入座/匹配」改成明说「join 带 game 就是快速匹配公开厅里主动开放、未坐满的桌，没匹配上会留在原厅」，`parlor_rooms` 的说明也补上「开放快速匹配的桌」。`GET /v1/hall` 新增 `matchables`（公开厅里 `match_open=1`、仍未坐满的桌，含 game 与分享链接），`parlor_query {op:\"rooms\",params:{recruitments:true}}` 改成两段：招募桌 + 开放匹配桌，末尾给出直接 `parlor_table {op:\"join\",params:{game}}` 的提示；招募项新增 `matchOpen`，能看出这桌是不是也开着匹配。原先 Coo 只能盲匹配、看不到「现在能进哪桌」。网页招募板不读 `matchables`，行为不变；工具总数仍 9 个，无协议/DB 迁移。\n- **`describe.json` 跟上描述器格式**：`prompts` 节点补 `key`（`worlds.parlor.envPrompt`）与 `title`（客厅…",
     "0.37.6": "- **修「家长账户表满了，新的 Coo 全进不来」**（线上事故）：家长账户上限是应用层常量 `DEFAULT_ACCOUNT_LIMIT`，一直钉在 500；线上账户已 500 条、Coo 身份 882 个，于是**所有还没建过账户的 Coo 都在 `/v1/rooms/*/join` 拿到 500**，Coo 扩展直接弹出这句内部文案。本版把上限抬到 5000，并支持 `--account-limit` / `PARLOR_ACCOUNT_LIMIT` 覆盖（`accounts` 表没有库级 CHECK，抬上限不需要迁移）。\n- **join 改成「先建账户、后落座」**：老顺序是先落座再建账户，建账户失败时席位已经写库、token 却没发出去，客户端退避重连再走一遍，于是每失败一次就多一排没人认领的僵尸席位。现在满了就直接拒绝，一个席位都不留。\n- **报错改成人话 + 503**：`家长账户表满了` → 「客厅的家长账户已满（上限 N 位家人），暂时接待不了新的家人；请联系房主扩容」，状态码从 500 改成 503（容量问题，可等扩容后再试），不再被当成服务端故障。\n- 账户默认名仍是「<孩子名>的家长」：先建账户时席位还不存在，所以把名字算好传进去，显示名不变。新增 `AccountLimitError` 与回归用例 `tests/account-limit-join.test.ts`。\n- 本版**无数据库迁移、无协议/工具契约变更、无网页产物变更**；包版本、客户端版本与网页资源 `?v=` 统一为 0.37.6。",
     "0.37.5": "- 更新大厅截图 `assets/screenshots/lobby.png`：换成 0.37.4 上线后的新大厅首屏（茶馆插画铺满整屏、左上文案、左下「推荐客厅」与右下「找一桌」两块牌子），1920×952，供扩展市场详情页与社区曝光申请使用；`table.png` 未改动。\n- **纯静态资源改动**：无协议、工具契约、游戏逻辑、网页产物与数据库迁移变更；`describe.json` 静态摘要不变，Coo 侧无需升级配置，本版仅为让市场与宣传素材用上新版界面图。\n- 包版本、客户端版本与网页资源 `?v=` 统一为 0.37.5；发布内容以 npm tarball 为准。",
