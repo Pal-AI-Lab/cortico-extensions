@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "name": "cortico-world-capture-guard",
+  "version": "1.1.1",
+  "describe": {
+    "tools": [],
+    "events": []
+  },
+  "changelog": {
+    "1.1.1": "- Retry brief Windows sharing failures when atomically replacing control and status files, without deleting the last valid destination.\n- Keep ongoing writes asynchronous and serialized so screenshot key handling is not blocked and a stopped snapshot cannot be overwritten by a stale active one.\n- Clear a previous sync error after the next successful write, instead of keeping a recovered plugin red indefinitely.",
+    "1.1.0": "- Add default-on NVIDIA Instant Replay compatibility: never enable window capture-protection flags in this mode.\n- Briefly hide the pet before configured screenshot shortcuts are delivered, then restore it without focusing it.\n- Keep exact shortcut matching, forward the original key event and allow custom screenshot shortcuts.\n- Respect a pet hidden by the user, allow capturing the pet, and remove the listener when the plugin stops.\n- Retain opt-in system capture exclusion for people who do not use NVIDIA desktop recording.\n- Recognize a terminated host even when its final status file is stale.",
+    "1.0.0": "- Independent World API 6 plugin with configuration only in its own page.\n- Reuse the original pet host and renderer through an independent window process; do not patch original application source or UI."
+  }
+}
