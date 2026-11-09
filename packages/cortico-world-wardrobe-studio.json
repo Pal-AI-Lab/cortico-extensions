@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-wardrobe-studio",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "describe": {
     "tools": [
       {
@@ -107,6 +107,7 @@
     "events": []
   },
   "changelog": {
+    "0.5.1": "- Support the checksum-reviewed native wardrobe page shipped with Coopanion 0.2.19 while retaining compatibility with 0.2.17.\n- Recover safely after a reviewed host update: archive the previous private recovery record, preserve the new upstream page and back up that version before patching it.\n- Preflight every owned helper before rollback; unknown pages and externally modified helpers remain protected. Preserve native saved looks, dialogs and unconfigured figures.",
     "0.5.0": "- Add bilingual topology-first white-background matting guidance and an optional offline Python helper, without adding generation jobs, downloads or dependencies to the World runtime.\n- Separate border-connected background, enclosed gaps, protected light foreground and ambiguous regions; preserve original opaque RGB and record leakage warnings instead of assuming dark outlines are always closed.\n- Document same-frame raw/alpha playback, white recomposition, real display-size/floor calibration, idle breathing, reusable expression anchors and reversible versioned delivery.\n- Keep authoring requirements separate from actual production acceptance; no personal references, media, wardrobe profiles or deployment paths are bundled.",
     "0.4.1": "- Support optional embedded PNG/WebP thumbnails for outfits and individual options in both native and separate wardrobes.\n- Keep previews local and bounded: 12 KiB per image and the existing 64 KiB total profile limit; reject remote URLs and non-raster payloads.",
     "0.4.0": "- Add an opt-in native wardrobe compatibility adapter for the checksum-verified desktop-pet 0.2.0 page: outfits followed by outfit-specific controls.\n- Keep standard native appearance persistence, Coo/unconfigured figures, preview and import/removal flows.\n- Back up before patching; restore on normal stop, recover interrupted installation and refuse overwriting external changes.\n- Use an origin/token-checked, read-only loopback feed without weakening CSP or modifying figure resources.\n- Document supported versions, explicit configuration, uninstall/recovery and the distinction from an official host API.\n- Refresh bilingual project documentation and make the GitHub README English by default.",
