@@ -1,0 +1,209 @@
+{
+  "schema": 1,
+  "name": "cortico-bot-iceberg-memory",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "memory_timeline",
+        "description": "读取事项目录及当前的有来源判断；unknown、scope和陈旧标记必须保留。",
+        "tags": [
+          "read"
+        ],
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        }
+      },
+      {
+        "name": "memory_expand",
+        "description": "按一个或多个事项/分支ID展开，返回可核验的原文片段；incomplete/frontier表示未全读。",
+        "tags": [
+          "read"
+        ],
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "rootIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "branchIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "depth": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "rootIds"
+          ],
+          "additionalProperties": false
+        }
+      },
+      {
+        "name": "memory_read_source",
+        "description": "读取冻结的源消息；区分助手报告、归档过程文本和用户确认的事实。",
+        "tags": [
+          "read"
+        ],
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "sourceId": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "sourceId"
+          ],
+          "additionalProperties": false
+        }
+      },
+      {
+        "name": "memory_search",
+        "description": "用短词或自然问话寻找相关事项、当前声明和有效散文，返回ID、出处与命中原因。检索结果不是已证实事实；用memory_expand展开命中分支、memory_read_source核对原文。未命中仅指当前结构化索引，不代表原文不存在。",
+        "tags": [
+          "read"
+        ],
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string"
+            },
+            "topK": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20
+            },
+            "matterIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "excludeSourceIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "from": {
+              "type": "string",
+              "description": "事件发生时间下界，ISO；未知发生时间不冒充已知。"
+            },
+            "to": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "query"
+          ],
+          "additionalProperties": false
+        }
+      },
+      {
+        "name": "memory_search_sources",
+        "description": "按字面词检索已导入的冻结原文，返回有定位的片段和分页游标；结果只作辅助资料。未命中不证明不存在，片段不等于全文，完整原文用memory_read_source读取。",
+        "tags": [
+          "read"
+        ],
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            },
+            "cursor": {
+              "type": "string"
+            },
+            "from": {
+              "type": "string"
+            },
+            "to": {
+              "type": "string"
+            },
+            "timeBasis": {
+              "type": "string",
+              "enum": [
+                "source",
+                "received"
+              ]
+            },
+            "sourceSystems": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "deviceIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "conversationIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "sourceIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "includeReasoning": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "query"
+          ],
+          "additionalProperties": false
+        }
+      },
+      {
+        "name": "end_turn",
+        "description": "结束本轮并等待新事件。",
+        "tags": [
+          "flow"
+        ],
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        }
+      }
+    ],
+    "bot": {
+      "worlds": [
+        "console"
+      ],
+      "memory": {
+        "name": "Iceberg Memory",
+        "form": {
+          "zh": "SQLite 原文与带来源的记忆索引，可沿引用回查。",
+          "en": "SQLite source records and a source-linked memory index."
+        }
+      }
+    }
+  },
+  "changelog": {
+    "0.1.0": "- First preview of the standalone Iceberg Memory Bot for Cortico Bot API 7.\n- Adds SQLite source storage, idle extraction through the active provider, source-linked index and read tools.\n- Each deployment keeps its own Memory and configurable Persona seed."
+  }
+}
