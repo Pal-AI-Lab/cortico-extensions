@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-imggen",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "describe": {
     "tools": [
       {
@@ -151,7 +151,7 @@
       },
       {
         "name": "imggen_library",
-        "description": "本地参考库：人物、服饰、场景、道具。action=list 看有什么（可按分类过滤）；action=get 看某个条目的设定和参考图；action=add 把一张图存成新条目（file 填本地图片路径或 http 地址）；action=update 改条目的名字/描述/别名/标签/人设/默认服饰；action=remove 把条目挪进回收站（不硬删）。对方发来一张图说「记住这个角色」，先拿到图片路径再 add；只是想出图时用 list 确认名字，别猜。",
+        "description": "本地参考库：人物、服饰、场景、道具。action=list 看有什么（可按分类过滤）；action=get 看某个条目的设定和参考图；action=add 把一张图存成新条目（file 填本地图片路径或 http 地址）；action=update 改条目的名字/描述/别名/标签/人设/默认服饰/情境穿搭；action=remove 把条目挪进回收站（不硬删）。对方发来一张图说「记住这个角色」，先拿到图片路径再 add；只是想出图时用 list 确认名字，别猜。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -210,6 +210,13 @@
             "defaultOutfit": {
               "type": "string",
               "description": "add/update：默认服饰（服饰条目的名字）。"
+            },
+            "outfitByContext": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "add/update：情境 → 服饰名，例如 {\"睡前\":\"睡衣\",\"刚睡醒\":\"睡衣\"}；也接受 \"睡前=睡衣, 刚睡醒=睡衣\" 这种写法。只对人物有意义。"
             },
             "file": {
               "type": "string",
