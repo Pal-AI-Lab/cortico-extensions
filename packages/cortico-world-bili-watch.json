@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-bili-watch",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "describe": {
     "tools": [
       {
@@ -430,7 +430,7 @@
       },
       {
         "name": "bili_comments",
-        "description": "Read a comment page or a specific thread. Top-level pages return `nextCursor`; pass it back\nas `cursor` for the next page (page numbers do not work for top-level replies - they skip\nand repeat). A root thread (root != 0) is paginated with `page` instead.\n\n**`target.oid` must be the numeric aid.** Get it from `bili_video` first — do not pass an\nempty oid, a BV number, or a guessed id (that call is rejected). `root`/`parent` are\nstrings; use \"0\" for a new top-level comment.\n\n**Reuse the returned `target` identifiers to reply to the right person**, even without an @\nnotification. A child target keeps the original root and uses its own id as parent.\nRead relevant context first; you do not need to read every page.",
+        "description": "Read a comment page or a specific thread. Top-level pages return `nextCursor`; pass it back\nas `cursor` for the next page (page numbers do not work for top-level replies - they skip\nand repeat). A root thread (root != 0) is paginated with `page` instead.\n\n**`target.oid`** accepts the numeric aid, a **BV id** or a video link for videos (they are\nconverted locally); for dynamics it must be the numeric id. Do not pass an empty oid or a\nguessed one. `root`/`parent` are strings; use \"0\" for a new top-level comment.\n\n**Reuse the returned `target` identifiers to reply to the right person**, even without an @\nnotification. A child target keeps the original root and uses its own id as parent.\nRead relevant context first; you do not need to read every page.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -441,7 +441,7 @@
               "properties": {
                 "oid": {
                   "type": "string",
-                  "description": "Exact Bilibili aid (numeric, not BV id), or dynamic id. Reuse the value readComments returned."
+                  "description": "Video: aid, **BV id** (BV1xxxxxxxxx) or a video link — all accepted. Dynamic: its numeric id. Reuse the value readComments returned when one was given."
                 },
                 "type": {
                   "type": "integer",
@@ -515,7 +515,7 @@
               "properties": {
                 "oid": {
                   "type": "string",
-                  "description": "Exact Bilibili aid (numeric, not BV id), or dynamic id. Reuse the value readComments returned."
+                  "description": "Video: aid, **BV id** (BV1xxxxxxxxx) or a video link — all accepted. Dynamic: its numeric id. Reuse the value readComments returned when one was given."
                 },
                 "type": {
                   "type": "integer",
@@ -595,7 +595,7 @@
               "properties": {
                 "oid": {
                   "type": "string",
-                  "description": "Exact Bilibili aid (numeric, not BV id), or dynamic id. Reuse the value readComments returned."
+                  "description": "Video: aid, **BV id** (BV1xxxxxxxxx) or a video link — all accepted. Dynamic: its numeric id. Reuse the value readComments returned when one was given."
                 },
                 "type": {
                   "type": "integer",
@@ -1094,6 +1094,7 @@
     ]
   },
   "changelog": {
+    "0.2.12": "**填错 oid 不再是无声事故**，而且不用再自己去查 aid。\n\n她实测填错过一次 oid：「那个 oid 根本解析不出视频，它也照样给凭据」，凭据差点绑到\n别的视频上。她的判断是「七成我填错，三成它没拦」，这三成补上：\n\n**① prepare 时把真实标题摆出来**\n\n原来「作品：xxx」只从本地缓存读，没缓存过就是空的 —— 填错 oid 时界面什么都不显示，\n等于没有对照物。现在缓存没有就问接口拿真标题，她看到「作品：《xxx》」当场就能判断\n对不对，比事后拦截直观。\n\n**② oid 解析不出视频就拒绝，但不许拦死**\n\n- 视频不存在 / 不可见（`-404`、62002、62004、62012）→ 拒绝，让她重新填\n- 网络抖了、被风控（`-352`、超时）→ **放行，只提示「没能核实」**\n\n这条界限必须划清：拿「查不到」当「填错了」，会造出一堆发不出去 —— buvid 那次\n就是这么翻的。\n\n**③ `oid` 直接收 BV 号 / av 号 / 视频链接**\n\n本地换算（纯计算、不联网），四个真实配对全对。她日常看的就是 BV 号，写 aid 反而\n容易错一位。`bili_comments` / `bili_prepare` / `bili_recommend` 都吃同一套归一化。\n\n**顺带修掉三个坑**\n\n- **说明和逻辑必须同一次改完**：`bili_comments` 的描述和 `bili_video` 的回执原本都写着\n  「必须数字 aid，不要传 BV」—— 逻辑改了说明没改，模型会照旧说明绕开，功能等于白做\n- **oid=0 的回归**：原来的 `numericId` 拒绝 0，新的 `videoOid` 一开始放过了 `\"0\"`/`\"000\"`，\n  换函数时漏掉原函数的一条约束，已补回并加测试\n- **推荐路径也接上**：@ 出去是公开的，填错 oid 更难收场；顺带把「改了文案会被拒绝」\n  这类过时提示改掉\n\n离线验证 `test/video-oid.mts` 17/17（含 oid=0、动态不收 BV、硬失败/软失败分支），\n其余五组回归全过。她真机确认：BV 直接可用、推荐去重报「今天十五点三十一已经推过」、\n换一条标题也解析正确。",
     "0.2.11": "改文案不再被逼着重跑整轮 prepare —— **润色放行，换话题才拦**。\n\n她连着踩了两次（03:11、14:16）：在草稿里把「补一句」改成「补一个实际做法」，\npublish 被拒「文案与凭据里的草稿不一致」。语义完全一样，只是措辞更准，却要重读\n评论区、重算判断、重新生成凭据 —— 防篡改不该用字符串相等。\n\n- 文案与草稿不一致时算相似度（字符级 LCS / 较长那条的长度）：**≥70% 当润色放行**，\n  记录里标 `revised: true` 方便复盘；<70% 才要求重新 prepare（那种情况下同楼上下文、\n  语气建议、@ 对象可能全都失效，确实该重来）\n- **放行时用新文案重跑参与判断** —— 以前复用的是拿旧草稿算出来的判断，改了字反而\n  没重算，逻辑上本来就拧着。这是真正该把关的东西\n- @ 的凭据校验用同一把尺，不会因为润色就把 @ 拦掉\n\n试过 bigram 重合度：中文短句换个短语会把连续几个 bigram 一起毁掉，\n「补一句 → 补一个实际做法」只有 69%，被误判成换话题；LCS 同样改法 78%，更贴近直觉。\n\n离线验证 3/3：润色一字之差 → 发出且带 `revised`；换一整段 → 拒绝（重合度 5%）；\n一字未改 → 正常发出且不带标记。其余三组回归（brief 发送、自动标已回复、推荐去重）\n全部通过。",
     "0.2.10": "回复通知发完**自动标「已回复」**，不用再手动清待办。\n\n她实测反馈：发完得自己点一下「已回复」，容易忘。根因和 0.2.9 那个是同一个 ——\n她一直是 `bili_prepare({ inboxId })` → `bili_publish({ briefId, text })`，\npublish 不传 `inboxId` 就不知道自己来自哪条通知，`if (inboxItem) handleInbox(...)`\n那行代码永远走不到。\n\n比\"要手动点\"更麻烦的是它开的口子：**待办一直挂着 → 她再 prepare 一次就是新\nbriefId、新 requestId → 同一条通知会被回第二遍**。\n\n- 凭据记住来源通知（`sourceInboxId`），publish 只带 briefId 也能认出\"在回哪条\"\n- 发完自动 `handleInbox(..., 'replied')`：待办立刻消失，且不再混记成「跳过」\n- 防重键改成 `reply:<通知id>`：**同一条通知无论 prepare 几次，都只可能发一次**\n- 「看过不回」的口子保留：`bili_inbox({ action: \"handled\", reason })`\n- 顺带修 `recipientId` 被覆盖：通知里已有 authorId 时，不再回头去读楼中楼\n  （0.2.9 那处修得不彻底，只带 briefId 且凭据里没作者时仍会卡）\n\n离线验证（真机 state 副本）：发完自动 `handled`（`kind: replied`）、\nrequestId 按通知 id 派生、重新 prepare 再发 `reused=true` 不重复提交；\n真机 13:19 那条回复后待办也确实自动空了。",
     "0.2.9": "两个真 bug，都是她实测撞出来的。\n\n**① 回复通知发不出去：「暂未取得对方平台账号身份」**\n\n只带 `briefId` 去 publish 时，`input.inboxId` 是空的，代码就把它当成\"手填 target 的接楼\"，\n回头去楼中楼里找父评论作者（为了算每人每日上限）。可楼中楼按时间正序分页，\n**刚回复的那条永远在最后一页** —— 只读第 1 页等于永远找不到，于是明明能回的楼被卡死。\n\n讽刺的是这个信息收件箱里本来就有（`authorId`），只差没存进凭据。\n\n- `prepare` 时把 `recipientId`（收件箱的 authorId）写进凭据\n- `publish` 优先用它，不再盲读楼中楼\n- `parentAuthor` 改成最多翻 3 页（给纯 target 接楼兜底）\n- 离线验证：凭据带 recipientId → 发送前 0 次读取、直接 POST 成功；\n  不带 → 仍然明确拒绝（保护没丢）\n\n**② 同一条视频被推荐两次**\n\n11/06 06:35 和 11/08 00:23 把《免费live2D模型》推了两次，主人连着收两条 @。\n四层防重一层都拦不住：推荐的 requestId 从 briefId 派生，**每次 prepare 都是新键**，\n每次都算\"新操作\"。\n\n- 新增 `recommendAlreadySent()`：按 oid 查成功的推荐记录\n- `bili_recommend({ action: \"prepare\" })` 命中就拒绝，报「这条视频 11/06 06:35 已经\n  推荐给主人了，不重复推」\n- 离线验证：推过的能查到并拦下，没推过的不误拦\n\n**顺带**\n\n- 删掉一处张冠李戴的注释（`parseVideoRef` 的说明残留在 `normalizeTargetArg` 头上）\n- ENV_PROMPT 补一句：推荐前可以先 `bili_roam({ action: \"video\" })` 看一眼推没推过",

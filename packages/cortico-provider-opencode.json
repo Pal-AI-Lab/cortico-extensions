@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-provider-opencode",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "describe": {
     "provider": {
       "protocols": [
@@ -48,6 +48,8 @@
     }
   },
   "changelog": {
+    "0.6.0": "- 修 Messages 方言从不流式:`buildResponseBody` 覆写后绕过了基类设置流标志的那一行,请求一直以非流式发出,于是框架拿到一整段 JSON 却按 SSE 解析,一个事件都收不到。表现是发送后这一轮立刻结束、没有回复。现在 `applyStreamFlags()` 在该覆写里被调用。\n- 修 Messages 方言的用量全是 null:`message_start` 携带的 token 计数被丢弃,`finish()` 补终止块时也不带用量。修复后实测 4/4 次请求都记录到用量(修复前 5/29),同一条回复的耗时中位从 3580ms 降到 2506ms。\n- 思考档位现在真正送达四个协议。原来只有 chat 与 responses 发送,anthropic 与 gemini 完全忽略这个设置。实测不设参数时上游仍会自行推理(chat 85 个推理 token、anthropic 141 个),所以「不思考」必须显式关闭。\n- anthropic 用 `thinking: { type: disabled }` 关、`{ type: adaptive }` 配 `output_config.effort` 开:Haiku 5.5 拒绝旧的 `enabled` + `budget_tokens` 写法。\n- gemini 用 `thinkingLevel`(LOW/MEDIUM/HIGH),它拒绝 `thinkingBudget`。这一系没有「不思考」档,最低是 LOW,所以 gemini 下的「不思考」是最低思考。\n- 测试 100 → 107 条。",
+    "0.5.2": "- 修 Gemini 方言的 400:上游拒绝工具 schema 里的 additionalProperties,报 Invalid JSON payload received. Unknown name additionalProperties at tools[0].function_declarations[10].parameters。\n- 新增 geminiSchema():把每个工具的 parameters 收敛到 Gemini 接受的关键字集合,递归处理 properties、items、anyOf/oneOf/allOf/not;无法识别的字段丢弃而不是拒绝整个请求。\n- 触发条件是工具表里有 World 带 additionalProperties(内建的 web_search 就是),位置靠后的工具会报错,所以单个简单工具测不出来。\n- 测试 90 → 95 条,覆盖递归清洗、真实 web_search 字段保留、非法输入替换。",
     "0.5.1": "- 流在上游被切断时,已经说出来的文字不再被丢弃。框架在错误里保存了快照(GenerationError.partial),但没有任何上层代码读它:一旦吐过文字就不再重试,于是内容直接作废、整轮重来。\n- respond() 现在把这种快照包成 incomplete 响应返回,reason 为 stream_interrupted,与真正的输出截断区分开。一个字都没吐就失败的仍然照常失败重试——没有内容可显示,救它等于吞掉错误。\n- 起因是一次 46.2 秒中断(Chat transport ended without finish_reason):框架三个超时都远大于 46 秒,所以是上游自己关的流;重试累积起来就是用户感觉到的长时间无响应。\n- 测试 85 → 90 条。这一版没有线上实测:账号额度已用尽,造不出该场景,证据是代码路径与单元测试。",
     "0.5.0": "- 超限图片不再让会话卡死:发往上游前按 DeepSeek 的像素限制检查图片,超限的那一张从**本次请求**里拿掉,消息与文字保留,框架改发附件的 `fallbackText`。历史里的图片同样检查,所以一次超限不会让后续每一轮都失败。\n- 限制随图片数量变化:少于 15 张时长边 8192px,15 张及以上 4096px。只解析文件头(JPEG SOF / PNG IHDR / WebP VP8X),不解码像素。\n- 头读不出来的图片照常发送:猜一个拒绝会丢掉上游本来接受的图。\n- 实测(真实编码的 PNG,尺寸取自 Issue #653):430×15222 与 413×14602 被拦下,436×503 通过,8192 通过、8193 拦下。测试 74 → 85 条。",
     "0.4.1": "- 修 Messages 方言的 `Chat transport ended without finish_reason`。`message_delta` 是 Messages 流里唯一带 stop reason 与用量的事件,连接在它之前断掉时,翻译层没有终止块可交,框架就把整轮判成失败。\n- `MessagesAssembly.finish()` 现在会先补一个终止块再收尾:已经吐过内容、只是没走到终止事件的一轮,变成完整回复而不是错误。一个字符都没吐就断的,仍由框架正常重试(它本来就不会走到 finish)。\n- 三个新测试:内容后断流、正常终止不重复收尾、max_tokens 判为不完整。66 → 74 条。",
