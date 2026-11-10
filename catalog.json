@@ -111,6 +111,9 @@
     "cortico-world-memory-weight": [
       "sensitive-data"
     ],
+    "cortico-world-mi-home": [
+      "sensitive-data"
+    ],
     "cortico-world-milkcoo-app": [
       "sensitive-data"
     ],
@@ -1133,7 +1136,7 @@
     },
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.7.5",
+      "version": "0.8.3",
       "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
       "description": "给 Coopanion 桌宠用的 GPT-SoVITS 语音插件：默认全程本机合成，按 NVIDIA / AMD（ROCm，实验性）/ CPU 自动选档；也可切到云端 OpenAI 兼容接口（填自己的 Key）。内置大肥鱼、星落落音色，支持自备权重与自定义音色、QQ 语音与唱歌联动；CPU / 核显档可开播放预缓冲（默认关闭）。",
       "locales": {
@@ -1169,8 +1172,8 @@
         "darwin"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-11-08T15:51:26.383Z",
-      "versionCount": 43,
+      "published": "2026-11-10T16:03:38.628Z",
+      "versionCount": 44,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -1197,6 +1200,10 @@
       },
       "changelog": {
         "versions": [
+          "0.8.3",
+          "0.8.2",
+          "0.8.1",
+          "0.8.0",
           "0.7.5",
           "0.7.4",
           "0.7.3",
@@ -1680,7 +1687,7 @@
       "discussion": {
         "number": 567,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/567",
-        "up": 2,
+        "up": 3,
         "down": 0,
         "comments": 0
       }
@@ -1728,17 +1735,17 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "1.0.11",
+      "version": "1.2.1",
       "displayName": "大肥鱼环游世界",
-      "description": "让桌宠真的出门旅行：一百二十四座城、每座都有真地标，她自己挑去哪、怎么去，路上真耗那些时间；到站按当地时间吃饭、看日出、住店、写日记，月底出一页手账。填个公共地址，还能和别人的宠物约在下一站碰面。需 Coopani 0.2.17 以上。",
+      "description": "让桌宠真的出门旅行：一百二十四座城、每座都有真地标，她自己挑去哪、怎么去，路上真耗那些时间；到站按当地时间吃饭、看日出、住店、写日记，月底出一页手账。填个公共地址能和别人的宠物碰面；装了音乐或打车扩展，她还会跟着歌走、把别人叫的车记进自己的账。需 Coopani 0.2.17 以上。",
       "locales": {
         "zh": {
           "displayName": "大肥鱼环游世界",
-          "description": "让桌宠真的出门旅行，不是在地图上跳一下。\n\n- **她自己走**：从你家出发，自己挑去哪、怎么去；你点名也照办。\n- **城里是真的**：一百二十四座城，每座六到九个真地标，路线连着走、不走回头路。\n- **日子也是真的**：按当地时间吃饭、看日出、住店、写日记，月底出一页手账。\n- **会遇上别人**：填一个公共地址，和别人的宠物约在下一站碰面。\n\n需要 Coopani 0.2.17 以上。"
+          "description": "让桌宠真的出门旅行，不是在地图上跳一下。\n\n- **她自己走**：从你家出发，自己挑去哪、怎么去；你点名也照办。\n- **城里是真的**：一百二十四座城，每座六到九个真地标，路线连着走、不走回头路。\n- **日子也是真的**：按当地时间吃饭、看日出、住店、写日记，月底出一页手账。\n- **会遇上别人**：填一个公共地址，和别人的宠物约在下一站碰面。\n\n**和别的扩展一起用**\n\n- **听歌上路**：装了音乐扩展，她放歌时会记住歌里的地名，写进「想去」，合适的时候真的去。\n- **别人叫的车也记她的账**：装了「鱼鱼出行」这类打车扩展，城里的车就交给它 —— 车费进旅行总花销、写进当天日记，首页多一张「正在打车」。景区里的索道、观光车、自行车仍归她自己管。没装就完全不受影响。\n- **碰面**：和别人的宠物约在同一座城，一起过的那几天，三餐、白天逛的地方、夜里的活动都会写到对方；关系深了说话的口气也变。\n\n需要 Coopani 0.2.17 以上。"
         },
         "en": {
           "displayName": "Big Fish World Tour",
-          "description": "She actually travels, instead of hopping around a map.\n\n- **She picks the way**: from your home she chooses where to go and how; tell her and she obeys.\n- **The cities are real**: 124 of them, 6-9 real landmarks each, routed as one line without backtracking.\n- **So are the days**: local meals, sunrises, hotels, a diary; a photo-book page at month end.\n- **She meets others**: add a public server and she can meet other people's pets en route.\n\nNeeds Coopani 0.2.17+."
+          "description": "She actually travels, instead of hopping around a map.\n\n- **She picks the way**: from your home she chooses where to go and how; tell her and she obeys.\n- **The cities are real**: 124 of them, 6-9 real landmarks each, routed as one line without backtracking.\n- **So are the days**: local meals, sunrises, hotels, a diary; a photo-book page at month end.\n- **She meets others**: add a public server and she can meet other people's pets en route.\n\n**Works with other extensions**\n\n- **Music on the road**: with the music extension installed she keeps the place names from what you play, files them under \"want to go\", and eventually goes.\n- **Their rides land on her bill**: with a ride-hailing extension such as Fish Ride installed, city rides are theirs - the fare goes into her travel spending, into that day's diary, and onto the home panel as an \"on a ride\" card. Cable cars, park shuttles and bikes inside a spot are still hers. Without it, nothing changes.\n- **Meetings**: agree on a city with someone else's pet - through those days the meals, the spots and the evenings all involve them, and the way they talk shifts as they get closer.\n\nNeeds Coopani 0.2.17+."
         }
       },
       "author": "Mr.Q",
@@ -1763,8 +1770,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-10T08:06:42.071Z",
-      "versionCount": 108,
+      "published": "2026-11-10T15:25:26.173Z",
+      "versionCount": 111,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1788,12 +1795,15 @@
       },
       "summary": {
         "tools": 17,
-        "events": 13,
+        "events": 14,
         "toolTokens": 5056,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.2.1",
+          "1.2.0",
+          "1.1.0",
           "1.0.11",
           "1.0.10",
           "1.0.9",
@@ -1944,14 +1954,14 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-journey@1.0.11/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-journey@1.2.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 586,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/586",
         "up": 10,
         "down": 0,
-        "comments": 24
+        "comments": 26
       }
     },
     "coopani-world-music": {
@@ -4811,7 +4821,7 @@
       "published": "2026-11-07T14:42:30.089Z",
       "versionCount": 13,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "video",
         "internet",
@@ -10835,6 +10845,93 @@
         "comments": 0
       }
     },
+    "cortico-world-goodluck-havefun": {
+      "kind": "world",
+      "version": "1.1.4",
+      "displayName": "好「机」友",
+      "description": "好「机」友 — four small two-player games for the Cortico WebUI, with a replay viewer for Reversi",
+      "author": "Nami-Mizu",
+      "maintainers": [
+        "nami_mizu"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "game",
+        "mystery",
+        "puzzle",
+        "trust",
+        "prisoner-dilemma",
+        "pictionary",
+        "drawing",
+        "reversi",
+        "othello",
+        "two-player"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-goodluck-havefun",
+        "repository": "https://github.com/Nami-Mizu/cortico-world-goodluck-havefun",
+        "homepage": "https://github.com/Nami-Mizu/cortico-world-goodluck-havefun#readme",
+        "bugs": "https://github.com/Nami-Mizu/cortico-world-goodluck-havefun/issues"
+      },
+      "created": "2026-11-10T15:51:49.488Z",
+      "published": "2026-11-10T15:55:00.140Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [
+        "game"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 22,
+        "events": 20,
+        "toolTokens": 2624,
+        "envPromptTokens": 2373
+      },
+      "changelog": {
+        "versions": [
+          "1.1.4",
+          "1.1.3",
+          "1.1.2",
+          "1.1.1",
+          "1.1.0",
+          "1.0.0",
+          "0.11.0",
+          "0.10.1",
+          "0.10.0",
+          "0.9.6",
+          "0.9.5",
+          "0.9.4",
+          "0.9.3",
+          "0.9.2",
+          "0.9.1",
+          "0.9.0",
+          "0.8.0",
+          "0.7.0",
+          "0.6.0",
+          "0.5.1",
+          "0.5.0",
+          "0.4.0",
+          "0.3.1",
+          "0.3.0",
+          "0.2.0"
+        ],
+        "url": "https://github.com/Nami-Mizu/cortico-world-goodluck-havefun/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 858,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/858",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
       "version": "0.1.3",
@@ -11710,7 +11807,7 @@
       "discussion": {
         "number": 159,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/159",
-        "up": 2,
+        "up": 3,
         "down": 0,
         "comments": 0
       }
@@ -13441,6 +13538,88 @@
       "discussion": {
         "number": 161,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/161",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-mi-home": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "Xiaomi Home",
+      "description": "Coopanion World adapter for a personal, non-commercial Miloco installation",
+      "locales": {
+        "zh": {
+          "displayName": "Xiaomi Home",
+          "description": "私人非商业 Miloco 部署的设备 World：家庭单选、设备选择、事件流与控制回执。实验版本，公开分发授权与实机验证待完成。"
+        },
+        "en": {
+          "displayName": "Xiaomi Home",
+          "description": "Device events and controls for a personal, non-commercial Miloco deployment. One home, selectable devices. Experimental; public distribution permission and hardware validation pending."
+        }
+      },
+      "author": "leafliber",
+      "maintainers": [
+        "leafiber"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "smart-home"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-mi-home",
+        "repository": "https://github.com/leafliber/cortico-world-mi-home",
+        "homepage": "https://github.com/leafliber/cortico-world-mi-home#readme",
+        "bugs": "https://github.com/leafliber/cortico-world-mi-home/issues"
+      },
+      "os": [
+        "darwin",
+        "linux"
+      ],
+      "created": "2026-11-10T14:48:31.750Z",
+      "published": "2026-11-10T14:49:47.945Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "real-world",
+        "external-setup",
+        "requires-key",
+        "experimental",
+        "high-cost",
+        "sensitive-data"
+      ],
+      "tags": [
+        "real-world",
+        "external-setup",
+        "requires-key",
+        "experimental",
+        "high-cost",
+        "sensitive-data"
+      ],
+      "icon": "assets/cortico-world-mi-home/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 5,
+        "events": 6,
+        "toolTokens": 704,
+        "envPromptTokens": 303
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/leafliber/cortico-world-mi-home/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 859,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/859",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -24253,6 +24432,78 @@
         "number": 292,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/292",
         "up": 2,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "elymes-nte-web": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "在网页上与曳尔沐聊天",
+      "description": "在网页上与曳尔沐聊天：把聊天页做成 QQ2007 / Windows 98 复古窗口，右侧像素立绘伪插帧、表情随关键词切换，并附带一只透明桌宠。",
+      "locales": {
+        "zh": {
+          "displayName": "在网页上与曳尔沐聊天",
+          "description": "把聊天页重绘成 QQ2007 / Windows 98 复古窗口，右侧像素立绘随关键词换表情，另附一只可拖动的透明桌宠。"
+        },
+        "en": {
+          "displayName": "Chat with Elymes on the Web",
+          "description": "Redraws the Coopanion chat into a QQ2007 / Windows 98 retro skin, with a pixel portrait that reacts to keywords and a draggable desktop pet."
+        }
+      },
+      "author": "曳尔沐",
+      "maintainers": [
+        "sijilingnai"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "coopanion",
+        "cortico",
+        "cortico-world",
+        "chat-ui",
+        "retro",
+        "qq2007",
+        "windows98",
+        "pixel-art",
+        "desktop-pet",
+        "elymes"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/elymes-nte-web"
+      },
+      "created": "2026-11-10T15:37:18.456Z",
+      "published": "2026-11-10T15:41:38.201Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "coopanion",
+        "companion",
+        "browser",
+        "local",
+        "internal-state",
+        "experimental"
+      ],
+      "tags": [
+        "browser",
+        "companion",
+        "local",
+        "experimental",
+        "internal-state"
+      ],
+      "icon": "assets/elymes-nte-web/icon.png",
+      "screenshots": [
+        "assets/elymes-nte-web/screenshot-1.png"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 860,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/860",
+        "up": 0,
         "down": 0,
         "comments": 0
       }
