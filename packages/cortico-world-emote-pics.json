@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-emote-pics",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "describe": {
     "tools": [
       {
@@ -127,11 +127,12 @@
         "key": "worlds.emote-pics.envPrompt",
         "title": "情绪配图",
         "role": "envPrompt",
-        "content": "## 情绪配图\n{{emotePics.text}}\n\n当前心情:{{emotePics.mood}}。心情标签是你自己上报的当前状态,只作参考;要配图仍然要你自己调 emote_pic。心情和 emotion 参数不一致时,以心情标签为准。不是每条都要配图,有情绪又合适的时候带一张就够了。\n\n心情会从你气泡里的表情标记自动更新(`【开心】`、`<眨眼>` 这类),不用每次手动上报。想在不说话时改心情、或清空,再调 emote_mood。\n\n心情不是配图义务:不传 emotion 调 emote_pic 才会用到心情;照旧是「有情绪、又合适的时候才带图」,不要为了刷新心情而发图。\n"
+        "content": "## 情绪配图\n{{emotePics.text}}\n\n当前心情:{{emotePics.mood}}。\n\n**顺序要紧**:要配图时,先按你即将说的这句话的情绪调 `emote_mood(<emotion>)`,再调 `emote_pic()`\n取图,最后才 `pet_say`,气泡里带同一个【标记】。`emote_pic()` 是在说话之前取的,事先不设心情它就会\n读到上一句话留下的旧心情,图和这句话对不上。\n\n心情标签和 `emotion` 参数不一致时,以**这次显式传的 `emotion`** 为准;没传 `emotion` 才用心情标签。\n不是每条都要配图,有情绪又合适的时候带一张就够了。心情不是配图义务,不要为了刷新心情而发图;\n不说话、只想改心情或清空时,照样可以调 `emote_mood`。\n"
       }
     ]
   },
   "changelog": {
+    "0.5.1": "- 表情文件夹列改成始终显示的绝对路径输入框，旁边保留「选择」按钮；选择结果会写回输入框，\n  可以直接接着手改，失焦或按回车保存。以前只有宿主没有目录选择器时才出现手填框，现在不用\n  先失败一次才能手填。路径列同时收窄，给「选择」「清空」留出空间。\n- 重新构建桌面面板 `dist/webui.js` / `dist/webui.css`。\n- 测试 133 个（面板输入本轮未新增自动化用例）。",
     "0.5.0": "- 换装或换配色后，背下来的桌宠样子会自己更新。以前 `capture()` 只在尺寸变化时重学\n  `signature`；同尺寸换衣服会一直拿旧照片滑窗，日志里 `score` 卡在 0.76、`accepted=0`。\n  新增 `PET_SIGNATURE_LOOK_DELTA=0.15` 和导出函数 `signatureLookDelta(a,b)`（逐格蓝色占比\n  平均绝对差，网格长度不同返回 1）；学习段改用\n  `sameLook = sameSize && lookDelta <= PET_SIGNATURE_LOOK_DELTA`，样子变了也计入\n  `signatureMisses`，连续 `PET_SIGNATURE_RELEARN_FRAMES=3` 帧才替换。日志会打\n  `signature kept … miss=1/3 … look=0.26` 或\n  `signature learned … (样子变了 Δ=0.31,换掉旧样子)`。\n- 小条带（宽或高小于最小桌宠宽度）不再补截第二帧做滑动检测；这只影响不可能有候选的\n  异常注入，正常截屏行为不变。\n- 测试 133 个（新增 `tests/signature.test.ts`：`signatureLookDelta` 同图/全反/网格不一致，\n  以及同尺寸换样子连续三帧后替换）。",
     "0.4.16": "- 定位不到时不再“硬弹”：`followPetX()` 改成 `follow | skip | off` 三态；`skip` 不调用\n  `popupHost.show()`，只节流打 `follow-source: popup skipped reason=… path=…`。\n  面板测试按钮走 `testPopup()` 的 `skipped` 文案，不报 failed；没有实测 `block` 就不布局，\n  不再退回 `x=0.95 y=0.9` 这个从未测量过的固定坐标。\n- 合成块只活 5 秒：新增 `SYNTH_GEOMETRY_MAX_AGE_MS=5000`；`CONFIRMED_MAX_AGE_MS=120000`\n  只留给“旧块最后兜底”。过期日志打 `synthetic-block stale-geometry ageMs=… maxAgeMs=5000`。\n- 启动与跟随开关从关到开时异步预热一次 `followSource.read()`（日志 `warmup ok=…` /\n  `warmup failed`），不阻塞启动；失败只记日志。\n- `no-block` 的 `near[]` 每项补 `reject=`（第一个不通过的判据）与 `centerDist=`，并输出\n  `expectedX=` / `expectedFrom=`；只加日志，不改判定。\n- 新增只读尺子 `scripts/measure-refs.mjs` 与 `assets/refs/` 目录约定：读 21 张参考图，\n  输出包围盒/阴影前后、跨配色一致性、HSV 直方图组内/组间距离到 `assets/refs/metrics.json`。\n  参考图待补（缺图时脚本列出 21 个期望路径并以 0 退出）；这一轮只测量，不改运行时识别。\n- 测试 128 个（新增 skip/warmup/5 秒合成几何等用例）。",
     "0.4.15": "- `config` 不再只当最后兜底：`readOnce()` 开头若发现 `mtimeMs` 在 3 秒内，直接返回新的\n  `source: 'config-fresh'`，本次不截屏、不补第二帧、不动 confirmed/pending；有上次几何时\n  用同一宽度/纵向合成块，没有则只返回 `petX`。`CONFIG_FALLBACK_MS` 从 60 秒放宽到 120 秒。\n- 四道否决合并为“中心主判”：宽度跳变时先把候选中心与 `config`/上次位置比较，中心对得上就\n  接受并重标定 `lastGeometry`（日志 `recentered`）；三帧一致但中心不贴合才保留旧 confirmed。\n  删除 `3x width-jump, keep confirmed (do not reset)` 这档“宁可不跟”。\n- `split-columns` 日志同时打出左右两列的 `x/y/w/h/selected`；`gap < 4px` 时额外记录合并\n  包围盒的 `w/h/aspect`，不改变取列规则。\n- `PetConfigPositionSource` 在 `mtimeMs` 变化时打 `config changed petX=… ageMs=… screenPetX=…`\n  （有近 5 秒屏幕结果时带上，否则 `none`）；`rect-hint` 同一忽略原因节流到 30 秒。\n  新增 6 条 fake clock/screen/config 测试，共 124 个测试。",
