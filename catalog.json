@@ -5398,9 +5398,9 @@
     },
     "cortico-world-bookfish": {
       "kind": "world",
-      "version": "0.44.0",
+      "version": "0.45.0",
       "displayName": "看书吧！大肥鱼",
-      "description": "看书吧！大肥鱼：书源、自主阅读、证据手账、已读讨论、有限分享与有版本的全书读后感。适用于 Coopanion。扩展反馈 QQ 群：1135570183。",
+      "description": "看小说没人聊？大肥鱼陪你唠！AI 阅读搭子，陪你分享感动、吐槽剧情、畅聊每一个上头瞬间。书源、自主阅读、证据手账、已读讨论、分享与读后感。反馈 QQ 群：1135570183。",
       "author": "oceanxuhaiao",
       "maintainers": [
         "oceanxuhaiao"
@@ -5417,8 +5417,8 @@
         "bugs": "https://github.com/oceanxuhaiao/bookfish/issues"
       },
       "created": "2026-11-10T16:54:53.268Z",
-      "published": "2026-11-10T16:56:29.854Z",
-      "versionCount": 2,
+      "published": "2026-11-10T17:20:30.834Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5433,6 +5433,10 @@
         "high-cost",
         "injection-risk"
       ],
+      "icon": "assets/cortico-world-bookfish/icon.png",
+      "screenshots": [
+        "assets/cortico-world-bookfish/screenshot-1.jpg"
+      ],
       "downloads": {
         "total": 0,
         "month": 0,
@@ -5446,6 +5450,7 @@
       },
       "changelog": {
         "versions": [
+          "0.45.0",
           "0.44.0",
           "0.43.0",
           "0.42.0",
@@ -24956,6 +24961,70 @@
       "discussion": {
         "number": 808,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/808",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "world-serverchan": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "Server Chan",
+      "description": "把话送到 ta 的手机上：填一个 Server酱 SendKey，Turbo 与 Server酱³ 两种通道按 SendKey 的形状自动分辨，bot 只在真需要 ta 抬眼时推一条。",
+      "locales": {
+        "zh": {
+          "displayName": "Server酱",
+          "description": "把话送到 ta 的手机上。填一个 Server酱 SendKey，Turbo 与 Server酱³ 两种通道按 SendKey 的形状自动分辨，推送地址也各按各的拼法；bot 用 sc_send 发一条，标题 32 字以内，正文是 Markdown。只在 Coopanion 上验证过。"
+        }
+      },
+      "author": "xiaofentai",
+      "maintainers": [
+        "xiaofentai"
+      ],
+      "license": "AGPL-3.0-or-later",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "serverchan",
+        "push",
+        "notification",
+        "phone"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/world-serverchan",
+        "repository": "https://github.com/xiaofentai/jingxi-coopanion-worlds",
+        "homepage": "https://github.com/xiaofentai/jingxi-coopanion-worlds/tree/main/packages/serverchan#readme",
+        "bugs": "https://github.com/xiaofentai/jingxi-coopanion-worlds/issues"
+      },
+      "created": "2026-11-10T17:07:11.530Z",
+      "published": "2026-11-10T17:08:07.447Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "internet",
+        "requires-key",
+        "im"
+      ],
+      "tags": [
+        "im",
+        "internet",
+        "requires-key"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/xiaofentai/jingxi-coopanion-worlds/blob/HEAD/packages/serverchan/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 866,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/866",
         "up": 0,
         "down": 0,
         "comments": 0
