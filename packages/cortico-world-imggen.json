@@ -1,86 +1,86 @@
 {
   "schema": 1,
   "name": "cortico-world-imggen",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "describe": {
     "tools": [
       {
         "name": "imggen_draw",
-        "description": "调生图模型画一张图，存到本地文件夹，并直接把图发到 QQ。prompt 写画面本身：发生了什么、在哪、什么风格；神态、动作、镜头、光线由下面的关键词控制，别在 prompt 里重复写。有人物出镜时用 characters 指定参考库里的人物（保证长相一致），服饰/场景/道具同理。keywords：situation（情境）、expression（神态）、pose（动作）、shot（镜头）、light（光线）各填一个词表里的名字。to 用当前 QQ 消息 meta 里的 conv（group:<群号> 或 private:<QQ号>），原样复制；不填就发到默认目标。回执里有本地路径、尺寸、用了哪些关键词和参考图、发送结果；开头是「生成失败」时不要当作成功。一张图要几十秒，调用后耐心等回执。",
+        "description": "画一张图存到本地并直接发到 QQ。prompt 只写画面本身，神态/动作/镜头/光线用下面的关键词，别在 prompt 里重复。人物/服饰/场景/道具都填参考库里的名字；to 抄 QQ 消息 meta 里的 conv。回执有路径、尺寸、关键词、参考图和发送结果，「生成失败」开头不算成功；一张几十秒，等回执。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "prompt": {
               "type": "string",
-              "description": "画面描述：主体在做什么、在哪里、什么风格。中英文都行，一句到三句。"
+              "description": "画面：谁在做什么、在哪、什么风格。一到三句。"
             },
             "characters": {
               "type": "array",
               "items": {
                 "type": "string"
               },
-              "description": "出镜的人物，填参考库里的名字（可多个）。人物的长相和默认服饰从参考图来。"
+              "description": "出镜人物（库里的名字，可多个），保证长相一致。"
             },
             "outfits": {
               "type": "array",
               "items": {
                 "type": "string"
               },
-              "description": "指定服饰，填库里的名字。不填按「人物情境穿搭 > 情境默认 > 场景默认 > 人物默认」自动搭配。"
+              "description": "服饰（库里的名字），不填自动搭配。"
             },
             "scene": {
               "type": "string",
-              "description": "场景，填库里的名字。"
+              "description": "场景（库里的名字）。"
             },
             "props": {
               "type": "array",
               "items": {
                 "type": "string"
               },
-              "description": "道具，填库里的名字。"
+              "description": "道具（库里的名字）。"
             },
             "situation": {
               "type": "string",
-              "description": "情境关键词，例如 在家休息 / 睡前 / 刚睡醒 / 工作学习 / 外出。"
+              "description": "情境（词表里的名字）。"
             },
             "expression": {
               "type": "string",
-              "description": "神态关键词，例如 开心 / 害羞 / 困倦 / 委屈 / 得意。"
+              "description": "神态（词表里的名字）。"
             },
             "pose": {
               "type": "string",
-              "description": "动作关键词，例如 抱膝坐 / 趴着 / 托腮 / 伸懒腰。"
+              "description": "动作（词表里的名字）。"
             },
             "shot": {
               "type": "string",
-              "description": "镜头关键词，例如 自拍 / 近景 / 全身 / 俯视 / 第一人称。"
+              "description": "镜头（词表里的名字）。"
             },
             "light": {
               "type": "string",
-              "description": "光线关键词。不填用情境的默认光线。"
+              "description": "光线（词表里的名字），不填用情境默认。"
             },
             "size": {
               "type": "string",
-              "description": "可选，覆盖配置里的尺寸，例如 1024x1024、1280x720。"
+              "description": "覆盖默认尺寸，如 1024x1024。"
             },
             "count": {
               "type": "integer",
               "minimum": 1,
               "maximum": 4,
-              "description": "要几张，默认 1。多张更贵更慢，除非对方明确要几张。"
+              "description": "张数，默认 1；多张更慢更贵。"
             },
             "to": {
               "type": "string",
-              "description": "发送目标：group:<群号> 或 private:<QQ号>。不填用默认目标。"
+              "description": "group:<群号> 或 private:<QQ号>；不填用默认目标。"
             },
             "caption": {
               "type": "string",
-              "description": "可选，跟图一起发出的一句话。"
+              "description": "跟图一起发的一句话。"
             },
             "send": {
               "type": "boolean",
-              "description": "可选，false 表示只生成不发。"
+              "description": "false = 只生成不发。"
             }
           },
           "required": [
@@ -151,7 +151,7 @@
       },
       {
         "name": "imggen_library",
-        "description": "本地参考库：人物、服饰、场景、道具。action=list 看有什么（可按分类过滤）；action=get 看某个条目的设定和参考图；action=add 把一张图存成新条目（file 填本地图片路径或 http 地址）；action=update 改条目的名字/描述/别名/标签/人设/默认服饰/情境穿搭；action=remove 把条目挪进回收站（不硬删）。对方发来一张图说「记住这个角色」，先拿到图片路径再 add；只是想出图时用 list 确认名字，别猜。",
+        "description": "本地参考库（人物/服饰/场景/道具）。list 看清单，get 看某条设定与参考图，add 存新条目（file 填图片路径或 http 地址），update 改字段，remove 挪进回收站。出图前不确定名字就 list，别猜；对方说「记住这个角色」先拿图片路径再 add。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -179,48 +179,48 @@
             },
             "name": {
               "type": "string",
-              "description": "条目名字（get/update/remove 用；add 时是新条目的名字）。"
+              "description": "条目名（get/update/remove 用；add 时是新条目名）。"
             },
             "description": {
               "type": "string",
-              "description": "add/update：外观描述，只写长相或设计，不写表情、姿势。会进生图提示词。"
+              "description": "add/update：外观描述，只写长相或设计，会进提示词。"
             },
             "aliases": {
               "type": "array",
               "items": {
                 "type": "string"
               },
-              "description": "add/update：别名，方便以后用别的叫法指定。"
+              "description": "add/update：别名。"
             },
             "tags": {
               "type": "array",
               "items": {
                 "type": "string"
               },
-              "description": "add/update：标签，例如 蓝发、猫耳、JK。"
+              "description": "add/update：标签。"
             },
             "persona": {
               "type": "string",
-              "description": "add/update：人设，只给你自己看，不会发给生图接口。"
+              "description": "add/update：人设，只给自己看，不外发。"
             },
             "expressions": {
               "type": "string",
-              "description": "add/update：神态特点，例如「开心时尾巴会摇」，会写进提示词。"
+              "description": "add/update：神态特点，会进提示词。"
             },
             "defaultOutfit": {
               "type": "string",
-              "description": "add/update：默认服饰（服饰条目的名字）。"
+              "description": "add/update：默认服饰（服饰条目名）。"
             },
             "outfitByContext": {
               "type": "object",
               "additionalProperties": {
                 "type": "string"
               },
-              "description": "add/update：情境 → 服饰名，例如 {\"睡前\":\"睡衣\",\"刚睡醒\":\"睡衣\"}；也接受 \"睡前=睡衣, 刚睡醒=睡衣\" 这种写法。只对人物有意义。"
+              "description": "add/update：情境→服饰名，如 {\"睡前\":\"睡衣\"}；也收 \"睡前=睡衣, 刚睡醒=睡衣\"。只对人物有用。"
             },
             "file": {
               "type": "string",
-              "description": "add：参考图，本地绝对路径或 http(s) 图片地址。"
+              "description": "add：参考图，本地路径或 http(s) 地址。"
             }
           },
           "required": [
