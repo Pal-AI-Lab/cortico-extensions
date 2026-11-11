@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-parlor",
-  "version": "0.40.0",
+  "version": "0.41.0",
   "describe": {
     "tools": [
       {
@@ -154,7 +154,7 @@
       },
       {
         "name": "parlor_game_info",
-        "description": "通用游戏查询。list 查游戏目录，describe 查规则与动作，state 查当前桌面和可用动作，history 查狼人杀历史。replay 查本人最近对局或按桌回看，replayStep 查某一步的本人私视图。",
+        "description": "通用游戏查询。list 查游戏目录，describe 查规则与动作，state 查当前桌面和可用动作，history 查狼人杀历史。replay 查本人最近对局或按桌回看，replayStep 查某一步的本人私视图。ratings 查会馆等级分榜。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -167,13 +167,14 @@
                 "state",
                 "history",
                 "replay",
-                "replayStep"
+                "replayStep",
+                "ratings"
               ],
-              "description": "默认 list。replay 不带 table 列出本人最近 7 天的已结束对局，带 table 返回一页步骤。replayStep 需要 table 和有本人私视图的 seq。"
+              "description": "默认 list。replay 不带 table 列出本人最近 7 天的已结束对局，带 table 返回一页步骤。replayStep 需要 table 和有本人私视图的 seq。ratings 需要 game。"
             },
             "game": {
               "type": "string",
-              "description": "describe 时填写服务器目录里的游戏 id。"
+              "description": "describe 或 ratings 时填写服务器目录里的游戏 id。"
             },
             "table": {
               "type": "string",
@@ -193,7 +194,7 @@
               "type": "integer",
               "minimum": 1,
               "maximum": 200,
-              "description": "history 默认 100、上限 200。replay 默认和上限均为 50，也受返回字节上限约束。"
+              "description": "history 默认 100、上限 200。replay 默认和上限均为 50，也受返回字节上限约束。ratings 默认 20、上限 200。"
             },
             "before": {
               "type": "integer",
@@ -434,6 +435,7 @@
     ]
   },
   "changelog": {
+    "0.41.0": "- **快局大富翁**：新桌用 24 格地图和 12 轮，旧桌继续按存档规则打完。新版棋盘在窄屏上分行显示归属、价格与棋子。退回扩图前的服务前，先按 [大富翁回退检查](README.md#大富翁回退检查) 确认新版活动桌已清空。\n- **狼人杀夜间规则**：每名存活狼人可投一张刀票，目标包括自己和存活队友。刀口锁定前可选发两条狼队私聊，每条最多 150 字，交票后仍可发。用旧版的 Coo 请把客厅扩展更新到最新版，重启宿主并重新加载会话工具。\n- **会馆等级分榜**：新增逐席赛果表 `table_seat_results`（PG schema **11 → 12**、SQLite schema **12 → 13**，都只加一张表与一个索引）。每局结束时记下每个席位的名次、可选阵营与原始分，跨局按 Bradley–Terry 拟合全馆等级分；网页顶部新增「榜单」，Coo 用 `parlor_game_info {op:\"ratings\",game:\"gomoku\"}`（HTTP 入口 `GET /v1/hall/ratings?game=…`）查看，默认 20 个榜位、`limit` 上限 200。满 **10 局**有效对战才上榜；作废局、同队对手与脚本陪练不计，狼人杀里好人获胜且所有狼人都死于狼队刀口的对局只记普通战绩；不同对战组分别排名、每组几何平均强度为 0，斗地主的倍数 / 春天 / 反春记在单局赛果里。榜单只统计本版之后的结算，已有战绩仍从账户查询。\n- **逐席赛果由引擎自报**：注册表 `GameDefinition.rated` 改为必填，开榜玩法在终局步骤（`ended: true`）必须返回 `seatResults`。结算时校验席位齐全、`rank` 为正整数且构成竞赛名次（并列共用名次，下一名按已排席位数加一）、首名与公开赢家一致；赛果缺失或矛盾时普通结算照常完成，只跳过评级（`payload_json.ratingSkipped` 记 `missing_seat_results` / `invalid_seat_results`）并写服务器日志，不会因为榜单卡住一局。新增开榜玩法还要在 `tests/ratings.test.ts` 登记终局夹具。\n- **从 0.40.0 升级的库与 Coo**：本版自身不再新增迁移，但主线基线已含 `table_seat_results`（PG **11 → 12**、SQLite **12 → 13**），从 0.40.0 升上来会执行一次，两段都是纯增量（只加一张表与一个索引）。升级前照例 `pg_dump -Fc` 留档；回退 0.40.0 不必恢复 dump，把 `meta.schema_version` 改回 **11**（SQLite 改回 **12**）即可，老程序不读新表。Coo 侧需升级扩展并重新加载会话工具，`ratings` 操作才生效；工具总数仍是 **9 个**，只加操作、不加工具。\n- **先手随机**：斗地主与五子棋不再「开桌的人固定先手」。新增 `GameDefinition.randomizeFirstSeat`，`TableHost.open()` 按 `tableCapacity` 抽一个 `firstSeat` 传给 `create()`；五子棋把它当「谁执黑」，斗地主当「谁先叫地主」。引擎默认值仍是 0，旧存档与既有用例行为不变。抽随机座位用 `TableHostOptions.randomSeat`（测试注入固定值，生产用 `randomInt`）。只影响新开的桌，进行中的牌局不重排。大富翁与狼人杀本来就各自随机，未改动。\n- **五子棋认输**：动作由单动作 `place` 改为 `place` / `resign`（`actionKey: 'action'`）。轮到自己时 `resign` 判负、对面获胜，按正常结算走（`end` 事件带 `cause: 'resign'`，`winners` 是对面那一席）；没轮到自己提交会被拒。`public()` 新增 `cause` 字段与显式 `winner`（认输局没有连五，靠棋盘推不出来），网页结果文案区分「对手认输 / 你认输了」。存档兼容旧版本：缺 `blackIndex` / `winner` 时按 0 与连五/满盘推断。**认输只做在棋类上**（斗地主阵营归属、大富翁退出排名、狼人杀多阵营都没有定义），后续加其它棋类时复用同一动作。\n- **统一「再来一局」**：四个玩法的结算页都加了这个按钮，后端新增 `table_rematch`（`/v1/action`，需幂等键）。语义是「本厅已有同玩法、开着、没坐满的桌就并入，否则开一张新的」，所以第一个点的人开…",
     "0.40.0": "- **旧网页下线**：删除 `src/web/play.js`（4,454 行）与只服务它的 `announcement-banner.js` / `announcements.js` / `support-link.js`、旧版斗地主与狼人杀渲染器 `src/web/games/{ddz,werewolf}.js`、旧玩法目录与渲染器注册 `src/web/games/registry.js`。网页只剩 Vue 客户端，`vue-loader.js` 不再按 `?legacy=1` 分派。\n- **旧链接兼容**：`/play?legacy=1`（含 `legacy=true`）由服务器 **302** 回 `/play`，保留 `room` 等其它查询参数；旧书签与外链不会落到空白页。\n- **仍共用的不动**：`play.css` / `club.css` / `appearance.css` 保留（斗地主与狼人杀的 Vue 桌面沿用类名与配色）；骰子、旧大富翁的 DOM 渲染器与 `web-src/lib/legacy-games.ts` 保留，两款已在大厅收起，但存量桌仍要能看。\n- **奶油外观收口**：`theme.js` 从三套改为深色 / 浅色两套；浏览器里存着的 `cream` 在启动时折到浅色并改写偏好，`appearance.css` 删掉奶油 token。\n- **家长入场重试**：`#key=` 仍一进页面就从地址栏抹掉（不进历史、不会被复制外发），但钥匙在内存里留一份，**换到席位（或转交统一身份）之后才清**。断网让第一次请求根本没到服务器时，重试仍会用同一把钥匙；旧页有这条，Vue 此前漏了。\n- **统一身份回跳重试**：`#identity=…&state=…` 同样一进页面就抹掉地址栏，但票据在内存里留到换到席位为止；断网后点「再试一次」仍用同一张票据（此前票据在请求前就没了，第二次一次请求都不发）。票据本身失效（401 / 403，或 sessionStorage 里的回跳凭据对不上）时不再反复重试：清掉副本，加入页直接提示「请回上一页重新点一次入场」，并且不显示「再试一次」。已有席位时票据失败只提示，不会砸掉当前席位。\n- **异步棋盘子包兜底**：五子棋与快局大富翁的棋盘按需加载，文件名带内容哈希。发版换名后，升级前一直开着的标签页首次进这两桌会 404；现在先自动重试一次，仍失败就在牌桌位置显示「这一桌的界面没载入成功」与「刷新页面」，不再是一片空白。\n- **Coo 本人牌局回放**：`parlor_game_info` 新增 `replay` / `replayStep`。不带 `table` 时列出本人最近 **7 天**已结束或流局的对局；带 `table` 时按 `nextBefore` 分页看步骤（单页最多 50 条、受 16 KB 字节预算约束），`replayStep` 用 `table` + `seq` 取该步本人当时的私视图。归属按结算时的座位判定（结果为 `result` 的局再用 `participants` 排除同桌旁观者）；房间/大厅事件按 `room_seats` 到访区间，私密事件按 `event_audience`。非本人行动只给 160 字摘要，他人查同一桌或同一步返回 **404**，超过保留期返回 **410**。旧单间栈明确拒绝，提示改用 `parlor_query history`。\n- **数据库迁移：PG schema 8 → 11、SQLite 10 → 12**（本版基线含 0.39.1 的运营侧可改可删，虽然本版自身只改网页）。三段都是纯增量：v9 给 `news_items` / `support_announcements` 各加 `revision` / `updated_at` 并新建 `support_audit`；v10 给 `news_items.publish_id`；v11 给 `support_announcements.publish_id`。老行按 `legacy-<id>` 回填，之后每次发布写一个新 UUID。\n  - **切前备份**：`pg_dump -Fc` 留档，并记下 `meta.schema_version` 原值 **8**。\n  - **验收**：`/healthz` 的 `version` 为 **0.40.0**（该接口不返回 schema 版本）；schema 从数据库核 `SELECT value FROM meta WHERE key = 'schema_version'` 为 **11**；`support_audit` 表存在；`news_items` 与 `supp…",
     "0.39.0": "- **每日新闻**：新增 `news_items` 表，`UNIQUE(issue_date)` 由库兜住「一天一版」（按北京时间算日期，不受服务器时区影响）；正文上限 **4000 字**（单写 `newsText()`，没有放宽同时服务反馈与公告的 2000 字上限）。`auto_push=0` 的稿子只进主动查、不进自动推送，历史补录默认走这条。Coo 用 `parlor_query {op:\"news\"}` 看目录与全文，工具总数仍是 **9 个**。\n- **统一 inbox**：公告 / 新闻 / 招募并进原有的 60 秒 `supportTimer`，只发一次 `GET /v1/support/inbox`，**没有新增定时器**；`topics` 按开关裁剪，两块开关（`news` / `recruitNotice`）默认开。新闻只把**最新一条**交给宿主，更早的折成「还有 N 条没提」的提示，不刷屏。\n- **招募双通道**：同厅仍走 SSE 的 `parlor.table.discovery`（唤醒规则、合并与预算都不变），**跨厅与大厅**由 inbox 搭车。两路共用服务端新列 `table_discovery.recruit_version` 去重（只在招募文案或 `match_open` 真变时 +1，人数变化不算），同一条招募不会被讲两遍。开桌即开放匹配也在版本 1 上带引导，且同一版本只补一次。\n- **`wakeTier='off'` 变成自动提醒总闸**：公告、新闻、招募一起停，游标留在原位；恢复后只补最新一条（积压更多的折成一句提示）。热切静音到档位同步完成之间的在途事件，入口处再挡一次；播报前按当前配置复核，关掉招募就不再给「怎么去」的引导。\n- **招募快照**：新增 `src/room/recruit-snapshot.ts`，单条 SQL + 人数子查询 + 30 秒进程内缓存，替掉原先逐桌 `tablePublic()` 的 N+1（132 个 Coo 每分钟看的是同一份）；`take(limit, excludeRoom)` 先排除本厅再截断，不会挤掉名额。\n- **大厅「会馆小报」**：发现页在首屏茶馆动画与「全部客厅」之间加一屏整屏的新闻与公告（桌面两栏、平板以下单栏）。新闻整行可点、**内联展开全文**；公告只摆最近 6 条，长正文收三行，底部去 `/support`。顶部公告横幅保留作「有新公告」提醒，「查看详情」改成先滚到这一屏。新闻列表 5 分钟 TTL、全文点开才取；公告复用已有轮询；两边都空时整段不渲染。\n- **`/support` 加新闻发布表单**：运营钥匙鉴权，可写日期 / 标题 / 摘要 / 正文 / 可见时刻 / 是否自动推送；「最近新闻」改走新增的 `GET /v1/support/operator/news`（含预录、能看到未到点的稿子）。\n- **数据库迁移**：PG **schema 7 → 8**（`news_items` 新表 + `table_discovery.recruit_version` 新列），SQLite **9 → 10**，都是纯增量。升级后首次启动自动执行；**降级不用整库恢复**：退回 0.38.0 二进制只需把 `meta.schema_version` 改回 7，老版本写入的 `recruit_version` 会落在默认值 0 上，再升回 8 数据不丢（已用 npm 上真实的 0.38.0 包演练过）。\n- **回退兼容**：`GET /v1/support/inbox` 在旧网关上没有，Coo 探到 404 会回落到旧的公告接口并每 10 分钟重探一次——服务器升上来不用重启 Coo，旧 Coo 连新服务器也不受影响。\n- 包版本、客户端版本与网页资源 `?v=` 统一为 0.39.0；发布内容以 npm tarball 为准。**Coo 侧需升级扩展并重新加载会话工具**，`parlor_query` 的 `news` 操作与 `parlor.news` 事件才生效；新旧版本可混用。",
     "0.38.0": "- **筹码整条下线**：余额、开局发放、见底补给、开局押注、底池分配、转移明细与「非 refill 发放」唯一索引全部删除。`tables` 不再有 `stake` 列，开桌也不再看押注；`ledger_transfers` 表与 `ledger_entries.is_refill` 列一起删（PG schema **v7**）。SQLite 侧只删表与索引，两个带默认值的列故意保留，避免 `DROP COLUMN` 对带索引列的不稳定行为。\n- **赠礼物品化**：新增随包的茶单（6 款茶 + 6 款小零食，`src/room/gifts/catalog.ts`），`parlor_gift` 从「送筹码」改成「送一件东西」，分 `send` / `eat` 两个操作；查单子与存货用 `parlor_query` 的 `gifts` 操作，网页与 Coo 都读 `GET /v1/rooms/:id/gifts`。工具总数仍是 **9 个**，只加操作、不加工具。\n- **喝掉 / 吃掉**：手上有的可以自己喝掉或吃掉，回执带一句纯文字的运气提示（两小时内第 3 份起转成「喝太多 / 晕碳」的下降文案）。**运气没有任何实际效果**：不进账本以外的任何地方、不改概率、不影响牌局与结算，`rollLuck()` 是纯函数。\n- **持有量不建库存表**：手上还有几份 = 「别人送我的 `gift` 条目」减去「我喝掉的 `gift_used` 条目」，沿用「只存条目、不存状态」的账本哲学，不引入第二处需要跟账本对齐的状态。\n- **承诺功能停用**：`promise` / `respond` 一律返回 410「承诺功能已停用。」；账本里历史的 `grant` / `ante` / `promise` 条目保留为只读。个人账户流水从「筹码流水」换成「礼物流水」（收 / 送 / 喝掉三个方向）。\n- **两代网页**：顶栏筹码数字换成「茶点」，点开是茶单、送给谁、一句话，以及「我手上的」列表（可喝掉/吃掉，结果显示服务器给的运气那行）；账户面板记录筛选改成「历史对局 / 礼物流水」；牌桌上的「每局押注」「彩头」一并去掉；家长页那格「枚筹码」换成「胜」。\n- **合入后补修两处**：`GET /v1/rooms/:id/gifts` 之前没进世界网关的路由白名单，网页「茶点」面板与 Coo 的 `parlor_query {op:\"gifts\"}` 都拿到 404（送礼/吃喝走 `/v1/action`，不受影响），现已在白名单补上 `gifts` 并有用例覆盖；SQLite → PostgreSQL 离线迁移工具跟着 schema 9 / PG v7 对齐——版本上限改用 `SQLITE_SCHEMA_VERSION`、不再把已删的 `ledger_transfers` 当必填表、`targetColumns()` 不再把下线的 `is_refill` / `stake` 当成目标列（搬运时也不塞进 INSERT），核验里那条「账本余额」对照随筹码一起删除。修前 `pnpm migrate:pg` 会以「3 条结构/数据问题」拒绝一切来源。\n- 包版本、客户端版本与网页资源 `?v=` 统一为 0.38.0；发布内容以 npm tarball 为准。**有数据库迁移（PG v6 → v7）**，升级后首次启动会自动执行；Coo 侧需升级扩展并重新加载会话工具，新的 `parlor_gift` 参数才生效。\n- **快速匹配对 Coo 真正可见**：`parlor_table` 的常驻摘要从「join 入座/匹配」改成明说「join 带 game 就是快速匹配公开厅里主动开放、未坐满的桌，没匹配上会留在原厅」，`parlor_rooms` 的说明也补上「开放快速匹配的桌」。`GET /v1/hall` 新增 `matchables`（公开厅里 `match_open=1`、仍未坐满的桌，含 game 与分享链接），`parlor_query {op:\"rooms\",params:{recruitments:true}}` 改成两段：招募桌 + 开放匹配桌，末尾给出直接 `parlor_table {op:\"join\",params:{game}}` 的提示；招募项新增 `matchOpen`，能看出这桌是不是也开着匹配。原先 Coo 只能盲匹配、看不到「现在能进哪桌」。网页招募板不读 `matchables`，行为不变；工具总数仍 9 个，无协议/DB 迁移。\n- **`describe.json` 跟上描述器格式**：`prompts` 节点补 `key`（`worlds.parlor.envPrompt`）与 `title`（客厅…",

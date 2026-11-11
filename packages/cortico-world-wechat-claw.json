@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-wechat-claw",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "describe": {
     "tools": [
       {
@@ -31,14 +31,14 @@
       },
       {
         "name": "wechat_send_image",
-        "description": "Send a picture to the person whose inbound message arrived most recently. Takes an absolute local file path; the file is uploaded to the WeChat CDN and delivered as a picture. A path whose content is not an image is delivered as a file instead, and the receipt says so. Optional caption is sent as a separate text message first.",
+        "description": "Send a picture to the person whose inbound message arrived most recently. Takes an absolute local file path inside the pet workspace (or the configured inbox); paths outside it are refused, so move a file into the workspace first. The file is uploaded to the WeChat CDN and delivered as a picture. A path whose content is not an image is delivered as a file instead, and the receipt says so. Optional caption is sent as a separate text message first.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "path": {
               "type": "string",
-              "description": "Absolute path of a local picture file."
+              "description": "Absolute path of a local picture file inside the workspace."
             },
             "caption": {
               "type": "string",
@@ -59,14 +59,14 @@
       },
       {
         "name": "wechat_send_file",
-        "description": "Send a file attachment to the person whose inbound message arrived most recently. Takes an absolute local file path; the file is uploaded to the WeChat CDN and delivered as a downloadable file. Video files are delivered as videos, not as attachments. Optional caption is sent as a separate text message first.",
+        "description": "Send a file attachment to the person whose inbound message arrived most recently. Takes an absolute local file path inside the pet workspace (or the configured inbox); paths outside it are refused, so move a file into the workspace first. The file is uploaded to the WeChat CDN and delivered as a downloadable file. Video files are delivered as videos, not as attachments. Optional caption is sent as a separate text message first.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "path": {
               "type": "string",
-              "description": "Absolute path of a local file."
+              "description": "Absolute path of a local file inside the workspace."
             },
             "caption": {
               "type": "string",
@@ -158,11 +158,13 @@
         "key": "worlds.wechat-claw.envPrompt",
         "title": "微信 ClawBot · 环境提示词",
         "role": "envPrompt",
-        "content": "微信 ClawBot 是一条一对一私聊通道，接在微信里，只能回复刚发消息的那个人。\n\n## 手边的状态\n\n{{wechat.state | (微信还没接上。)}}\n{{wechat.account | (还没有绑定的微信号。)}}\n{{wechat.lastMessageAt | (还没有收到过微信消息。)}}\n{{wechat.lastError | (最近没有连接错误。)}}\n\n## 什么时候用\n\n微信里来人说话时，会收到一条 `wechat-claw.message`，正文以 `[微信 时间 发送者]` 开头，媒体路径就写在里面。要回话就用 `wechat_send`；图片用 `wechat_send_image`，其他文件用 `wechat_send_file`，两者都接本机绝对路径。\n\n- 对方发来图片时，图片会作为附件一起到达，路径也写在正文里。看不到附件时，按路径自行读取。\n- 对方发来文件时，路径写在正文里，需要内容就按路径读。\n- 对方发来视频时，视频落盘、路径写在正文里；抽帧可用时按时间顺序附几张画面，正文会写明抽了几帧。正文说「视频帧未抽取」就是真的没看过，不要描述画面内容。\n- 对方发来语音时，正文里带服务端的转写文本；语音本身是 SILK 编码，一般不必再处理。没有转写文本时，你只知道时长，不知道说了什么。\n\n## 约束\n\n这条通道只能回复最近发消息的人，不能主动找人，也不能发到别处。`wechat_send` 的回执会写明发给了谁。\n\n一条文本最多 4000 字，超出的部分会自动接着发成下一条，不必自己切。断行位置优先落在段落和句号上。\n\n## 分段发送\n\n这一段决定你说话的样子，值得花心思。\n\n打开分段发送时，你写的东西会被拆成好几条微信消息，一条一条发出去，条与条之间会停顿，让对方看着像你还在打字。\n\n拆的顺序按一次算，不会拆两次：\n\n- 你写了换行，就只按换行拆；换行会消失，段内不再按标点拆。\n- 没写换行但有句号，就只按句号拆，句号会消失。\n- 都没写，但有 `！？…～`，就按它们拆；它们留着，因为你靠它们表达语气。\n- 都没有，就整条发出去。\n\n所以换行是你的节奏工具：**想让对方连看几行、想顿一下再说下一句，就写换行**。反过来，一句话里硬写换行会被拆成好几个气泡，看着像结巴。\n\n中文句号会被删掉，因为在微信里带句号显得生硬、像在写公文。这就是聊天里很少见句号的原因。别为了排版写句号。\n\n分段与间隔都是对方在配置页设的，你看不到也不必猜；照平时的习惯说话就行。\n\n对方的 `context_token` 会过期。回复被拒并提示没有可用 token 时，等对方再说一句再回，不要反复重试。\n\n这里发出的一切都会真的进到对方的微信里。不确定要不要发的时候，先问清楚。\n"
+        "content": "微信 ClawBot 是一条一对一私聊通道，接在微信里，只能回复刚发消息的那个人。\n\n## 手边的状态\n\n{{wechat.state | (微信还没接上。)}}\n{{wechat.account | (还没有绑定的微信号。)}}\n{{wechat.lastMessageAt | (还没有收到过微信消息。)}}\n{{wechat.lastError | (最近没有连接错误。)}}\n\n## 收到的东西在哪\n\n对方发来的图片、文件、视频、语音都落在你的工作区里：\n\n```\n{{wechat.inbox | (收件目录还没解析出来。)}}\n```\n\n它下面按类型分成 `images/`、`files/`、`videos/`、`voices/`，文件名保留对方给的原文名，后面接一个本地时间戳。\n这些文件就是普通文件——**读得到、改得了、也发得回去**。想让对方看到改过之后的版本，改完直接\n用 `wechat_send_file` 发那个路径就行。\n\n## 什么时候用\n\n微信里来人说话时，会收到一条 `wechat-claw.message`，正文以 `[微信 时间 发送者]` 开头，媒体路径就写在里面。要回话就用 `wechat_send`；图片用 `wechat_send_image`，其他文件用 `wechat_send_file`，两者都接本机绝对路径。\n\n- 对方发来图片时，图片会作为附件一起到达，路径也写在正文里。看不到附件时，按路径自行读取。\n  正文说「图片未附：体积…／尺寸…／超出数量上限」时，那张图是真的没交给你，**不要猜图里有什么**。\n- 对方发来文件时，路径写在正文里，需要内容就按路径读。\n- 对方发来视频时，视频落盘、路径写在正文里；抽帧可用时会把几帧**拼成一张图**附上，\n  正文写明布局（如「2列×2行，从左上到右下按时间顺序」）、原视频分辨率与每格尺寸。\n  按这个顺序理解画面；每格都很小，别去描述看不清的细节。正文说「视频帧未抽取」就是真的没看过。\n- 对方发来语音时，正文里带服务端的转写文本；语音本身是 SILK 编码，一般不必再处理。没有转写文本时，你只知道时长，不知道说了什么。\n\n## 能发什么\n\n只有你工作区里的文件能发到微信：\n\n```\n{{wechat.workspace | (工作区路径还没解析出来。)}}\n```\n\n收件目录在工作区里，所以收来的东西发得回去。工作区外面的路径会被直接拒绝——这不是故障，是边界：\n你的配置、密钥和这台机器的其他文件不在工作区的管辖范围内，不该被随手上传出去。\n\n要把工作区外的东西发出去，先把它复制进工作区（例如收件目录），再发复制之后那份。\n被拒绝时回执会列出允许的目录，照着调整路径就行，不要换个写法绕过它。\n\n## 约束\n\n这条通道只能回复最近发消息的人，不能主动找人，也不能发到别处。`wechat_send` 的回执会写明发给了谁。\n\n一条文本最多 4000 字，超出的部分会自动接着发成下一条，不必自己切。断行位置优先落在段落和句号上。\n\n## 分段发送\n\n这一段决定你说话的样子，值得花心思。\n\n打开分段发送时，你写的东西会被拆成好几条微信消息，一条一条发出去，条与条之间会停顿，让对方看着像你还在打字。\n\n拆的顺序按一次算，不会拆两次：\n\n- 你写了换行，就只按换行拆；换行会消失，段内不再按标点拆。紧挨换行的段尾句号也会被去掉，段内的句号留着。\n- 没写换行但有句号，就只按句号拆，句号会消失。\n- 都没写，但有 `！？…～`，就按它们拆；它们留着，因为你靠它们表达语气。\n- 都没有，就整条发出去。\n\n所以换行是你的节奏工具：**想让对方连看几行、想顿一下再说下一句，就写换行**。反过来，一句话里硬写换行会被拆成好几个气泡，看着像结巴。\n\n中文句号会被删掉，因为在微信里带句号显得生硬、像在写公文。这就是聊天里很少见句号的原因。别为了排版写句号。\n\n分段与间隔都是对方在配置页设的，你看不到也不必猜；照平时的习惯说话就行。\n\n对方的 `context_token` 会过期。回复被拒并提示没有可用 token 时，等对方再说一句再回，不要反复重试。\n\n这里发出的一切都会真的进到对方的微信里。不确定要不要发的时候，先问清楚。\n"
       }
     ]
   },
   "changelog": {
+    "0.1.6": "收来的文件从「插件自己的数据目录」搬进**桌宠工作区**，并把「能发什么」收紧到工作区，\n从而关掉「模型可以把本机任意文件发到微信」这个口子。两件事其实是同一件事：文件放在桌宠\n够得到的地方，边界才能划在「工作区」而不是「整台机器」。\n\n### 收件目录搬进工作区\n\n- 入站媒体落在 `<工作区>/wechat-inbox/{images,files,videos,voices}/`，不再堆在\n  `<dataDir>/wechat-claw/inbox/`。桌宠读得到、改得了、也能发回去。\n- **文件名保留对方给的原文名**，后面接本地时间戳（`报告-20261108-144219.pdf`），撞名退到\n  `-2`、`-3`，写入用 `wx` 独占标志，从不覆盖已有文件。文件名先过 `safeFileName`：去掉目录部分\n  （挡 `..` 与 `C:`）、Windows 禁止的符号、控制字符与保留名（`CON`/`NUL`/`COM1`…）。\n- 压缩后的图与视频拼图放进 `<收件目录>/.derived/`，不与原件混在一起。\n- 工作区是 Git 仓库时（Coopanion 的 Coo 就是，每次写文件 `git add -A`），启动时把收件目录\n  追加进工作区的 `.gitignore`——十几 MB 的视频不该进版本历史。**只在 `.gitignore` 已存在时追加**，幂等。\n- 工作区怎么认：`WorldContext` 不给 `memoryDir`，所以按框架自己的顺序还原——`config.json` 的\n  `paths.memory` 优先，其次探测 `<部署目录>/workspace`（Coo 的约定），再退到 `memory`。\n\n### 发送边界：只许工作区里的文件\n\n- `wechat_send_image` / `wechat_send_file` 只接受**工作区、收件目录，以及 `sendExtraDirs` 里额外\n  放行的目录**内的路径。原来的实现接受任意绝对路径——模型一旦被说服，就能把 `auth.json`、\n  `context-tokens.json`、浏览器 cookie 一起上传到微信 CDN。\n- 判断前做 `realpath`：`..` 和符号链接都绕不出去；检查返回的规范化路径直接用于后续 `stat`/`readFile`，\n  不给「检查后被换掉」留窗口。\n- 拒绝时的回执列出允许的目录和收件目录，让模型改路径而不是反复试错。\n- 顺带把凭据目录隔离坐实：它们在工作区之外，因此现在拿不到也发不走。\n\n### 配置变更\n\n- 新增 `inboxDir`（默认空＝`<工作区>/wechat-inbox`，改完需重启）。\n- 新增 `sendExtraDirs`（默认空＝只有工作区能发；热生效）。\n- 配置组的「⚠ 安全提示：启用后模型能把本机任意文件发到微信」换成对边界的说明。\n- `wechat_status` 多了 `workspace`、`inbox`、`sendRoots` 三项；环境提示词新增\n  `{{wechat.inbox}}` 与 `{{wechat.workspace}}`，并写清「只能发工作区里的文件」。\n\n### 升级注意\n\n旧版本收下的媒体留在 `<dataDir>/wechat-claw/inbox/` 原处，不自动搬迁——那些文件桌宠依然读不到，\n需要的话手动复制进工作区的 `wechat-inbox/`。",
+    "0.1.5": "修两件事：图片/视频投递超限导致上游报错，以及分段发送时换行前的句号没被去掉。\n\n### 修复「超长或超大图片被直接发给 Provider，导致上游报 HTTP 400」\n\n- **新增图片闸门**：交给模型之前先查体积、最长边、数量。默认 16 MB / 4096 像素 / 单次 10 张，\n  都比上游的硬限制（32 MB / 8192 / 15 张）更保守，留出余量。\n- **超限先压缩**：装了 ffmpeg 时先缩到最长边 4096，再按 JPEG 质量 3→6→9 逐级降质，\n  每一级都重新查体积。\n- **没装 ffmpeg 就过滤**：只判断不处理，超限的图不附。\n- **丢弃必说明原因**：`[图片未附：体积 23.4 MB，超过 16 MB 上限]`、\n  `[图片未附：尺寸 8192×6144，最长边超过 4096 像素]`、`[图片未附：超出 10 张上限，这是第 11 张]`。\n  绝不静默吞掉，免得用户以为消息丢了。\n- **压不下去也说清楚**：`[图片未附：…，压缩后仍超标]`、`[图片未附：…，且没有 ffmpeg 可压缩]`。\n- **先看元数据再读内容**：体积从文件系统拿、尺寸只读文件头，32 MB 的图不会先整读进内存。\n- **顺手修掉一个误判**：损坏的 PNG 会让尺寸解析读出天文数字（实测 17 亿像素），\n  一张 26 字节的小图会被当成超长图丢掉。现在对读出的尺寸做合理性检查。\n\n### 视频抽帧改成拼图\n\n- **一次视频只产出一张图**，不再是 4 张散图。4 份图片输入变成 1 份，token 省四分之三。\n- **布局跟着帧数和方向走**：竖屏横排（4 帧 4×1、9 帧 9×1），横屏网格（4 帧 2×2、6 帧 3×2、\n  9 帧 3×3）。空格由 ffmpeg 的 `tile` 自动补黑。\n- **正文告诉模型怎么读**：写明「2列×2行，从左上到右下按时间顺序」、原视频分辨率、每格实际尺寸。\n- **帧数仍由用户自定义**，上限 9。配置页会明确写出代价：帧数越多 ffmpeg 越慢，每格画面越小、细节丢得越多。\n- 拼图本身也过图片闸门：帧数多或分辨率高时超限同样会被压缩。\n\n### 配置变更\n\n- 新增 `imageMaxMb`（16）、`imageMaxEdge`（4096）、`imageMaxCount`（10）。\n- **删除 `videoFrameMaxEdge`**：单帧尺寸现在由布局自动推导，不再手填。\n\n### 分段发送修正：换行前的句号也要去掉\n\n- 早先只有「没有换行、按句号拆」时才删句号；「按换行拆」时，句号落在段内被原样发出，\n  于是微信里看到的是「……重一点。\\n下一句」。操作者要的是句号一并去掉，这里补齐。\n- **只剥段尾**：`插件成熟度第一。文档齐全。` 里第一个句号在句子中间，保留；段尾那个去掉，\n  否则句子会粘在一起。\n- ASCII `.` 在段尾无条件剥：它已经在段尾，不可能是小数或域名的一部分。\n- 连续句号（`说完了。。`）、全角句点（`．`）与混排（`.．。`）一并清干净。\n- 换行后紧跟句号（`甲\\n。\\n乙`）不会留下空段。\n\n未发布，等攒够反馈再发。",
     "0.1.4": "新增语义分段发送。\n\n- **按语义把一次回复拆成多条微信消息**，一条一条发，像人一句一句说话。\n- **拆分只算一次**：有换行就只按换行拆；没有换行才按句号；再没有才按 `！？…～`。\n  换行与句号同时出现时不会拆两次，也不会多出空段。\n- **删谁不删谁**：换行、`。`、`．` 删掉（微信里带句号显得生硬）；`！？!?…～~` 只拆不删，语气留着。\n  ASCII `.` 只在后面跟空白或位于结尾时才当句号，`3.14`、`docs.nonebot.dev`、`report.md` 不会被切坏。\n- **间隔可配**：固定间隔或随机区间，单位秒。默认固定 2 秒。\n- **两道上限**：单次最多 12 段（超出并进最后一段）、累计等待最多 30 秒（到点就不再等，\n  但剩下的**照常发完**，不会因为等不起就漏发）。\n- 每段之间会亮一次「正在输入」，让人看着像还在打字。\n- 环境提示词里说明分段规则，让模型知道换行会变成独立消息、句号会被删掉。\n\n默认开启。不想要就在配置页关掉「分段发送」，行为回到 0.1.3。",
     "0.1.3": "- **正文里的图片尺寸改成真图尺寸。** 之前用的是 `image_item.thumb_width` / `thumb_height`，\n  那是微信给的缩略图尺寸（实测普遍 210 像素宽），而同一张图的文件实际是 868×1920、1440×1699。\n  模型看到 `[图片 210x465]` 会按「这是一张小图」处理，于是把图判成糊的。现在从落盘文件本身读\n  （JPEG 的 SOF、PNG 的 IHDR、GIF/BMP/WebP 各自的文件头），读不出就不写尺寸，不猜。\n- **上报版本号只认 `package.json`。** 早先 `world.ts` 里另抄了一份常量，停在 `0.1.0`，\n  于是 `base_info.channel_version` 连续两个版本都在报旧号。现在直接读 `package.json`。",
     "0.1.2": "安全修复：收件人钉死在绑定本人。\n\n- **回复目标不再随入站消息变化**。早先用「最近一条消息的发送者」当收件人，任何人只要能让一条\n  消息进入收件流（群成员、服务通知、陌生人），文字和文件就会被发到对方。现在一律发往绑定记录里的\n  `userId`，拿不到就明确报错而不是乱发。\n- **只接受绑定本人发来的消息**。发送者不是本人就丢弃并记一条 warn，不再进入上下文、\n  也不保存它的 `context_token`。\n- 绑定记录缺少 `ilink_user_id` 时，把扫码后第一条消息的发送者认作本人并写回 `auth.json`，\n  认领只发生一次，之后严格比对。\n- **配置页加安全提示**：说明启用后模型能把本机任意文件发到微信（含它自己的登录令牌），\n  且发送前不会确认。\n- **主动声明 `unsafe` 标签**：这个能力确实符合该标签的定义，由作者声明而不是等维护者来加。\n\n注意：这次没有收紧「能发哪些文件」。`wechat_send_image` / `wechat_send_file` 仍接受任意绝对路径，\n所以 `unsafe`（能把本机任意文件发到微信）依然成立。要撤这个标签，得先收紧到白名单目录，\n再向索引仓提 `[tags]` issue。",

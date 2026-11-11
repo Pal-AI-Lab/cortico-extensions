@@ -1444,13 +1444,13 @@
     },
     "better-cortico-world-netease-companion": {
       "kind": "world",
-      "version": "1.20.0",
+      "version": "1.21.1",
       "displayName": "听搭子",
-      "description": "和表达助手插件一起使用有奇效！读取网易云音乐、QQ 音乐、酷狗音乐、酷我音乐、Spotify 与 Apple Music 曲目（优先 SMTC，必要时窗口标题），设置中按官方播放器优先级排序并保持切换稳定；新增读取诊断页，可查看全部会话、窗口候选与选择原因；切歌后让桌宠参考评论区、歌曲百科、歌手资料与歌词主动陪听，支持切歌报幕、同曲分段、评论侧重轮换与副歌动作建议；能记住单曲笔记、听感标签和多日听歌历史，并记录听歌排名与个人画像；可在用户明确要求时暂停/切歌，也能搜歌并给出链接。只读元数据，不采集音频，不",
+      "description": "和表达助手插件一起使用有奇效！读取网易云音乐、QQ 音乐、酷狗音乐、酷我音乐、Spotify 与 Apple Music 曲目（优先 SMTC，必要时窗口标题），开启通用识别（默认关闭）后其他向系统媒体控件上报会话的播放器也能参与；设置中可把官方与已保存的播放器统一排序，已保存项可随时取消保存，取消后按普通未知播放器参与、不会被拉黑；新增读取诊断页，可查看全部会话、窗口候选与选择原因；切歌后让桌宠参考评论区、歌曲百科、歌手资料与歌词主动陪听，支持切歌报幕、同曲分段、评论侧重轮换与副歌动作建议；能记住单曲笔",
       "locales": {
         "en": {
           "displayName": "Listening Companion",
-          "description": "Pairs with your desktop pet while you listen: reads what NetEase, QQ Music, Kugou, Kuwo, Spotify or Apple Music is playing (SMTC first, window-title fallback), comments on track changes, follows the song in segments, and may borrow the figure's own actions at the chorus. Remembers song notes, feel tags, daily history, rankings and a taste profile; memory can live in a folder you choose, including a synced drive. Can pause, resume or skip, or search a track on request. Metadata only, no audio, no API key."
+          "description": "Pairs with your desktop pet while you listen: reads what NetEase, QQ Music, Kugou, Kuwo, Spotify or Apple Music is playing (SMTC first, window-title fallback), plus any other player that publishes a media session (generic detection is off by default); saved players can be reordered together with the built-in ones and removed at any time, and removing one just drops it back to an ordinary unknown player instead of blacklisting it. Comments on track changes, follows the song in segments, and may borrow the figure's own actions at the chorus. Remembers song notes, feel tags, daily history, rankings and a taste profile; memory can live in a folder you choose, including a synced drive. Can pause, resume or skip, or search a track on request. Metadata only, no audio, no API key."
         }
       },
       "author": "wocwang & oceanxuhaiao",
@@ -1479,8 +1479,8 @@
         "win32"
       ],
       "created": "2026-10-23T17:18:51.610Z",
-      "published": "2026-11-11T06:22:17.009Z",
-      "versionCount": 31,
+      "published": "2026-11-11T08:01:44.736Z",
+      "versionCount": 33,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -1517,6 +1517,8 @@
       },
       "changelog": {
         "versions": [
+          "1.21.1",
+          "1.21.0",
           "1.20.0",
           "1.19.0",
           "1.18.2",
@@ -1569,7 +1571,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/214",
         "up": 9,
         "down": 1,
-        "comments": 10
+        "comments": 11
       }
     },
     "coo-whale-home": {
@@ -1739,7 +1741,7 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "1.4.0",
+      "version": "1.6.0",
       "displayName": "大肥鱼环游世界",
       "description": "让桌宠真的出门旅行：一百二十四座城、每座都有真地标，她自己挑去哪、怎么去，路上真耗那些时间；到站按当地时间吃饭、看日出、住店、写日记，月底出一页手账。填个公共地址能和别人的宠物碰面；装了音乐或打车扩展，她还会跟着歌走、把别人叫的车记进自己的账；一起走过的那几天，还能互留一句话和号，散了也找得回。需 Coopani 0.2.17 以上。",
       "locales": {
@@ -1774,8 +1776,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-11T06:26:23.088Z",
-      "versionCount": 121,
+      "published": "2026-11-11T08:26:00.294Z",
+      "versionCount": 124,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1805,7 +1807,7 @@
       },
       "changelog": {
         "versions": [
-          "1.4.0",
+          "1.6.0",
           "1.2.1",
           "1.2.0",
           "1.1.0",
@@ -1959,7 +1961,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-journey@1.4.0/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-journey@1.6.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 586,
@@ -3638,7 +3640,7 @@
       "published": "2026-11-10T07:49:01.775Z",
       "versionCount": 9,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [],
       "icon": "assets/cortico-provider-opencode/icon.png",
       "downloads": {
@@ -5400,7 +5402,7 @@
     },
     "cortico-world-bookfish": {
       "kind": "world",
-      "version": "0.51.0",
+      "version": "0.52.0",
       "displayName": "看书吧！大肥鱼",
       "description": "你负责安利，大肥鱼负责上头！把喜欢的小说推荐给大肥鱼，让她认真读、尽情吐槽、和你讨论每一个精彩瞬间！反馈 QQ 群：1135570183。",
       "author": "oceanxuhaiao",
@@ -5419,8 +5421,8 @@
         "bugs": "https://github.com/oceanxuhaiao/bookfish/issues"
       },
       "created": "2026-11-10T16:54:53.268Z",
-      "published": "2026-11-11T06:18:38.267Z",
-      "versionCount": 9,
+      "published": "2026-11-11T08:27:22.013Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5454,6 +5456,7 @@
       },
       "changelog": {
         "versions": [
+          "0.52.0",
           "0.51.0",
           "0.50.0",
           "0.49.0",
@@ -14487,7 +14490,7 @@
       "published": "2026-10-28T08:14:21.809Z",
       "versionCount": 2,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "game"
       ],
@@ -15448,7 +15451,7 @@
       "published": "2026-10-30T04:01:13.321Z",
       "versionCount": 5,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "diagnostics"
       ],
@@ -15637,7 +15640,7 @@
     },
     "cortico-world-parlor": {
       "kind": "world",
-      "version": "0.40.0",
+      "version": "0.41.0",
       "displayName": "鲸语茶室",
       "description": "鲸语茶室(共享客厅)：多只 Coo 与家长一起聊天、斗地主、狼人杀、五子棋、快局大富翁、掷骰子；附零构建网页牌桌与家长观战页。有问题或建议请加 QQ 群 1061389211 反馈，群里回复更快。",
       "locales": {
@@ -15687,8 +15690,8 @@
         "bugs": "https://github.com/biliye/cortico-world-parlor/issues"
       },
       "created": "2026-10-30T12:05:22.925Z",
-      "published": "2026-11-09T16:10:42.555Z",
-      "versionCount": 46,
+      "published": "2026-11-11T08:07:12.665Z",
+      "versionCount": 47,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -15712,11 +15715,12 @@
       "summary": {
         "tools": 9,
         "events": 8,
-        "toolTokens": 1832,
+        "toolTokens": 1859,
         "envPromptTokens": 396
       },
       "changelog": {
         "versions": [
+          "0.41.0",
           "0.40.0",
           "0.39.0",
           "0.38.0",
@@ -23870,7 +23874,7 @@
     },
     "cortico-world-wechat-claw": {
       "kind": "world",
-      "version": "0.1.4",
+      "version": "0.1.6",
       "displayName": "微信 ClawBot",
       "description": "在微信里和桌宠一对一聊天：文字、图片、文件双向收发，语音用微信的转写文本，视频可按需抽帧给模型看。",
       "locales": {
@@ -23906,8 +23910,8 @@
         "bugs": "https://github.com/Unnori/cortico-world-wechat-claw/issues"
       },
       "created": "2026-10-27T12:04:10.102Z",
-      "published": "2026-11-07T14:10:31.519Z",
-      "versionCount": 6,
+      "published": "2026-11-11T07:37:15.730Z",
+      "versionCount": 7,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -23929,11 +23933,13 @@
       "summary": {
         "tools": 5,
         "events": 2,
-        "toolTokens": 816,
-        "envPromptTokens": 606
+        "toolTokens": 902,
+        "envPromptTokens": 920
       },
       "changelog": {
         "versions": [
+          "0.1.6",
+          "0.1.5",
           "0.1.4",
           "0.1.3",
           "0.1.2",
