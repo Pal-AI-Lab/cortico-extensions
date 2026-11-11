@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "cortico-world-wardrobe",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/432",
-  "total": 6,
+  "total": 7,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BKik6",
+      "author": "mrlin97",
+      "avatar": "https://avatars.githubusercontent.com/u/355308547?s=64&v=4",
+      "body": "老大\n用「换装大肥鱼」时，日志每 30 秒报「没找到 wardrobe-whale 的 figure.json，用的是内置清单」。包其实在 data\\home\\companion\\data\\figures\\wardrobe-whale\\figure.json，但 journey 只查 resources\\app\\...\\desktop-pet\\web\\<figure>，所以永远找不到。建议找不到内置路径时再查一下 data/figures 和旧的 figures 目录；本地改过后 WARN 消失、动作词也正常了。",
+      "createdAt": "2026-11-11T11:00:16Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BKbZS",
       "author": "LaoHsien",
