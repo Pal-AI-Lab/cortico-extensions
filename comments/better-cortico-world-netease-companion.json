@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "better-cortico-world-netease-companion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/214",
-  "total": 9,
+  "total": 10,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BKhjp",
+      "author": "wocwang",
+      "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+      "body": "@sdz614 1.20.0 已经发布，这次加了「通用识别」，不用再为单个播放器改源码了：只要软件把播放信息交给 Windows 系统媒体控件（SMTC），World 就能自动读到会话并参与陪听。VutronMusic 这类播放器理论上可以直接用。\n\n更新并重启 Coopanion 后，请到 World 页的「连接检查」看一下：\n\n- 如果 VutronMusic 出现在会话列表里，会标「通用识别」（有官方播放器正在放时会显示「通用识别·待命」），这时已经可以陪听；\n- 如果标出来了但你想让它稳定优先，点它右边的「保存」，就会记进支持列表，重启后仍然生效；\n- 如果列表里根本没有它，或者歌名、歌手识别不对，麻烦截个图发我，我按你的情况再看。\n\n需要说明的是，通用识别依赖播放器主动上报 SMTC。如果 VutronMusic 没有把播放状态交给系统媒体控件，这边就读不到，可以先确认它有没有相关设置或换一个版本试试。\n\n另外这版也修了播放控制按应用 ID 匹配时把 [ * ? 当成通配符的问题，暂停/切歌会比之前稳。",
+      "createdAt": "2026-11-11T06:23:19Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BKhCq",
       "author": "sdz614",
