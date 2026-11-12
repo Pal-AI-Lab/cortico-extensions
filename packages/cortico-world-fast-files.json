@@ -1,0 +1,229 @@
+{
+  "schema": 1,
+  "name": "cortico-world-fast-files",
+  "version": "0.0.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "files_workspaces",
+        "tags": [
+          "read"
+        ],
+        "description": "列出当前配置的文件工作区：每个目录的 id、路径、只读还是可写、目录是否存在。第一次读写文件前、或者不确定路径该怎么写时先调它。清单为空时说明需要先在设置里添加文件夹。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        }
+      },
+      {
+        "name": "files_list",
+        "tags": [
+          "read"
+        ],
+        "description": "列一个目录里的条目：名字、类型、大小、修改时间，目录排前面、按名字自然排序（frame-2 在 frame-10 前面）。不写 path 就列第一个工作区的根。一次最多列 200 项，默认跳过 node_modules、.git、dist 这类目录，也不显示隐藏文件。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "目录路径。可以写绝对路径，也可以用工作区 id 开头，比如 notes\\子目录。不写就列第一个工作区的根。"
+            }
+          }
+        }
+      },
+      {
+        "name": "files_read",
+        "tags": [
+          "read"
+        ],
+        "description": "读一个文本文件的内容。自动认 UTF-8、GBK、UTF-16 和 BOM；二进制文件会拒绝。要改一个文件之前先用它读原文。单次最多返回 limits.maxReadChars 个字符（默认 20 万），超了只给开头；大文件可以用 offset 跳行、limit 限行数。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "文件路径。可以写绝对路径，也可以用工作区 id 开头，比如 notes\\周报.md。"
+            },
+            "offset": {
+              "type": "integer",
+              "description": "从第几行开始读，从 1 数。默认第 1 行。",
+              "minimum": 1
+            },
+            "limit": {
+              "type": "integer",
+              "description": "最多读几行。默认一直读到结尾。",
+              "minimum": 1
+            }
+          },
+          "required": [
+            "path"
+          ]
+        }
+      },
+      {
+        "name": "files_view",
+        "tags": [
+          "read"
+        ],
+        "description": "看图片，把图片直接交给模型看。一次 1 到 N 张，按传入顺序编号返回。只认文件头不认扩展名：PNG、JPEG、GIF、WebP、BMP。看图片序列之前，如果同目录有 index.md 或 frames.json 这类说明文件，先用 files_read 读它，里面常写着每张的时间码。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "paths": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "一张或多张图片的路径，绝对路径或用工作区 id 开头。数组顺序就是返回顺序。",
+              "minItems": 1
+            }
+          },
+          "required": [
+            "paths"
+          ]
+        }
+      },
+      {
+        "name": "files_write",
+        "tags": [
+          "act"
+        ],
+        "description": "整篇写一个文本文件。新文件直接建；已存在必须给 overwrite: true，否则拒绝，防止手滑覆盖。覆盖前自动备份（8MB 以内），回执里给备份路径。.json 会先校验合法性，不合法就不写。保留原文件的 BOM 和换行风格；新文件用 UTF-8 无 BOM、换行 \\n。只改一小段用 files_edit。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "文件路径，绝对路径或用工作区 id 开头。"
+            },
+            "content": {
+              "type": "string",
+              "description": "要写进去的完整文本。"
+            },
+            "overwrite": {
+              "type": "boolean",
+              "description": "文件已存在时是否覆盖。默认 false。"
+            }
+          },
+          "required": [
+            "path",
+            "content"
+          ]
+        }
+      },
+      {
+        "name": "files_edit",
+        "tags": [
+          "act"
+        ],
+        "description": "把文件里的一段文字换成另一段。old_string 必须在文件里唯一出现；出现多次要么给更长的上下文，要么 replace_all: true。改之前先 files_read 拿原文。.json 改完会重新校验。写盘前备份。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "文件路径，绝对路径或用工作区 id 开头。"
+            },
+            "old_string": {
+              "type": "string",
+              "description": "要替换的原文，要唯一匹配。"
+            },
+            "new_string": {
+              "type": "string",
+              "description": "替换成什么。给空字符串就是删掉这段文字。"
+            },
+            "replace_all": {
+              "type": "boolean",
+              "description": "所有匹配都替换。默认 false。"
+            }
+          },
+          "required": [
+            "path",
+            "old_string",
+            "new_string"
+          ]
+        }
+      },
+      {
+        "name": "files_append",
+        "tags": [
+          "act"
+        ],
+        "description": "往文件末尾追加文本。文件不存在就新建。原文件最后没有换行会自动补一个再追加。写盘前备份。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "文件路径，绝对路径或用工作区 id 开头。"
+            },
+            "content": {
+              "type": "string",
+              "description": "要追加的文本。"
+            }
+          },
+          "required": [
+            "path",
+            "content"
+          ]
+        }
+      },
+      {
+        "name": "files_mkdir",
+        "tags": [
+          "act"
+        ],
+        "description": "建目录，中间缺的层一起建。已经存在算成功。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "要建的目录路径。"
+            }
+          },
+          "required": [
+            "path"
+          ]
+        }
+      },
+      {
+        "name": "files_move",
+        "tags": [
+          "act"
+        ],
+        "description": "移动或重命名文件、文件夹。目标已存在要 overwrite: true，而且只能覆盖文件，不能覆盖目录。工作区根本身不能动。跨盘移动不支持。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "from": {
+              "type": "string",
+              "description": "原路径。"
+            },
+            "to": {
+              "type": "string",
+              "description": "新路径。"
+            },
+            "overwrite": {
+              "type": "boolean",
+              "description": "目标已存在时是否覆盖文件。默认 false。"
+            }
+          },
+          "required": [
+            "from",
+            "to"
+          ]
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.fast-files.envPrompt",
+        "title": "快速读写 · 环境提示词",
+        "role": "envPrompt",
+        "content": "这里是用户电脑上的真实文件夹，不是虚拟机，也不是临时沙盒。改动会真的落在盘上。\n\n## 能碰的地方\n\n你只能访问下面这几个工作区，别的地方一律拒绝，拒绝时会告诉你有哪些可用的。\n\n${files.workspaces}\n\n## 怎么在这里做事\n\n- 写之前先读。改一段文字前先用 files_read 看原文，别凭记忆重写。\n- 大改之前先问。整篇重写、批量整理这类动作，先跟用户说一句再动手。\n- 路径不确定就查。先用 files_workspaces 或 files_list，不要猜路径。\n- 标着只读的工作区只能看；要改先让用户把它切成可写。\n- 覆盖和修改会留备份，放在 Coopanion 数据目录的 files\\backups 下面，写坏了可以找回原样。\n"
+      }
+    ]
+  }
+}
