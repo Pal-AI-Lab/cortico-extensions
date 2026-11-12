@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-natural-voice",
-  "version": "0.6.3",
+  "version": "0.7.0",
   "describe": {
     "tools": [
       {
@@ -42,6 +42,7 @@
     ]
   },
   "changelog": {
+    "0.7.0": "- Ship a market edition that reads replies through the public World API and leaves bubble delivery to Coopanion.\n- Ship the experimental bubble synchronization as a separate GitHub ZIP. Both editions share the TTS engine, plugin ID and saved configuration.\n- Validate both packages against the Cortico version bundled with Coopanion 0.2.19 and check future stable releases weekly.",
     "0.6.3": "- Keep the Chinese market introduction within npm's 255-character limit so the feedback guidance and link are not truncated.\n- Enforce that limit in the release checker; retain the full user/agent guides and issue forms from 0.6.2.",
     "0.6.2": "- Make the market introduction Chinese-first, covering purpose, data/cost/playback effects, limitations and feedback links.\n- Add user and agent issue forms plus a bundled Chinese feedback guide with an agent drafting prompt and explicit review/evidence guidance.\n- Update GitHub documentation and agent contributor instructions; keep the speech runtime unchanged.",
     "0.6.1": "- Prepare the first public npm release as `cortico-world-natural-voice` with the existing World API 6 manifest.\n- Include environment prompt metadata in the generated market description and verify it with the upstream describe checker.\n- Declare market tags for voice, required service credentials, the desktop-pet extension dependency and limited-environment validation.\n- Document market/npm installation; preserve the 0.6.0 voice runtime and configuration behavior.",

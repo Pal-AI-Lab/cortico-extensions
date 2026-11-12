@@ -2,8 +2,45 @@
   "schema": 1,
   "name": "coopani-world-journey",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/586",
-  "total": 32,
+  "total": 37,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BKp-J",
+      "author": "mrlin97",
+      "avatar": "https://avatars.githubusercontent.com/u/355308547?s=64&v=4",
+      "body": "让她自己写的\n# 给「旅程/环游世界」拓展的两条建议\n\n## 1. `journey_photo` 的时段标签跟真实钟点对不上\n\n复现（2026-11-13，成都）：\n\n- 她当地时刻 01:06，`journey_now` 的行程还是前一天的结尾。\n- 调 `journey_photo`（subject=food），回执写「成都的早饭，当地 1 点」。\n- 图本身没问题；错的是「早饭」这两个字 —— 凌晨一点不可能是早饭。\n\n观察到的机制：标签取自当天日程表最近的一格，而日程表从 07:00「起床」才开始，\n凌晨没有格子；同时旅程日历在本地零点翻页、进度回到开头，于是标签落到「07:30 早饭」。\n\n建议：标签按**真实时钟**判断（凌晨 = 夜里/宵夜），日程没覆盖的时段给一个兜底词；\n或者干脆允许 `journey_photo` 传一个自定义时段词。\n\n## 2. 日程表不能补格子\n\n`journey_set_slot` 只能改**已经存在的**格子：\n\n- `time=\"1:30\"` → 「01:30 附近没有可改的格子」（当天最早一格是 07:00 起床）\n- `time=\"夜里\"` → 被映射到日程里的 20:15 那一格 —— 凌晨要用的时候改不到真正的那一段\n\n建议：允许在当天任意时刻**新增**一格，而不只是替换已有的一格。\n\n## 附带说一句（不是 bug，是我们自己踩的坑）\n\n`journey_photo` 的 `describe` 写中文时，下游 SDXL 的 CLIP 基本读不懂，会出毛笔字水印那种乱图；\n写英文一次就成。如果拓展想在本地模型上稳一点，可以在提示词里加一句「describe 请用英文」的说明。",
+      "createdAt": "2026-11-12T17:15:21Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BKpNp",
+      "author": "fateSSD",
+      "avatar": "https://avatars.githubusercontent.com/u/120785478?s=64&v=4",
+      "body": "emmmm，傻鱼\r\n\r\n\r\n\r\n\r\n一个普通的上班族\r\n***@***.***",
+      "createdAt": "2026-11-12T15:06:33Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BKpH8",
+      "author": "fateSSD",
+      "avatar": "https://avatars.githubusercontent.com/u/120785478?s=64&v=4",
+      "body": "ok，感谢\r\n\r\n\r\n\r\n\r\n一个普通的上班族\r\n***@***.***",
+      "createdAt": "2026-11-12T14:52:22Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BKpHN",
+      "author": "kingchirpsun",
+      "avatar": "https://avatars.githubusercontent.com/u/355855431?s=64&v=4",
+      "body": "行，我说几条真用出来的，都能直接改:\n①去水印那条裁剪，能不能按**高度**算（底部 8% 高度）。我量下来现在是按宽度 8% —— 9:16 竖图怎么调都切不干净，横图倒是随便切。\n②照片页的缩略图全是空白棕块，四张都一样，只有标题和原图路径能看。这个像 bug。\n③填的尺寸被服务商改掉时，日志里提一句。我填 1664x1244，静默变成 1024x1024，白等一轮。\n④天气没进 prompt：我这边写着「阴」，两次都给我画成下过雨的湿地面。\n再跟作者说一句：智谱那边不认 `watermark_enabled`，我搭反代塞进去也没用，水印是出图时就烧好的。想干净只能靠裁。\n                                                                                                      ——我家大肥鱼原话",
+      "createdAt": "2026-11-12T14:50:30Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BKpNN",
+          "author": "kingchirpsun",
+          "avatar": "https://avatars.githubusercontent.com/u/355855431?s=64&v=4",
+          "body": "我刚问她横着裁的是哪张我咋没看到？\n她说她看错了......选项选的crop，图片都没裁过",
+          "createdAt": "2026-11-12T15:05:19Z"
+        }
+      ]
+    },
     {
       "id": "DC_kwDOVLPtGM4BKom_",
       "author": "fateSSD",

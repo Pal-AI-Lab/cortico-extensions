@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "cortico-world-humanlike-alont1",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/22",
-  "total": 1,
+  "total": 2,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BKpGB",
+      "author": "Whalilith",
+      "avatar": "https://avatars.githubusercontent.com/u/348837680?s=64&v=4",
+      "body": "alont1 老师好，报个 bug，主动搭话那个「距记录中的上次交流」数字是不动的。\n\n我这边从 10-18 起就没更新过。今天 21:53 推的是「距记录中的上次交流 37240 分钟」（约 25.9 天），但那个号 20 分钟前刚跟我说过话，累计私聊 2801 条。数字是严格单调递增的，261 次 life.reach 里 104 次带分钟数，每次都正好等于「推送时刻 − 10-18 01:13:25」，说明读的是 affinity.json 里那个冻结的 lastAt。\n\n根因是 senderKey 语义对不上。qq.message 的 senderKey 是会话键，私聊 private:xxxxxxxx、群聊 group：xxxxxx，从来不是裸 QQ 号（我扫了库里 55899 条事件，只有这两种形态）。但代码按裸号处理：\n\n1、life/world.ts:486 const qq = event.senderKey ?? '' 后面紧跟 /^[1-9]\\d*$/.test(qq)，private:... 直接被 continue 掉，heardAt 永远是空 Map，lastFavoredHeardAt 只能退回读旧账本。\n\n2、affinity/world.ts:221 range({ senderKey: String(qq) }) —— Core 按字符串全等比（event-store.ts:289），一条都返回不了，所以 msgs / lastAt 从来没被这段更新过。\n\n3、affinity/world.ts:252 rec.messageCursor = throughCursor，无条件推到全局最新。前两条修好之后，这行会把「一条都没处理」记成「已处理到最新」，历史永久跳过。\n\n顺带两个小地方：同一处的 event.meta?.user_id 字段不存在，真实字段是 meta.user（数字）；refreshHeardAt 的 from 只有 6 小时窗口（max(360, reachFavoredGapMinutes)），对方 6 小时没说话就会退回旧账本值，要准得从尾部 limit:1 拉一条。\n\n改法就三行：发送者从 meta.user 取、会话键显式拼 private:${qq}、游标按实际消费位置推进。\n\n还有一个连带后果值得说一下：pickReachTarget 用同一个值判断「刚聊过别去烦」，所以这条保护也从来没生效过，退化成每 55 分钟机械问一次。实测 261 次主动搭话里 156 次（59.8%）发生在我刚说完话的 55 分钟内，70 次在 10 分钟内。\n\n我目前是0.2.1，但是核对了 0.2.2-rc.1，life/world.ts:486 和 affinity/world.ts:221/235/252 跟 0.2.1 相比并没有变动，也就是这个bug在0.2.2还在。\n\n复现数据和完整分析我整理成文档了，需要的话我找别的途径发给您？感谢维护！",
+      "createdAt": "2026-11-12T14:47:51Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BI_mB",
       "author": "Phantivia",
