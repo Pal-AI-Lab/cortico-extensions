@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-coding-agent-notify",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "describe": {
     "tools": [],
     "events": [
@@ -17,13 +17,16 @@
     "prompts": [
       {
         "key": "worlds.coding-agent-notify.envPrompt",
-        "title": "Agent 通知",
+        "title": "通知总结提示词",
         "role": "envPrompt",
         "content": "`coding-agent.completed` 表示某个 Coding Agent 已完成一轮任务，并发来最终结论。请用一两句话总结结论，调用 `pet_say` 通知用户；测试消息简短确认已收到即可。\n\n`coding-agent.completed` means a Coding Agent has completed a task turn and sent its final conclusion. Summarize the conclusion in one or two sentences and notify the user with `pet_say`. For a test message, briefly confirm receipt.\n"
       }
     ]
   },
   "changelog": {
+    "1.2.0": "- 五种命令型 Agent 共用运行时发现器：优先使用执行环境提供的独立 Node，结合随包运行时、PATH、版本管理器和可选安装提示；OpenCode、DSH 正常回调保留自身运行时。\n- 安装时缺少宿主 Node 不再阻止注册；运行时跳过失效提示、旧版本和 Coopanion Electron 包装器，限制探测耗时并保留 UTF-8 stdin。\n- 保留各 Agent 的 Windows 原生配置格式；重装只升级受管 hook，不改其他 hook 和设置。新增多 Agent 实际命令、无系统 Node、探测挂起、路径转义和升级回归测试。Windows 尚未实机验证。",
+    "1.1.1": "- 设置页分别命名为“Hook 安装与测试”和“通知总结提示词”，新增未列出 Agent 可到 GitHub 提 PR / Issue 的提示。\n- 修复 agy 安装测试对 Windows 编码 PowerShell 命令的断言，解码后核对调用内容。\n- 验证通知提示词参与框架环境前缀渲染，支持部署覆盖及恢复默认；同步提示词描述元数据。",
+    "1.1.0": "- 增加 WorkBuddy 原生 Hook 扩展支持（Agent 增至 7 个），支持标准 `~/.workbuddy/settings.json` 与 `WORKBUDDY_CONFIG_DIR`。\n- 修复全量 Windows 钩子规则与 PowerShell 编码命令识别（修复 agy 与 Muse 在 Windows 下的命令处理与状态误判）。\n- 集成 World 扩展矢量图标 `icon.svg`（终端视窗与通知徽章），符合 Cortico 设计规范并在 `package.json` 声明。",
     "1.0.0": "- 移除 `experimental`（实验型）标签，保留 `apps`。\n\n- OpenCode CLI 最小真实任务已以退出码 0 正常结束，用户已确认收到回复；保留 stdin EOF 与回报等待期间保留工作目录的修复，不额外修改 OpenCode 模型或后台服务。\n- Codex / Claude Stop 改为最多 5 秒的同步发送，避免单次 CLI 结束时异步 hook 尚未完成；测试临时目录改为收到回报或等待结束后清理。CLI 失败显示退出码/超时及 stdout、stderr，避免隐藏 OpenCode 的实际错误。\n- 修复 CLI 测试未关闭标准输入导致 Codex 等待 stdin 并超时；启动后立即发送 EOF，提示词仍仅通过命令行参数传递。\n- 配置页测试改为调用对应 Agent CLI，再等待本轮唯一标识的原生 hook 回报；CLI 成功但没有回报仍报失败。找不到命令时仅测试通知并提示 PATH 未检测到命令、请手动测试。DSH 安装同时注册 headless profile 以支持 CLI 测试。\n- 修复 agy CLI 正常完成的 `NO_TOOL_CALL` 被过滤；同时兼容文档中的 `model_stop`，继续跳过后台未结束、出错或取消。\n- 本地开发版使用独立版本号，避免沿用 0.1.3 的长期前端缓存；配置页忽略不存在的 Agent 行。\n- 增加 Muse Code、agy（Antigravity CLI）的安装 hook / 测试按钮；复用原生 Stop 与共用发送器，无新增生产文件或运行时依赖。\n- agy 只在成功且完全空闲时提取当前轮最终模型正文；重复安装更新本插件具名配置，保留其他 hook。\n- 用户已确认 Codex 重新授权后测试成功；测试页新增安装或更新 hook 后需重新打开 Agent 并授权的提示。已构建并同步本机；本次未运行自动化测试或类型检查，Windows 仍待验证。",
     "0.1.3": "- 移除 `external-setup`（需额外安装）标签：不依赖其他 World 插件，Agent hook 由本插件配置页按需配置；既有 Agent 与 Node.js 运行要求仍见 README。\n- Remove the `external-setup` tag; native agent hooks are configured from this World without other World plugins. Existing agent and Node.js requirements remain documented in the README.",
     "0.1.2": "- 修复 OpenCode 多项目重复通知：全局完成事件缺少 location 时，仍按会话实际所属目录过滤，仅由对应项目实例转发。\n- Filter OpenCode global completion events by the session’s own directory to prevent cross-project duplicate notifications.\n\n- 修复 Codex / Claude hook 误用 Coopanion Electron 程序：查找 Node.js 时排除应用自带包装脚本并校验独立 Node.js 22+；测试移除 Electron Node 模式环境，避免“测试能发、真实 hook 不运行”。\n- Exclude Coopanion’s Electron-backed Node shim from runtime discovery, require standalone Node.js 22+, and remove Electron Node mode from delivery tests.\n\n- 修复 OpenCode 2.x 插件加载失败：默认导出 `id` / `setup` 定义，订阅原生 `session.execution.succeeded` 完成事件（不再等待旧的 `session.idle`），通过会话上下文读取结论，卸载时取消订阅；保留 V1 ≥ 1.18.29 的 `server` 接口，无新增依赖。\n- Fix OpenCode V2 loading and completion delivery using a default plugin definition, the native `session.execution.succeeded` event and session context; retain the V1 ≥ 1.18.29 server entrypoint without adding dependencies.\n\n- 通知文案直接说明 Agent 已完成一轮任务、提交的是最终结论，请总结后用 `pet_say` 通知用户；测试消息单独说明，替换 `Agent / Test / Report` 标签。\n- State which agent completed a task turn, label its final conclusion, and request a brief `pet_say` notification; identify delivery tests separately instead of using terse report tags.\n\n- 用户已实测确认通知正常；本次未重新运行自动化测试或类型检查，Windows 兼容性仍待验证。\n- Notification delivery was verified by the user; automated tests and type checks were not rerun for this release. Windows compatibility remains unverified.",

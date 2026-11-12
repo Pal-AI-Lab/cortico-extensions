@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-emote-pics",
-  "version": "0.5.1",
+  "version": "0.5.3",
   "describe": {
     "tools": [
       {
@@ -132,6 +132,8 @@
     ]
   },
   "changelog": {
+    "0.5.3": "- 首次配置多个表情文件夹时，目录选择器从上一行刚选过的目录开始；输入框里尚未保存的路径\n  也优先作为起点。第一次选择没有可参考的位置，仍从系统默认位置开始。选择结果会更新这个\n  记忆，取消选择不会更新。\n- 重新构建桌面面板 `dist/webui.js` / `dist/webui.css`。\n- 面板行为本轮无新增自动化用例；测试 136 个，版本 0.5.3。",
+    "0.5.2": "- 修中文临时目录下截屏失败：Windows PowerShell 5.1 从 stdin 读脚本时按本地代码页解码，\n  临时 BMP 路径里的中文被解成乱码，`$bmp.Save` 报 GDI+ 一般性错误。路径（以及窗口\n  owner 名）改为 UTF-8 Base64 传入 PowerShell，脚本保持 ASCII；PowerShell 标准输出固定\n  UTF-8，异常信息里的中文不再显示成乱码。\n- config 只是屏幕定位失败后的兜底：缺 `worlds.desktop-pet`、缺 `petX`、\n  `rememberPosition=false` 或旧值无效时，状态行显示「兜底: 没有可用的桌宠位置记录」，\n  不再把用户没填过的可选字段显示成配置错误；真正读不出 `config.json` 的错误仍保留原因。\n- 测试新增中文路径 Base64 往返与 config 兜底文案，共 136 个；版本 0.5.2。",
     "0.5.1": "- 表情文件夹列改成始终显示的绝对路径输入框，旁边保留「选择」按钮；选择结果会写回输入框，\n  可以直接接着手改，失焦或按回车保存。以前只有宿主没有目录选择器时才出现手填框，现在不用\n  先失败一次才能手填。路径列同时收窄，给「选择」「清空」留出空间。\n- 重新构建桌面面板 `dist/webui.js` / `dist/webui.css`。\n- 测试 133 个（面板输入本轮未新增自动化用例）。",
     "0.5.0": "- 换装或换配色后，背下来的桌宠样子会自己更新。以前 `capture()` 只在尺寸变化时重学\n  `signature`；同尺寸换衣服会一直拿旧照片滑窗，日志里 `score` 卡在 0.76、`accepted=0`。\n  新增 `PET_SIGNATURE_LOOK_DELTA=0.15` 和导出函数 `signatureLookDelta(a,b)`（逐格蓝色占比\n  平均绝对差，网格长度不同返回 1）；学习段改用\n  `sameLook = sameSize && lookDelta <= PET_SIGNATURE_LOOK_DELTA`，样子变了也计入\n  `signatureMisses`，连续 `PET_SIGNATURE_RELEARN_FRAMES=3` 帧才替换。日志会打\n  `signature kept … miss=1/3 … look=0.26` 或\n  `signature learned … (样子变了 Δ=0.31,换掉旧样子)`。\n- 小条带（宽或高小于最小桌宠宽度）不再补截第二帧做滑动检测；这只影响不可能有候选的\n  异常注入，正常截屏行为不变。\n- 测试 133 个（新增 `tests/signature.test.ts`：`signatureLookDelta` 同图/全反/网格不一致，\n  以及同尺寸换样子连续三帧后替换）。",
     "0.4.16": "- 定位不到时不再“硬弹”：`followPetX()` 改成 `follow | skip | off` 三态；`skip` 不调用\n  `popupHost.show()`，只节流打 `follow-source: popup skipped reason=… path=…`。\n  面板测试按钮走 `testPopup()` 的 `skipped` 文案，不报 failed；没有实测 `block` 就不布局，\n  不再退回 `x=0.95 y=0.9` 这个从未测量过的固定坐标。\n- 合成块只活 5 秒：新增 `SYNTH_GEOMETRY_MAX_AGE_MS=5000`；`CONFIRMED_MAX_AGE_MS=120000`\n  只留给“旧块最后兜底”。过期日志打 `synthetic-block stale-geometry ageMs=… maxAgeMs=5000`。\n- 启动与跟随开关从关到开时异步预热一次 `followSource.read()`（日志 `warmup ok=…` /\n  `warmup failed`），不阻塞启动；失败只记日志。\n- `no-block` 的 `near[]` 每项补 `reject=`（第一个不通过的判据）与 `centerDist=`，并输出\n  `expectedX=` / `expectedFrom=`；只加日志，不改判定。\n- 新增只读尺子 `scripts/measure-refs.mjs` 与 `assets/refs/` 目录约定：读 21 张参考图，\n  输出包围盒/阴影前后、跨配色一致性、HSV 直方图组内/组间距离到 `assets/refs/metrics.json`。\n  参考图待补（缺图时脚本列出 21 个期望路径并以 0 退出）；这一轮只测量，不改运行时识别。\n- 测试 128 个（新增 skip/warmup/5 秒合成几何等用例）。",

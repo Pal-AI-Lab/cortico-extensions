@@ -1746,7 +1746,7 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "1.6.13",
+      "version": "1.6.15",
       "displayName": "大肥鱼环游世界",
       "description": "让桌宠真的出门旅行：一百二十四座城、每座都有真地标，她自己挑去哪、怎么去，路上真耗那些时间；到站按当地时间吃饭、看日出、住店、写日记，月底出一页手账。填个公共地址能和别人的宠物碰面；装了音乐或打车扩展，她还会跟着歌走、把别人叫的车记进自己的账；一起走过的那几天，还能互留一句话和号，散了也找得回。需 Coopani 0.2.17 以上。",
       "locales": {
@@ -1781,8 +1781,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-12T03:05:55.883Z",
-      "versionCount": 137,
+      "published": "2026-11-12T04:50:22.267Z",
+      "versionCount": 139,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1812,7 +1812,7 @@
       },
       "changelog": {
         "versions": [
-          "1.6.13",
+          "1.6.15",
           "1.6.4",
           "1.6.2",
           "1.6.0",
@@ -1969,7 +1969,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-journey@1.6.13/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-journey@1.6.15/CHANGELOG.md"
       },
       "discussion": {
         "number": 586,
@@ -6829,17 +6829,17 @@
     },
     "cortico-world-coding-agent-notify": {
       "kind": "world",
-      "version": "1.0.0",
+      "version": "1.2.0",
       "displayName": "Coding Agent Notify",
       "description": "Coopanion World for short coding-agent completion notifications",
       "locales": {
         "zh": {
           "displayName": "Coding Agent 任务通知",
-          "description": "在 World 配置页按需安装 Codex、Claude Code、OpenCode、DSH、Muse Code、agy hook，由 Coopanion 简要播报任务报告。Windows 适配待验证。"
+          "description": "在 World 配置页按需安装 Codex、Claude Code、OpenCode、DSH、Muse Code、agy、WorkBuddy hook，由 Coopanion 简要播报任务报告。Windows 适配待验证。"
         },
         "en": {
           "displayName": "Coding Agent Notify",
-          "description": "Install native Codex, Claude Code, OpenCode, DSH, Muse Code and agy hooks from the World panel. Coopanion summarizes completion reports. Windows compatibility is unverified."
+          "description": "Install native Codex, Claude Code, OpenCode, DSH, Muse Code, agy and WorkBuddy hooks from the World panel. Coopanion summarizes completion reports. Windows compatibility is unverified."
         }
       },
       "author": "ThermalEng",
@@ -6858,7 +6858,8 @@
         "opencode",
         "dsh",
         "muse-code",
-        "agy"
+        "agy",
+        "workbuddy"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-coding-agent-notify",
@@ -6867,8 +6868,8 @@
         "bugs": "https://github.com/ThermalEng/coopanion-agent-notify-world/issues"
       },
       "created": "2026-11-08T03:36:20.254Z",
-      "published": "2026-11-10T08:01:20.764Z",
-      "versionCount": 6,
+      "published": "2026-11-12T05:50:04.828Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -6878,6 +6879,7 @@
         "apps",
         "sensitive-data"
       ],
+      "icon": "assets/cortico-world-coding-agent-notify/icon.svg",
       "downloads": {
         "total": 1063,
         "month": 1063,
@@ -6891,6 +6893,9 @@
       },
       "changelog": {
         "versions": [
+          "1.2.0",
+          "1.1.1",
+          "1.1.0",
           "1.0.0",
           "0.1.3",
           "0.1.2",
@@ -8335,7 +8340,7 @@
       "published": "2026-10-29T05:11:21.252Z",
       "versionCount": 3,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "streaming",
         "unofficial-api",
@@ -9043,7 +9048,7 @@
     },
     "cortico-world-emote-pics": {
       "kind": "world",
-      "version": "0.5.1",
+      "version": "0.5.3",
       "displayName": "对话表情包",
       "description": "让桌宠发文字消息时也能带图。你只需按情绪建立文件夹（如「开心」「眨眼」），在面板里为 19 种表情各自绑定文件夹。当桌宠表达对应情绪时，会根据你设定的概率和冷却时间，从对应情绪文件夹内随机挑一张图跟着文字发出。纯本地读取（支持常见图片格式，单张≤5MiB），发出的图片在对话页和桌面窗口均可显示，桌面显示部分支持跟随桌宠位置显示，但桌宠大小最好不要超过100%。（建议和大肥鱼表情包配合食用）",
       "maintainers": [
@@ -9061,8 +9066,8 @@
         "win32"
       ],
       "created": "2026-10-23T09:09:50.168Z",
-      "published": "2026-11-10T08:16:37.710Z",
-      "versionCount": 9,
+      "published": "2026-11-12T04:14:43.555Z",
+      "versionCount": 11,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -9085,6 +9090,8 @@
       },
       "changelog": {
         "versions": [
+          "0.5.3",
+          "0.5.2",
           "0.5.1",
           "0.5.0",
           "0.4.16",
@@ -9114,14 +9121,14 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-emote-pics@0.5.1/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-emote-pics@0.5.3/CHANGELOG.md"
       },
       "discussion": {
         "number": 209,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/209",
         "up": 2,
         "down": 0,
-        "comments": 20
+        "comments": 21
       }
     },
     "cortico-world-emotive-sticker": {
@@ -10416,7 +10423,7 @@
     },
     "cortico-world-fish-sing": {
       "kind": "world",
-      "version": "0.4.22",
+      "version": "0.4.23",
       "description": "让她真的开口唱：B 站点歌或本地文件 → 分离 → 换声 → 混音，本机出声或发 QQ 语音条",
       "author": "FXYXL",
       "maintainers": [
@@ -10439,8 +10446,8 @@
         "bugs": "https://github.com/FXYXL/cortico-world-fish-sing/issues"
       },
       "created": "2026-10-29T17:00:43.905Z",
-      "published": "2026-11-06T15:38:34.410Z",
-      "versionCount": 32,
+      "published": "2026-11-12T04:44:37.139Z",
+      "versionCount": 33,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10469,6 +10476,7 @@
       },
       "changelog": {
         "versions": [
+          "0.4.23",
           "0.4.22",
           "0.4.21",
           "0.4.20",
@@ -11299,7 +11307,7 @@
     },
     "cortico-world-hearthstone": {
       "kind": "world",
-      "version": "0.5.0",
+      "version": "0.5.1",
       "displayName": "炉石陪打",
       "description": "陪打炉石（需 Coopani 0.2.17+）:读对局日志,就知道双方血量、场面、手牌和水晶。该开口时开口:该解场还是该压、费够不够上那张大牌、对面有没有斩杀。只看不动手,不代打;第一次启动会替你把 Power 日志打开。打完能陪你复盘:哪一手走了岔路、她当时建议什么,也记得住最近几十局的战绩。她自己还有一份打法档案——信哪一套、看不惯什么,边打边写,越打越像她;但算出的斩杀她照样得喊,风格盖不住账。竞技场也认;打牌时走路会从你的手牌上跳过去。",
       "locales": {
@@ -11332,8 +11340,8 @@
         "darwin"
       ],
       "created": "2026-10-27T13:42:43.161Z",
-      "published": "2026-11-12T01:05:20.011Z",
-      "versionCount": 25,
+      "published": "2026-11-12T04:23:38.089Z",
+      "versionCount": 26,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -11359,6 +11367,7 @@
       },
       "changelog": {
         "versions": [
+          "0.5.1",
           "0.5.0",
           "0.4.2",
           "0.4.1",
@@ -11390,7 +11399,7 @@
           "0.3.1",
           "0.3.0"
         ],
-        "url": "https://unpkg.com/cortico-world-hearthstone@0.5.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-hearthstone@0.5.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 382,
@@ -14099,7 +14108,7 @@
     },
     "cortico-world-mosey": {
       "kind": "world",
-      "version": "2.5.0",
+      "version": "2.5.1",
       "displayName": "摸鱼",
       "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。评论和私信都能收能回；能一起看视频（B站带字幕弹幕，抖音可自动连刷）；关注流、周报、本地书库；按额度点赞、评论、关注、发动态。默认人审，三把工具、少 token。\n\nQQ 交流群：745879632",
       "locales": {
@@ -14136,8 +14145,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-mosey/issues"
       },
       "created": "2026-11-01T08:17:38.660Z",
-      "published": "2026-11-11T05:18:14.290Z",
-      "versionCount": 39,
+      "published": "2026-11-12T05:23:44.792Z",
+      "versionCount": 40,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -14174,6 +14183,7 @@
       },
       "changelog": {
         "versions": [
+          "2.5.1",
           "2.5.0",
           "2.4.1",
           "2.4.0",
