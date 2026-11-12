@@ -872,14 +872,18 @@
     "cortico-bot-continuity",
     "cortico-provider-deepseek",
     "cortico-world-astrbot",
+    "cortico-world-bili-video-pro",
     "cortico-world-bottle",
+    "cortico-world-coding-agent-notify",
     "cortico-world-fatfish",
     "cortico-world-feishu",
     "cortico-world-figure",
+    "cortico-world-parlor",
     "cortico-world-qq-final",
     "cortico-world-qq-promax-kpect",
     "cortico-world-simple-trpg-check",
     "cortico-world-starpost",
+    "cortico-world-surfing",
     "cortico-world-terrarium"
   ],
   "newDays": 14,
@@ -940,10 +944,6 @@
       "cortico-world-vtube": {
         "zh": "没填视觉模型的 key 时，从各模型服务的 .env 里借用任意一把 API Key 发给视觉接口(默认智谱),说明里没有写",
         "en": "When no vision key is set it borrows any API key from the model providers' .env files and sends it to the vision endpoint (Zhipu by default), which its documentation does not mention"
-      },
-      "cortico-world-wardrobe-studio": {
-        "zh": "打开「原生装扮页兼容」后改写 Coopanion 桌宠的程序文件 web/dress.js，并往 web/ 目录写入文件",
-        "en": "With \"native dressing page compatibility\" on it rewrites the Coopanion pet program file web/dress.js and writes files into web/"
       },
       "cortico-provider-humanize": {
         "zh": "加载时替换所有端点模块的 create 和框架 providerModules 数组的 push，改写发给主模型的每个请求",
@@ -1590,13 +1590,9 @@
       }
     },
     "cortico-world-wechat-claw": {
-      "addTags": [
+      "removeTags": [
         "unsafe"
-      ],
-      "note": {
-        "zh": "能把本机任意文件发到微信",
-        "en": "Can send any local file to WeChat"
-      }
+      ]
     },
     "cortico-world-social": {
       "addTags": [
@@ -1626,7 +1622,7 @@
         "en": "With browse notices on, post and comment text enters the conversation as internal notices"
       }
     },
-    "cortico-world-bili-video-pro": {
+    "@niuzhi/cortico-world-bili-video-pro": {
       "addTags": [
         "injection-risk"
       ],
@@ -1940,6 +1936,11 @@
     },
     "pet-balance-world": {
       "supersededBy": "glutton-balance"
+    },
+    "cortico-world-coding-agent-notify": {
+      "removeTags": [
+        "sensitive-data"
+      ]
     }
   }
 }
