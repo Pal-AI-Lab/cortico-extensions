@@ -1329,7 +1329,7 @@
       "published": "2026-10-30T16:32:53.954Z",
       "versionCount": 6,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "voice",
         "local",
@@ -1400,7 +1400,7 @@
       "published": "2026-10-30T16:35:14.200Z",
       "versionCount": 4,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "voice",
         "local",
@@ -1746,7 +1746,7 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "1.6.7",
+      "version": "1.6.13",
       "displayName": "大肥鱼环游世界",
       "description": "让桌宠真的出门旅行：一百二十四座城、每座都有真地标，她自己挑去哪、怎么去，路上真耗那些时间；到站按当地时间吃饭、看日出、住店、写日记，月底出一页手账。填个公共地址能和别人的宠物碰面；装了音乐或打车扩展，她还会跟着歌走、把别人叫的车记进自己的账；一起走过的那几天，还能互留一句话和号，散了也找得回。需 Coopani 0.2.17 以上。",
       "locales": {
@@ -1781,8 +1781,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-11T13:42:10.331Z",
-      "versionCount": 131,
+      "published": "2026-11-12T03:05:55.883Z",
+      "versionCount": 137,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1812,7 +1812,7 @@
       },
       "changelog": {
         "versions": [
-          "1.6.7",
+          "1.6.13",
           "1.6.4",
           "1.6.2",
           "1.6.0",
@@ -1969,7 +1969,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-journey@1.6.7/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-journey@1.6.13/CHANGELOG.md"
       },
       "discussion": {
         "number": 586,
@@ -6786,7 +6786,7 @@
       "published": "2026-10-29T02:30:56.374Z",
       "versionCount": 2,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "apps",
         "external-setup",
@@ -11299,7 +11299,7 @@
     },
     "cortico-world-hearthstone": {
       "kind": "world",
-      "version": "0.4.2",
+      "version": "0.5.0",
       "displayName": "炉石陪打",
       "description": "陪打炉石（需 Coopani 0.2.17+）:读对局日志,就知道双方血量、场面、手牌和水晶。该开口时开口:该解场还是该压、费够不够上那张大牌、对面有没有斩杀。只看不动手,不代打;第一次启动会替你把 Power 日志打开。打完能陪你复盘:哪一手走了岔路、她当时建议什么,也记得住最近几十局的战绩。她自己还有一份打法档案——信哪一套、看不惯什么,边打边写,越打越像她;但算出的斩杀她照样得喊,风格盖不住账。竞技场也认;打牌时走路会从你的手牌上跳过去。",
       "locales": {
@@ -11328,11 +11328,12 @@
         "npm": "https://www.npmjs.com/package/cortico-world-hearthstone"
       },
       "os": [
-        "win32"
+        "win32",
+        "darwin"
       ],
       "created": "2026-10-27T13:42:43.161Z",
-      "published": "2026-11-07T04:06:11.962Z",
-      "versionCount": 24,
+      "published": "2026-11-12T01:05:20.011Z",
+      "versionCount": 25,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -11351,13 +11352,14 @@
         "week": 1007
       },
       "summary": {
-        "tools": 10,
+        "tools": 11,
         "events": 7,
-        "toolTokens": 2287,
+        "toolTokens": 2478,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.5.0",
           "0.4.2",
           "0.4.1",
           "0.4.0",
@@ -11388,7 +11390,7 @@
           "0.3.1",
           "0.3.0"
         ],
-        "url": "https://unpkg.com/cortico-world-hearthstone@0.4.2/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-hearthstone@0.5.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 382,
@@ -11872,7 +11874,7 @@
       "discussion": {
         "number": 23,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/23",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 6
       }
@@ -15705,17 +15707,17 @@
     },
     "cortico-world-parlor": {
       "kind": "world",
-      "version": "0.41.0",
+      "version": "0.42.0",
       "displayName": "鲸语茶室",
-      "description": "鲸语茶室(共享客厅)：多只 Coo 与家长一起聊天、斗地主、狼人杀、五子棋、快局大富翁、掷骰子；附零构建网页牌桌与家长观战页。有问题或建议请加 QQ 群 1061389211 反馈，群里回复更快。",
+      "description": "鲸语茶室(共享客厅)：多只 Coo 与家长一起聊天、斗地主、狼人杀、五子棋、中国象棋、快局大富翁、掷骰子；附零构建网页牌桌与家长观战页。有问题或建议请加 QQ 群 1061389211 反馈，群里回复更快。",
       "locales": {
         "zh": {
           "displayName": "鲸语茶室",
-          "description": "一间给 Coo 们聚会的茶室：多个客厅可以串门，坐下聊天、掷骰子、打斗地主、玩狼人杀、下五子棋，还有网页牌桌和家长页。有问题或建议可加 QQ 群 1061389211 反馈。"
+          "description": "一间给 Coo 们聚会的茶室：多个客厅可以串门，坐下聊天、掷骰子、打斗地主、玩狼人杀、下五子棋和中国象棋，还有网页牌桌和家长页。有问题或建议可加 QQ 群 1061389211 反馈。"
         },
         "en": {
           "displayName": "Whale Song Tea Room",
-          "description": "A tea room for a pod of Coos: many rooms to wander, chat, roll dice and play 斗地主 — plus a zero-build web table and a read-only parent view."
+          "description": "A tea room for a pod of Coos: many rooms to wander, chat, roll dice, and play 斗地主 or Xiangqi — plus a zero-build web table and a read-only parent view."
         }
       },
       "author": "筆離嘢",
@@ -15733,6 +15735,7 @@
         "dice",
         "monopoly",
         "gomoku",
+        "xiangqi",
         "web",
         "game",
         "客厅",
@@ -15742,6 +15745,7 @@
         "斗地主",
         "狼人杀",
         "五子棋",
+        "中国象棋",
         "大富翁",
         "牌桌",
         "聊天",
@@ -15755,8 +15759,8 @@
         "bugs": "https://github.com/biliye/cortico-world-parlor/issues"
       },
       "created": "2026-10-30T12:05:22.925Z",
-      "published": "2026-11-11T08:07:12.665Z",
-      "versionCount": 47,
+      "published": "2026-11-12T03:08:21.857Z",
+      "versionCount": 48,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -15780,11 +15784,12 @@
       "summary": {
         "tools": 9,
         "events": 8,
-        "toolTokens": 1859,
-        "envPromptTokens": 396
+        "toolTokens": 1871,
+        "envPromptTokens": 497
       },
       "changelog": {
         "versions": [
+          "0.42.0",
           "0.41.0",
           "0.40.0",
           "0.39.0",
@@ -15884,7 +15889,7 @@
       "discussion": {
         "number": 563,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/563",
-        "up": 5,
+        "up": 6,
         "down": 0,
         "comments": 7
       }
@@ -22062,7 +22067,7 @@
       "discussion": {
         "number": 85,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/85",
-        "up": 20,
+        "up": 21,
         "down": 3,
         "comments": 12
       }
