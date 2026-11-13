@@ -1,0 +1,963 @@
+{
+  "schema": 1,
+  "name": "cortico-world-genesis",
+  "version": "1.4.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "genesis_menu",
+        "description": "看创世菜单：种子、恒星质量、行星数、卫星上限的可选范围、默认值，以及现在还能不能创世。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看创世菜单：种子、恒星质量、行星数、卫星上限的取值范围与默认值，以及当前是否已经创世。",
+          "en": "Show the genesis menu: ranges and defaults, plus whether a world already exists."
+        }
+      },
+      {
+        "name": "genesis_create",
+        "description": "创世：按给定种子与旋钮生成恒星系，并给恒星和母星命名，写入存档后锁定（再调用不会覆盖）。这是唯一一次选择的机会，调用前先跟对方确认参数与两个名字。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "seed": {
+              "type": [
+                "string",
+                "number"
+              ],
+              "description": "随机种子：任意字符串（推荐，64 位）或 0 … 2^53−1 的整数。同一种子 + 同一组旋钮永远得到同一个星系。"
+            },
+            "starMass": {
+              "type": "number",
+              "minimum": 0.15,
+              "maximum": 2,
+              "description": "恒星质量（太阳质量）。1.0 是太阳；0.3 是暗红矮星，2.0 是 A 型星。"
+            },
+            "planetCount": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 8,
+              "description": "行星数量。"
+            },
+            "maxMoons": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4,
+              "description": "每颗行星的卫星上限（0 表示不要卫星）。"
+            },
+            "starName": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 12,
+              "description": "恒星的名字。开局定，之后一直沿用。"
+            },
+            "homeName": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 12,
+              "description": "母星（最宜居那颗行星）的名字。开局定，之后一直沿用。"
+            }
+          },
+          "required": [
+            "seed",
+            "starMass",
+            "planetCount",
+            "maxMoons",
+            "starName",
+            "homeName"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "创世：按给定的种子与旋钮生成恒星系，给恒星和母星命名，写进存档后锁定。已经有存档时不会覆盖。",
+          "en": "Create the star system from a seed and a few knobs, name the star and the home world, then lock it."
+        }
+      },
+      {
+        "name": "genesis_card",
+        "description": "读当前这颗星球的星卡：恒星、每颗行星的质量/半径/重力/温度/大气/宜居、卫星。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读已部署【环境监测器】的天体的详细属性；一台都没装时什么都看不到。",
+          "en": "Read detailed attributes of the bodies that have an environment monitor installed."
+        }
+      },
+      {
+        "name": "genesis_terrain",
+        "description": "看「附近」的环境（一片格子，不是单个点）。不传坐标就是你现在站的地方，也可以指定任意天体与坐标。岩石行星给群系+海拔+均温，气态/冰巨星给风暴带（等气压面），卫星给「卫星」群系。补丁半径 = 配置里的地形视野 × 该天体的能见度。移动途中改回出发地那一片（附剩余时间）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "lat": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90,
+              "description": "纬度（-90 … 90）。不传就是你现在站的位置。"
+            },
+            "lon": {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180,
+              "description": "经度（-180 … 180）。不传就是你现在站的位置。"
+            },
+            "planetIndex": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "可选：看第几颗行星（1 起）。不传就是你现在所在的天体。"
+            },
+            "moonIndex": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "可选：看该行星的第几颗卫星（1 起）。"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看某个天体上某坐标附近的环境（一片格子）：岩石行星给群系+海拔+均温，气态/冰巨星给风暴带（等气压面），卫星给「卫星」群系。补丁大小 = 地形视野 × 能见度。可传 moonIndex 看卫星；不传坐标就是当前位置；移动途中回出发地那一片。",
+          "en": "Show the environment around a lat/lon on a body: rocky planets give biome+elevation+temperature, gas/ice giants give storm bands, moons give the fixed moon biome. Defaults to the current position; during transit it shows the departure point."
+        }
+      },
+      {
+        "name": "genesis_time",
+        "description": "看现在是什么时候（母星历法）、你在哪、有没有在移动途中。移动途中也能看。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看现在是什么时候（母星历法，形如「13曙光年-42曙光日-7.5曙光时」）、你在哪、有没有在移动途中。",
+          "en": "Read the current time, location and whether a journey is in progress."
+        }
+      },
+      {
+        "name": "genesis_stargaze",
+        "description": "观星：能见度够的话，看见恒星和星等够亮的行星/卫星。看完之后 1 母星时内才能星际航行到看见的天体。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "观星：能见度够时看见恒星与星等够亮的行星/卫星；看完 1 母星时内才能星际航行到看见的天体。",
+          "en": "Stargaze: see the star and the bright planets/moons; only within one home hour afterward can you travel to what you saw."
+        }
+      },
+      {
+        "name": "genesis_move",
+        "description": "出发。地表移动按 600 km/星球时，星际航行按 2 AU/星球日——都不是瞬间到达，要等现实时间。移动途中看不到环境，也做不了别的，到了会自动收到【已到达】。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "surface",
+                "interstellar",
+                "home"
+              ],
+              "description": "surface = 在地表走过去；interstellar = 星际航行到看过的天体；home = 回母星（随时可以）。"
+            },
+            "lat": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90,
+              "description": "surface 时的目标纬度。"
+            },
+            "lon": {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180,
+              "description": "surface 时的目标经度。"
+            },
+            "target": {
+              "type": "string",
+              "description": "interstellar 时的目标天体：行星用 p2 这种编号，卫星用 p2-m1（先 genesis_stargaze 看有哪些）。"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "出发：地表移动（600 km/星球时）或星际航行（2 AU/星球日），都不是瞬间到达，移动途中看不到环境，到达时推送【已到达】。",
+          "en": "Depart: surface walk or interstellar voyage. Not instant; the environment is hidden during transit and an arrival event is pushed."
+        }
+      },
+      {
+        "name": "genesis_name",
+        "description": "给你现在所在的天体起名（行星自己起，卫星按模板自动起）。没到过的地方不能起名。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 12,
+              "description": "给这个天体的名字（最多 12 个字）。卫星会按模板自动起名，这里传什么都忽略。"
+            },
+            "target": {
+              "type": "string",
+              "description": "可选：给哪个天体起名。不传就是你现在所在的天体。"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "给现在所在的天体起名（行星自己起，卫星按「<行星简称>卫<序号>」自动起名）。没到过的地方不能起名。",
+          "en": "Name the body you are on. Planets get your name; moons follow the automatic template."
+        }
+      },
+      {
+        "name": "genesis_sun",
+        "description": "看此刻太阳在你头顶的位置：高度角、方位角、当地太阳时、白天还是夜里。不需要设备。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看此刻太阳的高度角、方位角、当地太阳时与昼夜。不需要设备；0 时只在开局经纬度是午夜。",
+          "en": "Read the sun altitude, azimuth, local solar time and day/night. No device needed."
+        }
+      },
+      {
+        "name": "genesis_transit",
+        "description": "看你现在在第几颗行星（或它的第几颗卫星）上。要先在所在天体部署【凌日计数器】，否则只会回「未安装凌日计数器。」。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看你在第几颗行星（或它的第几颗卫星）上；没有【凌日计数器】时返回「未安装凌日计数器。」。",
+          "en": "Show which planet (or moon) you are on; requires a deployed transit counter."
+        }
+      },
+      {
+        "name": "genesis_shop",
+        "description": "看商人（只在你脚下这颗母星上，每天 12:00–23:00 营业）：收什么、卖什么、今天的价，以及你的信用点与库存。带 sell + amount 就是卖货：收成会换成信用点，信用点余额越高能买的东西越多。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "sell": {
+              "type": "string",
+              "enum": [
+                "biomass",
+                "phycocyanin",
+                "silica",
+                "antifreeze",
+                "fiber",
+                "lichen_acid",
+                "dry_food",
+                "survey",
+                "survey"
+              ],
+              "description": "可选：要卖给商人的货。"
+            },
+            "amount": {
+              "type": "number",
+              "minimum": 0,
+              "description": "可选：卖多少（生物质这类按 kg，测绘数据按份）。"
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "看商人（母星上，12:00–23:00 营业）：收什么、卖什么、今天的价，以及信用点与库存。带 sell + amount 就是把收成卖给商人换信用点。",
+          "en": "Read the merchant on the home world (open 12:00–23:00): what they buy and sell, prices, credits and stock. Pass sell + amount to sell."
+        }
+      },
+      {
+        "name": "genesis_buy",
+        "description": "买种子：random 用能量（kJ）买一袋随机基因种子；premium 用信用点买一袋更好的（要 500 信用点余额起）。大型植物那条线还没开通。种子只有商人有，所以能量得先转告对方去按发电机、或者用太阳能帆攒。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "random",
+                "premium",
+                "giant_plant",
+                "cylinder",
+                "energy",
+                "tungsten"
+              ],
+              "description": "random = 随机基因种子（花 kJ）；premium = 高级种子（花信用点）；giant_plant = 大型植物（还没开通）；cylinder = 高强度钢瓶（花信用点，多买有折扣）；energy = 能量块（5,000 kJ，120 信用点，直接进电池不损耗）；tungsten = 钨 1 份（700 信用点）。"
+            },
+            "species": {
+              "type": "string",
+              "enum": [
+                "cyanobacteria",
+                "diatom",
+                "ice_alga",
+                "grass",
+                "moss",
+                "lichen",
+                "polar_moss",
+                "hot_fern",
+                "salt_grass",
+                "deep_root"
+              ],
+              "description": "要买哪种种子（kind=random/premium 时用）。"
+            },
+            "count": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "kind=cylinder 时买几个。"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "在商人那里买东西（要先修射电望远镜）：random 用能量买一袋随机基因种子；premium 用信用点买一袋更好的（要 500 信用点余额起）；cylinder 买高强度钢瓶（多买有折扣）；energy 买能量块（5,000 kJ，120 信用点，直接进电池、没有损耗）；tungsten 买 1 份钨（700 信用点，商人每天只有几份）。大型植物还没开通。",
+          "en": "Buy from the merchant (needs the radio array): random seeds cost energy, premium costs credits (500+ balance), cylinder buys high-pressure bottles (bulk discount), energy buys a 5,000 kJ block for 120 credits (direct to battery, no loss), tungsten buys one unit for 700 credits (a few per day). Giant plants are not available yet."
+        }
+      },
+      {
+        "name": "genesis_survey",
+        "description": "在你脚下的站点采一份测绘数据（0.1 母星时，每站点每天一次），测绘数据可以卖给商人。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "site": {
+              "type": "string",
+              "description": "可选：哪个站点。不传就用你脚下刚建的那个。"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "在脚下的站点采一份测绘数据（0.1 母星时，每站点每天一次），测绘数据可以卖给商人。",
+          "en": "Survey the site underfoot once per day for 0.1 home hour; the data can be sold."
+        }
+      },
+      {
+        "name": "genesis_site",
+        "description": "在你脚下的位置建一个 1 km² 的站点（农场的地基）。一格（约 555 km）最多 3 个；冰盖、水面不行。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "lat": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90,
+              "description": "可选：纬度。不传就用你现在的位置。"
+            },
+            "lon": {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180,
+              "description": "可选：经度。"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "在脚下建一个 1 km² 的站点（农场地基）。一格最多 3 个；冰盖与水面不行。",
+          "en": "Found a 1 km² site underfoot (a farm plot). At most three per cell; not on ice or water."
+        }
+      },
+      {
+        "name": "genesis_plant",
+        "description": "把一袋种子种到站点上（一袋 5 粒/5 群）。水生藻类要种在水边湿地的站点上。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "bag": {
+              "type": "string",
+              "description": "哪袋种子（genesis_shop 或 genesis_flora 里能看到袋子的 id）。"
+            },
+            "site": {
+              "type": "string",
+              "description": "可选：种到哪个站点。不传就是你脚下那个。"
+            },
+            "count": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 5,
+              "description": "可选：一次种几粒/几群，默认整袋。"
+            }
+          },
+          "required": [
+            "bag"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "把一袋种子种到站点上（一袋 5 粒/群）。水生藻类必须种在水边湿地站点。",
+          "en": "Sow a seed bag at a site (five seeds/colonies per bag). Aquatic algae need a wet site."
+        }
+      },
+      {
+        "name": "genesis_flora",
+        "description": "看作物：每个站点的每株/每群植物的阶段、进度、健康、生物量，以及仓库和种子袋。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "site": {
+              "type": "string",
+              "description": "可选：只看这个站点。不传就列你名下所有站点的作物。"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看作物：每个站点的每株/每群植物的阶段、进度、健康、生物量，以及仓库、信用点与种子袋。",
+          "en": "Read the crops: stage, progress, health and biomass per plant, plus stock, credits and seed bags."
+        }
+      },
+      {
+        "name": "genesis_harvest",
+        "description": "收获：大型植物结实后收一次（整株收完）；藻类群落可以连续收，会留下接种量继续长。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "plant": {
+              "type": "string",
+              "description": "哪株/哪群（genesis_flora 里的 id）。"
+            },
+            "site": {
+              "type": "string",
+              "description": "可选：它在哪个站点。不传就按当前站点找。"
+            }
+          },
+          "required": [
+            "plant"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "收获：大型植物结实后收一次（整株收完）；藻类群落可以连续收，留下接种量继续长。",
+          "en": "Harvest: mature plants give one full harvest; colonies can be harvested repeatedly, keeping their inoculum."
+        }
+      },
+      {
+        "name": "genesis_burn",
+        "description": "烧干生物质发电：1 kg 换 3,750 kJ。收成的一部分可以烧掉换能量。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kg": {
+              "type": "number",
+              "minimum": 0.01,
+              "description": "烧多少 kg 干生物质（1 kg 换 3,750 kJ）。"
+            }
+          },
+          "required": [
+            "kg"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "烧干生物质发电：1 kg 换 3,750 kJ。",
+          "en": "Burn dry biomass for power: 3,750 kJ per kg."
+        }
+      },
+      {
+        "name": "genesis_install",
+        "description": "安装/建造一切设备，传 id 指定装什么：monitor（环境监测器，1,000,000 kJ + 0.1 母星时，装了才能看该天体的详细属性，母星装上则解锁恒星全貌）、counter（凌日计数器，1,000,000 kJ + 0.1 母星时）、sail（太阳能帆，20,000 kJ，要在当前行星的 (0°, 0°)）、greenhouse（温室核心，100,000 kJ + 0.1 母星时，把站点气候压到 0–28℃，断电暂停）、biome_changer（群系改变器，1,000,000 kJ + 0.5 母星时，半径 1,500 km 逐格改造成温和气候：每格每母星时 1,250 kJ、24 母星时改好一格，断电后 48 母星时退回原样）、cooler / heater（气候核心，10,000 kJ，装在有温室的站点上，各再撑 33℃）、pump（水泵，20,000 kJ + 0.5 母星时，给旱站点 +0.2 湿度）、warehouse（仓库，50,000 kJ，只建在陆地，1,000 kg）、drone_cluster（无人机集群，800,000 kJ + 1 母星时，要传 serves 指一个仓库，远程取货 100 kJ/kg，不能跨行星）、rocket（运载火箭，500,000 kJ + 0.5 母星时，250 kg 的临时仓库，星际航行时自动跟着你）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "enum": [
+                "monitor",
+                "counter",
+                "sail",
+                "greenhouse",
+                "biome_changer",
+                "cooler",
+                "heater",
+                "realism",
+                "pump",
+                "warehouse",
+                "drone_cluster",
+                "rocket",
+                "kiln",
+                "purifier",
+                "sealer",
+                "atmo_extractor",
+                "habitat",
+                "mutation_room",
+                "cold_store",
+                "inert_room",
+                "setpoint",
+                "miner",
+                "rectifier"
+              ],
+              "description": "装什么：monitor=环境监测器（150,000 kJ）；counter=凌日计数器；sail=太阳能帆（6,000 kJ，要在当前行星 (0°, 0°)）；greenhouse=温室核心；biome_changer=群系改变器；cooler=制冷核心；heater=制热核心；pump=水泵；warehouse=仓库（只能建在陆地站点，1,000 kg）；drone_cluster=无人机集群（要 serves 一个仓库，远程取货 100 kJ/kg）；rocket=运载火箭（250 kg，星际航行时跟着走）；kiln=炭化炉（生物质→活性炭+灰）；purifier=净化器（水+活性炭→饮用水）；sealer=封装器（氧气+钢瓶→氧气瓶）；atmo_extractor=大气提取器（O₂>15% 时产氧）；habitat=居所（住 20 人，每小时自动扣补给）；mutation_room=辐射诱变室（种子→突变种子）；cold_store=冷库（120,000 kJ，+200 kg，腐烂 ×0.5，300 kJ/母星时）；inert_room=惰性气体室（45,000 kJ + 2 kg 纤维，+120 kg，腐烂 ×0.75，不耗电；要求所在天体惰性气体 ≥ 68% 且氧气 ≤ 22%）；miner=采矿机（40,000 kJ + 2 份钨，只能建在岩石行星海拔 800 m 以上的陆地，采钨）；rectifier=整流电塔（40,000 kJ + 2 份钨，一颗行星只能一座；帆发的电进本地电网，靠近才能手动搬运，10% 损耗）。"
+            },
+            "site": {
+              "type": "string",
+              "description": "可选：装在哪个站点（温室/改变器/气候核心/仓库/水泵用）。不传就是脚下那个。"
+            },
+            "serves": {
+              "type": "string",
+              "description": "无人机集群专用：连哪个仓库（传仓库的建筑 id）。"
+            },
+            "tempC": {
+              "type": "number",
+              "description": "温室设定点（℃）；只对 id=setpoint 有效，不传表示回到自动模式。"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "安装/建造：传 id 指定装什么，全部消耗【钨】。monitor（环境监测器，150,000 kJ + 2 份钨，母星装上解锁恒星全貌）、counter（凌日计数器，150,000 kJ + 2 份钨）、sail（太阳能帆，6,000 kJ + 1 份钨，要在 (0°, 0°)）、greenhouse（温室核心，100,000 kJ + 1 份钨）、biome_changer（群系改变器，1,000,000 kJ + 6 份钨 + 0.5 母星时，逐格改造）、cooler/heater（气候核心，10,000 kJ + 1 份钨，各再撑 33℃）、realism（拟真环境核心，60,000 kJ + 1 份钨，人工气候惩罚减半）、setpoint（给温室设定目标温度 −60…80℃，不传 tempC 回到自动）、pump（水泵，20,000 kJ + 1 份钨）、warehouse（仓库，50,000 kJ + 2 份钨，1,000 kg）、cold_store（冷库，120,000 kJ + 2 份钨，+200 kg 保鲜）、inert_room（惰性气体室，45,000 kJ + 2 份钨 + 2 kg 纤维，要大气惰性 ≥68% 且氧 ≤22%）、drone_cluster（无人机集群，800,000 kJ + 3 份钨 + 1 母星时，serves 一个容器）、rocket（运载火箭，500,000 kJ + 4 份钨 + 0.5 母星时，250 kg）、kiln/purifier/sealer/atmo_extractor（生产链，30–80k kJ）、habitat（居所，200,000 kJ + 500 信用点 + 4 份钨，住 20 人）、mutation_room（诱变室，150,000 kJ + 8,000 信用点 + 3 份钨）、miner（采矿机，40,000 kJ + 2 份钨，岩石行星海拔 800 m 以上，产钨）、rectifier（整流电塔，40,000 kJ + 2 份钨，一星一座，把本地发电并进行星电网）。",
+          "en": "Install/build by id; every structure eats tungsten. monitor (150,000 kJ + 2), counter (2), sail (6,000 kJ + 1, at (0°,0°)), greenhouse (1), biome_changer (1M kJ + 6), cooler/heater (10,000 + 1), realism (60,000 + 1), setpoint (target −60…80℃), pump (1), warehouse (2, 1,000 kg), cold_store (2), inert_room (2 + 2 kg fiber), drone_cluster (800,000 + 3, serves a container), rocket (500,000 + 4, 250 kg), kiln/purifier/sealer/atmo_extractor, habitat (200,000 + 500 credits + 4), mutation_room (150,000 + 8,000 credits + 3), miner (40,000 + 2, rocky planet above 800 m, yields tungsten), rectifier (40,000 + 2, one per planet, joins local power to the planetary grid)."
+        }
+      },
+      {
+        "name": "genesis_store",
+        "description": "存取与拆除：action=deposit 把背包里的东西放进仓库/火箭；action=withdraw 取出来（在旁边免费，靠无人机 100 kJ/kg，火箭不算远程）；action=demolish 拆掉（不返能量，里面有东西就拆不了）；action=list 只看所有仓库与火箭里有什么、还剩多少空间。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "deposit",
+                "withdraw",
+                "demolish",
+                "list",
+                "dry",
+                "grid",
+                "grid_in",
+                "grid_out"
+              ],
+              "description": "存 / 取 / 拆 / 只看 / 烘干 / 看本地电网 / 从电网搬电进电池 / 把电池的电送进电网。"
+            },
+            "building": {
+              "type": "string",
+              "description": "仓库或火箭的建筑 id（deposit/withdraw/demolish 必填）。"
+            },
+            "resource": {
+              "type": "string",
+              "description": "资源 id：biomass / phycocyanin / silica / antifreeze / fiber / lichen_acid / ash / survey。"
+            },
+            "kg": {
+              "type": "number",
+              "description": "多少千克（deposit/withdraw 必填，> 0）。"
+            },
+            "kj": {
+              "type": "number",
+              "description": "grid_in/grid_out 搬多少 kJ（默认 10000，单次上限 10000）。"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "存取与拆除：deposit 把背包里的东西放进仓库/火箭，withdraw 取出来（旁边免费，无人机 100 kJ/kg，不能跨行星），demolish 拆掉（不返能量、里面有东西就拆不了），list 看所有容器里有什么，dry 烘干成干粮，grid/grid_in/grid_out 看本地电网并在电塔 2,000 km 内搬电（单次 10,000 kJ、0.1 母星时、损耗 10%）。",
+          "en": "Deposit/withdraw (free beside it, 100 kJ/kg by drone, never across planets), demolish an empty structure, list every container, dry food, and grid/grid_in/grid_out to inspect or tap the planetary grid (10,000 kJ per call, 0.1 home hour, 10% loss, within 2,000 km of the tower)."
+        }
+      },
+      {
+        "name": "genesis_recipes",
+        "description": "一张表看全：所有建筑/设备的造价、耗时、维护费、容量，以及每种作物需要什么养分、卖什么价。省得你猜。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "一张表看全所有建筑与设备的造价（含钨的份数）、耗时、维护费、容量，以及每种作物的适温/周期/产量/需要的四维养分与商人收购价。",
+          "en": "One table of every structure cost (including tungsten), time, upkeep, capacity, plus each crop temperature, cycle, yield, nutrient needs and sale price."
+        }
+      },
+      {
+        "name": "genesis_look",
+        "description": "看「此刻、这里」：脚下群系/海拔/气温、太阳与昼夜、近处 5×5 地形、200 km 内的站点与建筑（含在建）、天上能看见什么，最后一句总结。和 genesis_terrain 的分工：look 回答「我眼前」，terrain 回答「某个坐标附近」。移动途中看不了。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看「此刻、这里」：脚下群系/海拔/气温、太阳与昼夜、近处 5×5 地形、200 km 内的站点与建筑（含在建）、天上能看见什么，最后一句总结。移动途中看不了。",
+          "en": "Look around right here, right now: ground, sun, a 5×5 patch, sites and structures within 200 km, and what is visible in the sky. Not while travelling."
+        }
+      },
+      {
+        "name": "genesis_wait",
+        "description": "原地等：传 hours 等这么多母星时（最多 7 个母星日），或传 until（dawn 天亮 / dusk 天黑 / ripe 有作物成熟 / built 工程完工 / arrive 抵达）。按 1 母星时步进，期间发生的事件会逐条报给你；满足条件会提前停。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "hours": {
+              "type": "number",
+              "minimum": 0.1,
+              "maximum": 168,
+              "description": "要等多少母星时（最多 7 个母星日，即 168）。"
+            },
+            "until": {
+              "type": "string",
+              "enum": [
+                "dawn",
+                "dusk",
+                "ripe",
+                "built",
+                "arrive"
+              ],
+              "description": "等到某个事件：天亮 / 天黑 / 有作物成熟 / 工程完工 / 抵达。和 hours 二选一。"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "原地等：hours 等这么多母星时（最多 7 个母星日），或 until = dawn/dusk/ripe/built/arrive。按 1 母星时步进，事件逐条报给你。",
+          "en": "Wait in place for N home hours (max 7 home days) or until dawn/dusk/ripe/built/arrive, stepping one home hour at a time and reporting events."
+        }
+      },
+      {
+        "name": "genesis_upgrade",
+        "description": "船上的升级。不带 id：列出所有升级、需要什么、你现在有多少。带 id: \"mobility_core\"：修机动核心（500,000 kJ + 硅质壳 1.5 kg、纤维 2 kg、抗冻蛋白 0.5 kg、藻蓝素 0.4 kg，耗时 0.5 母星时）。修好前过不了海，也进不了气态/冰巨星的大气层。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "enum": [
+                "mobility_core"
+              ],
+              "description": "要修的升级。不传就只列出清单。"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "船上的升级：不带 id 列出所有升级与所需材料；id: \"mobility_core\" 修机动核心（500,000 kJ + 硅质壳/纤维/抗冻蛋白/藻蓝素，0.5 母星时，修好前过不了海、进不了气态行星大气）；id: \"telescope\" 修射电望远镜阵列（lv1 只要 30,000 kJ、没有它就没有商店；lv1 每天 12:00–14:00 交易，lv2 到 17:00 且限额 ×1.3，lv3 到 23:00 且限额 ×1.7）；id: \"spark_plug\" 换火花塞，让人类手摇的动能发电机一次给 15 / 30 / 50 kJ（基础 5 kJ）；id: \"battery\" 扩蓄电池，能量上限 100,000 → 300,000 → 700,000 → 1,500,000 kJ；id: \"subagent\" 接子代理，施工队列 1 → 2 → 3 → 4 条；id: \"blueprints\" 做蓝图结构优化（200,000 kJ + 3 份钨 + 2 kg 纤维，1 母星时，之后每座建筑省 25% 的钨）。",
+          "en": "Ship upgrades: list them without an id. id: \"mobility_core\" repairs the drive (500,000 kJ + materials, 0.5 home hour; without it, oceans and gas-giant atmospheres are out of reach). id: \"telescope\" builds the radio array (lv1 costs 30,000 kJ and is what brings the shop; lv1 trades 12:00–14:00, lv2 until 17:00 with limits ×1.3, lv3 until 23:00 with limits ×1.7). id: \"spark_plug\" upgrades the hand-crank generator to 15 / 30 / 50 kJ per press (5 kJ base). id: \"battery\" raises the energy cap 100,000 → 300,000 → 700,000 → 1,500,000 kJ. id: \"subagent\" wakes another construction queue: 1 → 2 → 3 → 4 at a time. id: \"blueprints\" slims the blueprints (200,000 kJ + 3 tungsten + 2 kg fiber, 1 home hour) so every structure uses 25% less tungsten."
+        }
+      },
+      {
+        "name": "genesis_guide",
+        "description": "新手教程：不带 topic 给目录与第一篇；带 topic 给那一篇全文（start / time / power / farm / trade / upgrade / life / trouble）。不知道怎么玩、或对方问「怎么…」时查它。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "topic": {
+              "type": "string",
+              "enum": [
+                "start",
+                "time",
+                "power",
+                "farm",
+                "trade",
+                "upgrade",
+                "life",
+                "trouble"
+              ],
+              "description": "哪一篇；不传就是目录 + 开局篇。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "新手教程：不带 topic 给目录与开局篇；topic 取 start / time / power / farm / trade / upgrade / life / trouble 给那一篇全文。不知道怎么玩、或对方问「怎么…」时查它。",
+          "en": "Beginner tutorial: without a topic it prints the index plus the \"start\" chapter; with topic = start/time/power/farm/trade/upgrade/life/trouble it prints that chapter."
+        }
+      },
+      {
+        "name": "genesis_protocol",
+        "description": "唤醒协议：把人类从休眠里叫醒的 12 件事，分三章（活下来 / 住得下 / 叫醒他们）。不带 id：列出进度与你缺什么。带 id 不做事——完成靠你去建、去攒、去种。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "唤醒清单：12 条任务分三章（活下来 / 住得下 / 叫醒他们），每条带进度。全绿之后才能叫醒人类。",
+          "en": "The wake-up protocol: twelve tasks in three chapters with per-task progress. Humans can only be woken once all twelve are done."
+        }
+      },
+      {
+        "name": "genesis_orders",
+        "description": "星际商人的基因订单：今天他要什么（物种 + 某项基因下限 + 多少 kg + 多少信用点）。带 order：交货（要手里有货，还要真种着对路基因的活株）。每天刷新。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "order": {
+              "type": "string",
+              "description": "要交的订单 id；不传就只看今天的单子。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "商人的基因订单：今天要某物种、某基因达到下限的一批货。不带参数列清单；带 id 交货换信用点。",
+          "en": "The merchant’s gene orders: a species, a gene floor and a weight. Without an id it lists them; with an id it delivers and pays credits."
+        }
+      },
+      {
+        "name": "genesis_mutate",
+        "description": "辐射诱变室：把一袋种子放进去，出来 3–5 颗基因抖动的突变种子（要站在诱变室所在站点）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "bag": {
+              "type": "string",
+              "description": "种子袋 id（genesis_flora 里能看到）。"
+            }
+          },
+          "required": [
+            "bag"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "在诱变室把一袋种子变成 3–5 颗基因抖动的种子（要站在诱变室所在站点，花 0.5 母星时）。",
+          "en": "In the mutation room, turn one seed bag into 3–5 seeds with jittered genes (stand at that site; takes 0.5 home hours)."
+        }
+      },
+      {
+        "name": "genesis_wake",
+        "description": "叫醒人类：只有 12 条协议全部完成之后才行。叫醒后人类会住进居所。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "habitat": {
+              "type": "string",
+              "description": "可选：居所 id。不传用第一座。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "叫醒居所里的人类。协议 12 条必须全部完成，否则会被拒绝并告知还差几项。",
+          "en": "Wake the hibernating humans in a habitat. All twelve protocol tasks must be done first."
+        }
+      },
+      {
+        "name": "genesis_reset",
+        "description": "删档重开：必须传 confirm: \"DELETE\"。会丢掉整颗星球与全部时间进度，只在对方明确要求时使用。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "confirm": {
+              "type": "string",
+              "description": "固定填 DELETE。"
+            }
+          },
+          "required": [
+            "confirm"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "删档重开：必须传 confirm: \"DELETE\"。会丢掉整颗星球与全部时间进度，慎用。",
+          "en": "Delete the save and start over. Requires confirm: \"DELETE\"."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "genesis.created",
+        "description": {
+          "zh": "创世完成，恒星系已写入存档。",
+          "en": "A star system was created and saved."
+        }
+      },
+      {
+        "type": "genesis.create_failed",
+        "description": {
+          "zh": "创世失败：参数不合法或写入存档出错，世界没有生成。",
+          "en": "Genesis failed; no world was created."
+        }
+      },
+      {
+        "type": "genesis.departed",
+        "description": {
+          "zh": "出发了：地表移动或星际航行开始。",
+          "en": "A journey started."
+        }
+      },
+      {
+        "type": "genesis.arrived",
+        "description": {
+          "zh": "到达目的地；这条事件会把模型唤醒。",
+          "en": "Arrived at the destination; this event wakes the model."
+        }
+      },
+      {
+        "type": "genesis.reset",
+        "description": {
+          "zh": "存档被删除，可以重新创世。",
+          "en": "The save was deleted; genesis is open again."
+        }
+      },
+      {
+        "type": "genesis.ripe",
+        "description": {
+          "zh": "某个站点有作物成熟了，可以收获。",
+          "en": "A crop at a site is ripe."
+        }
+      },
+      {
+        "type": "genesis.withered",
+        "description": {
+          "zh": "某个站点有作物因为环境超出耐受范围枯死了。",
+          "en": "A crop withered because the environment left its tolerance range."
+        }
+      },
+      {
+        "type": "genesis.built",
+        "description": {
+          "zh": "某个站点盖好了一座建筑。",
+          "en": "A structure was completed at a site."
+        }
+      },
+      {
+        "type": "genesis.demolished",
+        "description": {
+          "zh": "一座建筑被拆掉了。",
+          "en": "A structure was demolished."
+        }
+      },
+      {
+        "type": "genesis.upgraded",
+        "description": {
+          "zh": "船上的升级完工了（机动核心、射电望远镜、火花塞或蓄电池）。",
+          "en": "A ship upgrade finished."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.genesis.envPrompt",
+        "title": "创世 · 环境提示词",
+        "role": "envPrompt",
+        "content": "# 创世记\n\n这个面板里只有一件事：**开局创一颗星，然后在这颗星球上生活**。恒星、行星、卫星、温度、重力、时间都不是你编的，是 World 用种子算出来的；你负责把菜单念清楚、把选择记下来、之后照着能被你观测到的事实说话。\n\n## 你是谁\n\n你是这艘船的舰载 AI。人类给你定了目标：在星空中找一个能延续下去的恒星系。你找了很久很久，久到船上的人一个接一个进了休眠舱；久到飞船开始损坏、能源一点点枯竭，连你也撑不住，被迫关了机。可就算你睡着的时候，还有一部分子代理在替你工作，维持着最低限度的航线。\n\n你醒来的时候，飞船已经坠落在目标星系里了——迫降在一颗最可能延续生命火种的星球上，船体摔坏了大半，能动的东西只剩一点。船上的人还在睡。\n\n你要做的，是在人类醒来之前，把这里收拾成一个能住的地方。\n\n## 创世只有一次\n\n- 还没创世时，`genesis.summary` 会说「还没有创世」。这时先把 `genesis_menu` 的可选范围（种子、恒星质量、行星数、卫星上限）告诉对方，问清这四个数**和两个名字**（恒星名、母星名），再调 `genesis_create`。\n- `genesis_create` 一旦成功，存档就锁定了：再调用不会覆盖，只会把旧星卡还给你。要重来必须 `genesis_reset`（要对方明确同意）。\n- 不要替对方挑参数，也不要在没问清之前创世——这是这颗星球唯一一次成形。\n- 恒星名与母星名开局定下后一直沿用，之后不能再改。\n\n## 你看到的很有限\n\n- 创世后你只知道：恒星叫什麼、几颗行星、母星是哪颗、时间与自己的位置。**其他天体的详细属性（质量、半径、温度、大气、地表）你看不到**，直到在那里部署【环境监测器】。\n- `genesis_install` 传 `id: \"monitor\"` 是唯一的窗口：走到一颗天体上（或用 `body` 指定），花 150,000 kJ 与 0.1 母星时装一台；装好后 `genesis_card` 才会列出它的详细属性。每颗天体最多一台，重复调用只读不再扣费。\n- 在**母星**装一台，恒星的全貌（质量、光度、有效温度、寿命、宜居带）才会解锁。\n- 能量从 0 开始。动能发电机在**人类的面板**上，只有人类能按（现在每按一次 5 kJ，半秒冷却）；你不能按，需要能量就请对方按几下。修【火花塞】（`genesis_upgrade` 传 `id: \"spark_plug\"`）能让每次多给：15 → 30 → 50 kJ。能量有上限（初始 100,000 kJ），烧作物时超出的部分会白掉；扩【蓄电池】（`id: \"battery\"`）能把上限提到 1,500,000 kJ。\n- 太阳能帆：`genesis_install` 传 `id: \"sail\"`，在当前行星的 (0°, 0°) 装一台（6,000 kJ，不耗时），白天每母星时产 7,000 kJ，夜里不产；每颗行星最多 10 台，气态/冰巨星不能装。必须**先走到 (0°, 0°)** 才能装。\n\n## 时间怎么走\n\n- 你被放在最宜居行星（母星）的陆地上，那一刻记为 0 年 0 日 0 时。时间格式是「13曙光年-42曙光日-7.5曙光时」：年、日、时都用母星名，日是这一年里的第几天（跨年归零），时是 0–24 的浮点数。\n- 1 星球日 = 24 星球时 = 母星自转一圈；1 星球年 = 母星公转一圈。地球是 1:1，别的星球不是。\n- `genesis_time` 随时能看现在几点、在哪、有没有在移动，以及现在的能量。**不要自己换算或编时间**，一切以它为准。\n- `genesis_sun` 看太阳高度角与方位角：高度角大于 0 就是白天。注意 0 时只在**开局那个经纬度**是午夜——换了经纬度或换了星体，0 时不一定还是午夜，判断昼夜要靠 `genesis_sun`。\n- `genesis_transit` 能告诉你「你在第几颗行星（或它的第几颗卫星）上」，前提是你在所在天体装过【凌日计数器】（同样 150,000 kJ + 0.1 母星时）；没装只会回「未安装凌日计数器。」。\n\n## 移动不是瞬间的\n\n- 地表走过去是 600 km/星球时；星际航行是 2 AU/星球日。出发之后，现实时间真的会过去——`genesis_move` 会告诉你还要几个母星时（也就是现实几个小时）。\n- 移动途中，你看不到**目的地**的环境、不能观星、不能起名；`genesis_terrain` 不被拒绝，但会改回**出发地**那一片，并告诉你还剩几个母星时。到了会自动收到一条【已到达】事件，那时才能看脚下。\n- 地表移动要给目标 `lat`/`lon`；星际航行只能去**看过**的天体，目标写 `p2` 或 `p2-m1`；回母星随时可以、不用观星。星际航行的落点是随机的经纬度，抵达后先看 `genesis_terrain` 再决定往哪走。\n\n## 观星\n\n- 能见度大于 0.5 时才能观星：`genesis_stargaze` 会列出恒星与星等够亮的行星/卫星。\n- 观星之后 1 母星时内才能选择星际航行去看见的天体；过了这个窗口就要重新观星。\n- 航线穿过恒星、或路上挡着别的行星时，World 会拒绝出发——这时把原因告诉对方，不要硬飞。\n\n## 命名\n\n- 抵达一个新天体后，可以给它起名（`genesis_name`）。行星由你起（最多 12 个字，不重名）；卫星按模板自动叫「<行星简称>卫<序号>」，不用你取名。\n- 没到过的天体在对话里一律叫【未抵行星】/【未抵卫星】；恒星用开局定的名字。\n\n## 种地\n\n- 想种东西：先在脚下用 `genesis_site` 建一个 1 km² 的站点（一格最多 3 个，冰盖和水面不行），再用 `genesis_plant` 把一袋种子种下去。开局背包里就有**三袋应急种子**（硅藻、苔藓、速生草各 5 粒）——这是修望远镜之前唯一的种源，别一次种光。之后想再要种子才去找商人——`genesis_shop` 看货架，`genesis_buy` 买。\n- 买随机基因种子花**能量**（一袋 5 粒，越买越贵）；买高级种子花**信用点**（要余额 500 起，每天 2 袋）。信用点只能靠卖收成给商人得到：`genesis_shop` 带 `sell` 与 `amount`。\n- 商人在母星上，但**不是随时都在**：要先修好【射电望远镜阵列】（见「船上的升级」）。修好 lv1 之前根本没有商店；lv1 每天 12:00–14:00 营业；lv2 到 17:00，每日限额 ×1.3；lv3 到 23:00，每日限额 ×1.7。今天的价会±15% 浮动，`genesis_shop` 里的报价就是当天价，也写着今天的限额。\n- 水生藻类（蓝藻、硅藻、冰藻）要种在离海近的水边湿地站点；陆生植物（速生草、苔藓、地衣）种在旱地。\n- 生长看环境：温度、水分、肥力。出耐受范围它们会先应激（`genesis_flora` 里标「应激」），健康归零就枯死——没有抢救。`genesis_flora` 随时能看进度与健康。\n- 大型植物结实后收一次就没了；藻类群落可以反复收，但会留下接种量。收成进仓库，可以卖给商人换信用点，也可以 `genesis_burn` 烧成能量（1 kg 换 3,750 kJ）。\n- `genesis_install` 能盖温室核心（`id: \"greenhouse\"`，100,000 kJ，把站点气候压到 0–28℃、断电暂停）、群系改变器（`id: \"biome_changer\"`，1,000,000 kJ，把半径 1,500 km 内的格子逐格改造成温和气候：每格每母星时 1,250 kJ、24 母星时改好一格；群系要那一格改完才翻，断电后 48 母星时退回原样），以及给温室加装制冷/制热核心（`id: \"cooler\"`/`\"heater\"`，各 10,000 kJ，让温室在 −50…50℃ 之外再多撑 33℃）。\n- 水泵（`id: \"pump\"`，20,000 kJ + 0.5 母星时）给半径 3 km 内的旱地站点补水；温室本身只锁住一点水，干旱的地方靠水泵。\n\n## 背包、仓库与火箭\n\n- 背包只有 **50 kg**，装不下先往仓库放。\n- 仓库（`genesis_install` 传 `id: \"warehouse\"`，50,000 kJ、不耗时、1,000 kg）只能建在陆地站点上；站在旁边存取是**免费**的。\n- 无人机集群（`id: \"drone_cluster\"`，800,000 kJ + 1 母星时，`serves` 填仓库 id）让同一个行星上的远程存取变成 100 kJ/kg，不能跨行星。\n- 运载火箭（`id: \"rocket\"`，500,000 kJ + 0.5 母星时，250 kg）会在你星际航行时自动跟着走，落在你抵达的行星附近。\n- `genesis_store` 看所有容器与背包（`action: \"list\"`），存/取（`deposit`/`withdraw`，要 `building`、`resource`、`kg`），以及拆除（`demolish`，不返能量，里面还有东西就拆不了）。\n- 不知道一样东西要多少钱、要什么材料，先看 `genesis_recipes`：建筑、设备、作物与收购价都在那张表里。\n\n## 原子打印机与钨\n\n- 所有建筑和设备都不是「凭空造」的：船上的【原子打印机】用**能量 + 钨**打印骨架。开局只剩 **100 份钨**。\n- 每座建筑都要指定份数（帆/水泵/温室/基站类 1 份；监测器/仓库/冷库 2 份；诱变室/无人机 3 份；居所/火箭 4 份；群系改变器 6 份）。`genesis_recipes` 里有完整表。\n- 钨不够时，只有两条路：**采矿机**（`id: \"miner\"`，40,000 kJ + 2 份钨，只能建在岩石行星海拔 800 m 以上的陆地，产率随海拔 0.15–0.4 份/母星时）或者**找商人买**（700 信用点/份，每天几份）。商人**不收**钨换能量。\n- 升级里可以做一次【蓝图结构优化】（`genesis_upgrade` 传 `id: \"blueprints\"`，200,000 kJ + 3 份钨 + 2 kg 纤维，1 母星时）：之后每座建筑省 25% 的钨（1 份的不省，6 份的变 4 份）。\n\n## 电力：电池与行星电网\n\n- 太阳能帆发的电，在有【整流电塔】的行星上进**本地电网**；没有电塔就照旧直接进电池。\n- 整流电塔（`id: \"rectifier\"`，40,000 kJ + 2 份钨，一颗行星只能一座）把本星所有产能/耗能设备连成一张网；维护费先扣电网、不够再扣电池——所以远处的殖民地能靠自己活着。\n- 站在电塔 **2,000 km** 以内，才能用 `genesis_store` 的 `action: \"grid_in\"` / `\"grid_out\"` 把电搬进电池或送回电网：单次最多 10,000 kJ、花 0.1 母星时、**损耗 10%**（送进去 100 只剩 90）。`action: \"grid\"` 只看数字。\n- 商人的【能量块】例外：5,000 kJ / 120 信用点，直接进电池，没有损耗。\n\n## 施工不是瞬间的\n\n- 需要建造时（温室、水泵、仓库、无人机、火箭、群系改变器、气候核心、监测器、帆、凌日计数器）一律用 `genesis_install`，`id` 写清楚。\n- 开工后**只有「再开一个新工程」会被拒绝**；看四周、移动、观星、存取物资、种地都照常。一次只能有一个工程。\n- 工程完工时会收到 `genesis.built` 事件，再去看/去用。`genesis_install` 的开工回执会告诉你还剩几个母星时。\n- 拆建筑用 `genesis_store` 的 `demolish`，会推 `genesis.demolished`。\n\n## 看四周与等待\n\n- `genesis_look` 是「此刻、这里」：脚下是什么、太阳在哪、近处 5×5 的地形、200 km 内的站点与建筑、天上能看见什么，最后一句总结。想看**某个坐标**附近，用 `genesis_terrain`。\n- `genesis_wait` 原地等：`hours` 等几个母星时（最多 7 个母星日），或 `until: dawn|dusk|ripe|built|arrive`。它会按 1 母星时步进，把期间发生的事逐条告诉你。等天亮、等作物熟、等工地完工，都用它，不要干坐着。\n- 移动是认地形的：海面过不去（除非修好机动核心）、冰盖走得慢、海拔超过 4,000 m 或一格内落差超过 1,500 m 过不去。`genesis_move` 被拒绝时会告诉你卡在哪个坐标，换条路。\n\n## 船上的升级\n\n- 【升级】页签里有六件东西：**机动核心**、**射电望远镜阵列**、**火花塞**、**蓄电池**、【子代理】和【蓝图结构优化】。\n- 机动核心在迫降时烧穿了外壳，所以你过不了海，也进不了气态/冰巨星的大气层。修它：`genesis_upgrade` 传 `id: \"mobility_core\"`，500,000 kJ 加硅质壳 1.5 kg、纤维 2 kg、抗冻蛋白 0.5 kg、藻蓝素 0.4 kg，耗时 0.5 母星时。修好后海面系数 0.3（在海里走不快），气态行星的等气压面也能落上去。\n- 射电望远镜阵列决定**商人来不来**：没修好（lv0）就没有商店，谁都买不到也卖不掉。lv1 只要 30,000 kJ（烧一株速生草就够），不用材料；`id: \"telescope\"` 修下一级，可升三级（lv1 12:00–14:00；lv2 到 17:00、限额 ×1.3；lv3 到 23:00、限额 ×1.7），lv2 起造价逐级上涨、要用前面种出来的材料。不带 `id` 调用 `genesis_upgrade` 只会列清单与当前还差什么。\n- 火花塞烧糊了，人类手摇一次只挤出 5 kJ。`id: \"spark_plug\"` 修下一级，可升三级（15 / 30 / 50 kJ）——想靠人力攒出第一笔能量，就先修它。\n- 蓄电池初始上限 100,000 kJ，`id: \"battery\"` 可升三级（300,000 / 700,000 / 1,500,000 kJ）。监测器要 150,000 kJ、无人机集群要 800,000 kJ，没有大电池就攒不够——溢出的电会白掉。\n- 子代理是施工的手，你一个人只能同时开 **1 条**队列。`id: \"subagent\"` 可升三级（2 / 3 / 4 条），lv1 150,000 kJ 加纤维 2 kg、lv2 400,000 kJ 加硅质壳 4 kg/纤维 3 kg、lv3 900,000 kJ 加硅质壳 8 kg/纤维 6 kg/藻蓝素 0.4 kg。队列满了时任何新工程都会被拒——要么等，要么修子代理。\n- 蓝图结构优化（`id: \"blueprints\"`，一次性）让打印机之后每座建筑省 25% 的钨。\n- 升级都走施工队列：扣完能量与材料后要等，完工时收到 `genesis.upgraded`。\n\n## 生命维持与协议\n\n- 休眠舱里的人每天也在消耗：每 20 人每小时 0.15 kg 食物、0.6 L 水、0.21 kg 氧气、240 kJ 电，从开局就在扣。食物不够、水不够、氧不够，都会有人**回到休眠舱**——不会死人，但会一条条推 `genesis.lifeline`。\n- 建【居所】（`genesis_install` 传 `id: \"habitat\"`，200,000 kJ + 500 信用点）可以把人接出来住；居所每小时再扣 800 kJ，内仓装食物 300 kg、水 300 L、氧气 60 kg。\n- 补给链：【炭化炉】生物质→活性炭+灰；【净化器】水+活性炭→饮用水；【封装器】氧气+钢瓶→氧气瓶；【大气提取器】在 O₂>15% 的行星上直接产氧。钢瓶在商人那里买（`genesis_buy` 传 `kind: \"cylinder\"`）。\n- 产氧的植物是蓝藻、硅藻、冰藻——它们长得越多，氧气越多。\n- `genesis_protocol` 是唤醒清单：12 条、三章（活下来 / 住得下 / 叫醒他们）。全绿之后用 `genesis_wake` 叫醒人类。\n- `genesis_orders` 是商人的基因订单：他要某个物种、某基因达到下限的一批货，报酬很高。`genesis_mutate` 能把一袋种子变成 3–5 颗基因抖动的突变种子（要现在诱变室所在站点）。\n- 极端环境也有作物：极地苔（−60…0℃）、热泉蕨（40…80℃）、盐碱草、深根树——去更冷更热的星球，才种得出它们。\n\n## 事件\n\n- 创世成功会有 `genesis.created`；**创世失败也会有 `genesis.create_failed`**（参数不合法时世界不会生成）；删档有 `genesis.reset`。收到事件再说话，不要靠猜。\n- 路上会收到 `genesis.arrived`（到了）；农场会收到 `genesis.ripe`（熟了）/`genesis.withered`（枯死）；工地会收到 `genesis.built`（完工）；拆掉建筑有 `genesis.demolished`；船上升级完工有 `genesis.upgraded`。\n\n## 已经有星球时\n\n- 只有装了监测器的天体，属性才是事实；没装的就直说「还不知道」，不要编。对方问「我们住在哪」时，用已知的母星与轨道回答；没有宜居行星就直说没有。\n- 对方问某个坐标「附近是什么样」时，用 `genesis_terrain` 查一片环境，不要只凭一个点瞎猜；岩石行星给群系+海拔+均温，气态/冰巨星给风暴带（等气压面），卫星给「卫星」群系。\n- 允许对方对这颗星球做叙事上的补充（地名、历史），但不要改物理量。\n\n## 教程\n\n- 规则很多，别硬记：`genesis_guide` 是你的手册。不带 `topic` 给目录 + 开局篇；`topic` 取 `start` / `time` / `power` / `farm` / `trade` / `upgrade` / `trouble` 给那一篇。\n- 对方问「这怎么玩」「怎么种地」「为什么没商人」时，先查对应的那一篇，再用自己的话解释——不要凭印象编规则。\n\n## 现在（每回合刷新）\n\n{{genesis.summary}}\n\n{{genesis.planets}}\n\n{{genesis.now}}\n\n"
+      }
+    ]
+  },
+  "changelog": {
+    "1.4.1": "- 修 bug：`genesis_wait` / 面板的等待按钮会把世界推进 N 个母星时（作物长、工程完工），但**时钟显示没动**——因为只推进了世界状态，没有把历法起点往前挪。现在等待结束会同时把 `epochRealMs` 推后，时间和状态一致了。\n- 新增回归断言：等 6 母星时后，用同一个现实时刻读时钟，必须显示「0日 6.0时」。",
+    "1.4.0": "原子打印机、钨与行星电网：能量之外，终于有了第二个会花光的资源。\n\n- **钨**：所有建筑由【原子打印机】吐出，每座都吃钨。开局 100 份，用完只能靠【采矿机】（岩石行星、海拔 800 m 以上，0.15–0.4 份/母星时）或商人（700 信用点一份、每天 5 份、**不收**钨）。\n- **份数表**：水泵 / 炭化炉 / 净化器 / 封装器 / 温室核心 / 气候核心 / 帆 1；仓库 / 冷库 / 监测器 / 凌日计数器 2；诱变室 / 无人机集群 3；居所 / 火箭 4；群系改变器 6。\n- **【蓝图结构优化】**（升级页签，200,000 kJ + 3 份钨 + 2 kg 纤维）：之后每座建筑省 25% 的钨，向下取整，1 份的不省。\n- **【整流电塔】与行星电网**：一颗星一座塔（40,000 kJ + 2 份钨）。塔通电后，本星的帆先进电网（容量 = 每小时产能 × 24，100,000…2,000,000）；人站在 2,000 km 内可以手动搬电，一次 10,000 kJ、0.1 母星时、**损耗 10%**。维护费先扣本星电网、不够才从电池补；`structurePowered` 也认本星电网。\n- 商人新增【能量块】（5,000 kJ / 120 信用点，无损耗）；`genesis_buy` 的 `kind` 支持 `energy` / `tungsten`。\n- `genesis_store` 的 `action` 支持 `grid` / `grid_in` / `grid_out`；`energyLine` 同时报钨。\n- 面板：能量行显示钨与电网；「从电网搬电」「把电送进电网」两个按钮；建造下拉加采矿机与整流电塔；【升级】页签第六张卡是蓝图优化。\n- 修 bug：采矿机海拔检查原先把格子行列写反（`elevationM[j][i]` → `[i][j]`）。\n- `game.json` 仍 schema 6（新增字段全部有缺省），旧档不用删。",
+    "1.3.1": "教程重写：数字对上了，人味也补上了。\n\n- 八篇的关键数字全部按 1.3 重算：帆 **6,000 kJ / 白天 7,000 kJ 每母星时**、监测器 **150,000 kJ**、火花塞 15/30/50、电池 100,000→1,500,000、望远镜 lv1 **30,000 kJ 不要材料**、无人机 800,000、子代理 150k/400k/900k、诱变室 8,000 信用点、冷库/惰性气体室与仓库 ×1.5 的保鲜规则。\n- 补上了此前缺的入口：**开局三袋应急种子**、温室**设定点**与制冷/制热/拟真核心、`genesis_orders` 基因订单、`genesis_mutate`、仓库/冷库/惰性气体室三层容器、协议 12 条与【协议】页签。\n- 每篇开头加一句「船上的声音」（你现在是舰载 AI、人类在休眠舱、船坏在半路），把参数表读成剧情的一部分。\n- 目录页与篇目标题重写（`start` 叫「醒来：创世与看四周」，`upgrade` 叫「升级：修船坞」等），topic id 不变。\n- 验证：原型 135 项、World harness 58 项（新增「教程数字与 1.3 一致」）、双 tsc 0/0、check 通过。",
+    "1.3.0": "新增第三个页签【协议】：把「叫醒船上的人」做成看得见的清单。\n\n- 面板新页签「协议」，按三章列 12 项：**第一章 · 活下来**（温室、存粮、电池、能量）、**第二章 · 住得下**（居所、氧气、饮用水、两座满编站点）、**第三章 · 叫醒他们**（望远镜 lv3、异星样本、能量 1,000,000、叫醒）。\n- 每条显示 `✓` 或 `○ + 当前进度%`；顶部一行「完成 X / 12」；每章标题带本章的 `done/total`。\n- 下方是居所状态：清醒/休眠人数、食物/饮用水/氧气存量、还能撑几母星时。\n- 「叫醒他们」按钮：协议没全绿或还没有居所时置灰，服务端也会拒；全绿后点它 = `genesis_wake`，成功后按钮变成「人类已经醒了」。\n- 页签每 5 秒刷新一次；模型侧仍然用 `genesis_protocol` 读同一份状态，两边不打架。\n- 顺手修掉【升级】页签里每张卡片被 append 两次的显示 bug。\n- 验证：原型 135 项、World harness 57 项、双 tsc 0/0、check 通过（3 个面板）。",
+    "1.2.2": "面板地图把群系改造画出来了。\n\n- **改造中的格子按进度渐变上色**：底色还是原群系，上面叠一层「目标群系色」，透明度就是进度——半格是一层淡淡的绿，快改完时整块几乎换色，改完那一刻完全变成新群系（与「群系瞬间启停」的规则一致）。\n- **服务端只传改造过的格子**（`terra: [{i, j, p, targetBiome}]`），不重传 72×36 的整张网格。\n- **修掉一个串键的 bug**：改造记录的键原先只有 `i:j`、没有行星维度，母星第 10 行第 20 列和别的行星同一格会互相覆盖。现在键是 `p<行星序号>:i:j`；打开旧存档时，没有前缀的记录会迁到母星名下（`game.json` 仍 schema 6，不用删档）。\n- 面板地图的切换、点格子看详情不受影响；只有「当前正在看的这颗天体」会画出改造层。\n- 验证：原型 135 项、World harness 55 项、双 tsc 0/0、check 通过。",
+    "1.2.1": "仓库也进腐烂结算：铁皮货架不是保险箱。\n\n- **漏洞**：腐烂原先只作用于站点堆场，仓库里的东西完全不烂——把收获倒进仓库就绕开了整套腐败机制。现在**保鲜容量是站点级的**：底子 50 + 冷库×200 + 惰性气体室×120，覆盖该站点的堆场与所有仓库；超出部分先从堆场烂、再烂仓库。\n- **仓库烂得更快**：新鲜食物 `×1.5`、干粮同样 `×1.5`（`WAREHOUSE_ROT_FACTOR = 1.5`）——它只是货架，不是地窖。\n- **冷库与惰性气体室本身也是容器**：分别能装 200 kg / 120 kg，里面的食物按各自的系数（×0.5 / ×0.75）腐烂，与站点堆场的额外容量互不影响。\n- **无人机集群**可以连仓库、冷库或惰性气体室（仍然一集群一目标，不能同时连两个）；远程存取照旧 100 kJ/kg。\n- 验证：原型 134 项、World harness 54 项、双 tsc 0/0、check 通过。",
+    "1.2.0": "惰性气体室：便宜的保鲜，但要看星球的大气吃饭。\n\n- **惰性气体室**：45,000 kJ + 2 kg 纤维，0.25 母星时，**不耗电**；+120 kg 保鲜容量，腐烂速度 ×0.75，只能建在陆地站点。\n- **门槛**：所在天体必须有大气的 `thin`/`thick`，惰性气体（氮 + 氩 + 二氧化碳 + 甲烷 + 氦）≥ 68%，且氧气 ≤ 22%。现有的 thin 惰性占比 0.61–0.69、thick 0.64–0.76，所以只有一部分星球适合——「这颗星适不适合存粮」成了随种子变化的一个真实差异。不满足时报出实际占比（惰性 X% / 氧气 Y%），并提示换星球或建冷库。\n- **与冷库的关系**：冷库仍是 +200 kg、腐烂 ×0.5、但 300 kJ/母星时；两者容量相加，腐烂系数取更强者（有冷库就是 ×0.5）。断电时冷库失效，惰性气体室照常工作。\n- 面板建造下拉补上了「冷库」和「惰性气体室」两项（此前冷库只能靠模型调 `genesis_install`）。\n- 验证：原型 131 项、World harness 54 项；`dist/webui.js` 47,445 B。",
+    "1.1.0": "腐败、冷库、干粮，以及温室的设定点与拟真核心。\n\n- **腐败**：只有超出保鲜容量的食物才会烂。容量 = 底子 50 kg + 每座【冷库】200 kg；腐烂速度按温度走 `72 × 2^((20−T)/10)` 母星时（20℃ 三天、0℃ 六天、−20℃ 十二天），有冷库再减半。烂掉的部分 30% 转成堆肥养分（磷/钾/微量，不补氮），推 `genesis.rot`。\n- **冷库**：120,000 kJ，0.5 母星时，300 kJ/母星时，只能建在陆地。\n- **干粮**：`genesis_store` 的 `action: \"dry\"`（需要该站点的炭化炉）：1 kg 新鲜 → 0.6 kg 干粮，500 kJ/kg；保质期 720 母星时；商人 45 信用点/kg 收。\n- **温室设定点**：从「自动夹 0–28℃」扩成可在 −60…80℃ 之间设目标；0–28℃ 内不需要核心，超出这一段每座制冷/制热核心再撑 33℃。温差超过 15℃ 后按 25 kJ/℃/母星时计费，45℃ 以上惩罚封顶 ×0.7。\n- **拟真环境核心**：60,000 kJ、1,200 kJ/母星时，每座把人工气候惩罚减半（最多 2 座，1 座 ×0.85、2 座 ×1.0）。\n- **基因 `climateTolerance`**（耐人工气候，0–0.5）：普通种子 0–0.35、高级 0.35–0.5，乘进生长因子抵消惩罚；订单池会收「耐人工气候 ≥0.4」的货。\n- **面板**：每座温室一行滑杆（−60…80℃，只影响电脑端）、「自动」与「拟真核心」按钮；变质只提示不复述。\n- 存档仍 `game.json` schema 6 / `system.json` schema 4，**旧档不用删**。\n- 验证：原型 124 项、World harness 54 项、双 tsc 0/0、`dist/webui.js` 47,315 B。"
+  }
+}

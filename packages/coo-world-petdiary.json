@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coo-world-petdiary",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "describe": {
     "tools": [
       {
@@ -155,6 +155,7 @@
     ]
   },
   "changelog": {
+    "0.3.7": "- 面板「最近条目」改按公开本 / 私密本各自截取最近条数（`src/panels/recent.ts`、`src/panels/diary.ts`）：公开本最多显示 6 条、私密本最多显示 2 条，避免私密条目排在末尾超过 8 条时把公开条目挤出界面；校验异常的条目仍会补进对应分区并支持「查看」定位。",
     "0.3.6": "- 数据根优先采用框架提供的 `ctx.dataDir`（`src/world.ts`）：仅在未提供 `dataDir` 或旧配置下 `ctx.dataDir` 落入 `<botDir>/data` 时回退目录推导，适配不同部署目录结构（#1）。\n- 睡前检查闹钟读取做好缺失与格式变更退路（`src/alarmSync.ts`、`src/world.ts`）：`<botDir>/alarms.json` 不存在时静默降级（不推事件、不报警告），兼容数组根节点与 ISO 时间戳，并对读取告警做去重避免每 60 秒刷屏（#1）。",
     "0.3.5": "- 新增「习惯称呼」配置 `worlds.pet-diary.partnerAlias`：日记的分类关键词与标题里的说话人识别都按它来，代码里不再写死具体人名；留空按「主人」。\n- 称呼优先级：环境变量 `PETDIARY_PARTNER_ALIAS`（插件按配置传入）> `diary/alias.json` 的 `alias` > 「主人」。\n- `books.json` 出厂清空：册名以库里的 `index.diary` 为准；同步脚本在构建时也会把它重置为空表，避免个人册名进入公开包。\n- 新增别名回归测试 2 条（有内置 runtime 时生效）。",
     "0.3.4": "- 调整初始提示词\"睡前检查\"部分：改为到点后用 `diary_read` 查今天两个本子还有什么要写的，空闲就补上；正忙就 `alarm_set` 顺延 15 分钟再查，最多两次。",
