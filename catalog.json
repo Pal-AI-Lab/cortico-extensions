@@ -3641,7 +3641,7 @@
     },
     "cortico-provider-opencode": {
       "kind": "provider",
-      "version": "0.6.2",
+      "version": "0.6.3",
       "description": "OpenCode 的模型供应商:默认走 Go 订阅的额度,支持 Responses、Chat、Messages 与 Gemini,内置价目与额度面板。",
       "author": "云纪",
       "maintainers": [
@@ -3662,8 +3662,8 @@
         "bugs": "https://github.com/Unnori/cortico-provider-opencode/issues"
       },
       "created": "2026-10-28T07:37:12.362Z",
-      "published": "2026-11-13T07:25:58.204Z",
-      "versionCount": 10,
+      "published": "2026-11-13T08:37:42.667Z",
+      "versionCount": 11,
       "official": false,
       "isNew": false,
       "tags": [],
@@ -3691,6 +3691,7 @@
       },
       "changelog": {
         "versions": [
+          "0.6.3",
           "0.6.2",
           "0.6.1",
           "0.6.0",
@@ -6499,7 +6500,7 @@
       "published": "2026-11-12T11:09:07.247Z",
       "versionCount": 13,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "companion",
         "apps",
@@ -10668,8 +10669,8 @@
         "number": 512,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/512",
         "up": 0,
-        "down": 0,
-        "comments": 6
+        "down": 1,
+        "comments": 7
       }
     },
     "cortico-world-fishing": {
@@ -12579,7 +12580,7 @@
     },
     "cortico-world-life": {
       "kind": "world",
-      "version": "0.1.14",
+      "version": "0.1.17",
       "displayName": "小屋世界",
       "description": "一座会自己过日子的小城。青溪 31 处地方,城外白塘、南屿、安河、松岭四座城 83 处,一百四十多种玩法:钓鱼、种田、养鸡、打工、摆摊、雇人翻地围栏、出城住几天;每处都写着营业时间,钟跟着城市的时区走。不联网、不收集数据。有 bug、有问题要反馈,B 站搜「星云or星眠」",
       "author": "星云double",
@@ -12601,8 +12602,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-life"
       },
       "created": "2026-11-11T11:05:13.802Z",
-      "published": "2026-11-13T08:05:33.668Z",
-      "versionCount": 12,
+      "published": "2026-11-13T08:48:53.512Z",
+      "versionCount": 15,
       "official": false,
       "isNew": true,
       "tags": [],
@@ -12613,6 +12614,9 @@
       },
       "changelog": {
         "versions": [
+          "0.1.17",
+          "0.1.16",
+          "0.1.15",
           "0.1.14",
           "0.1.12",
           "0.1.13",
@@ -12624,7 +12628,7 @@
           "0.1.5",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-life@0.1.14/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-life@0.1.17/CHANGELOG.md"
       },
       "discussion": {
         "number": 881,
@@ -12897,7 +12901,7 @@
     },
     "cortico-world-local-voice-studio": {
       "kind": "world",
-      "version": "0.2.3",
+      "version": "0.2.2",
       "displayName": "大肥鱼语音助手",
       "description": "大肥鱼语音助手：配合 Coopanion 官方 QQ 插件使用，通过本地模型识别 QQ 语音、发送语音回复、生成唱歌语音。支持参考音色、演唱参考和自然语言演唱描述，模型按需下载和加载。",
       "author": "抖音博主 水流东",
@@ -12923,7 +12927,7 @@
         "win32"
       ],
       "created": "2026-11-04T15:24:18.142Z",
-      "published": "2026-11-13T07:19:26.153Z",
+      "published": "2026-11-13T04:03:52.654Z",
       "versionCount": 15,
       "official": false,
       "isNew": true,
@@ -14268,6 +14272,72 @@
         "up": 7,
         "down": 0,
         "comments": 4
+      }
+    },
+    "cortico-world-mood": {
+      "kind": "world",
+      "version": "0.4.5",
+      "displayName": "小情绪",
+      "description": "Coopanion World: an event-driven affective substrate. State is stored and never delivered to the model; only situations are.",
+      "locales": {
+        "zh": {
+          "displayName": "小情绪"
+        },
+        "en": {
+          "displayName": "Mood"
+        }
+      },
+      "author": "Daniele贤狼赫萝",
+      "maintainers": [
+        "banacat06"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "coopanion",
+        "mood",
+        "affect",
+        "event-driven"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-mood",
+        "repository": "https://github.com/DanieleWolfHOLO/cortico-world-mood",
+        "homepage": "https://github.com/DanieleWolfHOLO/cortico-world-mood#readme",
+        "bugs": "https://github.com/DanieleWolfHOLO/cortico-world-mood/issues"
+      },
+      "created": "2026-11-13T08:05:22.307Z",
+      "published": "2026-11-13T08:06:40.036Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "icon": "assets/cortico-world-mood/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.4.5",
+          "0.4.4",
+          "0.4.3",
+          "0.4.2",
+          "0.4.1",
+          "0.4.0",
+          "0.3.4",
+          "0.3.0",
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://github.com/DanieleWolfHOLO/cortico-world-mood/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 912,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/912",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-mood-alont1": {
