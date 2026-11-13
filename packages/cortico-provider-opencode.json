@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-provider-opencode",
-  "version": "0.6.0",
+  "version": "0.6.2",
   "describe": {
     "provider": {
       "protocols": [
@@ -48,6 +48,8 @@
     }
   },
   "changelog": {
+    "0.6.2": "- 修「获取模型列表比实际可用的多很多」:列表请求只带了 Accept,没带密钥,于是网关按未鉴权处理,返回整个目录。实测同一个端点:不带密钥 86 个,带你自己的密钥 13 个。\n- 列表请求现在带 Authorization,并且每次读取当前密钥,所以实例建好之后再保存密钥也会立即收窄列表。\n- 顺带修正上一版的结论:网关的模型列表按账号过滤,不是固定清单。之前看到「带不带密钥都是 30 个」只在 Go 路径上碰巧相同。\n- 测试 113 → 116 条。",
+    "0.6.1": "- 修「填了按量余额的地址,拿到的还是 Go 的模型列表」。地址栏的任何路径都会被归一化到网关根,而计费选项留空时无条件用 go,于是余额地址仍然打到 /go/v1/models,列表是订阅的 30 个。\n- 计费选项留空时改由地址判断:含 /go 段就是 Go,写了家族路径却没有 /go(/openai/v1、/anthropic/v1、/google/v1beta、/v1/models)就是按量余额,只有裸的 /inference 才用默认值。显式选中时以选项为准。\n- 两套账户的清单不同:Go 30 个,按量余额 12 个,Opus 一类高级模型只在余额里。\n- 测试 107 → 113 条。",
     "0.6.0": "- 修 Messages 方言从不流式:`buildResponseBody` 覆写后绕过了基类设置流标志的那一行,请求一直以非流式发出,于是框架拿到一整段 JSON 却按 SSE 解析,一个事件都收不到。表现是发送后这一轮立刻结束、没有回复。现在 `applyStreamFlags()` 在该覆写里被调用。\n- 修 Messages 方言的用量全是 null:`message_start` 携带的 token 计数被丢弃,`finish()` 补终止块时也不带用量。修复后实测 4/4 次请求都记录到用量(修复前 5/29),同一条回复的耗时中位从 3580ms 降到 2506ms。\n- 思考档位现在真正送达四个协议。原来只有 chat 与 responses 发送,anthropic 与 gemini 完全忽略这个设置。实测不设参数时上游仍会自行推理(chat 85 个推理 token、anthropic 141 个),所以「不思考」必须显式关闭。\n- anthropic 用 `thinking: { type: disabled }` 关、`{ type: adaptive }` 配 `output_config.effort` 开:Haiku 5.5 拒绝旧的 `enabled` + `budget_tokens` 写法。\n- gemini 用 `thinkingLevel`(LOW/MEDIUM/HIGH),它拒绝 `thinkingBudget`。这一系没有「不思考」档,最低是 LOW,所以 gemini 下的「不思考」是最低思考。\n- 测试 100 → 107 条。",
     "0.5.2": "- 修 Gemini 方言的 400:上游拒绝工具 schema 里的 additionalProperties,报 Invalid JSON payload received. Unknown name additionalProperties at tools[0].function_declarations[10].parameters。\n- 新增 geminiSchema():把每个工具的 parameters 收敛到 Gemini 接受的关键字集合,递归处理 properties、items、anyOf/oneOf/allOf/not;无法识别的字段丢弃而不是拒绝整个请求。\n- 触发条件是工具表里有 World 带 additionalProperties(内建的 web_search 就是),位置靠后的工具会报错,所以单个简单工具测不出来。\n- 测试 90 → 95 条,覆盖递归清洗、真实 web_search 字段保留、非法输入替换。",
     "0.5.1": "- 流在上游被切断时,已经说出来的文字不再被丢弃。框架在错误里保存了快照(GenerationError.partial),但没有任何上层代码读它:一旦吐过文字就不再重试,于是内容直接作废、整轮重来。\n- respond() 现在把这种快照包成 incomplete 响应返回,reason 为 stream_interrupted,与真正的输出截断区分开。一个字都没吐就失败的仍然照常失败重试——没有内容可显示,救它等于吞掉错误。\n- 起因是一次 46.2 秒中断(Chat transport ended without finish_reason):框架三个超时都远大于 46 秒,所以是上游自己关的流;重试累积起来就是用户感觉到的长时间无响应。\n- 测试 85 → 90 条。这一版没有线上实测:账号额度已用尽,造不出该场景,证据是代码路径与单元测试。",
