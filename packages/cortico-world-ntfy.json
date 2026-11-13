@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "name": "cortico-world-ntfy",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [],
+    "events": [
+      {
+        "type": "ntfy.message",
+        "description": {
+          "zh": "订阅的 ntfy 话题收到一条通知，请简短转告用户。",
+          "en": "A subscribed ntfy topic received a notice. Tell the user briefly."
+        },
+        "trigger": "flush"
+      }
+    ]
+  }
+}

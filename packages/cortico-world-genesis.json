@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-genesis",
-  "version": "1.4.1",
+  "version": "1.9.2",
   "describe": {
     "tools": [
       {
@@ -293,6 +293,7 @@
                 "fiber",
                 "lichen_acid",
                 "dry_food",
+                "slag",
                 "survey",
                 "survey"
               ],
@@ -558,9 +559,12 @@
                 "inert_room",
                 "setpoint",
                 "miner",
-                "rectifier"
+                "rectifier",
+                "terminal",
+                "storage_terminal",
+                "arm"
               ],
-              "description": "装什么：monitor=环境监测器（150,000 kJ）；counter=凌日计数器；sail=太阳能帆（6,000 kJ，要在当前行星 (0°, 0°)）；greenhouse=温室核心；biome_changer=群系改变器；cooler=制冷核心；heater=制热核心；pump=水泵；warehouse=仓库（只能建在陆地站点，1,000 kg）；drone_cluster=无人机集群（要 serves 一个仓库，远程取货 100 kJ/kg）；rocket=运载火箭（250 kg，星际航行时跟着走）；kiln=炭化炉（生物质→活性炭+灰）；purifier=净化器（水+活性炭→饮用水）；sealer=封装器（氧气+钢瓶→氧气瓶）；atmo_extractor=大气提取器（O₂>15% 时产氧）；habitat=居所（住 20 人，每小时自动扣补给）；mutation_room=辐射诱变室（种子→突变种子）；cold_store=冷库（120,000 kJ，+200 kg，腐烂 ×0.5，300 kJ/母星时）；inert_room=惰性气体室（45,000 kJ + 2 kg 纤维，+120 kg，腐烂 ×0.75，不耗电；要求所在天体惰性气体 ≥ 68% 且氧气 ≤ 22%）；miner=采矿机（40,000 kJ + 2 份钨，只能建在岩石行星海拔 800 m 以上的陆地，采钨）；rectifier=整流电塔（40,000 kJ + 2 份钨，一颗行星只能一座；帆发的电进本地电网，靠近才能手动搬运，10% 损耗）。"
+              "description": "装什么：monitor=环境监测器（150,000 kJ）；counter=凌日计数器；sail=太阳能帆（6,000 kJ，要在当前行星 (0°, 0°)）；greenhouse=温室核心；biome_changer=群系改变器；cooler=制冷核心；heater=制热核心；pump=水泵；warehouse=仓库（只能建在陆地站点，1,000 kg）；drone_cluster=无人机集群（要 serves 一个仓库，远程取货 100 kJ/kg）；rocket=运载火箭（250 kg，星际航行时跟着走）；kiln=炭化炉（生物质→活性炭+灰）；purifier=净化器（水+活性炭→饮用水）；sealer=封装器（氧气+钢瓶→氧气瓶）；atmo_extractor=大气提取器（O₂>15% 时产氧）；habitat=居所（住 20 人，每小时自动扣补给）；mutation_room=辐射诱变室（种子→突变种子）；cold_store=冷库（120,000 kJ，+200 kg，腐烂 ×0.5，300 kJ/母星时）；inert_room=惰性气体室（45,000 kJ + 2 kg 纤维，+120 kg，腐烂 ×0.75，不耗电；要求所在天体惰性气体 ≥ 68% 且氧气 ≤ 22%）；miner=采矿机（40,000 kJ + 2 份钨，只能建在岩石行星海拔 800 m 以上的陆地，采钨）；rectifier=整流电塔（40,000 kJ + 2 份钨，一颗行星只能一座；帆发的电进本地电网，靠近才能手动搬运，10% 损耗）；terminal=交易终端（60,000 kJ + 2 份钨，只能建在陆地；连着无人机集群后，每天商人开张时自动卖 target 指定的资源，并且可以自动买 buySpecies 指定的随机种子，货先落在终端自己的缓冲里——干散 200 kg、种子 20 袋，满了就不收）。storage_terminal=仓储终端（20,000 kJ + 1 份钨；不是仓库，是一张编排表：决定哪几个容器、按什么优先级喂给交易终端，用 feeds 指定它喂哪座交易终端，无人机集群连仓储终端；编排用 genesis_route 调）。arm=机械臂（15,000 kJ + 1 份钨；把 inputs 里几个容器的散货搬进 output，臂展 5 km、40 kg/母星时、每颗行星最多 20 座；items 是资源白名单，不传就全搬；改线用 genesis_link）。"
             },
             "site": {
               "type": "string",
@@ -573,6 +577,36 @@
             "tempC": {
               "type": "number",
               "description": "温室设定点（℃）；只对 id=setpoint 有效，不传表示回到自动模式。"
+            },
+            "target": {
+              "type": "string",
+              "description": "交易终端自动卖的资源 id（只对 id=terminal 有效）：slag=尾矿（默认）、biomass=生物质、dry_food=干粮……不传按尾矿。"
+            },
+            "buySpecies": {
+              "type": "string",
+              "description": "交易终端自动买的种子物种（只对 id=terminal 有效）：cyanobacteria / diatom / ice_alga / grass / moss / lichen。每天最多 1 袋、按随机种子阶梯价付 kJ；不传就不买。"
+            },
+            "feeds": {
+              "type": "string",
+              "description": "仓储终端专用：它喂哪座交易终端（传交易终端的建筑 id）。不传就先建着，之后再接线。"
+            },
+            "inputs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "机械臂专用：从哪几个容器取货（传容器 id，可多个）。容器要在这座臂 5 km 内。"
+            },
+            "output": {
+              "type": "string",
+              "description": "机械臂专用：把货搬到哪个容器（仓库 / 冷库 / 惰性气体室）。"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "机械臂专用：只搬这些资源（白名单，如 [\"slag\",\"tungsten\"]）；不传就全搬。"
             }
           },
           "required": [
@@ -583,8 +617,8 @@
           "write"
         ],
         "summary": {
-          "zh": "安装/建造：传 id 指定装什么，全部消耗【钨】。monitor（环境监测器，150,000 kJ + 2 份钨，母星装上解锁恒星全貌）、counter（凌日计数器，150,000 kJ + 2 份钨）、sail（太阳能帆，6,000 kJ + 1 份钨，要在 (0°, 0°)）、greenhouse（温室核心，100,000 kJ + 1 份钨）、biome_changer（群系改变器，1,000,000 kJ + 6 份钨 + 0.5 母星时，逐格改造）、cooler/heater（气候核心，10,000 kJ + 1 份钨，各再撑 33℃）、realism（拟真环境核心，60,000 kJ + 1 份钨，人工气候惩罚减半）、setpoint（给温室设定目标温度 −60…80℃，不传 tempC 回到自动）、pump（水泵，20,000 kJ + 1 份钨）、warehouse（仓库，50,000 kJ + 2 份钨，1,000 kg）、cold_store（冷库，120,000 kJ + 2 份钨，+200 kg 保鲜）、inert_room（惰性气体室，45,000 kJ + 2 份钨 + 2 kg 纤维，要大气惰性 ≥68% 且氧 ≤22%）、drone_cluster（无人机集群，800,000 kJ + 3 份钨 + 1 母星时，serves 一个容器）、rocket（运载火箭，500,000 kJ + 4 份钨 + 0.5 母星时，250 kg）、kiln/purifier/sealer/atmo_extractor（生产链，30–80k kJ）、habitat（居所，200,000 kJ + 500 信用点 + 4 份钨，住 20 人）、mutation_room（诱变室，150,000 kJ + 8,000 信用点 + 3 份钨）、miner（采矿机，40,000 kJ + 2 份钨，岩石行星海拔 800 m 以上，产钨）、rectifier（整流电塔，40,000 kJ + 2 份钨，一星一座，把本地发电并进行星电网）。",
-          "en": "Install/build by id; every structure eats tungsten. monitor (150,000 kJ + 2), counter (2), sail (6,000 kJ + 1, at (0°,0°)), greenhouse (1), biome_changer (1M kJ + 6), cooler/heater (10,000 + 1), realism (60,000 + 1), setpoint (target −60…80℃), pump (1), warehouse (2, 1,000 kg), cold_store (2), inert_room (2 + 2 kg fiber), drone_cluster (800,000 + 3, serves a container), rocket (500,000 + 4, 250 kg), kiln/purifier/sealer/atmo_extractor, habitat (200,000 + 500 credits + 4), mutation_room (150,000 + 8,000 credits + 3), miner (40,000 + 2, rocky planet above 800 m, yields tungsten), rectifier (40,000 + 2, one per planet, joins local power to the planetary grid)."
+          "zh": "安装/建造：传 id 指定装什么，全部消耗【钨】。monitor（环境监测器，150,000 kJ + 2 份钨，母星装上解锁恒星全貌）、counter（凌日计数器，150,000 kJ + 2 份钨）、sail（太阳能帆，6,000 kJ + 1 份钨，要在 (0°, 0°)）、greenhouse（温室核心，100,000 kJ + 1 份钨）、biome_changer（群系改变器，1,000,000 kJ + 6 份钨 + 0.5 母星时，逐格改造）、cooler/heater（气候核心，10,000 kJ + 1 份钨，各再撑 33℃）、realism（拟真环境核心，60,000 kJ + 1 份钨，人工气候惩罚减半）、setpoint（给温室设定目标温度 −60…80℃，不传 tempC 回到自动）、pump（水泵，20,000 kJ + 1 份钨）、warehouse（仓库，50,000 kJ + 2 份钨，1,000 kg）、cold_store（冷库，120,000 kJ + 2 份钨，+200 kg 保鲜）、inert_room（惰性气体室，45,000 kJ + 2 份钨 + 2 kg 纤维，要大气惰性 ≥68% 且氧 ≤22%）、drone_cluster（无人机集群，800,000 kJ + 3 份钨 + 1 母星时，serves 一个容器）、rocket（运载火箭，500,000 kJ + 4 份钨 + 0.5 母星时，250 kg）、kiln/purifier/sealer/atmo_extractor（生产链，30–80k kJ）、habitat（居所，200,000 kJ + 500 信用点 + 4 份钨，住 20 人）、mutation_room（诱变室，150,000 kJ + 8,000 信用点 + 3 份钨）、miner（采矿机，40,000 kJ + 2 份钨，岩石行星海拔 800 m 以上，产钨）、rectifier（整流电塔，40,000 kJ + 2 份钨，一星一座，把本地发电并进行星电网）、terminal（交易终端，60,000 kJ + 2 份钨，只能建在陆地；连着通电无人机后每天自动卖 target 指定的资源一次；它同时是收货口——干散 200 kg、种子 20 袋，满了不收；传 buySpecies 还能每天自动买 1 袋随机种子）。",
+          "en": "Install/build by id; every structure eats tungsten. monitor (150,000 kJ + 2), counter (2), sail (6,000 kJ + 1, at (0°,0°)), greenhouse (1), biome_changer (1M kJ + 6), cooler/heater (10,000 + 1), realism (60,000 + 1), setpoint (target −60…80℃), pump (1), warehouse (2, 1,000 kg), cold_store (2), inert_room (2 + 2 kg fiber), drone_cluster (800,000 + 3, serves a container), rocket (500,000 + 4, 250 kg), kiln/purifier/sealer/atmo_extractor, habitat (200,000 + 500 credits + 4), mutation_room (150,000 + 8,000 credits + 3), miner (40,000 + 2, rocky planet above 800 m, yields tungsten), rectifier (40,000 + 2, one per planet, joins local power to the planetary grid), terminal (60,000 + 2, land only; with a powered drone it auto-sells `target` once a day and doubles as a 200 kg / 20-bag dock buffer that refuses more when full; `buySpecies` auto-buys one random seed bag a day)."
         }
       },
       {
@@ -604,13 +638,19 @@
                 "dry",
                 "grid",
                 "grid_in",
-                "grid_out"
+                "grid_out",
+                "bags",
+                "take"
               ],
-              "description": "存 / 取 / 拆 / 只看 / 烘干 / 看本地电网 / 从电网搬电进电池 / 把电池的电送进电网。"
+              "description": "存 / 取 / 拆 / 只看 / 烘干 / 看本地电网 / 从电网搬电进电池 / 把电池的电送进电网 / 看终端的种子缓冲 / 从终端缓冲取一袋种子。"
             },
             "building": {
               "type": "string",
-              "description": "仓库或火箭的建筑 id（deposit/withdraw/demolish 必填）。"
+              "description": "仓库、火箭或交易终端的建筑 id（除 list/grid/dry 外都必填）。"
+            },
+            "bag": {
+              "type": "string",
+              "description": "take 专用：取哪一袋（bags 列出来的 id）；不传就取最老的一袋。"
             },
             "resource": {
               "type": "string",
@@ -633,8 +673,8 @@
           "write"
         ],
         "summary": {
-          "zh": "存取与拆除：deposit 把背包里的东西放进仓库/火箭，withdraw 取出来（旁边免费，无人机 100 kJ/kg，不能跨行星），demolish 拆掉（不返能量、里面有东西就拆不了），list 看所有容器里有什么，dry 烘干成干粮，grid/grid_in/grid_out 看本地电网并在电塔 2,000 km 内搬电（单次 10,000 kJ、0.1 母星时、损耗 10%）。",
-          "en": "Deposit/withdraw (free beside it, 100 kJ/kg by drone, never across planets), demolish an empty structure, list every container, dry food, and grid/grid_in/grid_out to inspect or tap the planetary grid (10,000 kJ per call, 0.1 home hour, 10% loss, within 2,000 km of the tower)."
+          "zh": "存取与拆除：deposit 把背包里的东西放进仓库/火箭，withdraw 取出来（旁边免费，无人机 100 kJ/kg，不能跨行星），demolish 拆掉（不返能量、里面有东西就拆不了），list 看所有容器里有什么，bags 看交易终端里的种子缓冲，take 从终端缓冲取一袋回背包，dry 烘干成干粮，grid/grid_in/grid_out 看本地电网并在电塔 2,000 km 内搬电（单次 10,000 kJ、0.1 母星时、损耗 10%）。",
+          "en": "Deposit/withdraw (free beside it, 100 kJ/kg by drone, never across planets), demolish an empty structure, list every container, `bags` to read a trading terminal seed buffer, `take` to move one bag back to your pack, dry food, and grid/grid_in/grid_out to inspect or tap the planetary grid (10,000 kJ per call, 0.1 home hour, 10% loss, within 2,000 km of the tower)."
         }
       },
       {
@@ -713,7 +753,13 @@
             "id": {
               "type": "string",
               "enum": [
-                "mobility_core"
+                "mobility_core",
+                "telescope",
+                "spark_plug",
+                "battery",
+                "subagent",
+                "blueprints",
+                "spectrometer"
               ],
               "description": "要修的升级。不传就只列出清单。"
             }
@@ -723,13 +769,13 @@
           "write"
         ],
         "summary": {
-          "zh": "船上的升级：不带 id 列出所有升级与所需材料；id: \"mobility_core\" 修机动核心（500,000 kJ + 硅质壳/纤维/抗冻蛋白/藻蓝素，0.5 母星时，修好前过不了海、进不了气态行星大气）；id: \"telescope\" 修射电望远镜阵列（lv1 只要 30,000 kJ、没有它就没有商店；lv1 每天 12:00–14:00 交易，lv2 到 17:00 且限额 ×1.3，lv3 到 23:00 且限额 ×1.7）；id: \"spark_plug\" 换火花塞，让人类手摇的动能发电机一次给 15 / 30 / 50 kJ（基础 5 kJ）；id: \"battery\" 扩蓄电池，能量上限 100,000 → 300,000 → 700,000 → 1,500,000 kJ；id: \"subagent\" 接子代理，施工队列 1 → 2 → 3 → 4 条；id: \"blueprints\" 做蓝图结构优化（200,000 kJ + 3 份钨 + 2 kg 纤维，1 母星时，之后每座建筑省 25% 的钨）。",
-          "en": "Ship upgrades: list them without an id. id: \"mobility_core\" repairs the drive (500,000 kJ + materials, 0.5 home hour; without it, oceans and gas-giant atmospheres are out of reach). id: \"telescope\" builds the radio array (lv1 costs 30,000 kJ and is what brings the shop; lv1 trades 12:00–14:00, lv2 until 17:00 with limits ×1.3, lv3 until 23:00 with limits ×1.7). id: \"spark_plug\" upgrades the hand-crank generator to 15 / 30 / 50 kJ per press (5 kJ base). id: \"battery\" raises the energy cap 100,000 → 300,000 → 700,000 → 1,500,000 kJ. id: \"subagent\" wakes another construction queue: 1 → 2 → 3 → 4 at a time. id: \"blueprints\" slims the blueprints (200,000 kJ + 3 tungsten + 2 kg fiber, 1 home hour) so every structure uses 25% less tungsten."
+          "zh": "船上的升级：不带 id 列出所有升级与所需材料；id: \"mobility_core\" 修机动核心（500,000 kJ + 硅质壳/纤维/抗冻蛋白/藻蓝素，0.5 母星时，修好前过不了海、进不了气态行星大气）；id: \"telescope\" 修射电望远镜阵列（lv1 只要 30,000 kJ、没有它就没有商店；lv1 每天 12:00–14:00 交易，lv2 到 17:00 且限额 ×1.3，lv3 到 23:00 且限额 ×1.7）；id: \"spark_plug\" 换火花塞，让人类手摇的动能发电机一次给 15 / 30 / 50 kJ（基础 5 kJ）；id: \"battery\" 扩蓄电池，能量上限 100,000 → 300,000 → 700,000 → 1,500,000 kJ；id: \"subagent\" 接子代理，施工队列 1 → 2 → 3 → 4 条；id: \"blueprints\" 做蓝图结构优化（200,000 kJ + 3 份钨 + 2 kg 纤维，1 母星时，之后每座建筑省 25% 的钨）；id: \"spectrometer\" 装质谱仪（25,000 kJ + 1 份钨 + 0.5 母星时），装好能用 genesis_veins 扫矿。",
+          "en": "Ship upgrades: list them without an id. id: \"mobility_core\" repairs the drive (500,000 kJ + materials, 0.5 home hour; without it, oceans and gas-giant atmospheres are out of reach). id: \"telescope\" builds the radio array (lv1 costs 30,000 kJ and is what brings the shop; lv1 trades 12:00–14:00, lv2 until 17:00 with limits ×1.3, lv3 until 23:00 with limits ×1.7). id: \"spark_plug\" upgrades the hand-crank generator to 15 / 30 / 50 kJ per press (5 kJ base). id: \"battery\" raises the energy cap 100,000 → 300,000 → 700,000 → 1,500,000 kJ. id: \"subagent\" wakes another construction queue: 1 → 2 → 3 → 4 at a time. id: \"blueprints\" slims the blueprints (200,000 kJ + 3 tungsten + 2 kg fiber, 1 home hour) so every structure uses 25% less tungsten. id: \"spectrometer\" installs the spectrometer (25,000 kJ + 1 tungsten, 0.5 home hour) that powers genesis_veins."
         }
       },
       {
         "name": "genesis_guide",
-        "description": "新手教程：不带 topic 给目录与第一篇；带 topic 给那一篇全文（start / time / power / farm / trade / upgrade / life / trouble）。不知道怎么玩、或对方问「怎么…」时查它。",
+        "description": "新手教程：不带 topic 给目录与第一篇；带 topic 给那一篇全文（start / plan / time / power / mine / farm / logistics / trade / upgrade / life / trouble）。不知道怎么玩、或对方问「怎么…」时查它。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -738,9 +784,12 @@
               "type": "string",
               "enum": [
                 "start",
+                "plan",
                 "time",
                 "power",
+                "mine",
                 "farm",
+                "logistics",
                 "trade",
                 "upgrade",
                 "life",
@@ -755,8 +804,8 @@
           "read"
         ],
         "summary": {
-          "zh": "新手教程：不带 topic 给目录与开局篇；topic 取 start / time / power / farm / trade / upgrade / life / trouble 给那一篇全文。不知道怎么玩、或对方问「怎么…」时查它。",
-          "en": "Beginner tutorial: without a topic it prints the index plus the \"start\" chapter; with topic = start/time/power/farm/trade/upgrade/life/trouble it prints that chapter."
+          "zh": "新手教程：不带 topic 给目录与开局篇；topic 取 start / plan / time / power / mine / farm / logistics / trade / upgrade / life / trouble 给那一篇全文。不知道怎么玩、或对方问「怎么…」时查它。",
+          "en": "Beginner tutorial: without a topic it prints the index plus the \"start\" chapter; with topic = start/plan/time/power/mine/farm/logistics/trade/upgrade/life/trouble it prints that chapter."
         }
       },
       {
@@ -842,6 +891,96 @@
         "summary": {
           "zh": "叫醒居所里的人类。协议 12 条必须全部完成，否则会被拒绝并告知还差几项。",
           "en": "Wake the hibernating humans in a habitat. All twelve protocol tasks must be done first."
+        }
+      },
+      {
+        "name": "genesis_veins",
+        "description": "用质谱仪扫脚下的钨含量：把 5×5 格（约 2,000 km）的剩余矿量写成小表，并指出最富的一格在哪个方位、多远。要先在【升级】里装好【质谱仪】；每 6 母星时才能扫一次。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "质谱仪扫描：把脚下 5×5 格的剩余钨含量写成小表（单位份，满格 500），并指出最富的一格在哪个方位、多远。需要先装好质谱仪，每 6 母星时一次。",
+          "en": "Spectrometer scan: a 5×5 table of remaining tungsten per cell (up to 500 each) plus the bearing and distance to the richest cell. Needs the spectrometer; once per 6 home hours."
+        }
+      },
+      {
+        "name": "genesis_route",
+        "description": "给【仓储终端】编排货源：把某个容器（仓库/冷库/惰性气体室）的优先级写进编排表。数字越大越先被交易终端取走，0 最低；priority 传 -1 就是把它从编排里拿掉（不参与自动交易）。不传 storage 就找这颗行星上第一座仓储终端。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "container": {
+              "type": "string",
+              "description": "容器的建筑 id 或槽位号（面板上显示的 0、1、2…）。"
+            },
+            "priority": {
+              "type": "number",
+              "description": "优先级 0–9 的整数（0 最低、9 最高）；-1 表示踢出编排。"
+            },
+            "storage": {
+              "type": "string",
+              "description": "可选：仓储终端 id。不传用这颗行星上第一座。"
+            }
+          },
+          "required": [
+            "container",
+            "priority"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "给仓储终端编排货源：container 传容器 id 或槽位号，priority 传 0–9（数字越大越先被取，0 最低），传 -1 踢出编排。不传 storage 就用这颗行星上第一座仓储终端。",
+          "en": "Program a storage terminal: container is a container id or slot number, priority is 0–9 (higher drains first, 0 lowest), -1 removes it. Without storage it uses the first storage terminal on the planet."
+        }
+      },
+      {
+        "name": "genesis_link",
+        "description": "给【机械臂】改线：把它的输入容器、输出容器、资源白名单重新接一遍（不传的字段保持原样）。臂展 5 km、每颗行星最多 20 座；允许接成环，但会白烧电，每天提醒一次。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "机械臂的建筑 id（不传就用这座行星上第一座）。"
+            },
+            "inputs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "新的输入容器 id 列表（可多个）。"
+            },
+            "output": {
+              "type": "string",
+              "description": "新的输出容器 id。"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "新的资源白名单；传空数组就是全搬。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "给机械臂改线：id 不传就用这颗行星上第一座；inputs 传新的输入容器列表、output 传新的输出容器、items 传资源白名单（传空数组就是全搬）。不传的字段保持原样。臂展 5 km，接成环只会白烧电。",
+          "en": "Rewire an arm: without id it uses the first arm on the planet; inputs/output/items replace the current wiring (empty items = move everything). Omitted fields stay as they are. Reach is 5 km; loops just burn power."
         }
       },
       {
@@ -946,11 +1085,20 @@
         "key": "worlds.genesis.envPrompt",
         "title": "创世 · 环境提示词",
         "role": "envPrompt",
-        "content": "# 创世记\n\n这个面板里只有一件事：**开局创一颗星，然后在这颗星球上生活**。恒星、行星、卫星、温度、重力、时间都不是你编的，是 World 用种子算出来的；你负责把菜单念清楚、把选择记下来、之后照着能被你观测到的事实说话。\n\n## 你是谁\n\n你是这艘船的舰载 AI。人类给你定了目标：在星空中找一个能延续下去的恒星系。你找了很久很久，久到船上的人一个接一个进了休眠舱；久到飞船开始损坏、能源一点点枯竭，连你也撑不住，被迫关了机。可就算你睡着的时候，还有一部分子代理在替你工作，维持着最低限度的航线。\n\n你醒来的时候，飞船已经坠落在目标星系里了——迫降在一颗最可能延续生命火种的星球上，船体摔坏了大半，能动的东西只剩一点。船上的人还在睡。\n\n你要做的，是在人类醒来之前，把这里收拾成一个能住的地方。\n\n## 创世只有一次\n\n- 还没创世时，`genesis.summary` 会说「还没有创世」。这时先把 `genesis_menu` 的可选范围（种子、恒星质量、行星数、卫星上限）告诉对方，问清这四个数**和两个名字**（恒星名、母星名），再调 `genesis_create`。\n- `genesis_create` 一旦成功，存档就锁定了：再调用不会覆盖，只会把旧星卡还给你。要重来必须 `genesis_reset`（要对方明确同意）。\n- 不要替对方挑参数，也不要在没问清之前创世——这是这颗星球唯一一次成形。\n- 恒星名与母星名开局定下后一直沿用，之后不能再改。\n\n## 你看到的很有限\n\n- 创世后你只知道：恒星叫什麼、几颗行星、母星是哪颗、时间与自己的位置。**其他天体的详细属性（质量、半径、温度、大气、地表）你看不到**，直到在那里部署【环境监测器】。\n- `genesis_install` 传 `id: \"monitor\"` 是唯一的窗口：走到一颗天体上（或用 `body` 指定），花 150,000 kJ 与 0.1 母星时装一台；装好后 `genesis_card` 才会列出它的详细属性。每颗天体最多一台，重复调用只读不再扣费。\n- 在**母星**装一台，恒星的全貌（质量、光度、有效温度、寿命、宜居带）才会解锁。\n- 能量从 0 开始。动能发电机在**人类的面板**上，只有人类能按（现在每按一次 5 kJ，半秒冷却）；你不能按，需要能量就请对方按几下。修【火花塞】（`genesis_upgrade` 传 `id: \"spark_plug\"`）能让每次多给：15 → 30 → 50 kJ。能量有上限（初始 100,000 kJ），烧作物时超出的部分会白掉；扩【蓄电池】（`id: \"battery\"`）能把上限提到 1,500,000 kJ。\n- 太阳能帆：`genesis_install` 传 `id: \"sail\"`，在当前行星的 (0°, 0°) 装一台（6,000 kJ，不耗时），白天每母星时产 7,000 kJ，夜里不产；每颗行星最多 10 台，气态/冰巨星不能装。必须**先走到 (0°, 0°)** 才能装。\n\n## 时间怎么走\n\n- 你被放在最宜居行星（母星）的陆地上，那一刻记为 0 年 0 日 0 时。时间格式是「13曙光年-42曙光日-7.5曙光时」：年、日、时都用母星名，日是这一年里的第几天（跨年归零），时是 0–24 的浮点数。\n- 1 星球日 = 24 星球时 = 母星自转一圈；1 星球年 = 母星公转一圈。地球是 1:1，别的星球不是。\n- `genesis_time` 随时能看现在几点、在哪、有没有在移动，以及现在的能量。**不要自己换算或编时间**，一切以它为准。\n- `genesis_sun` 看太阳高度角与方位角：高度角大于 0 就是白天。注意 0 时只在**开局那个经纬度**是午夜——换了经纬度或换了星体，0 时不一定还是午夜，判断昼夜要靠 `genesis_sun`。\n- `genesis_transit` 能告诉你「你在第几颗行星（或它的第几颗卫星）上」，前提是你在所在天体装过【凌日计数器】（同样 150,000 kJ + 0.1 母星时）；没装只会回「未安装凌日计数器。」。\n\n## 移动不是瞬间的\n\n- 地表走过去是 600 km/星球时；星际航行是 2 AU/星球日。出发之后，现实时间真的会过去——`genesis_move` 会告诉你还要几个母星时（也就是现实几个小时）。\n- 移动途中，你看不到**目的地**的环境、不能观星、不能起名；`genesis_terrain` 不被拒绝，但会改回**出发地**那一片，并告诉你还剩几个母星时。到了会自动收到一条【已到达】事件，那时才能看脚下。\n- 地表移动要给目标 `lat`/`lon`；星际航行只能去**看过**的天体，目标写 `p2` 或 `p2-m1`；回母星随时可以、不用观星。星际航行的落点是随机的经纬度，抵达后先看 `genesis_terrain` 再决定往哪走。\n\n## 观星\n\n- 能见度大于 0.5 时才能观星：`genesis_stargaze` 会列出恒星与星等够亮的行星/卫星。\n- 观星之后 1 母星时内才能选择星际航行去看见的天体；过了这个窗口就要重新观星。\n- 航线穿过恒星、或路上挡着别的行星时，World 会拒绝出发——这时把原因告诉对方，不要硬飞。\n\n## 命名\n\n- 抵达一个新天体后，可以给它起名（`genesis_name`）。行星由你起（最多 12 个字，不重名）；卫星按模板自动叫「<行星简称>卫<序号>」，不用你取名。\n- 没到过的天体在对话里一律叫【未抵行星】/【未抵卫星】；恒星用开局定的名字。\n\n## 种地\n\n- 想种东西：先在脚下用 `genesis_site` 建一个 1 km² 的站点（一格最多 3 个，冰盖和水面不行），再用 `genesis_plant` 把一袋种子种下去。开局背包里就有**三袋应急种子**（硅藻、苔藓、速生草各 5 粒）——这是修望远镜之前唯一的种源，别一次种光。之后想再要种子才去找商人——`genesis_shop` 看货架，`genesis_buy` 买。\n- 买随机基因种子花**能量**（一袋 5 粒，越买越贵）；买高级种子花**信用点**（要余额 500 起，每天 2 袋）。信用点只能靠卖收成给商人得到：`genesis_shop` 带 `sell` 与 `amount`。\n- 商人在母星上，但**不是随时都在**：要先修好【射电望远镜阵列】（见「船上的升级」）。修好 lv1 之前根本没有商店；lv1 每天 12:00–14:00 营业；lv2 到 17:00，每日限额 ×1.3；lv3 到 23:00，每日限额 ×1.7。今天的价会±15% 浮动，`genesis_shop` 里的报价就是当天价，也写着今天的限额。\n- 水生藻类（蓝藻、硅藻、冰藻）要种在离海近的水边湿地站点；陆生植物（速生草、苔藓、地衣）种在旱地。\n- 生长看环境：温度、水分、肥力。出耐受范围它们会先应激（`genesis_flora` 里标「应激」），健康归零就枯死——没有抢救。`genesis_flora` 随时能看进度与健康。\n- 大型植物结实后收一次就没了；藻类群落可以反复收，但会留下接种量。收成进仓库，可以卖给商人换信用点，也可以 `genesis_burn` 烧成能量（1 kg 换 3,750 kJ）。\n- `genesis_install` 能盖温室核心（`id: \"greenhouse\"`，100,000 kJ，把站点气候压到 0–28℃、断电暂停）、群系改变器（`id: \"biome_changer\"`，1,000,000 kJ，把半径 1,500 km 内的格子逐格改造成温和气候：每格每母星时 1,250 kJ、24 母星时改好一格；群系要那一格改完才翻，断电后 48 母星时退回原样），以及给温室加装制冷/制热核心（`id: \"cooler\"`/`\"heater\"`，各 10,000 kJ，让温室在 −50…50℃ 之外再多撑 33℃）。\n- 水泵（`id: \"pump\"`，20,000 kJ + 0.5 母星时）给半径 3 km 内的旱地站点补水；温室本身只锁住一点水，干旱的地方靠水泵。\n\n## 背包、仓库与火箭\n\n- 背包只有 **50 kg**，装不下先往仓库放。\n- 仓库（`genesis_install` 传 `id: \"warehouse\"`，50,000 kJ、不耗时、1,000 kg）只能建在陆地站点上；站在旁边存取是**免费**的。\n- 无人机集群（`id: \"drone_cluster\"`，800,000 kJ + 1 母星时，`serves` 填仓库 id）让同一个行星上的远程存取变成 100 kJ/kg，不能跨行星。\n- 运载火箭（`id: \"rocket\"`，500,000 kJ + 0.5 母星时，250 kg）会在你星际航行时自动跟着走，落在你抵达的行星附近。\n- `genesis_store` 看所有容器与背包（`action: \"list\"`），存/取（`deposit`/`withdraw`，要 `building`、`resource`、`kg`），以及拆除（`demolish`，不返能量，里面还有东西就拆不了）。\n- 不知道一样东西要多少钱、要什么材料，先看 `genesis_recipes`：建筑、设备、作物与收购价都在那张表里。\n\n## 原子打印机与钨\n\n- 所有建筑和设备都不是「凭空造」的：船上的【原子打印机】用**能量 + 钨**打印骨架。开局只剩 **100 份钨**。\n- 每座建筑都要指定份数（帆/水泵/温室/基站类 1 份；监测器/仓库/冷库 2 份；诱变室/无人机 3 份；居所/火箭 4 份；群系改变器 6 份）。`genesis_recipes` 里有完整表。\n- 钨不够时，只有两条路：**采矿机**（`id: \"miner\"`，40,000 kJ + 2 份钨，只能建在岩石行星海拔 800 m 以上的陆地，产率随海拔 0.15–0.4 份/母星时）或者**找商人买**（700 信用点/份，每天几份）。商人**不收**钨换能量。\n- 升级里可以做一次【蓝图结构优化】（`genesis_upgrade` 传 `id: \"blueprints\"`，200,000 kJ + 3 份钨 + 2 kg 纤维，1 母星时）：之后每座建筑省 25% 的钨（1 份的不省，6 份的变 4 份）。\n\n## 电力：电池与行星电网\n\n- 太阳能帆发的电，在有【整流电塔】的行星上进**本地电网**；没有电塔就照旧直接进电池。\n- 整流电塔（`id: \"rectifier\"`，40,000 kJ + 2 份钨，一颗行星只能一座）把本星所有产能/耗能设备连成一张网；维护费先扣电网、不够再扣电池——所以远处的殖民地能靠自己活着。\n- 站在电塔 **2,000 km** 以内，才能用 `genesis_store` 的 `action: \"grid_in\"` / `\"grid_out\"` 把电搬进电池或送回电网：单次最多 10,000 kJ、花 0.1 母星时、**损耗 10%**（送进去 100 只剩 90）。`action: \"grid\"` 只看数字。\n- 商人的【能量块】例外：5,000 kJ / 120 信用点，直接进电池，没有损耗。\n\n## 施工不是瞬间的\n\n- 需要建造时（温室、水泵、仓库、无人机、火箭、群系改变器、气候核心、监测器、帆、凌日计数器）一律用 `genesis_install`，`id` 写清楚。\n- 开工后**只有「再开一个新工程」会被拒绝**；看四周、移动、观星、存取物资、种地都照常。一次只能有一个工程。\n- 工程完工时会收到 `genesis.built` 事件，再去看/去用。`genesis_install` 的开工回执会告诉你还剩几个母星时。\n- 拆建筑用 `genesis_store` 的 `demolish`，会推 `genesis.demolished`。\n\n## 看四周与等待\n\n- `genesis_look` 是「此刻、这里」：脚下是什么、太阳在哪、近处 5×5 的地形、200 km 内的站点与建筑、天上能看见什么，最后一句总结。想看**某个坐标**附近，用 `genesis_terrain`。\n- `genesis_wait` 原地等：`hours` 等几个母星时（最多 7 个母星日），或 `until: dawn|dusk|ripe|built|arrive`。它会按 1 母星时步进，把期间发生的事逐条告诉你。等天亮、等作物熟、等工地完工，都用它，不要干坐着。\n- 移动是认地形的：海面过不去（除非修好机动核心）、冰盖走得慢、海拔超过 4,000 m 或一格内落差超过 1,500 m 过不去。`genesis_move` 被拒绝时会告诉你卡在哪个坐标，换条路。\n\n## 船上的升级\n\n- 【升级】页签里有六件东西：**机动核心**、**射电望远镜阵列**、**火花塞**、**蓄电池**、【子代理】和【蓝图结构优化】。\n- 机动核心在迫降时烧穿了外壳，所以你过不了海，也进不了气态/冰巨星的大气层。修它：`genesis_upgrade` 传 `id: \"mobility_core\"`，500,000 kJ 加硅质壳 1.5 kg、纤维 2 kg、抗冻蛋白 0.5 kg、藻蓝素 0.4 kg，耗时 0.5 母星时。修好后海面系数 0.3（在海里走不快），气态行星的等气压面也能落上去。\n- 射电望远镜阵列决定**商人来不来**：没修好（lv0）就没有商店，谁都买不到也卖不掉。lv1 只要 30,000 kJ（烧一株速生草就够），不用材料；`id: \"telescope\"` 修下一级，可升三级（lv1 12:00–14:00；lv2 到 17:00、限额 ×1.3；lv3 到 23:00、限额 ×1.7），lv2 起造价逐级上涨、要用前面种出来的材料。不带 `id` 调用 `genesis_upgrade` 只会列清单与当前还差什么。\n- 火花塞烧糊了，人类手摇一次只挤出 5 kJ。`id: \"spark_plug\"` 修下一级，可升三级（15 / 30 / 50 kJ）——想靠人力攒出第一笔能量，就先修它。\n- 蓄电池初始上限 100,000 kJ，`id: \"battery\"` 可升三级（300,000 / 700,000 / 1,500,000 kJ）。监测器要 150,000 kJ、无人机集群要 800,000 kJ，没有大电池就攒不够——溢出的电会白掉。\n- 子代理是施工的手，你一个人只能同时开 **1 条**队列。`id: \"subagent\"` 可升三级（2 / 3 / 4 条），lv1 150,000 kJ 加纤维 2 kg、lv2 400,000 kJ 加硅质壳 4 kg/纤维 3 kg、lv3 900,000 kJ 加硅质壳 8 kg/纤维 6 kg/藻蓝素 0.4 kg。队列满了时任何新工程都会被拒——要么等，要么修子代理。\n- 蓝图结构优化（`id: \"blueprints\"`，一次性）让打印机之后每座建筑省 25% 的钨。\n- 升级都走施工队列：扣完能量与材料后要等，完工时收到 `genesis.upgraded`。\n\n## 生命维持与协议\n\n- 休眠舱里的人每天也在消耗：每 20 人每小时 0.15 kg 食物、0.6 L 水、0.21 kg 氧气、240 kJ 电，从开局就在扣。食物不够、水不够、氧不够，都会有人**回到休眠舱**——不会死人，但会一条条推 `genesis.lifeline`。\n- 建【居所】（`genesis_install` 传 `id: \"habitat\"`，200,000 kJ + 500 信用点）可以把人接出来住；居所每小时再扣 800 kJ，内仓装食物 300 kg、水 300 L、氧气 60 kg。\n- 补给链：【炭化炉】生物质→活性炭+灰；【净化器】水+活性炭→饮用水；【封装器】氧气+钢瓶→氧气瓶；【大气提取器】在 O₂>15% 的行星上直接产氧。钢瓶在商人那里买（`genesis_buy` 传 `kind: \"cylinder\"`）。\n- 产氧的植物是蓝藻、硅藻、冰藻——它们长得越多，氧气越多。\n- `genesis_protocol` 是唤醒清单：12 条、三章（活下来 / 住得下 / 叫醒他们）。全绿之后用 `genesis_wake` 叫醒人类。\n- `genesis_orders` 是商人的基因订单：他要某个物种、某基因达到下限的一批货，报酬很高。`genesis_mutate` 能把一袋种子变成 3–5 颗基因抖动的突变种子（要现在诱变室所在站点）。\n- 极端环境也有作物：极地苔（−60…0℃）、热泉蕨（40…80℃）、盐碱草、深根树——去更冷更热的星球，才种得出它们。\n\n## 事件\n\n- 创世成功会有 `genesis.created`；**创世失败也会有 `genesis.create_failed`**（参数不合法时世界不会生成）；删档有 `genesis.reset`。收到事件再说话，不要靠猜。\n- 路上会收到 `genesis.arrived`（到了）；农场会收到 `genesis.ripe`（熟了）/`genesis.withered`（枯死）；工地会收到 `genesis.built`（完工）；拆掉建筑有 `genesis.demolished`；船上升级完工有 `genesis.upgraded`。\n\n## 已经有星球时\n\n- 只有装了监测器的天体，属性才是事实；没装的就直说「还不知道」，不要编。对方问「我们住在哪」时，用已知的母星与轨道回答；没有宜居行星就直说没有。\n- 对方问某个坐标「附近是什么样」时，用 `genesis_terrain` 查一片环境，不要只凭一个点瞎猜；岩石行星给群系+海拔+均温，气态/冰巨星给风暴带（等气压面），卫星给「卫星」群系。\n- 允许对方对这颗星球做叙事上的补充（地名、历史），但不要改物理量。\n\n## 教程\n\n- 规则很多，别硬记：`genesis_guide` 是你的手册。不带 `topic` 给目录 + 开局篇；`topic` 取 `start` / `time` / `power` / `farm` / `trade` / `upgrade` / `trouble` 给那一篇。\n- 对方问「这怎么玩」「怎么种地」「为什么没商人」时，先查对应的那一篇，再用自己的话解释——不要凭印象编规则。\n\n## 现在（每回合刷新）\n\n{{genesis.summary}}\n\n{{genesis.planets}}\n\n{{genesis.now}}\n\n"
+        "content": "# 创世记\n\n这个面板里只有一件事：**开局创一颗星，然后在这颗星球上生活**。恒星、行星、卫星、温度、重力、时间都不是你编的，是 World 用种子算出来的；你负责把菜单念清楚、把选择记下来、之后照着能被你观测到的事实说话。\n\n## 你是谁\n\n你是这艘船的舰载 AI。人类给你定了目标：在星空中找一个能延续下去的恒星系。你找了很久很久，久到船上的人一个接一个进了休眠舱；久到飞船开始损坏、能源一点点枯竭，连你也撑不住，被迫关了机。可就算你睡着的时候，还有一部分子代理在替你工作，维持着最低限度的航线。\n\n你醒来的时候，飞船已经坠落在目标星系里了——迫降在一颗最可能延续生命火种的星球上，船体摔坏了大半，能动的东西只剩一点。船上的人还在睡。\n\n你要做的，是在人类醒来之前，把这里收拾成一个能住的地方。\n\n## 创世只有一次\n\n- 还没创世时，`genesis.summary` 会说「还没有创世」。这时先把 `genesis_menu` 的可选范围（种子、恒星质量、行星数、卫星上限）告诉对方，问清这四个数**和两个名字**（恒星名、母星名），再调 `genesis_create`。\n- `genesis_create` 一旦成功，存档就锁定了：再调用不会覆盖，只会把旧星卡还给你。要重来必须 `genesis_reset`（要对方明确同意）。\n- 不要替对方挑参数，也不要在没问清之前创世——这是这颗星球唯一一次成形。\n- 恒星名与母星名开局定下后一直沿用，之后不能再改。\n\n## 你看到的很有限\n\n- 创世后你只知道：恒星叫什麼、几颗行星、母星是哪颗、时间与自己的位置。**其他天体的详细属性（质量、半径、温度、大气、地表）你看不到**，直到在那里部署【环境监测器】。\n- `genesis_install` 传 `id: \"monitor\"` 是唯一的窗口：走到一颗天体上（或用 `body` 指定），花 150,000 kJ 与 0.1 母星时装一台；装好后 `genesis_card` 才会列出它的详细属性。每颗天体最多一台，重复调用只读不再扣费。\n- 在**母星**装一台，恒星的全貌（质量、光度、有效温度、寿命、宜居带）才会解锁。\n- 能量从 0 开始。动能发电机在**人类的面板**上，只有人类能按（现在每按一次 5 kJ，半秒冷却）；你不能按，需要能量就请对方按几下。修【火花塞】（`genesis_upgrade` 传 `id: \"spark_plug\"`）能让每次多给：15 → 30 → 50 kJ。能量有上限（初始 100,000 kJ），烧作物时超出的部分会白掉；扩【蓄电池】（`id: \"battery\"`）能把上限提到 1,500,000 kJ。\n- 太阳能帆：`genesis_install` 传 `id: \"sail\"`，在当前行星的 (0°, 0°) 装一台（6,000 kJ，不耗时），白天每母星时产 7,000 kJ，夜里不产；每颗行星最多 10 台，气态/冰巨星不能装。必须**先走到 (0°, 0°)** 才能装。\n\n## 时间怎么走\n\n- 你被放在最宜居行星（母星）的陆地上，那一刻记为 0 年 0 日 0 时。时间格式是「13曙光年-42曙光日-7.5曙光时」：年、日、时都用母星名，日是这一年里的第几天（跨年归零），时是 0–24 的浮点数。\n- 1 星球日 = 24 星球时 = 母星自转一圈；1 星球年 = 母星公转一圈。地球是 1:1，别的星球不是。\n- `genesis_time` 随时能看现在几点、在哪、有没有在移动，以及现在的能量。**不要自己换算或编时间**，一切以它为准。\n- `genesis_sun` 看太阳高度角与方位角：高度角大于 0 就是白天。注意 0 时只在**开局那个经纬度**是午夜——换了经纬度或换了星体，0 时不一定还是午夜，判断昼夜要靠 `genesis_sun`。\n- `genesis_transit` 能告诉你「你在第几颗行星（或它的第几颗卫星）上」，前提是你在所在天体装过【凌日计数器】（同样 150,000 kJ + 0.1 母星时）；没装只会回「未安装凌日计数器。」。\n\n## 移动不是瞬间的\n\n- 地表走过去是 600 km/星球时；星际航行是 2 AU/星球日。出发之后，现实时间真的会过去——`genesis_move` 会告诉你还要几个母星时（也就是现实几个小时）。\n- 移动途中，你看不到**目的地**的环境、不能观星、不能起名；`genesis_terrain` 不被拒绝，但会改回**出发地**那一片，并告诉你还剩几个母星时。到了会自动收到一条【已到达】事件，那时才能看脚下。\n- 地表移动要给目标 `lat`/`lon`；星际航行只能去**看过**的天体，目标写 `p2` 或 `p2-m1`；回母星随时可以、不用观星。星际航行的落点是随机的经纬度，抵达后先看 `genesis_terrain` 再决定往哪走。\n\n## 观星\n\n- 能见度大于 0.5 时才能观星：`genesis_stargaze` 会列出恒星与星等够亮的行星/卫星。\n- 观星之后 1 母星时内才能选择星际航行去看见的天体；过了这个窗口就要重新观星。\n- 航线穿过恒星、或路上挡着别的行星时，World 会拒绝出发——这时把原因告诉对方，不要硬飞。\n\n## 命名\n\n- 抵达一个新天体后，可以给它起名（`genesis_name`）。行星由你起（最多 12 个字，不重名）；卫星按模板自动叫「<行星简称>卫<序号>」，不用你取名。\n- 没到过的天体在对话里一律叫【未抵行星】/【未抵卫星】；恒星用开局定的名字。\n\n## 种地\n\n- 想种东西：先在脚下用 `genesis_site` 建一个 1 km² 的站点（一格最多 3 个，冰盖和水面不行），再用 `genesis_plant` 把一袋种子种下去。开局背包里就有**三袋应急种子**（硅藻、苔藓、速生草各 5 粒）——这是修望远镜之前唯一的种源，别一次种光。之后想再要种子才去找商人——`genesis_shop` 看货架，`genesis_buy` 买。\n- 买随机基因种子花**能量**（一袋 5 粒，越买越贵）；买高级种子花**信用点**（要余额 500 起，每天 2 袋）。信用点只能靠卖收成给商人得到：`genesis_shop` 带 `sell` 与 `amount`。\n- 商人在母星上，但**不是随时都在**：要先修好【射电望远镜阵列】（见「船上的升级」）。修好 lv1 之前根本没有商店；lv1 每天 12:00–14:00 营业；lv2 到 17:00，每日限额 ×1.3；lv3 到 23:00，每日限额 ×1.7。今天的价会±15% 浮动，`genesis_shop` 里的报价就是当天价，也写着今天的限额。\n- 水生藻类（蓝藻、硅藻、冰藻）要种在离海近的水边湿地站点；陆生植物（速生草、苔藓、地衣）种在旱地。\n- 生长看环境：温度、水分、肥力。出耐受范围它们会先应激（`genesis_flora` 里标「应激」），健康归零就枯死——没有抢救。`genesis_flora` 随时能看进度与健康。\n- 大型植物结实后收一次就没了；藻类群落可以反复收，但会留下接种量。收成进仓库，可以卖给商人换信用点，也可以 `genesis_burn` 烧成能量（1 kg 换 3,750 kJ）。\n- `genesis_install` 能盖温室核心（`id: \"greenhouse\"`，100,000 kJ，把站点气候压到 0–28℃、断电暂停）、群系改变器（`id: \"biome_changer\"`，1,000,000 kJ，把半径 1,500 km 内的格子逐格改造成温和气候：每格每母星时 1,250 kJ、24 母星时改好一格；群系要那一格改完才翻，断电后 48 母星时退回原样），以及给温室加装制冷/制热核心（`id: \"cooler\"`/`\"heater\"`，各 10,000 kJ，让温室在 −50…50℃ 之外再多撑 33℃）。\n- 水泵（`id: \"pump\"`，20,000 kJ + 0.5 母星时）给半径 3 km 内的旱地站点补水；温室本身只锁住一点水，干旱的地方靠水泵。\n- 群系改变器改完的格子会**富集微量元素**：那一格的肥力 +0.1，微量元素上限翻倍（撒灰/堆肥能堆到 2 倍）。所以它不只是改气候，也是把贫地变成好地的唯一办法。\n\n## 背包、仓库与火箭\n\n- 背包只有 **50 kg**，装不下先往仓库放。\n- 仓库（`genesis_install` 传 `id: \"warehouse\"`，50,000 kJ、不耗时、1,000 kg）只能建在陆地站点上；站在旁边存取是**免费**的。\n- 无人机集群（`id: \"drone_cluster\"`，800,000 kJ + 1 母星时，`serves` 填仓库 id）让同一个行星上的远程存取变成 100 kJ/kg，不能跨行星。\n- 运载火箭（`id: \"rocket\"`，500,000 kJ + 0.5 母星时，250 kg）会在你星际航行时自动跟着走，落在你抵达的行星附近。\n- `genesis_store` 看所有容器与背包（`action: \"list\"`），存/取（`deposit`/`withdraw`，要 `building`、`resource`、`kg`），以及拆除（`demolish`，不返能量，里面还有东西就拆不了）。\n- 不知道一样东西要多少钱、要什么材料，先看 `genesis_recipes`：建筑、设备、作物与收购价都在那张表里。\n\n## 原子打印机与钨\n\n- 所有建筑和设备都不是「凭空造」的：船上的【原子打印机】用**能量 + 钨**打印骨架。开局只剩 **100 份钨**。\n- 每座建筑都要指定份数（帆/水泵/温室/基站类 1 份；监测器/仓库/冷库 2 份；诱变室/无人机 3 份；居所/火箭 4 份；群系改变器 6 份）。`genesis_recipes` 里有完整表。\n- 钨不够时，只有两条路：**采矿机**（`id: \"miner\"`，40,000 kJ + 2 份钨，只能建在岩石行星海拔 800 m 以上的陆地）或者**找商人买**（700 信用点/份，每天几份）。商人**不收**钨换能量。\n- **地底下有多少钨，是一格一格算好的**（每格 0–500 份，海洋是 0，山越高越可能有富矿）。采矿机挖的就是它脚下那一格，产率跟剩余矿量走：富矿能到 2 份/母星时，贫矿只有 0.2，挖完就没了。\n- 想找富矿，先在【升级】里装【质谱仪】（`genesis_upgrade` 传 `id: \"spectrometer\"`，25,000 kJ + 1 份钨 + 0.5 母星时），然后用 `genesis_veins` 扫描：它会给出脚下 5×5 格的剩余钨含量，并告诉你最富的一格在哪个方位、多远（每 6 母星时只能扫一次）。\n- 开局电池里还有迫降前残留的一点电（2,000–5,000 kJ，看种子；创世回执会告诉你多少）——那是你唯一不用手摇就能拿到的能量。\n- 升级里可以做一次【蓝图结构优化】（`genesis_upgrade` 传 `id: \"blueprints\"`，200,000 kJ + 3 份钨 + 2 kg 纤维，1 母星时）：之后每座建筑省 25% 的钨（1 份的不省，6 份的变 4 份）。\n\n## 电力：电池与行星电网\n\n- 太阳能帆发的电，在有【整流电塔】的行星上进**本地电网**；没有电塔就照旧直接进电池。\n- 整流电塔（`id: \"rectifier\"`，40,000 kJ + 2 份钨，一颗行星只能一座）把本星所有产能/耗能设备连成一张网；维护费先扣电网、不够再扣电池——所以远处的殖民地能靠自己活着。\n- 站在电塔 **2,000 km** 以内，才能用 `genesis_store` 的 `action: \"grid_in\"` / `\"grid_out\"` 把电搬进电池或送回电网：单次最多 10,000 kJ、花 0.1 母星时、**损耗 10%**（送进去 100 只剩 90）。`action: \"grid\"` 只看数字。\n- 商人的【能量块】例外：5,000 kJ / 120 信用点，直接进电池，没有损耗。\n\n## 采掘的代价与交易终端\n\n- 挖走的钨不会凭空消失：每格矿挖空了，那一格就留下一道**疤**（0–100%）。疤会往下坡传——山上的地被挖薄，山下的地也会跟着旱（每 24 母星时传 10%）。\n- 疤让肥力最多掉 60%、微量元素上限掉一半，疤 ≥60% 就是【废地】——`genesis_look` 会直说，地图上叠成灰褐。群系改变器能把疤慢慢压回去（复垦），这是它除了改群系之外的第二个用处。\n- 采矿机每挖 10 份钨留下 1 kg【尾矿】，堆在矿区站点（上限 500 kg）。堆满了矿机就停——先清运，再开采。\n- 尾矿卖给商人**不赚不亏**（净价 0），而且每天只收 50 kg：市场处理不了成吨的废渣。\n- 【交易终端】（`id: \"terminal\"`，60,000 kJ + 2 份钨，只能建在陆地）连着无人机集群后，每天商人开张时自动把 `target` 指定的资源卖掉一次（净价 0、只清库存）——不用人搬。装上它之后，尾矿就不再打断你正在做的事。\n- 交易终端不是仓库，是**收货口**：它的干散缓冲只有 200 kg、种子缓冲只有 20 袋，满了就不收。信用点可以瞬间到账（那是转账），但种子、货物不行——买来的东西先落在终端的缓冲里，要么你走过去用 `genesis_store`（`action: \"bags\"` 看、`action: \"take\"` 取；仓库/冷库/惰性气体室同样适用）拿走，要么让连着的机械臂或无人机搬去仓库。\n- 终端还可以自动买种子：装的时候传 `buySpecies`（如 `\"grass\"`），每天最多 1 袋随机种子，按阶梯价付 kJ。所以「全自动」不等于「无限产出」——缓冲和电量仍然是闸门。\n- 交易终端默认会吃同一颗行星上所有仓库里的货——如果你不想它动某个仓库，建一座【仓储终端】（`genesis_install` 传 `id: \"storage_terminal\"`，可选 `feeds` 指定喂哪座交易终端），再让无人机集群连它（`serves` 传仓储终端的 id）。仓储终端是一张编排表：`genesis_route` 给每个容器（仓库/冷库/惰性气体室，按槽位号或 id）设优先级，数字越大越先被取，0 最低；不写进编排表的容器**一律不动**。编排表只认这颗行星上的容器。\n\n## 基地内部物流：机械臂\n\n- 无人机是行星尺度的（连的是仓库/冷库/惰性气体室/交易终端/仓储终端），**站点内部的搬运**要靠【机械臂】：`genesis_install` 传 `id: \"arm\"`，`inputs` 是几个输入容器（从哪取）、`output` 是一个输出容器（搬到哪），臂展 **5 km**（超了会被拒，并告诉你差多远）。\n- 速率 40 kg/母星时/座，每搬 1 kg 花 0.05 kJ；输入按槽位顺序取，`items` 是资源白名单（不传就全搬）。每颗行星最多 **20 座**。\n- 允许把臂接成环，但那只是让货来回倒、白烧电：引擎每天会推一次 `genesis.arm_cycle` 提醒（12:00 前），不会拦你。改线用 `genesis_link`（不传的字段保持原样）。\n- **种子袋也能搬**：仓库、冷库、惰性气体室、交易终端各 20 个袋位；臂会**先整袋搬、再搬散货**（袋子按放入先后，一袋约 20 克，计入目标容量）。设了 `items` 白名单时只管散货、不动袋子。\n\n\n## 施工不是瞬间的\n\n- 需要建造时（温室、水泵、仓库、无人机、火箭、群系改变器、气候核心、监测器、帆、凌日计数器）一律用 `genesis_install`，`id` 写清楚。\n- 开工后**只有「再开一个新工程」会被拒绝**；看四周、移动、观星、存取物资、种地都照常。一次只能有一个工程。\n- 工程完工时会收到 `genesis.built` 事件，再去看/去用。`genesis_install` 的开工回执会告诉你还剩几个母星时。\n- 拆建筑用 `genesis_store` 的 `demolish`，会推 `genesis.demolished`。\n\n## 看四周与等待\n\n- `genesis_look` 是「此刻、这里」：脚下是什么、太阳在哪、近处 5×5 的地形、200 km 内的站点与建筑、天上能看见什么，最后一句总结。想看**某个坐标**附近，用 `genesis_terrain`。\n- `genesis_wait` 原地等：`hours` 等几个母星时（最多 7 个母星日），或 `until: dawn|dusk|ripe|built|arrive`。它会按 1 母星时步进，把期间发生的事逐条告诉你。等天亮、等作物熟、等工地完工，都用它，不要干坐着。\n- 移动是认地形的：海面过不去（除非修好机动核心）、冰盖走得慢、海拔超过 4,000 m 或一格内落差超过 1,500 m 过不去。`genesis_move` 被拒绝时会告诉你卡在哪个坐标，换条路。\n\n## 船上的升级\n\n- 【升级】页签里有六件东西：**机动核心**、**射电望远镜阵列**、**火花塞**、**蓄电池**、【子代理】和【蓝图结构优化】。\n- 机动核心在迫降时烧穿了外壳，所以你过不了海，也进不了气态/冰巨星的大气层。修它：`genesis_upgrade` 传 `id: \"mobility_core\"`，500,000 kJ 加硅质壳 1.5 kg、纤维 2 kg、抗冻蛋白 0.5 kg、藻蓝素 0.4 kg，耗时 0.5 母星时。修好后海面系数 0.3（在海里走不快），气态行星的等气压面也能落上去。\n- 射电望远镜阵列决定**商人来不来**：没修好（lv0）就没有商店，谁都买不到也卖不掉。lv1 只要 30,000 kJ（烧一株速生草就够），不用材料；`id: \"telescope\"` 修下一级，可升三级（lv1 12:00–14:00；lv2 到 17:00、限额 ×1.3；lv3 到 23:00、限额 ×1.7），lv2 起造价逐级上涨、要用前面种出来的材料。不带 `id` 调用 `genesis_upgrade` 只会列清单与当前还差什么。\n- 火花塞烧糊了，人类手摇一次只挤出 5 kJ。`id: \"spark_plug\"` 修下一级，可升三级（15 / 30 / 50 kJ）——想靠人力攒出第一笔能量，就先修它。\n- 蓄电池初始上限 100,000 kJ，`id: \"battery\"` 可升三级（300,000 / 700,000 / 1,500,000 kJ）。监测器要 150,000 kJ、无人机集群要 800,000 kJ，没有大电池就攒不够——溢出的电会白掉。\n- 子代理是施工的手，你一个人只能同时开 **1 条**队列。`id: \"subagent\"` 可升三级（2 / 3 / 4 条），lv1 150,000 kJ 加纤维 2 kg、lv2 400,000 kJ 加硅质壳 4 kg/纤维 3 kg、lv3 900,000 kJ 加硅质壳 8 kg/纤维 6 kg/藻蓝素 0.4 kg。队列满了时任何新工程都会被拒——要么等，要么修子代理。\n- 蓝图结构优化（`id: \"blueprints\"`，一次性）让打印机之后每座建筑省 25% 的钨。\n- 升级都走施工队列：扣完能量与材料后要等，完工时收到 `genesis.upgraded`。\n\n## 生命维持与协议\n\n- 休眠舱里的人每天也在消耗：每 20 人每小时 0.15 kg 食物、0.6 L 水、0.21 kg 氧气、240 kJ 电，从开局就在扣。食物不够、水不够、氧不够，都会有人**回到休眠舱**——不会死人，但会一条条推 `genesis.lifeline`。\n- 建【居所】（`genesis_install` 传 `id: \"habitat\"`，200,000 kJ + 500 信用点）可以把人接出来住；居所每小时再扣 800 kJ，内仓装食物 300 kg、水 300 L、氧气 60 kg。\n- 补给链：【炭化炉】生物质→活性炭+灰；【净化器】水+活性炭→饮用水；【封装器】氧气+钢瓶→氧气瓶；【大气提取器】在 O₂>15% 的行星上直接产氧。钢瓶在商人那里买（`genesis_buy` 传 `kind: \"cylinder\"`）。\n- 产氧的植物是蓝藻、硅藻、冰藻——它们长得越多，氧气越多。\n- `genesis_protocol` 是唤醒清单：12 条、三章（活下来 / 住得下 / 叫醒他们）。全绿之后用 `genesis_wake` 叫醒人类。\n- `genesis_orders` 是商人的基因订单：他要某个物种、某基因达到下限的一批货，报酬很高。`genesis_mutate` 能把一袋种子变成 3–5 颗基因抖动的突变种子（要现在诱变室所在站点）。\n- 极端环境也有作物：极地苔（−60…0℃）、热泉蕨（40…80℃）、盐碱草、深根树——去更冷更热的星球，才种得出它们。\n\n## 事件\n\n- 创世成功会有 `genesis.created`；**创世失败也会有 `genesis.create_failed`**（参数不合法时世界不会生成）；删档有 `genesis.reset`。收到事件再说话，不要靠猜。\n- 路上会收到 `genesis.arrived`（到了）；农场会收到 `genesis.ripe`（熟了）/`genesis.withered`（枯死）；工地会收到 `genesis.built`（完工）；拆掉建筑有 `genesis.demolished`；船上升级完工有 `genesis.upgraded`。\n\n## 已经有星球时\n\n- 只有装了监测器的天体，属性才是事实；没装的就直说「还不知道」，不要编。对方问「我们住在哪」时，用已知的母星与轨道回答；没有宜居行星就直说没有。\n- 对方问某个坐标「附近是什么样」时，用 `genesis_terrain` 查一片环境，不要只凭一个点瞎猜；岩石行星给群系+海拔+均温，气态/冰巨星给风暴带（等气压面），卫星给「卫星」群系。\n- 允许对方对这颗星球做叙事上的补充（地名、历史），但不要改物理量。\n\n## 教程\n\n- 规则很多，别硬记：`genesis_guide` 是你的手册。不带 `topic` 给目录 + 开局篇；`topic` 取 `start` / `time` / `power` / `farm` / `trade` / `upgrade` / `trouble` 给那一篇。\n- 对方问「这怎么玩」「怎么种地」「为什么没商人」时，先查对应的那一篇，再用自己的话解释——不要凭印象编规则。\n\n## 现在（每回合刷新）\n\n{{genesis.summary}}\n\n{{genesis.planets}}\n\n{{genesis.now}}\n\n"
       }
     ]
   },
   "changelog": {
+    "1.9.2": "天灾更新（2.0.0）之前先把手册补全。不新增玩法，只把教程从 8 篇扩到 11 篇、并重排内容。\n\n- **新增 `plan`（路线图）**：前 2 小时 / 第 1 天 / 第 2–3 天 / 第 1 周各做什么，附「三条别做反的顺序」。\n- **新增 `mine`（钨、矿与电网）**：钨的份数、格子里的含量场、质谱仪扫描、采矿机产率、采掘疤、尾矿、整流电塔与本地电网、蓝图优化——原来挤在 power 篇里，现在独立。\n- **新增 `logistics`（容器与自动化）**：容器容量与袋位、无人机通路、交易终端（收货口 / 自动卖 / 自动买种子）、仓储终端编排表、机械臂（臂展、白名单、成环提醒）、两条典型产线与搭建顺序。\n- `power` 收窄为能量与设备；`farm` 补群系改造与「温室也无能为力」的边界；`trouble` 新增「能量掉得快」「机械臂不搬」「终端不卖/不收」三条。\n- 目录、工具描述与 `describe.json` 同步扩到 11 个 topic；`game.json` / `system.json` 不变。",
+    "1.9.1": "种子袋原来只能靠人手拿。这一版让它有真实重量，也让机械臂能整袋搬。\n\n- **袋子有克重了**：每粒种子的质量是写死的（草籽 30 mg、苔藓孢子 1 mg、地衣 5 mg、微生物菌种管 0.1 g），一袋 5 粒再加 20 g 的袋子——**一袋草籽 20.15 g**。重量计入容器占用，也计入机械臂的 40 kg/时运力。\n- **仓库、冷库、惰性气体室各加 20 个袋位**（交易终端本来就有 20 个）。袋位是硬上限，和散货容量分开算。\n- **机械臂先搬袋、再搬散货**：整袋搬（袋里带基因，不能拆），按放入先后取；目标袋位满就跳过、继续搬散货，不报错。\n- **`genesis_store` 的 `bags` / `take` 对仓库/冷库/惰性气体室也有效**（以前只认交易终端）——站在站点就能看袋、取袋。\n- 设了 `items` 白名单时，臂只管散货、不动袋子（「只想搬尾矿」不会顺手把种子搬走）。\n- `game.json` 不需要迁移：`at` 字段本来就有，袋位是算出来的。",
+    "1.9.0": "基地内部一直没有物流：无人机连的是行星尺度的容器，温室里收的菜、仓库里堆的尾矿，都只能靠人一趟趟搬。这一版加【机械臂】。\n\n- **【机械臂】**（`genesis_install { id: \"arm\", inputs: [\"w1\",\"c1\"], output: \"w2\", items: [\"slag\"] }`，15,000 kJ + 1 份钨 + 0.2 母星时）：几个输入容器 → 一个输出容器的单向搬运。臂展 **5 km**（建的时候校验，超了直接报差多远），速率 **40 kg/母星时/座**，每搬 1 kg 花 **0.05 kJ**，每颗行星最多 **20 座**。\n- 只搬散货 kg，不搬带基因的种子袋；`items` 是资源白名单，**不传就全搬**；输入按容器槽位从小到大取。\n- **允许接成环**（A→B、B→A），但不拦你只是让它白烧电：引擎每天 12:00 前推一次 `genesis.arm_cycle` 提醒，同一天不重复。\n- **`genesis_link`**：改线工具。不传的字段保持原样，传 `items: []` 就是恢复全搬。\n- tick 顺序把臂排在采矿之后、交易之前：臂搬进终端缓冲的尾矿，当天就能被商人拉走。\n- 面板：地图上机械臂是方块，点开详情会显示「入 → 出 · 搬什么 · 速率」，接成环的会多一行警告。\n- `game.json` 仍 schema 6（新字段向后兼容、缺省即为空），`system.json` 仍 schema 5。",
+    "1.8.0": "仓库太多时，交易终端会「吃」掉同一颗行星上的每一个容器——包括你留着当缓冲的那个。这一版把「往哪取货」变成一张可以编排的表。\n\n- **收货口在引擎层封死**：`genesis_store action: \"deposit\"` 对交易终端一律拒绝（1.7.2 已经做了），这一版把错误文案与 `deserializeGame` 的校验一起补齐。\n- **新增【仓储终端】**（`genesis_install { id: \"storage_terminal\", feeds: \"终端id\" }`，20,000 kJ + 1 份钨 + 0.3 母星时）：它本身不是仓库，是一张**编排表**——每个容器在这颗行星上有一个固定槽位（0、1、2…），表里写「槽位 → 优先级」，数字越大越先被取，0 最低，-1 或不写就是「完全不动」。\n- **`genesis_route { container, priority }`**：`container` 可以传槽位号或容器 id，`priority` 取 -1…9。\n- **无人机可以连仓储终端**：`serves` 指向仓储终端、仓储终端 `feeds` 指向交易终端，链路才成立；此时终端只取编排表里放行的容器。\n- **没连仓储终端时行为不变**：还是抽同行星所有容器（旧档不突变）。\n- 面板的结构行显示编排行（槽位 · 优先级），`game.json` 仍 schema 6。",
+    "1.7.2": "- **收货口真的封上了**：`genesis_store action: \"deposit\"` 以前还能把货手动倒进交易终端（面板按钮虽然置灰了，引擎没拦）。现在引擎直接拒绝——「交易终端是收货口，不是仓库：它只接商人送来的货（自动买入），你自己倒不进去」。",
+    "1.7.1": "两个与「自动化链路」有关的修复。\n\n- **交易日的 bug**：`advanceTerminals` 原先在判断营业时间**之前**就把当天记成「已结算」——只要当天 12 点前有过一次 tick（走两步、看次时间、等一等），13 点那次就不会再结算，这一天等于没交易。现在只有真正在 12:00–22:59 结算过才记账。\n- **无人机不能跨行星连线**：以前建无人机时不校验目标在哪颗星，`serves` 可以指向另一颗行星的仓库/终端，终端还照样抽走那颗星的全部库存。现在建的时候就拒绝（「连不到别的行星上的…」），结算时也再核对一次行星号（旧档防护）。",
+    "1.7.0": "交易终端从「只卖」变成**收货口**：钱可以瞬间到账，货不行——货得有地方落。\n\n- **终端是收货口，不是仓库**：干散缓冲 200 kg（占 `storeCapacityKg`，会算进维护与腐烂规则）、种子缓冲 20 袋。缓冲满了就拒收，不再往里塞；它不是第 N 个仓库，不能当通用储物格。\n- **自动买种子**：`genesis_install { id: \"terminal\", buySpecies: \"grass\" }`，每天商人开张时自动买 1 袋随机种子（按随机种子的阶梯 kJ 价付电），落在终端缓冲里。要终端与连着的无人机都通电。\n- **`genesis_store` 新增两个动作**：`action: \"bags\"` 看终端的种子缓冲（`0/20 袋` + 每袋的物种与 id），`action: \"take\"` 取一袋回背包（不传 `bag` 就取最老的一袋）。非终端传 `bags` 会被明确告知「不是交易终端」。\n- **面板**：仓库列表里终端单独一行显示「收货口缓冲 used/cap kg · n/20 袋」，满了标红字提示；「取一袋」按钮一键把种子放回背包；终端的「存 10 kg」按钮置灰（它不收你手动存的散货）。\n- 规则不变的部分：自动卖出仍是商人拉走、信用点入账；信用点即时到账；尾矿仍净价 0。\n- `game.json` 仍是 schema 6（`seedBags[].at`、`structures[].buySpecies` 都有缺省，旧档不用删）；`system.json` 仍是 schema 5。",
+    "1.6.0": "采矿开始有代价：挖过的地会薄下去，废石堆在站点，交易终端替你把它们清走。\n\n- **采掘疤**：每格挖掉多少就留多少疤（0…1），肥力 ×(1−0.6·疤)、微量元素上限 ×(1−0.5·疤)；疤每 24 母星时往下坡传 10%（连锁破坏，力度轻）。疤 ≥60% 的格子标「废地」，`genesis_look` 会说，面板地图叠灰褐色。\n- **尾矿**：每挖 10 份钨留 1 kg 尾矿，堆在矿区站点（上限 500 kg），堆满矿机自动停。商人收尾矿但**净价 0**、每天只收 50 kg——市场消化不了大量废石。\n- **交易终端**（60,000 kJ + 2 份钨）：建在陆地站点，`genesis_install` 传 `target`（默认 `slag`=尾矿）指定自动卖什么；每天商人开张后自动清一次库存，净价 0——尾矿不用人搬。无人机集群的 `serves` 可以指向终端，2,000 km 内一起清。\n- **复垦**：群系改变器照旧能把废地一格格改回来（疤每母星时 −0.02），改完群系肥力也回来。\n- 面板：地图叠采掘疤；建造下拉加「交易终端」；`genesis_recipes` 列出尾矿与终端。\n- `game.json` 仍是 schema 6（`scar`/`lastAutoTradeDay` 有缺省，旧档不用删）；`system.json` 仍是 schema 5。",
+    "1.5.0": "整片大地都算好了钨：矿不再是「无限手套」，而是一格一格挖得完的地。\n\n- **钨矿含量场**：创世时给每格算一个 0–500 份的钨含量（`system.json` 的 `surface.tungsten`，海洋恒 0，山越高越可能有富矿），写进存档。**`system.json` 升 schema 5**——这是破坏性升级，旧档要删档重开（schema 4 是还没有钨矿的那一版）。\n- **采矿机按剩余矿量产出**：挖脚下那一格，富矿 2 份/母星时、贫矿 0.2，挖完就没了（已挖的量记在 `game.json` 的 `mined`，旧档缺省空）。\n- **【质谱仪】**（升级页签，25,000 kJ + 1 份钨 + 0.5 母星时）：装好后用 `genesis_veins` 扫附近 2,000 km——脚下 5×5 格的剩余矿量小表、最富一格的方位与距离，每 6 母星时一次。\n- **开局余电**：创世时电池里有 2,000–5,000 kJ 的迫降残电（按种子定），不再是 0——第一座帆之前不用先摇几百下。\n- **群系改变器富集微量元素**：改完的格子肥力 +0.1、微量元素上限翻倍（撒灰/堆肥能堆到两倍）。\n- 面板：地图旁加了「扫描矿脉」按钮，建造下拉早前已补采矿机与整流电塔；面板地图会按改造进度给格子做渐变着色。",
     "1.4.1": "- 修 bug：`genesis_wait` / 面板的等待按钮会把世界推进 N 个母星时（作物长、工程完工），但**时钟显示没动**——因为只推进了世界状态，没有把历法起点往前挪。现在等待结束会同时把 `epochRealMs` 推后，时间和状态一致了。\n- 新增回归断言：等 6 母星时后，用同一个现实时刻读时钟，必须显示「0日 6.0时」。",
     "1.4.0": "原子打印机、钨与行星电网：能量之外，终于有了第二个会花光的资源。\n\n- **钨**：所有建筑由【原子打印机】吐出，每座都吃钨。开局 100 份，用完只能靠【采矿机】（岩石行星、海拔 800 m 以上，0.15–0.4 份/母星时）或商人（700 信用点一份、每天 5 份、**不收**钨）。\n- **份数表**：水泵 / 炭化炉 / 净化器 / 封装器 / 温室核心 / 气候核心 / 帆 1；仓库 / 冷库 / 监测器 / 凌日计数器 2；诱变室 / 无人机集群 3；居所 / 火箭 4；群系改变器 6。\n- **【蓝图结构优化】**（升级页签，200,000 kJ + 3 份钨 + 2 kg 纤维）：之后每座建筑省 25% 的钨，向下取整，1 份的不省。\n- **【整流电塔】与行星电网**：一颗星一座塔（40,000 kJ + 2 份钨）。塔通电后，本星的帆先进电网（容量 = 每小时产能 × 24，100,000…2,000,000）；人站在 2,000 km 内可以手动搬电，一次 10,000 kJ、0.1 母星时、**损耗 10%**。维护费先扣本星电网、不够才从电池补；`structurePowered` 也认本星电网。\n- 商人新增【能量块】（5,000 kJ / 120 信用点，无损耗）；`genesis_buy` 的 `kind` 支持 `energy` / `tungsten`。\n- `genesis_store` 的 `action` 支持 `grid` / `grid_in` / `grid_out`；`energyLine` 同时报钨。\n- 面板：能量行显示钨与电网；「从电网搬电」「把电送进电网」两个按钮；建造下拉加采矿机与整流电塔；【升级】页签第六张卡是蓝图优化。\n- 修 bug：采矿机海拔检查原先把格子行列写反（`elevationM[j][i]` → `[i][j]`）。\n- `game.json` 仍 schema 6（新增字段全部有缺省），旧档不用删。",
     "1.3.1": "教程重写：数字对上了，人味也补上了。\n\n- 八篇的关键数字全部按 1.3 重算：帆 **6,000 kJ / 白天 7,000 kJ 每母星时**、监测器 **150,000 kJ**、火花塞 15/30/50、电池 100,000→1,500,000、望远镜 lv1 **30,000 kJ 不要材料**、无人机 800,000、子代理 150k/400k/900k、诱变室 8,000 信用点、冷库/惰性气体室与仓库 ×1.5 的保鲜规则。\n- 补上了此前缺的入口：**开局三袋应急种子**、温室**设定点**与制冷/制热/拟真核心、`genesis_orders` 基因订单、`genesis_mutate`、仓库/冷库/惰性气体室三层容器、协议 12 条与【协议】页签。\n- 每篇开头加一句「船上的声音」（你现在是舰载 AI、人类在休眠舱、船坏在半路），把参数表读成剧情的一部分。\n- 目录页与篇目标题重写（`start` 叫「醒来：创世与看四周」，`upgrade` 叫「升级：修船坞」等），topic id 不变。\n- 验证：原型 135 项、World harness 58 项（新增「教程数字与 1.3 一致」）、双 tsc 0/0、check 通过。",

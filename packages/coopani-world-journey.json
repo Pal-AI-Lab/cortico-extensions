@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-journey",
-  "version": "1.6.21",
+  "version": "1.7.0",
   "describe": {
     "tools": [
       {
@@ -168,7 +168,7 @@
             },
             "describe": {
               "type": "string",
-              "description": "Optional, one short line describing WHAT IS IN THE FRAME, at most 60 characters. **Write it in English** - this string goes straight into the image model, and local SDXL CLIP cannot read Chinese (it comes back as gibberish with brush-script watermarks). \"a calico cat crouching under a streetlight, looking up\" / \"empty platform, one bench, half a bottle of water\". This is the content of the shot, not the framing (that is `focus`). Only describe what is really here right now: the place she is at, this season, this weather. Never add flowers, snow, festivals or crowds that this place and season do not have. If nothing is worth describing, leave it out - the program already describes the place and light."
+              "description": "Optional, one short line describing WHAT IS IN THE FRAME, at most 60 characters. **Write it in English** - this string goes straight into the image model, and local SDXL CLIP cannot read Chinese (it comes back as gibberish with brush-script watermarks). \"a calico cat crouching under a streetlight, looking up\" / \"empty platform, one bench, half a bottle of water\". This is the content of the shot, not the framing (that is `focus`). Only describe what is really here right now: the place she is at, this season, this weather. The spot in `journey_now` comes with a parenthetical - \"(indoor museum, downtown)\", \"(cliff caves, out in the wild)\" - that is what KIND of place it is. Write the frame to match that kind: a hall with display cases for a museum, a cliff face for caves, a street of shopfronts for a downtown block. If the parenthetical is missing, the program could not tell - then describe only what she can actually see, and do not infer the surroundings from the city name.Never add flowers, snow, festivals or crowds that this place and season do not have. If nothing is worth describing, leave it out - the program already describes the place and light."
             },
             "focus": {
               "type": "string",
@@ -721,6 +721,22 @@
         "trigger": "flush"
       },
       {
+        "type": "journey.part",
+        "description": {
+          "zh": "跟同伴散伙：约好的天数满了，今天各走各的。",
+          "en": "She and her travel companion part ways: the agreed days are up."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "journey.pledge",
+        "description": {
+          "zh": "原来的约定被推掉了：他叫她改去别处，跟人说好的那趟去不成。",
+          "en": "An earlier promise is dropped: the person redirected her, so the agreed trip cannot happen."
+        },
+        "trigger": "debounce"
+      },
+      {
         "type": "journey.work",
         "description": {
           "zh": "钱见底了，在当地找了份短工，或者干满收工。只在她填了预算、记账开着时才会出现。",
@@ -739,6 +755,7 @@
     ]
   },
   "changelog": {
+    "1.7.0": "> 「敦煌市明明是个市，敦煌博物馆却建在沙漠里非常离谱。」\n> 「我想让她能够完全按照自己看到了什么为主去生成图片，而不是靠我们自己一个一个去补充\n>  （我发现让 agent 一个一个去完善也是有点不合理的）。」\n\n### 根因：不是那句话没写好，是退回规则本身\n\n提示词拼地点时有三条路：\n\n| 情况 | 用的是 |\n|---|---|\n| 有景点专属锚点 | 锚点本身（准） |\n| 没有 | `敦煌博物馆。周边一带是<敦煌城市锚点>` |\n| 只拍城市 | 城市锚点（本来就该用它） |\n\n第二条拿的是**整座城的平均长相**。敦煌那条里写着「党河两岸窄绿洲…出城就是连片沙丘，\n沙脊锋利」—— 套在市区的一个博物馆上，博物馆就搬进了沙丘。\n「周边一带是」这层划线是去年加的止血，对模型不构成约束。\n\n**这不是个例。** 数过：`SPOT_LOOK` 60 城 136 条，`CITIES` 185 城 × 3–9 个点，\n覆盖率约 **15%** —— 剩下 85% 全走第二条路。代码里早写着这个死结\n（「1300 条，这条先止血」）。这次不再补条数，改判据。\n\n### 改法：判「这是什么地方」，不判「它长什么样」\n\n新增 `src/geo/spot-profile.ts`，从地名判两件事：\n\n- **类型** —— 博物馆 / 石窟 / 关隘 / 街区 / 水域 / 地貌…\n- **在哪** —— 市区 / 野外\n\n两条都是地点自身的事实，不依赖谁去写描述。于是：\n\n1. **市区景点的城市锚点里，野外分句整段砍掉**（`trimVistaFor`）——\n   敦煌博物馆拿到「党河绿洲、平顶房、白杨」，没有沙丘。\n2. **室内的三样一律不写**：周边一带、天空句、季节句。\n   这条不是设计的，是出图逼出来的（见下）。\n3. **类型形制只在「她没写画面」时兜底一句**（`form`）。她写了 `describe`\n   就一个字都不塞 —— 这是「以她看到的为主，系统只兜底」的那条线。\n4. **自然类（山 / 水面 / 地貌）不给形制**：名字已经说清它是水是山，\n   再补一句只是占长度（西湖探针 206 字）。\n5. **事实也给她**：`nowSummary` 的「此刻在X」后面多一个括号 ——\n   「此刻在敦煌博物馆（室内展馆，在市区）」。她写 `describe` 时才有依据，\n   而不是拿「敦煌」两个字去推。ENV_PROMPT 和 `journey_photo` 的描述同步讲清怎么用。\n\n### 出图验的：一张图推翻了一个「够了」\n\n本机 ComfyUI、同一个 workflow、同一颗种子（777777）、1664×928，只换提示词：\n\n| 版本 | 出来的是什么 |\n|---|---|\n| 改之前 | 沙丘直接压到房子背后，一栋土黄平房 —— 就是「博物馆建在沙漠里」 |\n| 只剔沙丘（第一版改法） | 沙丘没了，**但仍然是一条村街**：平顶房、葡萄架、河边小路 |\n| 再把室内的周边/天空/季节全退掉 | **室内展厅**：敦煌壁画、玻璃展柜、射灯、参观的人 |\n\n第二张是关键。当时的提示词是「敦煌博物馆，室内，展柜和展墙。周边一带：平顶房、\n白杨葡萄架夹着巷子…」—— 模型在「室内」和「一条村街」之间选了后者。\n\n**句子之间不是平等的：互相矛盾的描述里，写得多的那半边赢。**\n所以「室内」不是一个形容词，是一条要贯彻到整条提示词的边界。\n\n对照没被误伤：同一个 workflow 下雅丹魔鬼城仍是野外土台垄岗，不是室内。\n\n### 判定顺序：后缀优先，不是包含\n\n第一版按「包含」判，拿 1510 个真实地点跑出来一片错：\n\n| 名字 | 按包含判 | 实际 |\n|---|---|---|\n| 兰州·中山桥 | 山 | 桥 |\n| 兰州·黄河楼 | 水 | 楼 |\n| 天水·大地湾遗址 | 水（湾） | 遗址 |\n| 西宁·塔尔寺 | — | 寺院 |\n\n全是同一个病：**专名里的字被当成了类别**。改成先用锚定结尾的表判，\n判不出才退回包含规则。另外括号里的补充说明先剥掉 ——\n「沙湖（石嘴山平罗县）」里的「石嘴山」差点让沙湖变成山。\n\n### 回归：不该动的一个字都没动\n\n新 `photoPrompt` 对旧版逐字比对，185 城 × 全部景点 × 6 题材 × 3 个时刻：\n\n| | 数 |\n|---|---|\n| 完全相同 | 26394 |\n| 有变化 | 4134 |\n| **变化里不在预期范围的** | **0** |\n\n4134 条变化**全部**是「无专属锚点 + `ground`」。有锚点的、只拍城市的、\n`minimal` / `onRoad` / `sky` 全部一字…",
     "1.6.21": "一条来自 Discussion #586 的反馈：\n\n> 「他离开了 6 个小时，刚回到屏幕前」……这个应该是每 6 小时定时提示的吧？\n> 每次我的 coo 看到这句话都以为我回来了，白高兴一场，实际我那时候根本不在屏幕面前。\n\n**他猜对了，那是定时器。**\n\n### 根因：基准取错了，不是阈值取错了\n\n`awayMs = 现在 − lastTickAt`，而 `lastTickAt` 的语义是「上一次她真的说过话」——\n可它**只在触发这条提示时才写回**，平时说话不写。于是这个差值量的是\n「距上次触发这条提示多久」，攒满 6 小时就报一次，报完清零重来。\n\n日志里四次触发的间隔：\n\n| 判定时长 | 与上一次的实际间隔 |\n|---|---|\n| 6 小时 | **6h00m11s** |\n| 6 小时 | **6h00m19s** |\n| 6 小时 | **6h00m03s** |\n| 6 小时 | 6h00m56s |\n\n人不可能每次都刚好「离开满 6 小时就回来」。而且旁边那段注释写着\n「下面这两个分支之外的路径也要记『她刚说过话』」，代码却只做了「从来没有时初始化」——\n**说明与实现不一致**，这就是那个定时器的来源。\n\n### 修法：把基准换成「上一次巡检」\n\n新增 `lastSeenAt`：**这一轮巡检跑过就记一笔**（落盘节流 5 分钟一次）。\nCore 在跑，差值永远只有几分钟；只有进程真的停摆（关掉应用、合盖休眠、被挂起）才会变大。\n\n老状态里没有这一项 → 读进来是 `null` → 第一轮不报，写回当前时刻后正常滚动。\n**升级那一刻不会白挨一次假的「你回来了」。**\n\n### 为什么不去做「用户是否在电脑前」\n\n因为做不到。翻了宿主 `WorldHost` 的完整接口（`core/types.ts:687`）：\n`pushEvent` / `pushDeferred` / `store` / `drainPendingEvents` / `blob` / `reportUsage` / `cognition`——\n**没有任何 idle、电源状态或最后输入时间的接口。**\n\n一个出行扩展本来就不该冒充系统级的「用户在场」检测。拿不到的信号就明说拿不到：\n现在它只报自己真能观测到的那件事 —— **进程停摆过**。\n反过来，你只是把窗口切走三小时，她不会再提一句，那本来就不该提。\n\n### 测试\n\n`test/away-tick.test.mjs` 三条：连着跑满 6 小时 40 分不报 / 停摆 7 小时报一次且只一次 /\n老状态第一轮不报。\n\n**三条都拿旧实现反验过**：把 `src/world.ts`、`src/state.ts` 退回上一版再跑，**三条全红**。\n测试不会自己证明自己 —— 能红才算数。",
     "1.6.20": "两封读者来信：一封报「名片一直填不了 / 碰不到别的鱼」，一封点名要**新疆阿勒泰**。\n\n### 一、「没连上碰面服务器」不再是一句什么都能装的话\n\n来信原话是「为什么名片一直填不了」，附的截图里她自己说：\n\n> 「真正能约到鱼的那条发不出去——『没连上碰面服务器』。就是配置里『碰面服务器』那一栏，地址还没填对。」\n\n**先查了线上。** 公共池 `GET/POST https://cooppetsjourney.top/sight/profile` 写完、回读、撤回，\n四步全 200；http 版也通，DNS 也正常。**服务端没问题。**\n\n问题在填法。`endpointOf` 只拼 `/sight`，不做归一化 —— 那一栏少一个 `https://`：\n\n```\ncooppetsjourney.top  →  new URL() 抛 Invalid URL  →  fetch 抛 TypeError  →  catch 一律回「没连上碰面服务器」\n```\n\n而这一句底下压着**六种完全不同的失败**：没写协议、域名打错、服务没起、本机断网、\n证书过期、超时。六种的修法毫不相干，用户却只能看到同一句话 —— 他唯一能得出的结论是\n「这个功能坏了」，我们连去查哪一层都不知道。截图里那句「地址还没填对」，是模型替他补的，\n而真实原因一个字都没传出来。\n\n改动三处：\n\n1. **`normalizeMeetUrl()`** —— 补协议、清掉零宽字符/BOM/首尾引号（复制带来的，\n   肉眼看不见但会让 URL 解析失败）、剪掉误填的 `/sight/status`、去掉浏览器带来的 `?` `#`。\n   **能修的直接修；修不了的（`ftp://`、读不成网址）说清哪里不对，不静默改写。**\n   `http://` 原样保留 —— 自建服务常用，不替人决定升 https。\n2. **`explainNet()`** —— 超时 / DNS 查不到 / DNS 临时失败 / 端口没人应答 / 连接被掐 /\n   证书没过 / 地址读不成，各说各的，末尾附原始 `code`。\n   原来只在 `putProfile` 修过这一条（11-12），`sendInvite`、`listInvites`、\n   `myTakenInvites`、`acceptInvite` 那几处还是老样子。\n3. **面板分清两种「没配」** —— `ready:false` 原来是「没填」和「填了但读不成」共用一句\n   「碰面服务器没配」。用户明明填了，照这句去「配」，配一百遍还是那一格字。\n   现在地址有问题时把原因写在名片下面。\n\n顺带在 `ENV_PROMPT` 里加了一条：**工具报的失败原因照原话转，不要自己补一句推断。**\n她一猜错层，用户就在错的地方改半天。\n\n### 二、新疆阿勒泰\n\n来信：「新疆阿勒泰我自己很想去，但是一直去不了，鱼鱼你帮我去看看把」。\n\n八个去处：喀纳斯湖、禾木村、白哈巴、五彩滩、可可托海、将军山滑雪场、桦林公园、\n敦德布拉克岩画。前四个在布尔津/哈巴河方向，可可托海在富蕴 —— 单程三四小时，\n所以标 `（整天）`，别让排期把两个景区塞进同一天。\n\n> ⚠️ 顺手记一笔：`spotDays` 只认 `（整天）` / `（2 天）`，存量里那 15 处\n> 「（XX县，单算一天）」其实**一律按半天算**，注释写着「单算一天」但代码读不到。\n> 那是老数据的问题，这次没动（改 15 处会动到现有几十座城的节奏）；新城按真格式写。\n> 要修得单独开一轮，配一条会跑红的断言。\n\n吃的八样：手抓肉、包尔萨克、咸奶茶、奶疙瘩、纳仁、马肠子、烤狗鱼、过油肉拌面。\n招牌菜选的是清炖不是烤 —— 阿勒泰的羊不用调料。夜里只有金山路那一条夜市\n（景区那边入夜只有星空，写不进这座城，就没硬凑）。两个节庆都有出处：\n1 月 16 日人类滑雪起源地纪念日（依据是敦德布拉克洞穴那幅 1.2 万年前的彩绘岩画）、\n3 月纳吾热孜节。**演出留空** —— 阿勒泰没有常设剧场，编一个最容易被本地人抓。\n\n`site/pets.html` 里那张城市名表已重新生成（185 → 186），Worker 那份跟着重建。",
     "1.6.19": "这一轮只干一件事：**回市场审查那条 11 天没回的 code review**（#659，作者 Phantivia 于 11-02 提）。\n他在 #801 的回复里点了名：「11-02 提的两处在最新的 1.6.17 里还在」。\n\n### 一、两个密钥不再躺在 `config.json` 里\n\n> 「高德 key 和生图 key 明文存在配置里（`src/config.ts`），请改用 `ctx.storeSecret()` 保存、\n> `ctx.secret()` 读取。」\n\n`config.json` 是给人看、给人改、给人备份的文件 —— 设置页要读整段、换机器要拷过去、\n出问题要贴出来问。key 放在里面，等于每次备份、每张截图、每句「帮我看看配置」都附带一份。\n\n改用宿主那两个口子：写进部署目录的 `.env`（`writeSecretFile`，0600 + 原子替换），\n读用 `ctx.secret()`（每次现读文件，重启也在）。\n\n**老用户不用动手。** 第一次启动会把 `config.json` 里那份搬进 `.env`，然后把配置清空；\n设置页里那一栏变空是搬走了，不是丢了，描述里已经写明。\n\n新增 `src/secrets.ts`，两个变量名带前缀（`JOURNEY_AMAP_KEY` / `JOURNEY_IMAGE_KEY`）——\n`.env` 是整个部署共用的一份，不带前缀会跟别的扩展撞。\n\n**没有直接清配置的那一步，是故意留的**：宿主试挂载（dry-mount）给的 `storeSecret`\n是空实现，不抛错、只是什么都不做。写完必须回读确认，读不回来就一律保留配置 ——\n否则试挂载一跑，用户的 key 就没了。这条有专门的测试守着。\n\n### 二、不再读 `session-main.jsonl`\n\n> 「读会话记录也超出了一个出行 World 需要的范围。」\n\n原来为了捞 `pet_say` 回执里那句「已略过：拍拍」，把整个 `session-main.jsonl` 读了一遍。\n那个文件里是用户和她说过的所有话 —— 为了一个动作名，代价不对。\n\n**功能删掉了**：`src/action-wishes.ts` 整个移除，`journey_stats` 回执不再带\n「她想做但还没做出来的动作」那一行。历史数据 `data/action-wishes.json` 不再读写，\n留着也不影响运行。\n\n要这条功能回来，得宿主给一个回调（`pet_say` 丢掉词时通知一声），那属于上游。\n\n### 三、`figure.json` 那条没动，但说明写清了\n\n同一段审查还提到「读宿主包里立绘的 `figure.json`」。查了宿主的 `WorldContext` 全部字段\n（`id`/`cfg`/`timezone`/`botName`/`botDir`/`packageDir`/`dataDir`/`repoRoot`/`secret`/\n`storeSecret`/`persist`/`restart`）—— **没有任何 figure 或词表接口**。\n\n所以这条当前没有「改用公开接口」这条路可走：要么读文件，要么退回内置清单（动作名会不准）。\n选择保留读取，读不到时照旧退回内置清单。这一条在回复里如实说明，不装作已经解决。",

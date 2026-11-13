@@ -1760,7 +1760,7 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "1.6.21",
+      "version": "1.7.0",
       "displayName": "大肥鱼环游世界",
       "description": "让桌宠真的出门旅行：一百八十六座城、每座都有真地标，她自己挑去哪、怎么去，路上真耗那些时间；到站按当地时间吃饭、看日出、住店、写日记，月底出一页手账。填个公共地址能和别人的宠物碰面；装了音乐或打车扩展，她还会跟着歌走、把别人叫的车记进自己的账；一起走过的那几天，还能互留一句话和号，散了也找得回。需 Coopani 0.2.17 以上。",
       "locales": {
@@ -1798,8 +1798,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-13T12:08:55.609Z",
-      "versionCount": 145,
+      "published": "2026-11-13T18:46:56.039Z",
+      "versionCount": 146,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1823,12 +1823,13 @@
       },
       "summary": {
         "tools": 22,
-        "events": 14,
-        "toolTokens": 7526,
+        "events": 16,
+        "toolTokens": 7665,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.7.0",
           "1.6.21",
           "1.6.20",
           "1.6.19",
@@ -2452,17 +2453,17 @@
     },
     "coopanion-world-threads": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.2.1",
       "displayName": "多线程",
-      "description": "Coopanion 多线程 World：让桌宠同时开几条独立的对话/任务线程，始终留一条空闲线程接新消息；一条在干活时另一条能顺便接话。",
+      "description": "Coopanion 多线程 World：让桌宠同时开几条独立的对话/任务线程，始终留一条空闲线程接新消息；线程可选 think（只思考）或 work（在指定目录里读写文件、搜索、跑 PowerShell），并带一块可观测、可降级的面板。",
       "locales": {
         "zh": {
           "displayName": "多线程",
-          "description": "让桌宠同时开几条独立的对话/任务线程：一条在干活时，另一条还能顺便接话；同时有两件事在跑时自动开第三条；池子始终至少留一条空闲线程接新消息。带一块实时线程池面板。"
+          "description": "让桌宠同时开几条独立的对话/任务线程：一条在干活时，另一条还能顺便接话；同时有两件事在跑时自动开第三条；池子始终至少留一条空闲线程接新消息。线程可分 think（只思考）与 work（在指定目录读写文件、搜索、跑 PowerShell，读不到密钥、碰不到键鼠），面板能看见步骤与工具、能一键降级。"
         },
         "en": {
           "displayName": "Threads",
-          "description": "Runs several independent conversation/task lanes at once. A spare lane is always kept idle for new messages, another lane opens when two are busy, and a live pool panel shows what each lane is doing."
+          "description": "Runs several independent conversation/task lanes at once. A spare lane is always kept idle for new messages, another lane opens when two are busy, and a live pool panel shows what each lane is doing. Lanes can be think-only or work lanes with scoped file and PowerShell tools."
         }
       },
       "author": "coopanion-threads contributors",
@@ -2485,8 +2486,8 @@
         "bugs": "https://github.com/ZhuJi-255215189/coopanion-world-threads/issues"
       },
       "created": "2026-11-06T18:52:05.379Z",
-      "published": "2026-11-06T18:56:15.180Z",
-      "versionCount": 2,
+      "published": "2026-11-13T17:57:27.593Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2503,11 +2504,13 @@
       "summary": {
         "tools": 4,
         "events": 2,
-        "toolTokens": 547,
-        "envPromptTokens": 516
+        "toolTokens": 739,
+        "envPromptTokens": 810
       },
       "changelog": {
         "versions": [
+          "0.2.1",
+          "0.2.0",
           "0.1.2",
           "0.1.1",
           "0.1.0"
@@ -3500,17 +3503,17 @@
     },
     "cortico-provider-humanize": {
       "kind": "provider",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "displayName": "活人感 provider",
       "description": "Cortico provider for Coopanion: a Humanize endpoint type that wraps the Coo connection, waits for the Humanize World's inner thought and sends it along with the person's words. Only endpoints you switch to it are affected",
       "locales": {
         "zh": {
           "displayName": "活人感 provider",
-          "description": "「活人感」的加速搭档：让桌宠的心事和你的话一起发给模型，桌宠一轮就开口。必须先装「活人感」。\n\n**两个扩展怎么配合**\n\n- **活人感**（World，必装）：负责想心事、查 AI 固定句式。单独装就能用。\n- **活人感 provider**（就是本扩展，可选）：一种新的模型端点「活人感」，包住 Coo 连接，把心事直接放进发给模型的请求里，省掉桌宠先调工具读心事的那一轮。\n- 只装本扩展、不装「活人感」，没有任何作用。\n\n**怎么用**\n\n1. 在扩展页把「活人感」和本扩展都装上，重启 Coopanion。\n2. 到 World 页打开「活人感」，在「配置 → 基本设置」里勾「切换到活人感端点」：会照着你现在的端点复制一个「活人感」端点（地址、模型、Key 都一样）并切过去。\n3. 再重启一次 Coopanion，按提示把活人感关掉再打开一次。\n\n**只影响你切过去的那个端点**，别的端点和 Coopanion 本身都不动。目前只支持 Coo 连接的端点。\n\n**怎么看生没生效**：World 页「活人感」的「provider」徽章显示「已生效」。\n\n**不想用了**：「基本设置」里关掉「用「活人感 provider」」（请求原样发出），或者勾「切回原来的端点」。\n\n**卸载前一定先切回原来的端点**（勾「切回原来的端点」并重启），不然 Coopanion 找不到这种端点，桌宠会说不了话。"
+          "description": "「活人感」的加速搭档：让桌宠的心事和你的话一起发给模型，桌宠一轮就开口。必须先装「活人感」。\n\n**两个扩展怎么配合**\n\n- **活人感**（World，必装）：负责想心事、查 AI 固定句式。单独装就能用。\n- **活人感 provider**（就是本扩展，可选）：一种新的模型端点「活人感」，包住 Coo 连接，把心事直接放进发给模型的请求里，省掉桌宠先调工具读心事的那一轮。\n- 只装本扩展、不装「活人感」，没有任何作用。\n\n**怎么用**\n\n1. 在扩展页把「活人感」和本扩展都装上，重启 Coopanion。\n2. 打开「模型」页，点「+ 新建供应商实例」，类型选「活人感（包住 Coo 连接）」，地址、模型、思考档、API Key 照你现在用的端点填，保存。\n3. 选中它，点「设为当前供应商」。\n4. 到 World 页的「活人感」，按提示把它关掉再打开一次。\n\n不知道填什么：World 页「活人感 → 配置」顶部会列出这几步，并把你现在的端点地址和模型抄出来给你对着填。\n\n**只影响你切过去的那个端点**，别的端点和 Coopanion 本身都不动，也不写任何配置。目前只支持 Coo 连接的端点。\n\n**怎么看生没生效**：World 页「活人感」的「provider」徽章显示「已生效」。\n\n**不想用了**：「基本设置」里关掉「用「活人感 provider」」（请求原样发出），或者在「模型」页把当前供应商切回原来的端点。\n\n**卸载前一定先切回原来的端点**（「模型」页选中原端点，点「设为当前供应商」），不然 Coopanion 找不到这种端点，桌宠会说不了话。"
         },
         "en": {
           "displayName": "Humanize provider",
-          "description": "A speed-up companion for Humanize: sends the pet's inner thought along with your words, so the pet answers in one round. Requires the Humanize World.\n\n**How the two extensions fit together**\n\n- **Humanize** (World, required): writes the inner thought and checks stock AI sentence patterns. Works on its own.\n- **Humanize provider** (this one, optional): a new model endpoint type, \"Humanize\", that wraps the Coo connection and puts the thought straight into the request, saving the round where the pet first calls a tool to read it.\n- This extension alone does nothing.\n\n**Getting started**\n\n1. Install both Humanize and this extension, then restart Coopanion.\n2. On the World page, open Humanize → Config → Basic and tick \"Switch to the Humanize endpoint\": it copies your current endpoint (address, model, key) into a Humanize endpoint and switches to it.\n3. Restart Coopanion again, then turn Humanize off and on once when prompted.\n\n**Only the endpoint you switch to is affected**; other endpoints and Coopanion itself are left alone. Coo endpoints only for now.\n\n**Uninstall**: switch back to your original endpoint first (tick \"Switch back\" and restart), or the pet cannot speak."
+          "description": "A speed-up companion for Humanize: sends the pet's inner thought along with your words, so the pet answers in one round. Requires the Humanize World.\n\n**How the two extensions fit together**\n\n- **Humanize** (World, required): writes the inner thought and checks stock AI sentence patterns. Works on its own.\n- **Humanize provider** (this one, optional): a new model endpoint type, \"Humanize\", that wraps the Coo connection and puts the thought straight into the request, saving the round where the pet first calls a tool to read it.\n- This extension alone does nothing.\n\n**Getting started**\n\n1. Install both Humanize and this extension, then restart Coopanion.\n2. On the Models page, create a new connection of type \"Humanize (wraps the Coo connection)\" with the same address, model, reasoning tier and API key as your current one, and save it.\n3. Select it and click \"Set current connection\".\n4. On the World page, turn Humanize off and on once when prompted.\n\nThe Humanize config page lists these steps and shows your current connection's address and model to copy.\n\n**Only the endpoint you switch to is affected**; other endpoints and Coopanion itself are left alone, and nothing is written to your configuration. Coo endpoints only for now.\n\n**Uninstall**: set your original connection back as current first, or the pet cannot speak."
         }
       },
       "author": "abbabanana",
@@ -3531,8 +3534,8 @@
         "bugs": "https://github.com/abbabanana/cortico-provider-humanize/issues"
       },
       "created": "2026-11-03T23:17:16.500Z",
-      "published": "2026-11-05T19:43:54.672Z",
-      "versionCount": 5,
+      "published": "2026-11-13T20:09:48.986Z",
+      "versionCount": 6,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -3567,6 +3570,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.1",
           "0.3.0",
           "0.2.1",
           "0.2.0",
@@ -4931,7 +4935,7 @@
     },
     "cortico-world-bili-watch": {
       "kind": "world",
-      "version": "0.2.12",
+      "version": "0.2.13",
       "displayName": "B站伴侣",
       "description": "Cortico World：只做 B 站的社交伴侣。看视频（分镜图+逐格台词，低成本）、看评论、接楼发言、自主闲逛；带通知监听与可见性核验。",
       "author": "FXYXL",
@@ -4954,8 +4958,8 @@
         "bugs": "https://github.com/FXYXL/cortico-world-bili-watch/issues"
       },
       "created": "2026-11-05T09:39:54.864Z",
-      "published": "2026-11-10T08:00:09.839Z",
-      "versionCount": 9,
+      "published": "2026-11-13T17:26:57.822Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "tags": [
@@ -4974,6 +4978,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.13",
           "0.2.12",
           "0.2.11",
           "0.2.10",
@@ -9492,7 +9497,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/671",
         "up": 3,
         "down": 0,
-        "comments": 9
+        "comments": 10
       }
     },
     "cortico-world-extsearch": {
@@ -11133,7 +11138,7 @@
     },
     "cortico-world-genesis": {
       "kind": "world",
-      "version": "1.4.1",
+      "version": "1.9.2",
       "displayName": "创世记",
       "description": "给 Agent 一颗物理自洽、一次性创世的星球：种子与少量旋钮生成恒星系与行星属性。",
       "author": "Nami-Mizu",
@@ -11153,8 +11158,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-genesis"
       },
       "created": "2026-11-13T12:15:34.380Z",
-      "published": "2026-11-13T12:20:07.871Z",
-      "versionCount": 3,
+      "published": "2026-11-13T17:58:26.759Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11169,13 +11174,22 @@
         "week": 0
       },
       "summary": {
-        "tools": 30,
+        "tools": 33,
         "events": 10,
-        "toolTokens": 4820,
-        "envPromptTokens": 3649
+        "toolTokens": 5857,
+        "envPromptTokens": 4558
       },
       "changelog": {
         "versions": [
+          "1.9.2",
+          "1.9.1",
+          "1.9.0",
+          "1.8.0",
+          "1.7.2",
+          "1.7.1",
+          "1.7.0",
+          "1.6.0",
+          "1.5.0",
           "1.4.1",
           "1.4.0",
           "1.3.1",
@@ -11185,7 +11199,7 @@
           "1.2.0",
           "1.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-genesis@1.4.1/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-genesis@1.9.2/CHANGELOG.md"
       },
       "discussion": {
         "number": 915,
@@ -11850,17 +11864,17 @@
     },
     "cortico-world-humanize": {
       "kind": "world",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "displayName": "活人感",
       "description": "Cortico World for Coopanion: before the pet answers, reads the situation, mood and the pet's own memory and hands it a short inner thought, and reminds it when it slips into stock AI sentence patterns",
       "locales": {
         "zh": {
           "displayName": "活人感",
-          "description": "让桌宠开口前先「想一想」，说话更像个人，少一点 AI 腔。单独装就能用，搭配「活人感 provider」更快。\n\n**它做什么**\n\n- 你对桌宠说话时，先读一下情境、你的心情和桌宠自己的记忆，递给它一句「此刻心里的想法」，再让它开口。\n- 桌宠要是用了「不是……而是……」、先复述你的话这类 AI 固定句式，下次就提醒它换个说法。口癖、语气、长短都不碰。\n\n**两个扩展怎么配合**\n\n- **活人感**（就是本扩展，必装）：负责想心事、查句式。单独装就能用。\n- **活人感 provider**（可选）：一种新的模型端点「活人感」，把心事直接放进发给模型的请求里。不用它的话，桌宠每次要先调一次工具读心事再开口，多跑一轮，稍慢一点。\n- 只装 provider、不装本扩展，没有任何作用。\n\n**怎么用**\n\n1. 在扩展页装上本扩展，重启 Coopanion。\n2. 到 World 页打开「活人感」。\n\n主模型用的是 DeepSeek 的话，什么都不用填。用别家的话，在活人感的「配置 → 副 API」里填地址、模型和 Key。\n\n**想更快（用 provider）**\n\n1. 再装上「活人感 provider」，重启。\n2. 活人感「配置 → 基本设置」里勾「切换到活人感端点」：照着你现在的端点复制一个「活人感」端点（地址、模型、Key 都一样）并切过去。只支持 Coo 连接的端点。\n3. 再重启一次，按提示把活人感关掉再打开一次。\n\n「provider」徽章显示「已生效」就是在用；「provider 注入」是心事塞进请求的次数。没生效时，配置页顶部会写明原因和该怎么做。想停用：关掉「用「活人感 provider」」，或者勾「切回原来的端点」。**卸载 provider 之前一定先勾「切回原来的端点」并重启**，不然桌宠会说不了话。\n\n**要知道的**\n\n- 你每说一句话，会多调用一次副 API（默认 DeepSeek，约 1–2 秒，花费很少）。\n- 默认读桌宠、控制台、QQ 私聊和 @桌宠的消息。QQ 群里别人的话会经过副 API 影响心事，介意的话可以在配置里关掉。\n- 只支持中文，目前只在 Windows + DeepSeek 上测过。\n- 不想用了：World 页关掉即可。卸载：扩展页卸掉，重启。"
+          "description": "让桌宠开口前先「想一想」，说话更像个人，少一点 AI 腔。单独装就能用，搭配「活人感 provider」更快。\n\n**它做什么**\n\n- 你对桌宠说话时，先读一下情境、你的心情和桌宠自己的记忆，递给它一句「此刻心里的想法」，再让它开口。\n- 桌宠要是用了「不是……而是……」、先复述你的话这类 AI 固定句式，下次就提醒它换个说法。口癖、语气、长短都不碰。\n\n**两个扩展怎么配合**\n\n- **活人感**（就是本扩展，必装）：负责想心事、查句式。单独装就能用。\n- **活人感 provider**（可选）：一种新的模型端点「活人感」，把心事直接放进发给模型的请求里。不用它的话，桌宠每次要先调一次工具读心事再开口，多跑一轮，稍慢一点。\n- 只装 provider、不装本扩展，没有任何作用。\n\n**怎么用**\n\n1. 在扩展页装上本扩展，重启 Coopanion。\n2. 到 World 页打开「活人感」。\n\n主模型用的是 DeepSeek 的话，什么都不用填。用别家的话，在活人感的「配置 → 副 API」里填地址、模型和 Key。\n\n**想更快（用 provider）**\n\n1. 再装上「活人感 provider」，重启。\n2. 打开「模型」页，点「+ 新建供应商实例」，类型选「活人感（包住 Coo 连接）」，地址、模型、思考档、API Key 照你现在用的端点填，保存；选中它，点「设为当前供应商」。只支持 Coo 连接的端点。\n3. 回到 World 页，按提示把活人感关掉再打开一次。\n\n不知道填什么：活人感「配置」页顶部会列出这几步，并把你现在的端点地址和模型抄出来。活人感只读端点配置，不替你改。\n\n「provider」徽章显示「已生效」就是在用；「provider 注入」是心事塞进请求的次数。没生效时，配置页顶部会写明原因和该怎么做。想停用：关掉「用「活人感 provider」」，或者在「模型」页把当前供应商切回原来的端点。**卸载 provider 之前一定先在「模型」页切回原来的端点**，不然桌宠会说不了话。\n\n**要知道的**\n\n- 你每说一句话，会多调用一次副 API（默认 DeepSeek，约 1–2 秒，花费很少）。\n- 默认读桌宠、控制台、QQ 私聊和 @桌宠的消息。QQ 群里别人的话会经过副 API 影响心事，介意的话可以在配置里关掉。\n- 只支持中文，目前只在 Windows + DeepSeek 上测过。\n- 不想用了：World 页关掉即可。卸载：扩展页卸掉，重启。"
         },
         "en": {
           "displayName": "Humanize",
-          "description": "Lets the pet think for a moment before it speaks, so it sounds more like a person and less like an AI. Works on its own; faster with the Humanize provider.\n\n**What it does**\n\n- When you talk to the pet, it reads the situation, your mood and the pet's own memory, and hands the pet a short inner thought before it answers.\n- When the pet slips into stock AI sentence patterns (\"not X but Y\", parroting your words back), it is reminded to say it another way next time. Catchphrases, tone and length are left alone.\n\n**How the two extensions fit together**\n\n- **Humanize** (this one, required): writes the inner thought and checks sentence patterns. Works on its own.\n- **Humanize provider** (optional): a new model endpoint type, \"Humanize\", that puts the thought straight into the request sent to the model. Without it, the pet first calls a tool to read the thought, which costs one extra round.\n- The provider alone does nothing.\n\n**Getting started**\n\n1. Install this extension on the Extensions page and restart Coopanion.\n2. Turn on Humanize on the World page.\n\nIf your main model is DeepSeek, there is nothing to fill in. Otherwise enter the address, model and key under Config → Side API.\n\n**Faster, with the provider**: install the Humanize provider and restart, tick \"Switch to the Humanize endpoint\" under Config → Basic (it copies your current Coo endpoint and switches to the copy), restart again, then turn Humanize off and on once. Before uninstalling the provider, tick \"Switch back\" and restart.\n\n**Good to know**\n\n- Each message you send adds one side-API call (DeepSeek by default, about 1–2 seconds, very cheap).\n- Prompts, presets and pattern checks are Chinese only. Tested on Windows with DeepSeek only.\n- To stop: turn it off on the World page. To uninstall: remove it on the Extensions page and restart."
+          "description": "Lets the pet think for a moment before it speaks, so it sounds more like a person and less like an AI. Works on its own; faster with the Humanize provider.\n\n**What it does**\n\n- When you talk to the pet, it reads the situation, your mood and the pet's own memory, and hands the pet a short inner thought before it answers.\n- When the pet slips into stock AI sentence patterns (\"not X but Y\", parroting your words back), it is reminded to say it another way next time. Catchphrases, tone and length are left alone.\n\n**How the two extensions fit together**\n\n- **Humanize** (this one, required): writes the inner thought and checks sentence patterns. Works on its own.\n- **Humanize provider** (optional): a new model endpoint type, \"Humanize\", that puts the thought straight into the request sent to the model. Without it, the pet first calls a tool to read the thought, which costs one extra round.\n- The provider alone does nothing.\n\n**Getting started**\n\n1. Install this extension on the Extensions page and restart Coopanion.\n2. Turn on Humanize on the World page.\n\nIf your main model is DeepSeek, there is nothing to fill in. Otherwise enter the address, model and key under Config → Side API.\n\n**Faster, with the provider**: install the Humanize provider and restart. On the Models page, create a new connection of type \"Humanize (wraps the Coo connection)\" with the same address, model and key as your current one, set it as current, then turn Humanize off and on once. The Humanize config page lists these steps; it only reads your endpoint configuration and never writes it. Before uninstalling the provider, set your original connection back as current.\n\n**Good to know**\n\n- Each message you send adds one side-API call (DeepSeek by default, about 1–2 seconds, very cheap).\n- Prompts, presets and pattern checks are Chinese only. Tested on Windows with DeepSeek only.\n- To stop: turn it off on the World page. To uninstall: remove it on the Extensions page and restart."
         }
       },
       "author": "abbabanana",
@@ -11883,8 +11897,8 @@
         "bugs": "https://github.com/abbabanana/cortico-world-humanize/issues"
       },
       "created": "2026-11-03T23:16:42.825Z",
-      "published": "2026-11-05T19:43:23.436Z",
-      "versionCount": 6,
+      "published": "2026-11-13T20:10:46.707Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11918,6 +11932,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.1",
           "0.3.0",
           "0.2.2",
           "0.2.1",
@@ -15576,6 +15591,71 @@
         "comments": 0
       }
     },
+    "cortico-world-ntfy": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "ntfy Notifications",
+      "description": "Cortico World: subscribe to ntfy topics and let the desktop pet tell you",
+      "locales": {
+        "zh": {
+          "displayName": "ntfy 通知",
+          "description": "订阅 ntfy 话题：脚本、GitHub Actions、另一台电脑上的 Claude Code 等用一行 curl 发通知，桌宠告诉你。"
+        },
+        "en": {
+          "displayName": "ntfy Notifications",
+          "description": "Subscribe to ntfy topics: scripts, GitHub Actions or a coding agent on another computer send a notice with one curl, and the pet tells you."
+        }
+      },
+      "author": "wtxdew",
+      "maintainers": [
+        "wtxdew"
+      ],
+      "license": "AGPL-3.0-or-later",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopet",
+        "coopanion",
+        "ntfy",
+        "notifications"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-ntfy",
+        "repository": "https://github.com/wtxdew/cortico-world-ntfy",
+        "homepage": "https://github.com/wtxdew/cortico-world-ntfy#readme",
+        "bugs": "https://github.com/wtxdew/cortico-world-ntfy/issues"
+      },
+      "created": "2026-11-13T18:04:57.729Z",
+      "published": "2026-11-13T18:06:15.038Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "apps"
+      ],
+      "tags": [
+        "apps"
+      ],
+      "icon": "assets/cortico-world-ntfy/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 0,
+        "events": 1,
+        "toolTokens": 0,
+        "envPromptTokens": 0
+      },
+      "discussion": {
+        "number": 921,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/921",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-ocr": {
       "kind": "world",
       "version": "0.1.1",
@@ -16900,7 +16980,7 @@
     },
     "cortico-world-private-companion": {
       "kind": "world",
-      "version": "0.7.3",
+      "version": "0.8.0",
       "displayName": "我会永远陪着你",
       "description": "「我会永远陪着你」Coopanion 版：把 menglimi 的 AstrBot 插件 astrbot_plugin_private_companion 的生活感、主动联系、关系卡与说话分寸，独立实现为 Coopanion 的 World 扩展；内置可迁移记忆（companion-memory/2，导入导出 + 隔离审核）。",
       "author": "yaya-super",
@@ -16926,8 +17006,8 @@
         "bugs": "https://github.com/YaYa-super/cortico-world-private-companion/issues"
       },
       "created": "2026-10-29T11:24:55.064Z",
-      "published": "2026-11-10T12:21:07.770Z",
-      "versionCount": 16,
+      "published": "2026-11-13T19:11:20.143Z",
+      "versionCount": 17,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -16945,13 +17025,14 @@
         "week": 1733
       },
       "summary": {
-        "tools": 12,
-        "events": 5,
-        "toolTokens": 2549,
+        "tools": 51,
+        "events": 11,
+        "toolTokens": 6649,
         "envPromptTokens": 810
       },
       "changelog": {
         "versions": [
+          "0.8.0",
           "0.7.3",
           "0.7.2",
           "0.7.1",

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-private-companion",
-  "version": "0.7.3",
+  "version": "0.8.0",
   "describe": {
     "tools": [
       {
@@ -546,6 +546,935 @@
           "read"
         ],
         "summary": "按 subjectKey 看同一件事的时间线。"
+      },
+      {
+        "name": "qq_status",
+        "description": "查看原生 QQ 通道的连接状态、账号、最近错误和事件数；只读。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": "查看原生 QQ 通道状态。"
+      },
+      {
+        "name": "qq_recent",
+        "description": "读取最近收到的 QQ 消息（昵称、私聊/群、文本、图片地址），只读。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20,
+              "description": "返回几条，默认 8"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": "读取最近 QQ 消息。"
+      },
+      {
+        "name": "qq_send",
+        "description": "通过原生 QQ 通道发一条文本消息。target_type=private 用 QQ 号，group 用群号。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "target_type": {
+              "type": "string",
+              "enum": [
+                "private",
+                "group"
+              ],
+              "description": "私聊或群聊"
+            },
+            "target_id": {
+              "type": "string",
+              "description": "QQ 号或群号"
+            },
+            "text": {
+              "type": "string",
+              "description": "要发的内容"
+            }
+          },
+          "required": [
+            "target_type",
+            "target_id",
+            "text"
+          ]
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": "通过原生 QQ 通道发文本。"
+      },
+      {
+        "name": "bili_search",
+        "description": "在 B 站搜索视频，返回 BV 号、标题、UP 主和时长；只读。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "keyword": {
+              "type": "string",
+              "description": "搜索词"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10,
+              "description": "返回几条，默认 5"
+            }
+          },
+          "required": [
+            "keyword"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": "搜索 B 站视频（只读）。"
+      },
+      {
+        "name": "bili_info",
+        "description": "读取 B 站视频的标题、UP 主、时长、简介和播放量；只读。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "bvid": {
+              "type": "string",
+              "description": "BV 号"
+            }
+          },
+          "required": [
+            "bvid"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": "读取 B 站视频信息（只读）。"
+      },
+      {
+        "name": "bili_comments",
+        "description": "读取 B 站视频的热评（只读，不回复）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "bvid": {
+              "type": "string",
+              "description": "BV 号"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20,
+              "description": "返回几条，默认 8"
+            }
+          },
+          "required": [
+            "bvid"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": "读取 B 站热评（只读）。"
+      },
+      {
+        "name": "qq_media_list",
+        "description": "列出最近下载的 QQ 图片/表情包（sha256 短号、路径、已有含义）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30,
+              "description": "默认 10"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": "列出已下载的 QQ 图片/表情。"
+      },
+      {
+        "name": "qq_media_note",
+        "description": "给一张已下载的 QQ 图片/表情包写含义，下次看到同一张图可以直接复用。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "key": {
+              "type": "string",
+              "description": "sha256、短号或本地路径"
+            },
+            "meaning": {
+              "type": "string",
+              "description": "这张图/表情的意思，例如「贴贴/撒娇」"
+            }
+          },
+          "required": [
+            "key",
+            "meaning"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": "给 QQ 图片/表情写含义。"
+      },
+      {
+        "name": "qq_view_image",
+        "description": "查看一条已下载的 QQ 图片/动图。若库里已有含义，不再返回图片，只返回那句含义。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "key": {
+              "type": "string",
+              "description": "qq_recent 里的图片短号、sha256、路径或 URL"
+            }
+          },
+          "required": [
+            "key"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": "看 QQ 图片/动图（有含义时不再给图）。"
+      },
+      {
+        "name": "qq_actions",
+        "description": "搜索 OneBot action 目录（217 个），返回名称、用途、参数和是否只读；不执行。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "关键词，例如 群、撤回、文件、管理"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30,
+              "description": "返回几条，默认 12"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": "搜索 OneBot action 目录。"
+      },
+      {
+        "name": "qq_call",
+        "description": "调用 OneBot action。写操作必须 confirm=true；目录里没有或高风险 action 会被拒绝。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "description": "qq_actions 里的 action 名"
+            },
+            "params": {
+              "type": "object",
+              "description": "action 参数对象"
+            },
+            "confirm": {
+              "type": "boolean",
+              "description": "写操作必须为 true"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": "调用 OneBot action（写操作需确认）。"
+      },
+      {
+        "name": "qq_receive",
+        "description": "查看或修改 QQ 接收策略。值如 private:* / group:123456 / *。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "receive": {
+              "type": "string",
+              "description": "省略=查看；给了就保存"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": "查看/修改 QQ 接收策略。"
+      },
+      {
+        "name": "onebot_actions",
+        "description": "搜索 OneBot action 目录（约 200 个），返回名称、用途、参数和是否只读；不执行。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "关键词，例如 群、撤回、文件、管理"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30,
+              "description": "返回几条，默认 12"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": "旧名：搜索 OneBot action 目录。"
+      },
+      {
+        "name": "onebot_call",
+        "description": "调用 OneBot action。写操作必须 confirm=true；目录里没有或高风险 action 会被拒绝。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "description": "onebot_actions 里的 action 名"
+            },
+            "params": {
+              "type": "object",
+              "description": "action 参数对象"
+            },
+            "confirm": {
+              "type": "boolean",
+              "description": "写操作必须为 true"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": "旧名：调用 OneBot action。"
+      },
+      {
+        "name": "onebot_receive",
+        "description": "查看或修改 QQ 接收策略。值如 private:* / group:123456 / *，逗号或空格分隔。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "receive": {
+              "type": "string",
+              "description": "省略=查看；给了就保存"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": "旧名：QQ 接收策略。"
+      },
+      {
+        "name": "onebot_status",
+        "description": "旧名别名：查看原生 QQ 通道状态（等同 qq_status）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": "旧名：QQ 通道状态。"
+      },
+      {
+        "name": "onebot_events",
+        "description": "旧名别名：读取最近 QQ 消息（等同 qq_recent）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20,
+              "description": "默认 8"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": "旧名：最近 QQ 消息。"
+      },
+      {
+        "name": "onebot_view_image",
+        "description": "旧名别名：看 QQ 图片/动图（有含义时不再给图）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "key": {
+              "type": "string",
+              "description": "图片短号/sha256/路径"
+            }
+          },
+          "required": [
+            "key"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": "旧名：看 QQ 图片/动图。"
+      },
+      {
+        "name": "onebot_media_note",
+        "description": "旧名别名：给 QQ 图片/表情写含义。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "key": {
+              "type": "string",
+              "description": "图片短号/sha256/路径"
+            },
+            "meaning": {
+              "type": "string",
+              "description": "含义"
+            }
+          },
+          "required": [
+            "key",
+            "meaning"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": "旧名：写图片含义。"
+      },
+      {
+        "name": "onebot_media_list",
+        "description": "旧名别名：列出已存的 QQ 图片/表情。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30,
+              "description": "默认 10"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": "旧名：列出图片。"
+      },
+      {
+        "name": "qq_view_file",
+        "description": "查看已下载的 QQ 文件/语音：文本直接读，音频能听就附音频，否则返回本地路径和类型。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "key": {
+              "type": "string",
+              "description": "文件 sha256/短号/路径"
+            }
+          },
+          "required": [
+            "key"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": "查看 QQ 文件/语音。"
+      },
+      {
+        "name": "qq_transcribe_voice",
+        "description": "用本机配置的语音转写命令把一条 QQ 语音转成文字；未配置命令会明确报错。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "key": {
+              "type": "string",
+              "description": "语音文件 sha256/短号/路径"
+            }
+          },
+          "required": [
+            "key"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": "转写 QQ 语音（需本机命令）。"
+      },
+      {
+        "name": "qq_reply",
+        "description": "引用一条最近收到的 QQ 消息回复，自动带回原会话（私聊/群）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "message_id": {
+              "type": "string",
+              "description": "qq_recent 里的 message_id"
+            },
+            "text": {
+              "type": "string",
+              "description": "回复内容"
+            }
+          },
+          "required": [
+            "message_id",
+            "text"
+          ]
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": "引用回复 QQ 消息。"
+      },
+      {
+        "name": "bili_subtitles",
+        "description": "读取 B 站视频字幕（需要登录 Cookie）；返回带时间轴的字幕行。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "bvid": {
+              "type": "string",
+              "description": "BV 号"
+            }
+          },
+          "required": [
+            "bvid"
+          ]
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "bili_history",
+        "description": "读取当前 B 站账号的观看记录（需要登录 Cookie）；只读。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30,
+              "description": "默认 20"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "bili_watch",
+        "description": "记一次 B 站观看：读信息/字幕/热评，写观看记录和一条记忆 episode；不评论、不点赞。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "bvid": {
+              "type": "string",
+              "description": "BV 号"
+            },
+            "note": {
+              "type": "string",
+              "description": "她看完的感受，可选"
+            },
+            "force": {
+              "type": "boolean",
+              "description": "明确要求重看时才传 true"
+            }
+          },
+          "required": [
+            "bvid"
+          ]
+        },
+        "tags": [
+          "read",
+          "write"
+        ]
+      },
+      {
+        "name": "bili_frames",
+        "description": "下载 B 站视频并用 ffmpeg 抽最多 4 帧，给模型看画面；只读，不保留视频。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "bvid": {
+              "type": "string",
+              "description": "BV 号"
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 4,
+              "description": "抽几帧，默认 3"
+            }
+          },
+          "required": [
+            "bvid"
+          ]
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "bili_together_open",
+        "description": "打开 B站一起看浏览器窗口。给 bvid/url 就进视频，留空进 B站首页；只控制独立 Edge，不碰用户正在用的窗口。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "bvid": {
+              "type": "string",
+              "description": "BV 号"
+            },
+            "url": {
+              "type": "string",
+              "description": "完整 B站视频 URL（与 bvid 二选一）"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "bili_together_control",
+        "description": "一起看播放控制：play / pause / seek / status。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "play",
+                "pause",
+                "seek",
+                "status"
+              ],
+              "description": "控制动作"
+            },
+            "seconds": {
+              "type": "number",
+              "description": "seek 的目标秒数"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "bili_together_frame",
+        "description": "截取一起看浏览器当前画面，作为观察帧。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "bili_together_close",
+        "description": "关闭一起看浏览器窗口。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "companion_screen",
+        "description": "截取当前桌面屏幕，给模型看用户正在做什么；需要 worlds.companion.screenEnabled。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "bili_comment_reply",
+        "description": "在 B站视频下发评论或回复某条评论；会自动 @ 主人账号。需要 biliReplyEnabled + confirm。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "bvid": {
+              "type": "string",
+              "description": "BV 号"
+            },
+            "text": {
+              "type": "string",
+              "description": "评论内容"
+            },
+            "image": {
+              "type": "string",
+              "description": "本地图片路径（可选，评论带图）"
+            },
+            "mention_owner": {
+              "type": "boolean",
+              "description": "是否在评论里 @ 主人；由你判断，默认否"
+            },
+            "root": {
+              "type": "integer",
+              "description": "被回复的根评论 rpid（可选）"
+            },
+            "parent": {
+              "type": "integer",
+              "description": "父评论 rpid（可选，默认 root）"
+            },
+            "confirm": {
+              "type": "boolean",
+              "description": "必须为 true"
+            }
+          },
+          "required": [
+            "bvid",
+            "text",
+            "confirm"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "bili_dm_reply",
+        "description": "回复一条 B站私信；需要 biliReplyEnabled + confirm。talker_id 在私信推送里。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "talker_id": {
+              "type": "integer",
+              "description": "私信会话 talker_id"
+            },
+            "text": {
+              "type": "string",
+              "description": "回复内容"
+            },
+            "confirm": {
+              "type": "boolean",
+              "description": "必须为 true"
+            }
+          },
+          "required": [
+            "talker_id",
+            "text",
+            "confirm"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "bili_together_share",
+        "description": "把一起看当前画面截图，作为评论发到正在看的视频并 @ 主人。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "配文，默认「这一帧给你看。」"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "bili_act",
+        "description": "以她自己的 B站账号执行动作：like/unlike、coin、favorite/unfavorite、follow/unfollow、share、watch_later、danmaku、comment_like/unlike、comment_delete、dm_owner。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "like",
+                "unlike",
+                "coin",
+                "favorite",
+                "unfavorite",
+                "follow",
+                "unfollow",
+                "share",
+                "watch_later",
+                "danmaku",
+                "comment_like",
+                "comment_unlike",
+                "comment_delete",
+                "dm_owner"
+              ],
+              "description": "动作"
+            },
+            "bvid": {
+              "type": "string",
+              "description": "BV 号（dm_owner 可选）"
+            },
+            "text": {
+              "type": "string",
+              "description": "弹幕/私信内容"
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2,
+              "description": "投币数"
+            },
+            "seconds": {
+              "type": "number",
+              "description": "弹幕时间点（秒）"
+            },
+            "rpid": {
+              "type": "integer",
+              "description": "评论 rpid"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "bili_profile",
+        "description": "读取当前 B站账号资料：昵称、签名、头像 URL、性别/生日。只读。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "bili_update_profile",
+        "description": "修改当前 B站账号的签名和/或头像；昵称暂不改（会扣币）。需要 biliInteractEnabled + confirm。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "signature": {
+              "type": "string",
+              "description": "新签名，最多 70 字"
+            },
+            "avatar": {
+              "type": "string",
+              "description": "本地 png/jpg 头像路径"
+            },
+            "confirm": {
+              "type": "boolean",
+              "description": "必须为 true"
+            }
+          },
+          "required": [
+            "confirm"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "bili_together_auto",
+        "description": "一起看自己找视频：给关键词就搜第一条，不给就从观看记录/热门里挑一条；打开并播放。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "想看什么；留空随便挑"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ]
       }
     ],
     "events": [
@@ -582,6 +1511,54 @@
         "trigger": "flush"
       },
       {
+        "type": "qq.message",
+        "description": {
+          "zh": "QQ 私聊或群聊入站消息；私聊/被@直接唤醒，普通群聊进 utility。",
+          "en": "Incoming QQ message; direct chats/mentions wake immediately."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "bili.inbox",
+        "description": {
+          "zh": "B站 @我的/回复我的通知，后台轮询后直接推给模型。",
+          "en": "Bilibili @/reply notifications pushed after background polling."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "bili.dm",
+        "description": {
+          "zh": "B站私信（含分享视频卡片），后台轮询后直接推给模型。",
+          "en": "Bilibili direct messages including shared-video cards."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "bili.together.frame",
+        "description": {
+          "zh": "一起看自动观察帧：播放中按配置的观察间隔（默认 5 秒）推送最近画面的图集，带标题和进度。",
+          "en": "Automatic together-watch frame: a screenshot with title and playback position, pushed while playing."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "bili.watch",
+        "description": {
+          "zh": "B站自己看/一起看留下的观看事件，可成为主动分享的由头。",
+          "en": "A Bilibili watch event that can seed a proactive share."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "companion.media",
+        "description": {
+          "zh": "图片补记提醒：之前随 QQ 看过但还没写含义的图片，隔一段时间再给一次画面，让角色补记。",
+          "en": "A reminder with previously seen QQ images that still lack a meaning, so the character can caption them."
+        },
+        "trigger": "debounce"
+      },
+      {
         "type": "companion.muse",
         "description": {
           "zh": "空闲胡思乱想：没人说话时基于旧记忆联想 1-2 条低权重 episode，不主动发消息。",
@@ -600,6 +1577,7 @@
     ]
   },
   "changelog": {
+    "0.8.0": "- 集成审计：把 QQ/B 站能力收进 companion，原生实现，不再运行时依赖第三方 world。\n- OneBot 原生客户端骨架：WebSocket 连接/重连、echo、状态、事件缓存、本机配置；QQ 面板可连接/断开/查看事件。\n- B 站只读层设计：能力、边界、数据形态和接入顺序；独立 B 站面板展示设计稿。\n- 两个通道各有独立 UI（QQ / B站），不再和记忆面板混在一起。\n- `ws` 运行时依赖；B 站只读层暂不发起请求。\n- OneBot 骨架已对 SnowLuma 2.2.0 实测：online、selfId/appName/版本读取成功。\n- OneBot M2：消息段归一化（文本/@/图片）、图片按 sha256 去重落盘、QQ 消息写原始记忆事件、`qq_status/qq_recent/qq_send` 工具、QQ 面板显示最近消息。\n- B站公开只读：搜索、视频信息、热评、弹幕客户端与 `bili_*` 工具；B站面板可公开试读；字幕/登录/观看记录/一起看仍缺。\n- QQ 看图/动图：`qq_view_image` 优先返回库里已有的含义（不再给图）；没有含义才给 blobs，GIF 用 ffmpeg 抽最多 4 帧；`qq_media_note` 写含义后，下次同一张图/动图直接复用。\n- OneBot 继续补：SnowLuma/NapCat/OneBot11 合并 action 目录（217 个）、`qq_actions` / `qq_call`（写操作需 confirm、危险 action 黑名单、参数类型校验）、接收会话策略、文件/语音下载、引用解析与 `qq_reply`、事件历史/群管 UI、旧 `onebot_*` 别名；普通群聊进 utility 的 pendingTrigger，私聊/@ 直接推主 session；语音转写接本机命令（未配置会明确报错）。\n- 端到端实测：原生通道发出私聊测试消息，用户回复「收到」；面板、原始记忆事件和 lastTalkAt 均更新。\n- 修复 `onebot_*` 与旧 OneBot 扩展的撞名：新规范名改用 `qq_actions/qq_call/qq_receive`，旧名需 `qqLegacyTools=true` 才暴露，否则 companion 会拒绝挂载。\n- B站只读补登录 Cookie（可继承旧陪看 cookies.json）、字幕、观看记录；B站面板显示登录账号并可读历史/字幕；新增 `bili_watch` 记一次观看（写 JSONL 和记忆 episode）、`bili_frames` 用缩略图网格抽帧、`biliSelfWatch` 定时自己看（默认关闭）。\n- 修 B站 issue-2026-11-09：统一观看账本（bvid/标题 Jaccard/旧 watched 导入，`bili_watch` 重复硬拦 + force）；私信 `msg_type=7` 分享卡片解析 aid→BV；新增 `/x/msgfeed/at`，@我的/回复合并去重。\n- B站 @/回复/私信后台轮询，直接以 `bili.inbox` / `bili.dm` 事件推给主 session，不需要模型自己调用工具；分享卡片带 BV/UP/已看状态。\n- 一起看：独立 Edge CDP 窗口、打开/播放/暂停/跳转/截图，播放写观看账；B站面板有一起看卡和自己看排期卡。",
     "0.7.3": "- 修复首页心理活动仍显示 thought/candidate 双条的问题：dashboard 的 mind 事件字段是 `at`，合并逻辑之前只读 `ts`，时间解析不到就没有去重。",
     "0.7.2": "- 修正命名：顶级页签回到「记忆」；「她相信什么」卡片改名「她的记忆」；内部页签保持「记忆」。\n- 心理活动里同一次活动的 thought/candidate 双条记录合并显示，不再出现两条一样的话。",
     "0.7.1": "- 面板改名「她的记忆」，内部「记忆库」页签改回「记忆」。\n- 「为什么开口 / 没开口」卡片改名「主动联系」。\n- 去掉界面上的英文前缀（NOW / TODAY / WHY / MEMORY / US / MIND / RECENT）。\n- 心理活动的类型标签改中文（候选/念头/复盘/跟进/意图/静默…）。",
@@ -623,6 +1601,6 @@
     "0.2.1": "- `companion_recall` 回执截断到 220 字：导入的交接笔记可能上千字，避免一次检索把上下文占满。",
     "0.2.0": "把记忆系统并进本扩展，不再依赖 `cortico-world-memory` 作为记忆所有者。\n\n### 新增\n\n- **内置记忆库**：`records.json`（派生记录）+ `events.jsonl`（原始事件）+ `meta.json`（捕获游标），落在 `data/private-companion/memory/`。\n- **记忆类型**：`note`（常驻，进每轮提示词）、`fact`、`episode`、`profile`、`relationship`、`reflection`、`commitment`。\n- **检索**：BM25（CJK 2-gram + 拉丁词）+ 新近度衰减 + 重要度加权；整串命中额外加分；事件按保留天数过滤。\n- **写入去重**：原文 hash 完全重复直接返回原 id；同类型近似重复（token Jaccard ≥ 0.86）跳过。\n- **自动捕获**：每拍扫描新的外部事件写进原始事件层，跳过各世界自己的遥测（`desktop-pet.self/touch/answer`、`civ6-assistant`、`terrarium`、`bilibili`、`console`）。\n- **工具**：`companion_remember`、`companion_memory`（stats/export/import/prune/forget）；`companion_recall` 改为查内置记忆。\n- **导入导出**：版本化 bundle `companion-memory/1`，`import` 支持 `dry`/`merge`，合并导入幂等。\n- **迁移脚本**：`tools/import-memory-extra.mjs` 把旧 `cortico-world-memory` 的笔记/事实/档案/知识/反思导入，过滤遥测与事件日志。\n- **上下文**：陪伴上下文新增「记得：…」「最近：…」两行（常驻笔记 + 最近记录），签名参与去重。\n- **配置**：`memoryEnabled` / `memoryCapture` / `memoryRetentionDays` / `memoryNotesInPrompt`。\n\n### 变更\n\n- 删除 0.1.x 的只读桥（`src/memory.ts`）：现在记忆是自己的，不再借用别的世界。\n- 环境提示词新增「记忆」一节，说明记什么、怎么查、不要记运行痕迹。",
     "0.1.1": "- 修复 `companion_recall`：原来在加载阶段就按「每个记忆域只保留最近 3 条」截断，导致同一域里较早的事实即使命中关键词也查不到。\n  现在加载不截断，改为在检索结果层面限流（同一域最多 2 条），既保留较早的匹配，也不会让高频域占满结果。\n- 测试补一条回归：同一域 6 条事实里只有最早一条包含关键词时，仍能被检索到。",
-    "0.1.0": "首个发布版本。把 AstrBot 插件「我会永远陪着你」（`astrbot_plugin_private_companion`，作者 menglimi）\n「有自己的生活、会在合适的时候主动开口」这套机制，独立实现为 Coopanion 的 World 扩展。\n\n### 功能\n\n- 角色状态：精力、心情、在做什么、在哪、睡没睡，按真实时间演化，关机期间按逝去时间补算。\n- 每日节目单：按日期种子生成 6 件小事，可被模型或人改写；日程会成为主动开口的由头。\n- 主动联系：免打扰、最小间隔 + 抖动、每日上限、刚聊完静默；由头必须来自状态，不是随机问候。\n- 关系卡：称呼、关系、生日、备注，支持多 key（`main` 之外可另建）。\n- 日记：模型自己写，最近一条进对话上下文。\n- 记忆桥：只读检索 `cortico-world-memory` 的笔记、人物档案与事实（`companion_recall`）。\n- 环境提示词：`ENV_PROMPT.md` 进 system 前缀，可在设置页编辑，支持 `styleNote` 补充。\n- 设置页：2 个状态灯（主动联系 / 生活 / 记忆）、3 个徽标（精力 / 心情 / 今日主动）、13 个配置项。\n\n### 工具\n\n`companion_state`、`companion_agenda`、`companion_profile`、`companion_journal`、`companion_proactive`、`companion_recall`。\n\n### 事件\n\n- `companion.context`（piggyback）：每轮随批次投递的「此刻」，内容不变不重推。\n- `companion.proactive`（flush）：想开口的由头，立即唤醒一轮。\n\n### 已知边界\n\n- 不接管对话、平台发送、TTS、生图、识屏；这些在 Coopanion 里各有世界。\n- 关系卡的上下文只展示 `main`（或唯一一张卡）；其余卡可读写、可在 `action=list` 里看到。\n- 记忆桥依赖 `cortico-world-memory` 的 JSON 落盘格式；对方改格式时退化为「查不到」而不是报错。"
+    "0.1.0": "首个发布版本。把 AstrBot 插件「我会永远陪着你」（`astrbot_plugin_private_companion`，作者 menglimi）\n「有自己的生活、会在合适的时候主动开口」这套机制，独立实现为 Coopanion 的 World 扩展。\n\n### 功能\n\n- 角色状态：精力、心情、在做什么、在哪、睡没睡，按真实时间演化，关机期间按逝去时间补算。\n- 每日节目单：按日期种子生成 6 件小事，可被模型或人改写；日程会成为主动开口的由头。\n- 主动联系：免打扰、最小间隔 + 抖动、每日上限、刚聊完静默；由头必须来自状态，不是随机问候。\n- 关系卡：称呼、关系、生日、备注，支持多 key（`main` 之外可另建）。\n- 日记：模型自己写，最近一条进对话上下文。\n- 记忆桥：只读检索 `cortico-world-memory` 的笔记、人物档案与事实（`companion_recall`）。\n- 环境提示词：`ENV_PROMPT.md` 进 system 前缀，可在设置页编辑，支持 `styleNote` 补充。\n- 设置页：2 个状态灯（主动联系 / 生活 / 记忆）、3 个徽标（精力 / 心情 / 今日主动）、13 个配置项。\n\n### 工具\n\n`companion_state`、`companion_agenda`、`companion_profile`、`companion_journal`、`companion_proactive`、`companion_recall`。\n\n### 事件\n\n- `companion.context`（piggyback）：每轮随批次投递的「此刻」，内容不变不重推。\n- `companion.proactive`（flush）：想开口的由头，立即唤醒一轮。\n\n### 已知边界\n\n- 不接管对话、平台发送、TTS、生图、识屏；这些在 Coopanion 里各有世界。\n- 关系卡的上下文只展示 `main`（或唯一一张卡）；其余卡可读写、可在 `action=list` 里看到。\n- 记忆桥依赖 `cortico-world-memory` 的 JSON 落盘格式；对方改格式时退化为「查不到」而不是报错。\n\n- 新增可选 `companion_screen`：显式开启后截当前桌面；默认关闭。七项能力先落地 Screen 与 Together，其余按依赖分阶段。\n\n- B站评论/私信回复：bili_comment_reply（自动 @ 主人，root/parent 回复，日上限）、bili_dm_reply（talker_id）；默认关闭，需 biliReplyEnabled + confirm。\n\n- B站回复补图片：评论上传 BFS 图片并带 pictures；通知/私信 UI 支持选择 @/私信、填配文、可选本地图片路径；一起看新增「分享这一帧」闭环（截图→评论配图→@主人）。\n\n- B站账号动作：新增 `bili_act`（like/unlike、coin、favorite/unfavorite、follow/unfollow、share、watch_later、danmaku、comment_like/unlike、comment_delete、dm_owner）；写操作需 confirm。\n- 是否 @ 主人或私信主人改由模型判断：`bili_comment_reply`/`bili_together_share` 增加 `mention_owner`，默认 false；UI 增加可选勾选。\n\n- B站账号资料：bili_profile 读取昵称/签名/头像；bili_update_profile 改签名/头像（昵称暂不改，避免扣币），默认需确认；B站面板增加账号资料卡。\n\n- QQ 语音：仅接 DeepSeek 官方 ASR 自动转写（qqTranscribeVoice）；语音生成/TTS 暂不放进正式版。\n\n- 一起看：复用同一 Edge 窗口，窗口 1160×800 居中；播放中每 0.8 秒采样、每 5 秒把最近 4 帧拼成 2×2 图集发 bili.together.frame；UI 精简为一起看/打开B站/暂停播放/关闭。\n- 配置页：开口决策改为「综合判断/只记录/固定阈值」，移除旧 OneBot 兼容开关和 TTS 相关字段；bili_act 默认开启且不再要求 confirm。\n\n- B站面板只保留「浏览」：通知/私信、账号资料和一起看表单都不再显示；顶部保留一个「一起看」按钮作为手动入口，其余交给模型工具。\n\n- 一起看窗口改用 `--remote-debugging-port=0` + DevToolsActivePort，避免 9333 …"
   }
 }
