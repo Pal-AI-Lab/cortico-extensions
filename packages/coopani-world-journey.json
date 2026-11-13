@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "coopani-world-journey",
-  "version": "1.6.17",
+  "version": "1.6.18",
   "describe": {
     "tools": [
       {
         "name": "journey_now",
-        "description": "Where she is right now: which city, which day of the trip, what she is doing at this hour, where she is staying tonight, and - if she is on the road - how far along she is. Use it when the person asks where she is, how the trip is going, or when you need her current situation before answering something about it.",
+        "description": "Where she is right now: which city, which day of the trip, what she is doing at this hour, where she is staying tonight, and - if she is on the road - how far along she is. Use it when the person asks where she is, how the trip is going, or when you need her current situation before answering something about it. This is background for you, not text to hand back: answer what was actually asked, in her own words, rather than reading the fields out one by one. If only one thing was asked about, only one thing needs saying.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -22,7 +22,7 @@
       },
       {
         "name": "journey_diary_write",
-        "description": "Write the diary entry for a day of the trip, in her own voice. Call it once at the end of a local day, after the evening beats have happened. The entry is appended to the Markdown file for that month (one file per month, e.g. 2026-11.md), which follows the person across machines. Write what actually happened that day - the city, the road, what she ate, how the room was - not a summary of the extension.",
+        "description": "Write the diary entry for a day of the trip, in her own voice. Call it once at the end of a local day, after the evening beats have happened. If somebody is travelling with her today, they belong in the entry too - what they did together, not just that they were there. The entry is appended to the Markdown file for that month (one file per month, e.g. 2026-11.md), which follows the person across machines. Write it the way she would tell it to herself at night, not as a report of the day: pick the one or two things she is still thinking about - a sound, somebody she watched, how her legs felt - and give those room. The city, the road, the meal and the room are material to draw on, not a checklist to walk through in order. Ticking each of them off is exactly what makes an entry read like a machine. Not a summary of the extension either.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -141,7 +141,7 @@
       },
       {
         "name": "journey_photo",
-        "description": "Take a photo right now and show it in the chat: the view from where she is. Call it whenever the person asks for a photo, or asks what it looks like where she is - never tell them to press a button in the app instead, this is the button. In a city it is the spot she is at right now; on the road it is the view out of the window. Any hour is fine: being asked is reason enough. One photo per call - if they want another, call it again. Set view=\"sky\" when they ask for the sky itself - stars, the moon, sunrise, sunset, clouds. It means she tilts the camera up, nothing more: what comes out is still the real sky over her at that hour. Stars only show at night and only when it is not overcast; ask at noon and you get daylight, ask on a cloudy night and you get cloud. Never claim a sky she did not actually see.",
+        "description": "Take a photo right now and show it in the chat: the view from where she is. Call it whenever the person asks for a photo, or asks what it looks like where she is - never tell them to press a button in the app instead, this is the button. In a city it is the spot she is at right now; on the road it is the view out of the window. Any hour is fine: being asked is reason enough. One photo per call - if they want another, call it again. YOU write the frame: `describe` is your own line about what is in the picture (<=60 chars), `focus` is how you hold the camera. When the person says shoot *that* - a cat by the lamp, the sugar-painting stall, rain on the awning - turn it into one `describe` line and take the photo. Do not ask them to be more specific first. The place, the hour, the light and the season are already handled; the content is yours. Set view=\"sky\" when they ask for the sky itself - stars, the moon, sunrise, sunset, clouds. It means she tilts the camera up, nothing more: what comes out is still the real sky over her at that hour. Stars only show at night and only when it is not overcast; ask at noon and you get daylight, ask on a cloudy night and you get cloud. Never claim a sky she did not actually see.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -165,6 +165,14 @@
                 "detail"
               ],
               "description": "What the photo is OF. ground (default) = the view where she is - the usual travel photo. food = what she is eating right now (拍吃的 / 晚饭 / 这碗面 / 早饭). street = the street itself, facades and shopfronts (街景 / 这条街 / 巷子 / 夜市). festival = the season or holiday around her (节日 / 过年 / 中秋 / 秋天 / 下雪). detail = one close-up object (细节 / 特写 / 车票 / 钥匙 / 茶碗 / 菜单). sky = same as view=sky. Pick by what they actually asked for; if they just say \"拍张照\", use ground."
+            },
+            "describe": {
+              "type": "string",
+              "description": "Optional, one short line describing WHAT IS IN THE FRAME, at most 60 characters. **Write it in English** - this string goes straight into the image model, and local SDXL CLIP cannot read Chinese (it comes back as gibberish with brush-script watermarks). \"a calico cat crouching under a streetlight, looking up\" / \"empty platform, one bench, half a bottle of water\". This is the content of the shot, not the framing (that is `focus`). Only describe what is really here right now: the place she is at, this season, this weather. Never add flowers, snow, festivals or crowds that this place and season do not have. If nothing is worth describing, leave it out - the program already describes the place and light."
+            },
+            "focus": {
+              "type": "string",
+              "description": "Optional, one short line in her own words on HOW to frame it, at most 40 characters - \"靠后坐，前面好几个人挡着\" / \"蹲下来贴着水面拍\" / \"镜头往上偏一点，别拍到人群\". Framing, angle, where she is sitting, what is in the near foreground. Do NOT use it to add anything that is not actually there: no flowers, snow, buildings or people that the place and season do not have. If what they asked for is not in front of her, say so instead of writing it in."
             }
           }
         },
@@ -195,7 +203,7 @@
             },
             "meet": {
               "type": "string",
-              "description": "Where they meet up first, before going on to that city together. By name. Leave it out and the meeting point is wherever she is right now - which is the normal case. Only set it when they asked to meet somewhere specific, e.g. she is in 兰州 and they want to start from 成都."
+              "description": "Where they meet up first, before travelling on to that city together. By name. Leave it out and they meet at wherever she is right now and then set off together - that is the normal case, and the one that makes it a shared trip rather than two pets arriving separately. Only set it when they asked to meet somewhere specific, e.g. she is in 兰州 and they want to start from 成都."
             },
             "note": {
               "type": "string",
@@ -456,6 +464,163 @@
           "zh": "今天剩下的不逛了，真的歇下来。",
           "en": "Stop for the day - for real."
         }
+      },
+      {
+        "name": "journey_plan_change",
+        "description": "Change what she does today: swap a stop that has not happened yet for another place in this city. Use it when the person wants somewhere different - \"别去颐和园了，去故宫\" / \"今天想去博物馆\" - or when she herself says she would rather go elsewhere. Only the part of today still ahead can be changed; what already happened stays as it was, and it says so when asked to change it. The new place must be one this city actually has - if it is not, the answer lists what is there instead of inventing one. This is for today only: to leave the city use journey_go_to, to stop for the day use journey_rest.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "spot": {
+              "type": "string",
+              "description": "Where she should go instead, by name as this city has it - 故宫 / 颐和园 / 宽窄巷子. Short names work: 故宫 matches 故宫博物院."
+            },
+            "instead": {
+              "type": "string",
+              "description": "Which stop of today to replace, by name. Leave it out to change the next place she has not been to yet."
+            }
+          },
+          "required": [
+            "spot"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "改今天还没去的行程：把某一处换成这座城里的另一处。",
+          "en": "Swaps a stop still ahead today for another place here."
+        }
+      },
+      {
+        "name": "journey_hotel_night",
+        "description": "What she does tonight at the place she is staying. The options come from what THIS hotel actually has (verified facilities: pool, onsen, gym, spa, bar) plus a walk nearby if something is close. Use it when the person asks what she is doing tonight, or tells her to go swim / use the gym / get a massage. If they ask for something this hotel does not have, do not pretend: say it is not there and list what is. Only works in the evening while she is at her lodging.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "what": {
+              "type": "string",
+              "enum": [
+                "pool",
+                "onsen",
+                "gym",
+                "spa",
+                "bar",
+                "around",
+                "bath",
+                "room"
+              ],
+              "description": "pool = swim, onsen = hot spring, gym = work out, spa = massage (costs money), bar = a drink downstairs, around = step out for a short walk, bath = soak in the room, room = just stay in. Only the ones this hotel really has will be accepted."
+            }
+          },
+          "required": [
+            "what"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "今晚在住处干什么：按这家店真有的设施挑。",
+          "en": "Picks tonight from what this hotel actually has."
+        }
+      },
+      {
+        "name": "journey_spot_ride",
+        "description": "Getting up or around inside the scenic spot she is at right now: cable car, park shuttle, sedan chair, toboggan down, rental bike, or a local guide. Use it when the person asks how she is getting up a mountain, says walking the whole way is too much, or asks about tickets inside the park. It tells the price and charges it; if the spot does not have that option it says what it does have. Walking is always possible - use how=walk when she just walks it.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "how": {
+              "type": "string",
+              "enum": [
+                "cableway",
+                "shuttle",
+                "sedan",
+                "slide",
+                "bike",
+                "guide",
+                "walk",
+                "camel"
+              ],
+              "description": "cableway = cable car up, shuttle = park shuttle bus, sedan = sedan chair carried by two people (famous mountains only), slide = toboggan down or a sand sled, bike = rental bike, guide = hire a guide, camel = ride a camel (deserts and dunes only), walk = walk it. Only the ones this spot actually has will be accepted."
+            },
+            "spot": {
+              "type": "string",
+              "description": "Which spot, if not the one she is at right now. Leave it out in the normal case."
+            }
+          },
+          "required": [
+            "how"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "景区里坐什么：索道、观光车、滑竿、滑道、自行车、讲解，或者自己走。",
+          "en": "Cable car, shuttle, sedan, toboggan, bike, guide - or walk it."
+        }
+      },
+      {
+        "name": "journey_set_slot",
+        "description": "Rewrite one entry of today that is not a sightseeing stop: breakfast, lunch, dinner, waking up, going to bed, the night, or whatever she does at some hour. Use it for \"中午别吃面了，去吃火锅\" or \"别七点起了，八点再起\". Pass `time` as the clock hour when you know it (\"12:30\", \"7\"), or as the kind of entry when you do not (\"午饭\", \"早饭\", \"晚饭\", \"起床\", \"睡觉\", \"夜里\") - the schedule differs by day, so the kind is often safer. For swapping a sightseeing stop for another place in this city use journey_plan_change instead - that one checks the place really exists. Tonight at the lodging is not changed here: what she can do there comes from what the hotel actually has, use journey_hotel_night. Only entries still ahead today can change; what already happened stays as it was.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "time": {
+              "type": "string",
+              "description": "Clock time of the entry (\"12:30\", \"7\"), or the kind of entry when the exact hour is unknown (\"午饭\" / \"早饭\" / \"晚饭\" / \"起床\" / \"睡觉\" / \"夜里\")."
+            },
+            "what": {
+              "type": "string",
+              "description": "New wording for that entry, in her own voice, one short sentence. Keep the slot word in front so the panel still reads as a schedule: \"午饭，老火锅，鸳鸯锅\"."
+            }
+          },
+          "required": [
+            "time",
+            "what"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "改今天某一点吃什么、做什么（景点用 journey_plan_change，住处晚上用 journey_hotel_night）。",
+          "en": "Rewrite one non-sightseeing entry of today."
+        }
+      },
+      {
+        "name": "journey_eat",
+        "description": "Call this when she actually goes to eat something specific - the person says \"去吃火锅\", or she has decided she wants a particular dish and is going there now. It rewrites the meal entry of today for real AND looks up a real restaurant for it, so the name she says afterwards exists. Pick `dish` from what she would actually order (\"火锅\", \"螺蛳粉\", \"牛肉面\") - a dish or a kind of food, not a shop name. If the look-up finds nothing the meal still gets written, and the reply says so: then say \"找了一家本地人排队的\" instead of a name. Never invent a restaurant name yourself. For merely changing what is written in the schedule without going anywhere, journey_set_slot is enough.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "dish": {
+              "type": "string",
+              "description": "What she is going to eat, as a dish or a kind of food (\"火锅\", \"螺蛳粉\"). Not a restaurant name."
+            },
+            "time": {
+              "type": "string",
+              "description": "Which meal (\"早饭\", \"午饭\", \"晚饭\"), or a clock hour (\"12:30\"). Omit to use the meal the local time falls in."
+            }
+          },
+          "required": [
+            "dish"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "特意去吃某一样，顺手把真店名查出来。",
+          "en": "Go eat something specific, with a real restaurant looked up."
+        }
       }
     ],
     "events": [
@@ -574,6 +739,7 @@
     ]
   },
   "changelog": {
+    "1.6.18": "这一轮装的是邮箱里剩下的几条反馈。\n\n### 一、凌晨一点不叫「早饭」（mrlin97，Discussion #586）\n\n> 「她当地时刻 01:06，`journey_photo`（subject=food）的回执写『成都的早饭，当地 1 点』。\n> 图本身没问题；错的是『早饭』这两个字 —— 凌晨一点不可能是早饭。」\n\n`photo.ts` 的 `photoTitle()` 第一档是 `hour < 10 ? '早饭'`，把 0–10 点整段吞了进去。\n\n改成六档：0–5 宵夜、5–10 早饭、10–15 午饭、15–17 晌午的饭、17–21 晚饭、21–24 宵夜。\n顺带把钟点归一（`((hour % 24) + 24) % 24`）—— 它是纯函数，拿 25 或 -1 来调也得给个说得通的词，\n天空那一支本来就这么处理。\n\n**没有改动的**：回执里「当地 1 点」这个时刻本身是对的，只换掉那个名词。\n\n### 二、`journey_set_slot` 能补凌晨的格子了（同一条反馈的第二半）\n\n> 「`time=\"1:30\"` → 『01:30 附近没有可改的格子』；`time=\"夜里\"` 被映射到 20:15 那一格。」\n\n根子在日程表：`planDay` 从 07:00「起床」起排、23:00「睡」收尾，**凌晨那几小时没有格子**。\n「改已有的一格」和「这一段还没排过」是两件事，原来只有前一条路。\n\n- `findSlotBeat()` 三种匹配都落空、而那个时刻还没到 → 回 `{ add }`，交给调用方新增；\n- `setSlot()` 新增分支：`kind` 固定 `beat`，仍落 `planPatches`；\n- `applyPlanPatches()` 补一段：把补丁里 `kind === 'beat'`、而原表上没有同类型同刻的，\n  作为新的一格插进去再排序。**只认 `beat`** —— 景点格必须由 `changePlan` 带通勤格一起换，\n  酒店那格要按这家店真有的设施给选项，让它们凭空长出一格是另一类错。\n- `BeatKind` 补上 `'beat'`：这个值一直在用（`pushBeat()`、月末那句「这个月最后一天了」），\n  union 里漏登记，靠 tsx 运行时不查类型才没炸。\n\n过去时刻仍然拒，且照样列出今天剩下的 —— 新增一格等于给历史补一条，那条线不动。\n测试加一条「表上空的时段能新增一格，重排之后还在」（贴一次就丢等于「改了骗你」）。\n\n### 三、`describe` 要写英文\n\n> mrlin97 附带：「`journey_photo` 的 `describe` 写中文时，下游 SDXL 的 CLIP 基本读不懂，\n> 会出毛笔字水印那种乱图；写英文一次就成。」\n\nENV_PROMPT 两处（正文 + 工具表）和工具定义里的 `describe` 参数说明都改了：\n示例换成英文，并写清理由。**没改代码** —— 程序不替她翻译，也不猜语言。\n\n### 四、简介里的城市数一直是旧的\n\n`package.json` 三处写着「一百二十四座城 / 124 of them」，实际 `CITIES` 是 **185**\n（境内 93 / 境外 92）。地标数也一并核了：每座 6–10 个（不是原文的「六到九」）。\n\n起因是有人来信问「默认都去哪些地方」，答之前先得让简介和实况对得上。\n\n### 五、碰面服务器：三个空 catch 补上了日志\n\n`cloud/sight-cf/src/worker.js` 里 invite / status / accept / admin 都有 `console.error`，\n**唯独名片（`/profile`）、同行卡（`/card`）、`flagOf()` 三处是空的**。\n\n11-12 那天全站 D1 500，客户端只拿到「服务器回了 500」，Worker 侧一个字都没留 ——\n用户替我们查了一天，我们连「no such table」和「quota exceeded」都分不出来。\n现在三处都会打 `[sight profile]` / `[sight card]` / `[sight flag]`。\n`flagOf()` 行为不变（表不存在就当没标），只是不再静默。\n\n**根因已定（2026-11-13 补）**：不是代码问题，是 **D1 免费额度耗尽**。\n证据链在本机 `E:\\Coopanion\\data\\logs\\core.log`：\n\n```\n11-12 12:28   首条「位置没报上去」\n11-12 16:12起 密集失败（当天 74 条）\n11-13 07:57   仍在失败\n11-13 08:01:…",
     "1.6.17": "这一版装的是 1.6.16 之后做完的收尾：景区人气、食物构图、夜里丢雪，\n以及两条用户反馈（裁剪与尺寸静默失败）。1.6.16 装的是生图重写的第一个版本。\n\n### 十一、第二轮 A/B：十个边角（2026-11-12 晚）\n\n第一轮只覆盖了六个常规场景。补跑十组，每组同 workflow 同 seed 各出两张：\n\n| 场景 | 结论 |\n|---|---|\n| 悉尼 1/12 20 点 | 改前判「入夜，天已黑透」，天上还有星；改后**落日晚霞**（悉尼那天 20:05 才日落）。旧版还漏了一句「村里的灯」——那是路上的文案串进了城市街景 |\n| 圣彼得堡 6/21 23 点 | 两版都对（白夜是旧版唯一靠 `lightBand` 特例处理对的边角），新版更接近真实：灰白偏冷，不是粉紫日落 |\n| 柏林 12/15 17 点 | 改前灰白天 + 一个行人；改后深蓝蓝调 + 灯条反光，**无人** |\n| 京都 11/15 17 点 | 日落橙红、贩卖机、电线杆、红叶，形制与光都对 |\n| 三亚 1/12 12 点 | 改前站着一个正背影；改后**空景**，热带、影子短 |\n| 成都 12 点 钟水饺 | 改前是酱油汤饺子 + 玻璃上一个人影；改后红油 + 蒜泥 + 干辣椒碟，无人 |\n| 维也纳 7/15 20 点 节日 | 露天座位、白帆布棚、串灯，无雪，夏天 |\n| 泉州 19 点 清净寺街 | 骑楼、瓷砖柱、湿地面夜灯；**右下角仍有一个骑电动车的人** |\n| 拉萨 11/9 14 点 | **新版不占优。** 两版形制都对、光都对；旧版更像照片，新版偏插画、地上的霜更多 |\n\n**又抓到一个我自己引入的缺陷：夜里把「雪」也砍掉了。**\n上一条规则是「没有日光就不写季节」，为了治「黑照片里说银杏金黄」。\n一刀切下去，柏林十二月十七点的提示词里一个「雪」字都没有 —— 出来是一条干净的湿街，\n而那天柏林零下、屋顶窗台都压着雪。**一张没雪的柏林冬夜，比一张过曝的黄昏更容易被认出是假的。**\n\n修法是按「能不能在黑暗里知道」分：叶、花、颜色砍掉（看不见），\n雪、冰、湿、积水、石板、水面留下（踩上去知道，灯下也认得出）。新的 `nightSeason()`。\n复验一张：广场、屋顶、树梢都有雪了，窗灯亮着，无人。\n\n**`people` 负向的命中率：7 张里 4 张干净**（成都街景、柏林、三亚、钟水饺干净；\n喀什两个背影、圣彼得堡河岸两个人、泉州一个骑车的人没压住）。\n**规律是压得住主体、压不住远景边缘的小人影。** 这是底模的边界，不是提示词能再解决的。\n\n### 十二、景区要有人气，构图不许对称（2026-11-12 深夜，Mr.Q 看图之后的第二刀）\n\n> 「得有人，景区有人气最好，就是别太突出了。饺子全是中心对称的。。。」\n\n**人气：上一版矫枉过正。** 我为了压掉正向压不住的行人，在负向里塞了\n`people, person, human, crowd, pedestrians` —— 效果是整条街、整座古城、整片海滩\n一个人都没有。**那是置景，不是有人住的地方。**\n\n- 负向整条撤掉（`world.ts` 只在夜里加 `nightNegative` 了）。\n- 正向改写，把量词、距离、清晰度三样写死：\n  - 街景 / 节日：`近处空着，远处几个虚化的人影，看不清脸`\n  - 开阔风景（海滩、湖岸、广场）：`远处散着几个很小的行人，看不清脸`\n  - 拍天（`sky`）：仍然无人 —— 镜头朝天，画面里只有天和地平线一道轮廓\n  - 食物 / 小物：仍然 `画面里没有人物`（特写边上站人是另一张照片）\n\n**为什么风景要单列一句。** 街景有纵深引导线，人自然落在远处；\n海滩没有收束，写「远处几个虚化的人影」出来的是**一个走在画面正中间的大背影**，\n加「近处空着」也压不住。换成给它**尺寸**（「很小的行人」）才按得住 ——\n「远处」模型只当形容词，「很小」它是真认。\n\n**饺子：容器和构图都管不住它。** 食物那条已经改成「斜四十度、主体偏一侧、桌沿斜切入画」，\n出来还是对称的 —— 因为**饺子自己排成了放射状**：八只围一圈、蒜泥摆正中，像朵花。\n那是「一盘饺子」在模型脑子里的先行。只有写死它们**怎么堆**才行，于是 `DISH_LOOK` 加了一条：\n`白瓷盘里十来个饺子挤在一堆、横七竖八互相压着，有的只露出半个、有的皮破了`。\n正面写堆法，不写「不要围成一圈」（否定句在这儿只会再强调一次）。\n小物那条也加了「主体偏在一侧、不摆正中」。\n\n**出图验过的三张：**\n- 成都锦里 12 点（v4）：远景四五个虚影，近处空着 —— 正是要的那种人气\n- 泉州 19 点夜街（v2）：远处…",
     "1.6.16": "> **十一～十四节已挪到 1.6.17。** 这一版（22:33 发出）装的是生图重写的第一个版本，\n> 后面那几刀（景区人气、饺子构图、夜里丢雪）是它之后才改的，见下一节。\n\n**生图提示词层整体重写。** 起因是 Mr.Q 一句「把我这个插件的提示词全部重写一下，写的太差了」，\n先把成都十一月十九点的成品打出来，一行就看出问题：\n\n```\n黄昏的金色光线。…天空是一整片灰白低云，没有太阳也没有影子…\n胶片质感，自然光，景深自然。…天色常是灰白的，看不见蓝天，也没有太阳。\n```\n\n「金色光线」和「没有太阳」在同一段里各出现两次。单看每一句都对，拼在一起就是胡说。\n**根子不在措辞，在同一个事实被四个地方各说了一遍。**\n\n### 一、光：判据从「几点」换成「太阳多高」\n\n旧版所有模板按整数小时分档（`hour < 9` 清晨、`< 20` 黄昏）。这套在兰州勉强能用，\n一离开兰州处处是错：\n\n| 现场 | 旧判据说 | 实际 |\n|---|---|---|\n| 成都 11/9 19 点 | 黄昏的金色光线 | 日落 18:05，已黑透 |\n| 成都 11/9 19 点 | `daylitAt` 判「有日光」，尾句写「自然光」 | 同一段里既黑又亮 |\n| 喀什 11/9 19 点 | 入夜 | 太阳还有 8°，低角度暖光 |\n| 漠河 6/21 21 点 | 深夜 | 太阳刚落，地平线还橙着 |\n| 柏林 1/15 17 点 | 傍晚 | 日落 16:15，蓝调 |\n\n现在新增 `sunAltitude()`（纬度 + 赤纬 + 时角）与 `sunPhase()`（九档：noon / day / slant /\nlow / golden / afterglow / blue / twilight / night），**经度和时区一起算进真太阳时** ——\n中国全境一个时区，喀什的钟点比太阳时快近三小时，不算经度西部城市的每张照片都偏亮两三小时。\n\n`lightBand()` 保留但不再参与提示词（它是导出的接口，测试也在用），\n`daylitAt()` 内部换成高度角（拿不到经度时退回钟点近似，老调用方不用改）。\n\n### 二、一句话只说一件事\n\n| 事实 | 唯一发声处 | 原来谁说 |\n|---|---|---|\n| 地面被什么照着 | `lightLine()` | 光句 + 回避句 + 天气句 + 风格尾句 |\n| 天是什么颜色 | `skyLine()` | 季节句 + 城市锚点 + 光句 |\n| 这个季节看得见什么 | 季节句（已剥掉天空分句） | 季节句 |\n| 下雨下雪看得见什么 | `weatherLine()` | `天气X` 三个字 |\n\n- `avoidLine()` 整条下线。它唯一还有内容的是川渝那条「天色常是灰白的，看不见蓝天，\n  也没有太阳」—— 既是**否定句**（生图模型常读成强调），又排在**硬约束之后**\n  （模型对末句最敏感，等于让一句天况压过「画面里没有人物」）。\n  川渝冬天日照少是事实，改由 `sceneSun()` 的默认值承担：盆地冬半年没给天气时按「有云」处理，\n  由 `skyLine` 用正面的话说「天是一整片灰白的云」。天气里明说了「晴」仍然按晴。\n- 尾句删掉「胶片质感，**自然光**，景深自然」—— 「自然光」是总体判断词，排在最后，\n  会把前面算出来的深夜/黄昏全部推翻（0 点那张「晚上跟白天一样」的直接原因）。\n  现在只说质感：白天「胶片颗粒，轻微过曝」，夜里「手机夜拍，噪点明显，暗部没有细节」。\n- 拼接顺序重排成：人的意图 → 主体 → 天 → 光 → 季节 → 事件 → 机位 → 硬约束。\n\n### 三、顺手修掉的五个真 bug\n\n1. **`describe` 在四个题材里被整个丢掉。** `ENV_PROMPT` 教她「他说拍那个，你就写一句\n   describe」，但只有风景那条拼了它 —— 拍晚饭、拍街景时她写的画面一个字都没进提示词。\n   现在六个题材共用 `withDescribe`，排在标题句之后、`focus` 之前。\n2. **没有菜名时硬配一个盘子。** `dishKind('')` 落到 `plate`，于是「成都街边的一碗当地饭」\n   被摆进厚釉粗陶盘、撒上葱花辣椒段、要求对焦盘沿。没有菜名就不写容器。\n3. **川渝盘菜一律撒辣椒。** 那一支是川渝所有盘菜的兜底，开水白菜、甜菜全被撒了辣椒。\n   改成「菜上挂着一层红油 + 一碟干辣椒面」，具体哪道有辣椒由 `DISH_LOOK` 点名。\n4. **热气判定的三元链写错。** `steamy && A ? x : steamy && B ? '' : y`…",
     "1.6.15": "- **「照片额外存一份到」从来没生效过。** 用户实报，附完整排查：\n\n  > 1. 拍照后主位置 `data\\home\\companion\\data\\media` 正常增加（实测 340 → 389），\n  >    但填的那栏目录一个文件都不多\n  > 2. 不是没重启——改完重启过两次；不是中文路径——换成纯英文也一样\n  > 3. `config.json` 里 photoDir 确认是新值，重启后读出来也是新值\n  > 4. **是拷贝那一步没跑**\n\n  ## 根因\n\n  `archiveToJournal` 的第一行：\n\n  ```ts\n  if (!String(this.cfg.memoryDir ?? '').trim()) return;\n  ```\n\n  而额外副本那段写在函数**最底部**。没设「日记目录」的人一进门就被请走，\n  下面永远跑不到。照片照进宿主媒体库（另一条路），所以主位置一直在涨。\n\n  `photoDir` 和 `memoryDir` 本是两件事：一个「我想自己备份一份」，\n  一个「日记同步到哪儿」。前者不该被后者没配拦住。\n\n  ## 修法\n\n  额外副本提到函数最前面，`memoryDir` 的早退留在原处。\n\n- **实测推翻了我自己上一版写的「改完要重启」。**\n\n  1.6.14 我在说明里加了「改完要重启一次 Coopani 才生效」。今天用 ComfyUI 实测：\n  **改配置 → 直接拍照 → 新目录里就有那张照片，全程没重启。**\n\n  `definition.ts` 里那句注释是对的 —— `cfg` 是**活引用**（不要 `{...cfg}` 展开），\n  配置改了立刻读得到。**「要重启」是我照着自己的猜测写进说明的，没有验。**\n\n  这条比 bug 本身更该记：**我把一个没验证的猜测写成了对用户的指导**。\n  用户照做了（他重启了两次），还因此更困惑 —— 因为重启根本不解决问题。\n\n  说明已改成「改完保存就生效，不用重启」。\n\n- 「只存一份」做不到，原因见下（回复里说明，不进代码）。\n\n- 新增 3 条测试：没设日记目录时副本照样写 / photoDir 留空时不多写 /\n  报告不进照片目录。\n\n- 960 条测试全过。\n\n\n- **「照片额外存一份到」从来没生效过。** 用户实报，附完整排查：\n\n  > 【环游世界 1.6.14】设置里「照片额外存一份到（可留空）」这栏不生效\n  > 1. 拍照后主位置 `data\\home\\companion\\data\\media` 正常增加（实测 340 → 389），\n  >    但填的那栏目录一个文件都不多\n  > 2. 已经排除的：不是没重启——改完重启过两次；不是中文路径——换成纯英文也一样\n  > 3. `config.json` 里的 photoDir 确认写成了新值，重启后读出来也是新值\n  > 4. 说明设置本身存进去了，**是拷贝那一步没跑**\n\n  ## 根因\n\n  `archiveToJournal` 的第一行：\n\n  ```ts\n  if (!String(this.cfg.memoryDir ?? '').trim()) return;\n  ```\n\n  而额外副本那段写在函数**最底部**。\n\n  **没设「日记目录」的人，一进门就被请走了**，下面永远跑不到。\n  照片照进宿主媒体库（`<dataDir>/media/`，另一条路），所以主位置一直在涨 ——\n  他看到的正是这个。\n\n  `photoDir` 和 `memoryDir` 本来是两件事：一个「我想自己备份一份」，\n  一个「日记同步到哪儿」。**前者不该被后者没配这件事拦住。**\n\n  ## 修法\n\n  把额外副本提到函数最前面，`memoryDir` 的早退留在原处（它管的是日记归档）。\n\n  ## 这条要记住\n\n  上一版（1.6.14）我只改了文案 —— 因为当时以为「说明写错、功能没错」。\n  **改文案是最省事的解释，而它刚好能解释用户看到的一半现象。**\n\n  用户第二轮来信把排除项列全了（重启过两次、英文路径也试了、配置确实是新值），\n  才把「文案问题」逼成「功能问题」。**如果我在第一轮就说「是文案，已改」，\n  这个 bug 会一直留在所有人的机器上。**\n\n  **判据：用户说「不生效」时，先要求他把排除项列全，别急着解释。**\n\n- 新增 3 条测试：没设日记目录时副本照样写 / photoDir 留空时不多写 /\n  报告不进照片目录。\n\n- 960 条测试全过。\n\n\n- **「照片存哪儿」这条说明是错的。** 用户来信：「图片保存地址修改不成功」「但是在新路径也没保存呀」…",
