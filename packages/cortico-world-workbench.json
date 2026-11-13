@@ -1,5 +1,53 @@
 {
   "schema": 1,
   "name": "cortico-world-workbench",
-  "version": "0.9.45"
+  "version": "0.9.46",
+  "describe": {
+    "tools": [
+      {
+        "name": "workbench_scan",
+        "description": "扫一遍工作区，回四块文件（记忆／技能／缓冲区／档案柜，另加中枢节点）、体检红绿灯、待办、记忆预算和最近更新。只读。不传 section 给摘要（含各组份数/大小，不含逐个文件）；section 取一块：groups／files（逐个文件，回执大）／health／todo／budget／recent／graph（图的规模、簇分布、被提最多的 12 份）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "section": {
+              "type": "string",
+              "enum": [
+                "groups",
+                "files",
+                "health",
+                "todo",
+                "budget",
+                "recent",
+                "graph"
+              ],
+              "description": "只取一块；不传就全给摘要（不含逐个文件）。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "扫一遍工作区：五组文件、体检红绿灯、待办、记忆预算、最近更新。",
+          "en": "Scan the workspace once: groups, health, todos, budgets, recent lines."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.workbench.envPrompt",
+        "title": "可视化记忆 · 环境提示词",
+        "role": "envPrompt",
+        "content": "工作台面板：一页只读总览（五组文件、体检红绿灯、待办、记忆预算、最近更新），是给人看的。要数据用 `workbench_scan`。\n面板上哪几栏有内容，由配置里填的路径决定：`todoFile`（待办笔记）、`selfFile`（自我叙述）、`observeFile`、`healthLog`、`noteCaps`、`recentLog`；留空就不显示那一栏。节点图扫哪些目录看 `graphRoots`，一个都没扫到时自动改扫工作区的一级目录。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.9.46": "- `package.json` 补上 `cortico.describe`（指向 `describe.json`），市场详情页因此能列出 `workbench_scan` 与它的环境提示词。\n- 新增 `CHANGELOG.md`。",
+    "0.9.45": "- 首个对外版本：一页只读总览 + 可点的引用网络图。\n- `workbench_scan`：只读，可按 `section` 只取一块。\n- 本机值全部走配置（`todoFile`／`selfFile`／`observeFile`／`healthLog`／`noteCaps`／`recentLog`／`graphRoots`），留空的那一栏不显示；`graphRoots` 一个都没扫到时退回扫工作区一级目录。\n- README：怎么装、配置项表、图怎么读、工具。"
+  }
 }
