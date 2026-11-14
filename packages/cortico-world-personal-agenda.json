@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-personal-agenda",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "describe": {
     "tools": [],
     "events": [
@@ -37,6 +37,7 @@
     ]
   },
   "changelog": {
+    "0.9.1": "- Expand the npm package README with feature overview, quick-start steps, and live preview screenshots.\n- Add the desktop countdown widget screenshot and refresh editor preview screenshots in docs.",
     "0.9.0": "- Add QQ group reminders alongside private reminders, with separate delivery receipts and retries per destination.\n- Leave private recipient, group and master QQ blank by default; never select recipients from the host or official QQ configuration, including on upgrade.\n- Add an opt-in group command switch and independent permissions for the configured master, group administrators and group owner. All switches default off.\n- Only process explicit add commands from authorized members in the configured group; replies contain the new event only and stay in that group.\n- Keep editing and the countdown available without QQ, and preserve ordinary QQ traffic when no reminder destination is configured.",
     "0.8.0": "- Prepare the standalone personal agenda plugin for publication, including QQ reminders and the desktop countdown.\n- Restrict the build, installer, page bundle and release archive to the approved agenda package.",
     "0.6.0": "- Add a first-run QQ setup dialog with recipient selection, official QQ reuse, manual connection, secret storage and advanced ports.\n- Keep calendar editing and countdown available when QQ is unconfigured or offline, including a fresh empty installation.\n- Test login without sending messages; explain authentication errors, refused connections, timeouts and occupied relay ports.\n- Reconfigure the QQ relay without restarting the countdown, and preserve the original official QQ credentials and ordinary chat route.\n- Invalidate in-flight reminder or natural-language work after the recipient or connection changes.",

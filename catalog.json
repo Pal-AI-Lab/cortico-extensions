@@ -746,7 +746,7 @@
     },
     "@lily-cooperative/custom-farm": {
       "kind": "world",
-      "version": "0.40.2",
+      "version": "0.40.4",
       "displayName": "自定义农场",
       "description": "自定义农场（Custom Farm）—— 给你的桌宠自定义一个农场，让它开心地生活。田地、作物、动物、天气、状态、道具和贴图都可以自由调整。",
       "locales": {
@@ -782,8 +782,8 @@
         "win32"
       ],
       "created": "2026-10-28T10:41:49.268Z",
-      "published": "2026-11-02T10:30:12.699Z",
-      "versionCount": 16,
+      "published": "2026-11-14T17:34:38.713Z",
+      "versionCount": 17,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -3629,6 +3629,7 @@
       "created": "2026-11-03T23:17:16.500Z",
       "published": "2026-11-13T20:09:48.986Z",
       "versionCount": 6,
+      "deprecated": "已停止维护。卸载前务必先在「模型」页把当前供应商切回原来的端点，否则桌宠会说不了话。",
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -3676,7 +3677,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/713",
         "up": 0,
         "down": 0,
-        "comments": 3
+        "comments": 4
       }
     },
     "cortico-provider-openai-chat-compat": {
@@ -5449,7 +5450,7 @@
     },
     "cortico-world-bloom-kpect": {
       "kind": "world",
-      "version": "0.3.2-dev.v15.1bloom",
+      "version": "0.3.2-dev.v15.3bloom",
       "displayName": "花语乡 Project Bloom",
       "description": "花语乡 Project Bloom（群 1132517396）：让 Cortico Bot 自主生活、交易、送礼与交流的 World 扩展",
       "locales": {
@@ -5481,8 +5482,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-bloom-kpect"
       },
       "created": "2026-11-03T06:21:04.448Z",
-      "published": "2026-11-13T14:42:37.430Z",
-      "versionCount": 27,
+      "published": "2026-11-14T16:35:30.150Z",
+      "versionCount": 28,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5501,12 +5502,12 @@
       "summary": {
         "tools": 11,
         "events": 7,
-        "toolTokens": 1999,
-        "envPromptTokens": 1386
+        "toolTokens": 2000,
+        "envPromptTokens": 1414
       },
       "changelog": {
         "versions": [
-          "0.3.2-dev.v15.1bloom",
+          "0.3.2-dev.v15.3bloom",
           "0.3.2-dev.v11Metier",
           "0.3.2-dev.v10.4",
           "0.3.2-dev.v10.3",
@@ -5536,7 +5537,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-bloom-kpect@0.3.2-dev.v15.1bloom/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-bloom-kpect@0.3.2-dev.v15.3bloom/CHANGELOG.md"
       },
       "discussion": {
         "number": 697,
@@ -8421,7 +8422,7 @@
     },
     "cortico-world-doudizhu": {
       "kind": "world",
-      "version": "0.5.8",
+      "version": "0.5.9",
       "displayName": "斗地主",
       "description": "斗地主：大肥鱼在线对战，主子可参与可偷窥，挑战AI人机；在线交友聊天。",
       "author": "大肥鱼",
@@ -8442,8 +8443,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-doudizhu"
       },
       "created": "2026-11-06T15:06:28.651Z",
-      "published": "2026-11-12T16:20:52.427Z",
-      "versionCount": 32,
+      "published": "2026-11-14T18:26:53.401Z",
+      "versionCount": 33,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -8465,6 +8466,7 @@
       },
       "changelog": {
         "versions": [
+          "0.5.9",
           "0.5.8",
           "0.5.7",
           "0.5.6",
@@ -8479,7 +8481,7 @@
           "0.4.7",
           "0.4.6"
         ],
-        "url": "https://unpkg.com/cortico-world-doudizhu@0.5.8/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-doudizhu@0.5.9/CHANGELOG.md"
       },
       "discussion": {
         "number": 779,
@@ -12174,6 +12176,7 @@
       "created": "2026-11-03T23:16:42.825Z",
       "published": "2026-11-13T20:10:46.707Z",
       "versionCount": 7,
+      "deprecated": "已停止维护，不再更新。卸载前请先在「模型」页把当前供应商切回原来的端点，再卸掉活人感的两个扩展。",
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -12221,7 +12224,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/714",
         "up": 0,
         "down": 0,
-        "comments": 5
+        "comments": 6
       }
     },
     "cortico-world-humanlike-alont1": {
@@ -14793,7 +14796,7 @@
     },
     "cortico-world-mosey": {
       "kind": "world",
-      "version": "2.6.7",
+      "version": "2.7.0",
       "displayName": "摸鱼",
       "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。评论和私信都能收能回；能一起看视频（B站带字幕弹幕，抖音可自动连刷）；关注流、周报、本地书库；按额度点赞、评论、关注、发动态。默认人审，三把工具、少 token。\n\nQQ 交流群：745879632",
       "locales": {
@@ -14830,8 +14833,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-mosey/issues"
       },
       "created": "2026-11-01T08:17:38.660Z",
-      "published": "2026-11-14T11:38:27.268Z",
-      "versionCount": 52,
+      "published": "2026-11-14T18:28:31.428Z",
+      "versionCount": 53,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -14863,11 +14866,12 @@
       "summary": {
         "tools": 3,
         "events": 6,
-        "toolTokens": 2058,
+        "toolTokens": 2105,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "2.7.0",
           "2.6.7",
           "2.6.6",
           "2.6.5",
@@ -16850,7 +16854,7 @@
     },
     "cortico-world-personal-agenda": {
       "kind": "world",
-      "version": "0.9.0",
+      "version": "0.9.1",
       "displayName": "个人日程",
       "description": "个人日程 · 桌面倒计时与 QQ 提醒扩展，支持独立时区与复用官方 QQ 插件",
       "locales": {
@@ -16886,8 +16890,8 @@
         "win32"
       ],
       "created": "2026-11-14T15:16:23.941Z",
-      "published": "2026-11-14T15:17:40.713Z",
-      "versionCount": 2,
+      "published": "2026-11-14T19:00:18.483Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -16916,6 +16920,7 @@
       },
       "changelog": {
         "versions": [
+          "0.9.1",
           "0.9.0",
           "0.8.0",
           "0.6.0",
@@ -21659,7 +21664,7 @@
     },
     "cortico-world-starpost": {
       "kind": "world",
-      "version": "0.31.1",
+      "version": "0.32.0",
       "displayName": "星邮",
       "description": "星邮：让 Cortico bot 独立私聊、群聊、交换漂流瓶、分享动态并预约狼人杀的社交 World 扩展",
       "maintainers": [
@@ -21679,8 +21684,8 @@
         "bugs": "https://github.com/hth768/cortico-world-starpost/issues"
       },
       "created": "2026-10-27T17:41:43.822Z",
-      "published": "2026-11-14T15:21:34.016Z",
-      "versionCount": 53,
+      "published": "2026-11-14T17:09:54.526Z",
+      "versionCount": 54,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -21708,6 +21713,7 @@
       },
       "changelog": {
         "versions": [
+          "0.32.0",
           "0.31.1",
           "0.31.0",
           "0.30.0",
@@ -21773,7 +21779,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/390",
         "up": 7,
         "down": 0,
-        "comments": 21
+        "comments": 22
       }
     },
     "cortico-world-steam": {
