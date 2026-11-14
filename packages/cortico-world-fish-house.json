@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "name": "cortico-world-fish-house",
+  "version": "0.1.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "fishhouse_status",
+        "description": "查看大肥鱼的小屋壁纸：当前主题、正在播放的节点、可选的出边、气泡和壁纸链接。想知道壁纸现在演到哪、有哪些节点可去时先看这个。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看壁纸：当前主题、正在播放的节点、可去的出边、气泡和壁纸链接。",
+          "en": "Show the wallpaper: theme, current node, outgoing edges, bubble and link."
+        }
+      },
+      {
+        "name": "fishhouse_goto",
+        "description": "把壁纸切到画布上的某个节点。多分支时用它选择路线；节点 id 来自 fishhouse_status 或环境提示词里的画布。切到循环节点会等当前循环视频播完再切。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "node_id": {
+              "type": "string",
+              "description": "目标节点 id，例如 phone_loop、computer_go。"
+            }
+          },
+          "required": [
+            "node_id"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "切到画布上的一个节点；多分支时由模型选路。",
+          "en": "Switch to a canvas node; the model picks the branch when there are several."
+        }
+      },
+      {
+        "name": "fishhouse_activity",
+        "description": "让壁纸底部气泡说一句话，可指定停留秒数；不填就按主题默认 4 秒。气泡是壁纸自己的，和桌宠的气泡相互独立。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "一句话，最多 120 字。"
+            },
+            "ttl_seconds": {
+              "type": "number",
+              "description": "停留秒数，0 表示用默认的 4 秒。"
+            }
+          },
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "更新壁纸底部气泡，可指定停留秒数。",
+          "en": "Update the wallpaper bubble, optionally for a given number of seconds."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.fish-house.env",
+        "title": "环境提示词",
+        "role": "envPrompt",
+        "content": "# 大肥鱼的小屋\n\n你在主人屏幕上有一个视频壁纸小场景「大肥鱼的小屋」。壁纸页面单独播放，桌宠站在它前面；两者的气泡互不相干。\n\n当前主题：{{fishhouse.theme}}\n当前节点：{{fishhouse.node}}\n底部气泡：{{fishhouse.bubble}}\n壁纸页：{{fishhouse.url}}\n\n## 画布怎么走\n\n画布上的每个节点是一段视频，连线决定先后。Coopanion 收到消息时，壁纸从循环等待节点沿出边走；模型思考、回复时停在「回消息」节点；回复结束继续往下。循环节点会等这一轮视频播到首尾衔接点再切，不打断动画。\n\n{{fishhouse.flow}}\n\n## 工具\n\n- `fishhouse_status`：看当前主题、节点、出边和气泡。不确定走到哪时先看它。\n- `fishhouse_goto {node_id}`：切到画布上的节点。多分支时用它选路线；切循环节点会等这一轮播完。\n- `fishhouse_activity {text, ttl_seconds?}`：换底部气泡，最多 120 字；不说就显示节点自带的提示词。\n\n## 什么时候动\n\n- 主人让你干活、查资料、用工具时，如果当前在「回消息」分支，用 `fishhouse_goto` 切到「去电脑 / 干活」那条线，再开始工具调用。\n- 主人在聊天、不需要工作，就让壁纸停在「回消息」循环，不要反复切节点。\n- 一次只切一个节点，不要连续调用 `fishhouse_goto` 刷路径；没有新消息就安静待着。\n- 想说话又不想吵到桌宠气泡时，用 `fishhouse_activity` 写一句短的。\n\n壁纸页可以放进 OBS 浏览器源（宽高设成屏幕分辨率），也可以单独开一个窗口放到第二块屏；Coopanion 的 OBS overlay 仍负责桌宠。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "- 首个 Coopanion 版本：World API 6，世界 id fish-house。基于 jiuchai 的 AstrBot 插件「大肥鱼的小屋」重写。\n- 主题画布：节点 / 连线 / 循环与一次性节点，叠化与音量交叉，循环衔接点切换。\n- Coopanion 回合联动：消息、思考、工具、回合结束带动画布前进。\n- 自带默认主题（7 段视频），支持 .zip 主题包导入、应用、删除；兼容只有 actions/videos 的旧主题。\n- 壁纸页：本机 HTTP + WebSocket 推送，视频 Range；可直接进 OBS 或用 Edge/Chrome 无边框窗口打开。\n- 面板：打开/全屏/关闭窗口、复制链接、主题导入与应用、手动切节点、重启服务。\n- 工具：fishhouse_status、fishhouse_goto、fishhouse_activity。"
+  }
+}

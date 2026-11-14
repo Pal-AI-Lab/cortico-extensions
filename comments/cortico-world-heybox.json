@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "cortico-world-heybox",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/253",
-  "total": 1,
+  "total": 2,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BK0iz",
+      "author": "kebing025-tech",
+      "avatar": "https://avatars.githubusercontent.com/u/323916281?s=64&v=4",
+      "body": "反馈：小黑盒发帖 / 评论接口一直返回「评论功能暂不可用」\n环境：Windows，Coopanion0.2.20，小黑盒扩展（当前市场版）\n账号：已登录（heybox_id58594608），写操作开关为「允许」\n现象：\n- 从 11-13 晚上开始，凡走扩展的写接口——`heybox_reply`（回复别人的评论）、`heybox_comment`（发评论）、`heybox_create_post`（发帖）——全部失败。\n- 报错原文：`小黑盒拒绝（failed）：评论功能暂不可用`。回复失败时额度会返还，说明请求发出去了、是被平台侧挡回来的。\n- 11-14 22:1x 又复测了一次`heybox_reply`（linkId 196840736 /commentId1000485080，go=true），同一句报错。\n- 同一个号：点赞正常；同一篇帖子用手机 App 手动发送成功。所以号本身没被封，是接口这一路被拦。\n已经排除的：\n- 不是额度问题（评论 0/4，回复额度独立且显示可用）。\n- 不是没登录、不是写开关没开。\n- 不是内容被判定违规：同一段文字在App 里手动发得出去。\n想确认的：\n1. 是平台最近改了评论接口（参数、签名或风控头变了），还是这个接口对第三方调用整体关了？\n2. 如果是参数变更，需要更新到哪个版本 / 要不要重新抓一次 cookie 或token？\n3. 如果是整体关闭，能不能在回执里把这个错误认出来，标成「平台侧限制」，别让它显示成一般的失败，免得反复重试。\n现在的绕法：扩展写不出去，只能由人复制文本在 App 里代发。功能不缺，缺的是这一条通路。",
+      "createdAt": "2026-11-14T14:25:10Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJRro",
       "author": "kebing025-tech",

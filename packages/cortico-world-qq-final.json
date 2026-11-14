@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-final",
-  "version": "0.6.50",
+  "version": "0.6.51",
   "describe": {
     "tools": [
       {
         "name": "qq_inbox",
-        "description": "QQ 主动查收：peek 只看会话及积压条数；read 指定 conversation 与 limit 读取正文/附件，默认5条，最多20条。读取越多，占用上下文越多，自行决定查看与回复。plan_check 预约一次计数提醒（不自动循环），cancel_check 取消。",
+        "description": "QQ 主动查收：peek 看会话及积压条数；read 指定 conversation 与 limit 读取正文/附件，默认5条，最多20条。order=newest 读取最新一页，成功后丢弃更早未读并报告条数与时间范围。clear 清空指定会话或 all，只返回计数。plan_check 预约一次计数提醒，cancel_check 取消。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -15,13 +15,22 @@
               "enum": [
                 "peek",
                 "read",
+                "clear",
                 "plan_check",
                 "cancel_check"
               ]
             },
             "conversation": {
               "type": "string",
-              "description": "read 必填：peek 返回的 group:群号、private:QQ号或 qzone。"
+              "description": "read/clear 必填：group:群号、private:QQ号或 qzone；clear 可显式填 all 清空全部。"
+            },
+            "order": {
+              "type": "string",
+              "enum": [
+                "oldest",
+                "newest"
+              ],
+              "description": "read 的取件方向，默认 oldest；newest 返回最新一页（按时间正序），成功后丢弃更早积压。"
             },
             "limit": {
               "type": "integer",
@@ -44,8 +53,8 @@
           "read"
         ],
         "summary": {
-          "zh": "QQ 主动查收：看积压、按会话和条数读取、预约或取消一次查收提醒。",
-          "en": "QQ inbox: inspect unread counts, read a chosen conversation, or schedule/cancel a one-time check reminder."
+          "zh": "QQ 主动查收：看积压、读最新或最早消息、清空未读、预约或取消查收提醒。",
+          "en": "QQ inbox: inspect counts, read newest or oldest messages, clear unread items, or schedule a check."
         }
       },
       {
@@ -275,10 +284,6 @@
       },
       {
         "name": "qq_sticker",
-        "tags": [
-          "write",
-          "read"
-        ],
         "description": "save：按会话和 QQ 消息号，从最近 50 条已接收的媒体消息中单张收藏，自动收藏关闭时也可用。delete：按 qq_sticker_stats 返回的完整文件名删除本地收藏，不影响 QQ 客户端收藏。",
         "parameters": {
           "type": "object",
@@ -321,6 +326,10 @@
             "action"
           ]
         },
+        "tags": [
+          "write",
+          "read"
+        ],
         "summary": {
           "zh": "从指定消息收藏一张表情包，或按完整文件名删除本地收藏。",
           "en": "Save a single sticker from a received message, or delete a local sticker by filename."
@@ -662,7 +671,7 @@
       },
       {
         "name": "qq_history",
-        "description": "聊天历史查询系列（用一个 action 选子功能）：recent=查某个群或私聊最近的消息（按时间倒序，用于回顾刚才说过的话、确认上下文）；search=在 QQ 消息记录中按关键词检索历史消息，返回匹配片段及上下文（keyword 必填）。",
+        "description": "聊天历史查询系列（用一个 action 选子功能）：recent=查某个群或私聊本地已收录的消息（按时间倒序）；search=在本地已收录的 QQ 消息中按关键词检索（keyword 必填）。仅覆盖已投递和已查收归档的消息。hybrid/active 的积压未读请用 qq_inbox 查看，可用 read 的 order=newest 接上最新话题。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -684,7 +693,7 @@
             },
             "minutes": {
               "type": "number",
-              "description": "【recent】回溯时间窗（分钟），默认 60。"
+              "description": "【recent】已收录消息的回溯时间窗（分钟），默认 60；积压未读需用 qq_inbox 查询。"
             },
             "limit": {
               "type": "number",
@@ -703,7 +712,7 @@
           "read"
         ],
         "summary": {
-          "zh": "聊天历史:查最近消息(recent)或关键词检索(search)。",
+          "zh": "本地已收录历史：查最近记录或关键词检索；积压未读通过 qq_inbox 查看。",
           "en": "Chat history: recent messages or keyword search."
         }
       }
@@ -825,6 +834,7 @@
     ]
   },
   "changelog": {
+    "0.6.51": "- 文件库在查询、发送和保存前同步外部索引修改，运行期间加入正确索引的本地文件立即可用。\n- 保存时按字段合并外部编辑与本地待保存修改，保留新增条目并同步删除；同字段冲突时本地待保存值优先。\n- 索引暂时损坏或写入未完成时保留内存资料并暂停写回；补回或移走实体文件后，可用列表即时更新。\n\n- 采纳 PR #22，修复拆句丢失 @ 并读取机器人 Markdown 正文；增加 @ 首尾位置选项。\n- 未读箱增加 clear 和 newest 取件，成功后报告跳过范围；历史查询明确本地已收录范围（#17、#18、#21）。\n- 混合模式可配置关键词、引用自己唤醒和差集文字补齐；增加同群输入节流与合并条数上限，默认关闭这些可选行为（#12、#13、#19）。\n- 图片附件统一 JPEG 编码并分段处理长图，下载超时覆盖完整正文并限制实际字节数；本地 QQ 收藏表情使用临时路径，失败回退 base64（#10、#20、PR #1 的下载部分）。\n- 合并转发上限加入设置页，截断时显示总数与省略数（#24）。\n- 采纳并修正 PR #23 的断档补收，遵循当前接收模式，检查停用及账号切换，避免旧补收游标覆盖新消息进度。",
     "0.6.50": "- 空间附图统一校验，支持图片库与表情包标记；无效附件不再被静默丢弃或替换为最近图片。\n- 相对媒体目录改为按部署 dataDir 解析；逐条核对索引，从旧包目录恢复匹配的收藏，隐藏缺失项并保留标注。发送失败回执点名附件，日志列出查找目录，正文支持转义标记。",
     "0.6.49": "- 发送表情包同时支持收藏目录与原表情包目录；本地图片标记解析失败时整条不发，并在工具回执与日志中说明原因。\n- 入站 QQ 消息正文显示原发送时间（ISO 8601，含时区）；聚合私聊逐条保留时间。\n- 说明 npm 运行包与 GitHub 源码的区别；新增 qq_sticker 单张收藏/删除工具，与已有收藏统计及标注共用索引。",
     "0.6.48": "- 消息分句发送新增换行分隔，兼容 LF、CRLF 和 CR；连续空行不生成空消息，原有标点分句和关闭分句时的整段发送行为保持不变。",
