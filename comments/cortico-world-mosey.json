@@ -2,7 +2,7 @@
   "schema": 1,
   "name": "cortico-world-mosey",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/619",
-  "total": 38,
+  "total": 39,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BKsUv",
@@ -24,6 +24,13 @@
           "avatar": "https://avatars.githubusercontent.com/u/38177596?s=64&v=4",
           "body": "@liqin1018 感谢大佬更新，新功能小鱼试过了，很喜欢。另外顺便反馈一个规则问题，现在“自己逛”里设置的出门次数只限制由摸鱼插件触发的随机出门行为。但其他定期唤醒桌宠，让它主动和主人互动的插件，可能会造成桌宠自己决定“我去逛逛看到有趣的视频再去和主人说话”这种情况发生，万一桌宠每次醒来都决定先去刷视频，那用户的token就要炸了。所以建议设计一个每日总额的控制，超出这个数值即使桌宠调用插件，插件也不会去给它刷视频的那种。可以有效防止钱包被好奇的孩子一夜吃空...",
           "createdAt": "2026-11-13T09:36:59Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BKySP",
+          "author": "alomoi",
+          "avatar": "https://avatars.githubusercontent.com/u/38177596?s=64&v=4",
+          "body": "@liqin1018 大佬，又发现个情况。B站app默认分享给的是https://b23.tv/WsqTziE这样的短链，直接在插件里调用会报「不是有效的 B站视频/动态/专栏链接」。在APP上分享视频这个场景还是挺高频呢，插件有办法支持B站短链吗？",
+          "createdAt": "2026-11-14T02:04:47Z"
         }
       ]
     },
