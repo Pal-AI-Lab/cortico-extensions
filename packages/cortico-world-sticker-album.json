@@ -1,0 +1,152 @@
+{
+  "schema": 1,
+  "name": "cortico-world-sticker-album",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "stickers_pick",
+        "description": "【每轮回复前必调一次，不要和发消息放在同一轮】决定这一轮要不要配表情包。按概率掷骰（自带保底），全局/分类冷却与防连发都在里面。未通过返回 [ok] 出图跳过：…，这时直接纯文字自然回复，不要道歉、不要提冷却。通过时回执带一张最合适的表情图和它的 log: 句柄：把句柄填进 qqbot_send_message 的 image 参数，图文同一条发出，一轮只发这一张。回执还列了备选 rel，想换一张就调 stickers_file。mood 可以写一句话（如「被夸了有点飘」），有描述的图会按语义挑。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "mood": {
+              "type": "string",
+              "title": "情感 / 场景",
+              "description": "想表达的情绪或场景，一句话或标准分类词（开心、得意、困了…），支持同义词。留空则优先从心头好里挑。"
+            },
+            "category": {
+              "type": "string",
+              "title": "分类",
+              "description": "按一级文件夹筛选，如 开心、得意、困惑。留空不限制。"
+            },
+            "character": {
+              "type": "string",
+              "title": "角色",
+              "description": "按文件名前缀的角色筛选，模糊匹配。"
+            },
+            "keyword": {
+              "type": "string",
+              "title": "关键词",
+              "description": "在分类、角色、文件名里模糊综合匹配。"
+            },
+            "avoid": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "title": "避开的表情",
+              "description": "需要临时避开的 rel 或文件名列表。"
+            },
+            "force": {
+              "type": "boolean",
+              "title": "强制出图",
+              "description": "绕过概率与冷却（极关键情绪场景才用）。"
+            },
+            "limit": {
+              "type": "number",
+              "title": "备选条数",
+              "description": "回执里列多少条备选，默认取配置值，最大 20。"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "每轮回复前必调：掷骰决定是否配图，通过时带图和 log: 句柄，用 qqbot_send_message 图文同一条发出。",
+          "en": "Call before each reply: dice gates sticker output; on pass returns the image with a log: handle for qqbot_send_message."
+        }
+      },
+      {
+        "name": "stickers_file",
+        "description": "精确取一张表情：主人点名要某张图时用 rel 指定；或给 mood 按描述检索一张。不走掷骰、不占冷却。回执带图和 log: 句柄（填进 qqbot_send_message 的 image 参数，图文同一条发出）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "rel": {
+              "type": "string",
+              "title": "图片路径",
+              "description": "表情库相对路径，如「开心/小明-开心-001.gif」，必须来自工具回执，不要臆造。"
+            },
+            "mood": {
+              "type": "string",
+              "title": "情感 / 场景",
+              "description": "不给 rel 时按这句话检索最贴的一张。"
+            },
+            "category": {
+              "type": "string",
+              "title": "分类",
+              "description": "按分类随机取一张。"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "精确取一张表情（主人点名），回执带图和 log: 句柄。",
+          "en": "Fetch one sticker precisely (rel) or by mood; returns image with a log: handle."
+        }
+      },
+      {
+        "name": "stickers_curate",
+        "description": "表情库策展：audit 列缺描述的图和待归类的散图；inspect 取图给你看；describe 提交看图后的 caption（一句话画面描述）与 tags（3~10 个口语标签），落盘后按情绪选图更准。库里的一切都是主人的数据：只补描述，绝不删图、不移动文件。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "operation": {
+              "type": "string",
+              "enum": [
+                "audit",
+                "inspect",
+                "describe"
+              ],
+              "description": "要做的策展动作。"
+            },
+            "rel": {
+              "type": "string",
+              "title": "图片路径",
+              "description": "inspect / describe 用：库内相对路径，如「开心/小明-开心-001.gif」。"
+            },
+            "caption": {
+              "type": "string",
+              "title": "画面描述",
+              "description": "describe 用：看完图后的一句话描述。"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "title": "标签",
+              "description": "describe 用：3~10 个口语标签。"
+            },
+            "limit": {
+              "type": "number",
+              "title": "清单条数",
+              "description": "audit 最多列多少条（默认 8）。"
+            }
+          },
+          "required": [
+            "operation"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "策展：audit 列缺描述清单、inspect 看图、describe 写 caption + tags 落盘。",
+          "en": "Curate: audit missing descriptions, inspect an image, describe it with caption+tags."
+        }
+      }
+    ],
+    "events": []
+  },
+  "changelog": {
+    "0.1.0": "首发。\n\n- `stickers_pick`：掷骰（软硬保底）+ 全局/分类冷却 + 防连发，通过时带图和 `log:` 句柄。\n- `stickers_file`：精确取图 / 按描述检索。\n- `stickers_curate`：audit / inspect / describe，描述原子落盘 `descriptions.json`，\n  首次启动自动导入旧 `cortico-world-qq-stickers` 的 `semantic.json` 存量。\n- 心头好：时间衰减使用账本，名单随使用自动轮换，环境提示词每轮注入当前名单。\n- 零运行时依赖、零隔壁包依赖；发图走 qqbot 官方通道。"
+  }
+}

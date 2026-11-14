@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "name": "cortico-world-archivist",
+  "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/756",
+  "total": 1,
+  "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BKyiv",
+      "author": "Phantivia",
+      "avatar": "https://avatars.githubusercontent.com/u/52902663?s=64&u=b8112156729a498140249512d16689e738ea0e5f&v=4",
+      "body": "你好，我们是 Cortico 扩展市场([Pal-AI-Lab/cortico-extensions](https://github.com/Pal-AI-Lab/cortico-extensions))的维护者。cortico-world-archivist 的 package.json 没写仓库，只能在这里留言。读了 0.3.3 的源码(只读，没有执行)，不影响上架，有两处请看一下。\n\n1. **备份越来越大**:默认存放位置 `data/archivist` 在 `data/` 下，又不在跳过名单里(`src/config.js:177-191`、`src/backup.js:196-203`),每次备份都会把之前的 zip 一起打进新 zip。默认留 14 份，体积每次接近翻倍，推测几天后会占满磁盘，或者 Compress-Archive 因单文件过大失败。请把存放位置加进跳过名单，或者默认放到 `data/` 外面。\n2. **恢复范围**:恢复会把 `data/` 下各扩展的文件、`config.json`、`.env`、`providers/` 原样写回(`src/restore.js:298-329`)。RESTORE 口令已经是二次确认了。市场这次定的口径是，影响范围很大的功能要在面板和说明里明确提示;README 现在写成「她的长期记忆散在三个地方」,请在面板和 README 里直接写明：恢复会覆盖所有扩展的数据、所有 World 的配置和全部密钥。\n\n另外建议在 package.json 补上 `repository`,方便以后联系。\n\nPal AI Lab 扩展市场",
+      "createdAt": "2026-11-14T03:34:55Z"
+    }
+  ]
+}

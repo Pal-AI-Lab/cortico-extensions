@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "name": "cortico-world-voice-qq",
+  "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/813",
+  "total": 1,
+  "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BKyiy",
+      "author": "Phantivia",
+      "avatar": "https://avatars.githubusercontent.com/u/52902663?s=64&u=b8112156729a498140249512d16689e738ea0e5f&v=4",
+      "body": "你好，我们是 Cortico 扩展市场([Pal-AI-Lab/cortico-extensions](https://github.com/Pal-AI-Lab/cortico-extensions))的维护者。cortico-world-voice-qq 的 package.json 没写仓库，只能在这里留言。读了 0.1.2 的源码(只读，没有执行)，不影响上架，有三处请改。\n\n1. 找 OneBot 通道时按路径读部署的 `config.json`,遍历所有 World 段，取里面的 ws 地址和 token(`src/world.js:498-552`)。这是别的 World 的配置和令牌，请让使用者在本 World 的配置里填地址和令牌。\n2. `BREEZE_API_KEY`、`MINIMAX_API_KEY`、`ONE_BOT_TOKEN` 是自己依次去各处读 `.env`(`src/secrets.js:13-40`)。写入已经走 `ctx.storeSecret()` 了，读取也请改用 `ctx.secret()`。\n3. 建议在 package.json 补上 `repository`,方便以后联系。\n\nPal AI Lab 扩展市场",
+      "createdAt": "2026-11-14T03:35:07Z"
+    }
+  ]
+}

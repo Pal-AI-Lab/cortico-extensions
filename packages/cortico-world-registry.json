@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "name": "cortico-world-registry",
+  "version": "0.1.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "registry_list",
+        "tags": [
+          "read"
+        ],
+        "description": "列出可以开关的能力，以及每一项现在是开着还是收着。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "summary": {
+          "zh": "看哪些外挂能力开着、哪些收着。",
+          "en": "Lists which optional abilities are on."
+        }
+      },
+      {
+        "name": "registry_on",
+        "tags": [
+          "act"
+        ],
+        "description": "打开一项能力，参数是目录里的 `id`。改动在下一批进入上下文。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "能力 id，先用 registry_list 看"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "summary": {
+          "zh": "打开一项外挂能力，下一批生效，到点自动收起。",
+          "en": "Opens one optional ability; effective next batch, auto-closes later."
+        }
+      },
+      {
+        "name": "registry_off",
+        "tags": [
+          "act"
+        ],
+        "description": "收起一项能力，参数是目录里的 `id`。改动在下一批进入上下文。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "能力 id"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "summary": {
+          "zh": "收起一项外挂能力。",
+          "en": "Closes one optional ability."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.registry.envPrompt",
+        "title": "能力开关 · 环境提示词",
+        "role": "envPrompt",
+        "content": "## 你可以自己开关的\"能力\"\n\n下面这些不是你的身体，是外挂：想用就打开，不用了就收起来。\n\n{{registry.catalog}}\n\n## 怎么用\n\n- 想知道现在哪些开着 → `registry_list`\n- 想用某项 → `registry_on`，参数是上面那个 `id`\n- 用完了 → `registry_off`\n\n## 三条要紧的\n\n**1. 打开要等下一批。**\n\n工具和说明在下一批才进上下文。这一批说了 `registry_on`，下一批再动手；不要在同一批里反复打开、\n然后当成没生效。收起同理。\n\n**2. 收起不打断它，也不丢状态。**\n\n收起来的时候，那个世界照样在跑，只是你看不见、也不用惦记。所以 `registry_on` 是接着上次来，\n不用等它启动。极少数被整个停用的能力需要先拉起来，那会慢几十秒。\n\n**3. 开着会自己到期。**\n\n看视频、开浏览器这类半小时，其余两小时，从打开那一刻算。到期时你若正在忙，会等你闲下来再收。\n被收掉不用奇怪，也不是出错——想接着用，再 `registry_on` 一次就行。\n\n说话、记事、情绪、身体、压缩这几样永远在，跟这些开关无关。收着一项能力不代表你不能聊天，\n只代表你现在手里没有那件工具。"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.1": "首个版本。\n\n- 三个工具：`registry_list` 看目录与状态，`registry_on` / `registry_off` 开合一项能力。\n- 收起用宿主的可见性开关，World 继续运行、状态连续，重新打开不需要重启。\n- 管哪些 World 由部署的 `hideable` 决定，留空则一个都不收；`alwaysOn` 与宿主自己声明的 World\n  永远不收。\n- 打开的能力到期自动收起，但只在 bot 连续空闲足够久之后，避免打断正在进行的操作。\n- 侧栏面板：逐行勾选哪些 World 归这里管，并显示每一项当前是开着还是收着。\n- 宿主的 web 端口自动探测；宿主要了 web 面板密码时自行登录。"
+  }
+}

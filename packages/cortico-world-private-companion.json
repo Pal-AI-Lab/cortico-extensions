@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-private-companion",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "describe": {
     "tools": [
       {
@@ -1577,6 +1577,7 @@
     ]
   },
   "changelog": {
+    "0.8.1": "- B站私信推送会标明发送者是不是主人本人，并把 `fromOwner` 放进事件 meta；模型不再把主人私信当成系统通知。",
     "0.8.0": "- 集成审计：把 QQ/B 站能力收进 companion，原生实现，不再运行时依赖第三方 world。\n- OneBot 原生客户端骨架：WebSocket 连接/重连、echo、状态、事件缓存、本机配置；QQ 面板可连接/断开/查看事件。\n- B 站只读层设计：能力、边界、数据形态和接入顺序；独立 B 站面板展示设计稿。\n- 两个通道各有独立 UI（QQ / B站），不再和记忆面板混在一起。\n- `ws` 运行时依赖；B 站只读层暂不发起请求。\n- OneBot 骨架已对 SnowLuma 2.2.0 实测：online、selfId/appName/版本读取成功。\n- OneBot M2：消息段归一化（文本/@/图片）、图片按 sha256 去重落盘、QQ 消息写原始记忆事件、`qq_status/qq_recent/qq_send` 工具、QQ 面板显示最近消息。\n- B站公开只读：搜索、视频信息、热评、弹幕客户端与 `bili_*` 工具；B站面板可公开试读；字幕/登录/观看记录/一起看仍缺。\n- QQ 看图/动图：`qq_view_image` 优先返回库里已有的含义（不再给图）；没有含义才给 blobs，GIF 用 ffmpeg 抽最多 4 帧；`qq_media_note` 写含义后，下次同一张图/动图直接复用。\n- OneBot 继续补：SnowLuma/NapCat/OneBot11 合并 action 目录（217 个）、`qq_actions` / `qq_call`（写操作需 confirm、危险 action 黑名单、参数类型校验）、接收会话策略、文件/语音下载、引用解析与 `qq_reply`、事件历史/群管 UI、旧 `onebot_*` 别名；普通群聊进 utility 的 pendingTrigger，私聊/@ 直接推主 session；语音转写接本机命令（未配置会明确报错）。\n- 端到端实测：原生通道发出私聊测试消息，用户回复「收到」；面板、原始记忆事件和 lastTalkAt 均更新。\n- 修复 `onebot_*` 与旧 OneBot 扩展的撞名：新规范名改用 `qq_actions/qq_call/qq_receive`，旧名需 `qqLegacyTools=true` 才暴露，否则 companion 会拒绝挂载。\n- B站只读补登录 Cookie（可继承旧陪看 cookies.json）、字幕、观看记录；B站面板显示登录账号并可读历史/字幕；新增 `bili_watch` 记一次观看（写 JSONL 和记忆 episode）、`bili_frames` 用缩略图网格抽帧、`biliSelfWatch` 定时自己看（默认关闭）。\n- 修 B站 issue-2026-11-09：统一观看账本（bvid/标题 Jaccard/旧 watched 导入，`bili_watch` 重复硬拦 + force）；私信 `msg_type=7` 分享卡片解析 aid→BV；新增 `/x/msgfeed/at`，@我的/回复合并去重。\n- B站 @/回复/私信后台轮询，直接以 `bili.inbox` / `bili.dm` 事件推给主 session，不需要模型自己调用工具；分享卡片带 BV/UP/已看状态。\n- 一起看：独立 Edge CDP 窗口、打开/播放/暂停/跳转/截图，播放写观看账；B站面板有一起看卡和自己看排期卡。",
     "0.7.3": "- 修复首页心理活动仍显示 thought/candidate 双条的问题：dashboard 的 mind 事件字段是 `at`，合并逻辑之前只读 `ts`，时间解析不到就没有去重。",
     "0.7.2": "- 修正命名：顶级页签回到「记忆」；「她相信什么」卡片改名「她的记忆」；内部页签保持「记忆」。\n- 心理活动里同一次活动的 thought/candidate 双条记录合并显示，不再出现两条一样的话。",

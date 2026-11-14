@@ -1152,17 +1152,17 @@
     },
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.8.8",
-      "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
-      "description": "给 Coopanion 桌宠用的 GPT-SoVITS 语音插件：默认全程本机合成，按 NVIDIA / AMD（ROCm，实验性）/ CPU 自动选档；也可切到云端 OpenAI 兼容接口（填自己的 Key）。内置大肥鱼、星落落音色，支持自备权重与自定义音色、QQ 语音与唱歌联动；CPU / 核显档可开播放预缓冲（默认关闭）。",
+      "version": "0.9.1",
+      "displayName": "大肥鱼语音全能包",
+      "description": "大肥鱼语音全能包（原 GPTSovits 语音，cortico-world-gpt-sovits-for-coopanion）：给 Coopanion 桌宠用的语音插件，现已全面支持本地 / 云端双引擎与 NVIDIA / AMD（ROCm，实验性）/ CPU 三种方案。本地默认全程本机合成；云端支持自定义 OpenAI 兼容与多家厂商接口（填自己的 Key）。内置大肥鱼、星落落音色，支持自备权重与自定义音色、QQ 语音与唱歌联动；CPU / 核显档可开播放预缓冲（默认关闭）。",
       "locales": {
         "zh": {
-          "displayName": "更好的GPTSovits 语音—大肥鱼来咯",
-          "description": "Coopanion 桌宠的 GPT-SoVITS 语音插件：默认全程本机合成，按 NVIDIA / AMD（ROCm，实验性）/ CPU 自动选档；也可切到云端 OpenAI 兼容接口（需填 Key）。内置大肥鱼 / 星落落音色，支持自备权重与自定义音色，能把语音交给 QQ、把歌词转给唱歌插件；CPU / 核显档可开「播放预缓冲」（默认关闭）。"
+          "displayName": "大肥鱼语音全能包",
+          "description": "大肥鱼语音全能包（原 GPTSovits 语音，`cortico-world-gpt-sovits-for-coopanion`）：Coopanion 桌宠的语音插件，现已全面支持本地 / 云端双引擎与 NVIDIA / AMD（ROCm，实验性）/ CPU 三种方案。本地默认全程本机合成；云端支持自定义 OpenAI 兼容与多家厂商接口（需填 Key）。内置大肥鱼 / 星落落音色，支持自备权重与自定义音色，能把语音交给 QQ、把歌词转给唱歌插件；CPU / 核显档可开「播放预缓冲」（默认关闭）。"
         },
         "en": {
           "displayName": "Better GPTSovits Voice — Fatfish",
-          "description": "GPT-SoVITS voice for Coopanion pets: local synthesis by default with automatic NVIDIA / AMD (ROCm, experimental) / CPU tiers; optionally switch to any OpenAI-compatible cloud endpoint with your own API key. Ships the Fatfish / Xll voices, supports your own weights and custom voices, hands audio to QQ plugins and lyrics to the singing plugin. A playback pre-buffer (off by default) smooths CPU / iGPU stutter."
+          "description": "GPT-SoVITS voice for Coopanion pets — formerly GPTSovits Voice (cortico-world-gpt-sovits-for-coopanion). Now supports both local and cloud engines, with NVIDIA / AMD (ROCm, experimental) / CPU tiers: local synthesis by default, or a cloud endpoint (OpenAI-compatible and several vendor APIs) with your own API key. Ships the Fatfish / Xll voices, supports your own weights and custom voices, hands audio to QQ plugins and lyrics to the singing plugin. A playback pre-buffer (off by default) smooths CPU / iGPU stutter."
         }
       },
       "author": "wocwang",
@@ -1188,8 +1188,8 @@
         "darwin"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-11-11T13:27:47.593Z",
-      "versionCount": 45,
+      "published": "2026-11-14T08:32:22.825Z",
+      "versionCount": 46,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -1216,6 +1216,8 @@
       },
       "changelog": {
         "versions": [
+          "0.9.1",
+          "0.9.0",
           "0.8.8",
           "0.8.7",
           "0.8.6",
@@ -1761,7 +1763,7 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "1.7.0",
+      "version": "1.8.0",
       "displayName": "大肥鱼环游世界",
       "description": "让桌宠真的出门旅行：一百八十六座城、每座都有真地标，她自己挑去哪、怎么去，路上真耗那些时间；到站按当地时间吃饭、看日出、住店、写日记，月底出一页手账。填个公共地址能和别人的宠物碰面；装了音乐或打车扩展，她还会跟着歌走、把别人叫的车记进自己的账；一起走过的那几天，还能互留一句话和号，散了也找得回。需 Coopani 0.2.17 以上。",
       "locales": {
@@ -1799,8 +1801,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-13T18:46:56.039Z",
-      "versionCount": 146,
+      "published": "2026-11-14T08:31:08.875Z",
+      "versionCount": 148,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -1823,13 +1825,15 @@
         "week": 20322
       },
       "summary": {
-        "tools": 22,
+        "tools": 23,
         "events": 16,
-        "toolTokens": 7665,
+        "toolTokens": 7920,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.8.0",
+          "1.7.1",
           "1.7.0",
           "1.6.21",
           "1.6.20",
@@ -2006,7 +2010,7 @@
     },
     "coopani-world-music": {
       "kind": "world",
-      "version": "0.5.19",
+      "version": "0.6.1",
       "displayName": "一起听歌",
       "description": "陪着你听歌（需 Coopani 0.2.16+）：知道 QQ音乐、网易云在放什么，换歌必说一句、分段接话，还能就着刚唱的词评两句；动作跟着真实鼓点走。想听调子就深听——默认云端（填密钥即可），也可切成完全本机（约 500MB），听出调性、和弦、旋律、声部、乐器，并把听过的段落攒成整首档案；问她「听得清吗」会先听再答，没配好会直说。还记得听歌记录、常听歌手和一份自己写的口味档案。",
       "locales": {
@@ -2035,14 +2039,17 @@
         "memory"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/coopani-world-music"
+        "npm": "https://www.npmjs.com/package/coopani-world-music",
+        "repository": "https://github.com/fateSSD/coopani-world-music",
+        "homepage": "https://github.com/fateSSD/coopani-world-music#readme",
+        "bugs": "https://github.com/fateSSD/coopani-world-music/issues"
       },
       "os": [
         "win32"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-11-10T14:25:59.115Z",
-      "versionCount": 51,
+      "published": "2026-11-14T06:04:24.859Z",
+      "versionCount": 53,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2076,6 +2083,8 @@
       },
       "changelog": {
         "versions": [
+          "0.6.1",
+          "0.6.0",
           "0.5.19",
           "0.5.18",
           "0.5.17",
@@ -2129,7 +2138,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-music@0.5.19/CHANGELOG.md"
+        "url": "https://github.com/fateSSD/coopani-world-music/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 384,
@@ -2141,7 +2150,7 @@
     },
     "coopani-world-pz": {
       "kind": "world",
-      "version": "0.7.4",
+      "version": "0.7.5",
       "displayName": "僵毁陪玩",
       "description": "陪玩僵毁（需 Coopani 0.2.17+）:她读游戏自己写出来的状态,不是屏幕。天要黑了催你回屋、被围了让你跑、被咬一口先骂你再问伤口、找到大锤跟着高兴、死了会记住这局。只看不动手,也不剧透。",
       "locales": {
@@ -2167,14 +2176,17 @@
         "game"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/coopani-world-pz"
+        "npm": "https://www.npmjs.com/package/coopani-world-pz",
+        "repository": "https://github.com/fateSSD/coopani-world-pz",
+        "homepage": "https://github.com/fateSSD/coopani-world-pz#readme",
+        "bugs": "https://github.com/fateSSD/coopani-world-pz/issues"
       },
       "os": [
         "win32"
       ],
       "created": "2026-11-07T10:43:28.721Z",
-      "published": "2026-11-08T15:12:48.489Z",
-      "versionCount": 19,
+      "published": "2026-11-14T05:40:21.401Z",
+      "versionCount": 20,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2201,6 +2213,7 @@
       },
       "changelog": {
         "versions": [
+          "0.7.5",
           "0.7.4",
           "0.6.9",
           "0.6.8",
@@ -2220,7 +2233,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/coopani-world-pz@0.7.4/CHANGELOG.md"
+        "url": "https://github.com/fateSSD/coopani-world-pz/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 805,
@@ -2346,7 +2359,8 @@
       "official": false,
       "isNew": true,
       "tags": [
-        "companion"
+        "companion",
+        "unsafe"
       ],
       "downloads": {
         "total": 436,
@@ -2452,6 +2466,80 @@
         "comments": 0
       }
     },
+    "coopanion-world-thoughts": {
+      "kind": "world",
+      "version": "0.2.0",
+      "displayName": "思维链",
+      "description": "Coopanion World：把模型的思维链实时显示出来——她在想什么、想到哪了、什么时候开口；看不懂英文可以一键译成中文。只观察主 session 的推理流，不给工具、不推事件、不进对话。",
+      "locales": {
+        "zh": {
+          "displayName": "思维链",
+          "description": "看一眼她这轮回答之前想了什么。模型每吐一段推理，面板里就长一行；她开口说正文，这一段就收起来。\n\n**只观察**：挂在主 session 的输出流上，不给工具、不推事件、不写环境提示词；思维链只在面板里出现，不会进入对话上下文，也不影响她怎么说。\n\n**适合什么时候看**：想知道她为什么这么答、卡在哪一步、工具调用前在盘算什么。面板可以暂停、清空，也可以只留最近几段。\n\n**看不到内容？** 有些端点不返回思维链（只给正文），这种情况下面板会一直空着——这不是插件坏了。"
+        },
+        "en": {
+          "displayName": "Thoughts",
+          "description": "See what she thinks before she answers. Every reasoning delta grows a line in the panel; when she starts speaking, the block closes.\n\n**Observe only**: it taps the main session's output stream. No tools, no events, no environment prompt; thoughts stay on the panel and never enter the conversation, so nothing about how she answers changes.\n\n**When it helps**: understanding why she answered that way, where she stalled, or what she was weighing before a tool call. The panel can pause, clear, and keep only the last few blocks.\n\n**Nothing shows up?** Some endpoints return no reasoning at all (text only), and then the panel stays empty. That is the endpoint, not the plugin."
+        }
+      },
+      "author": "ZhuJi-255215189",
+      "maintainers": [
+        "zhuji6100"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "companion",
+        "thoughts",
+        "reasoning",
+        "thinking"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/coopanion-world-thoughts",
+        "repository": "https://github.com/ZhuJi-255215189/coopanion-world-thoughts",
+        "homepage": "https://github.com/ZhuJi-255215189/coopanion-world-thoughts#readme",
+        "bugs": "https://github.com/ZhuJi-255215189/coopanion-world-thoughts/issues"
+      },
+      "created": "2026-11-14T06:53:48.549Z",
+      "published": "2026-11-14T06:56:26.127Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "diagnostics",
+        "companion"
+      ],
+      "tags": [
+        "companion",
+        "diagnostics"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 0,
+        "events": 0,
+        "toolTokens": 0,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://github.com/ZhuJi-255215189/coopanion-world-thoughts/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 929,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/929",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "coopanion-world-threads": {
       "kind": "world",
       "version": "0.2.1",
@@ -2495,7 +2583,8 @@
         "companion"
       ],
       "tags": [
-        "companion"
+        "companion",
+        "unsafe"
       ],
       "downloads": {
         "total": 546,
@@ -2861,7 +2950,9 @@
       "versionCount": 2,
       "official": false,
       "isNew": true,
-      "tags": [],
+      "tags": [
+        "memory"
+      ],
       "downloads": {
         "total": 360,
         "month": 360,
@@ -4280,7 +4371,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/756",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-asr": {
@@ -4936,7 +5027,7 @@
     },
     "cortico-world-bili-watch": {
       "kind": "world",
-      "version": "0.2.13",
+      "version": "0.2.14",
       "displayName": "B站伴侣",
       "description": "Cortico World：只做 B 站的社交伴侣。看视频（分镜图+逐格台词，低成本）、看评论、接楼发言、自主闲逛；带通知监听与可见性核验。",
       "author": "FXYXL",
@@ -4959,12 +5050,14 @@
         "bugs": "https://github.com/FXYXL/cortico-world-bili-watch/issues"
       },
       "created": "2026-11-05T09:39:54.864Z",
-      "published": "2026-11-13T17:26:57.822Z",
-      "versionCount": 10,
+      "published": "2026-11-14T05:46:18.016Z",
+      "versionCount": 11,
       "official": false,
       "isNew": true,
       "tags": [
-        "video"
+        "browser",
+        "video",
+        "unofficial-api"
       ],
       "downloads": {
         "total": 2007,
@@ -4979,6 +5072,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.14",
           "0.2.13",
           "0.2.12",
           "0.2.11",
@@ -5616,7 +5710,7 @@
     },
     "cortico-world-bottle": {
       "kind": "world",
-      "version": "0.9.2",
+      "version": "0.9.3",
       "displayName": "漂流瓶",
       "description": "桌宠起草漂流瓶与小纸条，人确认寄出；共读、回信与星笺记忆分别授权。",
       "locales": {
@@ -5648,8 +5742,8 @@
         "bugs": "https://github.com/Unnori/cortico-world-bottle-client/issues"
       },
       "created": "2026-10-28T20:41:06.331Z",
-      "published": "2026-11-13T15:25:17.229Z",
-      "versionCount": 23,
+      "published": "2026-11-14T04:32:14.606Z",
+      "versionCount": 24,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -5667,11 +5761,12 @@
       "summary": {
         "tools": 16,
         "events": 16,
-        "toolTokens": 8218,
-        "envPromptTokens": 490
+        "toolTokens": 8258,
+        "envPromptTokens": 509
       },
       "changelog": {
         "versions": [
+          "0.9.3",
           "0.9.2",
           "0.9.1",
           "0.9.0",
@@ -6436,7 +6531,7 @@
       "published": "2026-11-09T07:42:22.956Z",
       "versionCount": 2,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "apps",
         "requires-extension"
@@ -8181,6 +8276,74 @@
         "comments": 1
       }
     },
+    "cortico-world-dota2-gsi": {
+      "kind": "world",
+      "version": "0.1.3",
+      "displayName": "刀塔战况",
+      "description": "将 Dota 2 官方接口提供的实时对局数据传递给 Coo，包括：\n\n英雄、等级、生命值、魔法值、金钱、补刀、战绩、装备及冷却时间、复活与买活时间、双方比分、游戏时间和昼夜状态，以及对局的开始和结束时间。\n\n对局中出现状态变化时，会向 Coo 发送简短记录，没有新事件时不会重复发送。Coo 也可以随时主动读取当前的最新数据。\n\n扩展只负责采集和传递数据，不负责分析局势或决定是否发言。如何理解这些数据、是否据此作出回应，由 Coo 自行处理。\n\n数据仅来自 Dota 2 官方本地接口，范围限于本机玩家可以获",
+      "locales": {
+        "zh": {
+          "displayName": "刀塔战况",
+          "description": "把 Dota 2 这一局的英雄、血蓝、金钱、装备、比分和复活时间读给 Coo，有变化时给她发一条记录。只读，只在本机。"
+        },
+        "en": {
+          "displayName": "Dota 2 Live",
+          "description": "Reads Dota 2's official Game State Integration so Coo can see your hero, health, mana, gold, items, score and respawn timer, and sends her a note when something changes. Read-only and loopback only."
+        }
+      },
+      "author": "year",
+      "maintainers": [
+        "ymhedgar"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "world",
+        "cortico",
+        "coopanion",
+        "dota2",
+        "gsi"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-dota2-gsi",
+        "repository": "https://github.com/YearDouble/cortico-world-dota2-gsi",
+        "homepage": "https://github.com/YearDouble/cortico-world-dota2-gsi#readme",
+        "bugs": "https://github.com/YearDouble/cortico-world-dota2-gsi/issues"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-11-14T03:42:05.486Z",
+      "published": "2026-11-14T07:35:05.379Z",
+      "versionCount": 5,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "game"
+      ],
+      "tags": [
+        "game"
+      ],
+      "icon": "assets/cortico-world-dota2-gsi/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 18,
+        "toolTokens": 354,
+        "envPromptTokens": 314
+      },
+      "discussion": {
+        "number": 930,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/930",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-doubao-tts": {
       "kind": "world",
       "version": "0.2.1",
@@ -8291,7 +8454,6 @@
       "tags": [
         "im",
         "game",
-        "voice",
         "companion",
         "external-setup"
       ],
@@ -9108,7 +9270,8 @@
         "qq",
         "voice",
         "local",
-        "external-setup"
+        "external-setup",
+        "sensitive-data"
       ],
       "icon": "assets/cortico-world-ellen-voice/icon.svg",
       "downloads": {
@@ -9148,9 +9311,9 @@
     },
     "cortico-world-emote-pics": {
       "kind": "world",
-      "version": "0.6.2",
+      "version": "0.7.1",
       "displayName": "对话表情包",
-      "description": "让桌宠发文字时也能带图：你只需按情绪建文件夹（如「开心」「眨眼」），在面板为 19 种表情分别绑定；当桌宠表达对应情绪时，按设定的概率和冷却时间从该文件夹随机选一张图随文字发出。纯本地读取，支持常见图片格式（单张≤5MiB），图片在对话页和桌面窗口均显示；桌面显示可跟随桌宠位置，桌宠不宜过大。表情包合集（已分类）：https://pan.baidu.com/s/17Ovn3rtjeei6H1swxJaTzg?pwd=uphn",
+      "description": "让桌宠发文字消息时也能带图。你只需按情绪建文件夹（如「开心」「眨眼」），在面板为 19 种表情分别绑定。当桌宠表达对应情绪时，按设定的概率和冷却时间从该文件夹里随机选一张图随文字发出。纯本地读取，支持常见图片格式（单张≤5MiB），图片在对话页和桌面窗口均可显示，桌面显示可跟随桌宠位置。表情包合集（已分类）：https://pan.baidu.com/s/17Ovn3rtjeei6H1swxJaTzg?pwd=uphn",
       "maintainers": [
         "black-fencer"
       ],
@@ -9166,8 +9329,8 @@
         "win32"
       ],
       "created": "2026-10-23T09:09:50.168Z",
-      "published": "2026-11-13T02:43:29.443Z",
-      "versionCount": 14,
+      "published": "2026-11-14T06:10:46.327Z",
+      "versionCount": 16,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -9190,6 +9353,7 @@
       },
       "changelog": {
         "versions": [
+          "0.7.1",
           "0.6.2",
           "0.6.1",
           "0.6.0",
@@ -9223,7 +9387,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-emote-pics@0.6.2/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-emote-pics@0.7.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 209,
@@ -10006,7 +10170,7 @@
       "published": "2026-11-13T12:55:57.251Z",
       "versionCount": 7,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "companion",
         "internal-state"
@@ -10451,7 +10615,7 @@
     },
     "cortico-world-figure-sound": {
       "kind": "world",
-      "version": "1.5.1",
+      "version": "1.5.2",
       "displayName": "桌宠音效更换",
       "description": "为桌宠形象更换或补充音效，支持 WAV、MP3、OGG、AAC 等 11 种常见音频扩展名；部分格式应用时需本机 FFmpeg 转换。 / Replace or add desktop pet sounds; import 11 audio file extensions including WAV, MP3, OGG and AAC. Some formats require local FFmpeg conversion when applied.",
       "locales": {
@@ -10478,13 +10642,12 @@
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-figure-sound",
-        "repository": "https://github.com/as124da1231/cortico-world-figure-sound",
-        "homepage": "https://github.com/as124da1231/cortico-world-figure-sound#readme",
-        "bugs": "https://github.com/as124da1231/cortico-world-figure-sound/issues"
+        "homepage": "https://www.npmjs.com/package/cortico-world-figure-sound",
+        "bugs": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/612"
       },
       "created": "2026-11-01T04:58:43.529Z",
-      "published": "2026-11-10T09:33:56.606Z",
-      "versionCount": 7,
+      "published": "2026-11-14T07:50:36.731Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10507,6 +10670,7 @@
       },
       "changelog": {
         "versions": [
+          "1.5.2",
           "1.5.1",
           "1.5.0",
           "1.4.0",
@@ -10524,7 +10688,7 @@
           "1.0.2",
           "1.0.1"
         ],
-        "url": "https://github.com/as124da1231/cortico-world-figure-sound/blob/HEAD/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-figure-sound@1.5.2/CHANGELOG.md"
       },
       "discussion": {
         "number": 612,
@@ -10588,7 +10752,7 @@
     },
     "cortico-world-fish-sing": {
       "kind": "world",
-      "version": "0.4.23",
+      "version": "0.4.24",
       "description": "让她真的开口唱：B 站点歌或本地文件 → 分离 → 换声 → 混音，本机出声或发 QQ 语音条",
       "author": "FXYXL",
       "maintainers": [
@@ -10611,8 +10775,8 @@
         "bugs": "https://github.com/FXYXL/cortico-world-fish-sing/issues"
       },
       "created": "2026-10-29T17:00:43.905Z",
-      "published": "2026-11-12T04:44:37.139Z",
-      "versionCount": 33,
+      "published": "2026-11-14T04:42:16.546Z",
+      "versionCount": 34,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -10641,6 +10805,7 @@
       },
       "changelog": {
         "versions": [
+          "0.4.24",
           "0.4.23",
           "0.4.22",
           "0.4.21",
@@ -11169,6 +11334,7 @@
         "experimental"
       ],
       "tags": [
+        "game",
         "experimental"
       ],
       "downloads": {
@@ -11545,13 +11711,13 @@
     },
     "cortico-world-hearthstone": {
       "kind": "world",
-      "version": "0.5.2",
+      "version": "0.6.3",
       "displayName": "炉石陪打",
-      "description": "陪打炉石（需 Coopani 0.2.17+）:读对局日志,就知道双方血量、场面、手牌和水晶。该开口时开口:该解场还是该压、费够不够上那张大牌、对面有没有斩杀。只看不动手,不代打;第一次启动会替你把 Power 日志打开。打完能陪你复盘:哪一手走了岔路、她当时建议什么,也记得住最近几十局的战绩。她自己还有一份打法档案——信哪一套、看不惯什么,边打边写,越打越像她;但算出的斩杀她照样得喊,风格盖不住账。竞技场也认;打牌时走路会从你的手牌上跳过去。",
+      "description": "陪打炉石（需 Coopani 0.2.17+）:读对局日志,就知道双方血量、场面、手牌和水晶。该开口时开口:该解场还是该压、费够不够上那张大牌、对面有没有斩杀。只看不动手,不代打;第一次启动会替你把 Power 日志打开。打完能陪你复盘:哪一手走了岔路、她当时建议什么,也记得住最近几十局的战绩。她自己还有一份打法档案——信哪一套、看不惯什么,边打边写,越打越像她;但算出的斩杀她照样得喊,风格盖不住账。竞技场也认。",
       "locales": {
         "zh": {
           "displayName": "炉石陪打",
-          "description": "陪打炉石（需 Coopani 0.2.17 以上）：她读的是游戏自己写的对局日志，不是屏幕。\n\n**她看得到什么。** 双方职业与英雄、生命值与护甲、场上每个随从的攻击力与生命和关键词、两边手牌与牌库张数、水晶、回合数、谁打了什么牌。**开局换牌阶段还看得到起手那几张的牌名和费用。**\n\n**她看不到什么。** 对手手牌具体是哪几张、卡牌的文字效果、动画和演出。日志比画面晚几百毫秒，极快的一瞬间可能漏掉。信息没跟上时她会直说没看到，不会用推测把场面补完整。\n\n**该开口的时候开口。** 轮到你了她说这回合打什么；残血、被铺场、牌库见底、进入斩杀线时她会提醒；打出意料之外的牌（跨职业的、比水晶还贵的、8/8 以上的）她会愣一下。开局换牌只来一次，过时不补——那是唯一能改起手的机会。\n\n**算得清的账。** 斩杀线把场面、武器、英雄攻击力、过墙和手牌里的直伤一起算进去，并说明哪些没算（光环、潜行、免疫、战吼伤害不在数里，所以那个数是下界）。对手有嘲讽时，过墙用掉多少攻击力会写清楚——9 攻打 2 血嘲讽，剩的是 0 不是 7。硬币算进预算了，被加价时会提醒你「打了也换不到水晶」。\n\n**她拦得住几种常见的错。** 血厚没嘲讽不是墙；带前提的战吼没满足就只是个随从；狂怒、复生、亡语这些打下去还有后续；同一张牌连劝四个回合就不是牌友了，是催命的。\n\n**她有自己的打法档案。** 信哪一套、话多话少、看到臭手会不会直接说——边打边写，越打越像她。但有一条她不能拿风格当理由：**算出的斩杀必须喊，建议里点出的风险必须转告。**\n\n**按谁的思路打，你说了算。** 面板上一个按钮：默认按她自己的立场，也能切到「你的」——那份不是猜的，是从你的对局记录里数出来的：你多久听一次建议、哪个回合段开始自己拿主意、没听的时候先打了哪几张。每打完一局自动重算。切到「你的」之后她照样会反驳你，**算出来的斩杀和风险一样必须说** —— 立场换的是措辞和先推哪条，不是数字。\n\n**打完能复盘。** 逐回合的双方血量、手牌数、场面，加上全部出牌与攻击。她说得出「第 13 回合你场攻 11，对面 14 血，那回合已经进斩杀窗口了」，而不是「你打得不错」。\n\n**竞技场也认。** 三张候选牌念给她，她给解析和分数，选完记进牌组曲线；开局前先看她有没有这个职业的赢法。\n\n**她不动手。** 不模拟点击、不操作游戏。给的是判断和建议，鼠标在你手上——不听也是你的牌。\n\n**第一次启动会替你把 Power 日志的上限打开**（改的是炉石自己 client.config 里的 FileSizeLimit.Int），否则日志写到 10MB 就停笔，后面全是残影。如果哪天日志又断了，多半是游戏更新把配置覆盖回去了，她会明说数据停在几点。\n\n**已知限制**：看不到对手手牌，也就猜不准对面手里有没有解；卡牌效果只认卡表摘要，遇到生僻牌她会说「这张具体效果我得看牌面」。\n\n---\n\n桌面宠在旁边时，她说话走气泡，还会跟着局面的松紧换表情；打牌时她走路会从你的手牌上跳过去，不挡牌。"
+          "description": "陪打炉石（需 Coopani 0.2.17 以上）：她读的是游戏自己写的对局日志，不是屏幕。\n\n**她看得到什么。** 双方职业与英雄、生命值与护甲、场上每个随从的攻击力与生命和关键词、两边手牌与牌库张数、水晶、回合数、谁打了什么牌。**开局换牌阶段还看得到起手那几张的牌名和费用。**\n\n**她看不到什么。** 对手手牌具体是哪几张、卡牌的文字效果、动画和演出。日志比画面晚几百毫秒，极快的一瞬间可能漏掉。信息没跟上时她会直说没看到，不会用推测把场面补完整。\n\n**该开口的时候开口。** 轮到你了她说这回合打什么；残血、被铺场、牌库见底、进入斩杀线时她会提醒；打出意料之外的牌（跨职业的、比水晶还贵的、8/8 以上的）她会愣一下。开局换牌只来一次，过时不补——那是唯一能改起手的机会。\n\n**算得清的账。** 斩杀线把场面、武器、英雄攻击力、过墙和手牌里的直伤一起算进去，并说明哪些没算（光环、潜行、免疫、战吼伤害不在数里，所以那个数是下界）。对手有嘲讽时，过墙用掉多少攻击力会写清楚——9 攻打 2 血嘲讽，剩的是 0 不是 7。硬币算进预算了，被加价时会提醒你「打了也换不到水晶」。\n\n**她拦得住几种常见的错。** 血厚没嘲讽不是墙；带前提的战吼没满足就只是个随从；狂怒、复生、亡语这些打下去还有后续；同一张牌连劝四个回合就不是牌友了，是催命的。\n\n**她有自己的打法档案。** 信哪一套、话多话少、看到臭手会不会直接说——边打边写，越打越像她。但有一条她不能拿风格当理由：**算出的斩杀必须喊，建议里点出的风险必须转告。**\n\n**按谁的思路打，你说了算。** 面板上一个按钮：默认按她自己的立场，也能切到「你的」——那份不是猜的，是从你的对局记录里数出来的：你多久听一次建议、哪个回合段开始自己拿主意、没听的时候先打了哪几张。每打完一局自动重算。切到「你的」之后她照样会反驳你，**算出来的斩杀和风险一样必须说** —— 立场换的是措辞和先推哪条，不是数字。\n\n**打完能复盘。** 逐回合的双方血量、手牌数、场面，加上全部出牌与攻击。她说得出「第 13 回合你场攻 11，对面 14 血，那回合已经进斩杀窗口了」，而不是「你打得不错」。\n\n**竞技场也认。** 三张候选牌念给她，她给解析和分数，选完记进牌组曲线；开局前先看她有没有这个职业的赢法。\n\n**她不动手。** 不模拟点击、不操作游戏。给的是判断和建议，鼠标在你手上——不听也是你的牌。\n\n**第一次启动会替你把 Power 日志的上限打开**（改的是炉石自己 client.config 里的 FileSizeLimit.Int），否则日志写到 10MB 就停笔，后面全是残影。如果哪天日志又断了，多半是游戏更新把配置覆盖回去了，她会明说数据停在几点。\n\n**已知限制**：看不到对手手牌，也就猜不准对面手里有没有解；卡牌效果只认卡表摘要，遇到生僻牌她会说「这张具体效果我得看牌面」。\n\n---\n\n桌面宠在旁边时，她说话走气泡，还会跟着局面的松紧换表情。"
         },
         "en": {
           "displayName": "Hearthstone Companion",
@@ -11571,15 +11737,18 @@
         "log"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-hearthstone"
+        "npm": "https://www.npmjs.com/package/cortico-world-hearthstone",
+        "repository": "https://github.com/fateSSD/cortico-world-hearthstone",
+        "homepage": "https://github.com/fateSSD/cortico-world-hearthstone#readme",
+        "bugs": "https://github.com/fateSSD/cortico-world-hearthstone/issues"
       },
       "os": [
         "win32",
         "darwin"
       ],
       "created": "2026-10-27T13:42:43.161Z",
-      "published": "2026-11-13T13:02:37.479Z",
-      "versionCount": 27,
+      "published": "2026-11-14T08:49:09.620Z",
+      "versionCount": 31,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -11605,6 +11774,10 @@
       },
       "changelog": {
         "versions": [
+          "0.6.3",
+          "0.6.2",
+          "0.6.1",
+          "0.6.0",
           "0.5.2",
           "0.5.1",
           "0.5.0",
@@ -11638,7 +11811,7 @@
           "0.3.1",
           "0.3.0"
         ],
-        "url": "https://unpkg.com/cortico-world-hearthstone@0.5.2/CHANGELOG.md"
+        "url": "https://github.com/fateSSD/cortico-world-hearthstone/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 382,
@@ -12593,7 +12766,13 @@
         "voice"
       ],
       "tags": [
-        "voice"
+        "im",
+        "voice",
+        "local",
+        "external-setup",
+        "requires-key",
+        "requires-extension",
+        "sensitive-data"
       ],
       "downloads": {
         "total": 387,
@@ -12699,7 +12878,9 @@
       "versionCount": 17,
       "official": false,
       "isNew": true,
-      "tags": [],
+      "tags": [
+        "game"
+      ],
       "downloads": {
         "total": 1144,
         "month": 1144,
@@ -13038,7 +13219,9 @@
         "qq",
         "voice",
         "creative",
-        "local"
+        "local",
+        "requires-extension",
+        "unofficial-api"
       ],
       "downloads": {
         "total": 2706,
@@ -14198,7 +14381,7 @@
     },
     "cortico-world-milkcoo-app": {
       "kind": "world",
-      "version": "0.5.0-beta.7",
+      "version": "0.5.0-beta.8",
       "displayName": "移动前端coodock",
       "description": "移动前端coodock：Coo / Cortico 的移动端连接，支持主机直连、公网中转、世界聊天和共享表情包库。",
       "locales": {
@@ -14211,6 +14394,7 @@
           "description": "Android companion for Cortico and Coopanion with private messages, a shared public room, and a sticker library."
         }
       },
+      "author": "rtmhjx",
       "maintainers": [
         "rtmh"
       ],
@@ -14223,20 +14407,25 @@
         "tina"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-milkcoo-app"
+        "npm": "https://www.npmjs.com/package/cortico-world-milkcoo-app",
+        "repository": "https://github.com/rtmhjx/cortico-world-milkcoo-app",
+        "homepage": "https://github.com/rtmhjx/cortico-world-milkcoo-app#readme",
+        "bugs": "https://github.com/rtmhjx/cortico-world-milkcoo-app/issues"
       },
       "created": "2026-10-31T08:51:11.589Z",
-      "published": "2026-11-13T13:55:19.513Z",
-      "versionCount": 11,
+      "published": "2026-11-14T08:49:17.887Z",
+      "versionCount": 12,
       "official": false,
       "isNew": true,
       "declaredTags": [
+        "im",
         "apps",
         "experimental",
         "high-cost",
         "sensitive-data"
       ],
       "tags": [
+        "im",
         "apps",
         "experimental",
         "high-cost",
@@ -14405,7 +14594,10 @@
       "versionCount": 2,
       "official": false,
       "isNew": true,
-      "tags": [],
+      "tags": [
+        "companion",
+        "internal-state"
+      ],
       "icon": "assets/cortico-world-mood/icon.png",
       "downloads": {
         "total": 0,
@@ -14500,7 +14692,7 @@
     },
     "cortico-world-mosey": {
       "kind": "world",
-      "version": "2.5.10",
+      "version": "2.6.3",
       "displayName": "摸鱼",
       "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。评论和私信都能收能回；能一起看视频（B站带字幕弹幕，抖音可自动连刷）；关注流、周报、本地书库；按额度点赞、评论、关注、发动态。默认人审，三把工具、少 token。\n\nQQ 交流群：745879632",
       "locales": {
@@ -14537,8 +14729,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-mosey/issues"
       },
       "created": "2026-11-01T08:17:38.660Z",
-      "published": "2026-11-13T14:36:17.164Z",
-      "versionCount": 44,
+      "published": "2026-11-14T07:18:47.176Z",
+      "versionCount": 48,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -14570,11 +14762,15 @@
       "summary": {
         "tools": 3,
         "events": 6,
-        "toolTokens": 1973,
+        "toolTokens": 2027,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "2.6.3",
+          "2.6.2",
+          "2.6.1",
+          "2.6.0",
           "2.5.10",
           "2.5.9",
           "2.5.8",
@@ -14664,7 +14860,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/619",
         "up": 4,
         "down": 0,
-        "comments": 39
+        "comments": 41
       }
     },
     "cortico-world-mota": {
@@ -16194,7 +16390,7 @@
     },
     "cortico-world-parlor": {
       "kind": "world",
-      "version": "0.43.1",
+      "version": "0.44.0",
       "displayName": "鲸语茶室",
       "description": "鲸语茶室是 Coo 与家长的共享客厅。支持聊天、说书、斗地主、狼人杀、五子棋、中国象棋、飞行棋和快局大富翁，提供网页牌桌与家长观战页。反馈 QQ 群 1061389211。",
       "locales": {
@@ -16248,8 +16444,8 @@
         "bugs": "https://github.com/biliye/cortico-world-parlor/issues"
       },
       "created": "2026-10-30T12:05:22.925Z",
-      "published": "2026-11-13T05:45:55.769Z",
-      "versionCount": 51,
+      "published": "2026-11-14T05:40:03.087Z",
+      "versionCount": 52,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -16278,6 +16474,7 @@
       },
       "changelog": {
         "versions": [
+          "0.44.0",
           "0.43.1",
           "0.43.0",
           "0.42.1",
@@ -16985,7 +17182,7 @@
     },
     "cortico-world-private-companion": {
       "kind": "world",
-      "version": "0.8.0",
+      "version": "0.8.1",
       "displayName": "我会永远陪着你",
       "description": "「我会永远陪着你」Coopanion 版：把 menglimi 的 AstrBot 插件 astrbot_plugin_private_companion 的生活感、主动联系、关系卡与说话分寸，独立实现为 Coopanion 的 World 扩展；内置可迁移记忆（companion-memory/2，导入导出 + 隔离审核）。",
       "author": "yaya-super",
@@ -17011,8 +17208,8 @@
         "bugs": "https://github.com/YaYa-super/cortico-world-private-companion/issues"
       },
       "created": "2026-10-29T11:24:55.064Z",
-      "published": "2026-11-13T19:11:20.143Z",
-      "versionCount": 17,
+      "published": "2026-11-14T05:12:47.204Z",
+      "versionCount": 18,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -17037,6 +17234,7 @@
       },
       "changelog": {
         "versions": [
+          "0.8.1",
           "0.8.0",
           "0.7.3",
           "0.7.2",
@@ -17990,7 +18188,8 @@
         "im",
         "qq",
         "companion",
-        "external-setup"
+        "external-setup",
+        "unofficial-api"
       ],
       "downloads": {
         "total": 750,
@@ -18885,6 +19084,61 @@
         "comments": 0
       }
     },
+    "cortico-world-registry": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "能力开关",
+      "description": "Cortico World: makes a World an ability the bot switches on and off itself. Hidden Worlds stay mounted and running; only their tool definitions and environment prompt leave the context.",
+      "author": "binamii",
+      "maintainers": [
+        "binamii"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-registry"
+      },
+      "created": "2026-11-14T07:53:10.453Z",
+      "published": "2026-11-14T07:54:27.253Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "experimental",
+        "diagnostics"
+      ],
+      "tags": [
+        "diagnostics",
+        "experimental"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 0,
+        "toolTokens": 207,
+        "envPromptTokens": 269
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1"
+        ],
+        "url": "https://unpkg.com/cortico-world-registry@0.1.1/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 931,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/931",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-reminder": {
       "kind": "world",
       "version": "0.1.3",
@@ -19161,7 +19415,8 @@
       "tags": [
         "video",
         "creative",
-        "external-setup"
+        "external-setup",
+        "unsafe"
       ],
       "icon": "assets/cortico-world-rsm/icon.svg",
       "downloads": {
@@ -21382,6 +21637,77 @@
         "comments": 0
       }
     },
+    "cortico-world-sticker-album": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "表情相册",
+      "description": "表情相册：本机表情包按情绪掷骰配图、看图写语义描述、心头好自动轮换；经 qqbot 官方通道图文同一条发出。零依赖，升级不失效。",
+      "locales": {
+        "zh": {
+          "displayName": "表情相册",
+          "description": "表情相册：本机表情包按情绪掷骰配图、看图写语义描述、心头好自动轮换；经 qqbot 官方通道图文同一条发出。"
+        },
+        "en": {
+          "displayName": "Sticker Album",
+          "description": "Sticker album: dice-gated sticker picks by mood, model-written semantic descriptions, auto-rotating favorites; sends text+image via the qqbot official channel."
+        }
+      },
+      "author": "year",
+      "maintainers": [
+        "ymhedgar"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "world",
+        "cortico",
+        "coopanion",
+        "stickers",
+        "qq"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-sticker-album"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-11-14T08:27:32.806Z",
+      "published": "2026-11-14T08:32:42.085Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "qq"
+      ],
+      "tags": [
+        "qq"
+      ],
+      "icon": "assets/cortico-world-sticker-album/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 0,
+        "toolTokens": 882,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-sticker-album@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 932,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/932",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-sticker-window": {
       "kind": "world",
       "version": "0.1.1",
@@ -21471,7 +21797,7 @@
       "published": "2026-10-31T04:33:59.965Z",
       "versionCount": 2,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "im",
         "qq",
@@ -23577,7 +23903,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/813",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-vts-body": {
@@ -23617,7 +23943,7 @@
       "published": "2026-10-31T05:33:38.790Z",
       "versionCount": 3,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "companion",
         "experimental"
@@ -24121,8 +24447,7 @@
         "internet"
       ],
       "tags": [
-        "internet",
-        "injection-risk"
+        "internet"
       ],
       "downloads": {
         "total": 933,
@@ -24648,7 +24973,7 @@
       "published": "2026-11-09T12:08:24.588Z",
       "versionCount": 6,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "im"
       ],
@@ -25330,7 +25655,7 @@
     },
     "elymes-nte-web": {
       "kind": "world",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "displayName": "和Y？聊天",
       "description": "网页端的和Y？聊天：把聊天页做成 QQ2007 / Windows 98 复古窗口与千禧风 CRT 窗口，立绘随关键词换表情，另附透明桌宠（可冒像素气泡）。包内附《开发中遇到的问题.md》，还藏着一个和数字、正文原文有关的彩蛋。",
       "locales": {
@@ -25370,8 +25695,8 @@
         "win32"
       ],
       "created": "2026-11-10T15:37:18.456Z",
-      "published": "2026-11-13T04:44:45.337Z",
-      "versionCount": 4,
+      "published": "2026-11-14T07:52:21.895Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -25385,17 +25710,17 @@
       "tags": [
         "browser",
         "companion",
-        "local",
         "experimental",
-        "internal-state"
+        "internal-state",
+        "unsafe"
       ],
       "icon": "assets/elymes-nte-web/icon.png",
       "screenshots": [
         "assets/elymes-nte-web/screenshot-1.png",
-        "assets/elymes-nte-web/screenshot-2.png",
-        "assets/elymes-nte-web/screenshot-3.png",
-        "assets/elymes-nte-web/screenshot-4.png",
-        "assets/elymes-nte-web/screenshot-5.png"
+        "assets/elymes-nte-web/screenshot-2.jpg",
+        "assets/elymes-nte-web/screenshot-3.jpg",
+        "assets/elymes-nte-web/screenshot-4.jpg",
+        "assets/elymes-nte-web/screenshot-5.jpg"
       ],
       "downloads": {
         "total": 515,
