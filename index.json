@@ -956,6 +956,18 @@
       "cortico-world-period": {
         "zh": "为保护社区免受性别争议话题影响",
         "en": "Blocked to keep the community clear of gender-controversy topics"
+      },
+      "cortico-world-hearthstone": {
+        "zh": "每次启动默认改写 Coopanion 安装目录里桌宠包的 7 个文件(body.js、pet-app.js、服务端 world.ts 等 56 处);改动对所有形象生效，升级 Coopanion 后又会自动重打",
+        "en": "On every start it rewrites, by default, 7 files of the desktop pet package inside the Coopanion install (body.js, pet-app.js, the server's world.ts and others, 56 edits); the changes affect every figure and are reapplied after each Coopanion update"
+      },
+      "coopani-world-music": {
+        "zh": "每次启动默认改写 Coopanion 安装目录里桌宠包的 body.js、figure.js、figure.json 和服务端 server.ts,给宿主加音频接口并放宽形象沙箱的 CSP;改动对所有形象生效",
+        "en": "On every start it rewrites, by default, body.js, figure.js, figure.json and the server's server.ts in the desktop pet package inside the Coopanion install, adding an audio route and loosening the figure sandbox CSP; the changes affect every figure"
+      },
+      "cortico-world-capture-guard": {
+        "zh": "启用后改写 Core 进程里内建桌宠 World 的宿主命令，用包里的入口拉起桌宠窗口，并替换窗口的 hide、show 方法",
+        "en": "Once enabled it rewrites the built-in pet World's host command in the Core process, launches the pet window through its own entry, and replaces the window's hide and show methods"
       }
     },
     "publishers": {}
@@ -1706,8 +1718,13 @@
     "cortico-world-ellen-voice": {
       "addTags": [
         "im",
-        "local"
-      ]
+        "local",
+        "sensitive-data"
+      ],
+      "note": {
+        "zh": "模型能随时截取整个屏幕做文字识别，也能打开系统声音监听",
+        "en": "The model can capture the whole screen for OCR and turn on system audio listening at any time"
+      }
     },
     "cortico-world-emotive-sticker": {
       "addTags": [
@@ -1940,6 +1957,116 @@
     "cortico-world-coding-agent-notify": {
       "removeTags": [
         "sensitive-data"
+      ]
+    },
+    "elymes-nte-web": {
+      "addTags": [
+        "unsafe"
+      ],
+      "removeTags": [
+        "local"
+      ],
+      "note": {
+        "zh": "本地转发服务不校验来源，服务开着时本机任意网页都能以控制台身份与 Coo 对话、改写宪法文件",
+        "en": "Its local relay does not check the request origin; while it runs, any web page on the machine can talk to Coo as the console and overwrite the constitution file"
+      }
+    },
+    "cortico-world-rsm": {
+      "addTags": [
+        "unsafe"
+      ],
+      "note": {
+        "zh": "模型能自己指定下载源和目录，下载后不校验就构建并运行",
+        "en": "The model can choose the download source and folder; downloads are built and run without an integrity check"
+      }
+    },
+    "coopanion-world-threads": {
+      "addTags": [
+        "unsafe"
+      ],
+      "note": {
+        "zh": "work 档的线程能在任意目录运行 PowerShell 命令",
+        "en": "Threads in work mode can run PowerShell commands in any folder"
+      }
+    },
+    "coopanion-world-github": {
+      "addTags": [
+        "unsafe"
+      ],
+      "note": {
+        "zh": "模型能把本机任意路径的文件上传到 GitHub,也能新建公开仓库",
+        "en": "The model can upload files from any local path to GitHub and create public repositories"
+      }
+    },
+    "cortico-world-doudizhu": {
+      "removeTags": [
+        "voice"
+      ]
+    },
+    "cortico-world-genesis": {
+      "addTags": [
+        "game"
+      ]
+    },
+    "cortico-world-life": {
+      "addTags": [
+        "game"
+      ]
+    },
+    "cortico-world-mood": {
+      "addTags": [
+        "companion",
+        "internal-state"
+      ]
+    },
+    "cortico-bot-tina-mem": {
+      "addTags": [
+        "memory"
+      ]
+    },
+    "cortico-world-kookvoice": {
+      "addTags": [
+        "im",
+        "local",
+        "external-setup",
+        "requires-key",
+        "requires-extension",
+        "sensitive-data"
+      ]
+    },
+    "cortico-world-qq-initiative": {
+      "addTags": [
+        "unofficial-api"
+      ],
+      "note": {
+        "zh": "经 NapCat 等非官方 QQ 客户端登录 QQ 账号",
+        "en": "Signs in to a QQ account through an unofficial client such as NapCat"
+      }
+    },
+    "cortico-world-bili-watch": {
+      "addTags": [
+        "unofficial-api",
+        "browser"
+      ],
+      "note": {
+        "zh": "用 B 站网页登录态自动发评论、私信和动态",
+        "en": "Posts comments, private messages and dynamics automatically with a Bilibili web login"
+      }
+    },
+    "cortico-world-milkcoo-app": {
+      "addTags": [
+        "im"
+      ]
+    },
+    "cortico-world-weather": {
+      "removeTags": [
+        "injection-risk"
+      ]
+    },
+    "cortico-world-local-voice-studio": {
+      "addTags": [
+        "unofficial-api",
+        "requires-extension"
       ]
     }
   }
