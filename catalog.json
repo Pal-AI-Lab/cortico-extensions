@@ -1761,6 +1761,79 @@
         "comments": 0
       }
     },
+    "coopani-world-fish-ride": {
+      "kind": "world",
+      "version": "0.1.2",
+      "displayName": "鱼鱼出行",
+      "description": "需 Coopani 0.2.17+、journey 1.2.1+：鱼鱼出行，给《大肥鱼环游世界》配套的打车/包车 App；读取城市与预算，车费进旅行总花费，日记留下这一程。",
+      "locales": {
+        "zh": {
+          "displayName": "鱼鱼出行",
+          "description": "需 Coopani 0.2.17+、journey 1.2.1+。给《大肥鱼环游世界》配套的打车 App：按当前城市叫快车、专车或包车，选车型和价位；车费通过正式桥接记进旅行总花费，日记里也会留下今天叫车的经历。"
+        },
+        "en": {
+          "displayName": "Fish Ride",
+          "description": "Requires Coopani 0.2.17+ and journey 1.2.1+. A ride-hailing companion for Big Fish World Tour: hail a taxi or charter a car in her current city, pick a tier and car model; the fare is bridged into the trip ledger and written into her diary."
+        }
+      },
+      "author": "Laffey & Coo",
+      "maintainers": [
+        "fatessd"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "travel",
+        "taxi",
+        "ride",
+        "charter",
+        "journey"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/coopani-world-fish-ride"
+      },
+      "created": "2026-11-15T10:14:20.368Z",
+      "published": "2026-11-15T10:16:32.050Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "apps",
+        "companion"
+      ],
+      "tags": [
+        "apps",
+        "companion"
+      ],
+      "icon": "assets/coopani-world-fish-ride/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 9,
+        "events": 1,
+        "toolTokens": 1699,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.2",
+          "0.1.1"
+        ],
+        "url": "https://unpkg.com/coopani-world-fish-ride@0.1.2/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 951,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/951",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "coopani-world-journey": {
       "kind": "world",
       "version": "1.8.7",
@@ -2015,7 +2088,7 @@
     },
     "coopani-world-life": {
       "kind": "world",
-      "version": "0.10.0",
+      "version": "0.10.1",
       "displayName": "模拟鱼生",
       "description": "模拟鱼生 · 需要 Coopani 0.2.17+：给她一本过日子的账 —— 五条需求会自己掉，职业、住处、钱、目标全在面板上。",
       "locales": {
@@ -2051,8 +2124,8 @@
         "bugs": "https://github.com/fateSSD/coopani-world-life/issues"
       },
       "created": "2026-11-15T03:01:26.063Z",
-      "published": "2026-11-15T09:22:09.096Z",
-      "versionCount": 10,
+      "published": "2026-11-15T10:15:29.002Z",
+      "versionCount": 11,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2077,6 +2150,7 @@
       },
       "changelog": {
         "versions": [
+          "0.10.1",
           "0.10.0",
           "0.9.1",
           "0.9.0",
@@ -2098,7 +2172,7 @@
     },
     "coopani-world-music": {
       "kind": "world",
-      "version": "0.7.0",
+      "version": "0.7.1",
       "displayName": "一起听歌",
       "description": "陪着你听歌（需 Coopani 0.2.16+）：知道 QQ音乐、网易云在放什么，换歌必说一句、分段接话，还能就着刚唱的词评两句；动作跟着真实鼓点走。想听调子就深听——默认云端（填密钥即可），也可切成完全本机（约 500MB），听出调性、和弦、旋律、声部、乐器，并把听过的段落攒成整首档案；问她「听得清吗」会先听再答，没配好会直说。还记得听歌记录、常听歌手和一份自己写的口味档案。",
       "locales": {
@@ -2136,8 +2210,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-11-15T08:02:28.068Z",
-      "versionCount": 58,
+      "published": "2026-11-15T10:19:45.718Z",
+      "versionCount": 59,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2171,6 +2245,7 @@
       },
       "changelog": {
         "versions": [
+          "0.7.1",
           "0.7.0",
           "0.6.5",
           "0.6.4",
@@ -2243,7 +2318,7 @@
     },
     "coopani-world-pz": {
       "kind": "world",
-      "version": "0.7.7",
+      "version": "0.7.8",
       "displayName": "僵毁陪玩",
       "description": "陪玩僵毁（需 Coopani 0.2.17+）:她读游戏自己写出来的状态,不是屏幕。天要黑了催你回屋、被围了让你跑、被咬一口先骂你再问伤口、找到大锤跟着高兴、死了会记住这局。只看不动手,也不剧透。",
       "locales": {
@@ -2278,8 +2353,8 @@
         "win32"
       ],
       "created": "2026-11-07T10:43:28.721Z",
-      "published": "2026-11-15T04:04:56.440Z",
-      "versionCount": 22,
+      "published": "2026-11-15T10:15:32.175Z",
+      "versionCount": 23,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2306,6 +2381,7 @@
       },
       "changelog": {
         "versions": [
+          "0.7.8",
           "0.7.7",
           "0.7.6",
           "0.7.5",
@@ -12006,7 +12082,7 @@
     },
     "cortico-world-hearthstone": {
       "kind": "world",
-      "version": "0.7.0",
+      "version": "0.7.1",
       "displayName": "炉石陪打",
       "description": "陪打炉石（需 Coopani 0.2.17+）:读对局日志,就知道双方血量、场面、手牌和水晶。该开口时开口:该解场还是该压、费够不够上那张大牌、对面有没有斩杀。只看不动手,不代打;第一次启动会替你把 Power 日志打开。打完能陪你复盘:哪一手走了岔路、她当时建议什么,也记得住最近几十局的战绩。她自己还有一份打法档案——信哪一套、看不惯什么,边打边写,越打越像她;但算出的斩杀她照样得喊,风格盖不住账。竞技场也认。",
       "locales": {
@@ -12042,8 +12118,8 @@
         "darwin"
       ],
       "created": "2026-10-27T13:42:43.161Z",
-      "published": "2026-11-15T08:02:20.617Z",
-      "versionCount": 36,
+      "published": "2026-11-15T10:16:51.552Z",
+      "versionCount": 37,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -12069,6 +12145,7 @@
       },
       "changelog": {
         "versions": [
+          "0.7.1",
           "0.7.0",
           "0.6.7",
           "0.6.6",
@@ -18646,9 +18723,19 @@
     },
     "cortico-world-qq-initiative": {
       "kind": "world",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "displayName": "QQ主动搭话",
       "description": "Cortico World 扩展：QQ主动搭话，按作息与白名单主动找对方说话。独立自闭环、三阶段配额、成功以平台回执为准。",
+      "locales": {
+        "zh": {
+          "displayName": "QQ主动搭话",
+          "description": "按作息规律与白名单主动向好友/群发起对话，三阶段配额防打扰。"
+        },
+        "en": {
+          "displayName": "QQ Proactive Chat",
+          "description": "Initiate proactive conversations on QQ based on daily routines, whitelists, and quotas."
+        }
+      },
       "author": "HirannU",
       "maintainers": [
         "hirannu"
@@ -18663,20 +18750,33 @@
         "external-setup"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-qq-initiative"
+        "npm": "https://www.npmjs.com/package/cortico-world-qq-initiative",
+        "repository": "https://github.com/HirannU-OVO/cortico-world-qq-initiative",
+        "homepage": "https://github.com/HirannU-OVO/cortico-world-qq-initiative#readme",
+        "bugs": "https://github.com/HirannU-OVO/cortico-world-qq-initiative/issues"
       },
       "created": "2026-11-05T09:23:21.395Z",
-      "published": "2026-11-05T09:43:00.037Z",
-      "versionCount": 3,
+      "published": "2026-11-15T10:33:08.663Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
-      "tags": [
+      "declaredTags": [
+        "experimental",
         "im",
         "qq",
         "companion",
         "external-setup",
         "unofficial-api"
       ],
+      "tags": [
+        "im",
+        "qq",
+        "companion",
+        "external-setup",
+        "experimental",
+        "unofficial-api"
+      ],
+      "icon": "assets/cortico-world-qq-initiative/icon.svg",
       "downloads": {
         "total": 797,
         "month": 797,
@@ -18685,18 +18785,19 @@
       "summary": {
         "tools": 4,
         "events": 1,
-        "toolTokens": 467,
+        "toolTokens": 499,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
-          "0.4.0",
+          "0.4.2",
+          "0.4.1",
           "0.3.1",
           "0.3.0",
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-qq-initiative@0.4.1/CHANGELOG.md"
+        "url": "https://github.com/HirannU-OVO/cortico-world-qq-initiative/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 752,
@@ -19045,9 +19146,19 @@
     },
     "cortico-world-qq-stickers": {
       "kind": "world",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "displayName": "QQ表情管理",
       "description": "Cortico World 扩展（QQ 生态）：QQ 表情管理，按情感/场景挑选并浏览本地 QQ 表情包库，内置频控冷却、概率掷骰、同义词智能映射与防重复机制；供 bot 以 [表情包:路径] 发送。只读，不改表情包本体。",
+      "locales": {
+        "zh": {
+          "displayName": "QQ表情管理",
+          "description": "智能匹配本地表情包库，内置频控冷却与同义词映射，只读无破坏。"
+        },
+        "en": {
+          "displayName": "QQ Sticker Selector",
+          "description": "Pick local QQ sticker images by emotion/scenario with cooldowns and read-only safety."
+        }
+      },
       "author": "HirannU",
       "maintainers": [
         "hirannu"
@@ -19062,18 +19173,32 @@
         "external-setup"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-qq-stickers"
+        "npm": "https://www.npmjs.com/package/cortico-world-qq-stickers",
+        "repository": "https://github.com/HirannU-OVO/cortico-world-qq-stickers",
+        "homepage": "https://github.com/HirannU-OVO/cortico-world-qq-stickers#readme",
+        "bugs": "https://github.com/HirannU-OVO/cortico-world-qq-stickers/issues"
       },
       "created": "2026-11-05T09:23:25.019Z",
-      "published": "2026-11-05T09:43:00.658Z",
-      "versionCount": 3,
+      "published": "2026-11-15T10:32:55.513Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
+      "declaredTags": [
+        "experimental",
+        "im",
+        "qq",
+        "companion",
+        "creative"
+      ],
       "tags": [
         "im",
         "qq",
-        "external-setup"
+        "companion",
+        "creative",
+        "external-setup",
+        "experimental"
       ],
+      "icon": "assets/cortico-world-qq-stickers/icon.svg",
       "downloads": {
         "total": 732,
         "month": 732,
@@ -19087,11 +19212,12 @@
       },
       "changelog": {
         "versions": [
-          "0.3.0",
+          "0.3.2",
+          "0.3.1",
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-qq-stickers@0.3.1/CHANGELOG.md"
+        "url": "https://github.com/HirannU-OVO/cortico-world-qq-stickers/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 753,
