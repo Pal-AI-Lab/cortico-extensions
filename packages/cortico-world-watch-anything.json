@@ -1,5 +1,269 @@
 {
   "schema": 1,
   "name": "cortico-world-watch-anything",
-  "version": "0.4.3"
+  "version": "0.4.4",
+  "describe": {
+    "tools": [
+      {
+        "name": "video_info",
+        "description": "读一段本地视频的容器信息：时长、分辨率、帧率、大小。不花图片 token，第一次碰一部片子先调它。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "视频文件的完整路径"
+            }
+          },
+          "required": [
+            "path"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读本地视频的时长、分辨率、帧率、大小，不花图片 token。",
+          "en": "Container info for a local video: duration, resolution, frame rate, size."
+        }
+      },
+      {
+        "name": "video_storyboard",
+        "description": "把一段视频压成一张宫格图（一格＝一个换镜头的地方，格子左下角标着它在片里的时间码），另附每格的起止秒数和那一格里听到的台词（本机 whisper 转写，可用 asr:false 关掉）。path 可以是本地文件，也可以是一条网址。图片会随回执进入上下文。长片子一段一段看：startSeconds 是起点、maxSeconds 是终点（绝对秒），格数用 maxFrames 调。要一次看一分钟，就 startSeconds/maxSeconds 圈出一分钟、pages 5、cols 2。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "视频文件的完整路径，或一条视频链接（http/https）"
+            },
+            "maxFrames": {
+              "type": "integer",
+              "minimum": 4,
+              "maximum": 64,
+              "description": "最多拼几格，默认取设置里的 24"
+            },
+            "maxSeconds": {
+              "type": "number",
+              "minimum": 1,
+              "description": "看到第 N 秒为止（绝对秒）；不传就是整段"
+            },
+            "startSeconds": {
+              "type": "number",
+              "minimum": 0,
+              "description": "从第 N 秒开始取（绝对秒，默认 0）"
+            },
+            "pages": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10,
+              "description": "一次出几张宫格（默认 1）；给 5 就把 start~end 平分成 5 段"
+            },
+            "cols": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 6,
+              "description": "宫格列数，0=按格数自动；6 格的宫格用 2"
+            },
+            "step": {
+              "type": "number",
+              "minimum": 0.1,
+              "maximum": 5,
+              "description": "粗采样间隔（秒），默认 0.5"
+            },
+            "asr": {
+              "type": "boolean",
+              "description": "要不要转写台词；不传就按设置（默认开）"
+            }
+          },
+          "required": [
+            "path"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "视频（文件或链接）→ 带时间码的宫格图，另附每格起止秒与本机转写的台词。",
+          "en": "A video file or URL becomes contact sheets with timecodes, plus locally transcribed lines."
+        }
+      },
+      {
+        "name": "live_snap",
+        "description": "贴一条直播地址，取「最近这一段」的画面拼成宫格，图片随回执进上下文。默认一分钟：5 张 × 6 格 × 2 秒一格。直播页地址会过期，脚本每次现取；只有画面，没有台词。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "直播页地址（B 站直播间这类），或一条 m3u8/flv 直链"
+            },
+            "seconds": {
+              "type": "number",
+              "minimum": 6,
+              "maximum": 300,
+              "description": "取多长，默认 60 秒"
+            },
+            "step": {
+              "type": "number",
+              "minimum": 0.5,
+              "maximum": 10,
+              "description": "每隔几秒一格，默认 2"
+            },
+            "cols": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 6,
+              "description": "每张几列，默认 2"
+            },
+            "pages": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10,
+              "description": "一次出几张，默认 5"
+            },
+            "cell": {
+              "type": "integer",
+              "minimum": 160,
+              "maximum": 1280,
+              "description": "每格宽度（像素），默认 640"
+            }
+          },
+          "required": [
+            "url"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "抓一段直播画面拼成宫格，只有画面没有台词。",
+          "en": "Grabs a stretch of a live stream as contact sheets; picture only."
+        }
+      },
+      {
+        "name": "screen_snap",
+        "description": "直接截这台电脑的屏幕，取「最近这一段」拼成宫格，图片随回执进上下文。默认一分钟：5 张 × 6 格 × 每 2 秒一屏。格子里的小字是本机时钟，不是游戏时间。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "seconds": {
+              "type": "number",
+              "minimum": 6,
+              "maximum": 300,
+              "description": "这一段多长，默认 60 秒"
+            },
+            "frames": {
+              "type": "integer",
+              "minimum": 2,
+              "maximum": 12,
+              "description": "每张几格，默认 6"
+            },
+            "cols": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 6,
+              "description": "每张几列，默认 2"
+            },
+            "pages": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10,
+              "description": "一次出几张，默认 5"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "截一段屏幕拼成宫格，格子里是本机时钟。",
+          "en": "Screenshots a stretch of the screen as contact sheets with the local clock."
+        }
+      },
+      {
+        "name": "watch_start",
+        "description": "开关的「开」：让它自己持续看。source=screen 是截屏幕（每 2 秒一屏，一分钟五张自动推到对话里）；source=url 要给直播地址。同时只开一个，重复开会先停掉旧的。要停用 watch_stop。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "enum": [
+                "screen",
+                "url"
+              ],
+              "description": "看哪儿：screen=这台电脑的屏幕，url=一条直播地址"
+            },
+            "url": {
+              "type": "string",
+              "description": "source=url 时的直播地址"
+            },
+            "seconds": {
+              "type": "number",
+              "minimum": 20,
+              "maximum": 300,
+              "description": "一批多长，默认 60 秒"
+            },
+            "cols": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 6,
+              "description": "每张几列，默认 2"
+            },
+            "pages": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10,
+              "description": "一批几张，默认 5"
+            }
+          },
+          "required": [
+            "source"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "开始持续看屏幕，每攒够一批自动推过来。",
+          "en": "Starts watching the screen continuously, pushing each batch on its own."
+        }
+      },
+      {
+        "name": "watch_stop",
+        "description": "开关的「关」：停掉 watch_start 起的后台（截屏幕那个常驻进程）。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "停掉常驻截屏。",
+          "en": "Stops the continuous screen watcher."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "video.watch",
+        "description": {
+          "zh": "常驻截屏每攒够一批，带着那几张宫格图推过来一次。",
+          "en": "A batch of screen contact sheets arrives while continuous watching is on."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.watch.envPrompt",
+        "title": "陪你看一切 · 环境提示词",
+        "role": "envPrompt",
+        "content": "看片的六颗工具：**本地视频、视频链接、直播地址、这台电脑的屏幕**，都能变成带时间码的宫格图，图片随回执进你的上下文——是真看过画面，不是只读字幕。当前状态——{{video.state}}\n\n规格统一「一分钟一批」：`pages:5`、`cols:2`、`maxFrames:6`、`step:2`，五张 × 六格 = 三十格，正好一分钟。长片子下一批把 `startSeconds` / `maxSeconds` 各加 60。\n\n- `video_info`：只读本地文件的信息（时长、分辨率、帧率、大小），不花图片 token；第一次碰一部片子先调它。\n- `video_storyboard`：本地视频或 yt-dlp 支持的链接 → 宫格图 + 每格起止秒 + 转写台词。`path` 给 http(s) 链接时先下载再抽帧，回执第一行带标题和 UP 主。\n- `live_snap`：直播地址（B 站直播间、m3u8/flv 直链），取「调用那一刻往后的一段」，只有画面没有台词。\n- `screen_snap`：直接截屏幕，格子里的小字是本机时钟，不是游戏时间。\n- `watch_start` / `watch_stop`：让它自己在后台一直截屏，每批攒够就推过来。只支持截屏幕。\n\n画面是你自己看的，台词是 whisper 听的——**听错字很正常，别把转写当成原文引用**。纯音乐片本来就没台词，照实说，别把音乐听成的胡话报出去。\n"
+      }
+    ]
+  }
 }
