@@ -4470,7 +4470,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/756",
         "up": 0,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-asr": {
@@ -12704,17 +12704,17 @@
     },
     "cortico-world-imggen": {
       "kind": "world",
-      "version": "0.3.4",
+      "version": "0.4.0",
       "displayName": "生图工作室",
-      "description": "Coopanion World：本地参考库 + 关键词的生图工作室，桌宠自己画图并把图直接发到 QQ。",
+      "description": "Coopanion World：本地参考库 + 关键词的生图工作室，支持云端接口与本机 ComfyUI 双后端，桌宠自己画图并发到 QQ。",
       "locales": {
         "zh": {
           "displayName": "生图工作室",
-          "description": "带本地参考库（人物/服饰/场景/道具）和关键词（情境/神态/动作/镜头/光线）的生图能力：Coo 按画面描述自动挑参考图、拼提示词，出图后直接发到 QQ。接口地址、模型名、Key 都在设置页填，换服务商不用改代码；还有一个本机的素材库页面可以拖图管理。"
+          "description": "带本地参考库（人物/服饰/场景/道具）和关键词（情境/神态/动作/镜头/光线）的生图能力：Coo 挑参考图、拼提示词、出图后直接发到 QQ。支持云端接口与本机 ComfyUI 双后端，工作室页面一键切换；本地可指定角色 LoRA 与工作流模板（人物 LoRA + 画风/姿势工作流自由搭配），并有后台出图（不卡对话）、纯提示词模式、卡住自动重提。"
         },
         "en": {
           "displayName": "Image studio",
-          "description": "Image generation with a local reference library (characters, outfits, scenes, props) and keyword presets (situation, expression, pose, shot, light). Coo picks reference images, builds the prompt, draws, and sends the picture straight to QQ. Endpoint, model and key live in the settings page; a local studio page handles the library."
+          "description": "Image generation with a local reference library (characters, outfits, scenes, props) and keyword presets. Coo picks references, builds the prompt, draws, and sends the picture straight to QQ. Dual backend: cloud API or local ComfyUI, switchable from the studio page; character LoRA + workflow templates, background drawing that does not block chat."
         }
       },
       "maintainers": [
@@ -12734,8 +12734,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-imggen"
       },
       "created": "2026-11-06T18:02:16.406Z",
-      "published": "2026-11-10T16:44:22.710Z",
-      "versionCount": 6,
+      "published": "2026-11-15T07:10:50.979Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -12764,9 +12764,9 @@
         "week": 773
       },
       "summary": {
-        "tools": 4,
+        "tools": 6,
         "events": 0,
-        "toolTokens": 1238,
+        "toolTokens": 1383,
         "envPromptTokens": 0
       },
       "discussion": {

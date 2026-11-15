@@ -1,86 +1,86 @@
 {
   "schema": 1,
   "name": "cortico-world-imggen",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "describe": {
     "tools": [
       {
         "name": "imggen_draw",
-        "description": "画一张图存到本地并直接发到 QQ。prompt 只写画面本身，神态/动作/镜头/光线用下面的关键词，别在 prompt 里重复。人物/服饰/场景/道具都填参考库里的名字；to 抄 QQ 消息 meta 里的 conv。回执有路径、尺寸、关键词、参考图和发送结果，「生成失败」开头不算成功；一张几十秒，等回执。",
+        "description": "画一张图存本地并发 QQ。prompt 只写画面；神态/动作/镜头/光线用关键词。人物/服饰/场景/道具填库里的名字；to 抄消息 meta 里的 conv。回执有路径、尺寸、参考图和发送结果；「生成失败」开头不算成功。本地出图需等几十秒到两分钟。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "prompt": {
               "type": "string",
-              "description": "画面：谁在做什么、在哪、什么风格。一到三句。"
+              "description": "画面：谁在做什么、在哪、什么风格。一到两句；本地模式写英文 tag。"
             },
             "characters": {
               "type": "array",
               "items": {
                 "type": "string"
               },
-              "description": "出镜人物（库里的名字，可多个），保证长相一致。"
+              "description": "人物名（库里的，可多个）"
             },
             "outfits": {
               "type": "array",
               "items": {
                 "type": "string"
               },
-              "description": "服饰（库里的名字），不填自动搭配。"
+              "description": "服饰名，不填自动搭配"
             },
             "scene": {
               "type": "string",
-              "description": "场景（库里的名字）。"
+              "description": "场景名"
             },
             "props": {
               "type": "array",
               "items": {
                 "type": "string"
               },
-              "description": "道具（库里的名字）。"
+              "description": "道具名"
             },
             "situation": {
               "type": "string",
-              "description": "情境（词表里的名字）。"
+              "description": "情境关键词"
             },
             "expression": {
               "type": "string",
-              "description": "神态（词表里的名字）。"
+              "description": "神态关键词"
             },
             "pose": {
               "type": "string",
-              "description": "动作（词表里的名字）。"
+              "description": "动作关键词"
             },
             "shot": {
               "type": "string",
-              "description": "镜头（词表里的名字）。"
+              "description": "镜头关键词"
             },
             "light": {
               "type": "string",
-              "description": "光线（词表里的名字），不填用情境默认。"
+              "description": "光线，不填用情境默认"
             },
             "size": {
               "type": "string",
-              "description": "覆盖默认尺寸，如 1024x1024。"
+              "description": "尺寸，如 1024x1024"
             },
             "count": {
               "type": "integer",
               "minimum": 1,
               "maximum": 4,
-              "description": "张数，默认 1；多张更慢更贵。"
+              "description": "张数，默认 1"
             },
             "to": {
               "type": "string",
-              "description": "group:<群号> 或 private:<QQ号>；不填用默认目标。"
+              "description": "group:<群号> / private:<QQ号>"
             },
             "caption": {
               "type": "string",
-              "description": "跟图一起发的一句话。"
+              "description": "跟图一起说的话"
             },
             "send": {
               "type": "boolean",
-              "description": "false = 只生成不发。"
+              "description": "false = 只存不发"
             }
           },
           "required": [
@@ -97,22 +97,22 @@
       },
       {
         "name": "imggen_send",
-        "description": "把之前生成过的一张图再发一次（不重新生成，不花钱）。file 填 imggen_list 给出的文件名，不填就发最新的一张。对方说「再发一次」「发刚才那张」时用它，不要重新 imggen_draw。",
+        "description": "把生成过的图再发一次（不重新生成、不花钱）。file 填 imggen_list 给的文件名，不填发最新一张。对方说「再发一次」时用它，别重新画。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "file": {
               "type": "string",
-              "description": "文件名或完整路径（必须在本扩展的图片目录内）。不填 = 最新一张。"
+              "description": "文件名；不填=最新一张"
             },
             "to": {
               "type": "string",
-              "description": "发送目标：group:<群号> 或 private:<QQ号>。不填用默认目标。"
+              "description": "group:<群号> / private:<QQ号>"
             },
             "caption": {
               "type": "string",
-              "description": "可选，跟图一起发出的一句话。"
+              "description": "跟图一起说的话"
             }
           },
           "required": []
@@ -127,7 +127,7 @@
       },
       {
         "name": "imggen_list",
-        "description": "列出本地已生成的图片（文件名、大小、时间）和保存目录。想知道有哪些图、或要给 imggen_send 挑文件名时用。",
+        "description": "列出已生成的图（文件名/大小/时间）和保存目录。给 imggen_send 挑文件名时用。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -136,7 +136,7 @@
               "type": "integer",
               "minimum": 1,
               "maximum": 50,
-              "description": "最多列几张，默认 10。"
+              "description": "最多几张，默认 10"
             }
           },
           "required": []
@@ -151,7 +151,7 @@
       },
       {
         "name": "imggen_library",
-        "description": "本地参考库（人物/服饰/场景/道具）。list 看清单，get 看某条设定与参考图，add 存新条目（file 填图片路径或 http 地址），update 改字段，remove 挪进回收站。出图前不确定名字就 list，别猜；对方说「记住这个角色」先拿图片路径再 add。",
+        "description": "本地参考库（人物/服饰/场景/道具）：list 看清单，get 看某条设定与参考图，add 存新条目（file 填路径或 http 地址），update 改字段，remove 挪回收站。出图前不确定名字就 list，别猜。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -179,48 +179,48 @@
             },
             "name": {
               "type": "string",
-              "description": "条目名（get/update/remove 用；add 时是新条目名）。"
+              "description": "条目名"
             },
             "description": {
               "type": "string",
-              "description": "add/update：外观描述，只写长相或设计，会进提示词。"
+              "description": "外观，只写长相/设计"
             },
             "aliases": {
               "type": "array",
               "items": {
                 "type": "string"
               },
-              "description": "add/update：别名。"
+              "description": "别名"
             },
             "tags": {
               "type": "array",
               "items": {
                 "type": "string"
               },
-              "description": "add/update：标签。"
+              "description": "标签"
             },
             "persona": {
               "type": "string",
-              "description": "add/update：人设，只给自己看，不外发。"
+              "description": "人设，不外发"
             },
             "expressions": {
               "type": "string",
-              "description": "add/update：神态特点，会进提示词。"
+              "description": "神态特点"
             },
             "defaultOutfit": {
               "type": "string",
-              "description": "add/update：默认服饰（服饰条目名）。"
+              "description": "默认服饰名"
             },
             "outfitByContext": {
               "type": "object",
               "additionalProperties": {
                 "type": "string"
               },
-              "description": "add/update：情境→服饰名，如 {\"睡前\":\"睡衣\"}；也收 \"睡前=睡衣, 刚睡醒=睡衣\"。只对人物有用。"
+              "description": "情境→服饰，如 {\"睡前\":\"睡衣\"}"
             },
             "file": {
               "type": "string",
-              "description": "add：参考图，本地路径或 http(s) 地址。"
+              "description": "参考图路径或 URL"
             }
           },
           "required": [
@@ -234,6 +234,76 @@
         "summary": {
           "zh": "查本地参考库（人物/服饰/场景/道具），也能把图存成新条目。",
           "en": "Queries or edits the local reference library."
+        }
+      },
+      {
+        "name": "imggen_jobs",
+        "description": "查后台出图任务（本地出图很慢时 imggen_draw 会先回任务号，画好自动发）。想知道「画好了没」才查，正常闲聊不用。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20,
+              "description": "最多几条，默认 5"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查后台出图任务的进度（本地出图时用）。",
+          "en": "Checks background drawing jobs."
+        }
+      },
+      {
+        "name": "imggen_comfy",
+        "description": "本地 ComfyUI 的设置：status 看当前用哪个 LoRA / 工作流，list 列出可选的 LoRA 文件，set 改成别的（backend 选 local/cloud；lora 传文件名、空串表示不挂；workflow 传 API 格式 JSON 的路径或文件名、空串表示内置）。切到 local 后是纯提示词模式：要自己写完整英文提示词，别用参考库。对方说「换个画风」「用 XX LoRA」「换成我的工作流」时用它。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "status",
+                "list",
+                "set"
+              ],
+              "description": "要做的事"
+            },
+            "backend": {
+              "type": "string",
+              "enum": [
+                "local",
+                "cloud"
+              ],
+              "description": "set：local/cloud"
+            },
+            "lora": {
+              "type": "string",
+              "description": "set：角色 LoRA 文件名，空=不挂"
+            },
+            "workflow": {
+              "type": "string",
+              "description": "set：工作流文件名，空=内置"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "read",
+          "act"
+        ],
+        "summary": {
+          "zh": "看/改本地 ComfyUI 的设置（用哪个 LoRA、哪个工作流）。",
+          "en": "Views or changes local ComfyUI options (LoRA, workflow)."
         }
       }
     ],
