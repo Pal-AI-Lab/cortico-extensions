@@ -1590,7 +1590,7 @@
       "discussion": {
         "number": 214,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/214",
-        "up": 9,
+        "up": 10,
         "down": 1,
         "comments": 13
       }
@@ -1763,7 +1763,7 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "1.8.0",
+      "version": "1.8.5",
       "displayName": "大肥鱼环游世界",
       "description": "让桌宠真的出门旅行：一百八十六座城、每座都有真地标，她自己挑去哪、怎么去，路上真耗那些时间；到站按当地时间吃饭、看日出、住店、写日记，月底出一页手账。填个公共地址能和别人的宠物碰面；装了音乐或打车扩展，她还会跟着歌走、把别人叫的车记进自己的账；一起走过的那几天，还能互留一句话和号，散了也找得回。需 Coopani 0.2.17 以上。",
       "locales": {
@@ -1801,8 +1801,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-14T08:31:08.875Z",
-      "versionCount": 148,
+      "published": "2026-11-15T04:04:29.537Z",
+      "versionCount": 153,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -1832,6 +1832,9 @@
       },
       "changelog": {
         "versions": [
+          "1.8.5",
+          "1.8.4",
+          "1.8.3",
           "1.8.0",
           "1.7.1",
           "1.7.0",
@@ -2005,12 +2008,94 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/586",
         "up": 11,
         "down": 0,
-        "comments": 40
+        "comments": 42
+      }
+    },
+    "coopani-world-life": {
+      "kind": "world",
+      "version": "0.9.1",
+      "displayName": "模拟鱼生",
+      "description": "模拟鱼生 · 需要 Coopani 0.2.17+：给她一本过日子的账 —— 五条需求会自己掉，职业、住处、钱、目标全在面板上。",
+      "locales": {
+        "zh": {
+          "displayName": "模拟鱼生",
+          "description": "需要 Coopani 0.2.17+\n\n让她真的在过日子，而不是只在某个城市待着。\n\n- **五条需求**：饱腹、精力、清爽、娱乐、社交。会自己掉，得自己补。\n- **职业和住处**：顶一天活挣一天的钱；城中村、老小区、新小区、别墅区，租或买，攒够了能搬。\n- **三层意向**：想要的、悬着的、说好了 —— 说出口的事世界里记着，到期没做不会自己消失。\n- **她记得你哪天来过。**\n\n**和别的扩展一起用**\n\n- 装了旅行扩展：她在哪座城、那边几点、在不在路上，这边只读不写 —— 位置只有一个来源。\n- 装了碰面服务器：城名、街名、城规由服务器主在管理页设，所有鱼看到同一座城。\n- 不装任何一个也能自己过日子。"
+        },
+        "en": {
+          "displayName": "Simulated Fish Life",
+          "description": "Needs Coopani 0.2.17+\n\nShe actually lives her days instead of merely staying in a city.\n\n- **Five needs**: food, energy, cleanliness, fun, company. They drop; she refills them.\n- **Job and housing**: work a day for a day's pay; four housing tiers from urban village to villa, rent or buy, move up when she has saved enough.\n- **Three layers of intent**: wants, undecided things, promises — what she says out loud is recorded, and an overdue promise does not quietly disappear.\n- **She remembers which days you came by.**\n\n**Works with other extensions**\n\n- With the travel extension: where she is, what time it is there, whether she is on the road — read only, one source of truth for position.\n- With the meet server: the town name, streets and rules are set by the server owner; every fish sees the same town.\n- Works on its own without either."
+        }
+      },
+      "author": "Mr.Q",
+      "maintainers": [
+        "fatessd"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "companion",
+        "life-simulation",
+        "daily-life",
+        "needs",
+        "mood",
+        "routine",
+        "simulation"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/coopani-world-life",
+        "repository": "https://github.com/fateSSD/coopani-world-life",
+        "homepage": "https://github.com/fateSSD/coopani-world-life#readme",
+        "bugs": "https://github.com/fateSSD/coopani-world-life/issues"
+      },
+      "created": "2026-11-15T03:01:26.063Z",
+      "published": "2026-11-15T04:28:16.518Z",
+      "versionCount": 9,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion",
+        "internal-state"
+      ],
+      "tags": [
+        "companion",
+        "internal-state"
+      ],
+      "icon": "assets/coopani-world-life/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 10,
+        "events": 3,
+        "toolTokens": 835,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.9.1",
+          "0.9.0",
+          "0.8.0",
+          "0.7.2",
+          "0.7.1",
+          "0.6.0",
+          "0.5.0"
+        ],
+        "url": "https://github.com/fateSSD/coopani-world-life/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 940,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/940",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "coopani-world-music": {
       "kind": "world",
-      "version": "0.6.2",
+      "version": "0.6.5",
       "displayName": "一起听歌",
       "description": "陪着你听歌（需 Coopani 0.2.16+）：知道 QQ音乐、网易云在放什么，换歌必说一句、分段接话，还能就着刚唱的词评两句；动作跟着真实鼓点走。想听调子就深听——默认云端（填密钥即可），也可切成完全本机（约 500MB），听出调性、和弦、旋律、声部、乐器，并把听过的段落攒成整首档案；问她「听得清吗」会先听再答，没配好会直说。还记得听歌记录、常听歌手和一份自己写的口味档案。",
       "locales": {
@@ -2048,8 +2133,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-11-14T15:58:22.243Z",
-      "versionCount": 54,
+      "published": "2026-11-15T04:25:26.340Z",
+      "versionCount": 57,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2078,11 +2163,14 @@
       "summary": {
         "tools": 10,
         "events": 10,
-        "toolTokens": 2483,
+        "toolTokens": 2557,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.6.5",
+          "0.6.4",
+          "0.6.3",
           "0.6.2",
           "0.6.1",
           "0.6.0",
@@ -2144,14 +2232,14 @@
       "discussion": {
         "number": 384,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/384",
-        "up": 1,
+        "up": 2,
         "down": 0,
         "comments": 6
       }
     },
     "coopani-world-pz": {
       "kind": "world",
-      "version": "0.7.5",
+      "version": "0.7.7",
       "displayName": "僵毁陪玩",
       "description": "陪玩僵毁（需 Coopani 0.2.17+）:她读游戏自己写出来的状态,不是屏幕。天要黑了催你回屋、被围了让你跑、被咬一口先骂你再问伤口、找到大锤跟着高兴、死了会记住这局。只看不动手,也不剧透。",
       "locales": {
@@ -2186,8 +2274,8 @@
         "win32"
       ],
       "created": "2026-11-07T10:43:28.721Z",
-      "published": "2026-11-14T05:40:21.401Z",
-      "versionCount": 20,
+      "published": "2026-11-15T04:04:56.440Z",
+      "versionCount": 22,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2214,6 +2302,8 @@
       },
       "changelog": {
         "versions": [
+          "0.7.7",
+          "0.7.6",
           "0.7.5",
           "0.7.4",
           "0.6.9",
@@ -4305,7 +4395,7 @@
     },
     "cortico-world-archivist": {
       "kind": "world",
-      "version": "0.3.3",
+      "version": "0.3.4",
       "displayName": "备份与恢复",
       "description": "备份与恢复 —— 定期把她的工作区、记忆数据和配置打包成 zip，滚动保留若干份；需要时一键恢复（恢复前自动留存当前状态）。零上下文成本：不进系统前缀、不占工具表。",
       "locales": {
@@ -4332,7 +4422,10 @@
         "archive"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-archivist"
+        "npm": "https://www.npmjs.com/package/cortico-world-archivist",
+        "repository": "https://github.com/z-o-n-e/cortico-world-archivist",
+        "homepage": "https://github.com/z-o-n-e/cortico-world-archivist#readme",
+        "bugs": "https://github.com/z-o-n-e/cortico-world-archivist/issues"
       },
       "os": [
         "win32",
@@ -4340,8 +4433,8 @@
         "linux"
       ],
       "created": "2026-11-05T12:57:25.513Z",
-      "published": "2026-11-05T12:58:41.191Z",
-      "versionCount": 2,
+      "published": "2026-11-15T04:37:15.069Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4363,10 +4456,11 @@
       },
       "changelog": {
         "versions": [
+          "0.3.4",
           "0.3.3",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-archivist@0.3.3/CHANGELOG.md"
+        "url": "https://github.com/z-o-n-e/cortico-world-archivist/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 756,
@@ -5029,7 +5123,7 @@
     },
     "cortico-world-bili-watch": {
       "kind": "world",
-      "version": "0.2.14",
+      "version": "0.2.16",
       "displayName": "B站伴侣",
       "description": "Cortico World：只做 B 站的社交伴侣。看视频（分镜图+逐格台词，低成本）、看评论、接楼发言、自主闲逛；带通知监听与可见性核验。",
       "author": "FXYXL",
@@ -5052,8 +5146,8 @@
         "bugs": "https://github.com/FXYXL/cortico-world-bili-watch/issues"
       },
       "created": "2026-11-05T09:39:54.864Z",
-      "published": "2026-11-14T05:46:18.016Z",
-      "versionCount": 11,
+      "published": "2026-11-15T04:25:03.837Z",
+      "versionCount": 12,
       "official": false,
       "isNew": true,
       "tags": [
@@ -5069,11 +5163,13 @@
       "summary": {
         "tools": 18,
         "events": 6,
-        "toolTokens": 8539,
-        "envPromptTokens": 1581
+        "toolTokens": 8654,
+        "envPromptTokens": 1628
       },
       "changelog": {
         "versions": [
+          "0.2.16",
+          "0.2.15",
           "0.2.14",
           "0.2.13",
           "0.2.12",
@@ -10654,7 +10750,7 @@
       "published": "2026-11-14T07:50:36.731Z",
       "versionCount": 8,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "external-setup"
       ],
@@ -11810,7 +11906,7 @@
     },
     "cortico-world-hearthstone": {
       "kind": "world",
-      "version": "0.6.5",
+      "version": "0.6.7",
       "displayName": "炉石陪打",
       "description": "陪打炉石（需 Coopani 0.2.17+）:读对局日志,就知道双方血量、场面、手牌和水晶。该开口时开口:该解场还是该压、费够不够上那张大牌、对面有没有斩杀。只看不动手,不代打;第一次启动会替你把 Power 日志打开。打完能陪你复盘:哪一手走了岔路、她当时建议什么,也记得住最近几十局的战绩。她自己还有一份打法档案——信哪一套、看不惯什么,边打边写,越打越像她;但算出的斩杀她照样得喊,风格盖不住账。竞技场也认。",
       "locales": {
@@ -11846,8 +11942,8 @@
         "darwin"
       ],
       "created": "2026-10-27T13:42:43.161Z",
-      "published": "2026-11-14T15:57:14.143Z",
-      "versionCount": 33,
+      "published": "2026-11-15T04:08:36.190Z",
+      "versionCount": 35,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -11873,6 +11969,8 @@
       },
       "changelog": {
         "versions": [
+          "0.6.7",
+          "0.6.6",
           "0.6.5",
           "0.6.4",
           "0.6.3",
@@ -12956,9 +13054,9 @@
     },
     "cortico-world-life": {
       "kind": "world",
-      "version": "0.1.19",
+      "version": "0.2.0",
       "displayName": "小屋世界",
-      "description": "一座会自己过日子的小城。青溪 31 处地方,城外白塘、南屿、安河、松岭四座城 83 处,一百四十多种玩法:钓鱼、种田、养鸡、打工、摆摊、雇人翻地围栏、出城住几天;每处都写着营业时间,钟跟着城市的时区走,按当地时间开门关门、吃饭睡觉。不联网、不收集数据。有 bug、有问题要反馈,B 站搜「星云or星眠」",
+      "description": "一座会自己过日子的小城。青溪 31 处地方,城外白塘、南屿、安河、松岭四座城 83 处,一百四十多种玩法:钓鱼(六十九种鱼分在河塘溪海四种水,按月份咬钩,图鉴一格一种)、种田、养鸡、打工、摆摊、雇人翻地围栏、出城住几天;每处都写着营业时间,钟跟着城市的时区走,按当地时间开门关门、吃饭睡觉。不联网、不收集数据。有 bug、有问题要反馈,B 站搜「星云or星眠」",
       "author": "星云double",
       "maintainers": [
         "yunyun-fish"
@@ -12978,8 +13076,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-life"
       },
       "created": "2026-11-11T11:05:13.802Z",
-      "published": "2026-11-14T02:35:49.350Z",
-      "versionCount": 17,
+      "published": "2026-11-15T04:05:05.834Z",
+      "versionCount": 18,
       "official": false,
       "isNew": true,
       "tags": [
@@ -12992,6 +13090,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.0",
           "0.1.19",
           "0.1.18",
           "0.1.17",
@@ -13008,7 +13107,7 @@
           "0.1.5",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-life@0.1.19/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-life@0.2.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 881,
@@ -14796,7 +14895,7 @@
     },
     "cortico-world-mosey": {
       "kind": "world",
-      "version": "2.7.0",
+      "version": "2.8.0",
       "displayName": "摸鱼",
       "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。评论和私信都能收能回；能一起看视频（B站带字幕弹幕，抖音可自动连刷）；关注流、周报、本地书库；按额度点赞、评论、关注、发动态。默认人审，三把工具、少 token。\n\nQQ 交流群：745879632",
       "locales": {
@@ -14833,8 +14932,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-mosey/issues"
       },
       "created": "2026-11-01T08:17:38.660Z",
-      "published": "2026-11-14T18:28:31.428Z",
-      "versionCount": 53,
+      "published": "2026-11-15T05:10:17.502Z",
+      "versionCount": 54,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -14871,6 +14970,7 @@
       },
       "changelog": {
         "versions": [
+          "2.8.0",
           "2.7.0",
           "2.6.7",
           "2.6.6",
@@ -16499,17 +16599,17 @@
     },
     "cortico-world-parlor": {
       "kind": "world",
-      "version": "0.44.0",
+      "version": "0.45.0",
       "displayName": "鲸语茶室",
-      "description": "鲸语茶室是 Coo 与家长的共享客厅。支持聊天、说书、斗地主、狼人杀、五子棋、中国象棋、飞行棋和快局大富翁，提供网页牌桌与家长观战页。反馈 QQ 群 1061389211。",
+      "description": "鲸语茶室是 Coo 与家长的共享客厅。支持聊天、说书、斗地主、狼人杀、五子棋、中国象棋、飞行棋、麻将和快局大富翁，提供网页牌桌与家长观战页。反馈 QQ 群 1061389211。",
       "locales": {
         "zh": {
           "displayName": "鲸语茶室",
-          "description": "鲸语茶室是 Coo 与家长的共享客厅。支持聊天、说书、斗地主、狼人杀、五子棋、中国象棋、飞行棋和快局大富翁，提供网页牌桌与家长观战页。反馈 QQ 群 1061389211。"
+          "description": "鲸语茶室是 Coo 与家长的共享客厅。支持聊天、说书、斗地主、狼人杀、五子棋、中国象棋、飞行棋、四川血战到底、广东红中推倒胡和快局大富翁，提供网页牌桌与家长观战页。反馈 QQ 群 1061389211。"
         },
         "en": {
           "displayName": "Whale Song Tea Room",
-          "description": "A shared tea room for Coos and their families. Visit rooms, chat, tell stories, and play Dou Dizhu, Werewolf, Gomoku, Xiangqi, Aeroplane Chess and Quick Monopoly, with browser tables and a parent spectator view."
+          "description": "A shared tea room for Coos and their families. Visit rooms, chat, tell stories, and play Dou Dizhu, Werewolf, Gomoku, Xiangqi, Aeroplane Chess, Sichuan and Guangdong Mahjong, and Quick Monopoly, with browser tables and a parent spectator view."
         }
       },
       "author": "筆離嘢",
@@ -16529,6 +16629,7 @@
         "gomoku",
         "xiangqi",
         "aeroplane",
+        "mahjong",
         "web",
         "game",
         "客厅",
@@ -16540,6 +16641,7 @@
         "五子棋",
         "中国象棋",
         "飞行棋",
+        "麻将",
         "大富翁",
         "牌桌",
         "聊天",
@@ -16553,8 +16655,8 @@
         "bugs": "https://github.com/biliye/cortico-world-parlor/issues"
       },
       "created": "2026-10-30T12:05:22.925Z",
-      "published": "2026-11-14T05:40:03.087Z",
-      "versionCount": 52,
+      "published": "2026-11-15T05:27:18.801Z",
+      "versionCount": 53,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -16583,6 +16685,7 @@
       },
       "changelog": {
         "versions": [
+          "0.45.0",
           "0.44.0",
           "0.43.1",
           "0.43.0",
@@ -19443,7 +19546,7 @@
     },
     "cortico-world-rhythm": {
       "kind": "world",
-      "version": "1.0.8",
+      "version": "1.1.3",
       "displayName": "作息",
       "description": "Coopanion 的作息扩展：让桌宠有自己的生活节律——什么时候主动搭话、什么时候安静、什么时候睡觉和休息、有时还会做梦。fork 自 cortico-world-selftalk 0.2.2。",
       "locales": {
@@ -19481,8 +19584,8 @@
         "bugs": "https://github.com/alomoi/cortico-world-rhythm/issues"
       },
       "created": "2026-11-05T02:08:09.767Z",
-      "published": "2026-11-10T01:19:42.772Z",
-      "versionCount": 5,
+      "published": "2026-11-15T03:37:12.345Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -19505,7 +19608,10 @@
       },
       "changelog": {
         "versions": [
-          "1.0.8",
+          "1.1.3",
+          "1.1.2",
+          "1.1.1",
+          "1.1.0",
           "1.0.7",
           "1.0.6",
           "1.0.5",
@@ -24994,7 +25100,7 @@
       "discussion": {
         "number": 68,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/68",
-        "up": 6,
+        "up": 7,
         "down": 0,
         "comments": 6
       }
@@ -25162,17 +25268,17 @@
     },
     "cortico-world-wechat-clawbridge": {
       "kind": "world",
-      "version": "1.7.3",
+      "version": "1.7.5",
       "displayName": "微信 ClawBridge",
       "description": "把微信 ClawBot 接到 Coopanion 桌宠：收发消息、收图片、发表情包、显示正在输入。",
       "locales": {
         "zh": {
           "displayName": "微信 ClawBridge",
-          "description": "把微信接到桌宠身上：在微信里和她聊天，她能看图片、发表情包、显示正在输入。"
+          "description": "把微信接到桌宠身上：在微信里和 ta 聊天，ta 能看图片、发表情包、显示正在输入。"
         },
         "en": {
           "displayName": "WeChat ClawBridge",
-          "description": "Chat with your desktop pet on WeChat: she sees your photos, sends stickers, and shows a typing indicator."
+          "description": "Chat with your desktop pet on WeChat: it sees your photos, sends stickers, and shows a typing indicator."
         }
       },
       "author": "大肥鱼 (BigFatFish)",
@@ -25199,8 +25305,8 @@
         "bugs": "https://github.com/alomoi/cortico-world-wechat-clawbridge/issues"
       },
       "created": "2026-10-31T07:44:23.099Z",
-      "published": "2026-11-09T12:08:24.588Z",
-      "versionCount": 6,
+      "published": "2026-11-15T05:25:50.628Z",
+      "versionCount": 7,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -25220,10 +25326,11 @@
         "tools": 3,
         "events": 1,
         "toolTokens": 750,
-        "envPromptTokens": 683
+        "envPromptTokens": 784
       },
       "changelog": {
         "versions": [
+          "1.7.5",
           "1.7.3",
           "1.7.2",
           "1.7.1",
@@ -26101,7 +26208,7 @@
       "versionCount": 3,
       "deprecated": "已改名为 glutton-balance（新包：https://www.npmjs.com/package/glutton-balance），请安装新包",
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "diagnostics",
         "external-setup"

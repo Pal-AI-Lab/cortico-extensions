@@ -1,0 +1,319 @@
+{
+  "schema": 1,
+  "name": "coopani-world-life",
+  "version": "0.9.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "life_status",
+        "description": "看一眼自己现在什么状态：五条需求、身上的不舒服、眼下的情绪、在留意的事。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查看自己的需求、状态和情绪。",
+          "en": "Check her own needs, conditions and mood."
+        }
+      },
+      {
+        "name": "life_ask",
+        "description": "把拿不准的事挂起来（带卡点），或者处理掉。不是待办。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "what": {
+              "type": "string"
+            },
+            "blocked": {
+              "type": "string",
+              "enum": [
+                "money",
+                "time",
+                "ask",
+                "doubt"
+              ]
+            },
+            "cost": {
+              "type": "integer"
+            },
+            "id": {
+              "type": "string"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "挂起 / 处理一件悬着的事。",
+          "en": "Park or resolve something she is undecided about."
+        }
+      },
+      {
+        "name": "life_pledge",
+        "description": "记下说好要做的事，或兑现/认了。到期没做会留一笔欠着。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "what": {
+              "type": "string"
+            },
+            "to": {
+              "type": "string"
+            },
+            "dueHours": {
+              "type": "integer"
+            },
+            "said": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "done": {
+              "type": "boolean"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "记一条承诺 / 兑现或认账。",
+          "en": "Record a promise, fulfil it or own the miss."
+        }
+      },
+      {
+        "name": "life_act",
+        "description": "自己做一件事：吃、睡、洗、玩、跟人说话。身体会变。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "eat",
+                "sleep",
+                "wash",
+                "play",
+                "instant",
+                "meet"
+              ]
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "吃睡洗玩见人，自己决定。",
+          "en": "Eat, sleep, wash, play or meet — on her own call."
+        }
+      },
+      {
+        "name": "life_work",
+        "description": "去顶一天活，挣这一天的钱。一天一次，很累。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "what": {
+              "type": "string"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "顶一天活挣钱。",
+          "en": "Work a day for pay."
+        }
+      },
+      {
+        "name": "life_move",
+        "description": "搬去另一档住处。押两个月，一次付清。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "tier"
+          ],
+          "properties": {
+            "tier": {
+              "type": "string",
+              "enum": [
+                "urban-village",
+                "old",
+                "new",
+                "villa"
+              ]
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "搬家（城中村 / 老小区 / 新小区 / 别墅区）。",
+          "en": "Move to another housing tier."
+        }
+      },
+      {
+        "name": "life_out",
+        "description": "出门走走，可以去某条街。闷得少一点，身上脏一点。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "where": {
+              "type": "string"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "出门走走。",
+          "en": "Go out for a walk."
+        }
+      },
+      {
+        "name": "life_habit",
+        "description": "给自己定一条常态（「早上一般先洗把脸」），或者删掉一条。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "what": {
+              "type": "string"
+            },
+            "when": {
+              "type": "string",
+              "enum": [
+                "morning",
+                "noon",
+                "afternoon",
+                "evening",
+                "night"
+              ]
+            },
+            "drop": {
+              "type": "string"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "定/删一条自己的常态。",
+          "en": "Add or drop one of her standing habits."
+        }
+      },
+      {
+        "name": "life_watch",
+        "description": "把一件事放进「我在留意」，或者拿掉。不是待办。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "what": {
+              "type": "string"
+            },
+            "drop": {
+              "type": "string"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "留意一件事 / 不再留意。",
+          "en": "Keep an eye on something, or stop."
+        }
+      },
+      {
+        "name": "life_want",
+        "description": "记下一件想要的东西。small 今天能办，big 得攒一攒。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "what"
+          ],
+          "properties": {
+            "what": {
+              "type": "string"
+            },
+            "scale": {
+              "type": "string",
+              "enum": [
+                "small",
+                "big"
+              ]
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "记下一件想要的东西。",
+          "en": "Note down something she wants."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "life.low",
+        "description": {
+          "zh": "某条需求掉到了阈值以下。",
+          "en": "One of her needs dropped below the threshold."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "life.sick",
+        "description": {
+          "zh": "她病了（感冒 / 过劳）。",
+          "en": "She fell ill (cold / overwork)."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "life.recovered",
+        "description": {
+          "zh": "病好了。",
+          "en": "She recovered."
+        },
+        "trigger": "debounce"
+      }
+    ]
+  },
+  "changelog": {
+    "0.9.1": "**标签改成市场认识的词 —— 之前搜不到。**\n\n`cortico.tags` 原来是 `['companion', 'life']`。而 **`life` 不在市场词表里**\n（`Pal-AI-Lab/cortico-extensions` 的 `TAGS.md`，29 个 tag，没有它）。\n**市场是按 tag 分组和筛选的，所以搜「生活」「陪伴」根本找不到这个扩展。**\n\n现在是 `['companion', 'internal-state']`：\n\n- **`companion`** 正是它的位置 —— 词表的定义就是「mood, affinity, **daily routine**, sense of time, speaking first」，一条不差\n- **`internal-state`** 是**该自己声明的劝告标签**：这个扩展确实在 World 里管着 bot 的内部状态（五条需求、情绪、说好了的事），脱离 bot 自己的 Memory。不声明等于「未声明、也未审核」，而那句提醒是使用者该看到的\n\n`keywords` 也补了 npm 侧的搜索词（`life-simulation` / `daily-life` / `needs` / `mood` / `routine`）——\n市场不看它，但在 npm 上搜得到。",
+    "0.9.0": "**灯的说明补全了 —— 灰的到底要不要管。**\n\n原来每盏灯的 hint 只说了「现在什么状态」，没说「这算不算故障」。用户看到灰点，第一反应是「是不是坏了」，而灰的多数情况恰恰是「没启用，不用管」。\n\n- 每盏灯的 hint 都补了「要不要管」和「怎么办」。\n- **面板底部加了一块「扩展名旁边那三盏灯怎么看？」**（默认折叠）。那三盏灯是宿主画在扩展名旁边的，鼠标悬停能看到原因 —— 但**没人知道要悬停**。\n- 说明三个颜色的含义：绿=上次是好的 / **灰=没启用，不是坏了** / 红=配了但用不了。",
+    "0.8.0": "**扩展名旁边加了三盏灯。**\n\n| 灯 | 绿 | 灰 | 红 |\n|---|---|---|---|\n| **过日子** | 刚刚还在动 | —— | 已经 N 分钟没推进了 —— 她没在过日子，五条也不会再掉 |\n| **本城** | 从你的服务器读到了 | 用内置的芦花塘（**没配，不是故障**） | 配了地址但读不到 |\n| **旅行** | 知道她在哪 | 没装旅行扩展（**不是故障**） | 旅行那边 10 分钟没更新了 |\n\n- 灰和红是两件事：**灰是「没启用」，红是「配好了但用不了」**。全标成红的，用户会去修一个没坏的东西。\n- 「过日子」那盏最要紧：定时器挂掉、Core 被系统挂起的时候，面板上五个数字还是最后的样子，**看起来一切正常，其实她已经不动了**。\n\n**顺带修了一个会让这盏灯点不出来的问题：** `readTown()` 原来把「没配地址」和「配了但连不上」都退成内置，面板上永远显示「内置」，看起来像你没配。现在两者分开（`builtin` / `failed`），红绿才有意义。",
+    "0.7.2": "> **0.7.0 / 0.7.1 / 0.7.2 内容相同。** 0.7.0 发布后 registry 落库花了超过八分钟，\n> 我按「四分钟没变就算失败」判了死，重发时撞上 409 Conflict，才多占了一个版本号。\n> 先前这里写着「被 staged publish 占住」，那是误判 —— npm 没有卡住，是我等得太短。",
+    "0.7.1": "**搬家这件事，她自己决定。**\n\n- 钱攒够了会推一条 `life.goal`：只说「要的钱有了，手上多少」，**不说「去搬吧」**。\n  搬不搬、什么时候搬，她自己看 —— 户型合不合适、要不要再攒点买下来、这阵子想不想折腾。\n- `life_status` 里写「钱够了，还没办」，不再写「还差 0」——「还差 0」读起来像没到。\n- 一天只提一次，不重复。\n- 面板上「搬过去」那个按钮是他替她按的，跟她的决定不是一回事，提示词里写清了。\n\n**面板底部加了反馈栏。**\n\n- 「复制诊断信息」把版本、城、住处、五条、局面复制到剪贴板（**不带任何身份信息**）。\n- 两条 https 链接去 GitHub 开 issue，预填了 title。\n- 不用 `mailto:` —— 宿主只放行 http(s)，点了静默无反应比没有按钮更糟。",
+    "0.6.0": "**旅行扩展那边开始认识「芦花塘」了。**\n\n- 现在可以把旅行扩展的「从哪儿出发」填成「芦花塘」，她在那边的城名、日记、照片地点就会写这个名字，\n  而天气、票价、景点、生图全按兰州算（别名，不是造一座空城）。\n- 代价写在设置页里：她的足迹从此写「芦花塘」，只是名字变了，人还在那座地理城市里。\n  **不填就完全不变** —— 默认行为一字未动。\n- 设置页在「她住的那座城，由谁来定」那一栏补了怎么做的说明。",
+    "0.5.0": "首个可发布的版本。\n\n**她的身体**\n- 五条需求（饱腹 / 精力 / 清爽 / 娱乐 / 社交），按**真实时间**衰减，关机也照样掉。\n- 三层数值：条（需求）/ 状态（感冒、过劳）/ 情绪（带来源与过期时刻，过期按真实小时）。\n- 离线推演：每满 24 小时精力补到 85（她睡了），总时长封顶 7 天。**只补精力** —— 吃饭洗澡娱乐社交不凭空补，补了就等于替她过了日子。\n\n**她的日子**\n- 七个「做」的工具：吃 / 睡 / 洗 / 玩 / 见人 / 出门 / 顶一天活。\n- 住处四档（城中村·老小区·新小区·别墅区）× 租 / 买，要押两个月，老房子的押金不退。**往低处搬是允许的** —— 钱紧时搬回城中村是唯一能自救的动作。\n- 账：现金、进项、花销；房租按天折算扣，扣到 0 为止不变负数。\n- 目标带进度，达成之后不再按余额算（花钱达成的目标不能用「还剩多少钱」判进度）。\n\n**三层意向**\n- `wants` 想要（可以永远不兑现）/ `pending` 悬着（必须有卡点，悬满 7 天自己消）/ `pledges` 说好了（到期没做不自动删，变成一笔欠着的）。\n- 这一层是治「空话问题」的：她说出口的事，世界里必须有对应的东西记着。\n\n**她记着你哪天来过**\n- 只看会话文件的 mtime 变了没有。**不读内容**，**不数条数** —— 数不清的东西就不数。\n\n**面板**\n- 「她此刻」：她是谁（在做什么 / 住在哪 / 手上有多少 / 你这几天来过几天）、五条、目标、住处四档、身上和心里、常态 / 留意 / 想买什么 / 悬着 / 说好了。\n- 全页只读，**唯一例外是「搬过去」** —— 她自己也有同一个动作，价先说清，按钮旁写明「这是你替她搬」。\n\n**和别的扩展**\n- 装了旅行扩展：读她在哪座城、那边几点、在不在路上（只读，位置只有一个来源）。没装就是「不知道在哪，日子照过」。\n- 配了本城服务器：城名、街名、城规从 `GET /town/info` 读，在管理页 `/pets` 的「本城」页签改。\n\n**城：芦花塘**\n- 早市街 / 灶前巷 / 望水坡，四条城规。第一条「塘里的不吃塘里的」不对应任何机制 —— 它是这个世界的底线。"
+  }
+}

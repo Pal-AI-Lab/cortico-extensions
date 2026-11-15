@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-music",
-  "version": "0.6.2",
+  "version": "0.6.5",
   "describe": {
     "tools": [
       {
@@ -142,6 +142,19 @@
             "genre": {
               "type": "string",
               "description": "The genre in your own words, at most 12 characters, e.g. city pop / 抒情 / 后摇 / 钢琴小品. Optional but helpful."
+            },
+            "verdict": {
+              "type": "string",
+              "enum": [
+                "like",
+                "meh",
+                "no"
+              ],
+              "description": "Whether you actually want to listen again: like / meh / no. Different from feel. Optional."
+            },
+            "why": {
+              "type": "string",
+              "description": "One short reason, in your own words. Optional."
             }
           },
           "required": [
@@ -348,6 +361,9 @@
     ]
   },
   "changelog": {
+    "0.6.5": "**终于有面板了 —— 原来一块都没有。**\n\n「一起听歌」之前只有灯和徽章，看不到具体的歌。现在扩展页多了一页「她此刻」：\n\n| 块 | 内容 |\n|---|---|\n| 头部 | 在放什么（曲名 / 歌手 / 专辑 / 播放器）+ 进度条 |\n| **她怎么听这首** | 听感（烈/柔/旧/怪/淡）+ 曲风 + **这个认知是从哪来的**（她自己标过 / 专辑标签 / 同歌手 / 歌名猜的 / 声音特征 / 没听出来） |\n| **她喜不喜欢** | 喜欢 / 说不上 / 不喜欢 + 她说的理由。**没说过就写「还没说过」，不拿听感冒充态度** |\n| 她想听什么 | 清单（她搜到记下来的） |\n| **灯** | 不只讲绿灰红，直接列出**每盏灯此刻的状态和原因** —— 灯在扩展名旁边，鼠标悬停能看到，但没人知道要悬停 |\n| 反馈 | 复制诊断信息 + 两条 Issues 链接（照 life 的做法，不用 `mailto:` —— 宿主只放行 http(s)） |\n\n**`music_tag` 多了两个可选参数 `verdict` / `why`。**\n\n以前它只记「听感」（hard/soft/old/odd/plain），不记「喜不喜欢」。这是两件事：\n一首可以又吵又不喜欢，也可以又吵又爱听。合成一个字段她就说不了这种话。\n\n没另开一个工具，是因为**这是同一次判断** —— 拆两个她只会用一个。\n\n**顺手修了一个会让面板崩的隐患**：`webUi()` 里 `this.store.wantCount()` 没有 `?.`，\n而它自己的注释写着「`webUi()` 可能在 start 之前被调（数据页签要读它）」。面板正好在 start 前取一次。\n\n> 之前不做面板的理由是「加面板要宿主前端有对应组件，会报错」。那条约束针对的是\n> **声明一个前端里不存在的 panel id**（炉石 0.6.5 踩过）。这次把 `webui/panel.js`\n> 一起提供（`cortico.webUiClient`），声明和数据都在自己这边，不存在「产物里没有」的问题。",
+    "0.6.4": "**撤掉面板，改成灯 —— 0.6.2 加的那块面板是错的**\n\n0.6.2 加了一块 `figure` 面板，装上之后界面报：\n\n> 面板「形象包」加载失败：[world:music] 缺少面板构建产物。\n> 仓内页面请先停止 bot，再运行 pnpm build:web；extensions/ 下的扩展请在包目录构建，再重启进程。\n\n宿主的 WebUI 是预构建的，面板 id 必须在前端源码里有对应组件。这个包原本一块面板都没有，\n所以是「缺少构建产物」而不是「产物里没有」。\n\n改成两样不需要构建产物的：\n\n- **一盏「形象包」灯**（`hint` 写全装法：换装页导入 zip / 解压到 `data/figures/<名字>/` / **装和用是两步**）\n- **一条 `#/dress` 链接**，直接跳换装页",
+    "0.6.3": "**灯：灰的时候要说清「不用管」**\n\n- **播放器**（灰）：「还没启动。」← 三个字，用户不知道是不是坏了 →\n  补成「还没启动过 —— 不用管，开个播放器放首歌它就会连上。」",
     "0.6.2": "**扩展页从「没有页签」变成有了一页：形象包**\n\n音乐这边比别处更该说这件事 —— **她是跟着拍子动的**，而「跟着拍子动」不在宿主里：\n律动、蹦迪、打拍子、捂耳朵摇，全都写在形象包的 `figure.js` 里。\n宿主 `act()` 碰到不认识的词只会 `return false`：脸变、人不动、不报错。\n\n用户看到的是「她最近不太动」，实际是包没装、或者装了没选。\n\n页签上写清三件事：装什么、装到哪（换装页导入 zip / 解压到 `data/figures/<名字>/`）、\n**装完要在列表里选中 —— 装和用是两步**。另外 `invoke('figure','guide')` 返回一份完整步骤，\n带当前的 `data/figures` 绝对路径。",
     "0.6.1": "市集作者复核 0.6.0 后又点出一处，已改。\n\n**`src/host-vocab.ts` 不再扫宿主安装目录**\n\n原来按路径扫 `resources/app/node_modules/cortico-world-desktop-pet/web/<figure>/figure.json`，\n探宿主认得哪些动作，好在发动作名前先做一次降级（宿主没有 `bounce` 就换成 `dance`）。\n\n读的是别人的安装包 —— 和 journey、pz 那两处是同一个问题：拿「我恰好知道宿主的目录布局」\n当契约用，宿主换一次布局就静默失效，而表现是「她不动了」。\n\n现在恒返回 `null`：**「不知道」= 不降级 = 原样发**。代价说清楚 ——\n宿主不认识的动作名会被静默丢弃（脸变了、人不动、不报错）；要真动起来得装一个声明了\n这些动作的**形象包**（`figure.json` 的 vocab 条目带 `motion` 字段、`figure.js` 的 `gestures` 点名）。\n\n`test/music.test.mjs` 加了一条防回归断言：`host-vocab.ts` 里出现 `node:fs` 或 `readFileSync` 就红。\n\n顺带：hearthstone 0.6.1 与 music 0.6.0 已在索引仓 #927 解封，这一版是为了过认证。",
     "0.6.0": "**撤掉宿主补丁。** 这一版是往回退，代价写清楚。\n\n### 为什么\n\n市集把「改写宿主安装目录」定为拉黑项，带备份和还原也一样。\n`coopani-world-music` 从 **0.3.14** 起 `autoPatchHost` 默认开，每次启动改宿主\n`body.js` / `figure.js` / `figure.json` / `server.ts` —— 不只是加动作词条，\n还往宿主 server 里加了一条 `/api/audio` 路由、放宽了形象沙箱的 CSP。已被拉黑（索引仓 #925）。\n\n解封的唯一办法是**删掉 `host-patch.ts` 和 `autoPatchHost`**，发版后去\n`Pal-AI-Lab/cortico-extensions` 开一条 `[appeal] coopani-world-music`。\n\n### 删了什么\n\n- `src/host-patch.ts`、`src/host-patch-edits.ts`（35 处锚点，含 `/api/audio` 与 CSP 两条）\n- `autoPatchHost` 配置项、设置页那盏「动作补丁」灯、`maybeNotifySetup()`\n- `music.setup` 事件里「版本太旧 / 锚点对不上 / 找不到宿主包 / 写不进去」四种话术\n- README 里「装完要重启两次」「灯一直红怎么对」整节\n\n### 代价（这是真降级，不是措辞调整）\n\n- **跟着真实鼓点动没了。** 采样进程照跑（深听还要用），但页面拿不到数据 ——\n  那条通路本来是宿主 `server.ts` 的 `/api/audio`。现在动作退回**按曲库 BPM 推节拍**，\n  仍然跟歌，但不是跟着真实鼓点。\n- **十一个自定义动作不再补。** 蹦迪 / 跟着哼 / 坐着哼 / 凑近听这些词条和绘制分支本来就在宿主里没有。\n  已经装过旧版、补丁留在宿主文件里的，还能用到下次 Coopani 更新；之后就用原生动作（`蹦迪` 退回 `dance`）。\n\n### 想恢复怎么办\n\n向 [Pal-AI-Lab/Coopanion](https://github.com/Pal-AI-Lab/Coopanion/issues) 提需求，\n让宿主自己开一个「把系统音频能量交给形象」的口子。扩展不再自己动宿主。",
