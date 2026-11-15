@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-journey",
-  "version": "1.8.5",
+  "version": "1.8.6",
   "describe": {
     "tools": [
       {
@@ -245,7 +245,7 @@
       },
       {
         "name": "journey_go_to",
-        "description": "Set off for a named city, optionally by a stated means of transport. Use it when the person says where to go and/or how - \"take the high-speed rail to Shanghai\", \"fly to Lhasa\". With no mode it picks one itself, weighted by distance; with a mode it uses exactly that one, and if that one is impossible (too far, no airport, no rail link, no money) it says why instead of silently substituting another. Only when she is settled in a city or at home: not while travelling, not while heading home, not during a short-term job, and not once the trip has hit its length limit - it will say which of those it is. Going home has its own tool.",
+        "description": "Set off for a named city, optionally by a stated means of transport. Use it when the person says where to go and/or how - \"take the high-speed rail to Shanghai\", \"fly to Lhasa\". With no mode it picks one itself, weighted by distance; with a mode it uses exactly that one, and if that one is impossible (too far, no airport, no rail link, no money) it says why instead of silently substituting another. Only when she is settled in a city or at home. While she is already on a leg it cannot turn around, but it still records the city as a wish for the next leg and says so - call it anyway when he names a place while she is travelling, and tell him it is meant for the next leg, not this one. Not while heading home, not during a short-term job, and not once the trip has hit its length limit - it will say which of those it is. Going home has its own tool.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -649,6 +649,30 @@
           "zh": "在这座城留一句话，给以后来的人看。",
           "en": "Leave one line for whoever comes to this city later."
         }
+      },
+      {
+        "name": "journey_stay",
+        "description": "Stay one more day where she is, after she has been told she is leaving tomorrow. Call it the moment she would rather not go yet - something she has not seen, someone she wants another day with, or she simply likes it here. It cancels that one departure; tomorrow morning she decides again from scratch, and she may well leave then. Say why in one short line of her own. Do not call it for a city she has not reached yet, and do not call it twice for the same departure.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "reason": {
+              "type": "string",
+              "description": "Why she wants one more day, one short sentence in her own voice."
+            }
+          },
+          "required": [
+            "reason"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "这一趟先不走，再待一天。",
+          "en": "Stay one more day after all."
+        }
       }
     ],
     "events": [
@@ -659,6 +683,22 @@
           "en": "She is asking to set off (or to take an invitation) and waiting for a yes. The panel shows a card with two buttons."
         },
         "trigger": "flush"
+      },
+      {
+        "type": "journey.departing",
+        "description": {
+          "zh": "打算明天走：下一站是哪、多远。**这是预告，还没上车** —— 她不想走的话可以撤。",
+          "en": "She plans to leave tomorrow: next stop and distance. A heads-up, not a departure yet."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "journey.stay",
+        "description": {
+          "zh": "她把那一趟撤了，决定再待一天，附她自己的理由。",
+          "en": "She cancelled that departure and stays one more day, with her reason."
+        },
+        "trigger": "debounce"
       },
       {
         "type": "journey.depart",
@@ -783,6 +823,7 @@
     ]
   },
   "changelog": {
+    "1.8.6": "**用户来信**：她在大连第 3 天，12:17 刚查完 `journey_now`，12:18 说「大连才第三天，我还没待够」，\n同一分钟后台上车去了秦皇岛。日志里前面那句是「他离开了 13 小时」。\n他的原话：**「她没有被问过，也没有机会说不。」**\n\n这件事拆开是两层，这一版两层都动了。\n\n### 一、发车不再当场执行，改成「今天说，明天走」\n\n原来 `stayTick` 掷中「待够」之后，同一拍里就 `moveOn()` + 推 `journey.depart` ——\n她连一句话都插不进去。现在拆成两拍：\n\n- 第 N 天早上掷中：只说一句「打算明天去 X」（新事件 `journey.departing`），**当天不动身**；\n- 第 N+1 天早上：说了就走，**不再掷骰子**。目的地用宣布时算好的那一个 ——\n  隔一夜重挑会出现「昨天说秦皇岛、今天去了锦州」，而那句预告是她说出口的。\n\n中间那一晚是她的余地，新工具 `journey_stay`（再待一天）：撤掉那一趟，明天重新判。\n**不设次数上限** —— 想赖多久是她的事，该封顶的本来就是出门周数和钱，不是一个人为配额。\n\n只挡「去下一站」，不挡回家：回家是「这趟结束了」，语气和「换座城接着玩」不是一回事，\n而且周数到期、他叫回、钱见底那几条都在待够之前。\n\n### 二、关机跨过的决定点，不再补判\n\n那 13 小时才是真凶：`worldNow()` 停机期间照走，开机第一拍 `stayDaysSoFar` 已经跨过门槛，\n于是补算了一次「昨天早上该做的决定」—— 而她刚回来，正在说话。\n\n现在 `stayTick` 的「新的一天」分支不再无条件把 `decidedOn` 重置成 `null`：\n由 `awayCrossedDecide` 判断那个决定点是不是在离线期间过去的，是就记成今天已经判过。\n判据是 `decisionCrossedWhileAway(before, now, tz)` —— 只看「跨没跨过当地 8 点」，\n**不设「离线多久才算」的阈值**（1 小时 59 分和 2 小时 1 分不该有不同待遇）。\n`DECIDE_HOUR` 顺带提成常量：原来那个 `8` 硬编码在 `stayTick` 里，两处各写一份迟早会漂。\n\n**不动世界时间。** 把它锚回开机时刻看着更「合理」，实际会让她的人生断档：\n他关一晚电脑、她的世界就停一晚，已经过去那十几个小时成了假的。时间照走是这套东西的地基，\n问题从来不在时间会走，在于走的时候没人替她做决定。\n\n### 改到的文件\n\n`src/world.ts`（判定分支 + 两个新方法 + 新工具 + 三个离开点清公告）、\n`src/state.ts`（`announceDepartOn` / `announceCityId`，老存档读进来是 null）、\n`ENV_PROMPT.md`（事件表两条、工具表一条）、`describe.json`（24 工具 / 18 事件）。\n\n### 验证\n\n- `test/announce-depart.test.mjs` 六条：当天只宣布不出发、第二天按宣布的城走、\n  `journey_stay` 撤得掉、撤完再判、没有那趟车时不报错、不给理由不静默成功；\n- `test/offline-decide.test.mjs` 四条：跨过不补判、没跨过照常判、当天判过不重复、判据四个边界；\n- 全量 1081 条：1077 过。红的那 4 条是碰面服务器池缓存，改动前同样红，与环境有关。",
     "1.8.5": "**面板底部加了一块「扩展名旁边那四盏灯怎么看？」**\n\n灯是宿主画在扩展名旁边的，不在面板里。而原因只在鼠标悬停时出现 —— **没人知道要悬停**。\n所以面板最底下加一个默认折叠的说明：绿=上次是好的 / 灰=没启用，不是坏了 / 红=配了但用不了。\n最后一行列出四盏灯各管什么（天气、日记、照片、听歌）。\n\n样式全部走 `--jr-*` 变量（这一页「暗色只改变量，不改结构」），只在 `.jr-help` 作用域里补了一个 `--jr-bad` ——\n原来只有 `--jr-ok`，没有红。",
     "1.8.4": "**灯的说明：灰的时候要说清「不用管」**\n\n用户看不懂灰灯是什么意思 —— 原来的 hint 只说了状态，没说这算不算故障。三盏都补了：\n\n- **天气**（灰）：「还没查过，用的是高德」→ 补「不用管 —— 它自己会去查」\n- **日记**（绿）：原来只给一个目录路径，等于没说「绿=能写」→ 改成「写得进去（目录：…）」\n- **听歌**（灰）：「没在放歌，或者没装「一起听歌」」→ 补「没放歌时灰的是正常的，不用管」",
     "1.8.3": "> 1.8.1 和 1.8.2 也上了 registry（内容与 1.8.3 相同，只差版本号），\n> `latest` 指向 1.8.3。它们是我误判「发布失败」时重复发的 —— npm 的 publish\n> 是异步的，`+ pkg@x.y.z` 之后要等两三分钟才在 `versions` 里出现。\n\n### 报告搬进日记目录：不再依赖宿主媒体库\n\n宿主媒体库 `data/media/` 是全宿主共用的，她的照片和签到截图、CUA 截图混在一起。\n而 WebUI 的存储清理里有一项 `media`（`danger: true`），一点就把整个目录删空\n（`blobs.ts` 的 `clear()` 是 `readdirSync` 全删，不挑）。\n\n原来月报/年报写在 `<dataDir>/reports/`，图走 `../media/` → 指向的就是那个媒体库。\n所以一次误点，历史报告里的图全裂。\n\n现在报告和海报都写进**日记目录**的 `reports/`，`../media/` 指向的是她自己那份\n照片副本（`archiveToJournal` 写的），宿主碰不到。\n\n配套两处：\n\n- **`archiveToJournal` 去掉了「没配日记目录就提前返回」的守卫。** 原来没配同步盘的人\n  一张副本都没有 —— 而 `diary.current.dir` 在那时是 `<dataDir>/diary`，完全可写。\n  守卫留着，这批用户的新报告会是满篇裂图。\n- **历史照片可能没有副本**（守卫是 2026-11-12 才修的），而宿主没有「读附件字节」的口子\n  （`WorldContext` 只有 secret / persist / restart），补不回来。所以 `reportPhotos()`\n  逐张三档处理：副本在 → 相对路径；副本没、宿主有 → `file:///` 绝对路径（本机照常看）；\n  两边都没 → 留空并打 warn，让裂掉的那几张在日志里点名，不静默。\n\n`<dataDir>/reports/` 里的旧报告不动 —— 历史文件原样留着。\n\n### 照片「一天只能出一张」——去重吞掉了重拍\n\nGitHub Discussion #586 的反馈：「照片一天只能出一张了，显示宿主没返回图片句柄」。\n\n根因是 2026-11-14 给 `push` 加的同一 `senderKey` 只推一次。照片的 key 是\n`photo-<日期>-<场景>`，同一天在同一个地方再拍一张（他点了「重拍」、或者让她\n「再拍一张」）key 完全相同 → 被当成重放吞掉 → `env` 为 `null` → 报\n「宿主没返回图片句柄」。\n\n**去重本身是对的**（它修的是 144 天长跑里 `part-…` 重复推送），错在把**有副作用、\n且「重复」就是合法操作**的事件也纳进去了。`push` 加 `dedupe: false`，只有照片用。\n\n顺带把失败文案分开：`env === null`（事件没发出去）和「发出去了但附件没落库」\n是两条排查路径，混成一句会把人带到错地方。\n\n### 在路上点名去某城，不再把他说的地名丢掉\n\n来信（郑梓淳）：「将『回家后歇几天』设为 0 后，我刚跟她说要不要去西安，\n她就被拉到去西双版纳的车上」。\n\n「歇 0 天」本身是对的（`restEndsAt` 在 `restDays <= 0` 时返回 `null`，不拦）。\n真正的问题是**时序**：她到家即可出发，他自己的计划先落地，而他说的「西安」\n撞上 `phase === 'traveling'` → 原来一句硬拒绝「她已经在路上了」→ 他的目的地\n彻底蒸发，他看到的只有「她去了别处」。\n\n掉头是真不能（车上、票已买），但**听不见不是掉头**。现在在路上点名：\n不新建一段，把城市记进 `wishes`（到站排下一站时权重更高），并明说\n「这一程去不了，下一程去」。",

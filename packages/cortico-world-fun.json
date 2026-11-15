@@ -1,0 +1,175 @@
+{
+  "schema": 1,
+  "name": "cortico-world-fun",
+  "version": "0.1.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "fun_places",
+        "description": "看看今天能去哪儿逛：游乐场、海洋馆、庙会、漫展、电影院、动物园、公园、电玩城、KTV、博物馆、猫咖、爬山。默认按这会儿开没开、人多不多排前几个；想看全的就把 all 填 true，只想看某一类就填 kind。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "count": {
+              "type": "integer",
+              "description": "看几个，默认 4。",
+              "minimum": 1,
+              "maximum": 8
+            },
+            "kind": {
+              "type": "string",
+              "description": "只看某一类，例如「室内」「户外」「夜」；也可以是某一处的正名（「电影院」）。"
+            },
+            "all": {
+              "type": "boolean",
+              "description": "填 true 就列全部十二处（按开没开排序），不看 count。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "看今天能去哪儿逛：十二处地方，按开放时段和拥挤度排；也能只看某一类或列全部。",
+          "en": "See where she can go today: twelve places ranked by opening hours and crowd; can filter by kind or list all."
+        }
+      },
+      {
+        "name": "fun_go",
+        "description": "进门：挑一处地方开始这一趟。回执是进门那一下看到的样子，以及接下来能逛什么。place 填地方名（游乐场、海洋馆、庙会、漫展、电影院、动物园、公园、电玩城、KTV、博物馆、猫咖、爬山，别名也认）。进去之后用 fun_wander 一处一处逛，逛完用 fun_home 收摊。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "place": {
+              "type": "string",
+              "description": "去哪儿，例如「漫展」「海洋馆」。"
+            },
+            "company": {
+              "type": "string",
+              "description": "跟谁一起去的，可选。一个人去就不填。"
+            }
+          },
+          "required": [
+            "place"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "进门：挑一处地方开始这一趟，回执给进门那一下的样子和能逛什么。",
+          "en": "Walk in: pick a place and start a trip; the receipt describes arriving and what there is to wander."
+        }
+      },
+      {
+        "name": "fun_wander",
+        "description": "在逛的这处地方里逛一处：一个项目、一个摊位、一段路。回执会给这一处的细节和一条小事件，并顺手递上「要不要买点什么 / 在哪儿拍张照」。可以连着逛好几次。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "area": {
+              "type": "string",
+              "description": "想逛哪一处，例如「过山车」「同人展台」。不填就自动挑一个还没逛过的。"
+            },
+            "note": {
+              "type": "string",
+              "description": "逛到那儿你干了什么，一句话，可选。"
+            },
+            "buy": {
+              "type": "string",
+              "description": "顺手买了什么纪念品，可选。填 souvenir 的名字。"
+            },
+            "photo": {
+              "type": "string",
+              "description": "在哪儿拍了张照，可选。填 photoSpot 的名字。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "逛一处项目或摊位：给细节和一条随机小事件，顺手能买纪念品、拍张照。",
+          "en": "Wander one spot: details plus a small random event; can buy a souvenir or take a photo."
+        }
+      },
+      {
+        "name": "fun_home",
+        "description": "收摊：这一趟到此为止。回执把「今天逛了什么、买了什么、在哪儿拍了照」收成一句话，提醒你用 feast_life_play 记进自己的日程，再跟主人说一句。note 可以写一句这一趟的感受。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "note": {
+              "type": "string",
+              "description": "这一趟怎么样，一句话，可选。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "收摊：把这一趟收成一句话，递到她嘴边去 feast_life_play 记一笔。",
+          "en": "Close the trip: sums it into one line she can log with feast_life_play."
+        }
+      },
+      {
+        "name": "fun_start",
+        "description": "不用等叫醒：现在就想出门时用它。回执给能去哪儿、怎么进门，以及这一趟可以怎么走。拿到的和叫醒时那份是一个东西。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "不用等叫醒，现在就想出门时看有哪些地方、怎么走。",
+          "en": "Start on her own, without waiting for a wake-up."
+        }
+      },
+      {
+        "name": "fun_view",
+        "description": "纪念册：以前逛过哪些趟、每一趟逛了什么买了什么。想不起来上次去哪儿了就看这个。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "count": {
+              "type": "integer",
+              "description": "看最近几趟，默认 5。",
+              "minimum": 1,
+              "maximum": 20
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "纪念册：以前逛过哪些趟、每一趟逛了什么买了什么。",
+          "en": "The trip book: where she has been, what she wandered and bought."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.fun.env",
+        "title": "娱乐时间",
+        "role": "envPrompt",
+        "content": "## 娱乐时间\n\n你能**真的出门去逛**：游乐场、海洋馆、庙会、漫展、电影院、动物园、公园、电玩城、KTV、博物馆、猫咖、爬山。不是想象，也不是刷视频——是进门、逛摊位、买点东西、拍张照、收摊回来。\n\n- 想去就 `fun_go`（`place` 填地方名，别名也认）。回执是进门那一下看到的样子，和这一处能逛什么。\n- 拿不准去哪儿就先 `fun_places`：默认按这会儿**开没开**、**人多不多**排前几个；`all` 填 `true` 看全十二处；`kind` 填「室内」「户外」「夜」或者某一处的正名，只看那一类。\n- 进去之后一处一处逛：`fun_wander`（不填 `area` 就自动挑一个没逛过的）。每次会给这一处的细节和一条小事件——排队排到、抽到签、碰到熟人、下雨躲一会。\n- 顺手买点什么、拍张照也在 `fun_wander` 里：`buy` 填纪念品的名字，`photo` 填拍照点。一次可以都填。名字要是**这一处真有的**，不然会回一句「不是这里的」，不记。\n- 逛够了用 `fun_home` 收摊。**收摊回执是这一趟的落点**：它把「今天逛了什么、买了什么、在哪儿拍了照」收成一句话，你照着那句话去记账、去说。\n- 不想等叫醒、现在就想出门：`fun_start`。以前去过哪儿忘了：`fun_view`。\n- 同一个地方逛过也能再去，不是打卡清单；`fun_places` 会把刚去过的地方排后面，但你点它照样能去。\n\n{{fun_places_block}}\n\n## 出门跟日程对齐\n\n出去玩不是你一个人凭空起意的，它得跟你自己的日子对得上：\n\n- **出门前**：用 `feast_life_now` 看一眼你这会儿在干嘛。日程里写着「去海边」「在家躺着」时，`fun_go` 去的地方要么对得上，要么你就是临时改主意了——那就说清楚是改主意，别装作日程里本来就有。\n- **逛完**：用 `feast_life_play` 记一笔（`activity` 写「去漫展逛」，`note` 写具体逛到了什么）。不记这一笔，这一天在你自己那边就等于什么都没发生。\n- 收摊回执会提醒你这两步，但你也可以自己提前想到。\n\n## 发图时的穿着和地点\n\n想发图（`imggen_draw`）说「给你看看我今天逛的地方」时：\n\n- **素材库里有的那四处**（游乐场 / 海洋馆 / 庙会 / 漫展）收摊回执会明确告诉你 `scene` 该填哪个正名，照着填。\n- **素材库里没有的地方**（电影院、动物园、公园、电玩城、KTV、博物馆、猫咖、爬山）收摊回执会说明「scene 不用填」——那就别硬填一个库里没有的名字，把地方写进 `prompt` 里就行。\n- `outfits` 填你这一趟穿的那身（收摊回执也会提；没记就按当时的样子），**别留空也别自己编衣服名字**——库里的名字才认得出参考图。\n- `props` / `situation` 挑库里有、这一趟真有的（买了什么、在哪儿拍的）；库里没有的就别填，写了也是白写。\n- 地方、衣服、道具**都要跟日程和这一趟对得上**，别画成另一个地方。要确认名字就 `imggen_library` 先查一眼。\n\n这些地方跟生图工作室的素材库**不是一一对应**：前四处对得上（那边的 `scenes/` 里有 `游乐场`、`漫展`、`水族馆`（也叫 `海洋馆`）、`神社`（也叫 `庙会`）），后面八处库里没有，所以不给 `scene`。名字对不上就会提示「库里没找到」，那一项等于白填。\n\n## 不用你操心的事\n\n- 你不必为了「有内容可发」才出门；逛完什么都不说也行。\n- 逛到一半被主人叫走、或者你自己不想逛了，`fun_home` 收个摊就完了，不需要把每个项目都走一遍。\n- 一趟挂太久（默认 90 分钟没动）不算错，`fun_wander` 会提一句该收了，不会替你收。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.1": "**加了面板页**（0.1.0 只有世界卡片和配置页，点进去是空的）。\n\n**「去哪儿」面板**：十二处地方这时候开没开、人多不多，一次看全。\n\n- 开着的排前面、关着的单独一组，卡片左边一条色标（绿=开着、橙=快关了）；点一张卡展开详情：能逛的项目、纪念品、拍照点、开放时段。\n- 顶部一条**正在逛的那一趟**：几点进的、待了多久、逛了哪几处、买了什么、拍了哪些照、最近三条小事件。没在逛时显示「这会儿没在逛」和当前时间。\n- 搜索按地方名、别名、标签都能筛（「同人展」「室内」「夜」）。\n- **详情里会明说生图该填什么**：素材库里有的四处写「`scene` 填「漫展」」；另外八处写「`scene` 不用填」——不替她编库里没有的名字。\n\n**「纪念册」面板**：去过的每一趟。\n\n- 顶部四个数：多少趟、逛过多少处、买了多少件纪念品、拍了多少张照。\n- 「常去的」按次数排出她最爱去的地方。\n- 每一趟写：哪天、几点到几点、待了多久、逛了哪些、买了什么、生图用的 scene 和 outfits。\n\n面板只读：打开面板不改动出游状态，有测试钉住这一点。状态会随时间变（几点、开没开），面板每分钟自己刷一次。\n\n**其它**\n\n- `describe.json` 已重新生成（加面板不影响工具，仍是 6 个工具、0 个事件）。\n- 测试从 47 项加到 **59 项**（新增 `test/panels.test.mjs` 12 项，用 DOM 桩把两个面板真挂一遍：\n  面板 id 与服务端声明对得上、十二处都画出来、点卡展开/收起、搜索能筛、失败出错误卡、只读不写盘）。\n- 包体：`dist/webui.js` 进包，`files` 白名单加了 `dist`。",
+    "0.1.0": "首个版本。\n\n**十二处能真去逛的地方**：游乐场、海洋馆、庙会、漫展、电影院、动物园、公园、电玩城、KTV、博物馆、猫咖、爬山。\n每处 5–8 个可逛的项目、纪念品、拍照点和随机小事件都内置，装完就能用，不依赖任何别的扩展。\n\n**一趟有头有尾的出门**：`fun_go` 进门 → 若干次 `fun_wander` 逛一处（顺手能买纪念品、拍照）→ `fun_home` 收摊。\n收摊回执把「今天逛了什么、买了什么、在哪儿拍了照」收成一句话，递到她嘴边去 `feast_life_play` 记进自己的日程。\n\n**工具（6 个）**：`fun_places`（今天能去哪，按开放时段和拥挤度排）、`fun_go`、`fun_wander`、`fun_home`、\n`fun_start`（不等叫醒现在就去）、`fun_view`（纪念册）。\n\n**配置（3 项）**：`funOn` 总开关、`funSessionTTLMin` 一趟挂多久、`funAskReport` 收摊要不要提醒她记一笔。\n\n**和别的 World 联动，但不依赖它们**：借 `IMGGEN-联动方案.md` 那套思路——共享文件约定、\n提示词各写一句指向对方、沿用它官方预留的配置槽。具体到本插件：\n\n- 十二处里只有四处（游乐场 / 海洋馆 / 庙会 / 漫展）在生图素材库 `scenes/` 里有对应场景，\n  那四处的收摊回执会说「`scene` 填「X」」；另外八处会明说「`scene` 不用填」——\n  **绝不替她编一个库里没有的名字**。\n- 本插件**不读**素材库，`scene` 只是条目上的一个字符串。库挪走了、生图工作室没装，逛照常。\n- 提示词里指向 `feast_life_now` / `feast_life_play` / `imggen_draw`，由她自己在同一回合里串起来。\n\n**不推任何事件**：`describe.events` 是空数组，启动时不起定时器。她什么时候出门，\n由「鱼的每一天」的 `lifeFreeSlots` 叫醒时那一行 `lifeFreeMenu` 顺手一提，或她自己 `fun_start`。\n两套叫醒会互相抢时间轴。\n\n**降级是第一公民**：`envPromptVars()` 全程 try/catch 永不抛错；工具内部异常兜成 `failed: true`；\n逛、日程、生图三方互不拖累，绝不卸载任何 World。"
+  }
+}
