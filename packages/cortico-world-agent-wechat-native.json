@@ -1,0 +1,259 @@
+{
+  "schema": 1,
+  "name": "cortico-world-agent-wechat-native",
+  "version": "0.6.5",
+  "describe": {
+    "tools": [
+      {
+        "name": "awx_status",
+        "description": "查看 NAS 微信的连接状态、当前事件游标、最近一次收消息/错误/发送结果。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看一眼 NAS 微信的连接、账号和事件流状态。",
+          "en": "Shows the NAS WeChat connection, account and stream state."
+        }
+      },
+      {
+        "name": "awx_threads",
+        "description": "列出微信会话（私聊与群聊），用于找到该回复哪个 threadId。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "最多返回几条，默认 20"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "列出最近的微信会话。",
+          "en": "Lists recent WeChat chats."
+        }
+      },
+      {
+        "name": "awx_messages",
+        "description": "读某个微信会话的最近消息。默认当前会话；给 threadId 可读别的会话（只读，不会串上下文）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "threadId": {
+              "type": "string",
+              "description": "微信会话 id；省略则用当前所在会话"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "description": "默认 20"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读某个会话最近的消息。",
+          "en": "Reads recent messages of one chat."
+        }
+      },
+      {
+        "name": "awx_contacts",
+        "description": "查微信联系人（可按名字搜索）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "按名字/备注搜索，省略则列出最近联系人"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "默认 20"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查微信联系人。",
+          "en": "Looks up WeChat contacts."
+        }
+      },
+      {
+        "name": "awx_send_text",
+        "description": "给微信会话发一条文字。默认发回当前会话；quoteMessageId 可引用回复；群聊里可用 mentions 点名。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "要发的文字"
+            },
+            "threadId": {
+              "type": "string",
+              "description": "目标会话 id；省略则发回当前会话"
+            },
+            "quoteMessageId": {
+              "type": "string",
+              "description": "要引用的微信消息 id（可选）"
+            },
+            "mentions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "要 @ 的群成员微信 id 列表（仅群聊有效）"
+            },
+            "mentionAll": {
+              "type": "boolean",
+              "description": "是否 @所有人（仅群聊，慎用）"
+            }
+          },
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "往微信会话发一条文字，可引用、可 @。",
+          "en": "Sends text to a chat, optionally quoting or mentioning members."
+        }
+      },
+      {
+        "name": "awx_send_status",
+        "description": "查一条微信发送的真实状态（按 sendId 或幂等键）。结果不确定时先查这里，不要盲目重发。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "sendId": {
+              "type": "string",
+              "description": "发送记录 id（awx_send_text/awx_send_media 返回的 sendId）"
+            },
+            "idempotencyKey": {
+              "type": "string",
+              "description": "发送时用的幂等键（awx- 开头）"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查一条发送的真实状态（按 sendId 或幂等键），不确定时先查再决定。",
+          "en": "Looks up the real state of a send by sendId or idempotency key."
+        }
+      },
+      {
+        "name": "awx_send_media",
+        "description": "给微信会话发图片/文件/视频/语音：先上传本地文件拿到 sourceId，再发送。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "本地文件绝对路径"
+            },
+            "fileName": {
+              "type": "string",
+              "description": "对方看到的文件名；省略用本文件名"
+            },
+            "threadId": {
+              "type": "string",
+              "description": "目标会话 id；省略则发回当前会话"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "image",
+                "file",
+                "video",
+                "voice"
+              ],
+              "description": "附件类型"
+            }
+          },
+          "required": [
+            "path"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "上传并发送图片、文件、视频或语音。",
+          "en": "Uploads and sends an image, file, video or voice clip."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "agentwechat.message",
+        "description": {
+          "zh": "收到一条微信消息，渲染成一行可读文本；每个会话独立进上下文。",
+          "en": "A WeChat message rendered as one readable line; each chat has its own context."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "agentwechat.receipt",
+        "description": {
+          "zh": "发送回执（accepted、failed 或 needs_review）；不唤醒模型。",
+          "en": "A send receipt (accepted, failed or needs_review); does not wake the model."
+        }
+      },
+      {
+        "type": "agentwechat.status",
+        "description": {
+          "zh": "连接、账号或事件流状态变化；不唤醒模型。",
+          "en": "A connection, account or stream state change; does not wake the model."
+        }
+      }
+    ],
+    "prompts": []
+  },
+  "changelog": {
+    "0.6.4": "- 调整下简介显示为中文",
+    "0.6.3": "- 调整下简介显示为中文",
+    "0.6.2": "- **修默认语音模型目录**：旧版按固定层数拼 `dataDir/../models/...`，但 World 的 `dataDir` 是 `<CORTICO_HOME>/companion/data`（和模型目录差两层），于是拼出 `data/home/companion/models/...` —— 重启后 `awx_status` 显示「找不到模型文件」。现在 `defaultVoiceModelDir()` 先看 `CORTICO_HOME`，再从 `dataDir` 往上试 5 级，**只有真的含 `.onnx` + `tokens.txt` 的那层才算**；模型版本号变了就取 `models/desktop-pet/` 下第一份能用的；一份都没有时返回最可能的路径，让报错指得到位置。`worlds.agentwechat.voiceModelDir` 手填仍然优先。\n- 测试：`tests/config.test.mjs` 新增「从 dataDir 往上找到真正的 models/desktop-pet」，覆盖两层差距、版本改名、仅 `CORTICO_HOME`、全都缺失四种情形 → 5/5 通过。真机核对：`D:\\002Apps\\Coopanion\\data\\home\\companion\\data` → `D:\\002Apps\\Coopanion\\data\\home\\models\\desktop-pet\\sensevoice-small-int8-2024-07-17`（存在）。\n- 生效需要重启 Coopanion。\n- **扩展市场打包元数据**：去掉 `private`；补齐 `author` / `homepage` / `repository` / `bugs` / `publishConfig`；`cortico.tags` 对齐官方词表（`im`、`voice`、`local`、`external-setup`、`unofficial-api`、`injection-risk`、`experimental`）；`files` 带上 `LICENSE`（AGPL-3.0-or-later 全文）；README 与 `src/config.ts` 的示例值去掉真实账号与内网地址。发布流程见 `PUBLISHING.md`。",
+    "0.6.1": "- **记忆分域（主人层 / 会话层）**。之前事件 `senderKey` 是 `account-…|wxid_…`，带 `|` 不匹配 companion 的 `cleanScope()`（`^[a-z0-9][a-z0-9._:-]*$`），**每条微信事件都被洗成 `main` 域**，跟桌宠写的 `desktop-pet.*` 对不上，谁最后说话两边就读谁。现在 `senderKey` = 会话域：私聊 `awx.<threadId>`、群 `awx.g.<群号>`（`src/protocol.ts` 的 `memoryScopeOf()`，`src/messaging/inbound.ts` 使用），每个微信会话自成一域。\n- **环境提示词约定**：新增 `src/ENV_PROMPT.md` 并在 `webUi().promptDocs` 注册（`role: 'envPrompt'`，占位符 `{{worlds.agentwechat.account}}`）。约定：关于主人的事实/规则/约定写 `scope:\"main\"`；检索默认 `scope:\"*\"`；会话内经历留在本会话域，群聊内容不进 `main`。\n- `envPromptVars()` 现在总是返回账号变量（未配置时给「（未配置）」），避免模板占位符被原样塞进提示词。\n- 测试：`inbound` 10/10（新增「记忆域：senderKey 是每个会话一个合法域」）、`world-lifecycle` 5/5（新增 promptDocs/模板文件/占位符断言）；语法门 4 文件 OK。\n- 生效需要重启 Coopanion（扩展模块只在进程启动时加载）。",
+    "0.6.0": "- **新功能：语音转文字**。微信语音（daemon 已转 `audio/wav`）不再只是「（附件：语音）」，而是转成文字直接进模型上下文：正文变成 `kloar 在私聊：\\n（语音）好的好的。`，`meta.transcript` 同时带上原文。\n- 复用 Coopanion 自带的 `sherpa-onnx-node` + 桌宠那份 SenseVoiceSmall（`data/home/models/desktop-pet/sensevoice-small-int8-2024-07-17`），不另下模型、不起第二个大脑。扩展装在 `data/extensions` 下解析不到应用的依赖，所以用 `createRequire(<app>/package.json)` 指定解析根（`CORTICO_APP_ROOT` 可覆盖，其次从 `Coopanion.exe` 推 `resources/app`）。\n- 真机实测（`tmp/probe-stt-real.mjs`，读一条 65 964 B ≈ 2.06 s 的真实语音）：模型载入 889 ms，转写 995 ms，结果 `\"好的好的。\"`。\n- **真机双音轨**：同一条语音的 `media/lookup` 会同时列 `state:\"available\"`（`audio/wav`）与 `state:\"pending\"`（取内容 409 `media_not_available`）两份。现在只取 `available`，其余跳过并 debug 记一行。\n- 失败绝不留空：转写失败/未启用/没拿到音轨，正文分别写 `（语音，<原因>）`，消息照常投递、游标照常推进。按 `${messageId}|${assetId}` 缓存最近 50 条，SSE 重放不重跑 228 MB 推理；同一时刻只解一条。\n- 配置新增 `voiceToTextEnabled`（默认开）、`voiceModelDir`（留空用桌宠那份）、`voiceLanguage`（`auto/zh/en/ja/ko/yue`）、`voiceMaxSeconds`（默认 120，0 = 不限）。状态面板与 `awx_status` 都多一行「语音转写：已就绪（auto · model.int8.onnx · 已转 N 条）」。\n- 测试：新增 `tests/voice.test.mjs` 6 项（WAV 解析/重采样、转写进正文与 `meta.transcript`、只取 available 音轨、失败降级、关闭时不调用、未注入转写器）——6/6 通过；回归 `inbound`（9）、`inbound-media`（6）、`config`（4）、`world-lifecycle`（5）、`tools`（4）、`stuck-event`（2）全绿，合计 **36/36**；`scripts/check-syntax.mjs` 17/17。",
+    "0.5.1": "- **修复：`awx_send_media` 线上 400 `invalid_request`**。真机 A/B 实测：`POST /v1/accounts/{a}/sends` 的媒体体只要多带一个 `fileName` 字段就整单 400，去掉即 202；上传（`POST /uploads`，multipart 字段 `file`）本身一直是好的（实测中文文件名 `一锅炖不下.webp` 26 976 B → `201`，`id: upload_…`，`mediaType: image/webp`）。`src/api/client.ts` 的 `sendMedia()` 现在只发 `kind + threadId + sourceId`，名字由服务端在上传记录里带。\n- 顺带确认的枚举：`kind` 只接受 `image / file / video / voice`，`sticker` 会 400（类型里本来就没有 `sticker`）；不存在的 `sourceId` 是 404 `not_found`，不是 400——所以以前的 400 只可能来自多余字段。\n- **改进：错误信息不再只剩一个错误码**。真机 400 常常只回 `{\"error\":{\"code\":\"invalid_request\"}}`，没有 `message`。`src/api/transport.ts` 的 `parseError()` 现在在只有 code 时把原始响应体带上一小段（≤120 字），下次遇到 400 能直接看出被拒的是哪个体。\n- 测试：`tests/helpers/mock-api.mjs` 的 `/sends` 按真机行为校验——媒体体带 `fileName` 就 400，防止回归；`media.test.mjs` + `transport.test.mjs` 9/9 通过。",
+    "0.5.0": "- **修复：`awx_messages` 读历史每条都是「（无文本）」**。真实 daemon 的 `GET /v1/accounts/{a}/threads/{t}/messages` 条目正文字段是 `body`（实测 keys: `accountId, appMessageType, body, createdAt, direction, id, link, media, mentions, peerId, projection, quote, senderId, serverId, threadId, type, version`），官方文档写的 `text` 在真机上不存在。`src/tools.ts` 改为 `item.body ?? item.text ?? '（无文本）'`，`src/api/types.ts` 的 `NativeThreadMessage` 补上 `body`、把 `text` 降级为可选兜底。事件流那条路本来读的就是 `body`（`/messages/{id}`），所以推送一直有正文。\n- **变更：隔离会话可用全部 World 工具**。`agentwechat-core-patch\\files\\app\\core\\persona.ts` 的 `declareSession()` 由 `this.ioTools().filter(name.startsWith('awx_'))` 改成 `this.ioTools()`，微信会话与主会话的工具表一致。仍需重跑 `install.ps1` + 重启 Coopanion。",
+    "0.4.9": "- **修复：面板打不开，报「「world:agentwechat」缺少面板构建产物」**。Cortico 的自定义面板必须由浏览器端 bundle 渲染（`webUi-pages/loader.ts:77` 没有产物就直接抛错），而 `webUi()` 声明了 `status`/`threads` 两个面板却没有登记 `cortico.webUiClient`。\n- 新增 `src/webui.js`：原生 ESM，`default = { panels: { status: { mount }, threads: { mount } } }`，不需要构建、改了不用编译；在 `package.json` 里加 `\"webUiClient\": \"src/webui.js\"`。`manifest.webUi` 现在是 `served`（loader 实测 v0.4.9 `loaded:true`）。\n- 「状态」面板：API 连接、账号在线、SSE、游标、会话数、本次投递、跳过事件、地址/账号 ID/最近事件（含 kind）/最后错误/最近发送，5 秒自动刷新；Token 输入框走 `setToken`（只写部署 `.env`，不回显）。\n- 「会话」面板：列出每个微信会话的 threadId、类型、名称、独立 session id、最近投递时间。",
+    "0.4.8": "- **修复：群聊里真正的 @ 被当成「没 @」丢掉**。实机证据：群里那条 `@一条大肥鱼 测试3`，daemon 返回 `mentions: {all:false, self:false, state:'known', userIds:[], source:'msgsource.atuserlist'}` —— 解析结果为空，而 `groupMentionOnly` 只认 `mentions.self === true`，于是合法 @ 被过滤，`delivered` 一直停在 1（只进了私聊那条）。\n- 现在是三级降级：`mentions.self` → `mentions.userIds` 命中自己的 wxid → 正文里出现「@自己的显示名」。自己的 wxid 取 `/accounts` 的 `ownUsername`，显示名取通讯录里 `id === ownUsername` 那条的 displayName/nickname/remark（实机为「一条大肥鱼」）。\n- **修复：发送状态停在 `queued` 不收敛**。实机证据：私聊那条图片回复本地记 `queued`，服务端同一幂等键是 `accepted`。原因是补查只在启动时跑一次，重启后新发的 queued 没人再追。现在加了 45 秒周期补查（`SETTLE_INTERVAL_MS`），`stop()` 时清除定时器。\n- 测试：`tests/inbound.test.mjs` 新增「真机形状：@ 只出现在正文里、mentions.self 为 false，也要投递」；inbound 9/9、world-lifecycle 5/5 通过。",
+    "0.4.7": "- **修复：事件流每 20 秒被自己掐断**。`src/api/transport.ts` 的请求超时定时器原先对**所有**请求生效，`limit` 取 `worlds.agentwechat.requestTimeoutMs`（默认 20000），于是 SSE 长连接连上 20 秒就被 `req.destroy()`，表现为 `事件流状态：error（aborted）` 后立刻重连（实机自 21:24 起 82 次，游标重放保证不丢消息但有持续噪音，且空闲回收永不触发）。\n- 现在只对非流请求设超时；流的中断交给调用方 `signal` 与 `EventPump` 的空闲重连兜底（`IDLE_CLOSE_MS = 90_000`），半开连接不会永久挂着。\n- 另外两处 `clearTimeout(timer)` 改为 `if (timer) clearTimeout(timer)`，与可选定时器保持一致。",
+    "0.4.6": "- **修复：媒体消息被当成「空消息」丢掉（真机 bug）**。真实 daemon 的图片/文件消息详情是 `{ type: 3, body: null, media: [] }` —— 附件清单不在消息体里，只能靠 `POST /accounts/{account}/media/lookup` 拿。旧代码两处都按 `message.media` 判断\"有没有附件\"：`screen()` 把这类消息判成「空消息」直接返回，`collectBlobs()` 也在 `declared.length === 0` 时直接退出，所以图片/文件从来没有真正进过模型上下文（只有一行文字说明，甚至整条被丢）。\n- 现在：`screen()` 按**消息类型**放行纯媒体（3 图片 / 34 语音 / 43 视频 / 47 表情 / 49 文件卡片），空正文但有类型时不再丢弃；`collectBlobs()` 只要 `mediaEnabled` 且\"可能带附件\"就去 lookup，清单为空自然返回空；纯媒体消息的正文补成「（附件：图片）」。\n- `render()` 对无正文的媒体消息补上按类型的附件说明，避免投递给模型一条只有发送者的空正文。\n- 真机核对（只读脚本 `tmp/live-inbound-media.mjs`，走生产代码）：私聊里那张图片取回 3 个 `image/jpeg`（142042 / 140414 / 3732 字节），作为 `blobs` 投到 `wechat-chenyananhao`。\n- 测试 +2（全套 50/50，未重跑）：详情无 `media` 字段仍需 lookup 并带附件；媒体未启用时图片消息不投递也不取清单。",
+    "0.4.5": "- 面板口径修正：`lastEventAt` 现在记录\"流里最近一条事件\"，不再只在投递成功时才写。之前所有消息都被过滤（别人私聊、没 @ 的群聊、自己发的）时，面板会一直显示「最近事件：无」，看着像没连上。\n- `snapshot()` 增加 `lastEventKind`、`threadList`（每个微信会话一行：threadId / 类型 / 名字 / 对应 session id / 最近活动）；新增 `threads` 面板（`invoke('threads','list')`），用来肉眼核对\"每个会话各有自己的 session\"。\n- 测试 +2（全套 48/48）：被过滤的消息仍推进游标并记录 `lastEventAt`；面板返回会话列表且 `lastEventKind` 有值。",
+    "0.4.4": "- 新增工具 `awx_send_status`：按 `sendId` 或幂等键查 daemon 的真实发送状态（accepted / queued / failed / needs_review），结果不确定时先查再决定，不要盲目重发。\n- `awx_send_text` 支持群聊点名：`mentions: [\"wxid_…\"]` 与 `mentionAll: true` 会真的写进发送体的 `mentions`（`userIds` / `all`），不是只在文字里加个名字。\n- 测试：新增 `tests/tools.test.mjs` 4 例（mentions 进体、@所有人、按 sendId 查状态、幂等键查不到如实说），全套 46/46。",
+    "0.4.3": "- 修复：接收侧媒体改用真实 daemon（2.4.0）的**账号分区**路径 —— `POST /accounts/{account}/media/lookup`（响应 `{items:[{messageId,assets,error?}]}`）与 `GET /accounts/{account}/media/{id}/content`。此前用的是文档里的全局 `/media/lookup`、`/media/{id}/content`，在 live daemon 上一律 404，结果\"收到图片\"只剩一行文字说明（正文没丢，但附件从未真正进上下文）。\n- `mediaAssets(accountId, messageId)` 现在返回 `{assets, error?}`（已拆包 `items[0]`，并把 `item.error` 报出来）；`mediaContent(accountId, mediaId)` 带上账号段；`inbound` 调用处同步传 `messageId` 所属账号。\n- 测试：`tests/helpers/mock-api.mjs` 的媒体路由改成账号分区形状，`tests/inbound-media.test.mjs` 4 例仍全绿；全套 42/42。\n- 现场核对：`tmp/live-media-check.mjs`（只读）对真实 daemon 逐条 lookup + 取内容，确认字节数与 MIME 与清单一致。",
+    "0.4.2": "- 修：一条永远处理不了的事件（例如服务端把消息删了、详情 404）会让游标停在原地、每次重连都重放同一条，把后面所有消息一起堵死。现在同一条事件连续失败第 3 次就记一条 `error`、推进游标并继续（`snapshot().skipped` 能看到累计跳过数）；失败 1～2 次仍然抛错重放，不拿\"偶尔抖动\"当坏消息丢掉。\n- `consume()` 拆出 `commit()`（落游标 + ack）与 `eventKey()`（按 messageId 计失败次数，没有 messageId 时按游标），`start()` 重置失败计数与跳过数。\n- 测试：新增 `tests/stuck-event.test.mjs`（2 例：连续三次失败后跳过并继续、偶尔失败一次不误跳过）。全套 42/42 通过。",
+    "0.4.1": "- 修：引用回复同时给了 `messageId` 和 `serverId` 时，两个展开对象会互相覆盖，`messageId` 被悄悄丢掉；现在统一走 `resolveQuote()`，只给 `messageId` 时顺手补 `serverId`（查不到就只带 `messageId`），两个都给时都保留。回归测试 2 例。\n- 验收脚本 `tests/live-isolation.mjs` 改为看结构标记（`\"session\":\"wechat-*\"` 与 `agentwechat.message` 事件），不再裸匹配会话名——群里聊到 `wechat-bridge-next.md` 这类文件名、或报告里提到会话名，都不再误报串台。\n- 测试：新增 `tests/config.test.mjs`（4 例：安全默认值、归一化、https/超时/证书路径校验、配置组键必须存在对应默认值且不含令牌字段）。全套 40/40 通过。\n- 实机验收（两个真实微信会话）：`wechat-chenyananhao`（私聊）与 `wechat-39078316143-chatroom`（群「中老年活动中心」）各自一份 `session-*.jsonl`、各自游标，互不含对方投递标记，`session-main.jsonl` 无微信事件。",
+    "0.4.0": "- 媒体接收接上 Blob：`mediaEnabled` 打开后，收到的图片/文件/视频/语音会走 `POST /media/lookup` → `GET /media/{id}/content` 取回字节，作为事件 `blobs`（`{bytes, mime, name, fallbackText}`）交给 Core；模型支持该 MIME 时直接看到内容，否则只看到 `fallbackText` 说明。\n- 单条消息最多内联 4 个附件、合计 48 MiB；取不到或超限只在正文里保留说明并记 warn，不会因为附件丢掉正文。\n- 修：type 49（应用消息，微信文件/链接都走这里）此前被整体丢弃，导致文件永远进不来；现在**带附件**的放行，纯卡片仍不处理。\n- 测试：新增 `tests/inbound-media.test.mjs`（图片/文件/开关关闭/纯文字 4 例），mock 增加 `/v1/media/lookup` 与 `/v1/media/{id}/content`；新增 `tests/world-lifecycle.test.mjs`（启用连 SSE、停用关连接、重新启用带上次游标重连、只收不发模式），全套 34/34 通过。\n- 修：事件流连上后清掉 `lastError`，面板不再长期显示一条早就恢复的 `aborted`。",
+    "0.3.0": "- 发送状态查清：`POST /sends` 返回非终态（`queued`/`submitting`）时按 0.4s/0.9s/2s 退避轮询 `GET /sends/{id}`，只有 `accepted` 才说\"已发送\"；一直排队则如实报\"已入队未确认送达\"。`awx_send_text`/`awx_send_media` 文案区分三种结果。\n- World 启动时补查历史非终态发送（最多 20 条），查到终态就订正本地记录并在日志里报条数；实测把 4 条 `queued` 订正成 `accepted`。\n- 修：发送相关路由是**按账号**分区的——实测 `/v1/sends/{id}`、`/v1/sends/by-idempotency-key` 都是 404，必须用 `/v1/accounts/{account}/sends/...`。此前查询静默失败，导致发送记录停在 `queued`。\n- 运维结论写进 README：改扩展代码后 `POST /api/worlds/restart` **不会**重新加载模块（进程内缓存），必须整进程重启 Coopanion。",
+    "0.2.0": "- 媒体发送接入官方两步流程：`awx_send_media` 先 `POST /accounts/{account}/uploads`（multipart 字段 `file`，响应 `OwnedMediaSource`）拿 `sourceId`，再 `POST /sends` 发 `kind`+`sourceId`；受 `sendEnabled` 与 `mediaEnabled` 双重开关约束。\n- `src/api/multipart.ts`：手写最小 multipart 组包（不引依赖），`filename=\"…\"` 保留 UTF-8 原名并附 RFC 5987 `filename*` 兜底；附常见后缀→MIME 表。\n- `AgentWechatApiClient.upload()` 落地；`Outbound.sendMedia()` 与文字发送共用同一套\"超时先补查、原键重试、`needs_review` 照实上报\"的重试实现（`runSend`）。\n- 测试：新增 `tests/media.test.mjs`（4 例），全套 25 例通过。\n- 未实现：媒体转 Blob 入上下文、WebUI 会话面板覆盖多 session。",
+    "0.1.0": "首个可用版本：把 NAS 上的 `agent-wechat-native` 作为 Coopanion 的一个原生 World 接入。\n\n- World `agentwechat`（显示名「NAS 微信」），配置路径 `worlds.agentwechat`，API 契约 `cortico.api = 6`。\n- 收：SSE 订阅 `message.committed`，按 `messageId` 去重，取消息详情后过滤（自己发的 / 群未启用 / 群未 @ 我 / 白名单 / 系统与卡片消息），渲染成人话投递到**该会话自己的 Core session**（`wechat-<threadId>`）。\n- 身份：主键 `accountId + threadId`，联系人与群成员名走通讯录/群成员映射，持久化到 `agentwechat-state.json`。\n- 发：`awx_send_text` 回到消息来源会话，支持引用回复；每次逻辑发送带 `Idempotency-Key`，超时/断网先按幂等键补查再用同一个键重试，`needs_review` 照实上报。\n- 只读工具：`awx_status` / `awx_threads` / `awx_messages` / `awx_contacts`。\n- 配置面板：连接/账号/SSE 状态、游标、最近错误与最近发送；`setToken` 走 SecretStore，`reconnect` 触发 World 重启。\n- 传输：只用 `node:https`，证书校验不可关闭，支持 `caCertFile`；401/403/TLS 归为\"需要人处理\"的错误。\n- 未实现：媒体上传发送（等官方上传契约）、媒体转 Blob 入上下文、WebUI 会话面板覆盖多 session。"
+  }
+}

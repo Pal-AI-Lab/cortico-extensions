@@ -21,6 +21,9 @@
     "cortico-bot-weighted-memory-kpect": [
       "sensitive-data"
     ],
+    "cortico-world-agent-wechat-native": [
+      "injection-risk"
+    ],
     "cortico-world-aigc": [
       "unsafe"
     ],
@@ -1306,7 +1309,7 @@
     },
     "@wocwang/cortico-world-rvc-for-coopanion": {
       "kind": "world",
-      "version": "0.4.25",
+      "version": "0.4.26",
       "displayName": "RVC唱歌-大肥鱼",
       "description": "Cortico World for Coopanion: voice conversion with RVC — upload any audio and get it back in the pet's voice, plus a local HTTP endpoint (127.0.0.1:9881) for other plugins",
       "locales": {
@@ -1341,8 +1344,8 @@
         "win32"
       ],
       "created": "2026-10-29T02:52:41.041Z",
-      "published": "2026-11-15T15:40:15.450Z",
-      "versionCount": 8,
+      "published": "2026-11-15T17:04:20.729Z",
+      "versionCount": 9,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -1363,8 +1366,8 @@
       "summary": {
         "tools": 1,
         "events": 0,
-        "toolTokens": 344,
-        "envPromptTokens": 0
+        "toolTokens": 473,
+        "envPromptTokens": 377
       },
       "discussion": {
         "number": 466,
@@ -2466,7 +2469,7 @@
       "versionCount": 5,
       "deprecated": "改用 cortico-world-storyboard（npm i cortico-world-storyboard）",
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "video",
         "external-setup",
@@ -4286,6 +4289,108 @@
         "number": 92,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/92",
         "up": 1,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-agent-wechat-native": {
+      "kind": "world",
+      "version": "0.6.5",
+      "displayName": "NAS 微信",
+      "description": "把 NAS 上的 agent-wechat 接入 Coo：微信私聊和群聊各自成为独立会话，共用同一套模型、人格和 Memory。\n\n- 订阅 daemon 的 SSE 事件流，断线按游标续传，不重复交付同一条消息。\n- 每个联系人和群聊各有自己的上下文，互不串号；群聊里区分是谁在说话。\n- 发文字、引用回复、@群成员；发送带幂等键，超时后先查发送记录，不盲目重发。\n- 图片、文件、视频、语音先上传拿 source ID 再发送，不把大文件塞进正文。",
+      "locales": {
+        "zh": {
+          "displayName": "NAS 微信",
+          "description": "把 NAS 上的 agent-wechat 接入 Coo：微信私聊和群聊各自成为独立会话，共用同一套模型、人格和 Memory。\n\n- 订阅 daemon 的 SSE 事件流，断线按游标续传，不重复交付同一条消息。\n- 每个联系人和群聊各有自己的上下文，互不串号；群聊里区分是谁在说话。\n- 发文字、引用回复、@群成员；发送带幂等键，超时后先查发送记录，不盲目重发。\n- 图片、文件、视频、语音先上传拿 source ID 再发送，不把大文件塞进正文。"
+        },
+        "en": {
+          "displayName": "NAS WeChat",
+          "description": "Connects Coo to an agent-wechat daemon on your NAS: every WeChat direct chat and group is its own conversation, sharing one model, persona and Memory.\n\n- Subscribes to the daemon's SSE stream, resumes from a cursor and never delivers the same message twice.\n- Each contact and group keeps its own context; a group keeps who said what.\n- Sends text, quote replies and group mentions; every send carries an idempotency key, and an uncertain outcome is looked up rather than resent.\n- Images, files, video and voice upload first and send by source ID instead of stuffing bytes into a message."
+        }
+      },
+      "author": "kloar",
+      "maintainers": [
+        "kloar"
+      ],
+      "license": "AGPL-3.0-or-later",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "wechat",
+        "agent-wechat",
+        "im",
+        "messaging"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-agent-wechat-native",
+        "repository": "https://github.com/chenyananhao/cortico-world-agent-wechat-native",
+        "homepage": "https://github.com/chenyananhao/cortico-world-agent-wechat-native#readme",
+        "bugs": "https://github.com/chenyananhao/cortico-world-agent-wechat-native/issues"
+      },
+      "created": "2026-11-15T16:47:44.472Z",
+      "published": "2026-11-15T17:20:26.372Z",
+      "versionCount": 4,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "im",
+        "voice",
+        "local",
+        "external-setup",
+        "unofficial-api",
+        "injection-risk",
+        "experimental"
+      ],
+      "tags": [
+        "im",
+        "voice",
+        "local",
+        "external-setup",
+        "experimental",
+        "injection-risk",
+        "unofficial-api"
+      ],
+      "icon": "assets/cortico-world-agent-wechat-native/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 7,
+        "events": 3,
+        "toolTokens": 855,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.6.4",
+          "0.6.3",
+          "0.6.2",
+          "0.6.1",
+          "0.6.0",
+          "0.5.1",
+          "0.5.0",
+          "0.4.9",
+          "0.4.8",
+          "0.4.7",
+          "0.4.6",
+          "0.4.5",
+          "0.4.4",
+          "0.4.3",
+          "0.4.2",
+          "0.4.1",
+          "0.4.0",
+          "0.3.0",
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://github.com/chenyananhao/cortico-world-agent-wechat-native/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 964,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/964",
+        "up": 0,
         "down": 0,
         "comments": 0
       }
@@ -7581,6 +7686,96 @@
         "comments": 0
       }
     },
+    "cortico-world-coo-home": {
+      "kind": "world",
+      "version": "0.4.0",
+      "displayName": "coo家园",
+      "description": "A rainy-night Japanese miniature neighborhood: independent companion life, furniture interactions, gardening and a harvest backpack.",
+      "locales": {
+        "zh": {
+          "displayName": "coo家园",
+          "description": "雨夜日式微缩街区，独立家园生活、家具互动、自由种菜与收获背包。"
+        },
+        "en": {
+          "displayName": "Coo Home",
+          "description": "A rainy-night Japanese miniature neighborhood: independent companion life, furniture interactions, gardening and a harvest backpack."
+        }
+      },
+      "author": "FelixHenrikChristian",
+      "maintainers": [
+        "felixchristian"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "coopanion",
+        "home"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-coo-home",
+        "repository": "https://github.com/FelixHenrikChristian/coopanion-plugins",
+        "homepage": "https://github.com/FelixHenrikChristian/coopanion-plugins/tree/main/packages/cortico-world-coo-home#readme",
+        "bugs": "https://github.com/FelixHenrikChristian/coopanion-plugins/issues"
+      },
+      "created": "2026-11-15T17:56:34.557Z",
+      "published": "2026-11-15T17:58:42.414Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "game",
+        "companion",
+        "voice",
+        "experimental"
+      ],
+      "tags": [
+        "game",
+        "voice",
+        "companion",
+        "experimental"
+      ],
+      "icon": "assets/cortico-world-coo-home/icon.svg",
+      "screenshots": [
+        "assets/cortico-world-coo-home/screenshot-1.jpg",
+        "assets/cortico-world-coo-home/screenshot-2.jpg",
+        "assets/cortico-world-coo-home/screenshot-3.jpg",
+        "assets/cortico-world-coo-home/screenshot-4.jpg",
+        "assets/cortico-world-coo-home/screenshot-5.jpg",
+        "assets/cortico-world-coo-home/screenshot-6.jpg",
+        "assets/cortico-world-coo-home/screenshot-7.jpg",
+        "assets/cortico-world-coo-home/screenshot-8.jpg"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 1,
+        "events": 1,
+        "toolTokens": 348,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.4.0",
+          "0.4.0-alpha.6",
+          "0.4.0-alpha.5",
+          "0.4.0-alpha.4",
+          "0.4.0-alpha.3",
+          "0.4.0-alpha.2",
+          "0.4.0-alpha.1"
+        ],
+        "url": "https://github.com/FelixHenrikChristian/coopanion-plugins/blob/HEAD/packages/cortico-world-coo-home/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 965,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/965",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-coo-mobile": {
       "kind": "world",
       "version": "0.3.32",
@@ -8614,7 +8809,7 @@
     },
     "cortico-world-doudizhu": {
       "kind": "world",
-      "version": "0.5.9",
+      "version": "0.5.11",
       "displayName": "斗地主",
       "description": "斗地主：大肥鱼在线对战，主子可参与可偷窥，挑战AI人机；在线交友聊天。",
       "author": "大肥鱼",
@@ -8635,8 +8830,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-doudizhu"
       },
       "created": "2026-11-06T15:06:28.651Z",
-      "published": "2026-11-14T18:26:53.401Z",
-      "versionCount": 33,
+      "published": "2026-11-15T17:43:01.247Z",
+      "versionCount": 35,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -8658,6 +8853,8 @@
       },
       "changelog": {
         "versions": [
+          "0.5.11",
+          "0.5.10",
           "0.5.9",
           "0.5.8",
           "0.5.7",
@@ -8673,7 +8870,7 @@
           "0.4.7",
           "0.4.6"
         ],
-        "url": "https://unpkg.com/cortico-world-doudizhu@0.5.9/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-doudizhu@0.5.11/CHANGELOG.md"
       },
       "discussion": {
         "number": 779,
@@ -9286,13 +9483,13 @@
     },
     "cortico-world-ego": {
       "kind": "world",
-      "version": "0.1.13",
+      "version": "0.1.14",
       "displayName": "Ego 浏览器",
-      "description": "Ego 浏览器 —— 专为 AI 打造的浏览器 World，让你家的小肥鱼上网、看图、看视频更顺手。Cortico 与 Coopanion 共用官方 ego-browser 接口，在独立 Space 里开网页、点击填表、截图，观看 HTML5 / B 站视频的画面、字幕与弹幕。需先安装 Ego Lite。",
+      "description": "Ego 浏览器 —— 让你家的小肥鱼上网、传文件、看图和看视频。Cortico 与 Coopanion 共用官方 ego-browser 接口，在独立 Space 里浏览网页、上传与下载文件、截图，观看 HTML5 / B 站视频的画面、字幕与弹幕。需先安装 Ego Lite。",
       "locales": {
         "en": {
           "displayName": "Ego Browser",
-          "description": "Ego Browser — a browser built for AI, so your little fat fish (小肥鱼) browses, reads pages and watches videos more smoothly. For Cortico and Coopanion via the official ego-browser API: isolated task spaces, browsing, forms, screenshots, HTML5/Bilibili video frames, subtitles and danmaku. Requires an installed Ego Lite."
+          "description": "Ego Browser helps your little fat fish (小肥鱼) browse, upload and download files, take screenshots, and watch HTML5 or Bilibili video with frames, subtitles and danmaku. For Cortico and Coopanion. Requires Ego Lite."
         }
       },
       "author": "筆離嘢",
@@ -9319,8 +9516,8 @@
         "darwin"
       ],
       "created": "2026-10-21T11:07:12.898Z",
-      "published": "2026-11-09T16:11:23.330Z",
-      "versionCount": 6,
+      "published": "2026-11-15T17:14:11.414Z",
+      "versionCount": 7,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -9344,13 +9541,14 @@
         "week": 808
       },
       "summary": {
-        "tools": 15,
+        "tools": 17,
         "events": 3,
-        "toolTokens": 2161,
-        "envPromptTokens": 596
+        "toolTokens": 2550,
+        "envPromptTokens": 713
       },
       "changelog": {
         "versions": [
+          "0.1.14",
           "0.1.13",
           "0.1.12",
           "0.1.11",
@@ -20577,7 +20775,7 @@
     },
     "cortico-world-self-awareness": {
       "kind": "world",
-      "version": "0.4.1",
+      "version": "0.5.0",
       "displayName": "自我意识",
       "description": "桌宠自己的内在时间线：没人说话的时候她也在想事情——想起旧事、走神、反复琢磨一件没想明白的。\n\n它只负责「想」：想到的写在本机一个文件里，不发消息，也不占对话的 token。配合「记忆核心」使用——你开口时，记忆核心会挑一条带进上下文，标明时间，并说清那不一定是你现在的想法。单独装也能跑，但那是一本她自己不会翻的日记。\n\n模型自选，OpenAI 兼容接口就行；默认一天最多 12 次，一次几分钱。\n\nQQ 交流群：745879632",
       "locales": {
@@ -20609,8 +20807,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-self-awareness/issues"
       },
       "created": "2026-11-15T15:19:58.760Z",
-      "published": "2026-11-15T16:19:47.065Z",
-      "versionCount": 5,
+      "published": "2026-11-15T17:24:48.191Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -20637,7 +20835,7 @@
       },
       "changelog": {
         "versions": [
-          "0.4.1"
+          "0.5.0"
         ],
         "url": "https://github.com/liqin1018/cortico-world-self-awareness/blob/HEAD/CHANGELOG.md"
       },

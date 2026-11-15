@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "name": "cortico-world-coo-home",
+  "version": "0.4.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "coo_home",
+        "strict": true,
+        "description": "查询和控制独立的 coo 家园。先用 catalog 找物件、动作和作物。不适用的字段填 null。command/walk 安排单项活动；gardenPlan 用 plotIds 和 cropId 一次安排最多8块田的播种及首次浇水，自动跳过已种同作物或被其他作物占用的田，不会铲除现有作物。批量种田必须用 gardenPlan，不能逐条发送互相覆盖的播种指令。回执 accepted/queued 仅表示安排，只有 recent 或 plans 的 completed 才表示完成。不会操作桌面角色或衣装。",
+        "tags": [
+          "read",
+          "act",
+          "write"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "itemId",
+            "actionId",
+            "cropId",
+            "plotIds",
+            "position",
+            "enqueue"
+          ],
+          "properties": {
+            "operation": {
+              "type": "string",
+              "enum": [
+                "status",
+                "catalog",
+                "command",
+                "gardenPlan",
+                "walk",
+                "cancel",
+                "pause",
+                "resume"
+              ]
+            },
+            "itemId": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "actionId": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "cropId": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "spring-onion",
+                "daikon",
+                "carrot",
+                "cabbage",
+                "cucumber",
+                "tomato",
+                "eggplant",
+                "pepper",
+                null
+              ]
+            },
+            "plotIds": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "maxItems": 8
+            },
+            "position": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "number"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "enqueue": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "coo-home.garden",
+        "description": "独立家园的作物成熟与采收近况；不会包含家园聊天记录。",
+        "trigger": "piggyback"
+      }
+    ]
+  },
+  "changelog": {
+    "0.4.0": "- Align seated and lying figures to each furniture support surface using the visible artwork bounds; keep a small clearance and preserve foreground occlusion.\n- Use concrete activity labels such as looking at the computer, switching on the television and opening the wardrobe.\n- Highlight the hovered interactive object with a local outline, without adding a full-screen rendering pass.\n- Replace custom settings screens with native Coopanion Configuration and Environment Prompt pages, including live template variables; keep the prompt out of the desktop conversation.\n- Add a harvest backpack with eight crop icons and persistent quantities derived from completed harvests. No selling, shopping or cooking economy yet.\n- Publish illustrated documentation and fresh authorized Lulu activity screenshots, with the neighborhood panorama first.\n- Retain the approved scene, independent home chat, crop selection, camera follow and lightweight offline life.",
+    "0.4.0-alpha.6": "- Separate Home, Settings and Environment into native World pages; keep configurable environment text private to home conversation and AI planning.\n- Send chat with Enter, insert a newline with Shift + Enter, and preserve input-method composition.\n- Refresh controls with lightweight DOM and SVG components, without blur filters or additional rendering loops.\n- Make mouse commands interrupt current work and remaining plans; remove the manual queue checkbox while retaining ordered tasks for conversational plans.\n- Handle nullable optional arguments in strict Responses tool calls, keep unknown or invalid arguments rejected, and declare the compatible strict schema on the wire.\n- Add bounded, durable `gardenPlan` requests for sowing and first watering across up to eight beds. Skip occupied or already growing crops, preserve idempotent receipts, and distinguish accepted plans from completed work.\n- Record fixed harvest quantities per crop in save format 4. Preserve older planting progress and harvest counts without inventing historical quantities.\n- Open crop inspection in a separate, live details dialog without starting an activity; include growth times, expected yields and recorded harvests.\n- Add camera follow for the home character and preserve the current camera when switching wall visibility. Keep the approved scene artwork.",
+    "0.4.0-alpha.5": "- Keep the figure's projected size stable across viewing angles while preserving zoom and furniture occlusion.\n- Place separate action bubbles beside the selected object, following the camera and avoiding viewport edges.\n- Start new gardens with eight empty beds; choose any existing crop with its growth time, then change crops after harvest. Preserve real planting progress when migrating old saves.\n- Reuse the existing crop models, trellises and labels in each bed without changing the neighborhood's design.\n- Fix immediate rejection by OpenAI Responses-compatible services: local chat receipt IDs are no longer sent as provider message IDs. Existing conversations continue without clearing history.\n- Classify provider HTTP failures safely and verify requests through the official Responses adapter against an isolated strict endpoint.",
+    "0.4.0-alpha.4": "- Add independent, persistent home conversation using the host's selected provider, model specification, read-only personality and native SDK authentication.\n- Execute validated home tools through cancellable bounded model turns; preserve accepted tasks and let newer user commands supersede stale chat actions.\n- Add optional AI plans with durable request budgets and manual priority; keep local daily routines available without model calls.\n- Expose the `coo_home` tool to desktop conversation and send deduplicated garden summaries with cooldown and separate wake-up limits.\n- Follow current voice settings and declared audio through a restricted local proxy. Own the audio context, stop when hidden and dispose on unmount.\n- Add a collapsible conversation/settings panel while preserving the approved scene and existing character assets.",
+    "0.4.0-alpha.3": "- Add sowing, watering, growth and harvesting to the eight existing plots, with 30–90 minute crop cycles and no economy or withering.\n- Preserve the mature garden on first use and migrate earlier household saves without clearing life progress.\n- Complete garden effects only after arrival and activity; validate queued actions against their planting cycle and reject duplicate harvests.\n- Continue growth in the background and on offline catch-up; pause freezes both life and crop progress.\n- Keep beds, trellises and the original mature plants intact. Update existing plant instances and soil wetness without rebuilding the scene.\n- Show plot stages, available actions and harvest totals in the existing interaction menu. Local autonomy can water sown plots; sowing and harvesting remain explicit choices.\n\nIndependent conversation, voice, optional AI planning and selected desktop reports remain later milestones.",
+    "0.4.0-alpha.2": "- Add independent household tasks, collision-aware walking, furniture menus, manual priority, queues and local autonomous routines.\n- Save progress atomically in a dedicated directory, recover interrupted writes, and refuse to overwrite newer or corrupt saves.\n- Continue simplified background activity and bounded offline catch-up without rendering or model calls.\n- Control the TV, laptop, bedside light and washer indicators through explicit scene state.\n- Animate movement with existing Figure motions, keep sandbox feet anchored to the world path, and use safe ground fallbacks for unavailable seated poses.\n- Correct upright character depth occlusion and calibrate supported seating heights without changing the approved neighborhood artwork.\n\nGardening, independent conversation, voice and selected desktop reports remain later milestones.",
+    "0.4.0-alpha.1": "- Start a new implementation using the approved Amane neighborhood source imported with its published history.\n- Separate the World page lifecycle from standalone HTML, and isolate the home's Figure API 2 instance from the original desktop pet.\n- Add read-only selected-appearance observation and local depth-mask composition.\n- Limit visible World rendering to 60 FPS without lowering resolution; stop rendering while hidden.\n- Verify with neutral fixtures in both the browser and an isolated official Coopanion Core, console and Figure API frame.\n- Keep all installed character data and private media outside source and release artifacts.\n\nThis is a development milestone, not a claim that household simulation, gardening, model integration or desktop reports are complete."
+  }
+}
