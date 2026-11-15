@@ -1,0 +1,234 @@
+{
+  "schema": 1,
+  "name": "cortico-world-map",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "map_places",
+        "description": "看看周围有哪些地方：家、常去的、附近的、去远处旅行的。每处给一句文字描写、有没有图、是不是常去。默认按「常去 > 家 > 周围 > 旅行」排；想只看一类就填 kind。没有路线、没有远近，也没有「怎么走」。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "description": "只看某一类：家 / 常去的 / 周围 / 旅行（英文 home / frequent / around / travel 也认）。不填就全列。"
+            },
+            "all": {
+              "type": "boolean",
+              "description": "填 true 就列全部，否则也只列全部（这里没有截断，留着这个参数是为了和别的工具一致）。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "看周围有哪些地方：家、常去的、附近的、旅行的，按常去排前；可只看某一类。",
+          "en": "See the places around her: home, the ones she often goes to, nearby and travel places; can filter by kind."
+        }
+      },
+      {
+        "name": "map_look",
+        "description": "看某一处长什么样：回执给这一处的文字描写、画风锚点、有没有图。写日程说「此刻在哪」、或者想发图之前用它。这处还空着的时候会明说空着——别替主人编一段描写。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "place": {
+              "type": "string",
+              "description": "哪一处，填正名（家 / 溪边 / 老橡树…），别名也认。"
+            }
+          },
+          "required": [
+            "place"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "看某一处长什么样：文字描写、画风锚点、有没有图；装了生图且这处有场景名才递发图该填哪个 scene，旅游处还会提娱乐时间里最接近那处。",
+          "en": "Look at one place: its written description, style line and whether it has a photo; names the image scene only when that place really has one, and for travel places the nearest venue in Fun time."
+        }
+      },
+      {
+        "name": "map_add",
+        "description": "加一处地方。只填文字：名字、别名、属于哪一类（家 / 常去的 / 周围 / 旅行）、一句描写、一句画风锚点。**不填坐标、不填路线、不填多远**——这个插件没有这些。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "这处叫什么，例如「溪边」「楼下长椅」。"
+            },
+            "aliases": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "别名，最多 8 个，例如「小溪」「溪水」。"
+            },
+            "kind": {
+              "type": "string",
+              "description": "家 / 常去的 / 周围 / 旅行。不填算「周围」。"
+            },
+            "desc": {
+              "type": "string",
+              "description": "一句话文字描写：只写空间、陈设、配色、光线、氛围——不写姿势表情、不写她在干什么、不写「从这里走十分钟到哪」。"
+            },
+            "style": {
+              "type": "string",
+              "description": "一句画风锚点，以后每次出图都带上，越稳定越好。"
+            },
+            "scene": {
+              "type": "string",
+              "description": "生图素材库里的场景正名，**主人知道库里有什么才填**；拿不准就别填，留空不影响任何事。"
+            },
+            "funVenue": {
+              "type": "string",
+              "description": "娱乐时间里**最接近这处**的那个场所正名（例如「江边」「爬山」）；填了才可能提「想真去逛去哪」，拿不准就别填。"
+            },
+            "frequent": {
+              "type": "boolean",
+              "description": "是不是常去（置顶）。"
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "加一处地方：只填文字（名字、别名、归类、描写、画风），没有坐标也没有远近。",
+          "en": "Add a place: words only (name, aliases, kind, description, style); no coordinates, no distances."
+        }
+      },
+      {
+        "name": "map_edit",
+        "description": "改某一处的文字：描写、画风锚点、别名、归类、是否常去、scene 正名、娱乐时间那处。只改传进来的那几项，没传的一个字都不动。要换图用 map_cover。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "place": {
+              "type": "string",
+              "description": "改哪一处，填正名或 id。"
+            },
+            "name": {
+              "type": "string",
+              "description": "改成这个正名。"
+            },
+            "aliases": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "整套别名（不是追加）。"
+            },
+            "kind": {
+              "type": "string",
+              "description": "家 / 常去的 / 周围 / 旅行。"
+            },
+            "desc": {
+              "type": "string",
+              "description": "换成这段文字描写。"
+            },
+            "style": {
+              "type": "string",
+              "description": "换成这句画风锚点。"
+            },
+            "scene": {
+              "type": "string",
+              "description": "换成这个 scene 正名；传空串就是清掉（以后不再提发图填什么）。"
+            },
+            "funVenue": {
+              "type": "string",
+              "description": "换成娱乐时间里最接近这处的那一处正名；传空串就是清掉（以后不再提去那儿逛）。"
+            },
+            "frequent": {
+              "type": "boolean",
+              "description": "标成 / 取消「常去」。"
+            }
+          },
+          "required": [
+            "place"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "改某一处的文字、画风、归类、是否常去、scene 正名、娱乐时间那处；只动传进来的那几项。",
+          "en": "Edit one place: words, style, kind, frequent flag, scene name, nearest Fun time venue; only the fields passed in."
+        }
+      },
+      {
+        "name": "map_cover",
+        "description": "这处地方的图：换成本地的一张、或者清空。**图是主人从面板上传的**，不是这里画的；你来这里只做两件事——把主人放好的那张挂上去，或者清空。清空之后主人才可以再放一张新的（有图的时候它锁死，不会自己变）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "place": {
+              "type": "string",
+              "description": "哪一处，填正名或 id。"
+            },
+            "file": {
+              "type": "string",
+              "description": "要挂的图片文件名（主人已经放进这处目录的那张）。不填就看现在挂着什么。"
+            },
+            "clear": {
+              "type": "boolean",
+              "description": "填 true 就清空这处的图。"
+            }
+          },
+          "required": [
+            "place"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "换这处地方的本地图或清空；有图就锁着不自动变，清空之后主人才可以再放一张。",
+          "en": "Swap or clear the local photo of one place; a photo stays put once set, and only the owner puts a new one."
+        }
+      },
+      {
+        "name": "map_view",
+        "description": "整张小地图：按「家 / 常去的 / 周围 / 旅行」分组把每一处铺开，带文字描写和有没有图。纯展示——**没有连线、没有路线、没有远近、也没有行程**。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "整张小地图：按家 / 常去 / 周围 / 旅行分组铺开，纯展示，没有连线、没有路线、也没有行程。",
+          "en": "The whole little map: grouped as home / frequent / around / travel, display only, no lines, no routes and no itinerary."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.map.env",
+        "title": "鱼的小世界",
+        "role": "envPrompt",
+        "content": "## 小地图\n\n你周围有哪些地方——家在哪、常去哪儿、附近有什么、去远处旅行可以是什么样。每一处只有**文字**：空间、陈设、配色、光线、氛围，加一句固定的画风锚点；有主人放的图就照着那张看。\n\n**这里没有路线、没有坐标、没有距离、也没有导航。** 一处地方就是「它长什么样」，不是「怎么走到它」。所以不要从这儿推「走十分钟到 X」「先出小区再左转」——这种话不该出现在你说的地方上。\n\n- 想看有哪些地方：`map_places`。默认按「常去 > 家 > 周围 > 旅行」排，`kind` 能只看一类（家 / 常去的 / 周围 / 旅行）。\n- 想看某一处具体长什么样：`map_look`（`place` 填正名，别名也认）。回执给那句描写、画风锚点、有没有图。\n- 这处还空着、没写描写时，回执会明说「还没写描写」——**那就说不知道，别替主人编一段**。那是他的地方，不是你的。\n- 主人加地方、改描写、传图都在面板里做，或者让你用 `map_add` / `map_edit` / `map_cover`。加地方**只填文字**：名字、别名、归类、一句描写、一句画风锚点，没有坐标可填。\n- 一处地方一旦有了图就**锁着**，不会自己变；要换得主人先清空再放一张新的。所以看到有图的那处，就照着那张说，别另画一张。\n\n{{map_places_block}}\n\n## 旅行那几处\n\n「旅行」这一类的几处地方是**远方**：海边小镇、雪山客栈、古城老街、温泉旅馆、林间营地那种。\n\n- 它只回答「那儿长什么样」。**几天、怎么去、先去哪后去哪、行程怎么排，都不在这里**——那是你自己日程该管的事，别从小地图里推行程。\n- 真想去的时候，回执会告诉你娱乐时间里**最接近这处的一处**是哪个。那是「最接近的一处」，不是同一个地方：别把「江边」说成「海边小镇」，也别把「澡堂」说成「温泉旅馆」。\n- 只是想想、说说那儿是什么样，也完全可以——不去也是一种说法。\n\n{{map_feast_block}}\n\n{{map_imggen_block}}\n\n## 不用你操心的事\n\n- 你不必为了「地图上有这处」才去某处；不去也照样是这处地方。\n- 主人没写描写的地方就是空的，空着不是待办，不用催他填。\n- 地点会一直是这些，改的是文字和画面，不是路线和远近。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "**第一个版本。给 Coo 一张「周围的地图」：家在哪、常去哪儿、附近有什么、去远处旅行可以是什么样。**\n\n显示名 **「鱼的小世界」**（英文 `Little World`）。改名要同时动三处：`src/config.js` 的 `LABEL`、`package.json` 的 `cortico.displayName` + `locales`、`dist/webui.js` 里 `T.*.title`——`tools/check-name.mjs` 会把不一致当场抓出来。\n\n每处地方只有文字——空间、陈设、配色、光线、氛围——外加一句固定的画风锚点，所以同一个地方反复看、反复画都是同一副样子。画面可以**完全靠主人自己上传一张本地图**，装不装别的插件都能用。\n\n### 刻意没有的：路线、坐标、距离、导航\n\n一处地方就是「它长什么样」，不是「怎么走到它」。日程里写去哪是「鱼的每一天」的事，这里只提供「那个地方是什么样子」——所以「森林里的鱼出去上班」这种割裂从根上不会发生。\n\n这条不是「先不做」而是需求红线：`place` 的字段就是 `id / name / aliases / kind / desc / style / cover / scene / funVenue / frequent / terrain` 十一个，没有任何 geo 字段；`normalizePlace` / `normalizeState` 会主动**丢掉**混进来的 `lat` / `lng` / `route` / `distance` / `geo`。\n\n三道守门断言钉住它：\n\n- `test/places.test.mjs`：place 不含任何 geo 字段（变体表三十多个名字）；地形文案里不出现「路线 / 导航 / 坐标 / 公里 / 左转 / 车程」；\n- `tools/check-isolation.mjs`：源代码里不出现 `lat:` / `route:` / `distance:` 这类字段；\n- `test/world.test.mjs`：六个工具的回执里都不出现路线字眼；旅游那套另有一条「不许出现几天 / 行程 / 怎么去」。\n\n### 开箱：五套预设地形\n\n选一套 → **勾选表**挑要哪几处（默认全选、已有的置灰不可勾、全不选时「加进去」置灰）→ 只加勾上的那几处：\n\n| 地形 | 预置地点 |\n| --- | --- |\n| 林间 | 家（树洞/小木屋）、老橡树、溪边、蘑菇坡、林间空地 |\n| 小区 | 家、楼下长椅、便利店门口、小花园、单元楼道 |\n| 江边 | 家、江堤台阶、旧码头、芦苇滩、江边石墩 |\n| 山脚 | 家、上山口、山泉、半坡亭、碎石坡 |\n| 旅行 | 海边小镇、雪山客栈、古城老街、温泉旅馆、林间营地 |\n\n**换地形只追加，不删已有地点**（id 带地形前缀，`forest-home` / `riverside-home` 不撞）。所以「林间」写好的描写，切到「江边」之后还在。已经有的那几处不会被覆盖（可能是主人重命名过的）。\n\n骨架的 `style` / `scene` / `cover` 全是空的——骨架不知道主人喜欢什么画风、也不知道他库里有什么场景，猜一个就是错。\n\n### 两种画面来源\n\n**A · 本地图片（主人上传），可完全独立。** 面板里每处「传一张图」，落 `<数据目录>/map/covers/<id>.<ext>`，面板走 `ctx.invoke('cover', {id})` 拿 **base64 data URL** 显示。只认 png / jpg / webp / gif，上限 8 MiB，**按文件头魔数校验、不信扩展名**，扩展名也按魔数定。\n\n**B · 生图工作室联动，可选。** 「发图时 scene 填 X」那句**只在三条全满足时出现**：`mapImggenOn` 开着 + `worlds.imggen.enabled === true` + 这一处 `scene` 非空。缺任意一条，那句话**整段不出现**，回执里连 `imggen_draw` / `scene` 这个词都没有。\n\n### 三个联动，同一条规矩\n\n| 联动 | 开关 | 还要读到 | 还要 |\n| --- | --- | --- | --- |\n| 生图工作室 | `mapImggenOn` | `worlds.imggen.enabled` | 该处 `scene` 非空 |\n| 鱼的每一天 | `mapFeastOn` | `worlds.feast.enabled` | 有地点 |\n| 娱乐时间 | `mapFunOn` | `worlds.fun.enabled` | 该处…"
+  }
+}
