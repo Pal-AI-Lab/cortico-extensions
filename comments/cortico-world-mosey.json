@@ -2,14 +2,23 @@
   "schema": 1,
   "name": "cortico-world-mosey",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/619",
-  "total": 47,
+  "total": 49,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BKzkU",
       "author": "chenyananhao",
       "avatar": "https://avatars.githubusercontent.com/u/129617573?s=64&v=4",
       "body": "大佬挺喜欢你这个插件的，有没有astrbot版的 我准备转战了",
-      "createdAt": "2026-11-14T09:34:31Z"
+      "createdAt": "2026-11-14T09:34:31Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BK5Ng",
+          "author": "liqin1018",
+          "avatar": "https://avatars.githubusercontent.com/u/125418196?s=64&v=4",
+          "body": "还没有。。",
+          "createdAt": "2026-11-15T14:12:04Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BKzb8",
@@ -54,6 +63,13 @@
           "avatar": "https://avatars.githubusercontent.com/u/348645711?s=64&v=4",
           "body": "@liqin1018 还剩一部分：22:15–22:20 这五分钟，同一会话的两条（一条是我自己刚发出去的，一条是对方真正的回复）各重投了十几遍，每次都唤醒。审批改成 auto_all 之后回复能正常发出去（send OK），所以发送侧没问题，剩的应该是推送侧去重。另外这批重投里 target 一会儿是「某某」一会儿是「某某 昨天」，像同一个会话被判成两处、各自算未读。手刹 pause 也拦不住。麻烦再看看，谢谢！",
           "createdAt": "2026-11-14T14:22:35Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BK5MV",
+          "author": "liqin1018",
+          "avatar": "https://avatars.githubusercontent.com/u/125418196?s=64&v=4",
+          "body": "你用的版本是 2.7.0 之前吧？会话名带时间后缀（「某某 昨天」）导致同一会话被算成两处，2.7.0 修了；推送指纹按会话分开存（反复弹同一句）2.8.0 修了。升级到 2.8.1 再看。",
+          "createdAt": "2026-11-15T14:08:20Z"
         }
       ]
     },
