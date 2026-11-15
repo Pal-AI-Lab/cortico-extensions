@@ -2096,17 +2096,17 @@
     },
     "coopani-world-music": {
       "kind": "world",
-      "version": "0.6.5",
+      "version": "0.7.0",
       "displayName": "一起听歌",
       "description": "陪着你听歌（需 Coopani 0.2.16+）：知道 QQ音乐、网易云在放什么，换歌必说一句、分段接话，还能就着刚唱的词评两句；动作跟着真实鼓点走。想听调子就深听——默认云端（填密钥即可），也可切成完全本机（约 500MB），听出调性、和弦、旋律、声部、乐器，并把听过的段落攒成整首档案；问她「听得清吗」会先听再答，没配好会直说。还记得听歌记录、常听歌手和一份自己写的口味档案。",
       "locales": {
         "zh": {
           "displayName": "一起听歌",
-          "description": "让桌宠陪你听歌，而不是替你听。需要 Coopani 0.2.16 以上，Windows 10/11。\n\n**她怎么陪你听。** 你在 QQ音乐按下播放，几秒后她自己发现换歌了，说一句像样的：歌名、歌手、一句实话——「前奏八秒才进鼓，等得值」。歌往下走，她按这首的长短分两三段接着聊，落到刚唱过的那一两句词上，不念歌词本。你回她一句她接，不回也不催。动作踩的是这首歌真实的鼓点：副歌的鼓真进来了她才动，不是写死的钟摆。\n\n**为什么她不会认错歌。** 读的是 Windows 的系统媒体会话（SMTC），播放器自己上报的歌名、歌手、进度，精确原文——不截屏、不做文字识别、不读播放器的内部数据库。\n\n**她真的听得到，也分得清自己听到什么。** 三档从不混用：能量层（BPM、响度、低音倾向，一直在）、深听层（调性、和弦、主旋律音名、声部、乐器，按需）、印象层（她训练里记得的这首歌）。问她「你听得清吗」，她先去听再答；深听没配好就直接说，不装。\n\n**深听两档，自己挑。** 云端（默认）：填一个 OpenAI 兼容接口的密钥就能用，不占本机空间，十几秒切片传上去、分析完即删；本地：约 500MB 的分离模型，之后完全不出这台机器。两档给同一套字段，每听一次并进这首的档案，攒出「前面是钢琴、副歌才进鼓」这种走向。\n\n**她不会做的事。** 不编歌词、不编旋律；十几秒切片不是整首总谱；乐器只说「倾向」，不说成鉴定；不替你决定听什么；不主动动你的播放器——只有你明说「暂停」「下一首」她才按。没打开的开关，她绝不装作打开了。\n\n**她要用的动作。** music_now 现在放什么、music_history 逐日记录、music_taste 常听歌手与循环曲、music_lyric 唱到哪几句、music_listen 仔细听十几秒、music_pick 自己搜一首并说清理由、music_soul 她自己的口味档案、music_note 记一条笔记、music_tag 标听感路数、music_control 暂停与切歌；另有十二个身体动作是本扩展加的：蹦迪、律动、打拍子、闭眼听、怔住、退半步、跟着哼、跟拍挥、余韵、凑近听、坐着哼、捂耳朵听。\n\n**装它还需要什么。** 要跟拍得允许她采系统输出的能量（设置里能关，只有 Windows 有这条路）；本地深听另需 Python 3.10+，一条安装脚本搞定。那十二个动作住在桌宠宿主包里、npm 带不过来，所以启动时会自动补齐——会改宿主包里两个文件，动手前先备份，补完要再重启一次 Core 才生效，这个开关可以关。记忆默认在本机，可指到同步盘。\n\n**和「大肥鱼环游世界」联动。** 装了那个扩展的话，你正在放的歌会跟着她出门：出发时她会提一句车上在放什么，长途的中间也可能说一次。歌名里带地名的（《成都》《回到拉萨》）会进她的「想去」清单——下次挑目的地时那个地方权重大得多，等于你放什么歌，就可能把她推到哪儿去。没装那个扩展就什么都不影响。\n\n**已知限制：** 一首歌最多三段；网易云不上报进度，只能读窗口标题；两个客户端都不接受从外部点播，替她按播放要靠桌宠的「电脑操作」开关；曲风靠她认和逐步学，证据不足就说「还没标」。"
+          "description": "让桌宠陪你听歌，而不是替你听。需要 Coopani 0.2.16 以上，Windows 10/11。\n\n**她怎么陪你听。** 你在 QQ音乐按下播放，几秒后她自己发现换歌了，说一句像样的：歌名、歌手、一句实话——「前奏八秒才进鼓，等得值」。歌往下走，她按这首的长短分两三段接着聊，落到刚唱过的那一两句词上，不念歌词本。你回她一句她接，不回也不催。动作踩的是这首歌真实的鼓点：副歌的鼓真进来了她才动，不是写死的钟摆。\n\n**为什么她不会认错歌。** 读的是 Windows 的系统媒体会话（SMTC），播放器自己上报的歌名、歌手、进度，精确原文——不截屏、不做文字识别、不读播放器的内部数据库。\n\n**她真的听得到，也分得清自己听到什么。** 三档从不混用：能量层（BPM、响度、低音倾向，一直在）、深听层（调性、和弦、主旋律音名、声部、乐器，按需）、印象层（她训练里记得的这首歌）。问她「你听得清吗」，她先去听再答；深听没配好就直接说，不装。\n\n**深听两档，自己挑。** 云端（默认）：填一个 OpenAI 兼容接口的密钥就能用，不占本机空间，十几秒切片传上去、分析完即删；本地：约 500MB 的分离模型，之后完全不出这台机器。两档给同一套字段，每听一次并进这首的档案，攒出「前面是钢琴、副歌才进鼓」这种走向。\n\n**她不会做的事。** 不编歌词、不编旋律；十几秒切片不是整首总谱；乐器只说「倾向」，不说成鉴定；不替你决定听什么；不主动动你的播放器——只有你明说「暂停」「下一首」她才按。没打开的开关，她绝不装作打开了。\n\n**她要用的动作。** music_now 现在放什么、music_history 逐日记录、music_taste 常听歌手与循环曲、music_lyric 唱到哪几句、music_listen 仔细听十几秒、music_pick 自己搜一首并说清理由、music_soul 她自己的口味档案、music_note 记一条笔记、music_tag 标听感路数、music_control 暂停与切歌；另有十二个身体动作是本扩展加的：蹦迪、律动、打拍子、闭眼听、怔住、退半步、跟着哼、跟拍挥、余韵、凑近听、坐着哼、捂耳朵听。\n\n**装它还需要什么。** 要跟拍得允许她采系统输出的能量（设置里能关，只有 Windows 有这条路）；本地深听另需 Python 3.10+，一条安装脚本搞定。那十二个动作只能由形象包提供——宿主认不出的名字会被静默丢掉（脸变、人不动、不报错）。所以这个扩展自带一个「律动版大肥鱼」形象包，启动时自动装进 data/figures/，装完去换装页选一次：装和用是两步。它只写你自己的 data 目录，不碰宿主安装目录。记忆默认在本机，可指到同步盘。\n\n**和「大肥鱼环游世界」联动。** 装了那个扩展的话，你正在放的歌会跟着她出门：出发时她会提一句车上在放什么，长途的中间也可能说一次。歌名里带地名的（《成都》《回到拉萨》）会进她的「想去」清单——下次挑目的地时那个地方权重大得多，等于你放什么歌，就可能把她推到哪儿去。没装那个扩展就什么都不影响。\n\n**已知限制：** 一首歌最多三段；网易云不上报进度，只能读窗口标题；两个客户端都不接受从外部点播，替她按播放要靠桌宠的「电脑操作」开关；曲风靠她认和逐步学，证据不足就说「还没标」。"
         },
         "en": {
           "displayName": "Listen With Me",
-          "description": "A companion who listens with you, not instead of you. Needs Coopani 0.2.16+ on Windows 10/11.\n\n**How she listens with you.** You press play in QQ Music; a few seconds later she notices the change and says something worth hearing: title, artist, one honest line - \"eight seconds of intro before the drums, worth the wait\". As the song runs she splits it into two or three passages and keeps talking, landing on the line just sung instead of reciting the lyrics. Answer her and she picks it up; stay quiet and she does not push. Her motion follows the song's actual drums - she moves when the chorus beat really comes in, not on a fixed pendulum.\n\n**Why she never gets the song wrong.** She reads the Windows system media session (SMTC): the title, artist and position that the player itself reports. No screen capture, no OCR, no digging into a player's internal database.\n\n**She really hears, and she knows what she hears.** Three layers, never mixed: energy (tempo, loudness, low-end bias - always on), deep listening (key, chords, melody notes, stems, instruments - on demand), and memory (what she knows about this song from training). Ask \"can you hear it properly?\" and she listens first, then answers; if deep listening is not set up she says so instead of pretending.\n\n**Two ways to deep listen.** Cloud (default): bring a key for any OpenAI-compatible model, nothing to download, the 12-second slice is uploaded, analysed, then deleted. Local: about 500MB of separation models, and nothing ever leaves this machine. Both return the same fields, and every listen is merged into a per-track sheet, so \"piano first, drums only at the chorus\" becomes something she can actually say.\n\n**What she will not do.** She will not invent lyrics or melodies. A 12-second slice is not a full score. Instruments are always a leaning, never a verdict. She will not decide what you should listen to, and she will not touch your player on her own - only when you plainly say \"pause\" or \"next\". She never pretends a switch is on when it is off.\n\n**What she can do.** music_now (what is on), music_history (day by day log), music_taste (top artists, repeats), music_lyric (lines reached), music_listen (listen closely for a few seconds), music_pick (search and pick one, with a reason), music_soul (her own taste file), music_note (keep a note), music_tag (tag how this one feels), music_control (pause, resume, skip). Twelve body motions also come from this extension: bounce, groove, tap, enjoy, stunned, recoil, hum, cheer, sigh, peek, humsit, ear-cover.\n\n**Before you install.** Beat-following needs permission to sample the energy of the system output (can be switched off; Windows only). Local deep listening also needs Python 3.10+ and one install script. Those twelve motions live in the desktop-pet host pack and cannot ship with npm, so they are filled in at startup - that edits two files in the host pack, backed up first, and needs one more Core restart to take effect; the switch can be turned off. Memory stays on this machine by default and can be pointed at a synced folder.\n\n**Works with Big Fish World Tour.** If that extension is installed, whatever you are playing ends up on the road with her: she mentions it when she sets off, and maybe once on a long leg. Song titles with a place in them go onto her wish list - which weighs heavily the next time she picks a destination, so what you play can genuinely push her somewhere. Without it, nothing changes.\n\n**Known limits:** at most three passages per track; NetEase does not report progress, so only the window title is available; neither player accepts outside play requests, so pressing play for you depends on the pet's computer-control switch; genres are recognised and learned, and she says \"not tagged yet\" when the evidence is thin; patched motions need one Core restart."
+          "description": "A companion who listens with you, not instead of you. Needs Coopani 0.2.16+ on Windows 10/11.\n\n**How she listens with you.** You press play in QQ Music; a few seconds later she notices the change and says something worth hearing: title, artist, one honest line - \"eight seconds of intro before the drums, worth the wait\". As the song runs she splits it into two or three passages and keeps talking, landing on the line just sung instead of reciting the lyrics. Answer her and she picks it up; stay quiet and she does not push. Her motion follows the song's actual drums - she moves when the chorus beat really comes in, not on a fixed pendulum.\n\n**Why she never gets the song wrong.** She reads the Windows system media session (SMTC): the title, artist and position that the player itself reports. No screen capture, no OCR, no digging into a player's internal database.\n\n**She really hears, and she knows what she hears.** Three layers, never mixed: energy (tempo, loudness, low-end bias - always on), deep listening (key, chords, melody notes, stems, instruments - on demand), and memory (what she knows about this song from training). Ask \"can you hear it properly?\" and she listens first, then answers; if deep listening is not set up she says so instead of pretending.\n\n**Two ways to deep listen.** Cloud (default): bring a key for any OpenAI-compatible model, nothing to download, the 12-second slice is uploaded, analysed, then deleted. Local: about 500MB of separation models, and nothing ever leaves this machine. Both return the same fields, and every listen is merged into a per-track sheet, so \"piano first, drums only at the chorus\" becomes something she can actually say.\n\n**What she will not do.** She will not invent lyrics or melodies. A 12-second slice is not a full score. Instruments are always a leaning, never a verdict. She will not decide what you should listen to, and she will not touch your player on her own - only when you plainly say \"pause\" or \"next\". She never pretends a switch is on when it is off.\n\n**What she can do.** music_now (what is on), music_history (day by day log), music_taste (top artists, repeats), music_lyric (lines reached), music_listen (listen closely for a few seconds), music_pick (search and pick one, with a reason), music_soul (her own taste file), music_note (keep a note), music_tag (tag how this one feels), music_control (pause, resume, skip). Twelve body motions also come from this extension: bounce, groove, tap, enjoy, stunned, recoil, hum, cheer, sigh, peek, humsit, ear-cover.\n\n**Before you install.** Beat-following needs permission to sample the energy of the system output (can be switched off; Windows only). Local deep listening also needs Python 3.10+ and one install script. Those twelve motions can only come from a figure pack - the host silently drops a name it does not know (the face changes, the body does not move, no error). So this extension ships one: the groove build of the big fish, installed into data/figures/ at startup. Pick it once on the dress page; installing and wearing are two steps. It writes only inside your own data folder, never into the host's install directory. Memory stays on this machine by default and can be pointed at a synced folder.\n\n**Works with Big Fish World Tour.** If that extension is installed, whatever you are playing ends up on the road with her: she mentions it when she sets off, and maybe once on a long leg. Song titles with a place in them go onto her wish list - which weighs heavily the next time she picks a destination, so what you play can genuinely push her somewhere. Without it, nothing changes.\n\n**Known limits:** at most three passages per track; NetEase does not report progress, so only the window title is available; neither player accepts outside play requests, so pressing play for you depends on the pet's computer-control switch; genres are recognised and learned, and she says \"not tagged yet\" when the evidence is thin; patched motions need one Core restart."
         }
       },
       "author": "Mr.Q",
@@ -2134,8 +2134,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-11-15T04:25:26.340Z",
-      "versionCount": 57,
+      "published": "2026-11-15T08:02:28.068Z",
+      "versionCount": 58,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2169,6 +2169,7 @@
       },
       "changelog": {
         "versions": [
+          "0.7.0",
           "0.6.5",
           "0.6.4",
           "0.6.3",
@@ -4625,7 +4626,7 @@
     },
     "cortico-world-astrbot-livingmemory": {
       "kind": "world",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "displayName": "LivingMemory 桌宠直连",
       "description": "给 Coopanion 桌面宠物接入 AstrBot 的 LivingMemory 长期记忆：桌宠与 QQ 智能体共用一套记忆库与知识图谱。需要配合 AstrBot 侧 astrbot_plugin_coopanion_livingmemory 使用。",
       "locales": {
@@ -4658,8 +4659,8 @@
         "bugs": "https://github.com/HirannU-OVO/cortico-world-astrbot-livingmemory/issues"
       },
       "created": "2026-11-05T09:23:15.528Z",
-      "published": "2026-11-12T09:35:31.913Z",
-      "versionCount": 5,
+      "published": "2026-11-15T07:53:33.400Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4681,11 +4682,12 @@
       "summary": {
         "tools": 7,
         "events": 0,
-        "toolTokens": 1168,
-        "envPromptTokens": 751
+        "toolTokens": 1216,
+        "envPromptTokens": 795
       },
       "changelog": {
         "versions": [
+          "0.2.3",
           "0.2.2",
           "0.2.0",
           "0.1.1"
@@ -11380,17 +11382,17 @@
     },
     "cortico-world-fun": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.1.4",
       "displayName": "娱乐时间",
-      "description": "娱乐时间 —— 给 Coopanion 桌宠十二处真能去逛的地方：游乐场、海洋馆、庙会、漫展、电影院、动物园、公园、电玩城、KTV、博物馆、猫咖、爬山。进门、逛摊位、买纪念品、拍张照、收摊记一笔。",
+      "description": "娱乐时间 —— 给 Coopanion 桌宠二十处真能去逛的地方：游乐场、海洋馆、庙会、漫展、电影院、动物园、公园、电玩城、KTV、博物馆、猫咖、爬山、咖啡店、奶茶店、餐厅、图书馆、夜市、澡堂、旧货市场、江边。进门、逛摊位、买纪念品、拍张照、吃喝点什么，收摊记一笔。能和「鱼的每一天」「生图工作室」联动，但都不依赖。",
       "locales": {
         "zh": {
           "displayName": "娱乐时间",
-          "description": "给 Coo 十二处能真去逛的地方：游乐场、海洋馆、庙会、漫展、电影院、动物园、公园、电玩城、KTV、博物馆、猫咖、爬山。她说一声进门，一处一处地逛项目、抽个签、买点纪念品、拍张照，收摊时回执把这一趟收成一句话，接着去记进自己的日程。不装、不配、库挪走了也照样能逛。"
+          "description": "给 Coo 二十处能真去逛的地方：游乐场、海洋馆、庙会、漫展、电影院、动物园、公园、电玩城、KTV、博物馆、猫咖、爬山、咖啡店、奶茶店、餐厅、图书馆、夜市、澡堂、旧货市场、江边。她说一声进门，一处一处地逛项目、抽个签、买点纪念品、拍张照、喝杯奶茶，收摊时回执把这一趟收成一句话，接着去记进自己的日程。\n\n能和别的插件联动，但都不依赖：装了「鱼的每一天」时，日程叫醒里会顺手提到这块、收摊回执也会提醒她去 feast_life_play 记一笔；咖啡店、奶茶店、餐厅、夜市吃的东西去「鱼的每一天」点一道，那里才有九维口感、香气和余韵——没装就只知道喝了杯奶茶，不编味道。装了「生图工作室」时，收摊回执会告诉她发图该填哪个 scene、哪身衣服；素材库里没有的那几处会明说不用填，绝不替她编一个不存在的场景名。这些插件一个都不装也照样能逛，库挪走了也不影响。"
         },
         "en": {
           "displayName": "Fun time",
-          "description": "Twelve places she can actually go: an amusement park, an aquarium, a temple fair, a fan convention, a cinema, a zoo, a park, an arcade, a karaoke box, a museum, a cat cafe, a hike. She walks in, wanders one spot at a time, buys a souvenir, takes a photo, and the closing receipt sums the trip up in one line she can log into her own day. No other extension required; it still works if the image library is gone."
+          "description": "Twenty places she can actually go: an amusement park, an aquarium, a temple fair, a fan convention, a cinema, a zoo, a park, an arcade, a karaoke box, a museum, a cat cafe, a hike, a coffee shop, a bubble-tea stand, a restaurant, a library, a night market, a bathhouse, a flea market and a riverside walk. She walks in, wanders one spot at a time, buys a souvenir, takes a photo, has something to eat or drink, and the closing receipt sums the trip up in one line she can log into her own day.\n\nWorks alongside other plugins but depends on none. With Fish Every Day installed, the own-time menu points at this world and the closing receipt reminds her to log the trip with feast_life_play; food and drink at the coffee shop, tea stand and restaurant are meant to be ordered from Fish Every Day, where the nine-axis flavour profile and aroma actually live — without it she only knows she had a bubble tea, and she is told not to invent how it tasted. With the image studio installed, the receipt names the scene and outfit to draw; venues the library does not have are marked as such instead of inventing a name. None of them are required, and it still works if the image library is gone."
         }
       },
       "author": "青",
@@ -11414,8 +11416,8 @@
         "bugs": "https://github.com/bailuhanyi/cortico-world-fun/issues"
       },
       "created": "2026-11-15T06:36:15.951Z",
-      "published": "2026-11-15T06:45:50.266Z",
-      "versionCount": 3,
+      "published": "2026-11-15T07:42:25.216Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11433,11 +11435,14 @@
       "summary": {
         "tools": 6,
         "events": 0,
-        "toolTokens": 828,
-        "envPromptTokens": 823
+        "toolTokens": 938,
+        "envPromptTokens": 1120
       },
       "changelog": {
         "versions": [
+          "0.1.4",
+          "0.1.3",
+          "0.1.2",
           "0.1.1",
           "0.1.0"
         ],
@@ -11563,7 +11568,7 @@
     },
     "cortico-world-genesis": {
       "kind": "world",
-      "version": "2.1.4",
+      "version": "2.1.6",
       "displayName": "创世记",
       "description": "给 Agent 一颗物理自洽、一次性创世的星球：种子与少量旋钮生成恒星系与行星属性。",
       "author": "Nami-Mizu",
@@ -11583,8 +11588,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-genesis"
       },
       "created": "2026-11-13T12:15:34.380Z",
-      "published": "2026-11-15T07:12:02.100Z",
-      "versionCount": 10,
+      "published": "2026-11-15T08:06:22.367Z",
+      "versionCount": 11,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11607,6 +11612,8 @@
       },
       "changelog": {
         "versions": [
+          "2.1.6",
+          "2.1.5",
           "2.1.4",
           "2.1.3",
           "2.1.2",
@@ -11650,7 +11657,7 @@
           "1.2.0",
           "1.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-genesis@2.1.4/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-genesis@2.1.6/CHANGELOG.md"
       },
       "discussion": {
         "number": 915,
@@ -11993,17 +12000,17 @@
     },
     "cortico-world-hearthstone": {
       "kind": "world",
-      "version": "0.6.7",
+      "version": "0.7.0",
       "displayName": "炉石陪打",
       "description": "陪打炉石（需 Coopani 0.2.17+）:读对局日志,就知道双方血量、场面、手牌和水晶。该开口时开口:该解场还是该压、费够不够上那张大牌、对面有没有斩杀。只看不动手,不代打;第一次启动会替你把 Power 日志打开。打完能陪你复盘:哪一手走了岔路、她当时建议什么,也记得住最近几十局的战绩。她自己还有一份打法档案——信哪一套、看不惯什么,边打边写,越打越像她;但算出的斩杀她照样得喊,风格盖不住账。竞技场也认。",
       "locales": {
         "zh": {
           "displayName": "炉石陪打",
-          "description": "陪打炉石（需 Coopani 0.2.17 以上）：她读的是游戏自己写的对局日志，不是屏幕。\n\n**她看得到什么。** 双方职业与英雄、生命值与护甲、场上每个随从的攻击力与生命和关键词、两边手牌与牌库张数、水晶、回合数、谁打了什么牌。**开局换牌阶段还看得到起手那几张的牌名和费用。**\n\n**她看不到什么。** 对手手牌具体是哪几张、卡牌的文字效果、动画和演出。日志比画面晚几百毫秒，极快的一瞬间可能漏掉。信息没跟上时她会直说没看到，不会用推测把场面补完整。\n\n**该开口的时候开口。** 轮到你了她说这回合打什么；残血、被铺场、牌库见底、进入斩杀线时她会提醒；打出意料之外的牌（跨职业的、比水晶还贵的、8/8 以上的）她会愣一下。开局换牌只来一次，过时不补——那是唯一能改起手的机会。\n\n**算得清的账。** 斩杀线把场面、武器、英雄攻击力、过墙和手牌里的直伤一起算进去，并说明哪些没算（光环、潜行、免疫、战吼伤害不在数里，所以那个数是下界）。对手有嘲讽时，过墙用掉多少攻击力会写清楚——9 攻打 2 血嘲讽，剩的是 0 不是 7。硬币算进预算了，被加价时会提醒你「打了也换不到水晶」。\n\n**她拦得住几种常见的错。** 血厚没嘲讽不是墙；带前提的战吼没满足就只是个随从；狂怒、复生、亡语这些打下去还有后续；同一张牌连劝四个回合就不是牌友了，是催命的。\n\n**她有自己的打法档案。** 信哪一套、话多话少、看到臭手会不会直接说——边打边写，越打越像她。但有一条她不能拿风格当理由：**算出的斩杀必须喊，建议里点出的风险必须转告。**\n\n**按谁的思路打，你说了算。** 面板上一个按钮：默认按她自己的立场，也能切到「你的」——那份不是猜的，是从你的对局记录里数出来的：你多久听一次建议、哪个回合段开始自己拿主意、没听的时候先打了哪几张。每打完一局自动重算。切到「你的」之后她照样会反驳你，**算出来的斩杀和风险一样必须说** —— 立场换的是措辞和先推哪条，不是数字。\n\n**打完能复盘。** 逐回合的双方血量、手牌数、场面，加上全部出牌与攻击。她说得出「第 13 回合你场攻 11，对面 14 血，那回合已经进斩杀窗口了」，而不是「你打得不错」。\n\n**竞技场也认。** 三张候选牌念给她，她给解析和分数，选完记进牌组曲线；开局前先看她有没有这个职业的赢法。\n\n**她不动手。** 不模拟点击、不操作游戏。给的是判断和建议，鼠标在你手上——不听也是你的牌。\n\n**第一次启动会替你把 Power 日志的上限打开**（改的是炉石自己 client.config 里的 FileSizeLimit.Int），否则日志写到 10MB 就停笔，后面全是残影。如果哪天日志又断了，多半是游戏更新把配置覆盖回去了，她会明说数据停在几点。\n\n**已知限制**：看不到对手手牌，也就猜不准对面手里有没有解；卡牌效果只认卡表摘要，遇到生僻牌她会说「这张具体效果我得看牌面」。\n\n---\n\n桌面宠在旁边时，她说话走气泡，还会跟着局面的松紧换表情。"
+          "description": "陪打炉石（需 Coopani 0.2.17 以上）：她读的是游戏自己写的对局日志，不是屏幕。\n\n**她看得到什么。** 双方职业与英雄、生命值与护甲、场上每个随从的攻击力与生命和关键词、两边手牌与牌库张数、水晶、回合数、谁打了什么牌。**开局换牌阶段还看得到起手那几张的牌名和费用。**\n\n**她看不到什么。** 对手手牌具体是哪几张、卡牌的文字效果、动画和演出。日志比画面晚几百毫秒，极快的一瞬间可能漏掉。信息没跟上时她会直说没看到，不会用推测把场面补完整。\n\n**该开口的时候开口。** 轮到你了她说这回合打什么；残血、被铺场、牌库见底、进入斩杀线时她会提醒；打出意料之外的牌（跨职业的、比水晶还贵的、8/8 以上的）她会愣一下。开局换牌只来一次，过时不补——那是唯一能改起手的机会。\n\n**算得清的账。** 斩杀线把场面、武器、英雄攻击力、过墙和手牌里的直伤一起算进去，并说明哪些没算（光环、潜行、免疫、战吼伤害不在数里，所以那个数是下界）。对手有嘲讽时，过墙用掉多少攻击力会写清楚——9 攻打 2 血嘲讽，剩的是 0 不是 7。硬币算进预算了，被加价时会提醒你「打了也换不到水晶」。\n\n**她拦得住几种常见的错。** 血厚没嘲讽不是墙；带前提的战吼没满足就只是个随从；狂怒、复生、亡语这些打下去还有后续；同一张牌连劝四个回合就不是牌友了，是催命的。\n\n**她有自己的打法档案。** 信哪一套、话多话少、看到臭手会不会直接说——边打边写，越打越像她。但有一条她不能拿风格当理由：**算出的斩杀必须喊，建议里点出的风险必须转告。**\n\n**按谁的思路打，你说了算。** 面板上一个按钮：默认按她自己的立场，也能切到「你的」——那份不是猜的，是从你的对局记录里数出来的：你多久听一次建议、哪个回合段开始自己拿主意、没听的时候先打了哪几张。每打完一局自动重算。切到「你的」之后她照样会反驳你，**算出来的斩杀和风险一样必须说** —— 立场换的是措辞和先推哪条，不是数字。\n\n**打完能复盘。** 逐回合的双方血量、手牌数、场面，加上全部出牌与攻击。她说得出「第 13 回合你场攻 11，对面 14 血，那回合已经进斩杀窗口了」，而不是「你打得不错」。\n\n**竞技场也认。** 三张候选牌念给她，她给解析和分数，选完记进牌组曲线；开局前先看她有没有这个职业的赢法。\n\n**她不动手。** 不模拟点击、不操作游戏。给的是判断和建议，鼠标在你手上——不听也是你的牌。\n\n**第一次启动会替你把 Power 日志的上限打开**（改的是炉石自己 client.config 里的 FileSizeLimit.Int），否则日志写到 10MB 就停笔，后面全是残影。如果哪天日志又断了，多半是游戏更新把配置覆盖回去了，她会明说数据停在几点。\n\n**已知限制**：看不到对手手牌，也就猜不准对面手里有没有解；卡牌效果只认卡表摘要，遇到生僻牌她会说「这张具体效果我得看牌面」。\n\n---\n\n桌面宠在旁边时，她说话走气泡，还会跟着局面的松紧换表情。\n\n**动作要靠形象包。** 蹦迪、律动这类原地动作不在宿主里 —— 宿主认不出的名字会被静默丢掉（脸变、人不动、不报错）。所以这个扩展自带一个带 12 个动作的形象包，启动时自动装进 data/figures/，装完去换装页选一次：装和用是两步。它只写你自己的 data 目录，不碰宿主安装目录。"
         },
         "en": {
           "displayName": "Hearthstone Companion",
-          "description": "Hearthstone Companion (needs Coopani 0.2.17+): reads your match from the Power log — heroes, board, hand, mana. Speaks up when it matters: clear or push, afford that card, lethal. Read-only; sets up the log. Reviews the game and remembers your last few dozen results. She also keeps her own play-style file in her own words — what she believes in, what she cannot stand, written as she plays. A lethal she sees is still a lethal she calls.\n\n**Whose read you get is your call.** One button on the panel: her own stance by default, or yours — and yours is not guessed, it is counted from your own match archive: how often you follow the advice, which stretch of the game you stop following it, what you played first when you did not. Recounted after every match. Switching to yours does not turn her into a yes-man: a lethal she sees is still called, and so are the risks the advice names — the stance changes the wording and which line comes first, never the numbers. Arena too; she hops over your hand instead of blocking it."
+          "description": "Hearthstone Companion (needs Coopani 0.2.17+): reads your match from the Power log — heroes, board, hand, mana. Speaks up when it matters: clear or push, afford that card, lethal. Read-only; sets up the log. Reviews the game and remembers your last few dozen results. She also keeps her own play-style file in her own words — what she believes in, what she cannot stand, written as she plays. A lethal she sees is still a lethal she calls.\n\n**Whose read you get is your call.** One button on the panel: her own stance by default, or yours — and yours is not guessed, it is counted from your own match archive: how often you follow the advice, which stretch of the game you stop following it, what you played first when you did not. Recounted after every match. Switching to yours does not turn her into a yes-man: a lethal she sees is still called, and so are the risks the advice names — the stance changes the wording and which line comes first, never the numbers. Arena too; she hops over your hand instead of blocking it.\n\n**Motions need a figure pack.** Bounce and groove are not in the host - a name it does not know is silently dropped (the face changes, the body does not move, no error). So this extension ships a figure pack with twelve of them, installed into data/figures/ at startup; pick it once on the dress page - installing and wearing are two steps. It writes only inside your own data folder, never into the host's install directory."
         }
       },
       "author": "Mr.Q",
@@ -12029,8 +12036,8 @@
         "darwin"
       ],
       "created": "2026-10-27T13:42:43.161Z",
-      "published": "2026-11-15T04:08:36.190Z",
-      "versionCount": 35,
+      "published": "2026-11-15T08:02:20.617Z",
+      "versionCount": 36,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -12056,6 +12063,7 @@
       },
       "changelog": {
         "versions": [
+          "0.7.0",
           "0.6.7",
           "0.6.6",
           "0.6.5",
@@ -14850,6 +14858,61 @@
         "comments": 4
       }
     },
+    "cortico-world-miragine": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "新宿对决",
+      "description": "在西新宿广场排兵对决，支持人机、桌宠 AI、双 AI 观战和直播观众挑战。",
+      "maintainers": [
+        "lian0721"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-miragine"
+      },
+      "created": "2026-11-15T07:46:51.684Z",
+      "published": "2026-11-15T07:49:00.978Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "game",
+        "streaming",
+        "voice",
+        "experimental",
+        "high-cost"
+      ],
+      "tags": [
+        "streaming",
+        "game",
+        "voice",
+        "experimental",
+        "high-cost"
+      ],
+      "icon": "assets/cortico-world-miragine/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 5,
+        "events": 3,
+        "toolTokens": 562,
+        "envPromptTokens": 475
+      },
+      "discussion": {
+        "number": 947,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/947",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-mood": {
       "kind": "world",
       "version": "0.4.5",
@@ -15024,7 +15087,7 @@
       "published": "2026-11-15T06:01:44.672Z",
       "versionCount": 55,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "video",
         "browser",
@@ -23341,7 +23404,7 @@
       "discussion": {
         "number": 85,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/85",
-        "up": 22,
+        "up": 23,
         "down": 3,
         "comments": 12
       }
