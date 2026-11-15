@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-coding-agent-notify",
-  "version": "1.2.0",
+  "version": "1.2.4",
   "describe": {
     "tools": [],
     "events": [
@@ -24,6 +24,10 @@
     ]
   },
   "changelog": {
+    "1.2.4": "- 将 `package.json` 顶层 `description` 更新为中文说明，使扩展市场未同步或查看已装包详情时也能正常显示中文简介；同时扩展 `cortico.locales.zh.description` 与 `cortico.locales.en.description`，保持中英文简介同等详细（涵盖 7 个 Agent 的按需 hook 安装、回调测试与本机临时接口回报流程）。",
+    "1.2.3": "- 移除扩展简介中「Windows 适配待验证」说明（中英文简介同步更新）。",
+    "1.2.2": "- 修复 Windows 安装 Codex 时 `powershell.exe -EncodedCommand` 未设置 `-OutputFormat Text` 与 UTF-8 输出导致的 CLIXML 乱码，并补充注册表 `PATH`、常见包管理器目录与 IDE 插件内置 `codex.exe` 查找、PowerShell 5.1 空参数与 stderr 警告处理及单引号 `nodePath` 探针修复。\n- 安装 Codex hook 优先调用 `codex features enable hooks`；仅在未检测到 `codex` CLI 时直接向 `$CODEX_HOME/config.toml` 安全启用 `[features].hooks = true` 并写入 `hooks.json`，兼顾 Codex 桌面端与 IDE 插件用户且不影响原生 Codex CLI 链路。",
+    "1.2.1": "- 扩展图标在同一个 SVG 内提供深浅两套配色，跟随 Coopanion 当前主题自动切换；保留原有图形和浅色配色。",
     "1.2.0": "- 五种命令型 Agent 共用运行时发现器：优先使用执行环境提供的独立 Node，结合随包运行时、PATH、版本管理器和可选安装提示；OpenCode、DSH 正常回调保留自身运行时。\n- 安装时缺少宿主 Node 不再阻止注册；运行时跳过失效提示、旧版本和 Coopanion Electron 包装器，限制探测耗时并保留 UTF-8 stdin。\n- 保留各 Agent 的 Windows 原生配置格式；重装只升级受管 hook，不改其他 hook 和设置。新增多 Agent 实际命令、无系统 Node、探测挂起、路径转义和升级回归测试。Windows 尚未实机验证。",
     "1.1.1": "- 设置页分别命名为“Hook 安装与测试”和“通知总结提示词”，新增未列出 Agent 可到 GitHub 提 PR / Issue 的提示。\n- 修复 agy 安装测试对 Windows 编码 PowerShell 命令的断言，解码后核对调用内容。\n- 验证通知提示词参与框架环境前缀渲染，支持部署覆盖及恢复默认；同步提示词描述元数据。",
     "1.1.0": "- 增加 WorkBuddy 原生 Hook 扩展支持（Agent 增至 7 个），支持标准 `~/.workbuddy/settings.json` 与 `WORKBUDDY_CONFIG_DIR`。\n- 修复全量 Windows 钩子规则与 PowerShell 编码命令识别（修复 agy 与 Muse 在 Windows 下的命令处理与状态误判）。\n- 集成 World 扩展矢量图标 `icon.svg`（终端视窗与通知徽章），符合 Cortico 设计规范并在 `package.json` 声明。",
