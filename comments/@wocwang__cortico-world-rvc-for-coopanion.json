@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-rvc-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/466",
-  "total": 2,
+  "total": 4,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BK5hn",
+      "author": "wocwang",
+      "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+      "body": "这个短音频必现的问题确认了，感谢详细定位。\n\n**根因**：`run_vc()` 的非分段分支把 `vc.vc_single(...)` 的返回值原样透传。上游实际返回 `(状态文本, (采样率, 波形))`，调用方按 `(采样率, 波形)` 解包后 `int(result[0])` 拿到的是整段「【单次推理】…」日志，于是变声报「写出失败」、翻唱报「混音失败」。切片阈值是 20 秒，所以短于 20 秒必现，长音频走分段分支反而正常；翻唱时分离出的人声不足 20 秒也会触发。\n\n**修复版本**：0.4.10 起已改为显式解包并判空（变声、翻唱两条路径共用这段逻辑）。本次 0.4.25 又补了防回归注释和回归验证，并把失败提示压缩成最后一行，不再把整段推理日志塞进面板。\n\n**验证**：3 秒纯音跑变声正常；4 秒「人声 + 伴奏」跑翻唱正常（分离 3.2 秒 + 变声 2.5 秒，成品时长 4.000 秒）。升级到 0.4.25 即可，短音频现在能正常处理。\n",
+      "createdAt": "2026-11-15T15:43:04Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJ-nS",
       "author": "Sillyhou",
@@ -16,7 +23,16 @@
       "author": "Sillyhou",
       "avatar": "https://avatars.githubusercontent.com/u/175188106?s=64&v=4",
       "body": "作者你好，首先非常感谢，RVC 这个 world 的「翻唱」整条链路（分离 → 变声 → 混音）用下来很顺，本地跑也不用联网，这点特别省心。\n\n有个小建议：目前默认的人声分离模型是 UVR-MDX-NET-Inst_HQ_3.onnx（66,759,214 字节），这个模型在 UVR 社区里已经算比较老了。实际听下来，齿音偏闷、高频乐器（镲片、弦乐泛音）留在人声轨里的残留也比较明显。UVR 后来又出了明显更好的模型，比如 Mel-Band Roformer 系列（个人感觉melband_roformer_instvox_duality_v2效果最好），代价是权重 1.7 GB、要 PyTorch 推理（插件这边 venv 里 torch 本来就有）。希望可以做成一键安装时的可选档：默认仍装轻量的 MDX ONNX，想要更好效果的再点一下下 Roformer。",
-      "createdAt": "2026-11-03T12:33:39Z"
+      "createdAt": "2026-11-03T12:33:39Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BK5ee",
+          "author": "wocwang",
+          "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+          "body": "收到已增加",
+          "createdAt": "2026-11-15T15:25:24Z"
+        }
+      ]
     }
   ]
 }
