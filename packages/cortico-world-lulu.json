@@ -1,12 +1,13 @@
 {
   "schema": 1,
   "name": "cortico-world-lulu",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "describe": {
     "tools": [],
     "events": []
   },
   "changelog": {
+    "0.1.5": "- Bundle the four outfit photos inside the WebUI entrypoint. Coopanion serves only declared client.js/style.css files; package-relative image URLs are unavailable in the host.\n- Verify the panel against a harness exposing the same flattened entrypoint routes, without a general package asset server. Icon, wardrobe choices and figure resources are unchanged.",
     "0.1.4": "- Replace the simplified SVG icon with a square, aspect-preserving crop of the released Lulu figure.\n- Show four bundled outfit photos in the wardrobe, including both bird-bag variants, before and after figure installation.\n- Add illustrated Chinese/English installation guidance, a wardrobe screenshot and clearer plugin/figure version boundaries. The animated figure remains 0.1.2.",
     "0.1.3": "修复宿主弹性布局和尺寸隔离下衣橱被压窄、文字逐字换行的问题。将面板样式放入独立内部容器，保留宿主根节点布局；按钮适配窄窗口。沿用 0.1.2 角色包，角色素材、服装与配置不变。",
     "0.1.2": "修复宿主持续思考时的上翻眼神。四套装扮的站姿与坐姿复用已验收的平视素材，保留眨眼、睡眠及动作优先级；更新固定角色包下载和校验记录。所有图像与动画文件保持逐字节一致。",
