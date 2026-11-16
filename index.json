@@ -949,10 +949,6 @@
         "zh": "加载时替换所有端点模块的 create 和框架 providerModules 数组的 push，改写发给主模型的每个请求",
         "en": "On load it replaces create on every provider module and the push method of the framework's providerModules array, rewriting every request sent to the main model"
       },
-      "cortico-world-natural-voice": {
-        "zh": "启动后替换 Node 全局的 http.Server.prototype.emit 和桌宠页面连接的 send 方法，用来扣住气泡等语音",
-        "en": "Once started it replaces Node's global http.Server.prototype.emit and the send method of the pet page connection to hold bubbles until speech starts"
-      },
       "cortico-world-period": {
         "zh": "为保护社区免受性别争议话题影响",
         "en": "Blocked to keep the community clear of gender-controversy topics"
@@ -960,6 +956,10 @@
       "cortico-world-capture-guard": {
         "zh": "启用后改写 Core 进程里内建桌宠 World 的宿主命令，用包里的入口拉起桌宠窗口，并替换窗口的 hide、show 方法",
         "en": "Once enabled it rewrites the built-in pet World's host command in the Core process, launches the pet window through its own entry, and replaces the window's hide and show methods"
+      },
+      "cortico-world-humanize": {
+        "zh": "作者已停止维护并申请下架",
+        "en": "Withdrawn at the author's request; no longer maintained"
       }
     },
     "publishers": {}
@@ -2060,6 +2060,20 @@
         "unofficial-api",
         "requires-extension"
       ]
+    },
+    "cortico-world-bookfish": {
+      "removeTags": [
+        "injection-risk"
+      ]
+    },
+    "cortico-world-agent-wechat-native": {
+      "addTags": [
+        "unsafe"
+      ],
+      "note": {
+        "zh": "开启发送媒体后，模型能把本机任意路径的文件发到微信会话",
+        "en": "With media sending turned on, the model can send a file from any local path to a WeChat chat"
+      }
     }
   }
 }
