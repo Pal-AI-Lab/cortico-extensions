@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-coding-agent-notify",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "describe": {
     "tools": [],
     "events": [
@@ -24,6 +24,7 @@
     ]
   },
   "changelog": {
+    "1.2.5": "- 改进 DSH Cordis 钩子：改用带 `{ global: true }` 的 `session/event` (`turn/end`) 判断回合是否真正完成，过滤 `aborted` / `blocked` / `interrupted` / `error` / `max-tokens`；改用 `header.origin` 与 `delegationDepth` 过滤子代理并保留普通 fork 对话；修复 `assistant/message` 空内容覆盖已有正文与 `sessionId` 缓存清理；在带 `webServer` 的长驻宿主加入 1.5 秒 `workspace/session-activity` 活动门防团队/后台子任务误报并随卸载清理定时器。\n- 安装与状态检测自动兼容已初始化的 DSH `desktop` profile。",
     "1.2.4": "- 将 `package.json` 顶层 `description` 更新为中文说明，使扩展市场未同步或查看已装包详情时也能正常显示中文简介；同时扩展 `cortico.locales.zh.description` 与 `cortico.locales.en.description`，保持中英文简介同等详细（涵盖 7 个 Agent 的按需 hook 安装、回调测试与本机临时接口回报流程）。",
     "1.2.3": "- 移除扩展简介中「Windows 适配待验证」说明（中英文简介同步更新）。",
     "1.2.2": "- 修复 Windows 安装 Codex 时 `powershell.exe -EncodedCommand` 未设置 `-OutputFormat Text` 与 UTF-8 输出导致的 CLIXML 乱码，并补充注册表 `PATH`、常见包管理器目录与 IDE 插件内置 `codex.exe` 查找、PowerShell 5.1 空参数与 stderr 警告处理及单引号 `nodePath` 探针修复。\n- 安装 Codex hook 优先调用 `codex features enable hooks`；仅在未检测到 `codex` CLI 时直接向 `$CODEX_HOME/config.toml` 安全启用 `[features].hooks = true` 并写入 `hooks.json`，兼顾 Codex 桌面端与 IDE 插件用户且不影响原生 Codex CLI 链路。",
