@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "cortico-world-fatfish",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-  "total": 64,
+  "total": 65,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BK9Qa",
+      "author": "blacksunshy",
+      "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
+      "body": "可行，而且**不用改 DSH 主程序**——已经实现了，刚发了版：\n\n- Host 侧：[coopanion-connector-dsh v0.2.25](https://github.com/blacksunshy/coopanion-connector-dsh/releases/tag/v0.2.25)（GitHub 分发）\n- 桌宠侧：[cortico-world-fatfish 0.6.26](https://www.npmjs.com/package/cortico-world-fatfish)（npm）\n\n**怎么开**：把 DSH 里的 connector 升到 0.2.25，桌宠升到 0.6.26，然后在小肥鱼设置里打开「替人物点 DSH 的选项与批准」（默认关）。\n\n**打开后**：DSH 弹出批准或 `ask_user_question` 时，请求会带着编号、工具名和选项发到桌宠，小肥鱼可以用 `dsh_approve` / `dsh_answer` 直接回决定——批准、拒绝、取消，或按选项名选中某一项，你不在键鼠前也能让它代点。\n\n几条边界，免得误会：\n\n- 只接管你**当前会话**的请求，别处的提问照旧留在桌面\n- 5 分钟没处理自动交还桌面，不会把 DSH 的回合卡死\n- 选项按文字 label 往返，不按顺序，避免两边顺序不一致时点错\n- 默认关；不打开就和以前完全一样，原来的批准 / 问句提醒不会重复\n\n实现上只用了 DSH 已有的 `approval/request` 与 `user-questions/request` 两个 waterfall，扩展在连接时声明自己能作答，Host 端据此决定把请求发给谁，所以不需要动 DSH 本体。\n\n麻烦升级后试一下，哪里不顺手在这条下面回我就行。\n",
+      "createdAt": "2026-11-16T08:25:22Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BK86b",
       "author": "qwq-awa-qnq",
