@@ -9864,7 +9864,7 @@
     },
     "cortico-world-ets2-dafeiyu": {
       "kind": "world",
-      "version": "1.3.1",
+      "version": "1.3.2",
       "displayName": "欧卡/美卡桌宠副驾",
       "description": "《欧洲卡车模拟2》/《美国卡车模拟》的 Coopanion 桌宠副驾：读取官方遥测，按游戏切换城市、州/国家边境和电子狗数据，播报事故、超速、罚款、收费站、任务和过境；提供 TruckNav 本地地图、路线、景点/设施/电子狗图层与 ATS 支持；支持一键安装 scs-telemetry.dll。",
       "locales": {
@@ -9904,8 +9904,8 @@
         "win32"
       ],
       "created": "2026-10-29T12:07:35.458Z",
-      "published": "2026-11-12T14:09:27.367Z",
-      "versionCount": 30,
+      "published": "2026-11-15T21:16:01.465Z",
+      "versionCount": 31,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -9923,13 +9923,14 @@
         "week": 561
       },
       "summary": {
-        "tools": 8,
-        "events": 25,
-        "toolTokens": 1143,
+        "tools": 9,
+        "events": 31,
+        "toolTokens": 1239,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.3.2",
           "1.3.1",
           "1.3.0",
           "1.2.2",
@@ -21943,17 +21944,17 @@
     },
     "cortico-world-social-media": {
       "kind": "world",
-      "version": "0.6.5",
-      "displayName": "社交视窗",
-      "description": "社交视窗：B站视频、动态读写与评论，实验接入抖音、快手；按作品归档互动，分平台设置特别关注与闲逛，B站可选主动@关注、抖音可监听指定群。快手暂不支持图文发评与群聊。沿用现有模型。",
+      "version": "0.6.12",
+      "displayName": "小鲸鱼爱冲浪",
+      "description": "小鲸鱼爱冲浪：B站视频、动态读写与评论，实验接入抖音、快手与 Gemini 网页陪练；按作品归档互动，分平台设置特别关注与闲逛，B站可选主动@关注、抖音可监听指定群。快手暂不支持图文发评与群聊。沿用现有模型。",
       "locales": {
         "zh": {
-          "displayName": "社交视窗",
-          "description": "社交视窗：B站视频、动态读写与评论，实验接入抖音、快手；按作品归档互动，分平台设置特别关注与闲逛，B站可选主动@关注、抖音可监听指定群。快手暂不支持图文发评与群聊。沿用现有模型。"
+          "displayName": "小鲸鱼爱冲浪",
+          "description": "小鲸鱼爱冲浪：B站视频、动态读写与评论，实验接入抖音、快手与 Gemini 网页陪练；按作品归档互动，分平台设置特别关注与闲逛，B站可选主动@关注、抖音可监听指定群。快手暂不支持图文发评与群聊。沿用现有模型。"
         },
         "en": {
-          "displayName": "Social Window",
-          "description": "Social Window: Bilibili videos, text dynamics and comments, with experimental Douyin and Kuaishou adapters. Per-work records, owner focus and roaming; opt-in Bilibili focus mentions and allowlisted Douyin groups. No Kuaishou image-post comments or group chats. Uses your existing model."
+          "displayName": "Little Whale Loves Surfing",
+          "description": "Little Whale Loves Surfing: Bilibili videos, text dynamics and comments, with experimental Douyin and Kuaishou adapters and Gemini web coaching. Per-work records, owner focus and roaming; opt-in Bilibili focus mentions and allowlisted Douyin groups. No Kuaishou image-post comments or group chats. Uses your existing model."
         }
       },
       "author": "peikun123",
@@ -21979,8 +21980,8 @@
         "bugs": "https://github.com/PeiKun123/cortico-world-social-media/issues"
       },
       "created": "2026-10-23T02:10:56.290Z",
-      "published": "2026-11-02T04:34:54.280Z",
-      "versionCount": 6,
+      "published": "2026-11-16T00:11:41.068Z",
+      "versionCount": 7,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -21989,6 +21990,7 @@
         "internet",
         "external-setup",
         "experimental",
+        "high-cost",
         "unofficial-api"
       ],
       "tags": [
@@ -21998,8 +22000,10 @@
         "companion",
         "external-setup",
         "experimental",
+        "high-cost",
         "unofficial-api"
       ],
+      "icon": "assets/cortico-world-social-media/icon.png",
       "screenshots": [
         "assets/cortico-world-social-media/screenshot-1.png",
         "assets/cortico-world-social-media/screenshot-2.png",
@@ -22011,13 +22015,19 @@
         "week": 270
       },
       "summary": {
-        "tools": 13,
-        "events": 5,
-        "toolTokens": 5577,
-        "envPromptTokens": 0
+        "tools": 14,
+        "events": 9,
+        "toolTokens": 6737,
+        "envPromptTokens": 3702
       },
       "changelog": {
         "versions": [
+          "0.6.12",
+          "0.6.11",
+          "0.6.10",
+          "0.6.9",
+          "0.6.8",
+          "0.6.7",
           "0.6.5",
           "0.6.4",
           "0.6.3",

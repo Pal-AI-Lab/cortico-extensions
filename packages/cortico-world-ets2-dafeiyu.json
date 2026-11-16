@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-ets2-dafeiyu",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "describe": {
     "tools": [
       {
@@ -156,7 +156,7 @@
       },
       {
         "name": "ets2_install_telemetry",
-        "description": "Download the latest RenCloud scs-sdk-plugin release and install/repair scs-telemetry.dll in the ETS2 / ATS game folder. Use only after the driver chooses the game root.",
+        "description": "Install or repair the bundled merged telemetry plugin (scs_direct_telemetry.dll: truck, job, bus_job and world placement) in the ETS2 / ATS game folder. Use only after the driver chooses the game root.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -228,6 +228,19 @@
           "zh": "把卡车当前位置记录成城市范围。",
           "en": "Records the truck’s current position as a city geofence."
         }
+      },
+      {
+        "name": "ets2_coach_route",
+        "description": "Return the active coach (bus_job) route: every stage, planned departure/arrival times, boarding/alighting passengers and satisfaction.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ]
       }
     ],
     "events": [
@@ -316,10 +329,52 @@
         }
       },
       {
-        "type": "ets2.city-arrival",
+        "type": "ets2.coach-started",
         "description": {
-          "zh": "接近任务目的地。",
-          "en": "The truck is approaching the destination city."
+          "zh": "客运任务开始。",
+          "en": "A coach job started."
+        }
+      },
+      {
+        "type": "ets2.coach-route",
+        "description": {
+          "zh": "客运线路简报。",
+          "en": "Coach route brief."
+        }
+      },
+      {
+        "type": "ets2.coach-departed",
+        "description": {
+          "zh": "客运分段发车。",
+          "en": "A coach stage departed."
+        }
+      },
+      {
+        "type": "ets2.coach-arrived",
+        "description": {
+          "zh": "客运分段到站。",
+          "en": "A coach stage arrived."
+        }
+      },
+      {
+        "type": "ets2.coach-satisfaction",
+        "description": {
+          "zh": "乘客满意度降到 0。",
+          "en": "Coach passenger satisfaction reached zero."
+        }
+      },
+      {
+        "type": "ets2.coach-finished",
+        "description": {
+          "zh": "客运任务完成。",
+          "en": "Coach job finished."
+        }
+      },
+      {
+        "type": "ets2.coach-cancelled",
+        "description": {
+          "zh": "客运任务取消。",
+          "en": "Coach job cancelled."
         }
       },
       {
@@ -409,6 +464,7 @@
     ]
   },
   "changelog": {
+    "1.3.2": "- 客运（客车 DLC）全面接入：解析 bus_job 全部分段与到发时刻、上下客与乘客满意度；新增客运接单、线路简报、分段发车、到站、满意度归零、完成与取消播报；状态与地图同步显示客运线路与进度。\n- 一键安装的遥测插件升级为合并版 scs_direct_telemetry.dll：在原遥测基础上新增 truck.world.placement 世界坐标与朝向回传（地图车辆定位不再依赖旧共享内存）；修复空 car_job 配置块误清当前任务的问题；旧版插件仍可作为回退。\n- 播报重构：客运与货运统一按剩余 200/75/10 公里里程碑播报（含延迟补偿）；乘客满意度仅在降到 0% 时播报一次；移除「省略版播报」开关，只保留一套完整播报。\n- 加油播报改为会话聚合：一次加油被拆成多条（如 8×16L）的重复播报已修复。\n- 播报去重与防抖：连接状态、任务开始、进城等播报按文本持久去重，程序重启后不再重复；收费站雷达区域锁（1.2 公里内 10 分钟只报一次）；导航开头播报按任务/阶段去重。\n- 地图页：跟随车辆时保留当前视角（不再强制俯视）；「车头朝上」改为「导航视角」（后方俯视+全程跟踪）；移除选点与算路功能；客运本地路线距离按路网比例修正。\n- TruckNav 地图服务自愈：子进程意外退出后 3~5 秒自动重启，5 分钟内连续 5 次退出则熔断报错。\n- 修复客运任务取消后残留的幽灵状态（「第 1/1 段 ? → ?」）：空 bus_job 配置正确识别为任务清除；取消播报带违约金；修复取消事件晚于配置块到达时违约金丢失的竞态（播报端 2.5 秒等待宽限期）。",
     "1.3.1": "- 文档更新：移除 README 中的方案 B 说明。",
     "1.3.0": "- 添加了冰岛 DLC 的地图坐标：15 个城市、55 个公司站点、1 个合并后的收费隧道电子狗点、冰岛国家多边形。\n- 冰岛城市和公司使用 DLC 地图坐标；城市补中文译名，公司补 7 个 DLC 新公司的显示名。\n- 新增岛国区域识别：进入冰岛范围时触发国家播报，不依赖陆地边境节点。\n- 修复英国 0.75 地图缩放误作用到冰岛的问题，冰岛城市和公司点位不再落到错误经纬度。\n- 本版本暂不包含冰岛本地路网/道路 tiles，路线与地图道路需单独方案。",
     "1.2.2": "- 修复地图服务重复启动竞态：`start()` 和首次遥测连接会同时调用启动逻辑，导致第二个子进程端口冲突退出（代码 1），地图服务状态灯误报红色。现在用单实例启动锁，并在非 0 退出时先检查 `/health`，避免把仍在工作的服务判成故障。",
