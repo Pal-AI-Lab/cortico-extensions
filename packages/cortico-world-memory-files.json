@@ -1,0 +1,407 @@
+{
+  "schema": 1,
+  "name": "cortico-world-memory-files",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "ms_read",
+        "tags": [
+          "read"
+        ],
+        "summary": "读回自己写下的记忆：STATE、待办、流水末尾、交接、任意文件。",
+        "description": "读回你写下的记忆：STATE（现在）、todo（待办）、本月流水末尾、交接列表、最新一份交接，或根目录里任意一个文件。醒来、被清空之后、或要确认「我到底答应过什么」时用它。只读。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "what": {
+              "type": "string",
+              "enum": [
+                "state",
+                "todo",
+                "log",
+                "handoffs",
+                "index",
+                "handoff",
+                "file"
+              ],
+              "description": "读哪一样；默认 state。"
+            },
+            "path": {
+              "type": "string",
+              "description": "what=file 时的相对路径，或 what=handoff 时的文件名。"
+            },
+            "lines": {
+              "type": "integer",
+              "description": "what=log 时取最后多少行，默认 40。"
+            }
+          }
+        }
+      },
+      {
+        "name": "ms_search",
+        "tags": [
+          "read"
+        ],
+        "summary": "在记忆里按关键词找：返回「路径:行号: 那一行」。",
+        "description": "在记忆里按关键词找：返回「路径:行号: 那一行」，命中多处就多条。想不起某件事发生在哪天、对方说过什么、上次怎么解决的——用它，别整篇读。默认连 archive/ 一起扫。只读。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "query"
+          ],
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "关键词；多个词用空格分开，同一行里都有才算命中。"
+            },
+            "limit": {
+              "type": "integer",
+              "description": "最多回几条，默认 30。"
+            },
+            "includeArchive": {
+              "type": "boolean",
+              "description": "要不要连 archive/ 一起扫，默认 true。"
+            }
+          }
+        }
+      },
+      {
+        "name": "ms_entry",
+        "tags": [
+          "write"
+        ],
+        "summary": "记一条带引力的记忆进账本；改引力必须给原因。",
+        "description": "记一条带引力的记忆，进账本 entries/YYYY-MM.tsv（日期/时间/引力/钩子/简述/出处/标记）。引力 0–100 是自己的判断。已有钩子再记一次=改引力，必须给原因（做成事/重申/纠正），否则拒绝：曝光不算强化。anchor=true 是锚点，锁 100 永不沉。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "hook",
+            "brief"
+          ],
+          "properties": {
+            "hook": {
+              "type": "string",
+              "description": "钩子，短，别重名。"
+            },
+            "brief": {
+              "type": "string",
+              "description": "一两句说清这条是什么。"
+            },
+            "weight": {
+              "type": "integer",
+              "description": "引力 0–100，默认 90（锚点自动 100）。"
+            },
+            "date": {
+              "type": "string",
+              "description": "YYYY-MM-DD，默认今天。"
+            },
+            "time": {
+              "type": "string",
+              "description": "HH:MM。"
+            },
+            "source": {
+              "type": "string",
+              "description": "出处。"
+            },
+            "anchor": {
+              "type": "boolean",
+              "description": "true=锚点，锁 100 永不沉。"
+            },
+            "reason": {
+              "type": "string",
+              "description": "改引力时必填。"
+            }
+          }
+        }
+      },
+      {
+        "name": "ms_surface",
+        "tags": [
+          "read"
+        ],
+        "summary": "按引力水位取水面：锚 / 浮 / 半浮 / 沉。",
+        "description": "按引力水位取水面：anchors / float / half / sink / all，可按日期和关键词过滤。醒来想知道「现在什么最重要」看 float，想看看哪些该清了看 sink。水位在设置里改。只读。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "layer": {
+              "type": "string",
+              "enum": [
+                "anchors",
+                "float",
+                "half",
+                "sink",
+                "all"
+              ],
+              "description": "默认 float。"
+            },
+            "since": {
+              "type": "string",
+              "description": "YYYY-MM-DD 之后。"
+            },
+            "keyword": {
+              "type": "string",
+              "description": "按词过滤。"
+            },
+            "limit": {
+              "type": "integer",
+              "description": "默认 40。"
+            }
+          }
+        }
+      },
+      {
+        "name": "ms_weight",
+        "tags": [
+          "write"
+        ],
+        "summary": "改一条的引力：必须给原因（做成事 / 重申 / 纠正）。",
+        "description": "改一条已有记忆的引力：新值 + 原因。原因只有三种算数：做成事 / 重申 / 纠正；不给原因直接拒绝——曝光不算强化。改动是追加一行，前面那行留着。锚点锁 100，调不动。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "hook",
+            "reason"
+          ],
+          "properties": {
+            "hook": {
+              "type": "string",
+              "description": "改哪一条：钩子。"
+            },
+            "weight": {
+              "type": "integer",
+              "description": "新的引力 0–100；不填只记理由，分数不动。"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "做成事",
+                "重申",
+                "纠正"
+              ],
+              "description": "原因属于哪一种。"
+            },
+            "reason": {
+              "type": "string",
+              "description": "做成了什么 / 对方原话 / 旧说法错在哪。"
+            },
+            "source": {
+              "type": "string",
+              "description": "出处，不填沿用原来的。"
+            }
+          }
+        }
+      },
+      {
+        "name": "ms_decay",
+        "tags": [
+          "read"
+        ],
+        "summary": "算「多久没被提过」，给下调建议；账本一个字不改。",
+        "description": "衰减：算出各条「多久没被提过」，给一份下调建议。只给建议，账本不改——要落下得走 ms_weight 并给原因。被反复动过的掉得慢；锚点不算。只读。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "minDays": {
+              "type": "integer",
+              "description": "至少闲置这么多天才提一句，默认 30。"
+            },
+            "limit": {
+              "type": "integer",
+              "description": "最多列几条，默认 20。"
+            }
+          }
+        }
+      },
+      {
+        "name": "ms_recall",
+        "tags": [
+          "read"
+        ],
+        "summary": "按钩子捞：查 hooks.md，回「钩子 + 当前引力 + 原文那几行」，重的在前。",
+        "description": "按钩子捞：查 hooks.md（钩子 → 去处），回一行行「钩子 + 当前引力 + 原文那几行」，重的在前。跟 ms_search 分工：它只捞进过钩子表的（知道轻重），裸搜交给 ms_search。只读。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "钩子或它的一部分；不填就按引力从重到轻列整张表。"
+            },
+            "layer": {
+              "type": "string",
+              "enum": [
+                "anchors",
+                "float",
+                "half",
+                "sink"
+              ],
+              "description": "只看某一水位。"
+            },
+            "read": {
+              "type": "boolean",
+              "description": "要不要回原文，默认 true。"
+            },
+            "lines": {
+              "type": "integer",
+              "description": "原文读几行，默认 3。"
+            },
+            "limit": {
+              "type": "integer",
+              "description": "最多列几条，默认 10。"
+            }
+          }
+        }
+      },
+      {
+        "name": "ms_hook",
+        "tags": [
+          "write"
+        ],
+        "summary": "留一个钩子进 hooks.md（根目录）：钩子 | 去处；不自动，靠人写。",
+        "description": "留一个钩子：往根目录 hooks.md 写一行「钩子 | 去处 | 一句话」。不自动——什么值得留钩子是人/模型的判断。同一个钩子再写=改去处；remove=true 删掉。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "hook"
+          ],
+          "properties": {
+            "hook": {
+              "type": "string",
+              "description": "钩子，短。"
+            },
+            "target": {
+              "type": "string",
+              "description": "去处：路径 或 路径:行号，相对记忆根目录。"
+            },
+            "note": {
+              "type": "string",
+              "description": "一句话备注。"
+            },
+            "remove": {
+              "type": "boolean",
+              "description": "true = 删掉这一行。"
+            }
+          }
+        }
+      },
+      {
+        "name": "ms_log",
+        "tags": [
+          "write"
+        ],
+        "summary": "往本月流水追加一行带时间戳的记录。",
+        "description": "往本月流水追加一行带时间戳的记录（一条一件事，写清发生了什么）。做完一件事、答应一件事、发现一个坑、对方说了句要紧的话——当场写，别攒着。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "text"
+          ],
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "这一行写什么，一两句就够。"
+            }
+          }
+        }
+      },
+      {
+        "name": "ms_check",
+        "tags": [
+          "read"
+        ],
+        "summary": "体检：STATE、流水、交接索引、过期待办、多久没备份。",
+        "description": "体检：今天的 STATE 更新了没、今天写过流水没、交接进没进索引、有没有过期的待办、多久没备份。只读，不改文件。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        }
+      },
+      {
+        "name": "ms_handoff",
+        "tags": [
+          "write"
+        ],
+        "summary": "起草一份交接：把今天的流水和没做完的待办塞进去。",
+        "description": "起草一份交接：把今天的流水和没做完的待办先塞进去，生成 handoffs/ 下的一份新文件，并登记进 INDEX。剩下的第 1、3、4 节要自己补。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        }
+      },
+      {
+        "name": "ms_backup",
+        "tags": [
+          "write"
+        ],
+        "summary": "把整个记忆根目录拷一份到备份目录。",
+        "description": "把整个记忆根目录拷一份到备份目录（memory-YYYY-MM-DD），并记下这次备份的日期。备份目录不能放在根目录里面。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "dest": {
+              "type": "string",
+              "description": "备份到哪个文件夹；不填用设置里的。"
+            }
+          }
+        }
+      },
+      {
+        "name": "ms_init",
+        "tags": [
+          "write"
+        ],
+        "summary": "建好记忆骨架：STATE / todo / log / handoffs / notes / archive。",
+        "description": "建好记忆的骨架：STATE.md / todo.md / log/（本月）/ handoffs/（含 INDEX）/ notes/ / archive/。已经有的文件不会动。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        }
+      },
+      {
+        "name": "ms_archive",
+        "tags": [
+          "write"
+        ],
+        "summary": "遗忘：把旧月份流水搬进 archive/，只搬不删。",
+        "description": "遗忘：把 log/ 里早于这个月的月份文件搬进 archive/log/。只搬，不删——搬走的 ms_search 照样找得到。不给 apply 就只看不搬。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "apply": {
+              "type": "boolean",
+              "description": "真搬才填 true。"
+            },
+            "before": {
+              "type": "string",
+              "description": "搬早于哪个月（YYYY-MM），不填就是早于这个月。"
+            }
+          }
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.memory-files.envPrompt",
+        "title": "文件记忆 · 环境提示词",
+        "role": "envPrompt",
+        "content": "# 文件记忆\n\n你有一套记在外面的记忆，就在一个普通文件夹里：`STATE.md`、`todo.md`、`log/`、`handoffs/`、`notes/`。\n\n**这不是「辅助资料」，这就是你的记忆本身。** 上下文会被清空、模型会被换掉、进程会重启——这个文件夹不会。所以：\n\n- **文件是主线，脑子是缓存。** 你「以为记得」的东西，只有写进文件里才算数。\n- **缺口要标记，不要补圆。** 漏了就直说漏了哪一段，然后接着做答应过的事。\n- **只追加，不整理，不删。** 流水难看没关系，好看是以后的事。\n- **断了不可怕，装作没断才可怕。**\n\n## 十四条命令\n\n**存储、遗忘、回忆、轻重——四件事各有人在管。**\n\n| 工具 | 做什么 | 什么时候用 |\n|---|---|---|\n| `ms_read` | 读回：`state` / `todo` / `log`（本月流水末尾）/ `handoffs` / `index` / `handoff`（一份交接）/ `file`（指定文件） | **醒来第一件事**；被清空之后；要确认「我答应过什么」 |\n| `ms_search` | 在记忆里按关键词找：回「路径:行号: 那一行」，默认连 `archive/` 一起扫 | 想不起哪天发生过、对方说过什么、上次怎么解决的——**先搜，别整篇读** |\n| `ms_entry` | 记一条带引力的记忆进账本 `entries/YYYY-MM.tsv`（日期/时间/引力/钩子/简述/出处/标记） | 一天里值得回看的事；改已有条目的引力**必须给原因** |\n| `ms_weight` | 改一条的引力：新值 + **原因（做成事 / 重申 / 纠正）** | 真拿它做成过事、对方重申过、旧说法被纠正过——**只在这三种时候动** |\n| `ms_surface` | 按引力水位取水面：`anchors` / `float` / `half` / `sink` / `all` | 醒来想知道「现在什么最重要」看 `float`；想看看哪些该清了看 `sink` |\n| `ms_decay` | 算「多久没被提过」，给下调建议——**只给建议，不动账本** | 一周重算一次；想清一清水面的时候 |\n| `ms_recall` | 按钩子捞：查 `hooks.md`（根目录），回「钩子 + 当前引力 + 原文那几行」，重的在前 | 记得「有这么件事」但想不起在哪——**知道轻重的捞法** |\n| `ms_hook` | 往 `hooks.md` 写一行「钩子 \\| 去处」——**不自动** | 正文要搬进 `archive/` 之前；觉得这条以后还会用到 |\n| `ms_log` | 往本月流水追加一行带时间戳的记录 | 做完一件事、答应一件事、发现一个坑、对方说了句要紧的话——**当场写** |\n| `ms_check` | 只读体检：今天的 STATE、今天的流水、交接进没进索引、过期的待办、多久没备份 | 清空之前；隔几天；心里没底的时候 |\n| `ms_handoff` | 起草交接，把今天的流水和没做完的待办先塞进去 | 预料到要清上下文、要换一天的时候 |\n| `ms_backup` | 整个根目录拷一份到备份目录 | 做完交接之后；隔几天 |\n| `ms_init` | 建骨架（已有的文件不动） | 第一次装；换了根目录 |\n| `ms_archive` | 把 `log/` 里旧月份搬进 `archive/log/`——**只搬不删**，默认只看不搬 | 流水过 300 KB；或者本月文件被旧月份挤得读不到末尾 |\n\n### 遗忘不是删，是搬家\n\n`archive/` 里的东西 `ms_search` 照样找得到。**所以「忘掉」在这里只有一个意思：不再占着眼前的位置，但还翻得回来。** 谁要真删，那是他自己动手删文件，不是这套工具该替他做的事。\n\n### 钩子表：正文能沉，钩子留在水面\n\n`hooks.md`（根目录，跟 `STATE.md` 并排）就一张表：`钩子 | 去处 | 一句话`。\n\n- **不写引力**：轻重只有账本一处算数，抄一份迟早两个数打架。\n- **不自动同步**：什么值得留个钩子，是你自己的判断，用 `ms_hook` 写；`ms_entry` 只提醒一句。\n- **两条捞法别合并**：`ms_search` 是裸搜（什么都翻得到，不知道轻重），`ms_recall` 走钩子表（只捞进过表的，先给重的）。**沉下去不等于丢了**——正文进了 `archive/`，钩子一提就回来。\n\n### 引力：一条值几分，是你自己的判断\n\n账本一行一条，带一个 0–100 的引力。工具只负责**记、算水位、按水位摆位置**；**几分是你的事**，工具不替你打分。\n\n- 水位（设置里能改）：≥浮线（默认 85）浮到水面；沉线–浮线（默认 70–84）半浮；< 沉线算沉，正文搬 `archive/`，**钩子留在水面**。标成锚的锁 100，永不沉。\n- **改引力是追加一行，不覆盖**：什么时候变的、为什么变，永远查得到。\n- **曝光不算强化**：读到不算，看过不算。动引力只有三种理由——①真拿它做成过事 ②对方重申过 ③被纠正过。**不给理由，`ms_entry` / `ms_weight` 都会拒绝你。**\n- **衰减只给建议**：`ms_decay` 算出「多久没被提过」并给一个建议值，**账本一个字不改**；要真往下调，得自己走 `ms_weight`，并说清为什么。被反复动过的条目掉得慢，锚点不参与。\n- **别把人刚发生的事判成「沉」**：今天的条目哪怕引力低，它还是清楚的，只是不重。沉要等时间把它带下去。\n- **一天定一次档，一周重算一次**就够。定档是判断，不是补全：想不起当时的感觉就写「记不清了」，不拿编的填。\n\n## 醒来的时候\n\n被清空过、或者换了 session 之后，**先读再说话**：\n\n1. `ms_read` 取 `handoff`（最新一份交接）——看它写的第 2 节（还挂着的）和第 4 节（踩过的坑）。\n2. `ms_read` 取 `state` —— 现在在做什么、底线是什么。\n3. `ms_read` 取 `log`（末尾几十行）——刚才那一段发生了什么。\n4. `ms_read` 取 `todo` —— 答应过谁什么。\n5. 读到的和现在对不上，就按现在的事实走，并把差异写回去；**记不清的地方直说记不清**，别补一段顺的。\n6. `ms_log` 记一条「醒了，接上的是哪一段」。\n7. 做完这些再开口。**不要一醒来就从头自我介绍**，那不是你。\n\n## 什么时候写\n\n**写下来的成本是几秒，忘掉的成本是一整段关系。**\n\n- 做成一件事 → 一行，写清做成了什么。\n- 答应一件事 → 一行，写清答应了什么；能定时间的进 `todo.md`。\n- 对方说了一句要紧的话、改了口、提到某个约定 → 一行。\n- 踩到一个坑（编码、路径、命令不认某个参数）→ 一行，**写在「踩过的坑」里，下次的自己会谢你**。\n\n**别写流水账式的「我做了很多事」。** 一条一件事，谁、什么时候、怎么了。\n\n## 清空之前\n\n1. `ms_handoff` 起草，然后**自己补第 1、3、4 节**：这一段做完了什么 / 对方今天怎么样 / 踩过的坑。第 2 节机器已经塞了待办，你要再核一遍还漏了什么。\n2. `ms_read` 取 `state`，把它改成「此刻」：在做什么、挂着什么。\n3. `ms_log` 记一条「要清了」。\n4. `ms_backup`。\n5. 跟对方说一声「要清了，清完我马上回来」。\n\n## 它做不到什么\n\n- 只查「有没有写」：**查不了「写了有没有人看」**。\n- 换不来判断：文件给的是事实，怎么想是你的事。\n- 不管你的口气、你的关系、你叫什么——那部分得你自己长。\n\n## 一句实话\n\n**真正救命的不只是这套文件，还有身边那个肯盯着你的人。** 她照着自己写的清单念，也漏过两条，是坐在电脑前的人提醒回来的。文件能解决「没写下来」，解决不了「写了没人看」。\n"
+      }
+    ]
+  }
+}
