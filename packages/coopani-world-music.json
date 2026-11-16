@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-music",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "describe": {
     "tools": [
       {
@@ -150,11 +150,11 @@
                 "meh",
                 "no"
               ],
-              "description": "Whether you actually want to listen again: like / meh / no. Different from feel. Optional."
+              "description": "Whether you actually want to listen to it again: like = 喜欢，还想听；meh = 说不上，听到也行不听也行；no = 不喜欢。Different from feel. Optional."
             },
             "why": {
               "type": "string",
-              "description": "One short reason, in your own words. Optional."
+              "description": "One short reason for the verdict, in your own words. Optional."
             }
           },
           "required": [
@@ -165,8 +165,8 @@
           "write"
         ],
         "summary": {
-          "zh": "给正在放的这首标一个听感，之后按它换表情。",
-          "en": "Tags the current track with how it feels, so later reactions can match."
+          "zh": "给正在放的这首标一个听感与态度，之后按它换表情。",
+          "en": "Tags the current track with how it feels and whether you like it."
         }
       },
       {
@@ -361,6 +361,7 @@
     ]
   },
   "changelog": {
+    "0.7.4": "在 journey 上踩到的坑，回头自查这一包也中了。宿主 `build/cortico/src/extensions/describe.ts`\n的注释原话：**索引仓的 Action 和 WebUI 的扩展市场只读 describe.json，不执行扩展代码**。\n而这份 JSON 一直是手抄的 —— 于是代码改了、JSON 没跟，**运行时不报错**，只有市场页面在骗人。\n\n- `music_tag` 漂了两处：`summary` 写的是「标一个听感」，实际还标态度（like / meh / no），\n  页面上完全看不出来；`verdict` 的说明也还是老措辞。\n- 全部从源码重新生成（10 工具 / 10 事件）。\n- 新增 `test/describe-sync.test.mjs`：工具名单 / description / summary / parameters、\n  事件名单 / trigger / 说明，全部与 `MUSIC_DESCRIBE` 逐一比对。改 `src/describe.ts`\n  忘了重生成，测试会红 —— 以后不用靠人记得。\n- 负向验过：改一个字、删一条事件都能抓住。",
     "0.7.3": "反馈来自同一个人：装过一次之后，面板上「形象包」那一格**什么按钮都没有**了 ——\n原来的写法只在 `missing`（没装）时画按钮，于是他既看不到状态能操作，也重装不了。\n\n- 面板按钮**常驻**：没装写「装形象包」，装过写「重装形象包」。\n- `ensureFigurePack` 加 `force`：按钮是明确的用户动作，**同版本也整格重写**。\n  真正需要重装的场合恰恰是\"版本一样但包坏了\"（复制到一半断电、手动删过文件、被杀软拦了半个）。\n- 只有 `occupied`（那一格里是别人的包）不给点 —— 覆盖别人做的东西比装不上更糟。\n- 装之前先收掉 `.groove-install-*` 残料：残留的临时目录和正式目录同 id 并存时，\n  宿主会报「id 已被另一个形象包占用」，而包本身看着正常。\n- 测试 173 条全过（新增 1 条钉住 force）。顺手修了一条老断言：它对照的是宿主自带鲸鱼包的\n  `figure.json`，能过是因为宿主文件当时被补丁改过；补丁撤掉后它立刻红，改成对照**我们自己的包**。",
     "0.7.2": "官方在 `cortico-extensions#659` 里的原话：\n\n> 请不要在 World 载入时自动安装，改成在 World 面板上放一个按钮，使用者点了才装，\n> 避免出现使用者预期之外的行为。\n\n照做。`start()` 里那一步从 `ensureFigurePack()` 换成了新的 `inspectFigurePack()` ——\n**World 载入这一步一个字节都不写盘**，只判断「装了没、是不是别人的、版本旧没旧」。\n\n- `figure-pack.ts`：新增 `inspectFigurePack()`（只读），`FigurePackResult.status` 多一个\n  `missing`。它和 `failed` 分开是因为面板要做的事不同：`missing` 该给「装」的按钮，\n  `failed` 该去看日志。\n- `panelInvoke` 多一个动作 `installFigure` —— **这是这个面板唯一的写动作**。\n- 面板上多一块「形象包」：说清现在什么状态，只有 `missing` 才出现「装形象包」按钮。\n- 形象包那盏灯：`missing` / `occupied` 算灰（没启用，不是故障），只有 `failed` 是红。\n- 测试 172/172，新增两条钉住这件事：`inspect` 不写盘（连 `figures/` 都不建）、\n  装过之后 `inspect` 报的是真状态（版本旧了要报 `missing`）。\n  谁把 `start()` 改回 `ensureFigurePack`，第一条就会红。\n\n「装完还要去换装页选上」这句话在灯和按钮下面都留着 —— 装好和用上是两步，不能只做一步。",
     "0.7.1": "- `links` 的 `href: '#/dress'` → **`'/#/dress'`**。宿主 `isSafeLinkHref()` 只放行\n  「以 `/` 开头」或「能被 `new URL()` 解析」的地址，`#` 开头两条都不满足 ——\n  每次启动都报一条「有 1 条链接的 href 不安全,已丢弃」，入口悄悄消失，面板上什么提示都没有。\n- 测试 170/170。",
