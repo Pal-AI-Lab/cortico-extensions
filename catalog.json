@@ -1379,7 +1379,7 @@
     },
     "@wocwang/cortico-world-singer-for-coopanion": {
       "kind": "world",
-      "version": "0.1.21",
+      "version": "0.1.22",
       "displayName": "DiffSinger唱歌",
       "description": "Cortico World for Coopanion: let the pet improvise a line and sing it on the spot with DiffSinger (Qixuan voicebank), optionally through RVC",
       "locales": {
@@ -1415,8 +1415,8 @@
         "win32"
       ],
       "created": "2026-10-29T02:52:13.755Z",
-      "published": "2026-11-16T00:54:46.812Z",
-      "versionCount": 5,
+      "published": "2026-11-16T01:36:51.637Z",
+      "versionCount": 6,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -1446,6 +1446,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.22",
           "0.1.21",
           "0.1.20",
           "0.1.19",
@@ -4352,6 +4353,7 @@
         "local",
         "external-setup",
         "experimental",
+        "unsafe",
         "injection-risk",
         "unofficial-api"
       ],
@@ -4668,7 +4670,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/756",
         "up": 0,
         "down": 0,
-        "comments": 2
+        "comments": 3
       }
     },
     "cortico-world-asr": {
@@ -5481,7 +5483,7 @@
     },
     "cortico-world-bilibili": {
       "kind": "world",
-      "version": "0.2.15",
+      "version": "0.2.16",
       "displayName": "B 站直播间",
       "description": "Cortico World: read-only Bilibili live room — danmaku, gifts, super chats and guard events, with a local transparent overlay",
       "author": "Pal AI Lab",
@@ -5502,8 +5504,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:39.729Z",
-      "published": "2026-11-12T20:06:12.694Z",
-      "versionCount": 27,
+      "published": "2026-11-16T02:34:10.834Z",
+      "versionCount": 28,
       "official": true,
       "isNew": false,
       "tags": [
@@ -5878,8 +5880,7 @@
       "tags": [
         "memory",
         "companion",
-        "creative",
-        "injection-risk"
+        "creative"
       ],
       "icon": "assets/cortico-world-bookfish/icon.png",
       "screenshots": [
@@ -12678,7 +12679,7 @@
       "versionCount": 7,
       "deprecated": "已停止维护，不再更新。卸载前请先在「模型」页把当前供应商切回原来的端点，再卸掉活人感的两个扩展。",
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "companion",
         "internal-state",
@@ -15261,7 +15262,7 @@
     },
     "cortico-world-minecraft": {
       "kind": "world",
-      "version": "0.2.15",
+      "version": "0.2.16",
       "displayName": "Minecraft",
       "description": "Cortico World: Minecraft Java Edition through a Mineflayer player — observation text, movement, building, combat and an observer client",
       "author": "Pal AI Lab",
@@ -15282,8 +15283,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:42.066Z",
-      "published": "2026-11-12T20:06:52.198Z",
-      "versionCount": 26,
+      "published": "2026-11-16T02:33:32.734Z",
+      "versionCount": 27,
       "official": true,
       "isNew": false,
       "tags": [
@@ -16269,7 +16270,7 @@
       "published": "2026-11-12T18:35:01.772Z",
       "versionCount": 5,
       "official": false,
-      "isNew": false,
+      "isNew": true,
       "declaredTags": [
         "voice",
         "requires-key",
@@ -17294,6 +17295,7 @@
       },
       "changelog": {
         "versions": [
+          "0.45.2",
           "0.45.1",
           "0.45.0",
           "0.44.0",
@@ -18626,7 +18628,7 @@
     },
     "cortico-world-qq": {
       "kind": "world",
-      "version": "0.2.15",
+      "version": "0.2.16",
       "displayName": "QQ",
       "description": "Cortico World: QQ group and private chats through a OneBot v11 forward WebSocket, with a draft-and-confirm gate on replies",
       "author": "Pal AI Lab",
@@ -18647,8 +18649,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:41:03.758Z",
-      "published": "2026-11-12T20:06:06.691Z",
-      "versionCount": 25,
+      "published": "2026-11-16T02:33:06.071Z",
+      "versionCount": 26,
       "official": true,
       "isNew": false,
       "tags": [
@@ -25267,7 +25269,7 @@
     },
     "cortico-world-warthunder": {
       "kind": "world",
-      "version": "0.5.6",
+      "version": "0.6.0",
       "displayName": "war thunder安东星助手",
       "description": "在对话中提供战争雷霆的本地百科、战局播报与对局翻译。知识库覆盖概念、载具与玩法，可检索、可更新；读取本机 8111 遥测讲解战局、为击毁喝彩、为逆风打气，并可翻译对局聊天、代写要发的话；遥测不可用时可用截图 OCR 兜底；文案可按设定人格改写，模型与花费可配置。",
       "locales": {
@@ -25304,8 +25306,8 @@
         "bugs": "https://github.com/suhong11300/cortico-world-warthunder/issues"
       },
       "created": "2026-10-26T12:03:41.166Z",
-      "published": "2026-11-10T12:40:18.497Z",
-      "versionCount": 20,
+      "published": "2026-11-16T02:52:00.465Z",
+      "versionCount": 21,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -25349,6 +25351,7 @@
       },
       "changelog": {
         "versions": [
+          "0.6.0",
           "0.5.6",
           "0.5.5",
           "0.5.4",
@@ -25867,7 +25870,7 @@
     },
     "cortico-world-websearch": {
       "kind": "world",
-      "version": "0.2.15",
+      "version": "0.2.16",
       "displayName": "WebSearch",
       "description": "Cortico World: a web_search tool backed by the Brave Search API or the DeepSeek Search API",
       "author": "Pal AI Lab",
@@ -25889,8 +25892,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:50.954Z",
-      "published": "2026-11-12T20:06:17.952Z",
-      "versionCount": 27,
+      "published": "2026-11-16T02:35:47.214Z",
+      "versionCount": 28,
       "official": true,
       "isNew": false,
       "tags": [
