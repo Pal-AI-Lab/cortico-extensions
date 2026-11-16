@@ -396,6 +396,303 @@
         "comments": 2
       }
     },
+    "@horizoncloudy/cortico-world-astrbot-bridge": {
+      "kind": "world",
+      "version": "0.1.2",
+      "displayName": "AstrBot · QQ (CBP)",
+      "description": "经 CBP 连接 AstrBot 的桥，收编旧私有帧协议并保留两阶段升级路径。",
+      "locales": {
+        "zh": {
+          "displayName": "AstrBot · QQ (CBP)",
+          "description": "经 CBP 连接 AstrBot 的桥，收编旧私有帧协议并保留两阶段升级路径。"
+        },
+        "en": {
+          "displayName": "AstrBot · QQ (CBP)",
+          "description": "Bridge to AstrBot over CBP, absorbing the legacy private-frame protocol with a two-phase upgrade path."
+        }
+      },
+      "author": "云朵",
+      "maintainers": [
+        "horizoncloudy"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "astrbot",
+        "bridge",
+        "cbp"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/@horizoncloudy/cortico-world-astrbot-bridge",
+        "repository": "https://github.com/HorizonCloudy/cortico-bridge-fleet",
+        "homepage": "https://github.com/HorizonCloudy/cortico-bridge-fleet#readme",
+        "bugs": "https://github.com/HorizonCloudy/cortico-bridge-fleet/issues"
+      },
+      "created": "2026-11-16T12:50:46.432Z",
+      "published": "2026-11-16T14:29:22.579Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "apps",
+        "external-setup",
+        "unofficial-api"
+      ],
+      "tags": [
+        "apps",
+        "external-setup",
+        "unofficial-api"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 5,
+        "toolTokens": 430,
+        "envPromptTokens": 328
+      },
+      "changelog": {
+        "versions": [
+          "0.1.2",
+          "0.1.0"
+        ],
+        "url": "https://github.com/HorizonCloudy/cortico-bridge-fleet/blob/HEAD/packages/cortico-world-astrbot-bridge/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 986,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/986",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "@horizoncloudy/cortico-world-maibot": {
+      "kind": "world",
+      "version": "0.1.2",
+      "displayName": "MaiBot · QQ (CBP)",
+      "description": "经 CBP v1 帧协议连接 MaiBot 的桥：监听 WebSocket、能力协商、出站门与对端工具清单。",
+      "locales": {
+        "zh": {
+          "displayName": "MaiBot · QQ (CBP)",
+          "description": "经 CBP v1 帧协议连接 MaiBot 的桥：监听 WebSocket、能力协商、出站门与对端工具清单。"
+        },
+        "en": {
+          "displayName": "MaiBot · QQ (CBP)",
+          "description": "Bridge to MaiBot over CBP v1 frames: WS listen, capability negotiation, egress door and the peer tool catalog."
+        }
+      },
+      "author": "云朵",
+      "maintainers": [
+        "horizoncloudy"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "maibot",
+        "bridge",
+        "cbp"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/@horizoncloudy/cortico-world-maibot",
+        "repository": "https://github.com/HorizonCloudy/cortico-bridge-fleet",
+        "homepage": "https://github.com/HorizonCloudy/cortico-bridge-fleet#readme",
+        "bugs": "https://github.com/HorizonCloudy/cortico-bridge-fleet/issues"
+      },
+      "created": "2026-11-16T12:50:36.012Z",
+      "published": "2026-11-16T14:28:44.065Z",
+      "versionCount": 4,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "apps",
+        "external-setup",
+        "unofficial-api"
+      ],
+      "tags": [
+        "apps",
+        "external-setup",
+        "unofficial-api"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 5,
+        "toolTokens": 283,
+        "envPromptTokens": 381
+      },
+      "changelog": {
+        "versions": [
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/HorizonCloudy/cortico-bridge-fleet/blob/HEAD/packages/cortico-world-maibot/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 987,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/987",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "@horizoncloudy/cortico-world-neko": {
+      "kind": "world",
+      "version": "0.1.2",
+      "displayName": "N.E.K.O · 猫娘 (CBP)",
+      "description": "经 CBP v1 帧协议连接 N.E.K.O 猫娘平台的桥：双角色 WebSocket、能力协商、出站门与身份登记。",
+      "locales": {
+        "zh": {
+          "displayName": "N.E.K.O · 猫娘 (CBP)",
+          "description": "经 CBP v1 帧协议连接 N.E.K.O 猫娘平台的桥：双角色 WebSocket、能力协商、出站门与身份登记。"
+        },
+        "en": {
+          "displayName": "N.E.K.O · 猫娘 (CBP)",
+          "description": "Bridge to the N.E.K.O pet platform over CBP v1 frames: dual-role WebSocket, capability negotiation, egress doors and turn identity."
+        }
+      },
+      "author": "云朵",
+      "maintainers": [
+        "horizoncloudy"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "neko",
+        "bridge",
+        "cbp"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/@horizoncloudy/cortico-world-neko",
+        "repository": "https://github.com/HorizonCloudy/cortico-bridge-fleet",
+        "homepage": "https://github.com/HorizonCloudy/cortico-bridge-fleet#readme",
+        "bugs": "https://github.com/HorizonCloudy/cortico-bridge-fleet/issues"
+      },
+      "created": "2026-11-16T12:50:26.655Z",
+      "published": "2026-11-16T14:28:14.799Z",
+      "versionCount": 4,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "apps",
+        "external-setup",
+        "unofficial-api"
+      ],
+      "tags": [
+        "apps",
+        "external-setup",
+        "unofficial-api"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 5,
+        "toolTokens": 546,
+        "envPromptTokens": 648
+      },
+      "changelog": {
+        "versions": [
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/HorizonCloudy/cortico-bridge-fleet/blob/HEAD/packages/cortico-world-neko/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 988,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/988",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "@horizoncloudy/cortico-world-onebot-bridge": {
+      "kind": "world",
+      "version": "0.1.2",
+      "displayName": "OneBot Bridge",
+      "description": "接任意 OneBot v11 实现的桥：正向 WebSocket、通用 action 调度与动作目录覆盖度。",
+      "locales": {
+        "zh": {
+          "displayName": "OneBot Bridge",
+          "description": "接任意 OneBot v11 实现的桥：正向 WebSocket、通用 action 调度与动作目录覆盖度。"
+        },
+        "en": {
+          "displayName": "OneBot Bridge",
+          "description": "Bridge to any OneBot v11 implementation: forward WebSocket, a generic action dispatcher and catalog coverage."
+        }
+      },
+      "author": "Coopanion bridge fleet",
+      "maintainers": [
+        "horizoncloudy"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "onebot",
+        "onebot-v11",
+        "qq",
+        "napcat",
+        "snowluma",
+        "llonebot"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/@horizoncloudy/cortico-world-onebot-bridge",
+        "repository": "https://github.com/HorizonCloudy/cortico-bridge-fleet",
+        "homepage": "https://github.com/HorizonCloudy/cortico-bridge-fleet#readme",
+        "bugs": "https://github.com/HorizonCloudy/cortico-bridge-fleet/issues"
+      },
+      "created": "2026-11-16T12:50:55.494Z",
+      "published": "2026-11-16T14:29:31.670Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "qq"
+      ],
+      "tags": [
+        "qq"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 4,
+        "toolTokens": 568,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.2",
+          "0.1.0"
+        ],
+        "url": "https://github.com/HorizonCloudy/cortico-bridge-fleet/blob/HEAD/packages/cortico-world-onebot-bridge/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 989,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/989",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "@idxlz-0705/cortico-world-wows": {
       "kind": "world",
       "version": "0.3.1",
@@ -1854,7 +2151,7 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "1.8.13",
+      "version": "1.8.14",
       "displayName": "大肥鱼环游世界",
       "description": "让桌宠真的出门旅行：一百八十八座城、每座都有真地标，她自己挑去哪、怎么去，路上真耗那些时间；到站按当地时间吃饭、看日出、住店、写日记，月底出一页手账。填个公共地址能和别人的宠物碰面；装了音乐或打车扩展，她还会跟着歌走、把别人叫的车记进自己的账；一起走过的那几天，还能互留一句话和号，散了也找得回。需 Coopani 0.2.17 以上。",
       "locales": {
@@ -1892,8 +2189,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-16T06:58:28.264Z",
-      "versionCount": 159,
+      "published": "2026-11-16T14:48:19.110Z",
+      "versionCount": 160,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2112,7 +2409,7 @@
     },
     "coopani-world-life": {
       "kind": "world",
-      "version": "0.10.4",
+      "version": "0.11.0",
       "displayName": "模拟鱼生",
       "description": "模拟鱼生 · 需要 Coopani 0.2.17+：给她一本过日子的账 —— 五条需求会自己掉，职业、住处、钱、目标全在面板上。",
       "locales": {
@@ -2148,8 +2445,8 @@
         "bugs": "https://github.com/fateSSD/coopani-world-life/issues"
       },
       "created": "2026-11-15T03:01:26.063Z",
-      "published": "2026-11-15T15:14:54.576Z",
-      "versionCount": 14,
+      "published": "2026-11-16T14:47:44.625Z",
+      "versionCount": 15,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2167,9 +2464,9 @@
         "week": 2128
       },
       "summary": {
-        "tools": 11,
+        "tools": 13,
         "events": 3,
-        "toolTokens": 941,
+        "toolTokens": 1101,
         "envPromptTokens": 0
       },
       "changelog": {
@@ -3945,7 +4242,7 @@
     },
     "cortico-provider-opencode": {
       "kind": "provider",
-      "version": "0.6.3",
+      "version": "0.6.4",
       "description": "OpenCode 的模型供应商:默认走 Go 订阅的额度,支持 Responses、Chat、Messages 与 Gemini,内置价目与额度面板。",
       "author": "云纪",
       "maintainers": [
@@ -3966,8 +4263,8 @@
         "bugs": "https://github.com/Unnori/cortico-provider-opencode/issues"
       },
       "created": "2026-10-28T07:37:12.362Z",
-      "published": "2026-11-13T08:37:42.667Z",
-      "versionCount": 11,
+      "published": "2026-11-16T14:32:01.517Z",
+      "versionCount": 12,
       "official": false,
       "isNew": false,
       "tags": [],
@@ -3995,6 +4292,7 @@
       },
       "changelog": {
         "versions": [
+          "0.6.4",
           "0.6.3",
           "0.6.2",
           "0.6.1",
@@ -11676,7 +11974,7 @@
       "published": "2026-11-10T09:50:37.943Z",
       "versionCount": 11,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "qq",
         "im",
@@ -12513,7 +12811,7 @@
     },
     "cortico-world-hands": {
       "kind": "world",
-      "version": "0.20.55",
+      "version": "0.20.60",
       "displayName": "手",
       "description": "Cortico World: hands for the desktop pet — looks at the phone screen, then taps, swipes, pinches, drags, types and presses keys through whatever actuator the device actually has",
       "maintainers": [
@@ -12531,8 +12829,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-hands"
       },
       "created": "2026-10-22T14:40:37.506Z",
-      "published": "2026-11-11T16:25:34.850Z",
-      "versionCount": 93,
+      "published": "2026-11-16T14:10:42.667Z",
+      "versionCount": 98,
       "official": false,
       "isNew": false,
       "tags": [
@@ -12556,7 +12854,7 @@
     },
     "cortico-world-hearthstone": {
       "kind": "world",
-      "version": "0.8.3",
+      "version": "0.8.4",
       "displayName": "炉石陪打",
       "description": "陪打炉石（需 Coopani 0.2.17+）:读对局日志,就知道双方血量、场面、手牌和水晶。该开口时开口:该解场还是该压、费够不够上那张大牌、对面有没有斩杀。只看不动手,不代打;第一次启动会替你把 Power 日志打开。打完能陪你复盘:哪一手走了岔路、她当时建议什么,也记得住最近几十局的战绩。她自己还有一份打法档案——信哪一套、看不惯什么,边打边写,越打越像她;但算出的斩杀她照样得喊,风格盖不住账。竞技场也认。",
       "locales": {
@@ -12592,8 +12890,8 @@
         "darwin"
       ],
       "created": "2026-10-27T13:42:43.161Z",
-      "published": "2026-11-16T07:29:28.574Z",
-      "versionCount": 39,
+      "published": "2026-11-16T14:47:43.782Z",
+      "versionCount": 40,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -15760,7 +16058,7 @@
     },
     "cortico-world-mosey": {
       "kind": "world",
-      "version": "2.8.4",
+      "version": "2.9.0",
       "displayName": "摸鱼",
       "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。评论和私信都能收能回；能一起看视频（B站带字幕弹幕，抖音可自动连刷）；关注流、周报、本地书库；按额度点赞、评论、关注、发动态。默认人审，三把工具、少 token。\n\nQQ 交流群：745879632",
       "locales": {
@@ -15797,8 +16095,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-mosey/issues"
       },
       "created": "2026-11-01T08:17:38.660Z",
-      "published": "2026-11-16T12:20:54.093Z",
-      "versionCount": 58,
+      "published": "2026-11-16T13:43:46.788Z",
+      "versionCount": 59,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -15835,6 +16133,7 @@
       },
       "changelog": {
         "versions": [
+          "2.9.0",
           "2.8.4",
           "2.8.3",
           "2.8.2",
@@ -16122,6 +16421,87 @@
         "up": 1,
         "down": 0,
         "comments": 1
+      }
+    },
+    "cortico-world-msfs-copilot": {
+      "kind": "world",
+      "version": "0.1.5",
+      "displayName": "Flight Copilot",
+      "description": "Cortico World: reads MSFS 2020 SimConnect telemetry and sits in the right seat as a monitoring pilot",
+      "locales": {
+        "zh": {
+          "displayName": "飞行副驾",
+          "description": "《微软模拟飞行 2020》的副驾：读 SimConnect 遥测，盯飞行状态、告警、自动驾驶和导航，在起飞、巡航、下降、进近和接地时开口。"
+        },
+        "en": {
+          "displayName": "Flight Copilot",
+          "description": "Copilot for Microsoft Flight Simulator 2020: reads SimConnect telemetry, watches flight state, warnings, autopilot and navigation, and speaks up at takeoff, cruise, descent, approach and touchdown."
+        }
+      },
+      "author": "bluemika111",
+      "maintainers": [
+        "bluemika"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "msfs",
+        "flightsimulator",
+        "simconnect",
+        "copilot"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-msfs-copilot",
+        "repository": "https://github.com/bluemika111/cortico-world-msfs-copilot",
+        "homepage": "https://github.com/bluemika111/cortico-world-msfs-copilot#readme",
+        "bugs": "https://github.com/bluemika111/cortico-world-msfs-copilot/issues"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-11-16T13:03:25.331Z",
+      "published": "2026-11-16T13:33:18.228Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "game",
+        "apps"
+      ],
+      "tags": [
+        "game",
+        "apps"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 8,
+        "events": 10,
+        "toolTokens": 1179,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.5",
+          "0.1.4",
+          "0.1.3",
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/bluemika111/cortico-world-msfs-copilot/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 990,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/990",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-mspaint": {
@@ -21193,7 +21573,7 @@
     },
     "cortico-world-self-awareness": {
       "kind": "world",
-      "version": "0.5.0",
+      "version": "0.6.1",
       "displayName": "自我意识",
       "description": "桌宠自己的内在时间线：没人说话的时候她也在想事情——想起旧事、走神、反复琢磨一件没想明白的。\n\n它只负责「想」：想到的写在本机一个文件里，不发消息，也不占对话的 token。配合「记忆核心」使用——你开口时，记忆核心会挑一条带进上下文，标明时间，并说清那不一定是你现在的想法。单独装也能跑，但那是一本她自己不会翻的日记。\n\n模型自选，OpenAI 兼容接口就行；默认一天最多 12 次，一次几分钱。\n\nQQ 交流群：745879632",
       "locales": {
@@ -21225,8 +21605,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-self-awareness/issues"
       },
       "created": "2026-11-15T15:19:58.760Z",
-      "published": "2026-11-15T17:24:48.191Z",
-      "versionCount": 6,
+      "published": "2026-11-16T13:51:14.545Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -21253,7 +21633,7 @@
       },
       "changelog": {
         "versions": [
-          "0.5.0"
+          "0.6.1"
         ],
         "url": "https://github.com/liqin1018/cortico-world-self-awareness/blob/HEAD/CHANGELOG.md"
       },
@@ -24825,7 +25205,7 @@
     },
     "cortico-world-usage-relay": {
       "kind": "world",
-      "version": "0.9.6",
+      "version": "0.9.7",
       "displayName": "Token 账房",
       "description": "Token 到底花在哪了？每小时曲线、点柱子看每分钟、模型分布，一眼看清；同一个模型，不同中转站能差几倍价——一键批量测速、按品牌对照延迟与价格；账单还能逐项体检：单价、缓存、有没有偷换模型。全本地统计，不花一个 token。\n\nQQ 交流群：745879632",
       "locales": {
@@ -24858,8 +25238,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-usage-relay/issues"
       },
       "created": "2026-11-03T18:26:38.047Z",
-      "published": "2026-11-13T12:46:23.939Z",
-      "versionCount": 6,
+      "published": "2026-11-16T14:08:28.803Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -26335,7 +26715,7 @@
     },
     "cortico-world-wechat-claw": {
       "kind": "world",
-      "version": "0.1.7",
+      "version": "0.1.8",
       "displayName": "微信 ClawBot",
       "description": "在微信里和桌宠一对一聊天：文字、图片、文件双向收发，按 Provider 能力传入原生音视频，不支持视频时抽帧理解。",
       "locales": {
@@ -26371,8 +26751,8 @@
         "bugs": "https://github.com/Unnori/cortico-world-wechat-claw/issues"
       },
       "created": "2026-10-27T12:04:10.102Z",
-      "published": "2026-11-16T11:42:45.112Z",
-      "versionCount": 8,
+      "published": "2026-11-16T14:47:38.887Z",
+      "versionCount": 9,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -26394,10 +26774,11 @@
         "tools": 5,
         "events": 2,
         "toolTokens": 902,
-        "envPromptTokens": 1047
+        "envPromptTokens": 1072
       },
       "changelog": {
         "versions": [
+          "0.1.8",
           "0.1.7",
           "0.1.6",
           "0.1.5",
@@ -26547,7 +26928,7 @@
       "published": "2026-11-02T14:44:48.713Z",
       "versionCount": 5,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "im",
         "external-setup",
@@ -26627,7 +27008,7 @@
       "published": "2026-11-06T15:51:41.836Z",
       "versionCount": 6,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "diagnostics"
       ],
@@ -27265,7 +27646,7 @@
       "published": "2026-11-13T12:19:00.979Z",
       "versionCount": 6,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "diagnostics",
         "external-setup"

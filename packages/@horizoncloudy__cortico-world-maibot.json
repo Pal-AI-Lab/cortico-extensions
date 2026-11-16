@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "name": "@horizoncloudy/cortico-world-maibot",
+  "version": "0.1.2",
+  "describe": {
+    "tools": [
+      {
+        "name": "maibot_status",
+        "description": "Report bridge connection, negotiated CBP caps, peer tool catalog and degraded list.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "报连接态、协商到的 caps、对端 catalog 与降级清单。",
+          "en": "Reports connection, negotiated caps, peer catalog, degraded list."
+        }
+      },
+      {
+        "name": "maibot_history",
+        "description": "Read archived maibot.* events from the Cortico event store. Never queries the peer.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "conv": {
+              "type": "string"
+            },
+            "limit": {
+              "type": "integer"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读 Cortico 事件库里本 world 的归档，不查对端。",
+          "en": "Reads this world's archive from the event store, never the peer."
+        }
+      },
+      {
+        "name": "maibot_peer_call",
+        "description": "Call a peer tool by name. Only names in the peer catalog are accepted. Runs with the identity of the message that started this turn; a turn without a bridge message is refused.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "tool": {
+              "type": "string"
+            },
+            "args": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "tool"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "按名字调对端已申报的工具，用本轮触发消息的身份执行。",
+          "en": "Calls a catalog-declared peer tool with this turn's identity."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "maibot.message",
+        "description": {
+          "zh": "桥送来的消息；点名/私聊立即投递，其余合批。",
+          "en": "Bridge message; flush when mentioned or direct, otherwise batched."
+        }
+      },
+      {
+        "type": "maibot.message.self",
+        "description": {
+          "zh": "桥账号自己发出的回声，只归档不唤醒。",
+          "en": "Echo of the bridge account itself; archived without waking the model."
+        }
+      },
+      {
+        "type": "maibot.notice",
+        "description": {
+          "zh": "状态通知（撤回、群变更等），只排队。",
+          "en": "Status notice relayed by the bridge; queued only."
+        }
+      },
+      {
+        "type": "maibot.connection",
+        "description": {
+          "zh": "桥连接/断开与协商结果变化。",
+          "en": "Bridge up/down and negotiation changes."
+        }
+      },
+      {
+        "type": "maibot.degraded",
+        "description": {
+          "zh": "保真降级位：未知段、模型不吃附件、门未开等。",
+          "en": "Fidelity degraded: unknown segment, rejected blob, door closed."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.maibot.envPrompt",
+        "title": "MaiBot 桥 · 环境提示词",
+        "role": "envPrompt",
+        "content": "你在 MaiBot 桥这一头。你的话不是自己直接发出去的：线路的另一头是 MaiBot，\n它替你连平台与账号；你只负责说什么，它负责发。\n\n{{maibot.connection}}\n{{maibot.scope}}\n{{maibot.selfEcho}}\n{{maibot.accounts}}\n\n你能看到的会话：\n{{maibot.conversations}}\n\n对端桥已申报的工具（用 `maibot_peer_call` 按名字调，用本轮触发消息的身份执行）：\n{{maibot.tools}}\n\n## 回话规则\n\n- 本腿目前没接到「出站发到 IM」的能力：桥的 hello.tools 为空，发信腿属阶段二工单。\n  现在要回话，用桌宠自己的说话面（不打扰群里），别拿桥冒充平台回复。\n- 桥一旦申报了某能力，`maibot_peer_call` 才按名字下发。对端没申报的能力，本地先判 60002，绝不盲发。\n- 回执写 60007 send_uncertain 时，消息可能已经发出：先向对端确认，不要盲目重发。\n\n## 协商与降级\n\n- 「CBP v1」= 对端桥（cortico-bridge-maibot）申报了能力表，段格式与工具目录走\n  统一帧协商；桥只走 MaiBot 的 capabilities 面，不依赖 compat 兼容门面。\n- 保真降级记录：\n{{maibot.degraded}}\n\n降级位含义：未知段以 `[类型]` 占位保留（不吞消息）；`model-rejects:<mime>` = 当前模型\n不吃该 MIME，附件没进上下文；`egress-closed` = 有工具试图发言但门是关的；\n`self-unknown` = 桥没报来实证 self（proven:false），回声抑制关着（`self-echo:off`），\n你发的每条都会照常进上下文——这是显式降级，不是丢消息。\n桥断线期间的消息按设计丢失（v1 无断线补课，history_backfill 不申报）。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.2": "- 面板「桥状态」补客户端产物：`src/webui/client.js`，`cortico.webUiClient` 声明它。\n- 描述改简体中文，并补 `cortico.locales.zh` / `.en` 两份。\n- 服务端补 `webUi().panels` 与 `invoke('status','get')`，面板数据面与状态工具同源。",
+    "0.1.1": "- 内核依赖从 `^0.1.0` 收紧到 `^0.1.1`。",
+    "0.1.0": "首个版本：Cortico 侧 MaiBot world 包。CBP v1 帧 over WS **监听端**；帧编解码、\n驱动、档位、段渲染、错误码、协商全部 import `cortico-bridge-core`\n（`file:` 依赖，零复制粘贴）。\n\n- 装载契约：`cortico` 块 `kind:\"world\"`、`api:6`、`describe:\"describe.json\"`；\n  `main` 指 `src/definition.ts`；`id = 'maibot'`（config.ts:15）。\n- 连接：缺省监听 `ws://127.0.0.1:39702`（config.ts:31；端口单源\n  `spec/pins.json` ↔ 内核 pins.ts:111），桥仓 cortico-bridge-maibot 外拨进来；\n  token 只走 `Authorization: Bearer` 头；`start()` 12s 上限放行、永不 reject。\n- self 申报：`WORLD_SELF = { id:'', name:'Cortico', proven:false }`（world.ts:60）\n  ——Cortico 无 IM 实证位，按 SECURITY-CBP 诚实报 proven:false；\n  `self_echo` 不申报（caps-lie 守卫）。\n- caps 面：`images / notices / tools`（world.ts:53）；能力名只对接\n  MaiBot capabilities 层（`send.text`、`chat.get_all_streams`），不依赖\n  compat/apis 的 48 个 silent 桩（README §1 表，r-maibot §6）。\n- 工具五件（名字均 ⊆ describe.tools，且与 hello tools[] 目录同源单份\n  `peerToolCatalog`，world.ts:553-561）：`maibot_send_message`（write，\n  world.ts:87）、`maibot_status`（read，:106）、`maibot_history`（read，:113）、\n  `maibot_peer_call`（write，:125）、`maibot_streams`（read，:141，转\n  `chat.get_all_streams`，能力名逐字 maibot-plugin-sdk chat.py:57-59 @f9984673d）。\n- 事件投影：`maibot.message / maibot.message.self / maibot.notice /\n  maibot.connection / maibot.degraded`（describe.json events，与 world.ts:519\n  `pushStatusEvent` 类型一致）；mention/direct→flush、其余 debounce、\n  实证回声 `deliver:false` 只归档、`meta.raw` 恒留。\n- 出站门：`egress:false` 缺省关（config.ts:4，关→60005 door_closed）；\n  限流缺省 20/分（world.ts:540-544 滑窗）。\n- 测试：`node --test tests/`（definition/normalize/world 三线，假驱动注入，\n  不碰 WebSocket）；框架闸 `tsx tests/drymount-gate.mts`（checkDescribe 口径）。\n\n骨架阶段未做（阶段二+）：图片 blobs 投递前检查、市场发布线、断线补课。\n对面桥仓 hello 的 tools[] 申报与上表五件是否一致，由 M2 工单跟进\n（reports/M2-maibot-hello-self.md）。"
+  }
+}

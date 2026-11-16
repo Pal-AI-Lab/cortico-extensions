@@ -1,0 +1,158 @@
+{
+  "schema": 1,
+  "name": "@horizoncloudy/cortico-world-neko",
+  "version": "0.1.2",
+  "describe": {
+    "tools": [
+      {
+        "name": "neko_send_message",
+        "description": "Send text (plus optional inline image segments) into a N.E.K.O conversation via the bridge. Only works while egress is open; closed door returns 60005 door_closed. Needs a bridge message in this turn: without one it returns 60004 unknown_session (the call identity comes from the inbound record, never from arguments). External-URL images and audio/video segments are refused locally (host has no upload API for them).",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "conv": {
+              "type": "string",
+              "description": "neko conversation_id（neko.message 的 senderKey/conv）。"
+            },
+            "text": {
+              "type": "string"
+            },
+            "segments": {
+              "type": "array",
+              "description": "CBP v11 形段（image 只认内联 base64）。"
+            }
+          },
+          "required": [
+            "conv",
+            "text"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "经桥向 N.E.K.O 会话发消息；出站门关着直接回 60005，本轮没有桥消息回 60004，超 caps.neko 帧上限（pins 单源）本地先拒回 60003。",
+          "en": "Send text through the bridge; 60005 while the egress door is closed, 60004 without a bridge message this turn, 60003 for oversized payloads."
+        }
+      },
+      {
+        "name": "neko_status",
+        "description": "Report bridge connection, role, negotiated CBP caps, peer tool catalog, consent state and degraded list.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "报连接角色、协商到的 caps、consent 等待态、对端 catalog 与降级清单。",
+          "en": "Reports role, negotiated caps, consent state, peer catalog, degraded list."
+        }
+      },
+      {
+        "name": "neko_history",
+        "description": "Read archived neko.* events from the Cortico event store. Never queries the peer (convmap lives in the bridge plugin and is host-invisible).",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "conv": {
+              "type": "string"
+            },
+            "limit": {
+              "type": "integer"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读 Cortico 事件库里本 world 的归档，不查对端（桥侧 convmap 宿主不可见）。",
+          "en": "Reads this world's archive from the event store, never the peer's convmap."
+        }
+      },
+      {
+        "name": "neko_peer_call",
+        "description": "Call a peer tool by name. Only names in the peer catalog are accepted. Runs with the identity of the message that started this turn; a turn without a bridge message is refused.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "tool": {
+              "type": "string"
+            },
+            "args": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "tool"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "按名字调对端已申报的工具，用本轮触发消息的身份执行。",
+          "en": "Calls a catalog-declared peer tool with this turn's identity."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "neko.message",
+        "description": {
+          "zh": "桥送来的消息；点名/私聊立即投递，其余合批。",
+          "en": "Bridge message; flush when mentioned or direct, otherwise batched."
+        }
+      },
+      {
+        "type": "neko.message.self",
+        "description": {
+          "zh": "命中桥自报 id 的回声，只归档不唤醒。",
+          "en": "Echo matching the bridge self id; archived without waking the model."
+        }
+      },
+      {
+        "type": "neko.notice",
+        "description": {
+          "zh": "状态通知（含 consent 等待态上报），只排队。",
+          "en": "Status notice relayed by the bridge (incl. consent pending state); queued only."
+        }
+      },
+      {
+        "type": "neko.connection",
+        "description": {
+          "zh": "桥连接/断开与协商结果变化。",
+          "en": "Bridge up/down and negotiation changes."
+        }
+      },
+      {
+        "type": "neko.degraded",
+        "description": {
+          "zh": "保真降级位：未知段、外部 URL 图、无上传 API 媒体、门未开等。",
+          "en": "Fidelity degraded: unknown segment, external URL image, no-upload media, door closed."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.neko.envPrompt",
+        "title": "N.E.K.O 桥 · 环境提示词",
+        "role": "envPrompt",
+        "content": "你在 N.E.K.O 桥这一头。你的话不是自己直接发出去的：线路的另一头是 N.E.K.O 猫娘宿主，\n桥插件（cortico-bridge-neko）替你连它；你只负责说什么，它负责经 push_message v2 送进去。\n\n{{neko.connection}}\n{{neko.scope}}\n{{neko.self}}\n\n你能看到的会话：\n{{neko.conversations}}\n\nconsent 等待态（首启闸没放行前消息进不去，这是正常态不是故障）：\n{{neko.consent}}\n\n对端桥启用的工具（用 `neko_peer_call` 按名字调，用本轮触发消息的身份执行）：\n{{neko.tools}}\n\n## 回话规则\n\n- N.E.K.O 会话只能用 `neko_send_message` 回。conv 参数用事件里带的会话键\n  （conversation_id，见 meta.conv / senderKey）。\n- 出站门（egress）关着时该工具直接回 60005 door_closed —— 这是配置状态，不是失败重试的理由。\n- 每条出站调用都钉在触发本轮的那条入站消息上（帧里的 turn/actor 由系统从实证记录填，\n  不接受自报）。本轮没有桥消息时 neko_send_message / neko_peer_call 回 60004\n  unknown_session —— 这是身份闸，不是网络故障。\n- 回执写 60007 send_uncertain 时，消息可能已经发出：先向对端确认，不要盲目重发。\n- 60003 payload_too_large 是本地先拒（上限 = caps.neko.frame_bytes，单一来源\n  spec/pins.json），重试同一载荷必然同样失败；把内容拆小或去掉内联图再发。\n- 宿主只有两道入站门：push_message v2 与 reply_tail（窄门，不进第一切片）。\n  外部 URL 图会被拒（只认内联 base64 / 宿主 upload 句柄），audio/video 没有上传 API，\n  这些段在出站计划里直接被丢并记入降级清单——不是发送失败，是宿主面根本没有这个能力。\n- 只想在主人电脑上显示（不打扰会话）用桌宠自己的说话面，别拿它冒充桥侧回复。\n\n## 协商与降级\n\n- 「caps」= 与桥协商后的能力交集（images/notices/tools 为申报上限；self_echo 不申报：\n  N.E.K.O 总线面没有实证 self 的取值口，本线永久 proven:false）。\n- self 声明：桥在 hello/ready 申报 `{id,name,proven:false}`。proven:false ⇒ 不做回声抑制，\n  同 id 入站照常投递，`neko.self` 常驻 `self-echo:off`（显式降级，不是故障）。\n- 保真降级记录：\n{{neko.degraded}}\n\n降级位含义：未知段以 `[类型]` 占位保留（不吞消息，规则在内核 segment.ts）；\n`external-url-image` = 外部 URL 图被出站计划拒；`no-upload-api` = audio/video/file 段被拒；\n`model-rejects:<mime>` = 当前模型不吃该 MIME，附件没进上下文；\n`self-unknown` = 对端 self 无实证（常态，见上）；`egress-closed` = 有工具试图发言但门是关的；\n`consent` 等待态见上。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.2": "- 面板「桥状态」补客户端产物：`src/webui/client.js`，`cortico.webUiClient` 声明它。\n- 描述改简体中文，并补 `cortico.locales.zh` / `.en` 两份。",
+    "0.1.1": "- 内核依赖从 `^0.1.0` 收紧到 `^0.1.1`，让坏掉的 0.1.0 不可能再被选中。",
+    "0.1.0": "首个版本：Cortico 侧 N.E.K.O world 包。CBP v1 面复用 `cortico-bridge-core`\n（帧编解码、双角色 WS 驱动、去重、段渲染、错误码、协商一律 import，零复制粘贴）。\n\n- 装载契约：`package.json` 的 `cortico` 块 `kind:\"world\"`、`api:6`\n  （manifest.ts:23-27 @836238311，经内核 pins.ts:46 快照同源 `spec/pins.json`）、\n  `describe:\"describe.json\"`（框架 `exportDescribe` 生成件，tests/drymount-gate.mts\n  `--regen`，非手抄）。`main` 指 `src/definition.ts`。\n- 定义与实例：`isWorldDefinition` 四件 `id/label/defaults()/create()`（extensions.ts:143-150）；\n  `create()` 纯、`defaults().enabled=false`；实例实现 `start/stop/envPromptVars/tools()/webUi()`，\n  不实现 `outputTap()`（_BUILD-PLAN §3.3）。\n- 双角色：缺省 listen `127.0.0.1:39701`（§4.4 端口表；dial 角色同驱动实现）；\n  共享密钥只走 `Authorization: Bearer` 头（F4；URL query 携带即 4401 拒停，空 token\n  非环回绑定硬拒）；`start()` 12s 上限放行、永不 reject；hello/ready `v_support`\n  不相交 = 60001 断连。\n- 帧表对接（F1/F2/F3/F13，`spec/SECURITY-CBP.md` §1/§2/§4）：hello/ready 带\n  `self:{id,name,proven:false}`——N.E.K.O 线永久无实证 self（§6-9），回声抑制只在\n  proven:true 生效，proven:false 照常投递 + `self-unknown` 显式降级 + `self-echo:off`\n  常驻；`self_echo` 不申报（caps-lie 守卫），caps 面 `images/notices/tools`。出站\n  call 必带 `turn`+`actor`：只从本轮入站 msg 的实证记录填（args 自报身份不进帧，\n  冷轮次本地先拒 `60004 unknown_session`，断线清轮次）。字节上限单一来源\n  `spec/pins.json` `caps.neko.frame_bytes`（代码零字面量，测试文本闸钉住）。\n- 事件投影：`neko.message / neko.message.self / neko.notice / neko.connection /\n  neko.degraded`，名字全显式常量（不从 worldId 派生，d-bridge-priorart §8.7）；\n  mention/direct→flush、group/other→缺省 debounce、实证回声→`deliver:false` 只归档、\n  notice→piggyback；`meta.raw` 恒留（剥除后进内核 envelope）。\n- 工具四件：`neko_send_message`（write；egress 缺省关→60005；无本轮桥消息→60004；\n  限流 20/分；超 caps.neko 本地先拒→60003；30s 无回执→60007）、`neko_status`（read）、\n  `neko_history`（read，只查 host.store，桥侧 convmap 宿主不可见）、\n  `neko_peer_call`（write，catalog 闸 + 本轮桥消息身份闸）。\n- N.E.K.O 面（README §3 缺口账）：宿主只有 push_message v2 与 reply_tail 两道入站门，\n  reply_tail 不进第一切片；外部 URL 图拒、audio/video/file 段拒、按钮段内核兜底降级；\n  consent 等待态按 notice 面上报（正常态非故障）。\n- 测试：`node --test`（normalize 11 条 + world 22 条，含 F3 自报 actor 被拒两条负例、\n  F13 caps 单源边界与字面量文本闸）纯函数与契约面，假驱动注入…"
+  }
+}

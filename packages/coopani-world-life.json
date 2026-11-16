@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-life",
-  "version": "0.10.4",
+  "version": "0.11.0",
   "describe": {
     "tools": [
       {
@@ -301,6 +301,52 @@
         "summary": {
           "zh": "记下一件想要的东西。",
           "en": "Note down something she wants."
+        }
+      },
+      {
+        "name": "life_gift",
+        "description": "记下他今天给你留下的一样东西（一天最多一件，不换算成钱）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "what"
+          ],
+          "properties": {
+            "what": {
+              "type": "string"
+            },
+            "from": {
+              "type": "string"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "收下他留下的一样东西。",
+          "en": "Receive a gift left for her."
+        }
+      },
+      {
+        "name": "life_buy",
+        "description": "去芦花塘鱼市街或早市看看今天有什么可买的（不传参数看价，传 stall_id 或菜名就买下来）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "stall_id": {
+              "type": "string"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "在早市或鱼市街摊位买菜。",
+          "en": "Buy food at the morning market or town stalls."
         }
       }
     ],

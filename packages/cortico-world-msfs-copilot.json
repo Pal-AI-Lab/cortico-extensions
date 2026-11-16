@@ -1,0 +1,289 @@
+{
+  "schema": 1,
+  "name": "cortico-world-msfs-copilot",
+  "version": "0.1.5",
+  "describe": {
+    "tools": [
+      {
+        "name": "msfs_status",
+        "description": "Report the flight state right now: flight phase, altitude, height above ground, airspeed, mach, vertical speed, ground speed, attitude, heading, and whether the aircraft is on the ground. Read-only; do not poll it on a timer.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "报出此刻的阶段、高度、空速、马赫、垂直速度、姿态、航向和地面状态。",
+          "en": "Reports phase, altitude, airspeed, mach, vertical speed, attitude, heading and ground state right now."
+        }
+      },
+      {
+        "name": "msfs_ap",
+        "description": "Report the autopilot: whether it is engaged, which lateral and vertical modes are active, and the selected target altitude, heading, speed and vertical speed. Read-only.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "报出自动驾驶的接通状态、当前模式，以及选定的高度、航向、速度和垂直速度。",
+          "en": "Reports autopilot engagement, active modes and the selected altitude, heading, speed and vertical speed."
+        }
+      },
+      {
+        "name": "msfs_nav",
+        "description": "Report radio and navigation: COM1/2 and NAV1/2 frequencies, transponder code and mode, localizer and glideslope deviation, DME distance, and the next GPS waypoint with its distance and bearing. Read-only.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "报出 COM/NAV 频率、应答机、下滑道与航向道偏差、DME 距离和下一个航路点。",
+          "en": "Reports COM/NAV frequencies, transponder, glideslope and localizer deviation, DME and the next waypoint."
+        }
+      },
+      {
+        "name": "msfs_wx",
+        "description": "Report the environment around the aircraft: wind, outside temperature, altimeter setting, visibility and precipitation. Read-only.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "报出风、外界温度、气压基准、能见度和降水。",
+          "en": "Reports wind, outside temperature, altimeter setting, visibility and precipitation."
+        }
+      },
+      {
+        "name": "msfs_alerts",
+        "description": "Report which warnings are active right now: stall, overspeed, structural icing, deviation from the selected altitude, and landing gear state. Read-only.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "报出此刻哪些告警亮着：失速、超速、结冰、高度偏离和起落架状态。",
+          "en": "Reports which warnings are active: stall, overspeed, icing, altitude deviation and gear state."
+        }
+      },
+      {
+        "name": "msfs_radio",
+        "description": "Set a radio or instrument value: COM or NAV frequency in MHz, transponder code as a four-digit number, or altimeter setting in inches of mercury. Refuses with the reason when the operator has not enabled that write permission.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "target": {
+              "type": "string",
+              "enum": [
+                "com1",
+                "com2",
+                "nav1",
+                "nav2",
+                "transponder",
+                "altimeter"
+              ],
+              "description": "Which radio or instrument to set."
+            },
+            "value": {
+              "type": "number",
+              "description": "COM/NAV frequency in MHz (e.g. 118.7), transponder code as a four-digit number (e.g. 1200), or altimeter setting in inches of mercury (e.g. 29.92)."
+            }
+          },
+          "required": [
+            "target",
+            "value"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "设 COM/NAV 频率、应答机码或气压基准；操作者没开放的那一项会明确拒绝。",
+          "en": "Sets COM/NAV frequency, transponder code or altimeter setting; refuses when the operator has not enabled it."
+        }
+      },
+      {
+        "name": "msfs_switch",
+        "description": "Flip a switch: landing, nav, strobe, taxi or beacon lights, or raise/lower the landing gear. Refuses with the reason when the operator has not enabled that write permission.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "target": {
+              "type": "string",
+              "enum": [
+                "landing_light",
+                "nav_light",
+                "strobe_light",
+                "taxi_light",
+                "beacon_light",
+                "gear"
+              ],
+              "description": "Which switch to flip."
+            },
+            "on": {
+              "type": "boolean",
+              "description": "For lights: true turns it on, false turns it off. For the gear: true lowers it, false raises it."
+            }
+          },
+          "required": [
+            "target",
+            "on"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "开关灯光或收放起落架；操作者没开放的那一项会明确拒绝。",
+          "en": "Flips lights or raises/lowers the gear; refuses when the operator has not enabled it."
+        }
+      },
+      {
+        "name": "msfs_ap_set",
+        "description": "Change the autopilot: engage or disengage it, switch heading/altitude/nav hold on or off, or set the target altitude, heading, speed or vertical speed. Refuses with the reason when the operator has not enabled the autopilot write permission.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "target": {
+              "type": "string",
+              "enum": [
+                "master",
+                "heading",
+                "altitude",
+                "nav",
+                "speed",
+                "vs",
+                "autothrottle",
+                "target_altitude",
+                "target_heading",
+                "target_speed",
+                "target_vs"
+              ],
+              "description": "What to change. master/heading/altitude/nav are switches; target_* set a reference value."
+            },
+            "on": {
+              "type": "boolean",
+              "description": "For switches: true engages, false disengages. Ignored for target_*."
+            },
+            "value": {
+              "type": "number",
+              "description": "For target_altitude: feet. target_heading: degrees 0-360. target_speed: knots. target_vs: feet per minute (may be negative)."
+            }
+          },
+          "required": [
+            "target"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "改自动驾驶：接通/断开、开关航向/高度/NAV/速度/垂直速度保持、自动油门预位，设目标高度/航向/速度/垂直速度；没开放权限时明确拒绝。",
+          "en": "Changes the autopilot: engage/disengage, heading/altitude/nav/speed/vertical-speed hold, autothrottle arm, and target altitude/heading/speed/vertical speed; refuses when not enabled."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "msfs.connected",
+        "description": {
+          "zh": "连上 SimConnect 了，正文带机型与当前阶段。",
+          "en": "SimConnect is connected; the text carries the aircraft title and current phase."
+        }
+      },
+      {
+        "type": "msfs.disconnected",
+        "description": {
+          "zh": "和模拟器的连接断了，正文带原因。",
+          "en": "The link to the simulator dropped; the text carries the reason."
+        }
+      },
+      {
+        "type": "msfs.takeoff",
+        "description": {
+          "zh": "飞机离地，正文带离地速度、抬轮姿态和航向。",
+          "en": "The aircraft lifted off; the text carries liftoff speed, rotation attitude and heading."
+        }
+      },
+      {
+        "type": "msfs.cruise",
+        "description": {
+          "zh": "爬升结束进入巡航，正文带巡航高度、马赫和空速。",
+          "en": "Climb ended and cruise began; the text carries cruise altitude, mach and airspeed."
+        }
+      },
+      {
+        "type": "msfs.descent",
+        "description": {
+          "zh": "开始下降，正文带当前高度、下降率和空速。",
+          "en": "Descent began; the text carries current altitude, descent rate and airspeed."
+        }
+      },
+      {
+        "type": "msfs.approach",
+        "description": {
+          "zh": "截获下滑道，正文带距离、高度和航向道偏差。",
+          "en": "The glideslope was captured; the text carries distance, altitude and localizer deviation."
+        }
+      },
+      {
+        "type": "msfs.touchdown",
+        "description": {
+          "zh": "接地，正文带下沉率、接地俯仰、坡度和航向。",
+          "en": "Touchdown; the text carries sink rate, touchdown pitch, bank and heading."
+        }
+      },
+      {
+        "type": "msfs.stall",
+        "description": {
+          "zh": "失速警告响，正文带空速、俯仰和离地高度。",
+          "en": "The stall warning fired; the text carries airspeed, pitch and height above ground."
+        }
+      },
+      {
+        "type": "msfs.overspeed",
+        "description": {
+          "zh": "超速警告响，正文带马赫、空速和高度。",
+          "en": "The overspeed warning fired; the text carries mach, airspeed and altitude."
+        }
+      },
+      {
+        "type": "msfs.altitude_alert",
+        "description": {
+          "zh": "偏离自动驾驶选定高度，正文带选定值、实际值和偏差。",
+          "en": "The aircraft drifted from the selected altitude; the text carries selected, actual and deviation."
+        }
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.5": "- README 补上 `msfs_ap_set` 与 `writeAp`，删掉「自动驾驶没做」这句过时的话。\n- CHANGELOG 补齐 0.1.2–0.1.4 的条目。",
+    "0.1.4": "- 事件正文统一加 `[MSFS-2020]` 前缀，和用户发言区分开。\n- `msfs_ap_set` 增加 `speed`、`vs`、`autothrottle` 三个动作。",
+    "0.1.3": "- **事件不再冒充 user 消息**：`origin` 从 `internal` 改为 `external`。框架里 `internal` 的正文无条件拼进 user 消息，只有 `external` 才按 `eventDelivery`（默认 `tool`）走合成工具回执。\n- 新增 4 个航路变量：`GPS FLIGHTPLAN TOTAL DISTANCE`、`GPS WP ETE`、`GPS ETE`、`GPS WP NEXT ALT`。`msfs_nav` 现在报全程、下一航路点、到目的地预计时间；剩余距离按 `ETE × 地速` 估算。\n- 新增 `msfs_ap_set` 工具与 `writeAp` 配置（默认关）：接通/断开、航向/高度/NAV 保持、目标高度/航向/速度/垂直速度。\n- 桥接的事件参数改为按有符号解析，`target_vs` 可以传负数。",
+    "0.1.2": "- 去掉 `panels` 声明。面板需要单独的前端构建产物（`cortico.webUiClient`），本包没有打包 React 组件，声明了会导致面板页签加载失败。状态改由 `lamps` 和 `msfs_status` 提供。",
+    "0.1.1": "真机联调（Boeing 747-8i，2026-11-12）。修掉五个会让整条数据链路「一个字都收不到」的问题：\n\n- `SIMCONNECT_PERIOD` 枚举值：`SECOND` 是 4，不是 1。\n- `SIMCONNECT_RECV_ID` 枚举值：`OPEN=2`、`QUIT=3`、`EVENT=4`。把 2 当成 `QUIT` 会让泵线程在连接成功后几十毫秒就退出。\n- `AddToDataDefinition` 的 `DatumID`：传 `0` 不是「自动分配」，同一定义里所有变量共用一个 ID 会互相覆盖，必须传 `SIMCONNECT_UNUSED`。\n- 单位名：`enum`、`mask`、`BCD16` 都不在 SimConnect 的单位表里，改用 `number` 后自行解码。\n- `SIMCONNECT_DATATYPE_STRING256` 是 9，不是 11；11 是 `STRINGV`（变长），会让周期性请求一律回 `DEFINITION_ERROR`。\n\n架构调整：\n\n- 命令处理移到主线程，派发单独一个泵线程，改用非阻塞的 `GetNextDispatch`。此前派发循环一阻塞，命令就永远排队。\n- stdin/stdout 自己开无 BOM 的 UTF-8 流，不再依赖控制台代码页。\n- 新增 `PROBEALL` 逐变量体检：每个变量单独定义、单次请求，一次性找出无效的名字或单位。\n- 新增 `msfs-bridge.log`，记录命令、连接握手、异常码与 `sendId`/`index`。\n\n遥测：\n\n- 新增 `SIM DISABLED`，用于判断模拟是否停住。\n- 移除并不存在的 `SIMULATION RATE` SimVar；`msfs.simRate` 模板变量改为如实报「未提供」。\n- `xpndrCode` 同时兼容十进制与 BCD 两种应答机码返回形态。",
+    "0.1.0": "首个版本。\n\n- SimConnect 桥接：C# 控制台程序自己 P/Invoke 原生 `SimConnect.dll`，不依赖 MSFS SDK 的托管封装；首次连接时用系统 `csc.exe` 编译，之后按源码 mtime 复用。\n- 遥测：66 个 SimVar，覆盖飞行状态、自动驾驶、无线电与导航、天气环境、告警、灯光与起落架回读、接地参数、机型与仿真倍率。\n- 飞行阶段推断：停机、滑行、起飞滑跑、爬升、巡航、下降、进近、着陆、滑跑，带 1.2 秒滞后。\n- 事件：离地、到达巡航、开始下降、进近建立、接地、失速、超速、高度偏离，以及连接与断开。每项可单独关闭。\n- 工具：`msfs_status`、`msfs_ap`、`msfs_nav`、`msfs_wx`、`msfs_alerts` 只读；`msfs_radio`、`msfs_switch` 写操作，默认全关、逐项打开。\n- 单位：航空单位（英尺、节、海里、英寸汞柱）为默认，可切公制。\n- 提示词模板变量：`msfs.connected`、`msfs.aircraft`、`msfs.phase`、`msfs.simRate`、`msfs.paused`、`msfs.units`。\n- 连接失败不阻塞挂载：工具返回明确原因，插件每 5 秒重试。"
+  }
+}
