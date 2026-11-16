@@ -1,13 +1,13 @@
 {
   "schema": 1,
   "name": "cortico-world-coo-home",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "describe": {
     "tools": [
       {
         "name": "coo_home",
         "strict": true,
-        "description": "查询和控制独立的 coo 家园。先用 catalog 找物件、动作和作物。不适用的字段填 null。command/walk 安排单项活动；gardenPlan 用 plotIds 和 cropId 一次安排最多8块田的播种及首次浇水，自动跳过已种同作物或被其他作物占用的田，不会铲除现有作物。批量种田必须用 gardenPlan，不能逐条发送互相覆盖的播种指令。回执 accepted/queued 仅表示安排，只有 recent 或 plans 的 completed 才表示完成。不会操作桌面角色或衣装。",
+        "description": "查询和控制独立的 coo 家园。先用 catalog 找物件、动作和作物。不适用的字段填 null。command/walk 安排单项活动；gardenPlan 用 plotIds 和 cropId 一次安排最多8块田的播种及首次浇水，自动跳过已种同作物或被其他作物占用的田，不会铲除现有作物。批量种田必须用 gardenPlan，不能逐条发送互相覆盖的播种指令。回执 accepted/queued 仅表示安排，只有 recent 或 plans 的 completed 才表示完成。不会操作桌面角色或衣装。 commerce 用 kind=buy/sell/tea/consume 和 lines[{itemId,quantity}] 安排购物、卖菜、茶房品茶或食用背包食品。目录 economy 包含合法商品与固定价格；先查金币、库存和预留量。只有用户明确要求才可消费或卖菜。买卖须走到便利店柜台，茶饮须走到茶房坐垫，完成才结算。付费种子每包种一畦，小葱种子无限免费。不要直接 command buy/sell/orderTea/consume。",
         "tags": [
           "read",
           "act",
@@ -23,7 +23,10 @@
             "cropId",
             "plotIds",
             "position",
-            "enqueue"
+            "enqueue",
+            "kind",
+            "lines",
+            "seatId"
           ],
           "properties": {
             "operation": {
@@ -33,6 +36,7 @@
                 "catalog",
                 "command",
                 "gardenPlan",
+                "commerce",
                 "walk",
                 "cancel",
                 "pause",
@@ -95,6 +99,56 @@
                 "boolean",
                 "null"
               ]
+            },
+            "kind": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "buy",
+                "sell",
+                "tea",
+                "consume",
+                null
+              ]
+            },
+            "lines": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "minItems": 1,
+              "maxItems": 20,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "itemId",
+                  "quantity"
+                ],
+                "properties": {
+                  "itemId": {
+                    "type": "string"
+                  },
+                  "quantity": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000000
+                  }
+                }
+              }
+            },
+            "seatId": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "teahouse.cushion.front",
+                "teahouse.cushion.back",
+                null
+              ]
             }
           }
         }
@@ -109,6 +163,7 @@
     ]
   },
   "changelog": {
+    "0.5.0": "- Add a one-time 100-coin welcome balance, unlimited free spring-onion seeds and progressively priced seed packets for seven other crops.\n- Buy ten foods and drinks or seeds, sell harvested crops, and complete transactions by physically entering the existing convenience store and reaching its counter.\n- Enter the existing teahouse, use either cushion, and enjoy sencha, hojicha or matcha with sweets; retain free basic household meals and tea.\n- Extend the backpack with seeds and food, and consume one purchased item at the home dining table.\n- Reserve funds and inventory for tasks; settle only on completion, release on cancellation and retain idempotent receipts across retries and restarts. Autonomous behavior cannot spend, sell or consume paid supplies.\n- Migrate recorded crop quantities once into mutable save-format-5 inventory, preserving planting progress and lifetime harvest totals.\n- Reuse the existing zebra crossing, entrances, interiors and art; add automatic doors and building-aware cutaway without extra animation loops or camera jumps.\n- Expose commerce through strict Responses-compatible tools and add a native home.wallet environment variable.",
     "0.4.0": "- Align seated and lying figures to each furniture support surface using the visible artwork bounds; keep a small clearance and preserve foreground occlusion.\n- Use concrete activity labels such as looking at the computer, switching on the television and opening the wardrobe.\n- Highlight the hovered interactive object with a local outline, without adding a full-screen rendering pass.\n- Replace custom settings screens with native Coopanion Configuration and Environment Prompt pages, including live template variables; keep the prompt out of the desktop conversation.\n- Add a harvest backpack with eight crop icons and persistent quantities derived from completed harvests. No selling, shopping or cooking economy yet.\n- Publish illustrated documentation and fresh authorized Lulu activity screenshots, with the neighborhood panorama first.\n- Retain the approved scene, independent home chat, crop selection, camera follow and lightweight offline life.",
     "0.4.0-alpha.6": "- Separate Home, Settings and Environment into native World pages; keep configurable environment text private to home conversation and AI planning.\n- Send chat with Enter, insert a newline with Shift + Enter, and preserve input-method composition.\n- Refresh controls with lightweight DOM and SVG components, without blur filters or additional rendering loops.\n- Make mouse commands interrupt current work and remaining plans; remove the manual queue checkbox while retaining ordered tasks for conversational plans.\n- Handle nullable optional arguments in strict Responses tool calls, keep unknown or invalid arguments rejected, and declare the compatible strict schema on the wire.\n- Add bounded, durable `gardenPlan` requests for sowing and first watering across up to eight beds. Skip occupied or already growing crops, preserve idempotent receipts, and distinguish accepted plans from completed work.\n- Record fixed harvest quantities per crop in save format 4. Preserve older planting progress and harvest counts without inventing historical quantities.\n- Open crop inspection in a separate, live details dialog without starting an activity; include growth times, expected yields and recorded harvests.\n- Add camera follow for the home character and preserve the current camera when switching wall visibility. Keep the approved scene artwork.",
     "0.4.0-alpha.5": "- Keep the figure's projected size stable across viewing angles while preserving zoom and furniture occlusion.\n- Place separate action bubbles beside the selected object, following the camera and avoiding viewport edges.\n- Start new gardens with eight empty beds; choose any existing crop with its growth time, then change crops after harvest. Preserve real planting progress when migrating old saves.\n- Reuse the existing crop models, trellises and labels in each bed without changing the neighborhood's design.\n- Fix immediate rejection by OpenAI Responses-compatible services: local chat receipt IDs are no longer sent as provider message IDs. Existing conversations continue without clearing history.\n- Classify provider HTTP failures safely and verify requests through the official Responses adapter against an isolated strict endpoint.",

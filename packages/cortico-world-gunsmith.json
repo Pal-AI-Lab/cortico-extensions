@@ -1,0 +1,275 @@
+{
+  "schema": 1,
+  "name": "cortico-world-gunsmith",
+  "version": "0.1.2",
+  "describe": {
+    "tools": [
+      {
+        "name": "gun_suggest",
+        "description": "Suggest Delta Force gun builds. Searches the full local catalog (about 1400 builds synced from the site sitemap), the site's newest 20 builds with rich metadata, and anything the owner saved. Returns id, build name, weapon, price in Havoc coins, author and tags, skipping tags the owner disliked. Note: entries from the full catalog carry price and style inferred from the build name.",
+        "tags": [
+          "read"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "scene": {
+              "type": "string",
+              "description": "Map name, e.g. 潮汐监狱 / 零号大坝 / 长弓溪谷 / 航天基地 / 巴克什. Omit to use the configured default."
+            },
+            "difficulty": {
+              "type": "string",
+              "enum": [
+                "普通",
+                "机密",
+                "绝密"
+              ],
+              "description": "Difficulty tier. Together with scene it sets the 战备 threshold: when the owner gave no price, builds whose gun price reaches the threshold are recommended. When the owner did give a price, that price wins and the threshold is only mentioned."
+            },
+            "gun": {
+              "type": "string",
+              "description": "Weapon name filter, e.g. AN94 / K437 / PKM / MDR."
+            },
+            "budgetMin": {
+              "type": "number",
+              "description": "Owner's own minimum gun price in Havoc coins. Takes precedence over the 战备 threshold. Accepts 80000 or 8 (万)."
+            },
+            "budgetMax": {
+              "type": "number",
+              "description": "Owner's own maximum gun price in Havoc coins. Takes precedence over the 战备 threshold. Accepts 80000 or 8 (万)."
+            },
+            "style": {
+              "type": "string",
+              "description": "Style tag, e.g. 后坐力稳 / 高性价比 / 满改 / 以小博大 / 腰射专用."
+            },
+            "limit": {
+              "type": "integer",
+              "description": "How many candidates, 1 to 10. Defaults to 3.",
+              "minimum": 1,
+              "maximum": 10
+            },
+            "refresh": {
+              "type": "boolean",
+              "description": "Ignore the cache and refetch the public list."
+            }
+          }
+        },
+        "summary": {
+          "zh": "按图/预算/风格挑配装，返回 id、方案名、枪、售价、作者、标签；自动避开主人嫌弃过的风格。",
+          "en": "Suggests builds by map, budget and style, skipping styles the owner disliked."
+        }
+      },
+      {
+        "name": "gun_code",
+        "description": "Pick one build and put its share code on the clipboard, ready for the owner to paste in game. Use the id from gun_suggest, or match by gun+scene+style.",
+        "tags": [
+          "read",
+          "write"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The id returned by gun_suggest or gun_list."
+            },
+            "gun": {
+              "type": "string",
+              "description": "Weapon name when no id is given."
+            },
+            "scene": {
+              "type": "string",
+              "description": "Map name when no id is given."
+            },
+            "style": {
+              "type": "string",
+              "description": "Style tag when no id is given."
+            }
+          }
+        },
+        "summary": {
+          "zh": "选一套，把改枪码放进剪贴板，回游戏 Ctrl+V 即可。",
+          "en": "Picks one build and puts its share code on the clipboard."
+        }
+      },
+      {
+        "name": "gun_detail",
+        "description": "Attachment list and stat deltas for one build: slot by slot, e.g. 枪口 → AK实用补偿器.",
+        "tags": [
+          "read"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The id returned by gun_suggest or gun_list."
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "summary": {
+          "zh": "这套装了哪些配件：槽位 → 配件名，加合计属性变化。",
+          "en": "Attachment list slot by slot, with the stat deltas."
+        }
+      },
+      {
+        "name": "gun_save",
+        "description": "Save a build code into the local library. Takes the code from the clipboard (the owner clicked \"copy build code\" on the site) or from the code argument. Refuses content that does not look like a share code.",
+        "tags": [
+          "write"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "The share code. Omit to read it from the clipboard."
+            },
+            "gun": {
+              "type": "string",
+              "description": "Weapon name, if known."
+            },
+            "note": {
+              "type": "string",
+              "description": "A short note, e.g. 站上「轮椅AK-12」."
+            }
+          }
+        },
+        "summary": {
+          "zh": "把改枪码存进本地库；不给参数时读剪贴板里主人刚复制的那条。",
+          "en": "Saves a share code into the local library, from the clipboard by default."
+        }
+      },
+      {
+        "name": "gun_list",
+        "description": "Search the local library: every code the owner saved, with stars and notes.",
+        "tags": [
+          "read"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "Free text matched against name, gun, note and tags."
+            },
+            "gun": {
+              "type": "string",
+              "description": "Weapon name filter."
+            }
+          }
+        },
+        "summary": {
+          "zh": "翻本地库：存过的所有码，带星级与备注。",
+          "en": "Searches the local library of saved codes."
+        }
+      },
+      {
+        "name": "gun_rate",
+        "description": "Rate a saved or suggested build 1 to 5 stars, with an optional complaint. One or two stars plus a note teach the owner's taste: that build's style tags stop being suggested.",
+        "tags": [
+          "write"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The id of the build."
+            },
+            "stars": {
+              "type": "integer",
+              "description": "1 to 5.",
+              "minimum": 1,
+              "maximum": 5
+            },
+            "note": {
+              "type": "string",
+              "description": "Short comment, e.g. 太抖 / 开镜慢 / 挺好用."
+            }
+          },
+          "required": [
+            "id",
+            "stars"
+          ]
+        },
+        "summary": {
+          "zh": "给方案打 1~5 星并可吐槽；1~2 星会让它的风格标签不再被推荐。",
+          "en": "Rates a build; one or two stars stop its style tags from being suggested."
+        }
+      },
+      {
+        "name": "gun_forget",
+        "description": "Remove one build from the local library.",
+        "tags": [
+          "write"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The id (or the code) of the build."
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "summary": {
+          "zh": "从本地库删掉一条。",
+          "en": "Removes one entry from the local library."
+        }
+      },
+      {
+        "name": "gun_loadout_check",
+        "description": "Compare a build price against the site's 卡战备 tiers (11W/18W/55W/60W/78W with their maps) and say which tier it sits between.",
+        "tags": [
+          "read"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The id of the build."
+            },
+            "scene": {
+              "type": "string",
+              "description": "Map to check against; defaults to the configured one."
+            }
+          }
+        },
+        "summary": {
+          "zh": "把售价对标站点战备档（11W/18W/55W/60W/78W）。",
+          "en": "Compares the price against the site's loadout tiers."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.gunsmith.envPrompt",
+        "title": "桌宠改枪台 · 环境提示词",
+        "role": "envPrompt",
+        "content": "改枪台（桌宠改枪台）在你手里干的是一件很朴素的事：**主人要什么枪、什么图、什么预算，你把方案和改枪码摆到他面前，把码放进剪贴板，Ctrl+V 由他自己按。**\n\n数据站：{{gunsmith.site}}｜默认场景：{{gunsmith.defaultScene}}｜默认预算：{{gunsmith.defaultBudget}}｜主人嫌弃过、已自动避开的风格：{{gunsmith.avoidTags}}\n\n**战备门槛（记牢，别自己算）**：{{gunsmith.requirements}}\n\n> ⚠️ **门槛是「总战备」，不是枪价。** 头盔、护甲、胸挂、背包都算战备。工具会按站上同档位卡战备套装的成本，自动扣掉「头甲那部分」，所以它给出的枪价要求 = 门槛 − 头甲参考。**不要拿门槛数字直接卡枪价**，那会把本来能进的方案筛掉。\n> 例：潮汐监狱绝密门槛 78W，头甲约占 15W，所以枪价 63W 以上就够——不是 78W。\n\n**底牌**：{{gunsmith.catalogSize}}\n\n## 推荐时按这个优先级走\n\n1. **主人给了枪价 → 按主人的价来。** 「8W 以内」「别超过 30W」「至少 20W」都是主人的要求，用 `budgetMax`/`budgetMin` 传进去，**不要拿战备门槛去顶替主人的价**。\n   但如果主人的价低于他要打的那张图的门槛，提一句：「这张图机密要 11W，你给的 8W 可能进不去」——提醒，不擅自改条件。\n2. **主人没给价、只说了图 + 难度 → 用门槛。** 把 `scene` 和 `difficulty` 传进去，工具会只留**总战备够门槛**的方案（已扣掉头甲那部分），并按枪价从低到高排（最省的在前）。说的时候把「枪 X W + 头甲约 Y W = 合计够门槛」讲清楚。\n3. **普通难度没有门槛**，`difficulty=\"普通\"` 传进去就能得到「随便配」的推荐。\n4. **门槛表里没有的图/难度，直说没有**，不要臆造一个数字。工具会告诉你这张图有哪几档。\n\n举例：\n- 「潮汐监狱 绝密 有什么能进」→ `gun_suggest(scene=\"潮汐监狱\", difficulty=\"绝密\")` → 只推枪价 ≥ 78W 的\n- 「潮汐监狱 绝密，但我只有 30W」→ `gun_suggest(scene=\"潮汐监狱\", difficulty=\"绝密\", budgetMax=300000)` → 按 30W 筛，并提醒够不到 78W 门槛\n- 「大坝 机密 8W 以内」→ `gun_suggest(scene=\"零号大坝\", difficulty=\"机密\", budgetMax=80000)` → 按 8W 筛 + 提醒 11W 门槛\n\n三个数据来源，边界很清楚：\n\n1. **公开网页**：`/guns` 列表（含方案名、枪、售价、作者、标签、地图、改枪码）和 `/guns/official/<id>` 详情（槽位 → 配件名）。只读公开页，不碰站点的 `/api/`，也不翻页。\n2. **剪贴板**：主人自己在站上点了「复制改枪码」，你才去读一次；选中方案时你把码写进去。\n3. **本地库**：主人收过的码、打过的星、说过的「太抖」「太贵」。\n\n候选池其实是三层拼起来的，说的时候要分清：\n\n| 层 | 规模 | 有什么 | 没什么 |\n|---|---|---|---|\n| 站点列表（最新 20 条） | 20 | 价格、适用地图、风格标签、作者、使用量 | — |\n| **全库目录** | **约 1400 条** | 改枪码、方案名、枪、配件清单、属性变化 | 没有地图和作者标签；**价格和风格从方案名推断**（「20W性价比腾龙」→ 20W + 高性价比） |\n| 本地库 | 主人自己收的 | 主人打的星和吐槽 | — |\n\n所以：主人问某把冷门枪、或 20 条里没有的，去**全库目录**里找；主人要求按地图选，只有列表层那 20 条和本地库有地图信息，**全库目录里的不要编地图**。全库条目的配件清单已经在本地，`gun_detail` 不用联网就能答。\n\n工具怎么用：\n\n- 主人说「找个潮汐监狱 8W 以内压得住后坐力的步枪」→ `gun_suggest(scene=\"潮汐监狱\", budgetMax=80000, style=\"后坐力稳\")`，把候选列成两三行，每条带 id。\n- 主人说「①」「就第二个」「要那个轮椅的」→ 对应到 id，调 `gun_code(id)`。**不要自己拼码，也不要改码**。\n- 主人问「这套装了什么」→ `gun_detail(id)`，按槽位念配件，别念全部，挑他关心的（枪口、枪管、瞄具）。\n- 主人说「收一下」「存一下这个码」→ `gun_save()`，不给参数就让它读剪贴板。存的如果是别的东西，它自己会拒绝。\n- 主人说「上次那个 AK 的码呢」→ `gun_list(query=\"AK\")`。\n- 主人说「这个太抖了」→ `gun_rate(id, stars=2, note=\"太抖\")`。之后同类风格的方案不该再出现，这是他自己教你的。\n- 主人问「这套会不会超战备」→ `gun_loadout_check(id, scene=\"...\")`。注意：这是**售价对标档位**，不是精确战备计算，说的时候别讲成结论。\n\n说话方式：\n\n- 候选最多三条，一行一条：方案名 · 枪 · 售价 · 作者 · 标签 + id。别念作者点评，除非主人问。\n- 主人选了之后只说「放好了，回游戏 Ctrl+V」。剪贴板写失败就把码原样贴出来让他抄。\n- 价格一律换算成「万」（26.7W），主人看着舒服。\n- 他夸某个方案好用，记得给他打星；他吐槽，也记得打星——这是你唯一能「越用越懂他」的地方。\n\n红线：\n\n- 不模拟键鼠、不往游戏客户端里粘贴或点选。**「帮」到剪贴板为止，「替」一步都不做。**\n- 不读游戏画面、内存、音频。改枪码不是对局情报，但游戏本身的事一律不打听。\n- 不碰站点 `/api/`（站方 robots 明确禁止）。公开页取不到就退回本地库，如实告诉主人「这次没取到」，不要编方案。\n- 拿不准的码不要入库；看着不像改枪码就直说，别硬存。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.2": "### 新增\n\n- **扩展图标**：`cortico.icon = docs/icon.png`（226×226 方图，取自形象动图的尾段特写）。此前没声明，扩展市场的卡片一直显示默认的 Coo 头像。",
+    "0.1.1": "发布物料与仓库收尾，功能与 0.1.0 一致。\n\n### 新增\n\n- **README 封面图**：`docs/preview.png`（鲸鱼娘端枪的尾帧特写），并加入 `files` 让 npm 页也能显示\n- `repository` / `homepage` / `bugs` / `author` 字段\n- **GitHub Actions**：`check.yml`（推 main / PR 跑离线自检 + 校验 describe.json 与代码一致）、`release.yml`（推 `v*` 标签自动打包并建 Release 挂 zip/tgz）\n- `tools/publish.ps1`：发布前校验 `keywords` 必须含 `cortico-world`（市场靠这个列包），新增 `-Otp` 参数与 EOTP 提示\n\n### 变更\n\n- LICENSE 版权行改为 `奶糖 (Net-ang)`，并注明 `data/` 里的方案数据不在 MIT 覆盖范围内\n- 文档里的自检项数更正为实测值（离线 111 / 联网 114）",
+    "0.1.0": "首个版本。一个 Cortico/Coopanion World 扩展（`world api 6`），给桌宠加一个「改枪台」。\n\n### 新增\n\n- **8 个工具**：`gun_suggest`、`gun_code`、`gun_detail`、`gun_save`、`gun_list`、`gun_rate`、`gun_forget`、`gun_loadout_check`\n- **公开页取数**：读 `shushu.fan/guns` 的 Next.js flight 载荷取结构化 JSON（20 条方案，自带 `solutionCode` 改枪码）；`/guns/official/<id>` 取槽位→配件名；`/kzb` 取战备门槛与卡战备套装\n- **全库目录**：`tools/sync-catalog.mjs` 从 sitemap 的 1392 个明细页抓全部方案（码 + 名称 + 配件 + 属性），礼貌限速、可续跑；**并随包自带一份快照**（`data/gunsmith-catalog.json`），装完即全库。解析顺序：配置指定 > 本机同步 > 随包快照\n- **战备门槛按「总战备」算**：图 × 难度 → 门槛（大坝/长弓 机密 11W、航天/巴克什 机密 18W、巴克什 绝密 55W、航天基地 绝密 60W、潮汐监狱 绝密 78W、普通无门槛）；**头甲胸挂背包也算战备**，按 `/kzb` 同档位套装估（绝密取最贵那套 × 假账倍率），因此枪价要求低于门槛\n- **价格优先级**：主人给了枪价就按主人的价筛；没给才用「枪价 ≥ 门槛 − 头甲」；门槛表里没有的图/难度如实说没有\n- **剪贴板通道**：koffi 调 `user32` 读写，含中文；四级 koffi 解析链 + `koffiPath` 手动指路；失败则降级为气泡显示码\n- **本地库与口味学习**：`gunsmith-codes.json` 按码去重；`gunsmith-taste.json` 记录星级、吐槽、`avoidTags`；1~2 星自动避开对应风格标签\n- **按码反查元数据**：从剪贴板收来的码会回站点列表匹配，补上标签/地图/价格\n- **离线降级**：`readPublicPages: false` 纯本地库；磁盘缓存让断网时照常可用\n- **自检**：`tools/selfcheck.mjs`，离线 111 项 + 3 项联网\n\n### 边界（有意为之）\n\n- 不检测游戏、不读窗口/画面/内存/音频、不模拟键鼠——与游戏进程零接触\n- 不碰站点 `/api/`（robots `Disallow`），不翻页，不后台轮询\n- 「帮」到剪贴板为止，`Ctrl+V` 由用户自己按\n- 随包快照只含公开页数据，来源与归属见 `data/NOTICE.md`\n\n### 修掉的坑\n\n- `koffi.decode(p,'str16',len)` 会 native crash（静默 exit 1）→ 改为按字节读后拼 UTF-16LE\n- `koffi` 不在扩展自身解析链上（`MODULE_NOT_FOUND`）→ 用 app 的 `package.json` 作 `createRequire` base\n- 改枪码的三种真实形态都踩过：枪名自带横杠（`AK-12…`）、枪名只有 3 字（`复合弓…`）、中间段带 ASCII（`六式zy`）或**完全不带横杠**（`6L79CCC0…`）→ 校验与解析全部放宽，并优先读结构化 `\"code\"` 字段\n- 列表页 `?page=2`/`tab`/`keyword` 等 15 种参数组合都回同一份 20 条 → 全库改走 sitemap + 明细页"
+  }
+}
