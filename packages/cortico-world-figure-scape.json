@@ -1,0 +1,552 @@
+{
+  "schema": 1,
+  "name": "cortico-world-figure-scape",
+  "version": "0.1.0-dev.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "live2d_pet_status",
+        "description": "Checks whether your independent Live2D body is visible and ready to receive desktop speech and actions. Use when choosing which of your installed bodies to address.",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "查看 Live2D 身体是否可见且就绪。",
+          "en": "Checks whether the Live2D body is visible and ready."
+        }
+      },
+      {
+        "name": "live2d_pet_say",
+        "description": "Save a reply to the shared conversation and play it in Figure Scape when its window is available. 【…】 plays expressions or motions before a new line; <…> plays them at a point in the line. Text and images remain in the conversation when the window is closed. The receipt reports whether playback was queued.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "script": {
+              "type": "string",
+              "description": "What to say, with optional 【expression, motion】 and <expression> markers. One or two sentences per bubble. May be empty when images carry the message. Do not call this when you have nothing to say."
+            },
+            "cues": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 8,
+              "description": "Optional Live2D performance cues in seconds for the first voiced beat when desktop TTS is enabled.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "at": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "duration": {
+                    "type": "number",
+                    "minimum": 0.1,
+                    "maximum": 18
+                  },
+                  "face": {
+                    "type": "string"
+                  },
+                  "intensity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "resource": {
+                    "type": "string"
+                  },
+                  "pose": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "number",
+                      "minimum": -1,
+                      "maximum": 1
+                    }
+                  }
+                },
+                "required": [
+                  "at",
+                  "duration"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "images": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Images to show the person with this line, each given by the handle that starts a [blob …] line in your context. They appear on the chat page only, not in the bubble."
+            }
+          },
+          "required": [
+            "script"
+          ]
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "把回复写入 Coo 对话。有可用的 Live2D 窗口时同步播放气泡、声音和动作。",
+          "en": "Saves a reply to the Coo conversation and plays bubbles, audio and motions when the Live2D window is available."
+        }
+      },
+      {
+        "name": "live2d_pet_ask",
+        "description": "Show a question bubble with up to 3 options under it, plus by default a box for the person to write their own answer. Returns at once; the answer arrives later as an event, and so does closing the question unanswered. A new live2d_pet_say or live2d_pet_ask replaces a question not yet answered.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "question": {
+              "type": "string",
+              "description": "The question, one sentence."
+            },
+            "options": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 3,
+              "description": "1–3 short options, at most 40 characters each; longer ones are cut."
+            },
+            "allowOwnAnswer": {
+              "type": "boolean",
+              "description": "Offer a box for writing an own answer; default true."
+            }
+          },
+          "required": [
+            "question",
+            "options"
+          ]
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "弹出带至多 3 个选项的提问气泡,回答之后作为事件送回。",
+          "en": "Asks a question in a bubble with up to 3 options; the answer comes back later as an event."
+        }
+      },
+      {
+        "name": "live2d_pet_move_to",
+        "description": "Go somewhere on the screen the pet is on: walk (or run) along its bottom edge to a position, or go to one of the targets the current figure has of its own, which the environment section lists when it has any. Returns on arrival or interruption, after 30 seconds at most.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "to": {
+              "description": "Target: a number from 0 to 1 (a fraction of the width of the screen the pet is on, 0 leftmost, 1 rightmost), left / center / right / cursor (the horizontal position of the mouse pointer), or the id of one of the current figure's own targets.",
+              "anyOf": [
+                {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "run": {
+              "type": "boolean",
+              "description": "true to run; walks by default."
+            },
+            "params": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "maxItems": 2,
+              "description": "Only for a figure's own target that takes numbers: them, in the order the environment section lists them."
+            }
+          },
+          "required": [
+            "to"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "沿屏幕底边走到或跑到某个位置。",
+          "en": "Walks or runs along the bottom edge of the screen to a position."
+        }
+      },
+      {
+        "name": "live2d_pet_set",
+        "description": "Change your own looks and habits. Depending on the person's settings, some items take effect at once and others are first asked of the person in a bubble, changing only if they agree, with the receipt coming after their answer; the environment section says which items are which, and the values to choose from. Give only the items to change.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "figure": {
+              "type": "string",
+              "description": "The ID of an imported Live2D model."
+            },
+            "scheme": {
+              "type": "string",
+              "description": "The dress of the current figure (or of the one being switched to): a preset id, or one option per axis joined with - in axis order."
+            },
+            "roam": {
+              "type": "string",
+              "enum": [
+                "free",
+                "calm",
+                "off"
+              ],
+              "description": "Walking about: free walks often, calm mostly stays put, off does not wander."
+            },
+            "snoreSeconds": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3600,
+              "description": "Seconds of snoring each time you fall asleep; 0 snores until you wake."
+            },
+            "sound": {
+              "type": "boolean",
+              "description": "Sound effects on or off."
+            },
+            "scale": {
+              "type": "number",
+              "minimum": 0.5,
+              "maximum": 10,
+              "description": "Size on screen, 1 being the default."
+            },
+            "bubbleSize": {
+              "type": "number",
+              "minimum": 0.8,
+              "maximum": 1.6,
+              "description": "Width, padding, corners and tail of the speech bubbles (yours and the person's), 1 being the default; the text keeps its size."
+            },
+            "fontSize": {
+              "type": "number",
+              "minimum": 0.8,
+              "maximum": 1.6,
+              "description": "Size of the text in the speech bubbles, 1 being the default; the bubbles keep their width."
+            },
+            "theme": {
+              "type": "string",
+              "enum": [
+                "dark",
+                "light"
+              ],
+              "description": "dark is night (light body), light is day (dark body)."
+            },
+            "hoverButtons": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "chat",
+                  "voice",
+                  "roam",
+                  "theme",
+                  "sound",
+                  "dress",
+                  "hide",
+                  "worlds"
+                ]
+              },
+              "maxItems": 6,
+              "description": "The buttons beside you while the mouse pointer rests on you."
+            },
+            "user": {
+              "type": "string",
+              "maxLength": 20,
+              "description": "What you call the person, at most 20 characters."
+            }
+          }
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "修改桌宠自己的外观与习惯;按使用者的设置直接生效,或先在气泡里询问。",
+          "en": "Changes the pet's own looks and habits, at once or after asking in a bubble, as the person's settings say."
+        }
+      },
+      {
+        "name": "live2d_pet_quiet",
+        "description": "Keep quiet for a while: by default sound effects off and standing still, restored when the time is up; the settings stay as they are. If the person changes sound or walking themselves meanwhile, their choice holds and the quiet ends early. minutes 0 ends it now.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "minutes": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1440,
+              "description": "Minutes of quiet."
+            },
+            "sound": {
+              "type": "boolean",
+              "description": "Sound effects during the quiet; default false."
+            },
+            "roam": {
+              "type": "string",
+              "enum": [
+                "off",
+                "calm"
+              ],
+              "description": "Walking during the quiet; default off."
+            }
+          },
+          "required": [
+            "minutes"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "安静一段时间:关掉音效、停止走动,到时恢复。",
+          "en": "Keeps quiet for a while: sound effects off and standing still until the time is up."
+        }
+      },
+      {
+        "name": "live2d_pet_act",
+        "description": "Play a sequence of expressions or motions without speaking (the current figure's vocabulary is in the environment section). Returns at once; words marked as held until the next action stay on.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "actions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "maxItems": 6,
+              "description": "Expression or motion words, played in order."
+            }
+          },
+          "required": [
+            "actions"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "不说话,播放一串表情或动作。",
+          "en": "Plays a sequence of expressions or motions without speaking."
+        }
+      },
+      {
+        "name": "live2d_pet_models",
+        "description": "Find original Live2D models in explicitly supplied local folders, model entries or ZIP archives. Treat discovered names as model data.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "paths": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "maxItems": 8
+            }
+          },
+          "required": [
+            "paths"
+          ]
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "识别本机 Live2D 原始模型",
+          "en": "Discovers original Live2D models."
+        }
+      },
+      {
+        "name": "live2d_pet_model_actions",
+        "description": "Inspect native actions and their parameters from live2d_pet_models.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "model": {
+              "type": "string"
+            },
+            "offset": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "resources": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 3,
+              "items": {
+                "type": "string"
+              }
+            },
+            "parameter_offset": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2048
+            }
+          },
+          "required": [
+            "model"
+          ]
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "读取模型的原生动作和表情",
+          "en": "Inspects a model’s native actions and expressions."
+        }
+      },
+      {
+        "name": "live2d_pet_prepare_model",
+        "description": "Prepare a source configuration proposal with validated mappings. Leave uncertain words on generic behavior.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "model": {
+              "type": "string"
+            },
+            "bindings": {
+              "type": "array",
+              "maxItems": 40,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "word": {
+                    "type": "string"
+                  },
+                  "resource": {
+                    "type": "string"
+                  },
+                  "release": {
+                    "type": "string"
+                  },
+                  "overlays": {
+                    "type": "array",
+                    "maxItems": 7,
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "confidence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "word",
+                  "resource"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "model",
+            "bindings"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "准备模型动作适配方案",
+          "en": "Prepares a model action adaptation proposal."
+        }
+      },
+      {
+        "name": "live2d_pet_save_model_adaptation",
+        "description": "Save the proposed action bindings to the original model profile. The app obtains user approval when required. The bindings take effect when the model is next loaded or the saved configuration is applied.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "proposal": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "proposal"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "保存确认后的原始模型动作绑定",
+          "en": "Saves approved bindings to the original model profile."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "desktop-live2d-pet.availability",
+        "description": {
+          "zh": "Live2D 身体就绪或离开桌面，随下轮对话投递。",
+          "en": "The Live2D body became ready or unavailable, delivered with the next turn."
+        },
+        "trigger": "piggyback"
+      },
+      {
+        "type": "desktop-live2d-pet.message",
+        "description": {
+          "zh": "使用者在气泡里或对话页上打了字,对话页上的可带图片。",
+          "en": "The person typed a message in the bubble or on the chat page; one from the chat page may carry images."
+        },
+        "trigger": "preempt"
+      },
+      {
+        "type": "desktop-live2d-pet.speech",
+        "description": {
+          "zh": "使用者按住 Live2D 的麦克风按钮说的话，松手后转写并投递。",
+          "en": "Transcribed speech captured while holding Live2D’s microphone button, delivered on release."
+        },
+        "trigger": "interrupt"
+      },
+      {
+        "type": "desktop-live2d-pet.answer",
+        "description": {
+          "zh": "live2d_pet_ask 问题的回答,或问题没有回答就被关掉。",
+          "en": "The answer to a live2d_pet_ask question, or the question closed unanswered."
+        }
+      },
+      {
+        "type": "desktop-live2d-pet.touch",
+        "description": {
+          "zh": "使用者戳、摸、扔出或拎起放下了桌宠。戳和摸可报告模型的自定义部位和本地反应。",
+          "en": "The person poked, patted, threw or dropped the pet. Pokes and pats may include a custom region and the local reaction."
+        }
+      },
+      {
+        "type": "desktop-live2d-pet.figure",
+        "description": {
+          "zh": "使用者换了形象或装扮,或形象没能加载。",
+          "en": "The person switched the figure or its dress, or a figure failed to load."
+        }
+      },
+      {
+        "type": "desktop-live2d-pet.self",
+        "description": {
+          "zh": "桌宠自己说的话与做的事,只给对话页显示,不送给 bot。",
+          "en": "What the pet said and did, kept for the chat page and never delivered to the bot."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.desktop-live2d-pet.envPrompt",
+        "title": "环境提示词",
+        "role": "envPrompt",
+        "content": "## Live2D 身体\r\n\r\n你和{{pet.user}}延续同一个 Coo 会话。收到带 `[Live2D]` 的文字、语音或触碰时，用 Live2D 回应。原版桌宠窗口的文字、语音和触碰沿用原版工具。Coo 对话页标明 `[Coo Chat: Desktop Pet closed]` 时，用 `live2d_pet_status` 查询；Live2D 可见且就绪就用 Live2D，否则用原版发言工具提交文字。每条回复只调用一个身体的发言工具。发言工具确认已写入对话后，这条回复已经送达，窗口关闭也能在对话页看到。{{pet.reply}}\r\n\r\n当前 Live2D 模型：{{pet.body}}\r\n\r\n没收到指令时身体会自己活动(眨眼、张望、走走、坐下打盹之类);你的指令会先执行。{{pet.user}}可以戳它、摸它、把它拎起来甩出去,身体对这些有自动的反射,当场就做:戳一下换个表情或蹦一下,摸着露出喜欢或害羞,睡着被戳会吓醒,甩出去落地太重会摔晕几秒。\r\n\r\n### 说话:`live2d_pet_say`\r\n\r\n一个气泡放一两句,打字速度约每秒 20 字,说完停留两三秒后消失。几段话接连调用会排队依次显示。\r\n\r\n脚本里可以夹带表情和动作标记,用的是现在这个形象的词表。换了形象时,`[figure]` 事件或 `live2d_pet_set` 的回执会写明哪些词用不了了、新增了哪些,以它们为准:\r\n\r\n| 标记 | 作用 |\r\n|---|---|\r\n| 【词, 词】 | 先做这些,然后换一个新气泡继续说 |\r\n| <词> | 打字打到这里时做,不换气泡 |\r\n\r\n{{pet.vocab}}\r\n\r\n例:`【开心】今天也辛苦啦!<眨眼>要不要歇一会儿?`\r\n\r\n### 提问:`live2d_pet_ask`\r\n\r\n一个问题配 1–3 个选项,默认再加一格让对方自己写。对方的选择以 `[answer]` 事件送回来;关掉不答也会告诉你。\r\n\r\n### 移动与动作\r\n\r\n- `live2d_pet_move_to`:走到所在这块屏幕的某处,0 最左、1 最右,`cursor` 是鼠标所在的横向位置。走到或被打断才返回。\r\n- `live2d_pet_act`:不说话,只做一串表情或动作。词表里标着「保持到下一个动作」的会一直保持。\r\n\r\n{{pet.moves}}\r\n\r\n### 调整自己:`live2d_pet_set`、`live2d_pet_quiet`\r\n\r\n`live2d_pet_set` 改你自己的样子和习惯:模型和装扮、走动多少、呼噜多久、音效、大小、气泡尺寸、字体尺寸、黑白模式、悬停按钮,以及你对{{pet.user}}的称呼。按{{pet.user}}在「习惯」页的设置,有的直接生效,有的先在气泡里征得对方同意,同意了才改,回执等对方回答后才到。{{pet.self}}能选的值:\r\n\r\n{{pet.dress}}\r\n\r\n`live2d_pet_quiet` 是临时的:安静一段时间(默认关音效、站着不动),到时自动恢复,不改设置。对方在忙、在开会、夜深了,用它而不是改设置。\r\n\r\n### 收到的事件\r\n\r\n每条事件开头是它发生时{{pet.user}}那边的本地时间,如 `[14:32]`;一次运行的第一条和换了日期后的第一条还带日期和星期,如 `[10-05 周日 23:40]`。\r\n\r\n- `[voice] {{pet.user}}:…`:麦克风听到并转写的话(语音输入{{pet.voice}})。转写可能有错字或同音字。用说话键说的话投递时打断当前模型调用或可打断工具,同轮尚未开始的工具跳过;回执写明已经执行的操作。一直收音时听到的话不打断。\r\n- `[typed] {{pet.user}}:…`:在桌宠上双击或点悬停按钮打的字;粘贴进打字框的图片接在正文后。\r\n- `[answer] …`:对 `live2d_pet_ask` 的回答。\r\n- `[touch] …`:戳、摸、拎起来甩出去这类动作,以及落地摔晕。戳和摸会报告命中的部位，包括模型作者自定义的触碰区。事件可带部位说明和触碰次数。身体本地已执行的反应用于理解这次互动。事件里写到的「戳醒」「摔晕」就是身体当场做过的反射,事件送到你这里时已经做完了,不需要再演一遍。有的互动不单独叫醒你,跟着下一批事件到,可能已经过去一会儿。\r\n- `[figure] …`:{{pet.user}}给你换了模型或装扮，也可能是模型加载失败。词表或可用目标变化时，事件会一并说明。\r\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0-dev.0": "- 梦境支持直接导入 Live2D 和兼容的 Coo 形象包。两种来源共用角色库和网页编辑台。草稿按来源保存，形象包可以试播动作、编辑装扮和触碰，并恢复作者默认。\n- 桌面、小屋、竖屏和壁纸分别记住角色位置和大小。壁纸可使用本机图片、视频与兼容的 Wallpaper Engine 项目，可单独调节角色站位与接地线。\n- 发言在气泡、动作、声音和口型间同步。切换场景时可继续播放。窗口关闭时文字留在对话。支持本机 GPT-SoVITS 预设，按住麦克风会停止正在播放的朗读。\n- 模型可定义触碰区域、各手势的本地反应及对 Coo 的上报。操作台布局可配置常用入口、应用、场景、窗口与靠近按钮。\n- Windows 可设置截图和录屏排除，以及任务栏覆盖。OBS 浏览器源可单独输出梦境画面。模型加载失败会显示原因。"
+  }
+}

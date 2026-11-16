@@ -1,0 +1,345 @@
+{
+  "schema": 1,
+  "name": "cortico-world-compose",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "compose_render",
+        "description": "Render a song written as a lead sheet to an audio file. You write the form, the chords and the melodic lines; chords, bass and drums are played from each section's groove and energy. Rendering a title again replaces its audio. A line is bars separated by \"|\". A bar is slots of equal length separated by spaces: 4 slots are quarter notes, 8 are eighths, 16 are sixteenths (3, 6 or 12 for triplets); bars of one line may use different slot counts. A slot is a pitch (\"F#5\", \"Bb4\"; C4 is middle C), \"-\" to hold the previous note, or \".\" for a rest. \"%\" repeats the previous bar. Two bars of eighths: \". F#5 A5 D6 - - E6 - | - . . C#6 B5 - . .\" The receipt gives the file and measured facts: length, the level of each section, ranges, notes that clash with their chord, bars that repeat.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Song title; also the file name."
+            },
+            "tempo": {
+              "type": "number",
+              "description": "Beats per minute, 30–300."
+            },
+            "key": {
+              "type": "string",
+              "description": "Like \"D major\", \"B minor\", \"F dorian\"."
+            },
+            "meter": {
+              "type": "string",
+              "enum": [
+                "4/4",
+                "3/4"
+              ],
+              "description": "Default 4/4."
+            },
+            "lead": {
+              "type": "string",
+              "description": "Instrument that plays each section's \"melody\". One of: piano, electric piano, harpsichord, celesta, glockenspiel, music box, vibraphone, marimba, organ, accordion, harmonica, nylon guitar, steel guitar, jazz guitar, clean guitar, overdrive guitar, acoustic bass, electric bass, fretless bass, synth bass, violin, viola, cello, pizzicato, harp, strings, choir, trumpet, trombone, french horn, muted trumpet, brass, soprano sax, alto sax, tenor sax, oboe, clarinet, piccolo, flute, recorder, pan flute, whistle, ocarina, synth lead, saw lead, synth pad, kalimba, koto, shakuhachi, steel drums."
+            },
+            "motifs": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "Named lines to reuse. In any line, a bar written \"@name\" stands for the motif; \"@name+1\" or \"@name-2\" moves it by that many scale steps of the key."
+            },
+            "form": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Section names in playing order; a name may come more than once. Without it the sections play once each, in the order written."
+            },
+            "sections": {
+              "type": "array",
+              "description": "The sections of the song, each written once.",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "like": {
+                    "type": "string",
+                    "description": "Name of an earlier section to copy; fields given here replace the copied ones."
+                  },
+                  "groove": {
+                    "type": "string",
+                    "enum": [
+                      "pop",
+                      "rock",
+                      "ballad",
+                      "bossa",
+                      "samba",
+                      "swing",
+                      "waltz",
+                      "funk",
+                      "lofi",
+                      "dance",
+                      "ambient",
+                      "none"
+                    ],
+                    "description": "What the band plays. pop: straight eighths: piano chords, electric bass, backbeat. rock: driving eighths: overdriven guitar, electric bass, loud backbeat. ballad: slow and open: piano broken chords, soft bass, cross-stick. bossa: bossa nova: nylon guitar comping, acoustic bass, rim-click clave. samba: fast samba in sixteenths: nylon guitar, busy percussion. swing: jazz swing: walking bass, ride cymbal, piano stabs; eighths are swung. waltz: three-four: bass on one, chords on two and three. funk: sixteenth-note funk: clean guitar chops, syncopated electric bass. lofi: laid-back hip-hop beat: electric piano chords, soft kick and snare, lazy sixteenths. dance: four-on-the-floor: kick on every beat, off-beat bass and hats, synth chords. ambient: no beat: one sustained string chord and a bass note per bar. none: no band, only the written lines. waltz needs meter 3/4; the others except ambient and none need 4/4."
+                  },
+                  "energy": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5,
+                    "description": "How full and loud the band plays: 1 is the barest version of the groove, 5 the busiest. Written lines get louder with it too."
+                  },
+                  "chords": {
+                    "type": "string",
+                    "description": "One bar per \"|\", one to eight symbols per bar sharing it equally, \"-\" holds, \"%\" repeats the bar, \"N.C.\" silences the band: \"Dmaj9 | Em9 A13 | F#m7 - - B7b9\"."
+                  },
+                  "melody": {
+                    "type": "string",
+                    "description": "The line of the lead instrument."
+                  },
+                  "parts": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "description": "More lines, keyed by instrument name: counter-melodies, answers, doublings. The key \"drums\" takes drum letters instead of pitches (K kick, S snare, X rim, H hi-hat, O open hat, R ride, C crash, T tom, M shaker), several per slot."
+                  },
+                  "stops": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "description": "Bar numbers within the section where the band plays one hit on beat 1 and then rests; written lines go on."
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              }
+            }
+          },
+          "required": [
+            "title",
+            "tempo",
+            "sections"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "把一份谱子(曲式、和弦、旋律)渲染成音频，伴奏按律动生成。",
+          "en": "Renders a lead sheet (form, chords, melodies) to audio; the band is generated from the groove."
+        }
+      },
+      {
+        "name": "compose_revise",
+        "description": "Change parts of a song already written (rendered, or kept as a draft after a failed render) and render it. Give only what changes: a section with the name of an existing one replaces it, a section with a new name is added (at the end of the playing order unless form is given), a motif replaces the one of the same name, and tempo, key, lead and form replace the old values. Everything else stays as it was. The receipt is that of a full render.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Title of the song to change."
+            },
+            "tempo": {
+              "type": "number",
+              "description": "Beats per minute, 30–300."
+            },
+            "key": {
+              "type": "string",
+              "description": "Like \"D major\", \"B minor\", \"F dorian\"."
+            },
+            "lead": {
+              "type": "string",
+              "description": "Instrument that plays each section's \"melody\". One of: piano, electric piano, harpsichord, celesta, glockenspiel, music box, vibraphone, marimba, organ, accordion, harmonica, nylon guitar, steel guitar, jazz guitar, clean guitar, overdrive guitar, acoustic bass, electric bass, fretless bass, synth bass, violin, viola, cello, pizzicato, harp, strings, choir, trumpet, trombone, french horn, muted trumpet, brass, soprano sax, alto sax, tenor sax, oboe, clarinet, piccolo, flute, recorder, pan flute, whistle, ocarina, synth lead, saw lead, synth pad, kalimba, koto, shakuhachi, steel drums."
+            },
+            "motifs": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "Named lines to reuse. In any line, a bar written \"@name\" stands for the motif; \"@name+1\" or \"@name-2\" moves it by that many scale steps of the key."
+            },
+            "form": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Section names in playing order; a name may come more than once. Without it the sections play once each, in the order written."
+            },
+            "sections": {
+              "type": "array",
+              "description": "Sections to replace or add, written in full.",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "like": {
+                    "type": "string",
+                    "description": "Name of an earlier section to copy; fields given here replace the copied ones."
+                  },
+                  "groove": {
+                    "type": "string",
+                    "enum": [
+                      "pop",
+                      "rock",
+                      "ballad",
+                      "bossa",
+                      "samba",
+                      "swing",
+                      "waltz",
+                      "funk",
+                      "lofi",
+                      "dance",
+                      "ambient",
+                      "none"
+                    ],
+                    "description": "What the band plays. pop: straight eighths: piano chords, electric bass, backbeat. rock: driving eighths: overdriven guitar, electric bass, loud backbeat. ballad: slow and open: piano broken chords, soft bass, cross-stick. bossa: bossa nova: nylon guitar comping, acoustic bass, rim-click clave. samba: fast samba in sixteenths: nylon guitar, busy percussion. swing: jazz swing: walking bass, ride cymbal, piano stabs; eighths are swung. waltz: three-four: bass on one, chords on two and three. funk: sixteenth-note funk: clean guitar chops, syncopated electric bass. lofi: laid-back hip-hop beat: electric piano chords, soft kick and snare, lazy sixteenths. dance: four-on-the-floor: kick on every beat, off-beat bass and hats, synth chords. ambient: no beat: one sustained string chord and a bass note per bar. none: no band, only the written lines. waltz needs meter 3/4; the others except ambient and none need 4/4."
+                  },
+                  "energy": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5,
+                    "description": "How full and loud the band plays: 1 is the barest version of the groove, 5 the busiest. Written lines get louder with it too."
+                  },
+                  "chords": {
+                    "type": "string",
+                    "description": "One bar per \"|\", one to eight symbols per bar sharing it equally, \"-\" holds, \"%\" repeats the bar, \"N.C.\" silences the band: \"Dmaj9 | Em9 A13 | F#m7 - - B7b9\"."
+                  },
+                  "melody": {
+                    "type": "string",
+                    "description": "The line of the lead instrument."
+                  },
+                  "parts": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "description": "More lines, keyed by instrument name: counter-melodies, answers, doublings. The key \"drums\" takes drum letters instead of pitches (K kick, S snare, X rim, H hi-hat, O open hat, R ride, C crash, T tom, M shaker), several per slot."
+                  },
+                  "stops": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "description": "Bar numbers within the section where the band plays one hit on beat 1 and then rests; written lines go on."
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              }
+            }
+          },
+          "required": [
+            "title"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "只给出要改的部分(某几段、动机、速度、段落顺序),合进已有的谱子后重新渲染。",
+          "en": "Takes only what changes (sections, motifs, tempo, playing order), merges it into the stored sheet and renders again."
+        }
+      },
+      {
+        "name": "compose_read",
+        "description": "Without a title: list the songs written so far. With a title: return the sheet last rendered under it, as it was written.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "title": {
+              "type": "string"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "列出写过的曲子，或取回某一首最近一次渲染的谱子。",
+          "en": "Lists the songs written so far, or returns the sheet last rendered under a title."
+        }
+      },
+      {
+        "name": "compose_play",
+        "description": "Play a rendered song aloud on this computer, through the output device chosen in this World's settings. It returns as soon as playback has started; a song already playing is stopped first.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "title": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "title"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "在配置里选定的输出设备上播放一首渲染好的曲子。",
+          "en": "Plays a rendered song on the output device chosen in the settings."
+        }
+      },
+      {
+        "name": "compose_stop",
+        "description": "Stop the song that compose_play is playing.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "停止正在播放的曲子。",
+          "en": "Stops the song that is playing."
+        }
+      },
+      {
+        "name": "compose_open",
+        "description": "Open a rendered song's audio file in the computer's default player application, where the person can pause, seek and replay it themselves.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "title": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "title"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "用系统默认播放器打开一首曲子的音频文件。",
+          "en": "Opens a song's audio file in the system's default player."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.compose.envPrompt",
+        "title": "作曲 · 环境提示词",
+        "role": "envPrompt",
+        "content": "You can write music here: a song goes in as a lead sheet and comes back as an audio file on this computer. Nobody hears it until it is played for them.\n\nBefore writing notes, decide three things: one short motif (a rhythm with a few pitches, two bars at most) that the song grows from; the sections and what each one is for; where the song is quietest and where it peaks.\n\nWrite melody as phrases, not bar by bar. State the motif, repeat it changed (moved up or down a step, or with a new ending), then on the third or fourth time break the pattern the listener has come to expect. End phrases with rests; a second instrument can answer in those gaps. Prefer steps to leaps and save a leap for where it matters.\n\nSections should differ in more than their notes: groove, energy, which instruments play, register. A section that comes back should change something. A bar where the band stops, a new key and a new groove are all ways to break an expectation.\n\nNotes held for a beat or longer belong to the chord or are a tension you chose; quick notes may pass through anything.\n\nWork in passes. Write a short first version straight into a render, without drafting every bar beforehand, then listen through the receipt: compare the measured facts with what you intended and change the parts that disagree. Section levels that are all alike, many identical bars, or a single bar rhythm throughout mean the song is monotonous. A long song is easier to get right by adding and replacing sections than by writing it whole in one go.\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "- 第一版:`compose_render`、`compose_revise`、`compose_read`、`compose_play`;11 种律动的自动伴奏;渲染回执带测量结果。\n- `compose_play` 在配置里选定的输出设备上播放，`compose_stop` 停止，`compose_open` 用系统播放器打开文件。\n- World 页的「曲子」面板：钢琴卷帘、段落与和弦、实测电平、和弦外音标记、浏览器试听与设备播放。"
+  }
+}

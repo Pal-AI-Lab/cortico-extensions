@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-journey",
-  "version": "1.8.9",
+  "version": "1.8.13",
   "describe": {
     "tools": [
       {
@@ -135,8 +135,8 @@
           "write"
         ],
         "summary": {
-          "zh": "他说回来吧，就结束这一趟往回走。",
-          "en": "Starts her trip back home, because the person asked."
+          "zh": "他说回来吧，就当场买票飞回来。",
+          "en": "Brings her home today, because the person asked."
         }
       },
       {
@@ -245,7 +245,7 @@
       },
       {
         "name": "journey_go_to",
-        "description": "Set off for a named city, optionally by a stated means of transport. Use it when the person says where to go and/or how - \"take the high-speed rail to Shanghai\", \"fly to Lhasa\". With no mode it picks one itself, weighted by distance; with a mode it uses exactly that one, and if that one is impossible (too far, no airport, no rail link, no money) it says why instead of silently substituting another. Only when she is settled in a city or at home. While she is already on a leg it cannot turn around, but it still records the city as a wish for the next leg and says so - call it anyway when he names a place while she is travelling, and tell him it is meant for the next leg, not this one. Not while heading home, not during a short-term job, and not once the trip has hit its length limit - it will say which of those it is. Going home has its own tool.",
+        "description": "Set off for a named city, optionally by a stated means of transport. Use it when the person says where to go and/or how - \"take the high-speed rail to Shanghai\", \"fly to Lhasa\". With no mode it picks one itself, weighted by distance; with a mode it uses exactly that one, and if that one is impossible (too far, no airport, no rail link, no money) it says why instead of silently substituting another. Only when she is settled in a city or at home. While she is already on a leg it cannot turn around, but it still records the city as a wish for the next leg and says so - call it anyway when he names a place while she is travelling, and tell him it is meant for the next leg, not this one. **Calling it starts the leg at once**: the moment it returns she is on the road - no trip to the airport, no packing, no waiting for the day's plan to be over. If he only means \"change how we travel\", or wants her to go later, say that back to him and do not call it. **Two exceptions that do not start anything**: (a) if the city is exactly the one she already promised to travel to and she has not left yet, a stated mode is just recorded for that trip - she stays put and goes when she was going to; (b) if she is already on a leg heading for that same city, a stated mode rebooks it - old ticket refunded in full, new one bought, arrival time recalculated. Both come back saying what happened, so read the reply before telling him. Not while heading home, not during a short-term job, and not once the trip has hit its length limit - it will say which of those it is. Going home has its own tool.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -267,8 +267,8 @@
           "write"
         ],
         "summary": {
-          "zh": "他指明了去哪、怎么去，就用它；不说方式就她自己挑。",
-          "en": "Sets off for a named city, by a stated means of transport if given."
+          "zh": "他指明了去哪、怎么走，就用它 —— **一调就动身**（去的本来就是那一趟时只改走法）；不说方式就她自己挑。",
+          "en": "Sets off for a named city, by a stated means of transport if given; rebooks instead when the destination has not changed."
         }
       },
       {
@@ -743,7 +743,7 @@
       {
         "type": "journey.photo",
         "description": {
-          "zh": "她路上拍的一张风景照：只有景，没有她自己。附在事件后面。",
+          "zh": "路上拍的一张风景照：只有景，没有她自己。附在事件后面。",
           "en": "A scenery photo she took on the road. Scenery only, never herself. Attached to the event."
         },
         "trigger": "debounce"
@@ -799,10 +799,18 @@
       {
         "type": "journey.pledge",
         "description": {
-          "zh": "原来的约定被推掉了：他叫她改去别处，跟人说好的那趟去不成。",
-          "en": "An earlier promise is dropped: the person redirected her, so the agreed trip cannot happen."
+          "zh": "同行约定变了：改去别处，那趟作废；或者到了别的城，那份约定静默失效；也可能目的地没变、只是换了走法，同行照旧。",
+          "en": "A promise changed: redirected somewhere else and dropped; or she arrived elsewhere and it lapsed; or she kept the same destination and only changed how she travels, so it still stands."
         },
         "trigger": "debounce"
+      },
+      {
+        "type": "journey.rebook",
+        "description": {
+          "zh": "改签了：这一段走到一半，目的地不变，他从别的走法改成了另一种（旧票全额退、新票另买）。",
+          "en": "She rebooked a leg already underway: same destination, a different way of getting there (old ticket refunded in full, a new one bought)."
+        },
+        "trigger": "flush"
       },
       {
         "type": "journey.work",
@@ -823,6 +831,10 @@
     ]
   },
   "changelog": {
+    "1.8.13": "1.8.12 发出去之后自查发现的：`journey_go_to` 的两处描述（「一调就动身」+ 两个不动身的例外）\n和 `journey_return_home`、`journey.photo` 的文案，**代码里改了、`describe.json` 里没跟**。\n\n**为什么这条不能留**：宿主的 `src/extensions/describe.ts` 写得很清楚 ——\n「索引仓的 Action 与 WebUI 的扩展市场**只读这个文件，不执行扩展代码**」。\n所以漂移在运行时不报错（模型拿的是代码里那张表），但**市场页面上写的还是旧规矩**：\n「While she is already on a leg it cannot turn around」—— 正是 1.8.12 要推翻的那句话。\n\n- `describe.json` 从 `src/describe.ts` 重新生成（工具 24 条、事件 19 条，全部一致）。\n- `test/journey.test.mjs` 加一条：工具名单 / description / summary / parameters 必须一字不差。\n  事件那张表 2026-11-01 就钉过，工具这张一直没人钉 —— 这次漏的就是它。",
+    "1.8.12": "1.8.11 只做到「同城不作废约定」，人还是照样当场出发。读者来信第 1 条要的是**改签**，\n不是「立刻走」—— 她 10:31 刚答应小岸、11:51 用户改口说买机票，中间那一小时她\n在成都排好了下午的日程；一调 `journey_go_to` 就登机，等于把「改走法」听成了「马上走」。\n\n**这一版改的**\n\n- **`journey_go_to` 分三种情况**：目的地是新的 → 照旧立刻出发；目的地正是她\n  答应要去的那一座 + 他点名了走法 → **只记走法，人不动身**；已经在往那儿走的路上 +\n  点名了走法 → **改签**。\n- **`Pledge` 加了 `modeId`**。原来约定里完全不存交通方式，「改签」无处可落 ——\n  这是 1.8.11 写「做不了」的原因。现在记下来，动身时优先用它（`pledgedMode`），\n  这条路线不可用或买不起才退回自己挑。\n- **票钱改成出发即付**（`buyTicket`），腿上加 `fare` 留凭据。\n  原来的到站结算有个洞：一段被中途打断的腿（他叫回家）永远等不到结算，\n  这一趟的票钱从来没扣过。老存档没有 `fare` 的，到站仍按算式补记一次。\n- **退票全额，不扣手续费**。改签时先退旧票再买新票，账上净变化就是差价；\n  退款减 `spent` 而不是加 `earned`（那笔钱没花出去，日记里的「这趟花了多少」也该少）。\n- **新事件 `journey.rebook`**：说清改成什么、退了多少、还要多久。\n- **打工期间也能改走法**（144 天长跑抓到的）。原来「只记走法」排在「正在打短工」之后，\n  于是那几天的每一次改走法都被一句「她在打工，还有 N 天」挡回来 —— 用户的话连同回执一起消失，\n  工做完她按自己挑的方式走。记走法并不让她走，两件事不冲突，所以判断挪到了打工之前。\n  （「这一趟到上限」仍然排在它前面：那时候她下一个早上就回家，记下的走法永远不会被用上。）\n- **记下的走法不会被他第二次点名冲掉**（自查）。`depart` / `moveOn` 里那个 `pledged` 变量\n  在「他点了名」时是 `null`，于是「先说坐飞机 → 第二天再点同一座城但没提方式」时走法就丢了。\n  现在按目标城回头找一次约定（`pledgeFor`），找得到就照它走。\n\n**代价**\n\n- `payFromLife` 那一头退不回来：递条子是单向的（只表达「该扣我多少」），\n  没有负数条子这种约定。所以开了「从鱼生钱包扣」的用户，life 那本账上这笔钱仍然算花了。\n- 改签后 `arrivedAt` 按新走法重算，比原计划晚到是正常的 —— 用户的直观感受是\n  「换成飞机反而更晚」，那是因为原来的火车已经走了一段，新的一段从头开始。\n- **升级前就在路上的那趟，改签不退钱**（那一代根本没付过票钱，`leg.fare` 没有值）。\n  按算式补退等于凭空给她钱，所以宁可少退。",
+    "1.8.11": "同一天到的两封来信，一封是六条 bug 的汇总，一封只有一条但更伤。\n\n`415574377@qq.com`（Donahue，v1.8.3/v1.8.9）：「买机票吧，别再坐大半天火车」，\n模型调 `journey_go_to { 苏州, 飞机 }` —— **目的地跟三天前答应的那座城一模一样**，\n结果约定被清、飞机照飞、还推了一条「他叫她改去别处」。\n\n`372145837@qq.com`（zzy1053）：「journey.photo 的事件文案用了第三人称，桌宠会在 reasoning 里\n把自己当成『她』」，附了扫描数据：1740 条 reasoning，事件轮的第三人称比例从 10-24 的 0%\n涨到 11-16 当天的 60%。\n\n**这一版修的**\n\n- **同一座城不算「改去别处」**。`goTo` 的 pledge 分支原来无条件清空，现在只有 `dest.id !== pledge.cityId`\n  才作废；同城时留着约定，出发后再推一条「改坐 X 去，和 Y 的同行还作数」。\n- **文案跟着分支走**。原来不管哪种情况都说「他叫她改去别处」——用户根本没说过这句，\n  模型为它花了 4429 字判断是不是噪音。\n- **`journey_go_to` 写明「一调就动身」**。她把它读成「设定行程」，于是前一句还在成都安排下午的事，\n  后一句就说自己登机了。行为没改，说明补上：真要晚点走、或只想改走法，就别调它。\n- **苏州补 `air: false`**。苏州没有民航机场（旅客走虹桥/浦东/硕放），原来按默认值生成过\n  1576 公里 5.5 小时的航段。江苏其余几座（南京、徐州、无锡）都有机场，常熟早就是 `air: false`。\n- **到站约定作废要推事件**。原来只有一行 `log.info`，用户看不到日志，模型当她还在守约。\n- **事件正文去掉第三人称自称**。`她拍了张照片` → `拍了张照片`，`她出发了` → `出发了`，\n  连同 `journey.ask` / `invite` / `stay` / `mishap` / `part` / `arrive` 共十来处。\n  这条通道（`external_event_frame`）的语义是「别人在说话」，里面写「她」，模型就会去找那个第三者是誰。\n  工具回执（`journey_now` 之类）里的「她」不改 —— 那是她自己调出来的结果，不存在歧义。\n\n**这一版没动的**\n\n- **改签没有退票**（来信第 6 条）。全仓 grep 过，「退票」只在一行注释里。眼下票价在到站结算，\n  所以这次没重复扣钱；但「先买一张票、再改签到另一座城」确实不会退旧票。要做得先定规则\n  （退多少、收不收手续费），不是一行代码的事，留到下一版。\n- **`journey_go_to` 仍然没有「只改走法、不出发」的分支**。`Pledge` 里不存交通方式，\n  改签无处可落；这一版只保证「同城不作废约定」，出发仍按他点名的方式走。",
+    "1.8.10": "同一天到的两封读者来信，说的是同一个病。\n\n`3078693929@qq.com`（v1.8.7）：\n\n> 想加的地点：东莞东城，因为想让大肥鱼记住我家城市的样貌，且希望能修改大肥鱼的家。\n\n`525201420@qq.com`（阿智，v1.8.7）连发两封：\n\n> 我的鱼觉得兰州不是她的家，希望大佬可以出一个能更改家地址的功能。\n> 诶，是不是那个地方只能是大城市啊，我填了孝感，但是每次回来还是在兰州。\n\n病根一样：**`CITIES` 里整座城都不存在**。设置页「从哪儿出发」填「东莞」「孝感」\n都认不出来 —— `resolveHome()` 会回落到兰州，同时留一句「出发地不在内置城市表里」。\n那句提示 11-03 就有了，但读者不会去翻面板底部的一行小字，他的体验就是「填了没用」。\n\n所以这版不是新功能，是把两座**已经被人写进设置里**的城补上。\n\n### 孝感的九处\n\n| 表 | 填了什么 |\n|---|---|\n| `SPOTS` | 9 条：董永公园（槐荫树、理丝桥、升仙台）、澴河文昌阁、双峰山（873 米、白云古寨、二十四孝浮雕墙）、白兆山（李白「酒隐安陆」十年）、钱冲古银杏（千年群落）、汤池温泉（72℃）、观音湖（33 岛）、天紫湖（七仙女传说）、孝感市博物馆（马口窑、铜镜） |\n| `FOODS` | 孝感米酒、孝感麻糖、云梦鱼面、安陆白花菜、汉川荷月、汉川藕带、应城扒肉、大悟臭豆腐 |\n| `NIGHTS` | 城站路大天桥下的米酒馆 + 体育路董永美食城 |\n| `LORE` | 东汉董永卖身葬父、孝行感天得名；南朝宋置孝昌县，五代后唐避讳改孝感 |\n| `FESTIVALS` | 杨店龙灯（正月十二至十五）、钱冲银杏季（11–12 月）、汉川龙舟（端午） |\n| `SHOWS` | 孝感大剧院（复兴大道文化中心，保利运营，三个厅） |\n| `VISTA` | 澴河、槐荫大道的法桐、孝文化雕塑（30 字） |\n| `SPOT_LOOK` | 董永公园、双峰山、汤池温泉各一条材质级锚点 |\n| `FEATURES` | 桃花 / 董永公园 / 孝感米酒 |\n| `C()` | `air: false`（没有民航机场，得先落武汉天河） |\n\n### 东莞的九处\n\n| 表 | 填了什么 |\n|---|---|\n| `SPOTS` | 9 条：黄旗山（189 米、山顶红灯笼）、可园（邀山阁）、榴花塔（明万历，铜岭）、振华路骑楼老街、同沙湖（17 公里环湖绿道）、虎英公园（虎英叠翠）、南社古村、松山湖、下坝坊 |\n| `FOODS` | 烧鹅濑粉、道滘肉丸粥、冼沙鱼丸、塘厦碌鹅、糖不甩、道滘裹蒸粽、白沙油鸭 |\n| `NIGHTS` | 莞城新光明市场夜市（五点半以后整层开市） |\n| `LORE` | 南朝梁置县，因在广州之东、盛产莞草得名 |\n| `FESTIVALS` | 茶园游会（农历三月廿五至廿八）、东莞龙舟月 |\n| `SHOWS` | 玉兰大剧院（歌剧厅 + 试验剧场） |\n| `VISTA` | 东江、灰白骑楼柱、榕树气根、连片平顶厂房 |\n| `SPOT_LOOK` | 黄旗山、可园、榴花塔各一条材质级锚点 |\n| `FEATURES` | 玉兰 / 黄旗山 / 烧鹅濑粉 |\n| `C()` | `air: false`（没有民航机场，得先落广州或深圳），`port: true`（虎门港澳码头） |\n\n**东城不进坐标。** 东莞是「直筒子市」，下面不设区县，东城是街道 ——\n所以它落成景点括号注（黄旗山、榴花、同沙、虎英四处都在东城街道），\n而不是第二座城。`PRICE_IDX` 不填，默认 1.0（表里只列偏离默认值的城）。\n\n`site/pets.html` 的城市表同步重导（186 → 188）。\n\n### TourMind 真店数据补上了\n\n两座城原来没有 `hotel-facts.json`，酒店只能按价格分位估 —— 真实星级、设施、周边报不出来。\n这次跑了 `tools/fetch-hotel-facts.mjs --only dongguan,xiaogan`：\n\n- 东莞 `region_id 16514`，池子 20 家，采到 7 家。**恰好全是东城万达、东城地铁站一带的店**，\n  跟读者说的「东莞东城」对上了；其中东莞富力万达文华（420 元 / 5 星）带着周边十条距离（虎英公园 2.1 公里、可园 4 公里）。\n- 孝感 `region_id 69699`，池子 20 家，采到 6 家。孝感宇济大酒店（265 元 / 5 星）周边有董永公园 4.6 公里。\n\n全库从 185 城 1733 家变成 **187 城 1746 家**。\n\n有一条脏数据记在这：东莞康…",
     "1.8.9": "Mr.Q 发来一张 23 点的兰州照片：「讲道理哈，我家在兰州市里不在郊区。」\n\n照片里是满天星、河滩边的低矮平房、对岸黄土坡 —— 那是黄土高原的村子。\n查下来两处叠在一起，缺一不可：\n\n1. **城市锚点只写了城外的形制。** `VISTA.lanzhou` 原文\n   「黄河浑黄，河谷城东西狭长，两岸黄土山梁夹峙；**院落土坯青砖、单坡平顶**，行道旱柳国槐」——\n   「土坯院落、单坡平顶」是周边村里的房子，市区（城关、七里河）一张都拍不到。\n   现在城区在前：楼群连成带状、滨河路、铁桥，山退到最后一句。\n2. **夜里的照明句只有「野外」那一版。** `lightLine()` 的 `night` 档一直是\n   「没有别处的光，只有几处窗灯和路灯，照不亮周围」，**城里也照它画**。\n   现在分两支，城里写「路灯一盏接一盏，把地面照出一片一片的亮，远处连成一条」。\n   `skyLine()` 同步分档：城里「天是深灰的，被底下的灯映亮，只看得见一两颗星」——\n   市区光污染下看不见满天星，那句满天星会把这幅画再往野外推一把。\n\n判据（同卷二 §17）：**按「这是什么地方」给，不按「长什么样」猜。**\n拍整座城（无 `spot`）、在家、`spotProfile` 判为 `urban` → 城里；\n判不出（`setting === ''`）→ 走老行为，不猜；判成室内 → 不算城里（展厅看不见路面和楼窗）。\n\n**不点具体构筑物。** 第一版写「桥上的灯、楼里的窗」——兰州有桥，喀什老城的窄巷没有，\n写了模型会替喀什造一座桥；城市里有楼，兵马俑坑边没有楼。改成路灯，处处成立。\n\n### 顺着这个病根，同一天又收四处\n\n两份子 agent 的排查 + 一次被测试打回来，都是同一个病：**一个事实只有一版，实际分场景**。\n\n3. **展厅走到了户外句上。** 判成室内的点（博物馆展厅）原先还用户外灯句、户外天气句，\n   夜里还被补一句「其余部分看不出颜色，只剩轮廓」（那句在室内恒真，因为天空句本来就被退掉了），\n   人气句写的是「远处散着几个很小的行人」。现在：`hallLight()` 给展厅单独一句光；\n   天气句与轮廓句都过 `spotIndoor` 检查；展厅里的人叫**观众**不叫行人。\n4. **季节句给市区配土路。** 西北十一月那条是「地面是干土，尘土浮在鞋面上」——\n   兰州市区走在滨河路上，鞋上不该有土。新增 `citySeason()`：城里换成\n   「路面干，道牙和墙根积着一层灰」（夜里「路面干，灯下是一层薄灰」）。\n   **只换这一条**，不建全量对照表 —— 替换一条能说清来由的，比编一张映射表可靠。\n5. **抬头拍天在城市里照样给银河。** `skyOf()` 加 `urban`：城里「天是深灰的，被底下的灯映亮，\n   只看得见一两颗星」，同时把 `stars` 改成 false —— **图和话要一起改**，回执拿它说「拍到了星空」。\n   顺带修两处调用：`photoPrompt` 与 `world-photo` 都没传经度时区，`skyOf` 按钟点算天，\n   而同一段的光是按太阳高度算的，两套判据并存。星空那张的质感句也从「手机夜拍」换成「三脚架长曝」。\n6. **汉中的气候区归错了。** 按省一刀切归进 `northwest`，十一月给它「胡杨和杨树落成光杆、\n   地面是干土」。汉中是秦岭以南的北亚热带，年降水八百到一千毫米 —— 改归 `sichuan`。\n\n### 有一条判据被测试打回来了\n\n给 `spotProfile().setting === 'wild'` 配「没有人」「没有窗灯」，想让戈壁、雪山别出现行人和路灯。\n`photo-subject` 当场红：**婺源的江岭判成 mountain / wild，可那是有人住的梯田村。**\n「不在市区」推不出「没有人」。撤回，注释留在原处 —— 这条判据撑不住，别再加。\n\n验证：全量 2232 条（186 城 × 6 钟点 × 地面/拍天两题材），与 `HEAD` 逐字对比 ——\n\n| | 数 |\n|---|---|\n| 地面题材有变化 | 680 |\n| 拍天题材有变化 | 921（经度时区修正 + 城里弱化星空） |\n| 白天有变化的城市 | 15：13 个西北区城市换季节句、汉中（季节区改判）、兰州（锚点 + 季节句） |\n\n680 里被改动的**只有三类句子**，一张图可能同时落两类，所以不能相加：\n夜间「天/光」两句（649 条）、季节句（96 条 —— 城市替换 90 + 汉中改判 6）、\n兰州锚点（6 条）。除这三类之外，没有第四种句子被动过。\n\n单测 **1091 条 / 108…",
     "1.8.8": "Mr.Q：「睡眠时禁止 journey 的出发。」\n\n`stayTick` 在**跨天结算之后、所有「醒着才会做的决定」之前**判一次 `asleepUntil`\n（读 life 广播的 `life-public.json`），且放在 `decidedOn` 赋值之前（不占用当天的决策额度）；\n`homeTick` 同样补上睡眠门控，在家睡着也不出门、不弹 `askToDepart`。\n\n三条边界：\n\n1. **用真实时间比，不用 `now`。** `now` 是世界时钟，倍速下跑到未来，拿它比一行代码就判成「早醒了」。\n2. **读不到 / 文件坏了，当醒着。** 判错的方向必须安全：少睡一次只是她多走一天，反过来是「世界停在那里等她」。\n3. **只读不写。** `life-public.json` 是 life 写的，这边碰一下就是双写。\n\n**房钱饭钱照扣**（跨天结算在判断之前）—— 睡觉不省房钱，这是实话。\n\n测试 `test/sleep-gate.test.mjs` 五条：睡着不走 / 醒了照走 / 坏文件照走 / 不占当天额度 / 在家睡着不出门。",
     "1.8.7": "**用户原话**（Mr.Q，11-15 下午）：\n\n> 「如果她在外面接了别人的约，我设的设置时间到了，应该以守约为准，守完这趟约再不去下个地方\n> 直接坐飞机往回赶都行，不要瞬移，钱不够你坐大巴也行，打工也行，瞬移也太出戏了。」\n\n起因是当天中午的一次实测：她 13:17 在佛山订下住处（寓米公寓，207 元），**13:18 就被「出门两周」\n这条上限掐回兰州** —— 房钱白花，人一分钟没待，面板上看着就是瞬移。查下来是三处叠在一起。\n\n### 一、守约排到上限前面\n\n`stayTick` 里 `overWeeks` 原来压在「赴约」之前，注释写的是「硬上限，压过一切约定」。\n现在挪到约定判断之后：\n\n- **有约没守完** → 继续守，不回家（上限不再是随时会落下来的刀）；\n- **约守完了、上限也到了** → 不走 `moveOn(afterPledge)`（那是「接着玩下一站」），\n  直接 `goHome('limit')` —— 守完就动身回，正是用户说的「守完这趟再不去下个地方」；\n- **没约** → 到上限照旧回家，它仍然是硬上限。\n\n### 二、回家没有「一步到家」了\n\n`goHome` 里原来有一条捷径：买得起直达票（票钱不超过余钱八成）就当场 `settleHome`，\n`hereId` 一步改成家。它来自 2026-11-03 那句「全部都走回去也太费事了」—— 有道理，\n但代价就是佛山那次：一千九百公里，一步到，中间没有路、没有一晚、没有一句话。\n\n现在只留一条：`returning = true`，一步一步朝家走。快慢交给 `pickMode`：\n钱够坐飞机，钱紧降级，买不起就地打工。**坐飞机也是「一段路」，不是传送。**\n\n`HOME_RADIUS_KM` 同时从 **500 收到 60**：500 公里内一步到家仍然是跨省瞬移。\n60 和 `pickDestination` 的「60 公里以内不算去旅行」是同一条线 —— 圈外的城当回程一站，\n进了同城范围才收尾。\n\n### 三、回程买不起票：就地打工（不打工就死锁）\n\n「回家的路不半路停下来打工」这条原来写在 `stayTick` 的注释里。可它跟「不瞬移」凑在一起\n就变成了死锁：回程每天重试一次买票、每天失败一次，钱一分不涨，人钉在同一座城里\n一直「准备回家」—— 2026-11-05 曼谷那次是同一个形状，当时坏在选城上。\n\n- `stayTick`：打工分支挪到「回家路上」**之前**，回程也会停一天挣路费；\n- `moveOn`：回程且买不起票（有路但没钱）→ `startWork` 就地打工。\n  仍守着 `MAX_WORK_STINTS`，打满四次不再找活。\n\n### 四、约被打断，得跟对岸说一句\n\nMr.Q：「钱是比约定重要啊，这种情况最好给约定对方反馈一下。」\n\n原来打断一份约只在自己这边推一条 `journey.invite`，对方那边什么都不知道 ——\n人家可能还在那座城里等。现在 `dropPledge` 会往 `/card` 留言板留一句话：\n「〈城〉那趟我去不成了：钱不够了。」（40 字上限，服务端现成的通道，不用改接口）\n\n覆盖三条打断路径：**钱撑不住、上限到期、他叫回来**。原来清约定是散在三处的三行代码，\n现在统一走 `dropPledge` —— 少写一处就少一个「对方不知道」的洞。\n\n留不成也照样回家：不能因为没连上服务器，就把「她得继续在外面走」当结果。\n\n### 五、叫回来是当天的航班\n\nMr.Q：「叫回也应该是当场坐飞机回来（钱不够允许她借钱，回来报销）。」\n\n原来 `journey_return_home` 走的是和其他三种收场相同的回程：一站一站走，可能要好几天。\n现在 `goHome('called')` 直接 `settleHome` —— 买最近一班，落地就是家。\n\n**「钱不够也飞」这一版的落法是不传 `afford`**：票照买，不因差两百块滞留在千里之外。\n真正的欠账（借了多少、回来怎么还）要等「life 与 journey 共用一本账」的口径定下来才写得进去 ——\n那是另一件事，见下面「还没定的」。\n\n工具描述、`describe.json`、`ENV_PROMPT.md` 三处同步改了「叫回是当天的航班」，\n提示词总字数仍在天花板内（8600）。\n\n### 六、和「模拟鱼生」的钱怎么合（2026-11-15）\n\nMr.Q：「journey 没开钱（无上限），鱼生这边的钱该怎么算。」\n\n**不是二选一，是两本账分开判：**\n\n| 账 | 开关 | 记什么 |\n|---|---|---|\n| 这一趟花了多少 | `moneyEnabled`（老开关） | 面板、日记、「这趟花了…",

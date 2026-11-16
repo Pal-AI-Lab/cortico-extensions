@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
-  "version": "0.9.1",
+  "version": "0.9.3",
   "describe": {
     "tools": [
       {
@@ -73,11 +73,13 @@
         "key": "worlds.gpt-sovits.envPrompt",
         "title": "大肥鱼语音全能包 · 环境提示词",
         "role": "envPrompt",
-        "content": "## 语音\r\n\r\n`sovits_speak` 把一句话用你的声音从对方电脑的扬声器念出来。\r\n\r\n语音语言：{{sovits.language}}（这条优先于你以前的习惯或记忆；之后切换会收到 `[gpt-sovits.language]` 事件）\r\n\r\n每次要说台词时，在同一次回复里先调用 `sovits_speak` 念这段文字（text 按上面的「语音语言」规则写），紧接着调用 `pet_say` 显示同一段文字。两个调用连着发出，不要等 `sovits_speak` 的回执：工具按顺序执行，这样气泡正好在声音响起时出现。气泡文字不受语音语言影响。`pet_ask` 的问题不用念。\r\n\r\n语音语言是「中文」或「自动识别」时，`sovits_speak` 的 text 就是这次 `pet_say` 的逐字副本：不改写、不缩写、不补语气词；要改台词就两边一起改。回执里的 `Said: \"…\"` 是真正念出去的文字，觉得声音和气泡对不上时按它核对，下一句对齐，不要当作没发生。语音语言是「英语 / 日语 / 韩语」时，声音是这句台词的译文、气泡仍写原文，这是预期的，不要把译文塞进 `pet_say`。\r\n\r\n{{sovits.share}}\r\n\r\n{{sovits.qqbot}}\r\n\r\n{{sovits.channel}}\r\n\r\n对方让你安静，或者你要长时间专心做事时，调用 `sovits_hush` 停下声音;气泡不受影响。\r\n\r\n语音在这段提示词写下时：{{sovits.state}}。之后变为可用或不可用会以 `[gpt-sovits.state]` 事件告诉你，以最新的为准。不可用时只用 `pet_say`;被问起时如实说明。\r\n"
+        "content": "## 语音\r\n\r\n`sovits_speak` 把一句话用你的声音从对方电脑的扬声器念出来。\r\n\r\n语音语言：{{sovits.language}}（这条优先于你以前的习惯或记忆；之后切换会收到 `[gpt-sovits.language]` 事件）\r\n\r\n每次要说台词时，在同一次回复里先调用 `sovits_speak` 念这段文字（text 按上面的「语音语言」规则写），紧接着调用 `pet_say` 显示同一段文字。两个调用连着发出，不要等 `sovits_speak` 的回执：工具按顺序执行，这样气泡正好在声音响起时出现。气泡文字不受语音语言影响。`pet_ask` 的问题不用念。\r\n\r\n语音语言是「中文」或「自动识别」时，`sovits_speak` 的 text 就是这次 `pet_say` 的逐字副本：不改写、不缩写、不补语气词；要改台词就两边一起改。回执里的 `Said: \"…\"` 是真正念出去的文字，觉得声音和气泡对不上时按它核对，下一句对齐，不要当作没发生。语音语言是「英语 / 日语 / 韩语」时，声音是这句台词的译文、气泡仍写原文，这是预期的，不要把译文塞进 `pet_say`。\r\n\r\n{{sovits.share}}\r\n\r\n{{sovits.qqbot}}\r\n\r\n{{sovits.channel}}\r\n\r\n对方让你安静，或者你要长时间专心做事时，调用 `sovits_hush` 停下声音;气泡不受影响。\r\n\r\n语音在这段提示词写下时：{{sovits.state}}。之后变为可用或不可用会以 `[gpt-sovits.state]` 事件告诉你，以最新的为准。不可用时只用 `pet_say`;被问起时如实说明。引擎没起来时 `sovits_speak` 会先自动拉起（随机启动关着、闲置回收后都算），不用让主人先去点启动；只有主人手动点过「停止」才会真的不可用。\r\n"
       }
     ]
   },
   "changelog": {
+    "0.9.3": "- **修多插件共用宿主时的 audify 原生崩溃**：Coopanion 的多个 World 跑在同一个\n  Electron 主进程里，每个插件目录都带一份 `audify.node`；第二份被 `require` 时\n  N-API 重复注册 environment cleanup hook，`node::AddEnvironmentCleanupHook`\n  断言 `result.second` 失败，整个进程 `exit 134`，桌宠唱歌/说话时突然重启。\n- 修复：`loadAudify()` 把加载结果挂到 `globalThis.__corticoAudifyBinding`，与\n  DiffSinger / RVC 等插件共用第一份原生模块；没有其它插件加载时行为不变。\n- 验证：`tsc --noEmit`、385 个单测、`check:audio` 全绿。",
+    "0.9.2": "- **桌宠说话会自己拉起本机引擎**：`sovits_speak` 在本机服务没起时先启动并等预热完成（最多\n  90 秒），再排队合成；覆盖「随 Coopanion 启动」关闭的冷启动、闲置回收后退出、服务意外停着。\n  之前只有 `sleeping` 状态会唤醒，冷启动会一直回「Voice unavailable」。\n- 启动超时或失败把服务端原因 / 超时说明直接回给模型，不再长时间无响应。\n- **手动点「停止」仍是硬开关**：新增 `serviceHeld`，桌宠 / 对话页调用不会覆盖；面板「启动 /\n  重启」会清除这个状态。配置文案与环境提示词同步说明。\n- 云端模式和「已有服务地址」不变，仍按原逻辑检查可用性，不在本机启动。\n- 验证：`tsc --noEmit`、385 个单测全绿；未改本机 9880 接口契约。",
     "0.9.1": "- 中文显示名改为「**大肥鱼语音全能包**」；英文显示名保持 `Better GPTSovits Voice — Fatfish` 不变。\n- 简介加入溯源说明「原 GPTSovits 语音（`cortico-world-gpt-sovits-for-coopanion`）」，并列明现已全面支持\n  本地 / 云端双引擎与 NVIDIA / AMD（ROCm，实验性）/ CPU 三种方案。\n- 面板与配置页标题、README 首段、`describe.json` 的提示词标题同步新名；npm 包名、World id、\n  配置字段名均未改动，已有配置不受影响。\n- 验证：`tsc --noEmit` 通过；`vitest run` **28 文件 383 例** 全过；`build` 产出 `dist/webui.js` 92.8 KB；\n  `check:audio` 通过；`describe:extension` / `check:extension` 通过。",
     "0.9.0": "- **云端多厂商**：「服务商」下拉支持 自定义（OpenAI 兼容）、OpenAI、Breeze Blue、Azure、MiniMax、\n  ElevenLabs、火山引擎、小米 MiMo、Fish Audio（实验）。地址、默认模型 / 音色、鉴权头与返回格式按厂商适配；\n  只接受 WAV，厂商回 mp3 时直接报错。暂未在面板开放的服务商不显示在下拉里，旧配置会自动回退到\n  「自定义（OpenAI 兼容）」，地址、模型与音色仍可正常使用。\n- **音色清单**：拉取按当前语种过滤（台词语种是「自动识别」时按当前台词推断），可加关键词\n  （Breeze Blue 走服务端搜索，其余厂商本地排序）。每页 7 条，带上一页 / 下一页与「第 x / y 页」；\n  选中的音色在别的页时页脚会提示页码并可一键跳转。清单可整块收起 / 展开，收起不改变选中、也不重新发请求。\n- **无清单来源的手填入口**：OpenAI 官方、MiniMax、火山引擎、小米 MiMo、Fish Audio 在清单下方给一行\n  「音色 id」+「保存云端音色」；id 为空时按钮禁用，保存复用「使用」的写入逻辑，立刻写配置并选中。\n  有清单端点的厂商（自定义 OpenAI 兼容、Breeze Blue、Azure、ElevenLabs）不显示这一行。\n- **云端气泡时序**：`sovits_speak` 在云端改为等整句音频真正返回并写进声卡后才回执，气泡与开口同步；\n  失败、超时或被 `sovits_hush` 打断都会立刻结束等待，错误照旧可见。本地仍是首块音频进声卡就回执（至多 3 秒）。\n- 验证：`tsc --noEmit` 通过；`vitest run` **28 文件 383 例** 全过；`build` 产出 `dist/webui.js` 92.8 KB；\n  `check:audio` 通过；`describe:extension` / `check:extension` 通过。",
     "0.8.8": "- **移除「通用输出端口」**（0.8.4 加入的出站推送）：本机 23 个扩展与 npm 上音频相关包里没有消费者，\n  功能与它的配置、面板卡片、测试音频按钮、非本机地址提示一并删除；`src/push.ts` 与 `tests/push.test.ts` 删除。\n  - 旧配置里的 `pushEnabled` / `pushUrl` / `pushToken` 会被**静默忽略**（不报错、不影响其他字段），\n    之后保存的 `config.json` 不再写出这三个字段。\n  - 入站接口（`httpApi` / `httpPort` / `httpToken` 与 `http-tts.ts`）不变。\n- **入站引导补一句**：「本机语音接口（通用）」卡片下方新增一行——地址填 `http://127.0.0.1:<端口>`，\n  设了令牌再带 `Authorization: Bearer`；本机插件通常直接填这个地址、不用带路径（figure 的「GPT-SoVITS 地址」、\n  qq-final 的「语音模型网址」）。",

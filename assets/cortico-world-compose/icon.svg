@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1d2a3f"/>
+      <stop offset="1" stop-color="#0f1622"/>
+    </linearGradient>
+    <linearGradient id="note" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7fe3bd"/>
+      <stop offset="1" stop-color="#58c9a2"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <!-- bar lines of a two-bar piano roll -->
+  <g stroke="#ffffff" stroke-opacity="0.1" stroke-width="5">
+    <path d="M80 92V420M256 92V420M432 92V420"/>
+  </g>
+  <!-- the band underneath: three chord blocks -->
+  <g fill="#ffffff" fill-opacity="0.16">
+    <rect x="80" y="372" width="160" height="40" rx="20"/>
+    <rect x="272" y="372" width="68" height="40" rx="20"/>
+    <rect x="364" y="372" width="68" height="40" rx="20"/>
+  </g>
+  <!-- the motif, rising: it enters off the beat and the last note is held -->
+  <g fill="url(#note)">
+    <rect x="112" y="296" width="72" height="50" rx="25"/>
+    <rect x="192" y="234" width="72" height="50" rx="25"/>
+    <rect x="272" y="172" width="112" height="50" rx="25"/>
+  </g>
+  <rect x="312" y="106" width="120" height="50" rx="25" fill="#ffb86b"/>
+</svg>
