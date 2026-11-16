@@ -17218,6 +17218,78 @@
         "comments": 0
       }
     },
+    "cortico-world-openviking": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "OpenViking 记忆库",
+      "description": "Coopanion World: 把本机 OpenViking 的记忆库接进来,能查、能写回、能按服务自己的语义删除。需要 OpenViking 0.5.3 或更高版本(已验证 0.5.3 / 0.5.4 / 0.5.4.1 / 0.5.5)。",
+      "locales": {
+        "zh": {
+          "displayName": "OpenViking 记忆库",
+          "description": "把本机 OpenViking 的记忆库接进来:语义检索、按目录浏览、读正文、写回、以及与服务自己的 rm 完全一致的永久删除。需要先在本机跑起 OpenViking 0.5.3 或更高版本。"
+        },
+        "en": {
+          "displayName": "OpenViking Memory",
+          "description": "Connect a local OpenViking memory store: semantic search, browse by directory, read bodies, write back, and hard-delete with the same semantics as the service's own rm. Requires a local OpenViking 0.5.3 or newer."
+        }
+      },
+      "author": "Magellan",
+      "maintainers": [
+        "apk_magellan"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "openviking",
+        "memory"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-openviking",
+        "repository": "https://github.com/RhineLab-magellan/cortico-world-openviking",
+        "homepage": "https://github.com/RhineLab-magellan/cortico-world-openviking#readme",
+        "bugs": "https://github.com/RhineLab-magellan/cortico-world-openviking/issues"
+      },
+      "created": "2026-11-16T07:00:27.899Z",
+      "published": "2026-11-16T07:10:55.979Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "external-setup",
+        "internal-state"
+      ],
+      "tags": [
+        "memory",
+        "external-setup",
+        "internal-state"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 13,
+        "events": 0,
+        "toolTokens": 2077,
+        "envPromptTokens": 731
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/RhineLab-magellan/cortico-world-openviking/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 977,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/977",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-ops": {
       "kind": "world",
       "version": "0.2.4",
@@ -17378,7 +17450,7 @@
     },
     "cortico-world-parlor": {
       "kind": "world",
-      "version": "0.45.2",
+      "version": "0.45.3",
       "displayName": "鲸语茶室",
       "description": "鲸语茶室是 Coo 与家长的共享客厅。支持聊天、说书、斗地主、狼人杀、五子棋、中国象棋、飞行棋、麻将和快局大富翁，提供网页牌桌与家长观战页。反馈 QQ 群 1061389211。",
       "locales": {
@@ -17434,8 +17506,8 @@
         "bugs": "https://github.com/biliye/cortico-world-parlor/issues"
       },
       "created": "2026-10-30T12:05:22.925Z",
-      "published": "2026-11-16T01:11:46.270Z",
-      "versionCount": 55,
+      "published": "2026-11-16T07:12:11.884Z",
+      "versionCount": 56,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -17464,6 +17536,7 @@
       },
       "changelog": {
         "versions": [
+          "0.45.3",
           "0.45.2",
           "0.45.1",
           "0.45.0",
