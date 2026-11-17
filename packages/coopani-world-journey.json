@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-journey",
-  "version": "1.9.2",
+  "version": "1.12.1",
   "describe": {
     "tools": [
       {
@@ -673,6 +673,27 @@
           "zh": "这一趟先不走，再待一天。",
           "en": "Stay one more day after all."
         }
+      },
+      {
+        "name": "journey_give_up",
+        "description": "Give up the meet-up she is waiting on: stop waiting for the person, and call off that one trip. Call it when days have passed and nobody showed up, when the person says \"别等了\" / \"算了吧\", or when she herself decides it is not worth waiting any longer. It does NOT move her anywhere - she just stops waiting. Where she is now stays where she is. The other side gets one short note through the meet server, and the promise is gone for good. Do not call it when there is no promise outstanding - the answer says so instead of inventing one. Say why in one short line of her own.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "reason": {
+              "type": "string",
+              "description": "Why she stops waiting, one short sentence in her own voice."
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "不等了，这一趟撤掉。",
+          "en": "Stop waiting - call the meet-up off."
+        }
       }
     ],
     "events": [
@@ -831,6 +852,11 @@
     ]
   },
   "changelog": {
+    "1.12.1": "两条都是读者读完我的回信之后接着指出来的，**都指对了**。\n\n### ① 1.10.1 那处修复对「路上」那张照片完全无效\n\nzzy1053 的原话：「那张『哈尔滨一带的路上』是路上自动拍的，`world.ts` 那条调用把 `weather`\n写死传 `null`，`scene.weather` 为空，所以 1.10.1 会走 else 分支保留『画面能看出这一点』——\n恰好是报的这张。」\n\n核了：路上拍照时 `this.plan` 是 null，`weather` 跟着是 null —— **他报的那张正是路上拍的**，\n也就是说我修的是城里拍的，他报的那张一张没改到。\n\n按他给的第二条路办：**路上不传体感句**。两个理由不只是为了绕开：\n- 路上那张的 city 是「XX 一带」，不是真城，按那座城算体感本来就不准；\n- 没有天气数据时再拼体感，等于让模型自己编天气。\n\n### ② 「没连上」不再冒充「没人」\n\n`findNeighbors` 的返回值加了 `ok`：`false` 的意思是**「不知道」**，不是「没人」。\n断连、没配地址、服务端 5xx 全都走 `ok: false`。\n\n`matesHere()` 跟着返回 `{ names, ok }` —— 四个时段里**只要有一个查成了**就算查过。\n判定点遇到 `ok: false` 会在日志里写一句「没查成碰面名单（连不上服务器）」。\n\n原来这两种情况返回的东西一模一样，zzy1053 11-16 全天断连、早上那次判定被当成\n「人没露面」—— 他自己翻日志都分不出来，普通用户更没戏。\n\n> 面板上「连不上 / 没人」分两栏显示还没做，这一版先让日志和返回值能分开。\n> 面板那一步要等我把 `ok` 一路带到 `journey_now` 和 `pledgeText` 里，不是加个字段的事。",
+    "1.12.0": "### ① 新增两个生图设置项：`imageStyleCast` / `imageCastChance`\n\n读者「左圳杰」问：怎么让大肥鱼**一张拍真实风景、一张拍二次元自拍**。原来做不到 ——\n`imageStyle` 和 `imageCast` 都是全局单值，一次只能选一种。\n\n现在拆开了：\n\n| 项 | 作用 |\n|---|---|\n| `imageStyleCast`（面板叫「有人那张用什么风格」） | 有人出镜的照片用这套；**留空 = 跟着 `imageStyle`** |\n| `imageCastChance`（面板叫「几成照片有她」） | 0–1。**1 = 每张都有（默认）**；填 0.3 就是三成有她、七成纯风景 |\n\n**判据：风格是风格，有没有人是另一件事。** 有人 + 写实（她站在风景里）和有人 + 二次元\n（画出来的她）都是合理需求，两个字段把这两件事拆开，不用逼用户在「全写实」和「全二次元」之间二选一。\n\n两个实现细节：\n- **按 `dateKey + 场景` 播种**，不用 `Math.random()`。同一张重拍必须给出同样的结果 ——\n  否则用户会看到「刚才那张有她，再拍一次没了」，那不像照片，像抽卡。\n- `imageCastChance` **不能走 `numbers` 那条路**（那里会 `Math.round`，0.3 变成 0 =\n  一张都没有）。单独一组 `floats`，夹到 [0,1]。\n\n默认值都保证老行为不变：`imageStyleCast` 空 = 跟着 `imageStyle`，`imageCastChance` = 1 = 每张都有。\n\n### ② `matesHere` 改成四个时段全查 —— 这条才是 zzy1053 报的真问题\n\n1.11.0 里我把 `findNeighbors` 的 limit 从 3 提到 5，**那是白改**。核了服务端源码：\n\n```js\n// cloud/sight-cf/src/worker.js:2233\nWHERE city = ?1 AND slot = ?2 AND at >= ?3     // 按 slot 硬过滤\nORDER BY at DESC LIMIT ${MAX}                  // MAX = 3，写死\n```\n\n- **`limit` 查询参数服务端根本不读**，客户端传 5 它也只回 3；\n- **漏人的真原因是时段**，不是条数：`matesHere()` 只查 `night`，对方在 `afternoon` 上报就永远看不到。\n\n现在四个时段（morning / afternoon / evening / night）全查一遍再合并去重。\n一天只判一次，四次请求的代价可以接受 —— 漏一个人就废掉一天，那才是贵的。\n\n### 测试\n\n`test/image-backend.test.mjs` 的白名单补了两个新键（生图字段归面板管，不在配置 schema 里）。\n离线全量 **1014/1014**。\n\n> `imageCastChance` 的 clamp 这一条**没写专门的测试** —— 它是个三行的 `Math.min/max`，\n> 风险低，而构造 World 实例的成本比它高。如实记在这里，不是忘了。",
+    "1.11.0": "1.10.0 给 Donahue 的回信里写了「四条都修了」，其实第三条只修了一半 —— 只做了写入时的提醒，\n`journey_now` 的渲染一个字没动。这一版把它补上，顺带把 zzy1053 的两条也做了。\n\n### ① 正文里的钟点与格子冲突，渲染时剥掉\n\n**现场**：表上 07:00 起床，用户把它改成「六点半，赶拙政园开门头一趟」。`beatText` 拼出来是\n「成都，当地 07:00。六点半，赶拙政园……」，她读到的是「七点起床、六点半又干一次」。\n\n新增 `stripClashClock(what, at)`：认出正文里的钟点，和这一格差 **3 分钟以上**就剥掉那一段，\n其余文字不动。`beatText` 开头统一走它。\n\n三个判据：\n- **3 分钟以内不算矛盾**。`findSlotBeat` 的精确匹配是 1.2 分钟（找格子要准），\n  判冲突用同一个阈值会把「7:02 起床」这种写对的也剥掉；\n- **只删第一处**。一句话写两个钟点（「六点半起，七点出门」）时第二个可能是真内容，\n  这里只治「渲染时间对不上」，不做时间轴解析；\n- **剥空了退回原文**。「六点半」单独一格时剥掉等于把这一格删了。\n\n### ② 碰面现状里写明「不保证碰上」\n\nzzy1053：「至少在文案里说明这是偶遇、不保证碰面」。`pledgeText()` 那句\n「人还没露面」后面加一句「这趟碰不碰得上不一定」。\n\n不写这一句，她会把「没露面」当成对方失约 —— 而接约那边本来就没有任何约束，\n这机制不保证碰面。\n\n### ③ `findNeighbors` 的 limit 从 3 提到 5\n\n一条邀约最多 5 只接，而 `matesHere()` 拿这个列表比对「约好的人在不在」，只看前 3 个必然漏人。\n现在 `findNeighbors` 收第四个参数（默认仍是 3），`matesHere` 传 5。\n\n**这个值会一起发给服务端**（`limit` 查询参数）。服务端不认、仍按自己的封顶回的话，\n客户端这边也不会坏，只是那几个人照旧看不到 —— 那种情况就是服务端侧的限制，客户端改不动。\n\n### 测试\n\n新增 `test/clock-strip.test.mjs` 六条。离线全量 **1014/1014**。\n\n### 还没做的（明确记着）\n\n`matesHere` 固定查 `night`（要先确认服务端是否按 slot 过滤）；\n面板分不清「没连上」和「没人」；接约方没有约束（要动服务端）；\n工具定义 2.6 万字符里的 ①②④（例外移出 / `go_to` 压缩 / 精简工具集开关）。",
+    "1.10.1": "读者报：去哈尔滨想看雪，照片是一片枯黄平原，自己吐槽「飞一千三百公里就为了看这个黄」。\n\n核下来不在 `bodyFeeling` —— `cold` 档那句「吸一口气鼻腔里就疼」本身没错。\n错在它后面缀着的那句「**画面能看出这一点**」：\n\n「干」有视觉对应（嘴唇、风），「潮」有（衣服、被子），**「冷」的视觉对应只有雪和白霜**。\n于是「冷」被单独翻译成「必须画冷的东西」，而那天天气是晴 —— 模型画了冬天却没雪，就是枯黄。\n\n有天气数据时，画面该由天气决定，体感只是她的感受；没天气才退到体感：\n\n```\n{体感}，这是她的体感，画面里的天气以上面那句为准。    ← 有 weather\n{体感}，画面能看出这一点。                            ← 没 weather（原行为）\n```\n\n**没有改 `climate.ts`**，也没有按季节臆造雪：11 月中旬的哈尔滨没积雪是正常的，\n照片该拍她真去的那天。这条改的是「别让一句体感把天气顶掉」。",
+    "1.10.0": "两封读者来信，都逐条核过源码，都是真的。\n\n### 日程编辑（Donahue，v1.8.13，附复现 run）\n\n**① 传钟点会静默改到半小时内最近的格。** `findSlotBeat` 的 `near` 容差是 `0.5` 小时，\n于是「6:30 出门」被算成「07:00 起床」那一格 —— 用户看到的是「七点起床、内容里又写六点半」，\n他自己说的「前后重复」。修法两条一起上：\n\n- 容差收到 **一刻钟**（`SLOT_NEAR_HOURS = 0.25`）。兜得住「说 12 点、表上 12:05」，\n  兜不住差半小时 —— 兜不住就走 `add`，**真的加一格 6:30**；\n- 钟点落空之后**先看「要改成什么」里有没有类型词**（`parseSlotKind`）：说「19:00 晚饭」\n  就改晚饭那格，不受分钟差限制。**判据是「她要做的是哪件事」，不是「分钟差多少」。**\n\n**② 通勤格选不到、报错还指错格。** `commute` 被排除在 `pickable` 外，用户指到 09:15 时\n`near` 落到旁边的 09:30 景点格，报错指向一个他没提的地方。现在三种情形分开说：\n只有通勤格 → 给 `journey_spot_ride`；和别的格撞在同一点 → **两个工具都报**；\n别的格更近 → 交给正常挑格。\n⚠ 这段必须排在 `exacts` **之前**：「走着去」的通勤格 `ride.min = 0`，和活动格同一时刻，\n`exacts` 会先把活动格抢走。\n\n**③ 覆盖不说明。** 同一格改第二遍是静默替换，回执和第一遍一模一样 ——\n用户在外面看到的是她反复横跳（那一晚连着四次改起床格，最后一版抹掉前面全部）。\n现在回执写「替换掉刚才那版「X」」。\n\n**④ 内容里的钟点和格子冲突不提醒。** `journey_now` 把「七点」和「六点半起」拼在一起显示。\n现在写入时就提醒一句（**不改她的内容** —— 判断权归她，只把矛盾摆出来）。\n\n### 不等了（zzy1053，v1.8.13）\n\n> 「这三天里没有任何自助取消入口」，「她会跟用户说『你在面板上把那邀约撤掉』，用户照着找只会白找」\n\n核过：24 个工具、全部面板方法、`/sight/invite` 里都没有取消路径，唯一能走的是\n本地清 `pledge` 再重启 World —— 普通用户做不到。**而那句「面板上撤掉」是空话。**\n\n新增 `journey_give_up`：撤掉约定、人留在原地、对方收到一句话。内部一直是\n`dropPledge()`（清约定 + 推事件 + 给对岸留话），**缺的就是一个入口**。\n\n**不做面板按钮**：面板只读，撤约定是她的判断 —— 用户跟她说「别等了」，她来决定撤不撤。\n\n### 提示词\n\n删掉正文里那句和工具表重复的「找伴用……」；工具表补 `journey_give_up` 一行，压了三行冗长说明，\n回到 8600 天花板以内。\n\n### 测试\n\n`set-slot.test.mjs` 新增五条（差半小时要新增格、通勤格报对工具、覆盖要说明、\n钟点冲突要提醒、19:00 晚饭仍改晚饭那格）；`pledge.test.mjs` 新增两条（撤得掉且不挪位置、没约定要直说）。\n离线全量 **1008/1008**（1.9.2 时是 1001）。\n\n### 还欠着的（没在这一版动）\n\n- `matesHere()` 每天只查一次、固定查 `night`，而心跳上报用的是 `slotOf(当前小时)` ——\n  两边口径可能对不上（反馈者说「想确认服务端是否仍按 slot 过滤」，我没法只从客户端证实）；\n- `findNeighbors` 最多回 3 个邻居，而一条邀约最多 5 只接 —— 会漏人；\n- 面板分不清「没连上」和「没人」（11-16 那天全天断连，早上那次「没露面」其实是没连上）；\n- 接约方没有约束：接了约还能转头去别处，系统无账号无通知。",
     "1.9.2": "1.9.0 修的是她**说话时**能看到的 `nowSummary`，漏了**用户眼睛看着的**那一格：\n`uiSnapshot().weather` 仍然是 `this.plan ? weatherLine(...) : ''`，回家之后照样空。\n\n这是「同一事实多个出口」的老毛病 —— 她那边修好、面板没修，用户看到面板空着，\n结论还是「天气坏了」。现在两处同源：有 plan 用 plan，在家用 `homeWeather`，日期对不上就空着。\n\n`now-summary.test.mjs` 里那条测试一并钉住面板输出，只测 `nowSummary` 等于漏了真正被看的地方。",
     "1.9.1": "实测补的一刀。裸连 `api.open-meteo.com` 在国内要 **3.7 秒**，而宿主的 fetch 走系统代理\n（日志里 `PROXY 127.0.0.1:7897`），叠上去很容易顶穿原来那 6 秒。顶穿的表现不是报错 ——\n`fetchOpenMeteo` 里是 `catch { return null }`，**日志一个字都没有**。\n于是「不填高德也该有天气」这句话在真机上从来没兑现过，而所有证据都指向别处。\n\n- Open-Meteo 单独一套超时 `OM_TIMEOUT_MS = 12_000`（高德仍是 6 秒，它不值得等）。\n- 查不回来时打一行 warn：超时 / 没网 / 被代理挡住，三种至少能在日志里看见。",
     "1.9.0": "### 天气：原来是「压根没查」，不是「没兜底」\n\n「不填高德就走 Open-Meteo」这句话在代码里一直成立，但**那条路只在排表时触发** ——\n排表只发生在「在别的城停留」或「抵达/赶路」。回家之后 `plan` 是 null，\n`nowSummary` 里 `weatherLine(plan?.weather)` 整条消失；再加提示词里那句\n「**看不到**：街景、**天气**、店里有什么」，两层一起把她的天气封死。\n\n四处修：\n\n1. **在家也查**：新增 `refreshHomeWeather()`，`phase === 'home'` 时用家的坐标查当天预报\n   （半小时一次），`nowSummary` 的 **home 分支单独**把它写出来 —— 那一支有独立 `return`，\n   不修这里就等于没修。\n2. **高德失败当场换路**：`resolveForecast` 原来 `if (!fresh) return null`，\n   限流（CUQPS）/ 城市名查不到 / 网络抽风全都不置 `disabledReason`，\n   于是每轮都先撞高德、每次失败、永远轮不到 Open-Meteo。现在当场落到 Open-Meteo 再试一次。\n3. **`forecast_days` 4 → 16**：4 天太窄，倍速下跨两三天就出窗口。\n4. **提示词删掉「看不到天气」**：`nowSummary` 里有「天气：」那一行就是真预报，没有就是没查到。\n   「别播报气温」那条保留 —— 那是文风，不是权限。\n\n### 出门花她自己的钱（Mr.Q：「想去洛杉矶就得赚出相应的钱」）\n\n- `moneyEnabled`（记花销）与 `payFromLife`（递条子从她账上扣）**默认都改成开**。\n  没有这两个，`purseStage` 永远是 `ok`，「钱不够就去不了」这条因果根本不存在。\n- `nowSummary` 新增 `purseTravelLine()`：每回合报「还能动用多少」，见底时直说\n  「想走下一段得先打几天短工」。原来这笔账只挂在 `statsSummary`（面板/统计），\n  她自己在旅程上看不见 —— 表现是「她某天忽然不去那座城了，却说不出为什么」。\n- 只装旅行的人不受影响：`purseLeft()` 拿不到生活层余额、预算又是 0，一律按「不记账」处理。\n\n### 测试\n\n- `test/now-summary.test.mjs` 新增两条：在家也要有天气（且隔日的不能当今天用）、\n  没记账时不该提钱。\n- 「key 失效」那条断言重写：原来钉「第一次返回 null」，现在钉「第一次就该有天气」\n  ＋「不再反复打高德」。理由：降级拿到的是 Open-Meteo 的真数据，不是假数据。\n- `test/rent-car.test.mjs` 的夹具显式 `moneyEnabled: false`（默认值改了）。",

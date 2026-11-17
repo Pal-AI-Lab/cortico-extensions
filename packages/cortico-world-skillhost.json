@@ -1,0 +1,138 @@
+{
+  "schema": 1,
+  "name": "cortico-world-skillhost",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "skill_list",
+        "description": "看看技能宿主里装了什么：每个技能来自哪个包、注册了哪些工具、哪些设置项还空着（比如 apiKey / baseUrl）。不确定工具名或参数时先调它。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "skill": {
+              "type": "string",
+              "description": "只看某一个技能（技能 id，如 ai-image）。不填就列全部。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "tools"
+        ],
+        "summary": {
+          "zh": "列出已装的技能和它们的工具。",
+          "en": "List installed skills and their tools."
+        }
+      },
+      {
+        "name": "skill_call",
+        "description": "调用技能里的一个工具。skill 填技能 id，tool 填工具 id（skill_list 里看到的那个），args 按该工具的参数填。返回技能自己给的文字结果。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "skill": {
+              "type": "string",
+              "description": "技能 id，例如 ai-image。"
+            },
+            "tool": {
+              "type": "string",
+              "description": "工具 id，例如 gen 或 edit。"
+            },
+            "args": {
+              "type": "object",
+              "description": "该工具的参数对象。",
+              "additionalProperties": true
+            },
+            "to": {
+              "type": "string",
+              "description": "这个技能要发东西时发到哪：group:群号 或 private:QQ号。不填就用设置里的默认去处。"
+            },
+            "senderId": {
+              "type": "string",
+              "description": "群聊里提出这次要求的人的 QQ 号（技能要靠它认人和算额度）。私聊可以不给。"
+            }
+          },
+          "required": [
+            "skill",
+            "tool"
+          ]
+        },
+        "tags": [
+          "tools"
+        ],
+        "summary": {
+          "zh": "调用某个技能里的工具。",
+          "en": "Call a tool inside an installed skill."
+        }
+      },
+      {
+        "name": "skill_config",
+        "description": "填或改某个技能的设置（apiKey、baseUrl、模型这类）。只传要改的键，会合并进这个技能自己的配置文件；给 forget 就把整个技能的设置清掉。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "skill": {
+              "type": "string",
+              "description": "技能 id。"
+            },
+            "patch": {
+              "type": "object",
+              "description": "要写入的设置，例如 {\"apiKey\":\"sk-...\",\"baseUrl\":\"https://api.siliconflow.cn/v1\",\"model\":\"Kwai-Kolors/Kolors\"}。",
+              "additionalProperties": true
+            },
+            "forget": {
+              "type": "boolean",
+              "description": "true = 清空这个技能的设置。"
+            }
+          },
+          "required": [
+            "skill"
+          ]
+        },
+        "tags": [
+          "tools"
+        ],
+        "summary": {
+          "zh": "填技能要的 Key / 地址 / 模型。",
+          "en": "Write a skill's settings (key, base URL, model)."
+        }
+      },
+      {
+        "name": "skill_toggle",
+        "description": "临时关掉或重新打开一个技能：关掉之后它不会被加载，工具也调不了，但不删文件、设置都留着。设置页里每个技能也有一行同样的开关。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "skill": {
+              "type": "string",
+              "description": "技能 id，例如 ai-image。"
+            },
+            "enabled": {
+              "type": "boolean",
+              "description": "true = 打开，false = 关掉。不填就当关掉。"
+            }
+          },
+          "required": [
+            "skill"
+          ]
+        },
+        "tags": [
+          "tools"
+        ],
+        "summary": {
+          "zh": "关掉或打开某个技能。",
+          "en": "Temporarily disable or re-enable a skill."
+        }
+      }
+    ],
+    "events": []
+  },
+  "changelog": {
+    "0.1.0": "首个版本。\n\n- 扫描技能目录（默认 `<数据目录>/skillhost/skills`），读 `skill.json`、`import` 技能的 `index.js`，\n  喂给它一套 `config / fetch / warn / registerTool / storage / meta` 的 api。\n- 四个通用工具：`skill_list`、`skill_call`、`skill_config`、`skill_toggle`。\n- 技能设置存 `<数据目录>/configs/<技能 id>.json`，改了下次调用即生效。\n- 目录或开关一变就重扫（指纹比对），新技能不用重启。\n- 技能的调色盘：`session`（chatKey / trigger / sent）、`selfId`、`ctx.sender.sendImage()` 走 OneBot HTTP，\n  支持 `group:<群号>` / `private:<QQ号>`。\n- 设置页：本体页（市场入口、已装技能管理、五项设置）+ 每个技能一页（自己的设置 + 启用开关）。\n- 加载失败的技能不拖垮世界：错误原样回报给调用方。"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "@wocwang/cortico-world-singer-for-coopanion",
-  "version": "0.1.27",
+  "version": "0.1.28",
   "describe": {
     "tools": [
       {
@@ -61,6 +61,7 @@
     ]
   },
   "changelog": {
+    "0.1.28": "- 开 RVC 时先探它的 `/health`，等到 `ready:true` 再送干声，不再一上来就吃 409；\n  等待上限：桌宠外放 25 秒、接口与面板 60 秒；单次转换 30 / 180 秒。\n- 五种情况都会在回执与气泡里写明，并用绮萱原声唱完：没装、已安装但接口没响应（插件没启用或关了\n  HTTP 接口）、启动超时、令牌不匹配、转换失败。成功时不加任何后缀，气泡仍是纯歌词。\n- HTTP 新增 `x-singer-rvc-note` 响应头（`base64` 模式多一个 `rvcNote` 字段），面板从 `lastSing.rvcNote` 可见。\n- 边界：不自行启动 RVC 插件、不调用宿主重启 API；RVC 插件未启用时只报「已安装但接口没响应」。\n- 验证：99 个单测（新增 5 个 RVC 用例）、`tsc --noEmit`、`npm run build` 全绿；旋律与节奏代码未动。",
     "0.1.27": "- 「唱歌参数」新增「唱歌时让嘴型动起来」，默认开。开启后每句唱完用 `pet_say` 显示同一句\n  歌词，气泡带动嘴型，这一句结束气泡消失、嘴闭上；关闭后不再为嘴型调 `pet_say`，歌词只放在\n  普通回复里。环境提示词新增 `{{singer.mouth}}`，按开关给出两种写法。\n- 验证：`tsc --noEmit`、93 个单测、`npm run build` 全绿；未改 9882 契约。",
     "0.1.26": "- **闲置回收支持小数分钟**：`idleMinutes` 不再限制整数，`0.5` 就是 30 秒，内部按毫秒计时；\n  配置文案写明桌宠按需拉起的服务也会照常排闲置回收（引擎启动成功即 `armIdle()`）。\n  新增单测覆盖 1.2 秒回收与「桌宠拉起后再回收」。\n- **嘴型与气泡同步**：`singer_sing` 每句唱完气泡自然结束、嘴随之闭合；提示词要求不要为嘴型\n  额外挂长气泡，也不要在唱完后继续补长句。桌面宠物只暴露气泡，没有直接驱动嘴型的接口，\n  这一句歌词的同步是插件侧能做到的范围。\n- 验证：`tsc --noEmit`、91 个单测、`npm run build` 全绿；未改 9882 契约。",
     "0.1.25": "- Coopanion 的多个 World 跑在同一个 Electron 主进程里，每个插件目录都带一份\n  `audify.node`；第二份被 `require` 时 N-API 重复注册 environment cleanup hook，\n  `node::AddEnvironmentCleanupHook` 断言 `result.second` 失败，整个进程 `exit 134`，\n  桌宠表现为唱歌时突然消失、重启。\n- 修复：`loadAudify()` 把加载结果挂到 `globalThis.__corticoAudifyBinding`，与\n  GPT-SoVITS / RVC 等插件共用第一份原生模块；没有其它插件加载时行为不变。\n- 验证：`tsc --noEmit`、89 个单测全绿。",
