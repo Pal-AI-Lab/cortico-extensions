@@ -391,7 +391,7 @@
       "discussion": {
         "number": 721,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/721",
-        "up": 3,
+        "up": 4,
         "down": 0,
         "comments": 2
       }
@@ -2317,6 +2317,8 @@
       },
       "changelog": {
         "versions": [
+          "1.12.5",
+          "1.12.4",
           "1.12.2",
           "1.12.1",
           "1.12.0",
@@ -4115,6 +4117,7 @@
       "created": "2026-10-26T08:51:28.991Z",
       "published": "2026-10-27T03:29:32.144Z",
       "versionCount": 4,
+      "deprecated": "Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.",
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -4160,7 +4163,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/319",
         "up": 2,
         "down": 1,
-        "comments": 3
+        "comments": 6
       }
     },
     "cortico-provider-gemini-web": {
@@ -4730,17 +4733,17 @@
     },
     "cortico-world-agent-wechat-native": {
       "kind": "world",
-      "version": "0.7.1",
+      "version": "0.7.2",
       "displayName": "NAS 微信",
-      "description": "把 NAS 上的 agent-wechat 接入 Coo：微信私聊和群聊各自成为独立会话，共用同一套模型、人格和 Memory。\n\n- 订阅 daemon 的 SSE 事件流，断线按游标续传，不重复交付同一条消息。\n- 每个联系人和群聊各有自己的上下文，互不串号；群聊里区分是谁在说话。\n- 发文字、引用回复、@群成员；发送带幂等键，超时后先查发送记录，不盲目重发。\n- 图片、文件、视频、语音先上传拿 source ID 再发送，不把大文件塞进正文。",
+      "description": "把 NAS 上的 agent-wechat 接入 Coo：微信私聊和群聊各自成为独立会话，共用同一套模型、人格和 Memory。\n\n- 订阅 daemon 的 SSE 事件流，断线按游标续传，不重复交付同一条消息。\n- 每个联系人和群聊各有自己的上下文，互不串号；群聊里区分是谁在说话。\n- 发文字、引用回复、@群成员；发送带幂等键，超时后先查发送记录，不盲目重发。\n- 图片、文件、视频、语音先上传拿 source ID 再发送，不把大文件塞进正文。\n- 新增 NAS 微信运行监控：分别显示 API 可达性",
       "locales": {
         "zh": {
           "displayName": "NAS 微信",
-          "description": "把 NAS 上的 agent-wechat 接入 Coo：微信私聊和群聊各自成为独立会话，共用同一套模型、人格和 Memory。\n\n- 订阅 daemon 的 SSE 事件流，断线按游标续传，不重复交付同一条消息。\n- 每个联系人和群聊各有自己的上下文，互不串号；群聊里区分是谁在说话。\n- 发文字、引用回复、@群成员；发送带幂等键，超时后先查发送记录，不盲目重发。\n- 图片、文件、视频、语音先上传拿 source ID 再发送，不把大文件塞进正文。"
+          "description": "把 NAS 上的 agent-wechat 接入 Coo：微信私聊和群聊各自成为独立会话，共用同一套模型、人格和 Memory。\n\n- 订阅 daemon 的 SSE 事件流，断线按游标续传，不重复交付同一条消息。\n- 每个联系人和群聊各有自己的上下文，互不串号；群聊里区分是谁在说话。\n- 发文字、引用回复、@群成员；发送带幂等键，超时后先查发送记录，不盲目重发。\n- 图片、文件、视频、语音先上传拿 source ID 再发送，不把大文件塞进正文。\n\n- 新增 NAS 微信运行监控：分别显示 API 可达性、微信认证与连接状态、联系人同步、消息推送方式、运行环境及投影积压；账号状态每 15 秒自动检查，并记录最近错误来源和时间。"
         },
         "en": {
           "displayName": "NAS WeChat",
-          "description": "Connects Coo to an agent-wechat daemon on your NAS: every WeChat direct chat and group is its own conversation, sharing one model, persona and Memory.\n\n- Subscribes to the daemon's SSE stream, resumes from a cursor and never delivers the same message twice.\n- Each contact and group keeps its own context; a group keeps who said what.\n- Sends text, quote replies and group mentions; every send carries an idempotency key, and an uncertain outcome is looked up rather than resent.\n- Images, files, video and voice upload first and send by source ID instead of stuffing bytes into a message."
+          "description": "Connects Coo to an agent-wechat daemon on your NAS: every WeChat direct chat and group is its own conversation, sharing one model, persona and Memory.\n\n- Subscribes to the daemon's SSE stream, resumes from a cursor and never delivers the same message twice.\n- Each contact and group keeps its own context; a group keeps who said what.\n- Sends text, quote replies and group mentions; every send carries an idempotency key, and an uncertain outcome is looked up rather than resent.\n- Images, files, video and voice upload first and send by source ID instead of stuffing bytes into a message.\n\n- Adds NAS WeChat runtime monitoring: API reachability, WeChat authentication and connection, contact sync, incoming transport, runtime and projection backlog; account status refreshes every 15 seconds with recent error source and timestamp."
         }
       },
       "author": "kloar",
@@ -4763,8 +4766,8 @@
         "bugs": "https://github.com/chenyananhao/cortico-world-agent-wechat-native/issues"
       },
       "created": "2026-11-15T16:47:44.472Z",
-      "published": "2026-11-17T15:06:56.879Z",
-      "versionCount": 6,
+      "published": "2026-11-17T18:17:45.727Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4800,7 +4803,8 @@
       },
       "changelog": {
         "versions": [
-          "0.7.0",
+          "0.7.2",
+          "0.7.1",
           "0.6.4",
           "0.6.3",
           "0.6.2",
@@ -13948,7 +13952,7 @@
       "published": "2026-11-14T12:10:48.952Z",
       "versionCount": 6,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "game",
         "companion",
@@ -14869,7 +14873,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/849",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-mail": {
@@ -21849,7 +21853,7 @@
       "published": "2026-11-05T19:15:58.553Z",
       "versionCount": 5,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "local"
       ],
@@ -22084,7 +22088,7 @@
     },
     "cortico-world-selftalk": {
       "kind": "world",
-      "version": "0.2.2",
+      "version": "0.3.0",
       "displayName": "自主发言",
       "description": "Coopanion / Cortico 的自主发言 World 扩展：安静一段时间后叫醒 Coo，由它自己决定开不开口、用什么工具；不想说就继续安静。",
       "author": "qwq-awa-qnq",
@@ -22107,8 +22111,8 @@
         "bugs": "https://github.com/qwq-awa-qnq/cortico-world-selftalk/issues"
       },
       "created": "2026-10-19T14:38:22.724Z",
-      "published": "2026-10-19T14:55:02.068Z",
-      "versionCount": 3,
+      "published": "2026-11-17T15:28:57.137Z",
+      "versionCount": 4,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -22130,6 +22134,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.0",
           "0.2.2",
           "0.2.1",
           "0.2.0",
@@ -25616,7 +25621,7 @@
       "published": "2026-11-16T14:08:28.803Z",
       "versionCount": 7,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "local"
       ],
@@ -26553,7 +26558,7 @@
       "discussion": {
         "number": 959,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/959",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
