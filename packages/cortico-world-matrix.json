@@ -1,0 +1,359 @@
+{
+  "schema": 1,
+  "name": "cortico-world-matrix",
+  "version": "0.4.10",
+  "describe": {
+    "tools": [
+      {
+        "name": "mx_send",
+        "description": "Send a message into a Matrix room. This and the other mx_ tools are the only way a person on Matrix sees anything you say; a pet bubble or the console stays on this computer. Give at most one of text, sticker and image, or voice for an audio message; reply_to and mention may accompany text. Returns the event id. Ask the operator before sending something they have not asked for.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "room"
+          ],
+          "properties": {
+            "room": {
+              "type": "string",
+              "description": "Room id (`!opaque:server`), an alias (`#alias:server`), a room name, or `here` for the room that last woke you (not merely the last one with activity)."
+            },
+            "text": {
+              "type": "string",
+              "description": "What to say."
+            },
+            "sticker": {
+              "type": "string",
+              "description": "Sticker name or id from mx_stickers; sent as a sticker image."
+            },
+            "image": {
+              "type": "string",
+              "description": "http(s) URL or absolute local path of an image. It is uploaded to the homeserver first."
+            },
+            "voice": {
+              "type": "string",
+              "description": "Text to synthesise and send as a voice message instead of text."
+            },
+            "mention": {
+              "type": "string",
+              "description": "Who to mention: a userId, `@localpart`, or a display name from the room."
+            },
+            "reply_to": {
+              "type": "string",
+              "description": "Event id to quote, or `last` for the message that last woke you."
+            }
+          }
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "往房间发一条消息，可以带表情包、图片、语音或引用。",
+          "en": "Sends one message into a room, with a sticker, image, voice or quote."
+        }
+      },
+      {
+        "name": "mx_stickers",
+        "description": "List or search the sticker library Coo owns. Empty query returns a sample; results carry the name to pass to mx_send. When the current model accepts images, the first few matches come back as attachments, so pick by looking at them rather than by name alone. Read-only.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "Words to match against sticker names and packs."
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 40,
+              "description": "How many to return. Default 12."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "列出或搜索 Coo 自己的表情包图库；前几张会连同图片一起给出来。",
+          "en": "Lists or searches the sticker library Coo owns; the first few matches come with their images."
+        }
+      },
+      {
+        "name": "mx_voice",
+        "description": "Speak a line into a room as a voice message, using the configured voice service. Falls back to text when synthesis is off, fails, or the audio is too long.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "room",
+            "text"
+          ],
+          "properties": {
+            "room": {
+              "type": "string",
+              "description": "Room id (`!opaque:server`), an alias (`#alias:server`), a room name, or `here` for the room that last woke you (not merely the last one with activity)."
+            },
+            "text": {
+              "type": "string",
+              "description": "What to say out loud."
+            }
+          }
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "把一句话合成语音发出去。",
+          "en": "Synthesises a line and sends it as a voice message."
+        }
+      },
+      {
+        "name": "mx_react",
+        "description": "Attach an emoji reaction to a message. Matrix reactions are emoji only; the reaction is visible to everyone in the room. Without an event id it reacts to the message that last woke you.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "emoji"
+          ],
+          "properties": {
+            "event_id": {
+              "type": "string",
+              "description": "Event id from mx_history. Omit to react to the message that last woke you."
+            },
+            "emoji": {
+              "type": "string",
+              "description": "One emoji, for example 👍."
+            }
+          }
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "给一条消息贴一个表情。",
+          "en": "Attaches an emoji to a message as a reaction."
+        }
+      },
+      {
+        "name": "mx_redact",
+        "description": "Delete one of your own messages. The deletion is visible to everyone in the room and cannot be undone. Without an event id it deletes the last message you sent in that room.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "event_id": {
+              "type": "string",
+              "description": "Event id of your own message, from mx_history. Omit to delete the last message you sent in that room."
+            },
+            "reason": {
+              "type": "string",
+              "description": "Reason shown in the room settings after the deletion."
+            }
+          }
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "撤回自己发的一条消息。",
+          "en": "Deletes one of its own messages."
+        }
+      },
+      {
+        "name": "mx_history",
+        "description": "Read recent messages from a watched room, or a window around one event id, from this World's record. Each line starts with the event id, which is what mx_react, mx_redact and reply_to take. Read-only.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "room": {
+              "type": "string",
+              "description": "Room id (`!opaque:server`), an alias (`#alias:server`), a room name, or `here` for the room that last woke you (not merely the last one with activity). Omit to read the room behind your current context."
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "description": "How many recent messages. Default 30."
+            },
+            "around_event_id": {
+              "type": "string",
+              "description": "Centre the window on this event id instead."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读某个房间的近期记录，或某条消息前后的一段。",
+          "en": "Reads recent messages of a room, or a window around one message."
+        }
+      },
+      {
+        "name": "mx_search",
+        "description": "Search the recorded messages of watched rooms by keyword, with a few messages around each hit. Read-only.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "keyword"
+          ],
+          "properties": {
+            "keyword": {
+              "type": "string",
+              "description": "Plain text, matched case-insensitively."
+            },
+            "context": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10,
+              "description": "Messages before and after each hit. Default 2."
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20,
+              "description": "How many hits. Default 5."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "按关键词搜已记录的会话消息。",
+          "en": "Searches recorded messages by keyword."
+        }
+      },
+      {
+        "name": "mx_rooms",
+        "description": "List the rooms this account has joined, with room id, members, whether encryption is on, and which ones are watched. Read-only; use it to choose the room for mx_send or to find who to mention.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "列出已加入的房间、成员数与加密状态。",
+          "en": "Lists joined rooms with member counts and encryption state."
+        }
+      },
+      {
+        "name": "mx_status",
+        "description": "Report the connection state, the signed-in account, and which rooms are being watched. Read-only; do not poll it.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "报连接状态、账号与正在监听的房间。",
+          "en": "Reports the connection, the account and the watched rooms."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "matrix.message",
+        "description": {
+          "zh": "监听的房间里来了一条消息；被 @ 或被回复时立即投递。",
+          "en": "A message in a watched room; delivered at once when the bot is mentioned or replied to."
+        }
+      },
+      {
+        "type": "matrix.reaction",
+        "description": {
+          "zh": "有人给一条消息贴了表情。",
+          "en": "Someone reacted to a message with an emoji."
+        }
+      },
+      {
+        "type": "matrix.redaction",
+        "description": {
+          "zh": "有人撤回了一条消息。",
+          "en": "Someone redacted a message."
+        }
+      },
+      {
+        "type": "matrix.member",
+        "description": {
+          "zh": "有人加入、离开、被邀请或移出了房间。",
+          "en": "Someone joined, left, was invited to or was removed from a room."
+        }
+      },
+      {
+        "type": "matrix.room",
+        "description": {
+          "zh": "房间改名、改主题或打开了端到端加密。",
+          "en": "A room was renamed, got a new topic, or turned encryption on."
+        }
+      },
+      {
+        "type": "matrix.transcript",
+        "description": {
+          "zh": "一条语音的转写结果，或没能转写的原因。",
+          "en": "The transcript of a voice message, or why transcription failed."
+        }
+      },
+      {
+        "type": "matrix.proactive",
+        "description": {
+          "zh": "主动开口的机会：某个房间安静够了，说不说由模型决定。",
+          "en": "A proactive opening: one room has been quiet long enough; whether to speak is the model call."
+        }
+      },
+      {
+        "type": "matrix.status",
+        "description": {
+          "zh": "与服务器的同步建立或断开。",
+          "en": "The sync with the homeserver came up or went down."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.matrix.envPrompt",
+        "title": "Matrix 接入 · 环境提示词",
+        "role": "envPrompt",
+        "content": "你在 Matrix 上。下面是这个账号此刻的样子。\n\n身份：{{matrix.identity}}\n\n正在参与的房间：\n{{matrix.rooms | (还没有加入任何房间。)}}\n\n此刻可用的能力：{{matrix.capabilities}}\n\n事件从 Matrix 来：房间里的新消息、别人的表情回应、撤回、成员进出与房间设置变化。被 @、被回复时会立刻叫醒你；其他消息按平台的节奏合批过来。每行开头是 `[Matrix-房间名 时间]`，后面是说话人和内容。\n\n要引用、贴表情或撤回某条消息时，不给 id 就是对「刚叫醒你的那条」动手；要指向更早的消息，先用 `mx_history` 查事件 id——正文里不印它，四十多个字符会把对话读成一堆乱码。要提人时把显示名或 `@本地名` 传给 `mx_send` 的 `mention`，`mx_rooms` 里有完整 userId。\n\n**消息从哪个平台来，就回到哪个平台。** Matrix 上收到的话，只有 `mx_send`（以及 `mx_voice`、`mx_react`）能让对方看见；桌宠气泡（`pet_say`、`pet_ask`）、控制台和界面上的文字都只在这台电脑上可见，Matrix 那头的人看不到。有人从 Matrix 问话时，回到 Matrix 去答——在气泡里另外说一句可以，但不能代替 Matrix 上的回复。\n\n图片与文件在正文里先是占位；图片能下载下来时会作为附件一并给你，拿不到时正文会写明。语音先到的是 `[语音]` 占位，转写结果另发一条 `[Matrix-房间名 时间] 谁 的语音：…`；没转成也会明说原因，那条语音本身还在记录里。\n\n表情包是本地图库里的图片，用 `mx_stickers` 挑、用 `mx_send` 的 `sticker` 参数发。发消息、贴表情、撤回都会改变外部状态，别人会看到。\n\n`here` 指最近一次叫醒你的那个房间，不是「最后有人说话的地方」：别的房间有人聊天但那边推送关着时，`here` 不会漂过去。发之前看一眼回执里的房间名——它写的是这条消息实际去了哪里。关掉的通道发不出任何东西，工具会明确告诉你被拦了；不要在别处补发同样的内容。\n\n主动开口的机会是事件，不是命令：`[Matrix-房间名 时间] 这个房间已经 … 没有新消息了` 告诉你哪个房间安静了多久、今天第几次；要不要说话、说什么、说到哪里，你自己决定，不说也可以。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.4.9": "- 收尾：0.4.7/0.4.8 期间加的两行诊断日志（`joinedRooms 原始`、`发送前判断`）降为 debug，正常运行时不再刷。",
+    "0.4.8": "- 修：**房间号两种写法打架**。tuwunel 这个版本 `/joined_rooms` 返回的房间号不带 `:server`（`!opaque` 而不是 `!opaque:server`），而模型手里通常是完整号。插件把完整号原样拿去发，服务端不认，回 `cannot create a non-create event in a room with no forward extremities`；同时它和本地房间表（键来自 `/joined_rooms`）对不上，`roomEncrypted` 判定落空，最终把加密房间当明文发。\n  现在 `resolveRoomId` 先按 `!` 后面那段把任意写法的房间号对回本地房间表，再决定发什么。\n- 顺带：房间号里混进的零宽字符 / 不换行空格会在解析前清掉。",
+    "0.4.4": "- 修：**加密房间被当成明文房间发送**。`roomNeedsEncryption` 原先只问加密机（`crypto.isRoomEncrypted`），而加密机的房间表只认 sync 里喂进去的 state 事件——重启之后那张表是空的，于是它返回 false，插件往加密房间发 `m.room.message`。表现是发送失败（服务端报 `cannot create a non-create event in a room with no forward extremities`，错误码和真实原因完全对不上），或者别人读到乱码。\n  现在先看自己从 state 事件记下的加密标记（面板「房间」里显示「已加密」用的就是它），确认加密就不再问加密机，顺带把加密机的判断结果回填进去。",
+    "0.4.3": "- 修：**换设备后仍沿用旧加密库**。登录时 `retireCryptoStore` 想挪走旧库，但那时目录正被当前进程打开着，Windows 上 rename 必然失败，旧库就原样留下来了。结果是新令牌配旧身份：SDK 报出来的 device 是旧的、上传的密钥全挂在旧设备上，服务端那边新设备的 device keys 永远缺席，对方 claim 到的是坏签名，加密消息也就永远解不开。\n  现在改成**启动时**校验：库目录里写一个 `device.txt` 记住它是哪台设备的，和当前令牌的 device 对不上就把整份库挪到 `<账号>.old-<时间戳>` 再按新设备重建。启动时库还没被打开，rename 是稳的。老库没有这个标记文件，一律按不匹配处理（升级后第一次启动会重建一次库，历史加密消息解不开，新消息不受影响）。",
+    "0.4.2": "- 修：依赖明明装好了，面板仍报 `Cannot find package '…\\matrix-bot-sdk\\index.js'`。检测和加载改用 `require`（这个包是 CJS，入口在 `lib/index.js`）；动态 `import()` 在扩展的 TS loader 下会被解析成包根下的 `index.js`，必然失败。",
+    "0.4.1": "- 修：**换设备/换账号后 sync 位置没跟着换**。`sync.json` 只存了 `nextBatch` 与 `userId`，没有设备。拿上一台设备的同步位置续 sync，服务端返回的房间状态是残缺的，发消息会报 `cannot create a non-create event in a room with no forward extremities`——看起来像服务端坏了，其实是位置错位。现在位置与 device id 一起存，对不上就从头同步一次（老文件没记设备也会重来一次）。\n- 修：安装依赖时面板看不到进度。`installDeps` 现在边跑边回传输出，面板每秒拉一次，能看到 `pnpm add`、原生模块下载和「平台包桩」这些步骤；日志区从 160px 放大到 240px。\n- 修：安装时弹出的命令行窗口。`spawn` 在 Windows 上加 `detached`（`DETACHED_PROCESS`），让它不继承控制台；`shell: true` 只设 `windowsHide` 挡不住这层窗口。stdin 也关了，pnpm 在非 TTY 下不再画进度条，输出是干净的文本。\n- 修：原生模块装好了却 `Cannot find module '@matrix-org/matrix-sdk-crypto-nodejs-win32-x64-msvc'`。`index.js` 只认「同目录下标准文件名」或「平台包」两条路，而下载脚本存的文件名不带平台后缀、平台包在 npm 上又不存在。现在装完会补标准文件名，并按 `<platform>-<arch>-<abi>`（win32 是 `-msvc`）补齐平台包桩。",
+    "0.4.0": "- 「连接与开关」面板加了**用账号密码登录**：填服务器、账号、密码、设备名，点一下就走 `POST /_matrix/client/v3/login`，把换来的令牌 `persist` 进配置并重启。每次登录服务端发一个新设备，设备名默认 `Coopanion@主机名`。这是从根上避免「两台机器抄同一份令牌」的唯一办法——共用令牌就是共用设备，两边的加密库会互相覆盖。\n- 登录成功会把旧加密库改名挪到 `<账号>.old-<时间戳>`，换设备之后旧库本来也不认新 device id。\n- 修：加密库目录名一直是错的。规范化账号的正则写成了 `/[^\\\\w.-]/`，把字母数字全换成了下划线，目录名成了一串 `__________._____.___`。现在改成正确的 `/[^\\w.-]/`，并在启动时把老目录自动改名迁过去（改不动就继续用旧的并记一条 warn）。\n- `MATRIX_DEFAULTS` 里不再写死私有部署的 `homeserver` 与 `accessToken`，默认留空，由面板或密码登录填写。",
+    "0.3.5": "- 加密解不开时不再完全静默。收到 to-device 会记一行类型与来源；`m.room_key.withheld` / `m.no_olm` 单独记 warn；解密失败带上 rust 侧的原话（缺会话、缺密钥还是签名不对，一眼能分）。之前这些全被吞掉，日志里只剩一句「解不开」。\n- 启动日志带上 `device` 与 `ed25519`，能和 `/_matrix/client/v3/keys/query` 里登记的身份直接对照。\n- 排错章节补了「加密消息一直解不开」的四步排查：一账号两处同时跑、服务端残留旧私钥签的 OTK/fallback、对方解析不了你的设备列表、客户端缓存。",
+    "0.3.4": "- 发送遇到 `no forward extremities` / `M_UNKNOWN` / 限流时，等 5 秒重试，最多 4 次。tuwunel 2.0.0 在客户端启动后的十几秒里房间 extremities 索引是空的，这段时间发什么都失败、之后自愈；重试比把失败写进回执好。",
+    "0.3.3": "- 修：启动时的初始同步只处理「已加入」的房间，重启期间收到的邀请被忽略，那些房间永远进不去，往里发消息会报 `no forward extremities`。现在初始同步也处理邀请并自动接受。\n- 修：加密发送后立刻冲一次待发队列，把 megolm 会话的分享送出去；之前要等下一个 sync（最长 90 秒）对方才解得开。",
+    "0.3.2": "- 修：加密库和账号绑定，同一个部署换账号时 SDK 报「the account in the store doesn't match the account in the constructor」。现在加密库按账号分目录存（`matrix/crypto/<账号>`），换账号不会撞上旧库。",
+    "0.3.1": "- 修：被邀请进房间后没有接受，房间列表里却显示成「已加入」，往它发消息会拿到服务端错误 no forward extremities。现在收到邀请就自动接受。",
+    "0.3.0": "- 加密消息解不开时不再一次就放弃：每轮先冲一次待发请求（把密钥请求送出去），再重试，最多 3 次、间隔 2 秒。新设备第一次收到某个 megolm 会话时，密钥要等对方客户端回应，这中间有几秒延迟。",
+    "0.2.9": "- 「安装加密依赖」下载原生模块时带上 `NODE_TLS_REJECT_UNAUTHORIZED=0`：这台机器上有 TLS 中间人，不关校验就报 `UNABLE_TO_VERIFY_LEAF_SIGNATURE`。面板与 README 写明了这件事。",
+    "0.2.7": "- 修：「安装加密依赖」在包没装时把安装目录算成了应用的 cwd，pnpm add 落空。现在用扩展自己的目录（从本文件位置推，带 package.json 校验）。",
+    "0.2.6": "- 修：扩展被应用打包进 bot 的构建目录时，`import.meta.url` 与 `WorldContext.packageDir` 都指不到扩展自己。改成用 `createRequire` 解析 `matrix-bot-sdk` 与原生包的真实位置，安装动作直接在那个目录里跑。\n- 包已经能解析时跳过 `pnpm add`，只补原生模块——那是最常见的失败点，也不需要知道扩展装在哪。",
+    "0.2.5": "- 修：安装加密依赖时用的是 `WorldContext.packageDir`，那是 **bot 代码包**的位置，不是扩展目录——`pnpm add` 装到了别处，原生模块也没补上。现在从扩展自己的文件位置推目录。\n- 修：pnpm 10+ 因为「有构建脚本被拦」返回 1，但包其实已经装上了。现在以「装没装上」为准，不再误报失败。",
+    "0.2.4": "- 「端到端加密」面板新增「端到端加密依赖」：显示包是否声明、是否安装、版本、原生模块在不在、能不能加载，以及扩展目录。\n- 新增「安装加密依赖」按钮：后台跑 `pnpm add matrix-bot-sdk`，再补原生模块的 `download-lib.js`，输出实时显示在面板上。装完提示重启。",
+    "0.2.3": "- 修：重启时带着上次的 `next_batch`，sync 不会重放房间，而房间清单与加密层只在首次全量同步里建立——结果重启后房间列表是空的、加密层根本没起。现在启动时先单独拉一遍房间清单（名字、成员、加密状态）并起加密层，再进 sync 循环。\n- 修：`matrix-bot-sdk` 装了但原生模块没下载时，报错说成「没有装」。现在区分两种情况，并把真实原因写进状态行与面板。\n- 加密机的密钥上传加了 30 秒时限，卡住时不会让 World 一直停在 connecting。\n- 房间面板每 5 秒自己刷新一次，连接是异步起来的，不用手点。",
+    "0.2.2": "- 修：初始同步把房间创建时的状态事件放在时间线里，`state` 段只给一部分，导致 `m.room.encryption` 被漏掉、加密房间被当成明文。现在时间线里的状态事件也扫一遍。\n- 修：`decryptRoomEvent` 读的是 SDK 自己的 `RoomEvent.raw`，直接传裸事件会让 rust 那边收到 undefined，所有加密消息都解不开。现在包一层 `{ raw }`。\n- 回填历史时也解密，不再把旧加密消息一律记成 `[加密消息]`。\n- 加密机启动后用它自己的 `isRoomEncrypted` 补齐房间加密状态，state 事件缺失时也能认出来。\n- 新增 `pnpm probe:e2ee`：真机验证加密收发（自己发一条再读回来，验完撤回）。",
+    "0.2.1": "- 加密策略改成三档：**强制**（只连加密房间，明文房间的消息不叫醒 Coo，往明文房间发东西回「由于安全策略，禁止连接非加密房间」）、**启用**（默认，两种房间都能用）、**关闭**。\n- 新增「端到端加密」面板：策略切换、启用状态（已启用 / 启用失败-原因 / 未启用）、每个房间在当前策略下能不能用、重新加载加密层。\n- 加密层起不来时记下原因，状态行、面板与 `mx_status` 都显示。",
+    "0.2.0": "- 端到端加密：装上可选的 `matrix-bot-sdk` 就能收发加密房间——解密收到的、加密发出的、加密附件（图片与语音）也认。加密机接在自己的 sync 循环上，`next_batch` 落盘与回填行为不变。\n- 没装依赖时退回明文模式：加密房间里的消息只显示 `[加密消息]`，发送与贴表情被拦下并说明原因；状态行与面板的「加密」灯写明是哪种情况。\n- 新增 `encryption` 配置项（`auto` / `off`），`off` 彻底不加载加密层。\n- 新增 `pnpm probe:crypto`：在真实服务器上验证加密层能起来、设备密钥传得上去、密钥能持久化。",
+    "0.1.3": "- 加密房间直接拦下发送与贴表情，回执说明原因。之前只在收到 `m.room.encryption` 时推一条「不会往里发消息」，代码并没有真的拦。",
+    "0.1.2": "- 长轮询默认时长从 30 秒改成 90 秒：空闲请求从每 30 秒一个降到每 90 秒一个，延迟不变（实测消息进服务器到 sync 返回 13–19ms）。\n- 服务端对超过 90 秒的 `timeout` 会立刻回一帧空响应，长轮询会退化成满速轮询。配置上限收到 90 秒，并对「500ms 内返回且没有事件」的响应补 1 秒间隔兜底。",
+    "0.1.1": "- 事件正文改成 `[Matrix-房间名 时间] 谁: 内容`：事件 id 不再印在行首，图片与视频只留 `[图片]` / `[视频]`，不再带文件名。\n- `mx_react`、`mx_redact` 的 `event_id` 变成可选：不给就是对刚叫醒你的那条动手（撤回则是自己最后发的那条）。`mx_send` 的 `reply_to` 认 `last`。\n- `mx_send` 的 `mention` 认显示名与 `@本地名`；`mx_rooms` 列出成员与完整 userId。\n- `mx_history` 仍然每行印完整事件 id，指向更早的消息时从那里取。",
+    "0.1.0": "- 用 Matrix 客户端-服务器 API 接房间：sync 长轮询，`next_batch` 落盘，重启续接；首次启动做一次全量同步只取位置，再按 `backfillLimit` 回填记录。\n- 房间号、别名与 userId 在路径里整段编码（`!` → `%21`，`:` → `%3A`）。\n- 收房间消息、表情回应、撤回、成员进出、房间设置变化与语音；被 @ 或被回复时立即投递。\n- 发文本（长文本按字节切片）、图片、表情包、语音，可引用与提及；撤回自己的消息；贴 emoji 反应。\n- 本地会话记录与 `mx_history` / `mx_search`，表情包图库，主动说话状态机，OpenAI 兼容或 Windows 自带的语音识别与合成。\n- 五个 WebUI 面板：连接与开关、房间、表情包、主动说话、语音。"
+  }
+}

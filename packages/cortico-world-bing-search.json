@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "name": "cortico-world-bing-search",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "web_search",
+        "description": "查网上现在的说法。只有别人问到、而自己不知道、或需要今天的消息时才用。不要自己没事搜。query 写一句短的搜索词，不要把别人的私人信息写进搜索词。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "要搜的短句，例如「今天上海天气」。"
+            }
+          },
+          "required": [
+            "query"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查网上现在的说法。",
+          "en": "Looks up current pages on the web."
+        }
+      }
+    ],
+    "events": []
+  }
+}

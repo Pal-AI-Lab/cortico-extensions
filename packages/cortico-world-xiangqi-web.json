@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "name": "cortico-world-xiangqi-web",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "xiangqi_start",
+        "description": "新开一盘或创建房间时调用。工具用自己的象棋窗口完成：首页点创建房间，不点对战，然后自己走子。建好后把回执里的房间链接用纯文本发给对方，不要念出来，不要只在气泡里说，不要改用鼠标。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "level": {
+              "type": "string",
+              "description": "初级、中级或高级。页面上已经选好就不要填。"
+            },
+            "side": {
+              "type": "string"
+            },
+            "to": {
+              "type": "string",
+              "description": "把房间链接发给哪个会话的标识；空了就只在气泡里说一句。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "在网页上打开一盘中国象棋人机对局。",
+          "en": "Starts a Chinese-chess game against the website AI."
+        }
+      },
+      {
+        "name": "xiangqi_look",
+        "description": "终局或停下来之后看输赢。先按棋面有没有子可走判断，并附上窗口截图。正在下的时候不要调用。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看现在的棋盘和轮到谁。",
+          "en": "Reads the current board and whose turn it is."
+        }
+      },
+      {
+        "name": "xiangqi_move",
+        "description": "对局开了程序会自己接上走，不用为了走子来调用。只有程序没在下、使用者明确说接手时才调用。不要另建房间，不要用鼠标点棋盘。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "按坐标走一步，然后等电脑应着。",
+          "en": "Plays one move by coordinates and waits for the computer."
+        }
+      },
+      {
+        "name": "xiangqi_review",
+        "description": "要复盘时调用。读已经记下的棋谱，不看窗口。窗口断了也用这个，不要说看不到。query 空着是最近一盘。要找以前某一盘，query 写时间、执红执黑、输赢或着法里有的字。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "要找的旧对局。空着就复盘最近一盘。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读记下的棋谱复盘，也能按字找以前的对局。",
+          "en": "Reviews a recorded game, or finds an older one by text."
+        }
+      }
+    ],
+    "events": []
+  }
+}
