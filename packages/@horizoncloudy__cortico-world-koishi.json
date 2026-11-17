@@ -1,0 +1,149 @@
+{
+  "schema": 1,
+  "name": "@horizoncloudy/cortico-world-koishi",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "koishi_call",
+        "description": "Call any OneBot v11 action on the dialed implementation (NapCat-style forward WebSocket; this world speaks no Koishi protocol). Read-only actions run immediately. Write actions run only on a turn with an identified inbound sender (a turn without an inbound message is refused, 60004) and follow writePolicy (default: confirm=true required). Credential actions get_cookies/get_csrf_token/get_credentials are not served (10002).",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "description": "v11 action name, e.g. send_group_msg or get_group_info."
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": true,
+              "description": "The action params object."
+            },
+            "confirm": {
+              "type": "boolean",
+              "description": "Set true to execute a write action under the confirm policy."
+            },
+            "timeout_ms": {
+              "type": "integer",
+              "description": "Optional call timeout in milliseconds."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "调用 v11 action（拨 NapCat 类正向 WS，非 Koishi 协议）；只读直接执行，写动作要求本轮有实证发起方（缺入站记录回 60004）并按策略需 confirm=true；凭证动作不进桥（10002）。",
+          "en": "Call a v11 action over the dialed v11 implementation (NapCat-style forward WS, not the Koishi protocol); reads run immediately, writes need an identified inbound sender this turn (60004 without one) and follow the write policy; credential actions are not served (10002)."
+        }
+      },
+      {
+        "name": "koishi_actions",
+        "description": "Look up the OneBot v11 action catalog with implementation selection. No args lists categories, coverage and the detected implementation (extensions whitelist is a guessed starting value: empty, display-only); query searches name/summary; name returns one entry.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "Search action name or summary."
+            },
+            "name": {
+              "type": "string",
+              "description": "Return the catalog entry for this action."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查 OneBot v11 动作目录、分类、覆盖数与实现识别结果。",
+          "en": "Look up the OneBot v11 action catalog, categories, coverage and implementation detection."
+        }
+      },
+      {
+        "name": "koishi_events",
+        "description": "Read archived OneBot v11 events by kind/time. kind supports * globs (e.g. notice/*).",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "description": "Event kind or glob: message/group, notice/group_recall, meta_event/*."
+            },
+            "limit": {
+              "type": "integer",
+              "description": "Max events (1-100, default 30)."
+            },
+            "raw": {
+              "type": "boolean",
+              "description": "Include meta.raw. Default true."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "按类型和时间查已归档的 OneBot v11 事件。",
+          "en": "Read archived OneBot v11 events by kind and time."
+        }
+      },
+      {
+        "name": "koishi_status",
+        "description": "Bridge connection, account, detected implementation, v11 coverage and current write policy.",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看桥连接、账号、识别出的实现、v11 覆盖面与写策略。",
+          "en": "Show bridge connection, account, detected implementation, v11 coverage and write policy."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "koishi-bridge.message",
+        "description": {
+          "zh": "一条 QQ 消息；正文是一行可读文本，meta.raw 是原始 v11 事件（ID 为 v11 原生数字，不做 Koishi 字符串化）。",
+          "en": "A QQ message; text is one readable line, meta.raw is the original v11 event (native numeric IDs, no Koishi stringification)."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "koishi-bridge.notice",
+        "description": {
+          "zh": "OneBot v11 notice / meta_event；正文是一行摘要，meta.raw 是原始事件。",
+          "en": "An OneBot v11 notice or meta_event; text is a compact line, meta.raw is the original event."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "koishi-bridge.request",
+        "description": {
+          "zh": "OneBot v11 request（加好友 / 加群）；meta.raw 是原始事件。",
+          "en": "An OneBot v11 request (friend / group); meta.raw is the original event."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "koishi-bridge.connection",
+        "description": {
+          "zh": "桥连接建立或断开（对端是 v11 实现端，非 Koishi 服务端）。",
+          "en": "Bridge connected or disconnected (peer is a v11 implementation, not a Koishi server)."
+        },
+        "trigger": "debounce"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "首个版本（v1 薄壳，不发布）：Cortico 侧 Koishi 插件兼容入口，**不写 Koishi 协议码**，\n用 OneBot v11 正向 WebSocket 拨 NapCat 类实现端，再叠 catalog 实现选择。只承诺 v11。\n\n- 事件时刻取值加 `Number.isFinite` 守卫（`projectEvent`）：畸形 `time`（`'abc'`、`null`、\n  `0`、负数、对象）回落当下时刻。缺守卫时 `new Date(NaN).toISOString()` 抛 RangeError，\n  异常沿 `#handleEvent` 落进 `onEvent` catch，整条消息事件被吞。形状照先例\n  `cortico-world-onebot-bridge/src/normalize.js:79-83 eventTs`。\n\n- 装载契约：`cortico` 块 `kind:\"world\"`、`api:6`、`describe:\"describe.json\"`、\n  `main`/`exports` 指 `src/definition.js`、全 `.js`；市场 tags 取词表五词\n  `qq/im/external-setup/unofficial-api/experimental`（不声明 `onebot`/`onebot-v11`，\n  两词在 29 词表外会市场静默隐身）；不声明 `webUiClient`。\n- 驱动：`src/driver.js` 整文件复制自 `cortico-world-onebot-bridge @c85a87b24`\n  （该包 exports 挡 subpath import，实跑 ERR_PACKAGE_PATH_NOT_EXPORTED）。复制件的病是\n  各自演化（先例：四份 Python 桥各自手抄 CBP 帧表抄出分歧），所以配逐字节等闸\n  `test/driver-parity.test.mjs`，并要求文件头写明来源件、钉住的 sha 与门禁编号。\n  升级时机：v11 驱动进内核 `exports` 或单列 v11 profile 包后，删复制件与本闸。\n- 工具四件 `koishi_*` 前缀（防撞名，`bot.ts:1146-1155 @836238311` 覆盖语义）：\n  `koishi_call`（act，门序原样 copy：名字闸 10002 → 身份闸 60004 → 策略闸；未知/扩展动作按写）、\n  `koishi_actions`（read，附实现识别与扩展白名单展示）、`koishi_events`（read）、\n  `koishi_status`（read）。`describe.json` 与 `tools()` 由 `KOISHI_TOOL_DECLS` 同源派生。\n- catalog 实现选择：连上后按 `get_version_info.app_name` 识别 napcat / snowluma /\n  llonebot / lagrange / go-cqhttp（样式移植 `@2e91b7fb1`）；per-impl 扩展白名单\n  起点值为空且标「猜」（未核验，recon.md §6-2），只展示不拦截。\n- ID 空间：全程 v11 原生数字 `message_id`、`group_id/user_id` 原样，不做 Koishi\n  字符串化；README 的对照表逐行核验自 `koishi-plugin-adapter-onebot @4109eb95c`。\n- 测试：`node --test`（`test/contract / world / implementations`）覆盖门序、事件投影、\n  契约同步、`onebot_*` 全文禁用扫描与实现识别；发布闸五项由 fleet 根\n  `tests/release/release-gate.test.mjs` 枚举进闸。"
+  }
+}

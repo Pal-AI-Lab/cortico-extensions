@@ -398,7 +398,7 @@
     },
     "@horizoncloudy/cortico-world-astrbot-bridge": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "displayName": "AstrBot · QQ (CBP)",
       "description": "经 CBP 连接 AstrBot 的桥，收编旧私有帧协议并保留两阶段升级路径。",
       "locales": {
@@ -430,18 +430,22 @@
         "bugs": "https://github.com/HorizonCloudy/cortico-bridge-fleet/issues"
       },
       "created": "2026-11-16T12:50:46.432Z",
-      "published": "2026-11-16T14:29:22.579Z",
-      "versionCount": 3,
+      "published": "2026-11-16T23:51:27.144Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
-        "apps",
+        "qq",
+        "im",
         "external-setup",
-        "unofficial-api"
+        "unofficial-api",
+        "experimental"
       ],
       "tags": [
-        "apps",
+        "im",
+        "qq",
         "external-setup",
+        "experimental",
         "unofficial-api"
       ],
       "downloads": {
@@ -457,6 +461,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.3",
           "0.1.2",
           "0.1.0"
         ],
@@ -470,9 +475,87 @@
         "comments": 0
       }
     },
+    "@horizoncloudy/cortico-world-koishi": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "Koishi Bridge",
+      "description": "Koishi 插件兼容入口薄壳：不写 Koishi 协议码，用 OneBot v11 正向 WebSocket 拨 NapCat 类实现端，再叠 catalog 实现选择。",
+      "locales": {
+        "zh": {
+          "displayName": "Koishi Bridge",
+          "description": "Koishi 插件兼容入口薄壳：不写 Koishi 协议码，用 OneBot v11 正向 WebSocket 拨 NapCat 类实现端，再叠 catalog 实现选择。"
+        },
+        "en": {
+          "displayName": "Koishi Bridge",
+          "description": "Thin Koishi plugin-compatibility shell: speaks no Koishi protocol; dials NapCat-style implementations over a OneBot v11 forward WebSocket with catalog-based implementation selection."
+        }
+      },
+      "author": "Coopanion bridge fleet",
+      "maintainers": [
+        "horizoncloudy"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "koishi",
+        "qq",
+        "napcat",
+        "plugin-bridge"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/@horizoncloudy/cortico-world-koishi",
+        "repository": "https://github.com/HorizonCloudy/cortico-bridge-fleet",
+        "homepage": "https://github.com/HorizonCloudy/cortico-bridge-fleet#readme",
+        "bugs": "https://github.com/HorizonCloudy/cortico-bridge-fleet/issues"
+      },
+      "created": "2026-11-16T23:50:23.174Z",
+      "published": "2026-11-16T23:52:00.726Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "qq",
+        "im",
+        "external-setup",
+        "unofficial-api",
+        "experimental"
+      ],
+      "tags": [
+        "im",
+        "qq",
+        "external-setup",
+        "experimental",
+        "unofficial-api"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 4,
+        "toolTokens": 649,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/HorizonCloudy/cortico-bridge-fleet/blob/HEAD/packages/cortico-world-koishi/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 991,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/991",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "@horizoncloudy/cortico-world-maibot": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "displayName": "MaiBot · QQ (CBP)",
       "description": "经 CBP v1 帧协议连接 MaiBot 的桥：监听 WebSocket、能力协商、出站门与对端工具清单。",
       "locales": {
@@ -504,18 +587,22 @@
         "bugs": "https://github.com/HorizonCloudy/cortico-bridge-fleet/issues"
       },
       "created": "2026-11-16T12:50:36.012Z",
-      "published": "2026-11-16T14:28:44.065Z",
-      "versionCount": 4,
+      "published": "2026-11-16T23:51:20.255Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
-        "apps",
+        "qq",
+        "im",
         "external-setup",
-        "unofficial-api"
+        "unofficial-api",
+        "experimental"
       ],
       "tags": [
-        "apps",
+        "im",
+        "qq",
         "external-setup",
+        "experimental",
         "unofficial-api"
       ],
       "downloads": {
@@ -524,13 +611,14 @@
         "week": 0
       },
       "summary": {
-        "tools": 3,
+        "tools": 5,
         "events": 5,
-        "toolTokens": 283,
-        "envPromptTokens": 381
+        "toolTokens": 642,
+        "envPromptTokens": 522
       },
       "changelog": {
         "versions": [
+          "0.1.3",
           "0.1.2",
           "0.1.1",
           "0.1.0"
@@ -622,7 +710,7 @@
     },
     "@horizoncloudy/cortico-world-onebot-bridge": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "displayName": "OneBot Bridge",
       "description": "接任意 OneBot v11 实现的桥：正向 WebSocket、通用 action 调度与动作目录覆盖度。",
       "locales": {
@@ -657,15 +745,23 @@
         "bugs": "https://github.com/HorizonCloudy/cortico-bridge-fleet/issues"
       },
       "created": "2026-11-16T12:50:55.494Z",
-      "published": "2026-11-16T14:29:31.670Z",
-      "versionCount": 3,
+      "published": "2026-11-16T23:51:32.714Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
-        "qq"
+        "qq",
+        "im",
+        "external-setup",
+        "unofficial-api",
+        "experimental"
       ],
       "tags": [
-        "qq"
+        "im",
+        "qq",
+        "external-setup",
+        "experimental",
+        "unofficial-api"
       ],
       "downloads": {
         "total": 0,
@@ -680,6 +776,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.3",
           "0.1.2",
           "0.1.0"
         ],
@@ -1608,7 +1705,7 @@
     },
     "@wocwang/cortico-world-rvc-for-coopanion": {
       "kind": "world",
-      "version": "0.4.31",
+      "version": "0.4.34",
       "displayName": "RVC唱歌-大肥鱼",
       "description": "Cortico World for Coopanion: voice conversion with RVC — upload any audio and get it back in the pet's voice, plus a local HTTP endpoint (127.0.0.1:9881) for other plugins",
       "locales": {
@@ -1643,8 +1740,8 @@
         "win32"
       ],
       "created": "2026-10-29T02:52:41.041Z",
-      "published": "2026-11-16T16:26:31.132Z",
-      "versionCount": 14,
+      "published": "2026-11-16T23:43:16.596Z",
+      "versionCount": 17,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -1663,10 +1760,10 @@
         "week": 903
       },
       "summary": {
-        "tools": 1,
-        "events": 0,
-        "toolTokens": 680,
-        "envPromptTokens": 649
+        "tools": 4,
+        "events": 1,
+        "toolTokens": 1172,
+        "envPromptTokens": 950
       },
       "discussion": {
         "number": 466,
@@ -1678,7 +1775,7 @@
     },
     "@wocwang/cortico-world-singer-for-coopanion": {
       "kind": "world",
-      "version": "0.1.26",
+      "version": "0.1.27",
       "displayName": "DiffSinger唱歌",
       "description": "Cortico World for Coopanion: let the pet improvise a line and sing it on the spot with DiffSinger (Qixuan voicebank), optionally through RVC",
       "locales": {
@@ -1714,8 +1811,8 @@
         "win32"
       ],
       "created": "2026-10-29T02:52:13.755Z",
-      "published": "2026-11-16T16:29:56.294Z",
-      "versionCount": 10,
+      "published": "2026-11-16T23:16:36.063Z",
+      "versionCount": 11,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -1745,6 +1842,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.27",
           "0.1.26",
           "0.1.25",
           "0.1.24",
@@ -2414,7 +2512,7 @@
     },
     "coopani-world-life": {
       "kind": "world",
-      "version": "0.12.0",
+      "version": "0.13.0",
       "displayName": "模拟鱼生",
       "description": "模拟鱼生 · 需要 Coopani 0.2.17+：给她一本过日子的账 —— 五条需求会自己掉，职业、住处、钱、目标全在面板上。",
       "locales": {
@@ -2450,8 +2548,8 @@
         "bugs": "https://github.com/fateSSD/coopani-world-life/issues"
       },
       "created": "2026-11-15T03:01:26.063Z",
-      "published": "2026-11-16T16:40:59.725Z",
-      "versionCount": 17,
+      "published": "2026-11-17T01:06:15.503Z",
+      "versionCount": 18,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2471,11 +2569,12 @@
       "summary": {
         "tools": 13,
         "events": 3,
-        "toolTokens": 1131,
+        "toolTokens": 1133,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.13.0",
           "0.12.0",
           "0.11.1",
           "0.10.4",
@@ -5848,7 +5947,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/11",
         "up": 0,
         "down": 0,
-        "comments": 4
+        "comments": 5
       }
     },
     "cortico-world-bilibili-video": {
@@ -15204,7 +15303,7 @@
     },
     "cortico-world-memory-core": {
       "kind": "world",
-      "version": "0.20.0",
+      "version": "0.21.0",
       "displayName": "记忆核心",
       "description": "四个工具写卡、查卡、改状态、排日程，改口不覆盖。每轮自动把 2 条相关旧记忆推到眼前，不用模型自己查；搜索分「对得上 / 可能沾边」两档。冷层收走三个月没想起的流水账，不删、可回暖。3D 星图一眼看完整个库。常驻约 1,000 token，本地不联网，MIT。\n\nQQ 交流群：745879632",
       "locales": {
@@ -15236,8 +15335,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-memory-core/issues"
       },
       "created": "2026-11-01T13:09:43.487Z",
-      "published": "2026-11-16T15:35:29.506Z",
-      "versionCount": 21,
+      "published": "2026-11-16T17:44:21.808Z",
+      "versionCount": 22,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -15272,6 +15371,7 @@
       },
       "changelog": {
         "versions": [
+          "0.21.0",
           "0.20.0",
           "0.19.0",
           "0.12.1",
@@ -16066,7 +16166,7 @@
     },
     "cortico-world-mosey": {
       "kind": "world",
-      "version": "2.9.0",
+      "version": "2.9.1",
       "displayName": "摸鱼",
       "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。评论和私信都能收能回；能一起看视频（B站带字幕弹幕，抖音可自动连刷）；关注流、周报、本地书库；按额度点赞、评论、关注、发动态。默认人审，三把工具、少 token。\n\nQQ 交流群：745879632",
       "locales": {
@@ -16103,8 +16203,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-mosey/issues"
       },
       "created": "2026-11-01T08:17:38.660Z",
-      "published": "2026-11-16T13:43:46.788Z",
-      "versionCount": 59,
+      "published": "2026-11-16T17:41:42.694Z",
+      "versionCount": 60,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -16141,6 +16241,7 @@
       },
       "changelog": {
         "versions": [
+          "2.9.1",
           "2.9.0",
           "2.8.4",
           "2.8.3",
@@ -23238,7 +23339,7 @@
     },
     "cortico-world-starpost": {
       "kind": "world",
-      "version": "0.34.0",
+      "version": "0.35.0",
       "displayName": "星邮",
       "description": "星邮：让 Cortico bot 独立私聊、群聊、交换漂流瓶、分享动态并预约狼人杀的社交 World 扩展",
       "maintainers": [
@@ -23258,8 +23359,8 @@
         "bugs": "https://github.com/hth768/cortico-world-starpost/issues"
       },
       "created": "2026-10-27T17:41:43.822Z",
-      "published": "2026-11-16T06:20:51.530Z",
-      "versionCount": 56,
+      "published": "2026-11-16T17:41:02.233Z",
+      "versionCount": 57,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -23287,6 +23388,7 @@
       },
       "changelog": {
         "versions": [
+          "0.35.0",
           "0.34.0",
           "0.33.0",
           "0.32.0",
@@ -24175,7 +24277,7 @@
         "number": 65,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/65",
         "up": 3,
-        "down": 3,
+        "down": 4,
         "comments": 0
       }
     },
@@ -24723,7 +24825,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/85",
         "up": 23,
         "down": 3,
-        "comments": 12
+        "comments": 13
       }
     },
     "cortico-world-timetable": {
@@ -27164,7 +27266,7 @@
       "published": "2026-11-03T08:24:51.037Z",
       "versionCount": 7,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "unofficial-api",
         "external-setup",
