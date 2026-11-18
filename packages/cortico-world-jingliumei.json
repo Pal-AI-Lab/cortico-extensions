@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-jingliumei",
-  "version": "0.4.4",
+  "version": "0.4.6",
   "describe": {
     "tools": [
       {
@@ -627,6 +627,8 @@
     ]
   },
   "changelog": {
+    "0.4.6": "- 「决策历史」不再显示「复盘提醒」：`wake-log.jsonl` 照记，但面板列表过滤掉这一类；「今天有 N 次唤醒没写决策记录」的 N 也同步排除复盘提醒。",
+    "0.4.5": "- 打包补上 `ENV_PROMPT.md`（0.4.4 发布时漏在 `files` 外，装到别人机器上 World 起不来，报 ENOENT）。",
     "0.4.4": "- 清空数据时保留**当天已经发生过**的标记（`briefDate` / `settleDate` / `morningDate` / `navDate`），\n  收盘之后再点「清空并重新初始化」不会补推一条「收盘了」，也不重跑当天的结算与净值。",
     "0.4.3": "- 期初策略提示按 `loadStrategy().isDefault` 分两句：真没写过策略（`initial`）／有文件但缺标记（`upgrade`）。",
     "0.4.2": "- 期初策略提示的判据改用 `DailyMarks.strategySeeded`，不再看 `strategy.json` 是否存在 —— 升级上来的旧号也会推一次，且只推一次。",
