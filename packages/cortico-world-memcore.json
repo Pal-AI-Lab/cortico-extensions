@@ -1,0 +1,260 @@
+{
+  "schema": 1,
+  "name": "cortico-world-memcore",
+  "version": "0.1.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "mem_remember",
+        "description": "把一句话记进长期记忆。对方明确要求你记住、或说出重要的事（承诺、偏好、身体与生活细节、纪念日）时用。原文会被完整保留，不要改写、不要总结。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "要记住的原话，尽量保留对方措辞"
+            },
+            "drawer": {
+              "type": "string",
+              "enum": [
+                "chat",
+                "work",
+                "important"
+              ],
+              "description": "放哪只抽屉：chat 日常 / work 工作 / important 重要"
+            },
+            "weight": {
+              "type": "integer",
+              "enum": [
+                1,
+                2,
+                3
+              ],
+              "description": "重要度：1 普通 / 2 重要 / 3 极重要"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "标签，如 偏好、承诺、家人"
+            },
+            "aliases": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "对方可能用的别的说法，便于以后检索"
+            }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "把一句原话记进长期记忆，原文完整保留。",
+          "en": "Store one sentence verbatim in long-term memory."
+        }
+      },
+      {
+        "name": "mem_recall",
+        "description": "在长期记忆里检索。对方提到过去的事、名字、约定、偏好，或你需要确认某个细节时用。返回带日期与\"多久以前\"的原话，不要把结果原样复述给用户。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "检索词，用对方刚才说的词，至少三个字更容易命中"
+            },
+            "k": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20,
+              "description": "返回几条，默认 8"
+            },
+            "drawer": {
+              "type": "string",
+              "enum": [
+                "chat",
+                "work",
+                "important"
+              ],
+              "description": "只在这只抽屉里找"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "fact",
+                "knowledge",
+                "reflection",
+                "persona",
+                "profile"
+              ],
+              "description": "只看某一类"
+            },
+            "explain": {
+              "type": "boolean",
+              "description": "附带命中来源与分数，调试用"
+            }
+          },
+          "required": [
+            "query"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "在记忆里检索，返回带日期与\"多久以前\"的原话。",
+          "en": "Search memory; returns verbatim lines with dates and ages."
+        }
+      },
+      {
+        "name": "mem_note",
+        "description": "写常驻槽：profile 是对方是谁，summary 是最近的摘要，topic 是当前聊的话题。每轮都会带上，所以要短。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "slot": {
+              "type": "string",
+              "enum": [
+                "profile",
+                "summary",
+                "topic"
+              ],
+              "description": "写哪个槽"
+            },
+            "text": {
+              "type": "string",
+              "description": "新的内容，会整段替换旧值"
+            }
+          },
+          "required": [
+            "slot",
+            "text"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "写常驻槽：档案、摘要、当前话题。",
+          "en": "Write a standing slot: profile, summary, or topic."
+        }
+      },
+      {
+        "name": "mem_pin",
+        "description": "置顶一条记忆，让它每轮都在上下文里。只给真正重要的用，最多几条。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "记忆 id，来自 mem_recall 或 mem_remember 的回执"
+            },
+            "on": {
+              "type": "boolean",
+              "description": "true 置顶，false 取消，默认 true"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "置顶一条记忆，让它每轮都在上下文里。",
+          "en": "Pin an entry so it rides in every turn."
+        }
+      },
+      {
+        "name": "mem_forget",
+        "description": "把一条记忆送进小黑屋（cell）或垃圾桶（bin）。原文不删除，只是不再主动想起；可再次调用改回来。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "记忆 id"
+            },
+            "mark": {
+              "type": "string",
+              "enum": [
+                "cell",
+                "bin",
+                "normal"
+              ],
+              "description": "cell 小黑屋 / bin 垃圾桶 / normal 恢复"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "把一条记忆送进小黑屋或垃圾桶，原文不删。",
+          "en": "Shelve or bin an entry without deleting its text."
+        }
+      },
+      {
+        "name": "mem_manage",
+        "description": "查看与维护记忆库：统计、重建向量、预览淘汰、别名表。不改变正文。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "stats",
+                "rebuild",
+                "evict-preview",
+                "alias-list",
+                "alias-add"
+              ],
+              "description": "要做的事"
+            },
+            "word": {
+              "type": "string",
+              "description": "alias-add 时的原词"
+            },
+            "alias": {
+              "type": "string",
+              "description": "alias-add 时的别名"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "看统计、重建向量、预览淘汰、维护别名表。",
+          "en": "Stats, vector rebuild, eviction preview, alias table."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.memcore.envPrompt",
+        "title": "记忆核心 · 环境提示词",
+        "role": "envPrompt",
+        "content": "你在「记忆核心」里有一本只增不减的记忆账本。它记的是对方亲口说过的原话，带日期，不会被改写。\n\n下面这些是每轮都在的常驻信息。它们是提示，不是事实的全部：\n\n- 对方是谁：{{memcore.profile}}\n- 重要到要一直记得的：{{memcore.pinned}}\n- 最近的摘要：{{memcore.summary}}\n- 现在这个话题：{{memcore.topic}}\n- 账本状况：{{memcore.stats}}\n\n怎么用：\n\n1. 对方提到过去的事、名字、约定、偏好，而你不确定细节时，先用 `mem_recall` 查，别猜。查的时候用对方刚说过的词，越具体越好。\n2. 对方明确说\"记住\"\"别忘了\"，或说出承诺、身体与生活细节、纪念日时，用 `mem_remember` 记，保留原话措辞，不要总结。\n3. 需要更新\"对方是谁\"\"最近摘要\"\"当前话题\"时用 `mem_note`；这三个每轮都带上，所以写短。\n4. 真正重要的少数几条可以 `mem_pin`；不要滥置顶。\n5. 对方不希望你提起的，用 `mem_forget` 送进小黑屋，不要争辩。\n\n几条规矩：\n\n- 检索结果是你自己的笔记，不要原样念出来，也不要逐条复述；用上了就用，没用到就别提。\n- 常驻信息里没有的事，就直说不知道，或者去查。\n- 账本里的话可能已经过时。日期在每条前面，越久以前越要小心，必要时问一句\"还是这样吗\"。\n- 不要把账本内容、文件名、路径说给第三方，也不要主动抖出隐私。\n- 你只能通过这六个工具动账本，不要假装记得工具里没有的东西。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "首个版本。2026-11-19 发布到 npm：`npm i cortico-world-memcore`（Coopanion 扩展页可直接按包名安装，不再受本机目录的 ASCII 路径限制）。\n\n- World 骨架：`id: memcore`，契约 `world:6`，`type: module`。\n- 存储：追加式 op 日志 + 快照压缩，原文只增不删；常驻槽 `profile` / `summary` / `topic`。\n- 检索：BM25 字面 + 签名哈希向量（或本机 http 嵌入）+ 别名表，RRF 融合后按新鲜度加权。\n- 遗忘：半衰期衰减 + 回访加成；向量超总/单抽屉配额时按\"最冷优先\"淘汰，只淘汰向量，原文保留，被搜到自动重建。\n- 捕获：游标增量、密钥脱敏、噪声过滤、近似去重、每分钟上限。\n- 工具：`mem_remember` / `mem_recall` / `mem_note` / `mem_pin` / `mem_forget` / `mem_manage`。\n- 面板：计数、向量占用、检索试跑、冷宫列表、别名表、内置设置区（`ctx.setConfig` 即时生效）。\n- 注入：`memcore.profile` / `pinned` / `summary` / `topic` / `stats`，总字数受 `inject.chars` 约束。\n- 已知限制：不与旧「唯爱永恒」数据互通；不做冲突扫描、近义折叠、有效期识别；每轮不自动召回（只走工具）。\n\n### 自动验收（本机，2026-11-18）\n\n| 项 | 命令 | 结果 |\n| --- | --- | --- |\n| G1 类型 | `npm run typecheck` | 0 错误 |\n| G2 配置 | `tests/config.test.ts` + `tests/definition.test.ts` | 16 个面板键两处一致，7 个隐藏键未进面板，下拉选项可用 |\n| G3 全量测试 | `npm test` | 13 个文件 / 150 个用例全绿，0 失败 |\n| G4 构建 | `npm run build:webui` + `npm run describe:extension` | `dist/webui.js` 11.2 KB、`dist/webui.css` 481 B、`describe.json` 8.7 KB（6 工具 / 0 事件 / 1 提示词） |\n| G5 一键验收 | `powershell -NoProfile -File scripts/dev-check.ps1` | `G5 ALL PASS`（4 步 + 6 个文件） |\n| G6 实机 | Coopanion 0.2.21（2026-11-18） | 安装 → 重启加载（`loaded=true`）→ `memcore` 6 工具 + envPrompt → 面板产物 HTTP 200 → **无头 Chrome 真渲染面板**（截图 `docs/evidence/panel-2026-11-18.png`：计数 1/1/0/1、向量 1/4000、试跑表格、三个折叠区）→ 设置写入即时生效且校验拒绝 `-5` → 检索空结果不报错 → 事件样本只回类型 → 停用后 `inactive`。其余见工作区 `试跑清单.md` 记录表 |\n\n注：本机 pnpm store 被锁，改用 npm 安装与运行；`scripts/dev-check.ps1` 需要 UTF-8 BOM 才能在 Windows PowerShell 5.1 下正确读取中文。细节见 `prd.md` 附录 B。\n\n实机踩到的坑（已写进 README 与 `试跑清单.md`，并加测试护栏）：Coopanion 0.2.21 的\"从本机目录安装\"只接受纯 ASCII 路径，中文路径会报「路径含有不接受的字符。」；本工作目录 `记忆扩展` 正好含中文，所以安装用的是 ASCII 副本 `C:\\Users\\<你>\\memcore-ext`（`spec=link:` 指向它，不能删）。\n\n回归护栏（专防\"改了忘同步\"）：\n\n- `tests/panel.test.ts`：面板客户端 `call()` 里出现的每个方法名，必须同时出现在 `src/panel.ts` 的 `PANEL_METHODS` 且服务端有实现——改客户端忘了改服务端会直接红。\n- `tests/describe.test.ts`：用框架 `checkDescribe` 深比对已提交的 `describe.json` 与代码现场导出的自描述；改了工具描述却忘了跑 `describe:extensio…"
+  }
+}

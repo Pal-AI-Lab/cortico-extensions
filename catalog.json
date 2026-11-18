@@ -1708,7 +1708,7 @@
     },
     "@wocwang/cortico-world-rvc-for-coopanion": {
       "kind": "world",
-      "version": "0.4.43",
+      "version": "0.4.54",
       "displayName": "RVC唱歌-大肥鱼",
       "description": "Cortico World for Coopanion: voice conversion with RVC — upload any audio and get it back in the pet's voice, plus a local HTTP endpoint (127.0.0.1:9881) for other plugins",
       "locales": {
@@ -1725,7 +1725,7 @@
       "maintainers": [
         "wocwang"
       ],
-      "license": "MIT",
+      "license": "AGPL-3.0-or-later",
       "keywords": [
         "cortico-world",
         "cortico",
@@ -1743,8 +1743,8 @@
         "win32"
       ],
       "created": "2026-10-29T02:52:41.041Z",
-      "published": "2026-11-18T04:05:56.033Z",
-      "versionCount": 26,
+      "published": "2026-11-18T15:34:40.689Z",
+      "versionCount": 27,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -4551,7 +4551,7 @@
       "discussion": {
         "number": 416,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/416",
-        "up": 2,
+        "up": 3,
         "down": 0,
         "comments": 0
       }
@@ -14760,7 +14760,7 @@
       "published": "2026-11-13T16:27:52.591Z",
       "versionCount": 19,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "voice",
         "im",
@@ -15457,6 +15457,60 @@
       "discussion": {
         "number": 234,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/234",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-memcore": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "记忆核心",
+      "description": "Cortico World 记忆核心：把对话里的原话按日期存下来，需要时按意思或字面翻回去。只增原文、带遗忘曲线、不联网。",
+      "author": "某个四月",
+      "maintainers": [
+        "yu-xing-le"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "memory",
+        "vector",
+        "forgetting-curve",
+        "bm25"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-memcore"
+      },
+      "created": "2026-11-18T16:42:34.916Z",
+      "published": "2026-11-18T17:53:14.510Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "tags": [
+        "memory"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 6,
+        "events": 0,
+        "toolTokens": 922,
+        "envPromptTokens": 339
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-memcore@0.1.1/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1021,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1021",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -16369,7 +16423,7 @@
       "discussion": {
         "number": 31,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/31",
-        "up": 6,
+        "up": 7,
         "down": 0,
         "comments": 4
       }
@@ -16563,7 +16617,7 @@
     },
     "cortico-world-mosey": {
       "kind": "world",
-      "version": "2.11.0",
+      "version": "2.11.1",
       "displayName": "摸鱼",
       "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。评论和私信都能收能回；能一起看视频（B站带字幕弹幕，抖音可自动连刷）；关注流、周报、本地书库；按额度点赞、评论、关注、发动态。默认人审，三把工具、少 token。\n\nQQ 交流群：745879632",
       "locales": {
@@ -16600,8 +16654,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-mosey/issues"
       },
       "created": "2026-11-01T08:17:38.660Z",
-      "published": "2026-11-17T14:49:44.814Z",
-      "versionCount": 65,
+      "published": "2026-11-18T15:22:10.717Z",
+      "versionCount": 66,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -16633,11 +16687,12 @@
       "summary": {
         "tools": 3,
         "events": 7,
-        "toolTokens": 2179,
+        "toolTokens": 2191,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "2.11.1",
           "2.11.0",
           "2.10.2",
           "2.10.1",
@@ -22125,7 +22180,7 @@
       ],
       "created": "2026-11-03T17:15:54.176Z",
       "published": "2026-11-05T19:15:58.553Z",
-      "versionCount": 5,
+      "versionCount": 4,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -22514,7 +22569,7 @@
       "versionCount": 2,
       "deprecated": "已废弃：动作库不再从 npm 分发。请安装主扩展 cortico-world-extra-actions@0.3.34+，在面板里选「轻版/完整版」下载；本包缺少 type 与 cortico 字段，市场会拒绝加载。",
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [],
       "downloads": {
         "total": 446,
@@ -22551,7 +22606,7 @@
       "versionCount": 2,
       "deprecated": "已废弃：动作库不再从 npm 分发。请安装主扩展 cortico-world-extra-actions@0.3.34+，在面板里选「轻版/完整版」下载；本包缺少 type 与 cortico 字段，市场会拒绝加载。",
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [],
       "downloads": {
         "total": 462,
@@ -22588,7 +22643,7 @@
       "versionCount": 2,
       "deprecated": "已废弃：动作库不再从 npm 分发。请安装主扩展 cortico-world-extra-actions@0.3.34+，在面板里选「轻版/完整版」下载；本包缺少 type 与 cortico 字段，市场会拒绝加载。",
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [],
       "downloads": {
         "total": 460,
@@ -22625,7 +22680,7 @@
       "versionCount": 2,
       "deprecated": "已废弃：动作库不再从 npm 分发。请安装主扩展 cortico-world-extra-actions@0.3.34+，在面板里选「轻版/完整版」下载；本包缺少 type 与 cortico 字段，市场会拒绝加载。",
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [],
       "downloads": {
         "total": 456,
@@ -22662,7 +22717,7 @@
       "versionCount": 2,
       "deprecated": "已废弃：动作库不再从 npm 分发。请安装主扩展 cortico-world-extra-actions@0.3.34+，在面板里选「轻版/完整版」下载；本包缺少 type 与 cortico 字段，市场会拒绝加载。",
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [],
       "downloads": {
         "total": 428,
@@ -22699,7 +22754,7 @@
       "versionCount": 2,
       "deprecated": "已废弃：动作库不再从 npm 分发。请安装主扩展 cortico-world-extra-actions@0.3.34+，在面板里选「轻版/完整版」下载；本包缺少 type 与 cortico 字段，市场会拒绝加载。",
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [],
       "downloads": {
         "total": 427,
@@ -22736,7 +22791,7 @@
       "versionCount": 2,
       "deprecated": "已废弃：动作库不再从 npm 分发。请安装主扩展 cortico-world-extra-actions@0.3.34+，在面板里选「轻版/完整版」下载；本包缺少 type 与 cortico 字段，市场会拒绝加载。",
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [],
       "downloads": {
         "total": 426,
@@ -22773,7 +22828,7 @@
       "versionCount": 2,
       "deprecated": "已废弃：动作库不再从 npm 分发。请安装主扩展 cortico-world-extra-actions@0.3.34+，在面板里选「轻版/完整版」下载；本包缺少 type 与 cortico 字段，市场会拒绝加载。",
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [],
       "downloads": {
         "total": 430,
