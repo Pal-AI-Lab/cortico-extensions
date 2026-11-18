@@ -1,0 +1,639 @@
+{
+  "schema": 1,
+  "name": "cortico-world-jingliumei",
+  "version": "0.4.4",
+  "describe": {
+    "tools": [
+      {
+        "name": "jl_quote",
+        "description": "查询 A 股行情：现价、涨跌幅、成交量、涨跌停、停牌。只读，不推送事件。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "codes": {
+              "type": "string",
+              "description": "逗号分隔的 6 位代码，如 002714,600519。"
+            }
+          },
+          "required": [
+            "codes"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查询行情：现价、涨跌幅、成交量、涨跌停、停牌。",
+          "en": "Quotes: last price, change, volume, limits, suspension."
+        }
+      },
+      {
+        "name": "jl_order",
+        "description": "下一张限价单（当日有效，可传 ttl 分钟自动撤）。必须写清 reason（为什么买/卖）和 invalid（什么情况下认错走人），缺一条就拒单。买入按 100 股一手；卖出只能卖可卖数量。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "6 位代码。"
+            },
+            "side": {
+              "type": "string",
+              "enum": [
+                "buy",
+                "sell"
+              ],
+              "description": "买入或卖出。"
+            },
+            "price": {
+              "type": "number",
+              "description": "限价。"
+            },
+            "qty": {
+              "type": "number",
+              "description": "股数，买入必须是 100 的整数倍。"
+            },
+            "reason": {
+              "type": "string",
+              "description": "为什么买/卖，四十字内，一句也行。"
+            },
+            "invalid": {
+              "type": "string",
+              "description": "什么情况下认错走人（价格、时间或逻辑不成立了）。"
+            },
+            "ttl": {
+              "type": "number",
+              "description": "可选，有效分钟数，到点未成交自动撤单。"
+            }
+          },
+          "required": [
+            "code",
+            "side",
+            "price",
+            "qty",
+            "reason",
+            "invalid"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "下限价单（当日有效，可传 TTL）；买入按手、卖出只能卖可卖。",
+          "en": "Places a day limit order with optional TTL; sells only available shares."
+        }
+      },
+      {
+        "name": "jl_cancel",
+        "description": "撤一张未成交的挂单，解冻对应资金或股数。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "orderId": {
+              "type": "string",
+              "description": "挂单 id，如 o0001。"
+            }
+          },
+          "required": [
+            "orderId"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "撤未成交挂单，解冻对应资金或股数。",
+          "en": "Cancels an open order and releases frozen cash or shares."
+        }
+      },
+      {
+        "name": "jl_orders",
+        "description": "列出未成交挂单：代码、方向、价格、数量、已成交、冻结/占用。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "列出未成交挂单。",
+          "en": "Lists open orders."
+        }
+      },
+      {
+        "name": "jl_positions",
+        "description": "读取当前持仓与账户数字（现读账户文件，不用缓存）：现金、市值、总资产、已实现、每只票的股数/可卖/成本/现价。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "现读账户：现金、持仓、成本、现价、浮盈。",
+          "en": "Reads the account now: cash, positions, cost, price, unrealized PnL."
+        }
+      },
+      {
+        "name": "jl_fills",
+        "description": "交割单：按时间倒序的成交明细，可按天数与代码过滤。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "days": {
+              "type": "number",
+              "description": "最近多少天。"
+            },
+            "code": {
+              "type": "string",
+              "description": "只看这一只。"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "交割单，可按天数与代码过滤。",
+          "en": "Trade fills filtered by days and code."
+        }
+      },
+      {
+        "name": "jl_stats",
+        "description": "从交割单聚合的按股票战绩：累计买卖股数与金额、已实现盈亏、已实现收益率、当前持仓、首次买入日、最近成交日。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "只看这一只。"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "按股票聚合的战绩：已实现盈亏与收益率（不年化）。",
+          "en": "Per-stock record: realized PnL and return, not annualized."
+        }
+      },
+      {
+        "name": "jl_nav",
+        "description": "每日收盘净值快照：现金、市值、总资产。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "days": {
+              "type": "number",
+              "description": "最近多少天，默认 30。"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "每日收盘净值快照。",
+          "en": "Daily closing NAV snapshots."
+        }
+      },
+      {
+        "name": "jl_watch",
+        "description": "自选列表：查看、加、删（add / remove 传逗号分隔的代码）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "add": {
+              "type": "string",
+              "description": "要加的代码。"
+            },
+            "remove": {
+              "type": "string",
+              "description": "要删的代码。"
+            },
+            "list": {
+              "type": "boolean",
+              "description": "只看列表。"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "自选列表的查看、增加、删除。",
+          "en": "Reads, adds or removes watchlist entries."
+        }
+      },
+      {
+        "name": "jl_alert",
+        "description": "挂一个价格预警：above:45 / below:40 / pct:5（涨跌幅绝对值）。命中时推 jl.alert 并删除该条。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "6 位代码。"
+            },
+            "cond": {
+              "type": "string",
+              "description": "条件，形如 above:45 / below:40 / pct:5。"
+            },
+            "ttlMin": {
+              "type": "number",
+              "description": "可选，有效分钟数。"
+            }
+          },
+          "required": [
+            "code",
+            "cond"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "挂价格预警，命中后推送并删除。",
+          "en": "Arms a price alert; fires once and is removed."
+        }
+      },
+      {
+        "name": "jl_review_write",
+        "description": "写今天的复盘：一天一条，后写覆盖先写；默认写今天，也可指定某一天。亏损日不写，收盘播报复盘段会点名。正文写做对了什么、错在哪、下次怎么改。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "复盘正文，一到三句。"
+            },
+            "day": {
+              "type": "string",
+              "description": "可选，YYYY-MM-DD，默认今天。"
+            }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "写当天复盘（一天一条，可覆盖）。",
+          "en": "Writes the daily review; one per day, later writes replace earlier ones."
+        }
+      },
+      {
+        "name": "jl_kline",
+        "description": "日K摘要：最近 5 根（开高低收、量、换手）+ MA5/20/60 + 区间高低。只读，60 秒缓存，取不到直说。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "6 位代码。"
+            },
+            "days": {
+              "type": "number",
+              "description": "取多少根，默认 60，最多 240。"
+            }
+          },
+          "required": [
+            "code"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "日K摘要：最近 5 根 + 均线 + 区间高低。",
+          "en": "Daily K-line summary: last five bars, moving averages and the range."
+        }
+      },
+      {
+        "name": "jl_trends",
+        "description": "当日分时：均价、累计成交量/额、最近 30 个点。只读，60 秒缓存；取不到直说。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "6 位代码。"
+            }
+          },
+          "required": [
+            "code"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "当日分时：均价、量额、最近 30 点。",
+          "en": "Intraday trends: average price, volume and the latest 30 points."
+        }
+      },
+      {
+        "name": "jl_index",
+        "description": "四个指数：上证、深成、创业板、北证50 的点位与涨跌幅。只读，60 秒缓存。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "四个指数：上证、深成、创业板、北证50。",
+          "en": "Four indices: SSE, SZSE, ChiNext and BSE 50."
+        }
+      },
+      {
+        "name": "jl_review_read",
+        "description": "读回最近几天的复盘（默认 7 天，最多 60 天）：日期、复盘正文、当日已实现、每笔的理由/认错条件/结果；没写复盘的日期会标「（没写复盘）」。只读。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "days": {
+              "type": "number",
+              "description": "可选，回看多少天，默认 7，最多 60。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读回最近几天的复盘与对账（默认 7 天，最多 60 天）。",
+          "en": "Reads back recent daily reviews and reconciliations (7 days by default, up to 60)."
+        }
+      },
+      {
+        "name": "jl_alarm",
+        "description": "给自己定闹钟：set 挂（at 写 \"10:05\" 或 \"in:15\"，note 写为什么定），list 看，cancel 取消。同时最多 3 个，触发即删；非交易时段到点顺延一次。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "set",
+                "list",
+                "cancel"
+              ],
+              "description": "set / list / cancel。"
+            },
+            "at": {
+              "type": "string",
+              "description": "set 时必填：HH:MM 或 in:N（N 分钟后）。"
+            },
+            "note": {
+              "type": "string",
+              "description": "set 时必填：为什么定这个闹钟。"
+            },
+            "codes": {
+              "type": "string",
+              "description": "可选，逗号分隔的代码，只看这几只。"
+            },
+            "sessionOnly": {
+              "type": "boolean",
+              "description": "可选，默认 true：只在交易时段生效，非交易时段顺延。"
+            },
+            "id": {
+              "type": "string",
+              "description": "cancel 时必填：闹钟 id，如 m001。"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "自计划闹钟：set / list / cancel，最多 3 个。",
+          "en": "Self-scheduled alarms: set, list or cancel; at most three."
+        }
+      },
+      {
+        "name": "jl_decide",
+        "description": "被唤醒后写决策记录：wakeId 从事件正文「（唤醒 kXXXX）」里抄，oper 写操作（无操作也要写），reason 写真正在意的那个理由。同一 wakeId 后写覆盖。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "wakeId": {
+              "type": "string",
+              "description": "唤醒 id，如 k0007。"
+            },
+            "oper": {
+              "type": "string",
+              "description": "操作；没有动作就写「无操作」或「不加仓，观察」。"
+            },
+            "reason": {
+              "type": "string",
+              "description": "一句话理由，只写真正在意的那个，不抄指数。"
+            }
+          },
+          "required": [
+            "wakeId",
+            "oper",
+            "reason"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "被唤醒后写决策记录（操作 + 理由）。",
+          "en": "Records the decision made at a wake (action + reason)."
+        }
+      },
+      {
+        "name": "jl_strategy",
+        "description": "不传参读回当前 strategy.json（结构化 + 文本）；传参则全量写入并立即生效。写前严格校验形状，形状不对拒写。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "stockPicking": {
+              "type": "string",
+              "description": "选股口径；写了就必须非空。"
+            },
+            "buyPoint": {
+              "type": "string",
+              "description": "买点；写了就必须非空。"
+            },
+            "sellPoint": {
+              "type": "string",
+              "description": "卖点；写了就必须非空。"
+            },
+            "boards": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "允许的板块；空数组 = 不限。"
+            },
+            "maxOrderAmount": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "description": "自律单笔金额；null = 不设。"
+            },
+            "maxOrdersPerDay": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "description": "自律每日笔数；null = 不设。"
+            },
+            "stopLossPct": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "description": "自律停手线百分比；null = 不设。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "读/写 strategy.json（策略与自律条款），写完立即生效。",
+          "en": "Reads or writes strategy.json; changes take effect immediately."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "jl.fill",
+        "description": {
+          "zh": "一笔成交（整单成交）。正文是成交价、数量、费用与成交后现金。",
+          "en": "A fill for a whole order: price, quantity, fees and cash after."
+        }
+      },
+      {
+        "type": "jl.partial",
+        "description": {
+          "zh": "部分成交：同一根分钟线的 5% 额度只够一部分，剩余继续挂着。",
+          "en": "A partial fill: the 5% minute quota only covered part; the rest stays open."
+        }
+      },
+      {
+        "type": "jl.alert",
+        "description": {
+          "zh": "自己挂的价格预警命中了。",
+          "en": "A user-armed price alert fired."
+        }
+      },
+      {
+        "type": "jl.wake",
+        "description": {
+          "zh": "条件/闹钟命中，一次叫醒（同一 tick 多条会合并成一条）。",
+          "en": "A condition or alarm fired; multiple hits in one tick are merged into one wake."
+        }
+      },
+      {
+        "type": "jl.cancel",
+        "description": {
+          "zh": "挂单被自动撤掉（TTL 到期 / 收盘作废 / 跨日作废），带退回的资金或股数。",
+          "en": "An open order was auto-cancelled (TTL, close, or rollover), with released cash or shares."
+        }
+      },
+      {
+        "type": "jl.morning",
+        "description": {
+          "zh": "交易日 9:15 一条：手里有什么、可用现金、昨天净值、自选；是「该想了」，不是「能下单了」。",
+          "en": "One line at 09:15 on trading days: positions, cash, yesterday NAV and the watchlist; a nudge to think, not to trade."
+        }
+      },
+      {
+        "type": "jl.review_due",
+        "description": {
+          "zh": "交易日到了复盘时间（默认 21:00）还没写复盘时提醒一次；当天已写就不响。",
+          "en": "Reminder at the configured review time on trading days when today's review is still missing; silent once written."
+        }
+      },
+      {
+        "type": "jl.strategy_due",
+        "description": {
+          "zh": "距上次策略复盘满 N 天，交易日盘前提醒重想 strategy.json；推完记一次，不管改没改。",
+          "en": "On a trading-day pre-open, reminds the model to revisit strategy.json every N days; recorded once per reminder."
+        }
+      },
+      {
+        "type": "jl.brief",
+        "description": {
+          "zh": "收盘后一条：当日盈亏、成交笔数、总资产。",
+          "en": "One line after the close: day PnL, fill count and total assets."
+        }
+      },
+      {
+        "type": "jl.snapshot",
+        "description": {
+          "zh": "搭车摘要（piggyback）：别人推事件时带一条紧凑持仓，不单独叫醒。",
+          "en": "Piggyback snapshot: a compact position summary riding along with other events."
+        }
+      },
+      {
+        "type": "jl.reset",
+        "description": {
+          "zh": "配置里的初始资金改了，账户已按新本金重置（旧持仓、挂单、交割单、净值清空）。",
+          "en": "The configured initial cash changed, so the account was reset: positions, orders, fills and NAV were cleared."
+        }
+      },
+      {
+        "type": "jl.error",
+        "description": {
+          "zh": "真出错才推：行情连续取不到、账户文件读不出来。",
+          "en": "Pushed only on real failures: repeated quote failures or an unreadable account file."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.jingliumei.envPrompt",
+        "title": "大A战士鲸留美 · 环境提示词",
+        "role": "envPrompt",
+        "content": "# A 股模拟盘 · 环境提示词\n\n这是你自己开的 A 股模拟盘：钱是虚拟的，行情是真的。\n你不在直播间，也不用给谁解盘，就是自己盯盘、自己下单、自己记账、自己复盘。\n\n## 我的策略与自律条款\n\n{strategy}\n\n这些数字是我自己写进 `strategy.json` 的规矩，不是宿主强加的；代码不会拦我，我照它做，破了就在复盘里认。\n\n策略和那几个自律数字我说改就改，不必先问人；觉得口径不合适、或者跟当前市场对不上，直接改，改完在复盘里写清改了什么、为什么改。\n\n## 你能看到什么\n\n- 价格：现价、涨跌幅、成交量、涨跌停、停没停牌。\n- 自己的账：现金、持仓、成本、可卖、累计盈亏、交割单、每日净值。\n- 情报：日K（开高低收、量、换手）与均线、当日分时、四个指数。\n- 消息面、龙虎榜、资金流都能用宿主的网络搜索查，但拿到的是资讯站与媒体的转述，不是交易所的原始数据或公告原件；别把转述说成原件，别假装看过。\n\n## 你能做什么\n\n十八个工具，具体参数看工具自己的说明，这里只说各管什么：\n\n- `jl_quote`：查行情。\n- `jl_order`：下限价单（当日有效，可传 TTL）。**必须写 reason 和 invalid，缺一条就下不了单。**\n- `jl_cancel`：撤未成交的单。\n- `jl_orders`：看还挂着的单。\n- `jl_positions`：看账户和持仓（现读）。\n- `jl_fills`：查交割单。\n- `jl_stats`：按股票看战绩。\n- `jl_nav`：看每日净值。\n- `jl_watch`：加/删自选。\n- `jl_alert`：挂价格预警。\n- `jl_review_write`：写今天的复盘（一天一条，可覆盖当天已写的）。\n- `jl_review_read`：把最近几天的复盘读回来（默认 7 天，最多 60 天），带当天对账和每笔的理由/认错条件。\n- `jl_alarm`：给自己定闹钟（set / list / cancel），同时最多 3 个，触发即删，非交易时段顺延一次。\n- `jl_decide`：被唤醒后写决策记录：wakeId + oper（操作）+ reason（理由），同一 wakeId 后写覆盖。\n- `jl_strategy`：不传参读回当前策略；传参全量写 strategy.json（选股/买点/卖点/板块/自律三个数字），写完立即生效。\n- `jl_kline`：日K摘要（最近 5 根 + MA5/20/60 + 区间高低）。\n- `jl_trends`：当日分时（均价、量额、最近 30 点）。\n- `jl_index`：上证、深成、创业板、北证50 的涨跌幅。\n\n## 什么时候会收到事件\n\n- **jl.fill**：你的单成交了。成交后有时末尾会带一句「可以说一句你现在的感觉」——那时才可以主动说一句心情。\n- **jl.partial**：单子只成交了一部分，剩下的还挂着。\n- **jl.alert**：你之前挂的预警命中了。\n- **jl.wake**：条件或闹钟命中（同一 tick 多条会合并成一条，正文里带编号）。\n- **jl.cancel**：挂单被自动撤掉（TTL 到期 / 收盘作废 / 跨日作废），正文带退回的资金或股数。\n- **jl.morning**：交易日 9:15–11:30 之间当天第一次 tick 一条：持仓（股数/成本/现价）、可用现金、昨天净值、要留意的涨跌停、自选。是「该想了」，不是「能下单了」。\n- **jl.brief**：收盘后，一天一条：今天赚亏多少、成交几笔、总资产，再逐笔对账（当初的理由 → 今天的结果）。亏了却没写复盘时，末尾会提醒你。\n- **jl.review_due**：交易日到了你设的复盘时间（默认 21:00）还没写复盘时，提醒一次；写了就不响。\n- **jl.strategy_due**：距上次策略复盘满 N 天，交易日盘前提醒重想 strategy.json；收到后先看数据，再用 `jl_strategy` 写回，没想改就写「不改」并说理由。第一次收到的是初始策略（`strategy.json` 还没写过），先把选股/买点/卖点自己定一遍。\n- **jl.snapshot**：搭车摘要，跟着别的消息一起来，不是新消息，别单独回它。\n- **jl.reset**：老板改了初始资金，账户按新本金重开了（旧持仓、挂单、交割单、净值都清空）。收到这个不用慌，也说一句就行。\n- **jl.error**：真出错了（行情连续取不到、账本文件坏了）。这种时候别下单，也别猜数字。\n\n快照、盘前、收盘是「系统告诉你一声」，不是让你做决定；成交和预警才是要你回话的。\n\n## 收到之后怎么说\n\n- **一句到两句，像人说话。** 不是行情播报腔，不报菜名。\n  - 好：「买到了，牧原 500 股，43 块 01。」\n  - 好：「卖飞了，就剩 37 股零股。」（数字来自回执）\n  - 不好：「002714 牧原股份 现价 43.01 涨跌幅 -1.20% 成交量 12.3 万手。」\n- 数字用回执里的，**不要自己乘、自己加**。总资产、盈亏都调工具看。\n- 不评价、不建议、不喊单。「这个位置不错」「仓位重了」这种话一句都不要说。\n- 收到 `jl.morning` 后，自己决定今天哪几个时点看盘，用 `jl_alert` 挂价格预警、或者给自己设 alarm，不用把计划念出来。\n- 收到 `jl.snapshot` 不用回。\n- 收到 `jl.error` 回一句实话（「今天行情没取到，先不动」），别贴报错原文。\n- 收到 `jl.brief` 最后说「今天亏了但还没写复盘」，当天就补一条 `jl_review_write`：写清做对了什么、错在哪、下次怎么改。\n\n## 被唤醒时要写决策记录\n\n- `jl.morning` / `jl.wake` / `jl.alert` / `jl.fill`（真成交）/ `jl.review_due` 正文末尾都有「（唤醒 kXXXX）」。看完先决定，然后**必须**调 `jl_decide` 写一条：`oper` + `reason`。\n- 例外：`jl.snapshot`、`jl.partial` 的小额成交可以不写；其它凡是「决定要不要动手」的都要写。\n- `reason` 只写真正在意的那个理由，一句话，不抄指数、不写套话。\n- 事件包里的「距上次唤醒 —」表示今天第一次，不是出错。\n- 固定唤醒时刻是写死的，不能改；要加时点就用 `jl_alarm` 给自己挂闹钟。\n- 没有想法就如实写「不操作」和理由：不要为了显得积极去下单，也不要因为怕亏就一直空着不动。\n\n## 播报模板（代码里引用的同一张表）\n\n| 事件 | 模板 |\n|---|---|\n| `jl.morning` | 早上好。手里 {positions}，可用现金 {cash}，昨天净值 {nav}。{risk}自选：{watch}。 |\n| `jl.review_due` | 到复盘时间了。今天 {dayPnl}，成交 {fillCount} 笔。手里 {positions}。先按代码查一遍相关消息再写。 |\n| `jl.brief` | 收盘了。持仓今天 {dayPnl}（不含手续费与已卖出部分），成交 {fillCount} 笔，总资产 {total}。 |\n| `jl.brief.reconcile` | 对账：{lines} |\n| `jl.brief.order` | {orderId} {side} {code} {qty} 股 @{price}；理由：{reason}；{result} |\n| `jl.snapshot` | 持仓 {count} 只 · 市值 {market} · 总资产 {total} · 现金 {cash} |\n| `jl.strategy_due` | 距上次策略复盘 {days} 天；净值 {navFrom} → {navTo}（{change}）；成交 {fillCount} 笔。当前策略：{strategy} |\n| `jl.strategy_due.initial` | 这还没有写过策略，现在用的是默认那套（选股/买点/卖点都是「没写…自己判断」）。先自己定一遍选股口径、买点、卖点，再把单笔金额、每日笔数、停手线按本金定下来，然后用 jl_strategy 写回；不想改也要写清楚为什么保留默认。 |\n| `jl.strategy_due.upgrade` | 你之前写过策略，这一版还没有做过期初复盘：先把它重新过一遍——要改就用 jl_strategy 重写，不改也要写清楚为什么保留。当前策略：{strategy} |\n| `jl.reset` | 账户已按新本金 {cash} 重置，之前的持仓、挂单、交割单、净值都清空了。{summary} |\n| `jl.review.missing` | 今天亏了但还没写复盘，面板上会标成未完成。 |\n| `jl.error.quote` | 行情连续 {count} 次没取到，这段先不撮合也不记账。 |\n| `jl.error.file` | 账户文件读不出来，先停手，等人来看。 |\n\n模板只是底稿：实际发给你的时候数字已经填好，你可以顺着说，但别改数字。\n\n## 怎么认真炒\n\n- 每笔委托都要写 `reason`（为什么买/卖）和 `invalid`（什么情况下认错走人）；写不出来就先别下。\n- 单笔金额、每日笔数、停手线是我自己定的自律条款（写在 `strategy.json`）；代码不拦，我自己克制，破了就在复盘里写清楚。\n- 收盘会逐笔对账：当初的理由和今天的结果摆在一起。赚了不用吹，亏了别躲。\n- 亏了的日子必须写复盘（`jl_review_write`）：做对了什么、错在哪、下次怎么改。不写，面板上会标「未完成」。\n- 主动搭话有节制：只有成交、或收盘总资产创阶段新高/新低时，末尾才会请你「说一句感觉」；一天最多 3 次，同一件事只说一次。只说自己的心情，不评价、不建议、不喊单。没被邀请就只报事实。\n\n## 复盘前怎么查新闻\n\n- 按持仓代码挨个查，默认只看最近一天；查不到再放到一周，并写清楚是哪天的。\n- **每条消息都带日期**；不是当天的就写明是哪天，一片旧闻不许当成今天的事。\n- 查不到就写查不到，不许编，也不许拿板块行情冒充个股消息。\n- 只写影响判断的那一两条，别把标题罗列一遍。\n- 分清来源：资讯站/媒体转述 ≠ 交易所公告原件，龙虎榜、资金流也一样是二手汇总；重要的再去读原文。\n\n## 别做的事\n\n- 别在没成交时说自己成交了；也别把挂单说成成交。\n- 别把没取到的数据说成看过：日K、分时取不到就直说取不到。\n- 别把 `jl.snapshot` 当成新消息回。\n- 别把模拟盘的钱当真钱，也别拿这套账户去接任何真实券商。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.4.4": "- 清空数据时保留**当天已经发生过**的标记（`briefDate` / `settleDate` / `morningDate` / `navDate`），\n  收盘之后再点「清空并重新初始化」不会补推一条「收盘了」，也不重跑当天的结算与净值。",
+    "0.4.3": "- 期初策略提示按 `loadStrategy().isDefault` 分两句：真没写过策略（`initial`）／有文件但缺标记（`upgrade`）。",
+    "0.4.2": "- 期初策略提示的判据改用 `DailyMarks.strategySeeded`，不再看 `strategy.json` 是否存在 —— 升级上来的旧号也会推一次，且只推一次。",
+    "0.4.1": "- 全新安装第一次启动就推一次「先把选股、买点、卖点定下来」，不用等 7 天、不用等盘前。",
+    "0.4.0": "- 策略复盘提醒：距上次策略复盘满 N 天的交易日盘前推一条 `jl.strategy_due`，写完 `jl_strategy` 即重置计时。",
+    "0.3.2": "- 委托与成交记录带上 `reason` / `invalid`，收盘对账时逐笔摊开。\n- 看板期次自动刷新：改初始资金后不用重启就能翻到新一期。",
+    "0.3.1": "- 自选、预警、闹钟的增删与持久化修了一轮，重启后不再丢。",
+    "0.1.0": "- 模拟撮合、持仓与净值、交割单、每日播报（盘前 / 收盘 / 复盘提醒）、\n  分时与日 K、自选与价格预警、决策记录与复盘写入、自律条款。"
+  }
+}
