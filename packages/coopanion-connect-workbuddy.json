@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "name": "coopanion-connect-workbuddy",
+  "version": "0.1.6",
+  "describe": {
+    "provider": {
+      "title": "WorkBuddy",
+      "description": "使用 WorkBuddy 桌面端的登录状态，无需 API Key。",
+      "protocols": [
+        "openai-chat"
+      ],
+      "auth": [
+        "web-session"
+      ],
+      "local": false,
+      "input": [
+        "text",
+        "image"
+      ],
+      "reasoningTiers": [
+        {
+          "id": "off",
+          "label": "不思考",
+          "thinking": false
+        },
+        {
+          "id": "low",
+          "label": "低强度",
+          "thinking": true,
+          "effort": "low"
+        },
+        {
+          "id": "high",
+          "label": "高强度",
+          "thinking": true,
+          "effort": "high"
+        },
+        {
+          "id": "max",
+          "label": "最大强度",
+          "thinking": true,
+          "effort": "max"
+        }
+      ]
+    }
+  },
+  "changelog": {
+    "0.1.6": "- 新建供应商实例时自动带上模型的上下文上限与最大输出：`normalize()` 会按模型目录（未拉到目录时按内置表）把 `spec.contextWindow` 和 `spec.maxTokens` 填成该模型的最大值。\n- `deepseek-v4.1-flash` 现在是 1,000,000 上下文 / 128,000 最大输出（原来是 8192 输出）。\n- 目录拉取失败时不再让上下文上限留空，内置表覆盖 16 个模型。",
+    "0.1.5": "- README：补上「从扩展市场一键安装」的完整点击路径（高级模式 → 模型供应商 → 扩展市场 → 安装 → 重启进程 → 建实例 → 获取模型列表 → 激活），中英双语。\n- 修正 npm 上 `latest` 标签曾指向占位版 `0.0.0-stage` 的问题，现已指回真实版本。",
+    "0.1.0": "首个公开版本。\n\n- 把腾讯 WorkBuddy（CodeBuddy）接成 Coopanion 的模型供应商（`kind: provider`, `api: 6`）。\n- 复用桌面端已登录的凭据，端点不需要填 API Key：从\n  `%LOCALAPPDATA%\\CodeBuddyExtension\\Data\\Public\\auth\\*.info` 读加密的 `auth.accessToken`，\n  用桌面端二进制吐出的 at-rest 密钥解封（AES-256-GCM，AAD 按 `WB-AAD` / `sym-v1` / `WBEV1` / framing 2 转录）。\n- 多账号并存时按文件修改时间从新到旧逐个试，401 自动换下一份并刷新。\n- 模型目录走 `GET /v3/config`（取 `data.models` ∩ `data.agents[0].models`），旧接口 `/v2/enterprises/personal/models` 兜底；\n  16 个模型带上下文窗口、最大输出与图片能力。\n- 对话走 `POST /v2/chat/completions`，即标准 OpenAI Chat Completions 的强制流式版本；转发 `tools`，工具调用可用。\n- 四档强度：`off` / `low` / `high` / `max`，映射到上游 `reasoning_effort`（关闭思考时发 `none`）。\n- 支持文本与图片输入。\n\n### 已实测\n\n- Windows 11 + Coopanion 0.2.21：扩展加载、模块注册、模型列表、测试连接、激活、跨重启持久化、真实对话往返。\n- 工具往返（`function_call` → 结果回填 → 自然语言回答）通过。\n- 非流式请求上游返回 400，因此本扩展始终流式请求。"
+  }
+}

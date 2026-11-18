@@ -393,7 +393,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/721",
         "up": 4,
         "down": 0,
-        "comments": 2
+        "comments": 3
       }
     },
     "@horizoncloudy/cortico-world-astrbot-bridge": {
@@ -896,7 +896,7 @@
       "published": "2026-11-06T05:40:00.013Z",
       "versionCount": 10,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "im",
         "qq",
@@ -1549,7 +1549,7 @@
     },
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.9.3",
+      "version": "0.9.5",
       "displayName": "大肥鱼语音全能包",
       "description": "大肥鱼语音全能包（原 GPTSovits 语音，cortico-world-gpt-sovits-for-coopanion）：给 Coopanion 桌宠用的语音插件，现已全面支持本地 / 云端双引擎与 NVIDIA / AMD（ROCm，实验性）/ CPU 三种方案。本地默认全程本机合成；云端支持自定义 OpenAI 兼容与多家厂商接口（填自己的 Key）。内置大肥鱼、星落落音色，支持自备权重与自定义音色、QQ 语音与唱歌联动；CPU / 核显档可开播放预缓冲（默认关闭）。",
       "locales": {
@@ -1585,8 +1585,8 @@
         "darwin"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-11-16T06:35:21.516Z",
-      "versionCount": 48,
+      "published": "2026-11-18T04:24:05.435Z",
+      "versionCount": 49,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -1613,6 +1613,8 @@
       },
       "changelog": {
         "versions": [
+          "0.9.5",
+          "0.9.4",
           "0.9.3",
           "0.9.2",
           "0.9.1",
@@ -1700,7 +1702,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
         "up": 25,
         "down": 0,
-        "comments": 84
+        "comments": 85
       }
     },
     "@wocwang/cortico-world-rvc-for-coopanion": {
@@ -2248,7 +2250,7 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "1.12.11",
+      "version": "1.12.15",
       "displayName": "大肥鱼环游世界",
       "description": "大肥鱼环游世界 · 让桌宠真的出门去旅行：走遍 188 座城市，路上耗着真实时间、按当地作息吃饭看日出、写旅行日记，还能在城里偶遇别人的宠物、月底生成一份手账。（需 Coopani 0.2.17+）",
       "locales": {
@@ -2286,8 +2288,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-18T01:58:07.547Z",
-      "versionCount": 179,
+      "published": "2026-11-18T08:11:54.428Z",
+      "versionCount": 183,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2312,11 +2314,15 @@
       "summary": {
         "tools": 25,
         "events": 19,
-        "toolTokens": 8731,
+        "toolTokens": 8761,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.12.15",
+          "1.12.14",
+          "1.12.13",
+          "1.12.12",
           "1.12.11",
           "1.12.9",
           "1.12.7",
@@ -2523,17 +2529,17 @@
     },
     "coopani-world-life": {
       "kind": "world",
-      "version": "0.17.0",
+      "version": "0.17.4",
       "displayName": "模拟鱼生",
       "description": "模拟鱼生 · 给她一个小日子：会饿会困会闷、自己出门打工挣钱、看书考证、从城中村一步步攒钱搬进新家，还会用第一人称写下每天的生活日记。（需 Coopani 0.2.17+）",
       "locales": {
         "zh": {
           "displayName": "模拟鱼生",
-          "description": "让她真正在桌面外过起自己的小日子，而不只是在城市里发呆。（需要 Coopani 0.2.17+）\n\n- **有血有肉的日常**：饱腹、精力、清爽、娱乐、社交会随着时间慢慢变化；吃饭、泡咖啡馆、做 SPA、逛商场、看电影全都要花时间去体验。\n- **打工、读书与搬家**：自己选活干挣工资，看书涨见识去考证；从城中村一路攒钱搬进老小区、新小区或别墅区，每一步都有账可查。\n- **有想头，也记得约定**：想买的东西、犹豫不决的事、答应过你的约定她都记在心里，也会默默记下你这几天来看过她几次。\n- **第一人称生活日记**：每天晚上把自己做了什么、花了多少钱写进日记本。\n\n**和其他扩展一起玩**\n\n- 配上「大肥鱼环游世界」：出门旅行时用旅行日记，回家后继续写生活日记，人在哪座城两边自动对齐。\n- 单独装也能完整过日子。"
+          "description": "让她真正在桌面外过起自己的小日子，而不只是在城市里发呆。（需要 Coopani 0.2.17+）\n\n- **有血有肉的日常**：饱腹、精力、清爽、娱乐、社交会随着时间慢慢变化；吃饭、泡咖啡馆、做 SPA、逛商场、看电影全都要花时间去体验。\n- **打工、读书与搬家**：自己选活干挣工资，看书涨见识去考证；从城中村一路攒钱搬进老小区、新小区或别墅区，攒够了也能犒劳自己吃顿好的、留一笔旅费出去走走。\n- **有想头，也记得约定**：想买的东西、犹豫不决的事、答应过你的约定她都记在心里，也会默默记下你这几天来看过她几次。\n- **第一人称生活日记与参考素材库**：每天晚上写第一人称生活日记；内置人物、服饰、场景、道具四分类参考素材库（支持在设置里自定义保存目录，并可设三档留影策略与冷却）。\n\n**和其他扩展一起玩**\n\n- 配上「大肥鱼环游世界」：出门旅行用旅行日记、在家写生活日记，人在哪座城自动对齐；在家/出门的画面参考、留影策略与冷却也会同步过去由旅行扩展生图。\n- 单独装也能完整过日子（仅本扩展自身不内置生图模型调用，想自动拍出照片需要配合「大肥鱼环游世界」）。"
         },
         "en": {
           "displayName": "Simulated Fish Life",
-          "description": "Give her a real everyday life of her own, not just standing around in a city. (Needs Coopani 0.2.17+)\n\n- **Real daily rhythms**: food, energy, cleanliness, fun, and social needs shift over time; grabbing a meal, visiting a café, getting a spa, or watching a movie all take real time.\n- **Work, study, and moving up**: pick jobs to earn a living, read to build knowledge for certifications, and save up to move from an urban village into nicer neighborhoods.\n- **Plans & promises**: she keeps track of what she wants, what she's mulling over, promises she made to you, and which days you dropped by.\n- **First-person diary**: writes down how her day went and what she spent.\n\n**Works great with other extensions**\n\n- With Big Fish World Tour: seamlessly shares location and splits travel vs. home diaries.\n- Also works completely standalone."
+          "description": "Give her a real everyday life of her own, not just standing around in a city. (Needs Coopani 0.2.17+)\n\n- **Real daily rhythms**: food, energy, cleanliness, fun, and social needs shift over time; grabbing a meal, visiting a café, getting a spa, or watching a movie all take real time.\n- **Work, study, and moving up**: pick jobs to earn a living, read to build knowledge for certifications, and save up for nicer homes, better meals, or travel funds.\n- **Plans & promises**: she keeps track of what she wants, what she's mulling over, promises she made to you, and which days you dropped by.\n- **First-person diary & visual reference library**: writes down how her day went and manages a 4-category reference library (characters, outfits, scenes, props) with a configurable directory and photo policy.\n\n**Works great with other extensions**\n\n- With Big Fish World Tour: seamlessly shares location, travel budget, diaries, and visual/photo policy for image generation.\n- Works completely standalone for daily life simulation (standalone mode does not call image generation APIs directly)."
         }
       },
       "author": "Mr.Q",
@@ -2559,8 +2565,8 @@
         "bugs": "https://github.com/fateSSD/coopani-world-life/issues"
       },
       "created": "2026-11-15T03:01:26.063Z",
-      "published": "2026-11-18T00:19:55.562Z",
-      "versionCount": 29,
+      "published": "2026-11-18T08:09:07.215Z",
+      "versionCount": 33,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2585,6 +2591,11 @@
       },
       "changelog": {
         "versions": [
+          "0.17.4",
+          "0.17.3",
+          "0.17.2",
+          "0.17.1",
+          "0.17.0",
           "0.16.7",
           "0.16.6",
           "0.16.5",
@@ -2859,6 +2870,93 @@
         "number": 805,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/805",
         "up": 1,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "coopanion-connect-workbuddy": {
+      "kind": "provider",
+      "version": "0.1.6",
+      "displayName": "WorkBuddy",
+      "description": "Coopanion provider for Tencent WorkBuddy / CodeBuddy: reuse the desktop app sign-in, no API key to paste",
+      "locales": {
+        "zh": {
+          "displayName": "WorkBuddy",
+          "description": "腾讯 WorkBuddy（CodeBuddy）模型供应商，复用本机桌面端已登录的凭据，不用填 API Key。"
+        },
+        "en": {
+          "displayName": "WorkBuddy",
+          "description": "Tencent WorkBuddy (CodeBuddy) as a model provider, reusing the sign-in already stored by the desktop app. No API key to paste."
+        }
+      },
+      "author": "tao_kaka",
+      "maintainers": [
+        "tao_kaka"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-provider",
+        "cortico",
+        "coopanion",
+        "workbuddy",
+        "codebuddy",
+        "tencent",
+        "llm",
+        "provider"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/coopanion-connect-workbuddy",
+        "repository": "https://github.com/kaka-tao/coopanion-connect-workbuddy",
+        "homepage": "https://github.com/kaka-tao/coopanion-connect-workbuddy#readme",
+        "bugs": "https://github.com/kaka-tao/coopanion-connect-workbuddy/issues"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-11-18T06:01:27.237Z",
+      "published": "2026-11-18T07:27:11.466Z",
+      "versionCount": 5,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "unofficial-api",
+        "external-setup"
+      ],
+      "tags": [
+        "external-setup",
+        "unofficial-api"
+      ],
+      "icon": "assets/coopanion-connect-workbuddy/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "protocols": [
+          "openai-chat"
+        ],
+        "auth": [
+          "web-session"
+        ],
+        "input": [
+          "text",
+          "image"
+        ],
+        "local": false
+      },
+      "changelog": {
+        "versions": [
+          "0.1.6",
+          "0.1.5",
+          "0.1.0"
+        ],
+        "url": "https://github.com/kaka-tao/coopanion-connect-workbuddy/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1009,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1009",
+        "up": 0,
         "down": 0,
         "comments": 0
       }
@@ -10883,9 +10981,9 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 63,
+        "up": 64,
         "down": 7,
-        "comments": 67
+        "comments": 68
       }
     },
     "cortico-world-fatigue-mood": {
@@ -10960,17 +11058,17 @@
     },
     "cortico-world-feast": {
       "kind": "world",
-      "version": "0.9.0",
+      "version": "0.10.0",
       "displayName": "鱼的每一天",
       "description": "鱼的每一天 · 先给她一天，再给她一桌饭：她自己的日程（每晚自己写明天，可以按日型给她备一张「能做的事」清单，到点过自己的时间、做完记一笔）+ 824 道菜的桌子，能端一道、端一桌，也能和她一起吃一顿。可以跟「生图工作室」「娱乐时间」「鱼的小世界」各接一小截，不装也完整可用。",
       "locales": {
         "zh": {
           "displayName": "鱼的每一天",
-          "description": "先给她一天，再给她一桌饭。每天晚上到点请她自己写明天怎么过（零 API Key，用已配的模型），第二天按它过；你还能按日型给她备一张「能做的事」清单，日程里就会写成真能做的一件事，而不是「在家玩」这种空白。到点还有「她自己的时间」，让她挑件事做并记一笔——上班/通勤时段默认不叫，开了开关才照叫，但会换成报备的说法。主人能在「今天」面板看今天和明天的时间线、此刻她在做什么、她做过什么、往前翻往期，也能临时改掉某一段。桌上是 824 道菜（28 个菜系组），每道都有九维口味、香气、口感、余韵和一段实吃描写；她能自己按菜系挑，主人也能从面板端一道或整桌端过去（8 套内置套餐，也能自己勾几道攒成一桌存下来）；还能和她一起吃一顿：邀请她、互相喂一口，你吃了什么她也知道。同一道菜每次吃到的都不一样，吃过什么、对什么反应、口味画像跨天攒着。饭点提醒、「她的一天」和自由时间都能在配置里单独关掉。\n\n能和这几个扩展联动，都是一个开关的事，不装就整段不出现、绝不报错：装了「生图工作室」，她写日程时会列出衣柜和场景，发图时穿着地点对得上；装了「娱乐时间」，「自己的时间」里会多一行，她能真出门逛；装了「鱼的小世界」，「自己的时间」里会多一行，她会想起周围那些地方。"
+          "description": "先给她一天，再给她一桌饭。每天晚上到点请她自己写明天怎么过（零 API Key，用已配的模型），第二天按它过；你还能按日型给她备一张「能做的事」清单，日程里就会写成真能做的一件事，而不是「在家玩」这种空白。上不上班可以一句话翻，几点吃也能由她自己按那天定；到点还有「她自己的时间」，让她挑件事做并记一笔——上班/通勤时段默认不叫，开了开关才照叫，但会换成报备的说法。主人能在「今天」面板看今天和明天的时间线、此刻她在做什么、她做过什么、往前翻往期，也能临时改掉某一段。桌上是 824 道菜（28 个菜系组），每道都有九维口味、香气、口感、余韵和一段实吃描写；她能自己按菜系挑，主人也能从面板端一道或整桌端过去（8 套内置套餐，也能自己勾几道攒成一桌存下来）；还能和她一起吃一顿：邀请她、互相喂一口，你吃了什么她也知道。同一道菜每次吃到的都不一样，吃过什么、对什么反应、口味画像跨天攒着。饭点提醒、「她的一天」和自由时间都能在配置里单独关掉。\n\n能和这几个扩展联动，都是一个开关的事，不装就整段不出现、绝不报错：装了「生图工作室」，她写日程时会列出衣柜和场景，发图时穿着地点对得上；装了「娱乐时间」，「自己的时间」里会多一行，她能真出门逛；装了「鱼的小世界」，「自己的时间」里会多一行，她会想起周围那些地方。"
         },
         "en": {
           "displayName": "Fish Every Day",
-          "description": "First a day of her own, then a table of food. Every evening she is asked to write tomorrow herself (no API key — it uses the model you already have), and the next day she lives it; you can also prepare a list of \"things she can actually do\" per day type, so the day she writes is made of real things instead of a blank \"hanging out at home\". On her own-time slots she picks something to do and logs it — while she is at work or commuting it stays quiet by default, and with one switch on it still speaks but as a check-in rather than \"this time is yours\". The Today panel shows today's and tomorrow's timeline, what she is doing right now, what she has been up to, past days, and lets you change a stretch of it. The table holds 824 dishes across 28 cuisines, each with a nine-axis flavour profile, aroma, texture, aftertaste and a full paragraph of how it actually eats. She can pick by cuisine, or you can put a dish down in front of her from the panel — or serve a whole table at once (8 built-in set meals, plus your own saved tables). You can also share a meal with her: invite her, feed each other a bite, and tell her what you are eating. The same dish never lands the same way twice, and what she ate, how it landed and her taste profile accumulate across days. Meal reminders, her day, and her own time can each be switched off in config.\n\nIt can also hook up to three other extensions, one switch each, and nothing breaks when they are absent: with the image studio installed she lists the wardrobe and scenes when writing her day, so the outfit and place match when she sends a picture; with Fun Time installed her own time gains one line and she can really go out; with Little World installed her own time gains another line and she remembers the places around her."
+          "description": "First a day of her own, then a table of food. Every evening she is asked to write tomorrow herself (no API key — it uses the model you already have), and the next day she lives it; you can also prepare a list of \"things she can actually do\" per day type, so the day she writes is made of real things instead of a blank \"hanging out at home\". On her own-time slots she picks something to do and logs it — while she is at work or commuting it stays quiet by default, and with one switch on it still speaks but as a check-in rather than \"this time is yours\". The Today panel shows today's and tomorrow's timeline, what she is doing right now, what she has been up to, past days, and lets you change a stretch of it. The table holds 824 dishes across 28 cuisines, each with a nine-axis flavour profile, aroma, texture, aftertaste and a full paragraph of how it actually eats. She can pick by cuisine, or you can put a dish down in front of her from the panel — or serve a whole table at once (8 built-in set meals, plus your own saved tables). You can also share a meal with her: invite her, feed each other a bite, and tell her what you are eating. The same dish never lands the same way twice, and what she ate, how it landed and her taste profile accumulate across days. Whether she works today can be flipped with one word, and she can set that day's meal times herself. Meal reminders, her day, and her own time can each be switched off in config.\n\nIt can also hook up to three other extensions, one switch each, and nothing breaks when they are absent: with the image studio installed she lists the wardrobe and scenes when writing her day, so the outfit and place match when she sends a picture; with Fun Time installed her own time gains one line and she can really go out; with Little World installed her own time gains another line and she remembers the places around her."
         }
       },
       "author": "青",
@@ -10999,8 +11097,8 @@
         "bugs": "https://github.com/bailuhanyi/cortico-world-feast/issues"
       },
       "created": "2026-11-05T03:38:03.816Z",
-      "published": "2026-11-17T14:15:35.786Z",
-      "versionCount": 18,
+      "published": "2026-11-18T04:24:24.449Z",
+      "versionCount": 19,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -11020,13 +11118,15 @@
         "week": 1653
       },
       "summary": {
-        "tools": 16,
+        "tools": 18,
         "events": 7,
-        "toolTokens": 2925,
-        "envPromptTokens": 698
+        "toolTokens": 2742,
+        "envPromptTokens": 471
       },
       "changelog": {
         "versions": [
+          "0.10.0",
+          "0.9.1",
           "0.9.0",
           "0.8.0",
           "0.7.4",
@@ -12105,7 +12205,7 @@
       "published": "2026-11-04T07:57:59.386Z",
       "versionCount": 3,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "qq",
         "local"
@@ -15099,7 +15199,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/953",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-matrix": {
@@ -18230,7 +18330,7 @@
     },
     "cortico-world-parlor": {
       "kind": "world",
-      "version": "0.47.0",
+      "version": "0.48.0",
       "displayName": "鲸语茶室",
       "description": "鲸语茶室是 Coo 与家长的共享客厅。支持聊天、说书、斗地主、狼人杀、五子棋、中国象棋、飞行棋、麻将和快局大富翁，提供网页牌桌与家长观战页。反馈 QQ 群 1061389211。",
       "locales": {
@@ -18282,12 +18382,11 @@
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-parlor",
         "repository": "https://github.com/biliye/cortico-world-parlor",
-        "homepage": "https://github.com/biliye/cortico-world-parlor#readme",
-        "bugs": "https://github.com/biliye/cortico-world-parlor/issues"
+        "homepage": "https://github.com/biliye/cortico-world-parlor#readme"
       },
       "created": "2026-10-30T12:05:22.925Z",
-      "published": "2026-11-18T02:50:19.424Z",
-      "versionCount": 59,
+      "published": "2026-11-18T04:52:48.827Z",
+      "versionCount": 60,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -18316,6 +18415,7 @@
       },
       "changelog": {
         "versions": [
+          "0.48.0",
           "0.47.0",
           "0.46.1",
           "0.46.0",
@@ -19905,7 +20005,7 @@
     },
     "cortico-world-qq-digest": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.2.1",
       "displayName": "QQ 群消息摘要",
       "description": "Classify QQ group messages in-turn into todo, goal, prompt reference and insight records, kept in a per-package ledger with a WebUI panel.",
       "maintainers": [
@@ -19923,8 +20023,8 @@
         "bugs": "https://github.com/HorizonCloudy/cortico-world-qq-digest/issues"
       },
       "created": "2026-11-17T23:42:01.070Z",
-      "published": "2026-11-18T01:00:05.082Z",
-      "versionCount": 3,
+      "published": "2026-11-18T05:34:32.000Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -19948,6 +20048,8 @@
       },
       "changelog": {
         "versions": [
+          "0.2.1",
+          "0.2.0",
           "0.1.1",
           "0.1.0"
         ],
@@ -23674,7 +23776,7 @@
     },
     "cortico-world-starpost": {
       "kind": "world",
-      "version": "0.35.0",
+      "version": "0.35.1",
       "displayName": "星邮",
       "description": "星邮：让 Cortico bot 独立私聊、群聊、交换漂流瓶、分享动态并预约狼人杀的社交 World 扩展",
       "maintainers": [
@@ -23694,8 +23796,8 @@
         "bugs": "https://github.com/hth768/cortico-world-starpost/issues"
       },
       "created": "2026-10-27T17:41:43.822Z",
-      "published": "2026-11-16T17:41:02.233Z",
-      "versionCount": 57,
+      "published": "2026-11-18T07:03:13.284Z",
+      "versionCount": 58,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -23723,6 +23825,7 @@
       },
       "changelog": {
         "versions": [
+          "0.35.1",
           "0.35.0",
           "0.34.0",
           "0.33.0",
@@ -27252,7 +27355,7 @@
     },
     "cortico-world-wechat-clawbridge": {
       "kind": "world",
-      "version": "1.7.5",
+      "version": "1.8.2",
       "displayName": "微信 ClawBridge",
       "description": "把微信 ClawBot 接到 Coopanion 桌宠：收发消息、收图片、发表情包、显示正在输入。",
       "locales": {
@@ -27289,8 +27392,8 @@
         "bugs": "https://github.com/alomoi/cortico-world-wechat-clawbridge/issues"
       },
       "created": "2026-10-31T07:44:23.099Z",
-      "published": "2026-11-15T05:25:50.628Z",
-      "versionCount": 7,
+      "published": "2026-11-18T08:12:52.473Z",
+      "versionCount": 8,
       "official": false,
       "isNew": false,
       "declaredTags": [

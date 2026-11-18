@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "@aqualcross/cortico-world-audio",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/721",
-  "total": 2,
+  "total": 3,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BLKR9",
+      "author": "leaon-1226",
+      "avatar": "https://avatars.githubusercontent.com/u/350143208?s=64&v=4",
+      "body": "0.1.5 在 Kylin(Linux)上装不上，pnpm rebuild 退出码 1，卡在 onnxruntime-node@1.31.1：\nError: Failed to download build list. HTTP status code = 302（script/install-utils.js:70）\n\n排查：个脚本走 NuGet 接口取原生包，downloadJson / downloadFile 只接受 statusCode === 200，3xx 直接 reject。国内访 api.nuget.org/v3/index.json 会 302 到 nuget.azure.cn（curl -L 跟随后是 200）。GitHub 和 api.github.com 都是 200，不是断网。\n\n建：这两函数到 3xx 时跟随 res.headers.location 重发；或一个 NuGet 源/镜的置项。",
+      "createdAt": "2026-11-18T07:10:03Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BKSZ7",
       "author": "AqualCross",
