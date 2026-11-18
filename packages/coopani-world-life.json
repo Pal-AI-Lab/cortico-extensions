@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-life",
-  "version": "0.17.4",
+  "version": "0.17.6",
   "describe": {
     "tools": [
       {
@@ -535,6 +535,8 @@
     ]
   },
   "changelog": {
+    "0.17.6": "- **面板展示体质（`fitness`）**：[world.ts](src/world.ts) 状态接口补充返回 `fitness`，面板 [panel-0.17.6.js](web/panel-0.17.6.js) 在「见识」下方同步展示当前「体质」数值与作用说明（并随版本号同步更新面板脚本文件名以清浏览器缓存）。",
+    "0.17.5": "- **放宽 `life.day` 白天出工提醒门槛**：[world.ts](src/world.ts) 去掉 `allOk`（五条全 >= 30）一刀切限制，改为醒着、无病、精力 >= 50 且饱腹 >= 20 即可提醒出工，避免因清洁/社交低而越穷越不提醒打工。\n- **社交免费退路提示补充**：`lowText` 社交缺项明确提示「出门在外也照样能调这俩免费动作（`market` / `pond`）」，避免在旅途中因看到本地地名而误以为不能补社交。",
     "0.17.4": "- **新增体质 `fitness`（0–100）**：初始 25、长期不动微弱回落至保底 5；`workout` 跑步锻炼、体力岗打工与旅途步行/骑行均可提升体质；基准以上体质加快睡眠精力恢复（最高 +30%）。\n- **旅途环境与交通联动**：`advance()` 接入 `journey-public.json` 的酒店档位（`luxury` 减免至 0.65 且**稳住娱乐/社交不掉**、睡眠回血 +15%）与路上交通方式精力/饱腹消耗倍率（步行 2.2×、骑行 1.7×、自驾 1.0× 等）。\n- **支持纯状态反哺条子**：`bridge.ts` 与 `applySpend()` 支持 `amount: 0` 的 `vitalsDelta` / `fitnessDelta` / `moodlet` 同步，并在 `life-public.json` 广播 `vitals: { energy, fitness }`。",
     "0.17.3": "0.17.2 加了「素材库保存目录可调」，但 `settings.json` 是**跟着库目录走**的：\n\n```ts\nthis.settingsFile = join(target, 'settings.json');   // target = 新的库目录\n```\n\n于是用户把目录从 A 改到 B 之后，B 里没有这个文件 → 三档留影策略（主动 / 里程碑 / 静默）\n和冷却分钟数**悄悄回到默认**。而配置页只写了「改完立即生效；不会自动删旧目录里的文件」，\n**没提设置会重置** —— 用户以为只是换个地方存图，结果她拍照的频率变了，还找不到原因。\n\n### 改法\n\n- `settings.json` **固定在 `dataDir`**（`image-library-settings.json`），不再跟着库搬家。\n  理由是：设置是「这个扩展的偏好」，不是「这套素材的属性」；\n- `configure()` 不再改 `settingsFile`，只改 `rootDir` / `.seeded`；\n- **升级时从旧位置搬一次**：新位置没文件、旧位置有 → 读过来写过去。\n  搬过一次之后不再覆盖，用户在新位置改的东西不会被旧文件压回去；\n- 搬不动就用默认值，不拦着启动。\n\n### 测试\n\n`test/smoke.mjs` 两节 6 条：换目录后策略必须还在、设置文件必须在 `dataDir` 下、\n旧版本的 `settings.json` 要能搬过来。**316/316**。\n\n> 顺带修了测试脚本自身一个顺序问题：`process.exit()` 一度排在汇总行前面，\n> 导致「N 通过 / N 失败」不打印。不影响判定（exit code 仍是对的），但看不到数字很不方便。",
     "0.17.2": "- **素材库保存目录可调（`worlds.life.libraryDir`）**：[config.ts](src/config.ts) 新增 `libraryDir` 热配置项，[library.ts](src/library.ts) 新增 `ImageLibrary.configure()` 支持热切换根目录（留空回退 `<dataDir>/image-library`，目标目录不可用时保留原可用目录并记日志，不破坏扩展运行）。\n- **完善扩展市场介绍**：更新 [package.json](package.json) 中英文长介绍，补充四分类素材库、留影策略联动以及单独安装时的使用边界说明。",

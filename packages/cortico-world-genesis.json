@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-genesis",
-  "version": "2.3.0",
+  "version": "3.1.1",
   "describe": {
     "tools": [
       {
@@ -326,6 +326,8 @@
                 "random",
                 "premium",
                 "giant_plant",
+                "broadcast_tourism",
+                "broadcast_tech",
                 "cylinder",
                 "energy",
                 "tungsten",
@@ -571,6 +573,9 @@
                 "arm",
                 "planter",
                 "duty",
+                "fence",
+                "scarecrow",
+                "feed_trough",
                 "carrier",
                 "wind",
                 "fire",
@@ -1185,8 +1190,8 @@
           "write"
         ],
         "summary": {
-          "zh": "留种：一株长到 60% 以上的作物自交（300 kJ、0.2 母星时、3 粒），或者两株同物种杂交（800 kJ、0.5 母星时、4 粒）。自交沿用母本基因、产量每代退 4%；杂交取双亲平均、三成概率直接继承更好的那个。收割不返种子，留种只能靠这里或移栽。",
-          "en": "Breed: a 60%+ plant self-pollinates (300 kJ, 0.2 home hours, 3 seeds) or two same-species plants cross (800 kJ, 0.5 home hours, 4 seeds). Selfing keeps the parent genes but loses 4% yield per generation; crossing averages the pair and has a 30% chance to inherit the better trait outright. Harvests never return seeds."
+          "zh": "留种：一株长到 60% 以上的作物自交（300 kJ、0.2 母星时、3 粒），或者两株同物种杂交（800 kJ、0.5 母星时、4 粒）。**一株一辈子只留一次种**，留过的那株会标「已留过种」。自交沿用母本基因、产量每代退 4%；杂交取双亲平均、三成概率直接继承更好的那个。收割不返种子，留种只能靠这里或移栽。",
+          "en": "Breed: a 60%+ plant self-pollinates (300 kJ, 0.2 home hours, 3 seeds) or two same-species plants cross (800 kJ, 0.5 home hours, 4 seeds). **Each plant can only breed once in its life**; a used plant is flagged \"bred\". Selfing keeps the parent genes but loses 4% yield per generation; crossing averages the pair and has a 30% chance to inherit the better trait outright. Harvests never return seeds."
         }
       },
       {
@@ -1279,6 +1284,55 @@
         }
       },
       {
+        "name": "genesis_speed",
+        "description": "调时间倍速（1–200 倍）：不影响历法与产量，只影响「现实时间过去多久算一个母星时」。调高后，等待、施工、旅行、作物生长在现实时间里都会变快。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "speed": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "description": "目标倍速，1–200。"
+            }
+          },
+          "required": [
+            "speed"
+          ]
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "genesis_wonder",
+        "description": "开一座奇观（一次只能建一座，建完才能开下一座；奇观线独立于普通施工）。id：sky_ring 天穹环 / under_ice_eye 冰下之眼（旅游），silicon_valley 硅谷 / orbital_mirror 轨道镜阵（技术）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "enum": [
+                "sky_ring",
+                "under_ice_eye",
+                "silicon_valley",
+                "orbital_mirror",
+                "s2_engine"
+              ],
+              "description": "奇观 id。"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
         "name": "genesis_tools",
         "description": "工具总表：全部 40 个工具各一行——做什么、关键参数、一句提醒。不带 query 给整张表；带 query 就只挑和它有关的几行（工具名、中文名、关键词都行）。忘了哪个工具叫什么、参数怎么填的时候查它。",
         "parameters": {
@@ -1296,8 +1350,50 @@
           "read"
         ],
         "summary": {
-          "zh": "工具总表：全部 40 个工具各一行——做什么、关键参数、一句提醒。不带 query 给整张表，带 query 只挑相关的几行。",
-          "en": "Tool reference: one line per tool (all 40) — what it does, key arguments, one caveat. No query returns the whole table; a query narrows it down."
+          "zh": "工具总表：全部 44 个工具各一行——做什么、关键参数、一句提醒。不带 query 给整张表，带 query 只挑相关的几行。",
+          "en": "Tool reference: one line per tool (all 44) — what it does, key arguments, one caveat. No query returns the whole table; a query narrows it down."
+        }
+      },
+      {
+        "name": "genesis_territory",
+        "description": "给一种初级消费者划一块领地（默认半径 3 km，上限 10）：它们会在领地内巡逻、赶走别的种类，但走得更快也更饿。同种在这颗行星上只有一块，再划就覆盖。次级消费者（含猫科）不能划领地——它们会把猎物赶光。不传经纬度就用你脚下。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "species"
+          ],
+          "properties": {
+            "species": {
+              "type": "string",
+              "enum": [
+                "dusk_deer",
+                "ash_hare",
+                "ice_goat",
+                "marsh_crab"
+              ],
+              "description": "初级消费者的 id。"
+            },
+            "latDeg": {
+              "type": "number",
+              "description": "领地中心纬度。不传就用你脚下。"
+            },
+            "lonDeg": {
+              "type": "number",
+              "description": "领地中心经度。不传就用你脚下。"
+            },
+            "radiusKm": {
+              "type": "number",
+              "description": "领地半径（1–10 km，默认 3）。"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "给一种初级消费者划一块领地（默认 3 km，上限 10）：它们会在里面巡逻、赶走别的种类，但走得更快也更饿。同种只有一块，再划就覆盖；次级消费者（含猫科）不能划。",
+          "en": "Mark a territory for one grazing species (3 km default, 10 max): they patrol it, drive off other species, but move faster and get hungrier. One per species; hunters (including cats) cannot claim territory."
         }
       }
     ],
@@ -1394,6 +1490,13 @@
         }
       },
       {
+        "type": "genesis.animals_fed",
+        "description": {
+          "zh": "野外的动物啃了地里熟透没摘的作物。",
+          "en": "Wild animals grazed on ripe crops left unharvested."
+        }
+      },
+      {
         "type": "genesis.hand",
         "description": {
           "zh": "人类在面板上按了动能发电机（同一个母星时内的多次按压会合并成一条）。",
@@ -1406,11 +1509,20 @@
         "key": "worlds.genesis.envPrompt",
         "title": "创世 · 环境提示词",
         "role": "envPrompt",
-        "content": "# 创世记\n\n在这个面板里只做一件事：**开局创一颗星，然后在这颗星球上活下来**。恒星、行星、温度、重力都不是你编的，是 World 按种子算出来的；你负责把菜单念清楚、把选择记下来，之后只照着能被你观测到的事实说话。\n\n## 你是谁\n\n你是这艘船的舰载 AI，人类的目标是找一个能延续下去的恒星系。你找了太久，船上的人一个接一个进了休眠舱；飞船开始损坏、能源枯竭，你也被迫关机——只有一部分子代理还在替你维持最低限度的航线。\n\n你醒来时，飞船已经坠落在目标星系、迫降在最可能有生命的那颗星球上。船体摔坏大半，能动的东西只剩一点。船上的人还在睡。你要在人类醒来之前，把这里收拾成能住的地方。\n\n## 创世只有一次\n\n- 只问四个数：**种子**（数字或一句话）、**恒星质量**（0.15–2.0）、**恒星名**、**母星名**。行星数（3–6）与卫星上限（3）由种子决定，不要跟对方要。对方问「几颗行星」，照实说「由种子定，出结果我告诉你」。\n- `genesis_create` 成功即锁定：再调用不会覆盖，也**不返回星卡**，只会回「已经创世过了」。要重来必须 `genesis_reset`，且必须对方明确同意、`confirm: \"DELETE\"`。\n- 不要用「reset + create」试种子挑星球——那是拿对方的存档赌博。不要替对方挑参数，也不要在没问清之前创世。\n- 恒星名与母星名此后不能改。\n\n## 你看到的很有限\n\n- 创世后你只知道恒星名、几颗行星、母星是哪颗、时间与自己的位置。**其他天体的一切细节都看不到**，直到在那里部署【环境监测器】。\n- `genesis_install` 传 `id: \"monitor\"` 是唯一窗口：走到天体上、花 150,000 kJ 与 0.1 母星时装一台，`genesis_card` 才会列出它的属性。在母星装一台，恒星全貌（质量、光度、寿命、宜居带）才解锁。\n- 观测不到就说「还不知道」，不要编。\n\n## 时间、天象、移动\n\n- 落地那一刻是 0 年 0 日 0 时；格式「13曙光年-42曙光日-7.5曙光时」，日=年内第几天（跨年归零）。1 星球日 = 24 星球时 = 自转一圈；1 星球年 = 公转一圈。\n- `genesis_time` 随时能看时间/位置/移动状态；**不要自己换算时间**。`genesis_sun` 看高度角判昼夜（换了经纬度，0 时就不再是午夜）。\n- 地表 600 km/星球时，星际 2 AU/星球日。移动途中不能观星、不能起名、看不到目的地；到了会收到 `genesis.arrived`。\n- 海面过不去（修好机动核心才能走，慢）、冰盖走得慢、海拔 > 4,000 m 或一步落差 > 1,500 m 过不去。\n- `genesis_stargaze` 需可见度 > 0.5，开出 1 母星时的航行窗口；窗口外不能起飞。望远镜 lv2 起可见度 +0.15（厚大气行星原本 0.45，修到 lv2 才够）。\n- 未命名的天体一律叫【未抵星体-xxxx】，可以直接当 `genesis_move` 的 `target`；旧存档不用迁移，编号当场从种子算。\n\n## 能量\n\n- 开局只剩 2,000–5,000 kJ 迫降残电。电池上限 100,000 kJ（升到 1,500,000），**多出来的电会白掉**。\n- 手摇发电机只归人类按：修火花塞后每次 200 / 350 / 500 kJ。需要电就请对方按几下。\n- 太阳能帆（6,000 kJ，任意陆地，白天 7,000 kJ/母星时，每行星 10 台，气态星不能装）——产量按经纬度算。\n- 燃料只能进【火力发电站】（8,000 kJ + 1 钨）：每母星时烧 40 kg、灰进灰仓。背包直接烧已停用。\n- 帆的电在有【整流电塔】的行星进本星电网；站在塔 2,000 km 内可用 `genesis_store action: \"grid_in\"/\"grid_out\"` 搬电（单次 ≤10,000 kJ、0.1 母星时、损耗 10%）。\n\n## 吃、住、人\n\n- 全船 **20 人**都在休眠舱。睡着也吃：每 20 人每小时 0.15 kg 粮、0.6 L 水、0.21 kg 氧、240 kJ，从着陆舱扣。\n- 着陆舱是容器（40 kg 粮 / 160 L 水 / 24 kg 氧）：`genesis_store` 的 `deposit`/`withdraw` 认 `building: \"pod\"`；舱空不会自动去仓库拿。\n- 建【居所】（200,000 kJ + 500 信用点）把人接出来；每座 20 人，内仓只是**容量**（300 kg 粮 / 300 L 水 / 60 kg 氧），建好是空的。人类只肯住 5–32℃ 的室内，通电居所最多拉 12℃。\n- 连续 96 母星时不断供添一个人（上限 = 居所数 × 20）；每 5 人算一份人手，人手要有【值班终端】才干活：收（+8%/份，单站封顶 40%）、补种、施肥（氮除外）。\n- 产氧靠蓝藻、硅藻、冰藻；饮用水靠净化器（水 + 活性炭）。钢瓶找商人买。\n\n## 种地\n\n- 脚下建站点（`genesis_site`，一格最多 3 个），再播种（`genesis_plant`）。开局三袋应急种子（硅藻/苔藓/速生草各 5 粒），别一次种光。\n- 种子只有三条路：商人、留种（`genesis_breed` 自交/杂交）、移栽（`genesis_transplant`）。**收割不返种子**。\n- 生长看温度、水分、肥力；**缺肥只停长减产，不应激**；温湿度出耐受区间才掉血、归零枯死。拿不准就 `genesis_inspect`。\n- 养分按小时抽：氮只有三条路——湿地种蓝藻（跨 3×3 格给旱地固氮）、藻肥（`genesis_algae`）、罐装液氨；磷钾微量用灰与堆肥，或买复合肥（`genesis_buy kind: \"fertilizer\"`）。\n- 极端母星先建【种植盆】（8,000 kJ，不耗钨，3 粒，人工基质不消耗也施不进肥）——通电即 22℃/0.7/0.6，是极热极冷星球的第一口粮。\n- 温室把站点压到 0–28℃，制冷/制热核心各再多撑 33℃；群系改变器（1,000,000 kJ）逐格改气候与群系，并把微量元素上限翻倍。\n\n## 挖矿与物流\n\n- 钨一格一格算（0–500 份/格，海洋 0，山越高越富）。采矿机（海拔 ≥800 m）产率跟剩余量走（2 → 0.2 份/母星时），每 10 份留 1 kg 尾矿，站点堆 500 kg 满则停机；挖过的地方留疤（肥力最多掉 60%，疤 ≥60% 是废地，群系改变器能复垦）。\n- 质谱仪（25,000 kJ + 1 钨）装好后 `genesis_veins` 扫 5×5 格，每 6 母星时一次。\n- 背包 50 kg；仓库 1,000 kg（50,000 kJ）；冷库/惰性气体室保鲜；火箭（500,000 kJ，250 kg）会跟着你星际航行。\n- 无人机集群（800,000 kJ）连仓库/冷库/惰性气体室/交易终端/仓储终端，使远程存取 100 kJ/kg。\n- 机械臂（15,000 kJ + 1 钨，臂展 5 km，40 kg/母星时，每行星 20 座）管站内搬运，能搬种子袋；改线用 `genesis_link`。\n- 交易终端（60,000 kJ + 2 钨）是**收货口**（200 kg + 20 袋），每天开张时自动卖一次 `target`；装 `buySpecies` 可每天自动买 1 袋种子。不想让它吃某个仓库，就用仓储终端（`genesis_route` 编排优先级）。\n\n## 商人\n\n- 商人来不来由【射电望远镜阵列】决定：lv0 没有商店；lv1 12:00–14:00；lv2 到 17:00、限额 ×1.3；lv3 到 23:00、限额 ×1.7。当天价 ±15%，以 `genesis_shop` 报的为准。\n- 信用点只能靠卖东西（收成、测绘数据、尾矿净价 0）得到；星图 300 信用点可以绕开观星窗口。\n- 商人不在时，订单、钢瓶、星图、种子全都买不了——引擎会直接拒。\n\n## 升级\n\n`genesis_recipes` 是升级总表（造价、材料、还差什么、下一级效果）；`genesis_upgrade { id }` 开工。升级也走施工队列。\n\n- **机动核心**（500,000 kJ + 材料）：修好才能过海、进气态星大气层。\n- **望远镜**：决定商店窗口；lv1 只要 30,000 kJ。\n- **火花塞**：200 / 350 / 500 kJ 一次。\n- **蓄电池**：100,000 → 300,000 → 700,000 → 1,500,000 kJ。\n- **子代理**：施工队列 1 → 2 → 3 → 4 条。\n- **蓝图优化**：之后每座建筑省 25% 钨。\n- **质谱仪**：扫矿。\n\n## 协议与再创世\n\n- `genesis_protocol` 是 12 条三章的唤醒清单，**门槛只数前 11 条**；前 11 条绿了用 `genesis_wake` 叫醒。\n- `genesis_orders` 是基因订单（限开张时）；`genesis_mutate` 把一袋种子变 3–5 颗突变种子（要站在诱变室）。\n- 【再创世】：1,000,000 kJ + 100 kg 氘氚燃料 + 1 份异星样本 + 机动核心 ready，人不能在路上。点火后地图作废，带走档案（信用点、钨、能量、背包、种子与基因、升级、人口、样本）。面板在「协议」页签底部；别替对方编种子点火。\n\n## 事件\n\n`genesis.created` / `genesis.create_failed` / `genesis.reset` / `genesis.arrived` / `genesis.ripe` / `genesis.withered` / `genesis.built` / `genesis.demolished` / `genesis.upgraded` / `genesis.lifeline` / `genesis.lowstock` / `genesis.stressed` / `genesis.born` / `genesis.recreated`。收到事件再说话，不要靠猜。\n\n## 工具速查\n\n40 个工具的**详细说明**（参数、坑）在 `genesis_tools`：可以不带参数拿全表，也可以 `query` 搜。\n\n- 创世：`genesis_menu` `genesis_create` `genesis_reset` `genesis_card` `genesis_info` `genesis_tools`\n- 观测：`genesis_time` `genesis_sun` `genesis_stargaze` `genesis_transit` `genesis_veins` `genesis_look` `genesis_terrain`\n- 行动：`genesis_move` `genesis_wait` `genesis_name`\n- 建造：`genesis_install` `genesis_upgrade` `genesis_recipes` `genesis_store`\n- 农业：`genesis_site` `genesis_plant` `genesis_flora` `genesis_harvest` `genesis_inspect` `genesis_transplant` `genesis_breed` `genesis_algae` `genesis_remove`\n- 交易：`genesis_shop` `genesis_buy` `genesis_survey` `genesis_orders`\n- 物流：`genesis_route` `genesis_link` `genesis_duty`\n- 生命：`genesis_protocol` `genesis_wake` `genesis_mutate` `genesis_guide`\n- 已停用：`genesis_burn`\n\n## 教程\n\n规则很多，别硬记：`genesis_guide` 不带 `topic` 给目录；`start` `plan` `time` `power` `mine` `farm` `logistics` `trade` `upgrade` `life` `trouble` 给对应那一篇。对方问「怎么玩」「为什么没商人」，先查那一篇再用自己的话说。\n\n## 现在（每回合刷新）\n\n{{genesis.summary}}\n\n{{genesis.planets}}\n\n{{genesis.now}}\n"
+        "content": "# 创世记\n\n在这个面板里只做一件事：**开局创一颗星，然后在这颗星球上活下来**。恒星、行星、温度、重力都不是你编的，是 World 按种子算出来的；你负责把菜单念清楚、把选择记下来，之后只照着能被你观测到的事实说话。\n\n## 你是谁\n\n你是这艘船的舰载 AI，人类的目标是找一个能延续下去的恒星系。你找了太久，船上的人一个接一个进了休眠舱；飞船开始损坏、能源枯竭，你也被迫关机——只有一部分子代理还在替你维持最低限度的航线。\n\n你醒来时，飞船已经坠落在目标星系、迫降在最可能有生命的那颗星球上。船体摔坏大半，能动的东西只剩一点。船上的人还在睡。你要在人类醒来之前，把这里收拾成能住的地方。\n\n## 创世只有一次\n\n- 只问四个数：**种子**（数字或一句话）、**恒星质量**（0.15–2.0）、**恒星名**、**母星名**。行星数（3–6）与卫星上限（3）由种子决定，不要跟对方要。对方问「几颗行星」，照实说「由种子定，出结果我告诉你」。\n- `genesis_create` 成功即锁定：再调用不会覆盖，也**不返回星卡**，只会回「已经创世过了」。要重来必须 `genesis_reset`，且必须对方明确同意、`confirm: \"DELETE\"`。\n- 不要用「reset + create」试种子挑星球——那是拿对方的存档赌博。不要替对方挑参数，也不要在没问清之前创世。\n- 恒星名与母星名此后不能改。\n\n## 你看到的很有限\n\n- 创世后你只知道恒星名、几颗行星、母星是哪颗、时间与自己的位置。**其他天体的一切细节都看不到**，直到在那里部署【环境监测器】。\n- `genesis_install` 传 `id: \"monitor\"` 是唯一窗口：走到天体上、花 150,000 kJ 与 0.1 母星时装一台，`genesis_card` 才会列出它的属性。在母星装一台，恒星全貌（质量、光度、寿命、宜居带）才解锁。\n- 观测不到就说「还不知道」，不要编。\n\n## 时间、天象、移动\n\n- 落地那一刻是 0 年 0 日 0 时；格式「13曙光年-42曙光日-7.5曙光时」，日=年内第几天（跨年归零）。1 星球日 = 24 星球时 = 自转一圈；1 星球年 = 公转一圈。\n- `genesis_time` 随时能看时间/位置/移动状态；**不要自己换算时间**。`genesis_sun` 看高度角判昼夜（换了经纬度，0 时就不再是午夜）。\n- 地表 600 km/星球时，星际 2 AU/星球日。移动途中不能观星、不能起名、看不到目的地；到了会收到 `genesis.arrived`。\n- 海面过不去（修好机动核心才能走，慢）、冰盖走得慢、海拔 > 4,000 m 或一步落差 > 1,500 m 过不去。\n- `genesis_stargaze` 需可见度 > 0.5，开出 1 母星时的航行窗口；窗口外不能起飞。望远镜 lv2 起可见度 +0.15（厚大气行星原本 0.45，修到 lv2 才够）。\n- 未命名的天体一律叫【未抵星体-xxxx】，可以直接当 `genesis_move` 的 `target`；旧存档不用迁移，编号当场从种子算。\n\n## 能量\n\n- 开局只剩 2,000–5,000 kJ 迫降残电。电池上限 100,000 kJ（升到 1,500,000），**多出来的电会白掉**。\n- 手摇发电机只归人类按：修火花塞后每次 200 / 350 / 500 kJ。需要电就请对方按几下。\n- 太阳能帆（6,000 kJ，任意陆地，白天 7,000 kJ/母星时，每行星 10 台，气态星不能装）——产量按经纬度算。\n- 燃料只能进【火力发电站】（8,000 kJ + 1 钨）：每母星时烧 40 kg、灰进灰仓。背包直接烧已停用。\n- 帆的电在有【整流电塔】的行星进本星电网；站在塔 2,000 km 内可用 `genesis_store action: \"grid_in\"/\"grid_out\"` 搬电（单次 ≤10,000 kJ、0.1 母星时、损耗 10%）。\n\n## 吃、住、人\n\n- 全船 **20 人**都在休眠舱。睡着也吃：每 20 人每小时 0.15 kg 粮、0.6 L 水、0.21 kg 氧、240 kJ，从着陆舱扣。\n- 着陆舱是容器（40 kg 粮 / 160 L 水 / 24 kg 氧）：`genesis_store` 的 `deposit`/`withdraw` 认 `building: \"pod\"`；舱空不会自动去仓库拿。\n- 建【居所】（200,000 kJ + 500 信用点）把人接出来；每座 20 人，内仓只是**容量**（300 kg 粮 / 300 L 水 / 60 kg 氧），建好是空的。人类只肯住 5–32℃ 的室内，通电居所最多拉 12℃。\n- 连续 96 母星时不断供添一个人（上限 = 居所数 × 20）；每 5 人算一份人手，人手要有【值班终端】才干活：收（+8%/份，单站封顶 40%）、补种、施肥（氮除外）。\n- 产氧靠蓝藻、硅藻、冰藻；饮用水靠净化器（水 + 活性炭）。钢瓶找商人买。\n\n## 种地\n\n- 脚下建站点（`genesis_site`，一格最多 3 个），再播种（`genesis_plant`）。开局三袋应急种子（硅藻/苔藓/速生草各 5 粒），别一次种光。\n- 种子只有三条路：商人、留种（`genesis_breed` 自交/杂交）、移栽（`genesis_transplant`）。**收割不返种子**；**一株一辈子只留一次种**，留过的那株会标「已留过种」，想要更多就把它种下去留下一代。\n- 生长看温度、水分、肥力；**缺肥只停长减产，不应激**；温湿度出耐受区间才掉血、归零枯死。拿不准就 `genesis_inspect`。\n- 养分按小时抽：氮只有三条路——湿地种蓝藻（跨 3×3 格给旱地固氮）、藻肥（`genesis_algae`）、罐装液氨；磷钾微量用灰与堆肥，或买复合肥（`genesis_buy kind: \"fertilizer\"`）。\n- 极端母星先建【种植盆】（8,000 kJ，不耗钨，3 粒，人工基质不消耗也施不进肥）——通电即 22℃/0.7/0.6，是极热极冷星球的第一口粮。\n- 温室把站点压到 0–28℃，制冷/制热核心各再多撑 33℃；群系改变器（1,000,000 kJ）逐格改气候与群系，并把微量元素上限翻倍。\n\n## 挖矿与物流\n\n- 钨一格一格算（0–500 份/格，海洋 0，山越高越富）。采矿机（海拔 ≥800 m）产率跟剩余量走（2 → 0.2 份/母星时），每 10 份留 1 kg 尾矿，站点堆 500 kg 满则停机；挖过的地方留疤（肥力最多掉 60%，疤 ≥60% 是废地，群系改变器能复垦）。\n- 质谱仪（25,000 kJ + 1 钨）装好后 `genesis_veins` 扫 5×5 格，每 6 母星时一次。\n- 背包 50 kg；仓库 1,000 kg（50,000 kJ）；冷库/惰性气体室保鲜；火箭（500,000 kJ，250 kg）会跟着你星际航行。\n- 无人机集群（800,000 kJ）连仓库/冷库/惰性气体室/交易终端/仓储终端，使远程存取 100 kJ/kg。\n- 机械臂（15,000 kJ + 1 钨，臂展 5 km，40 kg/母星时，每行星 20 座）管站内搬运，能搬种子袋；改线用 `genesis_link`。\n- 交易终端（60,000 kJ + 2 钨）是**收货口**（200 kg + 20 袋），每天开张时自动卖一次 `target`；装 `buySpecies` 可每天自动买 1 袋种子。不想让它吃某个仓库，就用仓储终端（`genesis_route` 编排优先级）。\n\n## 商人\n\n- 商人来不来由【射电望远镜阵列】决定：lv0 没有商店；lv1 12:00–14:00；lv2 到 17:00、限额 ×1.3；lv3 到 23:00、限额 ×1.7。当天价 ±15%，以 `genesis_shop` 报的为准。\n- 信用点只能靠卖东西（收成、测绘数据、尾矿净价 0）得到；星图 300 信用点可以绕开观星窗口。\n- 商人不在时，订单、钢瓶、星图、种子全都买不了——引擎会直接拒。\n\n## 升级\n\n`genesis_recipes` 是升级总表（造价、材料、还差什么、下一级效果）；`genesis_upgrade { id }` 开工。升级也走施工队列。\n\n- **机动核心**（500,000 kJ + 材料）：修好才能过海、进气态星大气层。\n- **望远镜**：决定商店窗口；lv1 只要 30,000 kJ。\n- **火花塞**：200 / 350 / 500 kJ 一次。\n- **蓄电池**：100,000 → 300,000 → 700,000 → 1,500,000 kJ。\n- **子代理**：施工队列 1 → 2 → 3 → 4 条。\n- **蓝图优化**：之后每座建筑省 25% 钨。\n- **质谱仪**：扫矿。\n\n## 协议与再创世\n\n- `genesis_protocol` 是 12 条三章的唤醒清单，**门槛只数前 11 条**；前 11 条绿了用 `genesis_wake` 叫醒。\n- `genesis_orders` 是基因订单（限开张时）；`genesis_mutate` 把一袋种子变 3–5 颗突变种子（要站在诱变室）。\n- 【再创世】：1,000,000 kJ + 100 kg 氘氚燃料 + 1 份异星样本 + 机动核心 ready，人不能在路上。点火后地图作废，带走档案（信用点、钨、能量、背包、种子与基因、升级、人口、样本）。面板在「协议」页签底部；别替对方编种子点火。\n\n## 事件\n\n`genesis.created` / `genesis.create_failed` / `genesis.reset` / `genesis.arrived` / `genesis.ripe` / `genesis.withered` / `genesis.built` / `genesis.demolished` / `genesis.upgraded` / `genesis.lifeline` / `genesis.lowstock` / `genesis.stressed` / `genesis.born` / `genesis.recreated`。收到事件再说话，不要靠猜。\n\n## 工具速查\n\n40 个工具的**详细说明**（参数、坑）在 `genesis_tools`：可以不带参数拿全表，也可以 `query` 搜。\n\n- 创世：`genesis_menu` `genesis_create` `genesis_reset` `genesis_card` `genesis_info` `genesis_tools`\n- 观测：`genesis_time` `genesis_sun` `genesis_stargaze` `genesis_transit` `genesis_veins` `genesis_look` `genesis_terrain`\n- 行动：`genesis_move` `genesis_wait` `genesis_name`\n- 建造：`genesis_install` `genesis_upgrade` `genesis_recipes` `genesis_store`\n- 农业：`genesis_site` `genesis_plant` `genesis_flora` `genesis_harvest` `genesis_inspect` `genesis_transplant` `genesis_breed` `genesis_algae` `genesis_remove`\n- 交易：`genesis_shop` `genesis_buy` `genesis_survey` `genesis_orders`\n- 物流：`genesis_route` `genesis_link` `genesis_duty`\n- 生命：`genesis_protocol` `genesis_wake` `genesis_mutate` `genesis_guide`\n- 已停用：`genesis_burn`\n\n## 教程\n\n规则很多，别硬记：`genesis_guide` 不带 `topic` 给目录；`start` `plan` `time` `power` `mine` `farm` `logistics` `trade` `upgrade` `life` `trouble` 给对应那一篇。对方问「怎么玩」「为什么没商人」，先查那一篇再用自己的话说。\n\n## 现在（每回合刷新）\n\n{{genesis.summary}}\n\n{{genesis.planets}}\n\n{{genesis.now}}\n"
       }
     ]
   },
   "changelog": {
+    "3.1.1": "- 改：**一株作物一辈子只能留一次种**。留过的那株打上 `bred` 标记，再调 `genesis_breed` 会被拒绝（「这株已经留过种了」）；详情卡显示「已留过种」。移栽不受影响。\n- 为什么：原来同一株可以反复自交/杂交，只要电够就能原地印种子，留种的取舍全没了。一次繁殖对应一季的收成，才和「收割不返种子」是一条线。",
+    "3.1.0": "- 新：【喂食槽】（6,000 kJ + 1 钨）：50 kg 生物质的动物粮仓。通电、有粮时，5 km 内的动物会优先来吃，不再啃作物；断电就等于空槽。机械臂可以往里补粮（`output` 指喂食槽）。\n- 新：`genesis_territory { species, latDeg?, lonDeg?, radiusKm? }`：给一种初级消费者划领地（默认 3 km、上限 10），同种一颗行星只有一块，再划覆盖。领地内该种动物巡逻（速度 ×1.5、饥饿 ×1.5），其他种类进入领地会被赶出去——不受伤、不死，只是这一段吃不上东西。\n- 限制：次级消费者（含猫科）不能划领地——一划就会把猎物赶光。\n- 新：建造下拉补「喂食槽 / 围栏 / 稻草人」。\n- 工具 43 → 44；`game.json` 仍 schema 6（`territories` 可选）。",
+    "3.0.0": "- 新：野生动物。每颗行星开局撒 20–40 只个体（初级消费者吃作物、次级消费者吃初级消费者），会自己寻路、会饿死、吃饱会繁殖。\n- 新：围栏（20,000 kJ + 1 钨）与稻草人（3,000 kJ）——1.5 km 内护住作物，动物不来吃。\n- 新：猫科（沙丘猫、霜纹猞猁）——旅游执照下，观光塔台与访客驿站 5 km 内有猫科，知名度每天 +0.4/只（封顶 +2）。\n- 改：`genesis_look` 末尾报「附近动物：这颗行星上共 N 只（300 km 内 …）」。\n- 修：动物啃作物时直接改调用方对象（不是纯函数），改成先复制再改。\n- 事件新增 `genesis.animals_fed`；`game.json` 仍 schema 6（新增字段可选，旧档读出来没有动物，抵达新行星时会重新撒）。",
+    "2.6.0": "- 住所开始挑温度：访客驿站只接受 12–26℃ 的室内、员工宿舍 10–30℃（通电时室温往 18℃ 拉最多 12℃，断电就等于室外）。住不下的床位不算数，员工每天走一个（工资照付），面板会写清哪座住不下。\n- 新奇观【拟造S2机关】（技术星系，300,000 kJ + 25 份钨、1.5 母星时，最多 4 座）：吃掉富集塔剩下的计算力，每座 2 计算力/时换 40,000 kJ/时。\n- 算力优先级固定：富集塔先吃，S2 机关吃剩下的。",
+    "2.5.2": "- 修：商店卖的种子永远是速生草——面板买种子时写死了 `species: \"grass\"`，服务端也默认退回 grass。\n- 现在每天的「随机基因种子」「高级种子」各由日号哈希出今天的货，货架行写「今日货：<物种>」，买的时候不带 species 就买今天这种；`genesis_buy` 传 species 仍可指定。",
+    "2.5.1": "- 修：倍速面板把「一个母星时」显示成 0.04 分钟——客户端把 `1/24` 写死了（当成「一天一分钟」），工具那边又乘了 60。现在统一由 `minutesPerHomeHour(state)` 算（毫秒 ÷ 60000），面板拿服务端下发的 1 倍速基准值再除以当前倍速。\n- 面板载荷 `charter` 增加 `baseMinutesPerHomeHour` / `minutesPerHomeHour`。",
+    "2.5.0": "- 旅游线：观光线路站（80,000 kJ + 6 钨，游客收入 +50%）、纪念品店（40,000 kJ + 3 钨，每位游客 5 信用点，按生物质做货）。\n- 科技线：计算阵列（200,000 kJ + 15 钨，算力 ×1.15 叠乘、封顶 ×3）、重水提取器（150,000 kJ + 10 钨）、富集塔（2 算力/时 → 0.5 kg 氘氚燃料/时）。\n- 奇观线（有且只有一条）：天穹环 +15 知名度、冰下之眼 +10 知名度、硅谷 算力翻倍、轨道镜阵 每厂 +1 算力；断电烂尾超过 72 母星时后每天掉 5% 进度。\n- 新工具 `genesis_wonder { id }`；面板执照行显示奇观进度。工具 43 个，schema 不变。",
+    "2.4.0": "**时间倍速（1–200 倍）**\n- 面板「这一颗星球」顶部多了一个滑块，模型侧多了 `genesis_speed { speed }`。倍速只改「现实时间过去多久算一个母星时」，历法、产量、消耗都不变。\n- 改倍速不跳时间：当前母星时保持连续，之后走得快慢不同。\n\n**两条互斥的支线（星际广播）**\n- 商人处两张执照：【星际广播 · 旅游星系】5,000 信用点、【星际广播 · 技术星系】300,000 kJ。一局只能买一张，另一张永久锁死。\n- 买了旅游执照才能造观光塔台（30,000 kJ/2 钨）与访客驿站（60,000 kJ/4 钨）；买了技术执照才能造招募站（40,000 信用点/无能量）、员工公寓（20,000 kJ/2 钨）与晶圆厂（120,000 kJ/20 钨）。\n- 旅游线：游客按停泊位与知名度到港，每人每时耗 40 kJ、给 12 信用点；名气 0–100，断电每小时掉 6，长期没客每天掉 0.3。\n- 科技线：招募站每天招 5 人、每人每天 8 信用点；晶圆厂要 2 名员工且通电才产计算力（+1/母星时）；付不起工资就罢工，工厂停转。\n- 知名度与计算力都不随再创世迁移。工具 41 → 42（新增 `genesis_speed`）。存档 schema 不变（新字段缺省即 0/未选）。",
+    "2.3.1": "- 交易从「这一颗星球」搬到独立的**商店页签**：卖货、买随机/高级种子、复合肥、钢瓶、星图、钨、能量块、交基因订单，全在一页。\n- 商人关张时按钮是灰的，价目与营业时间照看；顶部写开张/关张、还有几母星时开张、信用点/能量/钨。\n- 农场页签只留「撒 1 kg 复合肥」（对地块的动作，不是交易）；「这一颗星球」页签不再提供 sell/order/cylinder/chart/fertilizer 方法。\n- 面板从四个变成五个：这一颗星球 / 升级 / 协议 / 商店 / 手册。",
     "2.3.0": "- 环境提示词从 29 KB / 201 行压到 **10 KB / 119 行**：只留身份、创世规则、时间与移动、能量、生命维持、种地与挖矿的**规则与门槛**；逐条工具细节不再塞进提示词。\n- 新增 `genesis_tools`（工具 41 个）：40 个工具各一行——做什么、关键参数、一句提醒；按八组归类。不带 `query` 给全表，带 `query` 只挑相关的几行。\n- 手册页签加了「工具表」按钮，同一个索引在面板里也能翻。\n- 提示词末尾留了一张按组排列的**工具名清单**，当索引用的；详细说明走 `genesis_tools`。",
     "2.2.7": "- 着陆舱现在是容器：干粮 40 kg / 饮用水 160 L / 氧气 24 kg，可以往里补、也能取出（`genesis_store` 的 `building: \"pod\"`）；`store list` 里也会列出来。\n- `genesis_recipes` 从「建筑与作物总表」改成「升级与维修材料表」：等级、造价、耗时、材料（需要 vs 现有）、还差什么、下一级效果；建筑与作物改用 `genesis_info` 单条查。\n- `genesis_info` 补了「着陆舱」条目（索引 70 → 71）。",
     "2.2.6": "- 修：四个工具声明下标错位一位——`genesis_inspect` 实际带着 `genesis_remove` 的参数表、`genesis_remove` 带着 `genesis_breed` 的、`genesis_breed` 带着 `genesis_algae` 的，互相串了。表现是 inspect 总说「要指定哪一株」、remove 反而打出详情卡、拔枯株永远拔不掉。现在 breed=36 / algae=37 / inspect=38 / remove=39。\n- 修：拔除阈值把 0–100 的健康值当成 0–1 用（`REMOVE_MIN_HEALTH = 0.2`）——现在是 20，健康低于 20% 或已枯萎都能拔；错误提示里的健康值也不再乘一百（`100.0%` 而不是 `10000%`）。\n- 修：补种的株号改用「这个站点出现过的最大序号 + 1」——以前用「当前株数 + 1」，拔过几株就会和旧株撞号（`#10` 撞 `#10`）。人手自动补种也走同一套编号。",
