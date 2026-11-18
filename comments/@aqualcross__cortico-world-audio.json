@@ -2,14 +2,23 @@
   "schema": 1,
   "name": "@aqualcross/cortico-world-audio",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/721",
-  "total": 3,
+  "total": 4,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BLKR9",
       "author": "leaon-1226",
       "avatar": "https://avatars.githubusercontent.com/u/350143208?s=64&v=4",
       "body": "0.1.5 在 Kylin(Linux)上装不上，pnpm rebuild 退出码 1，卡在 onnxruntime-node@1.31.1：\nError: Failed to download build list. HTTP status code = 302（script/install-utils.js:70）\n\n排查：个脚本走 NuGet 接口取原生包，downloadJson / downloadFile 只接受 statusCode === 200，3xx 直接 reject。国内访 api.nuget.org/v3/index.json 会 302 到 nuget.azure.cn（curl -L 跟随后是 200）。GitHub 和 api.github.com 都是 200，不是断网。\n\n建：这两函数到 3xx 时跟随 res.headers.location 重发；或一个 NuGet 源/镜的置项。",
-      "createdAt": "2026-11-18T07:10:03Z"
+      "createdAt": "2026-11-18T07:10:03Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BLKsJ",
+          "author": "AqualCross",
+          "avatar": "https://avatars.githubusercontent.com/u/130270771?s=64&u=1c23c4322a7781d16ce1a75a598839403449a10d&v=4",
+          "body": "感谢排查，已经在 **0.1.6** 里修了，直接升级或重装即可。\n\n报错的 `script/install-utils.js` 是上游 `onnxruntime-node` 包自带的 `postinstall` 脚本：\n- `onnxruntime-node` 的 npm 包里其实已经带齐了各平台的 CPU 原生二进制（`linux/x64` 下是 `onnxruntime_binding.node` 与 `libonnxruntime.so.*`），但从 `1.17.3` 起它的 `script/install-metadata.js` 给 `linux/x64` 配了 `requirements[\"linux/x64\"] = [\"cuda12\"]`。\n- Cortico 安装扩展时对直接依赖跑 `pnpm rebuild`，触发它的 `postinstall` 去请求 `https://api.nuget.org/v3/index.json` 拉取 300 多 MB 的 CUDA 12 原生包；国内访问 `api.nuget.org` 会 302 到 `nuget.azure.cn`，而它的 `downloadJson` 只接受 200，直接抛错退出。\n\n0.1.6 的改动：\n- 将 `onnxruntime-node` 钉在 `1.17.0`（上游加 `postinstall` 之前的版本）：随 npm 包直接带齐 6 个平台/架构的 CPU 预编译二进制（`linux/x64` 下 GLIBC 要求也从 2.28 降到 2.27），没有 `postinstall` 脚本，`pnpm rebuild` 不再请求 NuGet，解包体积也从 307 MB 降到 101 MB。\n- 顺带修了 Windows 下与 `sherpa-onnx-node` 同进程共存时的同名 `onnxruntime.dll` 版本冲突。\n\n如果还在装旧版本，也可以通过环境变量 `ONNXRUNTIME_NODE_INSTALL=skip`，或在 `extensions/pnpm-workspace.yaml` 的 `allowBuilds` 下设 `onnxruntime-node: false` 跳过它的 `postinstall`。",
+          "createdAt": "2026-11-18T08:44:51Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BKSZ7",

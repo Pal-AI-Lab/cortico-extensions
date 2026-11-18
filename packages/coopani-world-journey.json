@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-journey",
-  "version": "1.12.15",
+  "version": "1.12.16",
   "describe": {
     "tools": [
       {
@@ -852,6 +852,7 @@
     ]
   },
   "changelog": {
+    "1.12.16": "- **新增台湾省 5 座代表城市**：[cities.ts](src/geo/cities.ts) 补充 `taibei`（台北）、`taizhong`（台中）、`tainan`（台南）、`gaoxiong`（高雄）、`hualian`（花莲）的景点（台北101、故宫博物院、九份老街、日月潭、太鲁阁峡谷、七星潭、驳二、赤嵌楼等）、地道美食、夜市、演出、平溪天灯节与视觉锚点，全量城市扩充至 193 座；[season.ts](src/geo/season.ts) 补入 `中国台湾: 'south'`。\n- **跨台湾海峡交通边界**：[journey.ts](src/plan/journey.ts) 的 `usableModes()` 补充判定——台湾地区与大陆城市之间禁止步行/骑行/大巴/火车/自驾等地面交通，仅走航班或港口航线；台湾岛内各城之间可正常走地面铁路与公路。",
     "1.12.15": "- **旅行事件反哺 `life` 五维（含请客模式）**：新增 `queueLifeEffect()`（`amount: 0`），早/午/晚饭补饱腹、逛景点补娱乐（结伴补社交）、回酒店按档位补清洁与精力、酒店夜生活（泳池/温泉/SPA/泡澡/健身房）同步清洁/精力/体质。\n- **交通方式与过夜影响**：`journey-public.json` 透出当前 `hotelTier` 与 `leg.modeId`；`arrive()` 结算步行/骑行体质加成，并按 9 档过夜交通与席位（大巴普通座、卧铺大巴、二等座、硬卧、高级软卧、经济舱/公务舱、轮船）发送过夜精力与心情条子。\n- **低精力避让与高体质抗疲劳**：读取 `life-public.json` 的 `vitals: { energy, fitness }`，有效精力偏低时 `pickMode` 避开或压低步行/骑行并放宽景区代步（缆车/观光车/打车）门槛；高体质（`>= 60`）跳过「脚酸 / 走不动」文案。",
     "1.12.14": "读者 zzy1053 报的，判断很准，而且他自己做了对照实验。\n\n### 现象\n\n她在 thinking 里自称 she：`\"She's in bed but this is the thing she came for\"` /\n`\"He asks what she's doing\"`。11-16 / 17 / 18 的 134 / 83 / 32 条 thinking 里\n分别是 **19 / 13 / 7 条**，**没降**。\n\n### 根因：上一轮只治了事件通道\n\n1.8.11 修的是**事件帧**（`journey.photo` 的事件文案用第三人称）—— 那批降下来了。\n但**工具定义通道**没扫：`describe.json` 里 223 处 she/her\n（`tools[].description` 151 + `events[].description.en` 22 + 参数说明 43）。\n\n**对照实验**（他做的）：调 journey 的工具时冒 she，调 terrarium 时是 I ——\n说明不是模型搞混了谁，是**工具清单里的文风被她模仿了**。\n\n**这一点很关键**：按「有没有指代歧义」判断要不要改，会漏掉这一层。\n这些 she 指代全对（`She's in bed` 主语确实是桌宠），\n问题是**「用第三人称写自己」被她当成了 thinking 的默认句式**。\n\n### 改法\n\n- `describe.json` + `src/describe.ts`：指代桌宠的 she/her → you/your，**223 处**\n  （主谓一起改：`she is` → `you are`、`she has` → `you have`、`herself` → `yourself`，\n  另修两处 `you yourself says` 的主谓不一致）；\n- `src/world-purse.ts` 的 `withUser = false` 模板：\n  「**她**一个人在路上。那个人隔着屏幕看**她**……」→ 第二人称（这条每回合都进上下文，\n  是所有叙述的地基，系统前缀里 20 个「她」有 18 个来自它）；\n- `ENV_PROMPT.md` 四处夹注里的「她」→「你」。\n\n**回执（调用之后才出现的那层）没动** —— 它不影响 thinking 的文风。\n\n### 测试\n\n`describe.json` 与 `describe.ts` 必须一字不差那条仍然绿；全量 **1032/1032**（主套）+ e2e 全绿。\n工具描述里的 she/her 从 223 降到 0。\n\n> 关于 events：一并改了。**如果宿主把 `events[].description` 显示给用户**，\n> 那几行会从「She is asking to set off」变成「You are asking to set off」——\n> 对用户读起来会有点怪。**这一条需要在实际界面上确认**，怪的话把 events 那 22 处回滚。",
     "1.12.13": "读者报的（v1.12.11，13:39）：在面板上点「叫她回来」，她一步到家（这是设计），\n但推给她的**事件文案**是：\n\n```\n苏州 → 兰州，坐火车，189 公里\n```\n\n和他的认知对不上——他原话：「我点了下手动她就直接到家了……**轮船**是什么鬼」。\n\n### 根因：注释和实现各说各话\n\n`goHome('called')` 里写的是「当场买最近一班飞回，不走回程」，但 `flyRegardless`\n**只把 `afford` 传成 `undefined`（免票价）**，交通方式仍然由 `settleHome` 里的\n`pickMode` 从 `usableModes` 里**加权随机**：\n\n- 短途权重：`train` 3、`bus` 3、`car` 2.5、`ship` 1.2、`plane` **0.15**；\n- 苏州 `air: false`（没有机场）、`port: true`（有港口）→ `plane` 已被排除；\n- 189 公里落在短途档 → 飞机权重比轮渡低一个数量级。\n\n一次「叫回」拿出了慢速档。\n\n**这不只是文案出戏**：她的规则里写着「他叫回 = 当天航班，落地就是家」，\n事件却说她坐慢车，两边打架。她在思考记录里专门停下来处理了这个龃龉 ——\n**那段推理对用户是不可见的成本**。\n\n### 改法\n\n- 新增 `fastHomeLeg()`：**短途（≤1200 公里）高铁、长途飞机**；\n- `settleHome` 接受 `mode` / `modeLabel`，**标签直接盖在 `mode.name` 上** ——\n  事件、日记、`journey_now` 一处改、全处跟着走，不用每处再判断场景；\n- **两种都不可用（无铁路、无机场）才回退到原来的权重表** ——\n  不能为了文案好看把她困在某座城里。\n\n### 测试\n\n`test/home-reason.mjs` 加一条：叫回来必须是高铁或飞机，不许出现轮渡/大巴/顺风车。\n全量 **1085/1085**。",
