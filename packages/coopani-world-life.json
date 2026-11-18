@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-life",
-  "version": "0.16.7",
+  "version": "0.17.0",
   "describe": {
     "tools": [
       {
@@ -420,6 +420,74 @@
         "summary": {
           "zh": "读回自己写过的生活日记。",
           "en": "Read back her daily life diary entries."
+        }
+      },
+      {
+        "name": "life_library",
+        "description": "查阅或维护四分类参考素材库（characters 人物 / outfits 服饰 / scenes 场景 / props 道具），或调整留影策略与冷却（action: list/search/upsert/delete/policy）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action"
+          ],
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "search",
+                "upsert",
+                "delete",
+                "policy"
+              ]
+            },
+            "category": {
+              "type": "string",
+              "enum": [
+                "characters",
+                "outfits",
+                "scenes",
+                "props"
+              ]
+            },
+            "query": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "aliases": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "string"
+            },
+            "appearance": {
+              "type": "string"
+            },
+            "policy": {
+              "type": "string",
+              "enum": [
+                "off",
+                "milestone",
+                "active"
+              ]
+            },
+            "cooldownMin": {
+              "type": "integer"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "查阅或增改四分类素材库及留影策略。",
+          "en": "Browse or edit the 4-category reference library and photo policy."
         }
       }
     ],
