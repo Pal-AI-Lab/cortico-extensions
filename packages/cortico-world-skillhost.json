@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-skillhost",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "describe": {
     "tools": [
       {
@@ -133,6 +133,7 @@
     "events": []
   },
   "changelog": {
+    "0.1.1": "只有元数据：市场那边联系不上作者，因为 `package.json` 里没有仓库地址。\n\n- 补 `repository` / `bugs` / `homepage`，指向 <https://github.com/cand0y0/cortico-world-skillhost>。\n- 代码零改动，和 0.1.0 行为一致。",
     "0.1.0": "首个版本。\n\n- 扫描技能目录（默认 `<数据目录>/skillhost/skills`），读 `skill.json`、`import` 技能的 `index.js`，\n  喂给它一套 `config / fetch / warn / registerTool / storage / meta` 的 api。\n- 四个通用工具：`skill_list`、`skill_call`、`skill_config`、`skill_toggle`。\n- 技能设置存 `<数据目录>/configs/<技能 id>.json`，改了下次调用即生效。\n- 目录或开关一变就重扫（指纹比对），新技能不用重启。\n- 技能的调色盘：`session`（chatKey / trigger / sent）、`selfId`、`ctx.sender.sendImage()` 走 OneBot HTTP，\n  支持 `group:<群号>` / `private:<QQ号>`。\n- 设置页：本体页（市场入口、已装技能管理、五项设置）+ 每个技能一页（自己的设置 + 启用开关）。\n- 加载失败的技能不拖垮世界：错误原样回报给调用方。"
   }
 }

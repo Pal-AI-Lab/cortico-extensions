@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-memory-files",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "describe": {
     "tools": [
       {
@@ -437,6 +437,7 @@
     ]
   },
   "changelog": {
+    "0.2.1": "- **修 `ms_check` 的中文输出是乱码。** 底层 PowerShell 默认按系统代码页（中文 Windows 是 GBK）写 stdout，node 那头按 UTF-8 读，每个汉字都变成 U+FFFD。现在脚本一开头就把 `Console.OutputEncoding` 设成 UTF-8——只影响输出，文件读写一直是 UTF-8。脚本仍保持纯 ASCII。\n- **`ms_check` 不再把「已经做完的」当成「过期的待办」**：带 ✅ 的行跳过。\n- **`ms_check` 新查一样：`hooks.md` 里指不到去处的钩子。** 去处那个文件不在了、或者写成了通配符的，单列出来（最多列 5 条）——钩子留着却跟不过去，等于没留。",
     "0.2.0": "- **钩子可以指多处。** `ms_hook` 同一个钩子写第二个去处不再覆盖原来那处，而是再加一行；同名同去处只更新备注。`remove` 把这个钩子的几行一起删掉。（「一个钩子，也可能勾出来很多事儿。」）\n- **新工具 `ms_effort`：翻得费劲的掉得慢。** 记一次「这条捞得多费劲」，攒成护盾，`ms_decay` 算的时候打折。好捞的不记——费劲不算做成事，曝光也不算强化。\n- **`ms_entry` 多一列难度分**，账本一行一条，改引力仍然必须给原因。\n- **`ms_backup` 不再把整个图库拷一遍**：跳过 `blobs/`、`tmp/`、`memo-index/`、`.git`、`node_modules` 和 `*.safetensors`。以前一次备份能上 1.4 GB。\n- **环境提示词补了三样**：十五条命令的表、醒来的「三问」（先答完再翻文件核对，对不上的才是缺口）、「压缩过的话要带出处」。",
     "0.1.0": "- 第一版：STATE / 流水 / 待办 / 交接 / 备份，加带引力的记忆账本（`entries/YYYY-MM.tsv`）和一张钩子表（`hooks.md`）。\n- 十四个工具，底层是一个 PowerShell 脚本（`memory-system/ms.ps1`）。只在 Windows 上跑。"
   }

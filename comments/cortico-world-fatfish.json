@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "cortico-world-fatfish",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-  "total": 68,
+  "total": 71,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BLQc0",
+      "author": "blacksunshy",
+      "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
+      "body": "可以，刚发了 v0.2.26：\n\n- Release：https://github.com/blacksunshy/coopanion-connector-dsh/releases/tag/v0.2.26\n- 这是 **Host 侧插件**（connector），DSH 主程序不用动，fatfish 也不用重新装\n\n**怎么用**：\n\n1. 把 connector 升到 0.2.26（换 GitHub Release 里的 `dist/index.cjs` 或直接 npm/github 装最新）\n2. DSH 启动前设一个环境变量：`AUTO_FOLLOW=0`\n3. 重启 DSH\n\n重启后 Host 日志（`%USERPROFILE%\\.dsh\\logs\\coopanion-bridge.jsonl`）里 `apply-started` 那行会多打一个 `autoFollow: false`，看到它就说明生效了。\n\n关掉后，你在 DSH 已有会话里打字说话，桌宠就不会悄悄跳过去。注意两条边界：\n\n- **新建**一个会话还是会自动切过去 —— `agent/created` 是强信号，新会话诞生时桌宠必须知道它存在，这条逻辑没动\n- 桌宠面板里**显式 pick** 仍然生效 —— 那是你主动选的，比任何自动行为都强\n\n如果还是想保留新建会话就切、但已存在的会话打字不跳，就用这个开关；如果你之后又想恢复自动跟随，删掉环境变量或设 `AUTO_FOLLOW=1` 重启即可。\n",
+      "createdAt": "2026-11-19T07:04:51Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BLH6u",
       "author": "z-o-n-e",
@@ -17,6 +24,20 @@
           "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
           "body": "有个固定会话的在扩展这边，可以试试。这样会话就不会跳",
           "createdAt": "2026-11-18T06:38:14Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BLQX8",
+          "author": "z-o-n-e",
+          "avatar": "https://avatars.githubusercontent.com/u/18659711?s=64&v=4",
+          "body": "@blacksunshy 选固定会话了，还是会跳😂",
+          "createdAt": "2026-11-19T06:45:48Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BLQee",
+          "author": "blacksunshy",
+          "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
+          "body": "@z-o-n-e 试试更新一下dsh侧的更新再试试",
+          "createdAt": "2026-11-19T07:09:22Z"
         }
       ]
     },

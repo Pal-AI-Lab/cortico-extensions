@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "name": "cortico-provider-gemini-gateway",
+  "version": "0.1.0",
+  "describe": {
+    "provider": {
+      "protocols": [
+        "gemini",
+        "custom-gemini-rpc"
+      ],
+      "auth": [
+        "oauth",
+        "api-key"
+      ],
+      "local": false,
+      "input": [
+        "text",
+        "image",
+        "audio",
+        "video"
+      ],
+      "title": "Custom Gemini Gateway",
+      "description": "Self-hosted Gemini REST and session RPC with configurable desktop OAuth.",
+      "reasoningTiers": [
+        {
+          "id": "off",
+          "label": "不思考",
+          "thinking": false
+        },
+        {
+          "id": "default",
+          "label": "思考 · 默认",
+          "thinking": true
+        },
+        {
+          "id": "low",
+          "label": "思考 · 快",
+          "thinking": true,
+          "effort": "low"
+        },
+        {
+          "id": "medium",
+          "label": "思考 · 标准",
+          "thinking": true,
+          "effort": "medium"
+        },
+        {
+          "id": "high",
+          "label": "思考 · 深入",
+          "thinking": true,
+          "effort": "high"
+        }
+      ]
+    }
+  },
+  "changelog": {
+    "0.1.0": "首个公开发布版本：提供面向 Cortico Provider API 6 的 Gemini 多协议网关扩展，支持 Google Robin 桌面 OAuth（含账号服务条款状态追踪与一键同意、按账号隔离的多模态附件上传与会话清理）、Web2API 原生 Gemini REST 及自定义会话式 RPC 三种接入模式，并在 WebUI 中随模式自动切换配置面板；内置多账号 OAuth 凭证池，支持主备故障转移、平等轮询与按周剩余额度优先三种调度策略及策略自适应额度看板，账号标识全局默认采用 `5***3@gmail.com` 脱敏并可一键显隐，同时支持公开模型目录自动拉取、自动计价与零内置密钥的安全分发模板。"
+  }
+}
