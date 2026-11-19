@@ -872,6 +872,7 @@
     "cortico-bot-continuity",
     "cortico-provider-deepseek",
     "cortico-world-astrbot",
+    "cortico-world-astrbot-livingmemory",
     "cortico-world-bili-video-pro",
     "cortico-world-bottle",
     "cortico-world-coding-agent-notify",
@@ -2066,14 +2067,113 @@
         "injection-risk"
       ]
     },
-    "cortico-world-agent-wechat-native": {
+    "cortico-world-skillhost": {
+      "addTags": [
+        "external-setup",
+        "unsafe"
+      ],
+      "note": {
+        "zh": "在 Core 进程里执行使用者放入的外部技能包代码，模型经 skill_call 调用",
+        "en": "Runs the code of external skill packages the user adds inside the Core process; the model calls them through skill_call"
+      }
+    },
+    "@horizoncloudy/cortico-world-onebot-bridge": {
       "addTags": [
         "unsafe"
       ],
       "note": {
-        "zh": "开启发送媒体后，模型能把本机任意路径的文件发到微信会话",
-        "en": "With media sending turned on, the model can send a file from any local path to a WeChat chat"
+        "zh": "通用 OneBot 调用能把本机任意文件发到群聊或私聊",
+        "en": "Its generic OneBot call can send any local file to a group or private chat"
       }
+    },
+    "@horizoncloudy/cortico-world-koishi": {
+      "addTags": [
+        "unsafe"
+      ],
+      "note": {
+        "zh": "通用 OneBot 调用能把本机任意文件发到群聊或私聊",
+        "en": "Its generic OneBot call can send any local file to a group or private chat"
+      }
+    },
+    "@horizoncloudy/cortico-world-maibot": {
+      "addTags": [
+        "unsafe"
+      ],
+      "note": {
+        "zh": "本机监听端口不校验来源、默认不要密钥，World 开着时本机任意网页都能给 Coo 推消息",
+        "en": "Its local listening port does not check the request origin and needs no key by default; while the World is on, any web page on the machine can push messages to Coo"
+      }
+    },
+    "@horizoncloudy/cortico-world-neko": {
+      "addTags": [
+        "unsafe"
+      ],
+      "note": {
+        "zh": "本机监听端口不校验来源、默认不要密钥，World 开着时本机任意网页都能给 Coo 推消息",
+        "en": "Its local listening port does not check the request origin and needs no key by default; while the World is on, any web page on the machine can push messages to Coo"
+      }
+    },
+    "cortico-world-bing-search": {
+      "addTags": [
+        "internet"
+      ]
+    },
+    "cortico-world-matrix": {
+      "addTags": [
+        "unsafe"
+      ],
+      "note": {
+        "zh": "模型给本机路径就能把任意文件当图片上传到 Matrix 房间",
+        "en": "Given a local path, the model can upload any file to a Matrix room as an image"
+      }
+    },
+    "cortico-world-xiangqi-web": {
+      "addTags": [
+        "internet",
+        "browser"
+      ]
+    },
+    "cortico-world-watch-anything": {
+      "addTags": [
+        "internet",
+        "local",
+        "high-cost",
+        "sensitive-data"
+      ],
+      "note": {
+        "zh": "模型能随时截屏，并能开后台每 2 秒截一屏、每分钟推五张图",
+        "en": "The model can take a screenshot at any time and start a background capture that grabs the screen every 2 seconds and pushes five images a minute"
+      }
+    },
+    "cortico-world-msfs-copilot": {
+      "addTags": [
+        "external-setup"
+      ],
+      "removeTags": [
+        "apps"
+      ]
+    },
+    "cortico-world-xuegeros": {
+      "addTags": [
+        "real-world",
+        "external-setup"
+      ]
+    },
+    "cortico-world-memcore": {
+      "addTags": [
+        "internal-state"
+      ]
+    },
+    "cortico-world-qq-digest": {
+      "addTags": [
+        "requires-extension"
+      ]
+    },
+    "world-cache-keepalive": {
+      "addTags": [
+        "diagnostics",
+        "high-cost"
+      ]
     }
   }
 }
