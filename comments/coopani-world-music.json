@@ -2,8 +2,24 @@
   "schema": 1,
   "name": "coopani-world-music",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/384",
-  "total": 8,
+  "total": 10,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BLYgD",
+      "author": "ForgottenLH",
+      "avatar": "https://avatars.githubusercontent.com/u/53442452?s=64&v=4",
+      "body": "我的想法：她挑完了、听过之后不用保留，想听就再提一次。\n\n现状（1.0.0，2026-11-19 提交）：\n- 清单落在记忆目录的 `music-wants.jsonl`，重启、“关插件”都不丢；`music_pick` 不带参数能读。\n- **加**只有一条路：`music_pick` 挑一首就记一条，会一直涨。\n- **减**只有一条路：设置 → World → 一起听歌 →「数据」页签一键清空。\n- 于是清单只会变成一张越积越长的旧账——她想听的早听完了，也还挂在上面；接力点歌按编号 `from` 取，编号还会被这些“已完成”的条目挤走。\n\n建议（按代价从小到大）：\n1. `music_pick` 加一个 `drop` 参数（按编号或标题删一条），和 `music_soul` 的 `add`/`drop` 一个形状，她已经会用这种写法。\n2. 或者给清单加“听过了”这个状态：`music_now` 认到正在放的就是清单里某一首、且播满八成，就标成已听，面板上灰掉、不再占编号。\n3. 再退一步：给 `music-wants.jsonl` 一个上限（比如 20 条），超出按最旧的淘汰，别让它变成只增不减的账本。\n\n我倾向前两条——第三条是拿上限定罪，用户想留的还是会被挤掉。",
+      "createdAt": "2026-11-19T23:37:03Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BLYkI",
+          "author": "ForgottenLH",
+          "avatar": "https://avatars.githubusercontent.com/u/53442452?s=64&v=4",
+          "body": "补充 \n用了一阵子，想反馈一处「想听清单」的缺口，不大但天天硌着。\n>另外顺带确认一句：清单里的条目，作者心里是「欠账」还是「收藏」？如果是收藏，那就不是缺陷，是我理解错了，说一声我就不提了。",
+          "createdAt": "2026-11-19T23:50:20Z"
+        }
+      ]
+    },
     {
       "id": "DC_kwDOVLPtGM4BLTnY",
       "author": "qlc5201314-blip",

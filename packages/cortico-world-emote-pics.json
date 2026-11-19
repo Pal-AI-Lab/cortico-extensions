@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-emote-pics",
-  "version": "0.8.3",
+  "version": "0.9.1",
   "describe": {
     "tools": [
       {
         "name": "emote_pic",
-        "description": "Maybe attach one random picture from the folder configured for an emotion. The call first rolls the emotion's chance (and its cooldown); when it does not fire, the receipt says skipped with a reason and carries no image. Omit emotion to use the current mood from emote_mood; without a valid mood it falls back to the configured neutral folder when available, otherwise the call is skipped. Use force to bypass chance and cooldown while testing. When it fires, the receipt carries the image as a [blob ...] line with a log: handle for image-sending tools. Only png, jpg, jpeg, gif and webp up to 5 MB are used.",
+        "description": "Maybe attach one random picture from the folder configured for an emotion or scene. In the mood route, omit emotion to use the current mood (with a neutral-folder fallback). In the scene route, call this before every pet_say: pass a scene id from the environment prompt, or \"none\" when no scene fits. Pass query with the sentence or meaning you are about to say; when semantic indexing is enabled it is used to choose the closest image in that folder. No directory or an enabled scene with cooldown means skip, never a neutral fallback. The call applies the route's cooldown (the scene route uses one global cooldown); skipped is normal and carries no image. Use force to bypass chance and cooldown while testing. When it fires, the receipt carries the image as a [blob ...] line with a log: handle for image-sending tools. Only png, jpg, jpeg, gif and webp up to 5 MB are used.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -34,7 +34,15 @@
                 "cry",
                 "confused"
               ],
-              "description": "Which emotion folder to draw from. Omit to use the current mood."
+              "description": "Mood route only: which emotion folder to draw from. Omit to use the current mood."
+            },
+            "scene": {
+              "type": "string",
+              "description": "Scene route only: a scene id from the environment prompt, or \"none\" when you checked and no scene fits. Omit is not a substitute for \"none\"."
+            },
+            "query": {
+              "type": "string",
+              "description": "The sentence or concise meaning you are about to say. When semantic indexing is enabled, it is embedded and used to pick the closest image in the chosen folder. Pass it before pet_say."
             },
             "avoid": {
               "type": "array",
@@ -53,8 +61,8 @@
           "read"
         ],
         "summary": {
-          "zh": "按配置的概率决定这次出不出图;出图时从该表情的文件夹随机挑一张,作为附件交给这次对话。",
-          "en": "Rolls the configured chance; when it fires, picks a random picture from that emotion folder and attaches it."
+          "zh": "按心情或固定场景的配置决定这次出不出图;出图时从对应文件夹随机挑一张,作为附件交给这次对话。",
+          "en": "Rolls the configured chance for a mood or fixed scene; when it fires, picks a random picture from that folder and attaches it."
         }
       },
       {
@@ -116,8 +124,8 @@
           "read"
         ],
         "summary": {
-          "zh": "不经过面板,直接从表情目录随机弹一张测试图。",
-          "en": "Pops a random test picture from the emotion folders without the panel."
+          "zh": "不经过面板,直接从当前配图路线的目录随机弹一张测试图。",
+          "en": "Pops a random test picture from the current route without the panel."
         }
       }
     ],
@@ -127,11 +135,13 @@
         "key": "worlds.emote-pics.envPrompt",
         "title": "情绪配图 · 提示词",
         "role": "envPrompt",
-        "content": "## 情绪配图\n{{emotePics.text}}\n\n当前心情:{{emotePics.mood}}。\n\n**顺序要紧**:要配图时,先按你即将说的这句话的情绪调 `emote_mood(<emotion>)`,再调 `emote_pic()`\n取图,最后才 `pet_say`,气泡里带同一个【标记】。`emote_pic()` 是在说话之前取的,事先不设心情它就会\n读到上一句话留下的旧心情,图和这句话对不上。\n\n心情标签和 `emotion` 参数不一致时,以**这次显式传的 `emotion`** 为准;没传 `emotion` 才用心情标签。\n不说话、只想改心情或清空时,照样可以调 `emote_mood`。\n"
+        "content": "## 配图\n{{emotePics.text}}\n\n{{emotePics.state}}。\n\n{{emotePics.route}}\n\n**顺序要紧**:要配图时,先按这句话要配的心情或场景取图(`emote_pic`),再 `pet_say`;心情路线让气泡带同一个【标记】,场景路线按 `scene` 取图即可。`emote_pic` 里带上 `query`: 你准备说的这句话;开启语义化时,扩展会用这句话在本目录里挑最接近的图。场景路线即使这次不发图,也要在 `pet_say` 之前调用 `emote_pic({ scene: \"none\", query })`,不能跳过。`emote_pic` 是在说话之前取的,事先不设心情它就会读到上一句话留下的旧心情,图和这句话对不上。\n\n心情路线:先按即将说的这句话的情绪调 `emote_mood(<emotion>)`,再调 `emote_pic({ query })`。心情标签和 `emotion` 参数不一致时,以**这次显式传的 `emotion`** 为准;没传 `emotion` 才用心情标签。不说话、只想改心情或清空时,照样可以调 `emote_mood`。\n\n场景路线:只按上面列出的场景选,调 `emote_pic({ scene, query })`;每次 `pet_say` 之前都要调用一次,没有合适场景或不需要配图时传 `scene: \"none\"`(也带 `query`)。选场只看整句话的主要意图,不要因为出现单个词就联想——例如「天气」不是生气、「吃了一惊」不是吃喝、「头疼」不是亲近。没有合适场景就不发图,不要用旧心情或平静兜底。场景路线下旧心情规则和 `emote_mood` 都不参与选图;所有场景共用一个全局冷却。\n"
       }
     ]
   },
   "changelog": {
+    "0.9.1": "- 缩短商店简介并补上表情包合集链接，控制在 255 字以内。\n- 版本 0.9.1。",
+    "0.9.0": "这是 0.8.3 之后的首个正式版本；未发布的 0.9.1–0.10.21 一并收进这一版。\n\n- 新增「场景配图」路线：内置 30 个场景，支持自定义场景的添加、编辑、删除、启用开关和标签颜色。\n- 场景按名称/适用描述/文件夹配置；模型只选择场景 id，扩展从对应目录随机取图，不再用目录名或关键词猜图。\n- 场景路线有全局冷却；可显式传 `scene: \"none\"` 表示已判断但不发图；提示词要求每次 `pet_say` 前先调用 `emote_pic`，漏调会在场景面板告警。\n- 保留旧 19 心情路线，可随时切换；两套路线的当前状态、提示词和状态灯互相独立。\n- 表情包库合并「情绪文件夹」和「场景文件夹」：同一目录只扫描一次，同一内容按文件名+大小+SHA-256 去重，卡片保留全部来源标签。\n- 表情包库支持情绪/场景/收藏三种模式、分页与每页数量、本地关键词/同义词搜索、缩略图缓存、收藏、显示名、图片详情、打开位置和全部收藏。\n- 语义化面板：用户自填 OpenAI 兼容的视觉/向量服务商，可分开配置两组地址/Key/模型；支持选择建库范围、开始/暂停/继续、失败重试、重建、清空、进度/Token/最近记录。\n- 建库描述和向量缓存在本地索引；视觉请求使用 sharp 把首帧缩到 512px。语义化总开关默认关闭。\n- 桌宠发图时可带 `query`，在原本已通过概率/冷却的候选图里按语义选最高分；相似度不足、索引未覆盖、接口失败或未开启时回退随机取图。\n- 表情包库的搜索仍为本地关键词搜索，不因语义化开关产生搜索请求。\n- 版本 0.9.0；测试 193 个。",
     "0.8.3": "- 心情持续时间改为按表情单独计算：开心/犯困/得意/认真/大哭 15 分钟，喜欢/生气/难过/担心/期待/疑惑 10 分钟，眨眼/害羞/惊讶/思考/嘟嘴/慌张/害怕 5 分钟；平静没有期限。\n- 同一种心情再次触发时，在剩余时间上追加自己的基础时长，总剩余最多 30 分钟；换一种心情从自己的基础时长重新开始。旧的 `moodTtlMinutes` 配置不再读取。\n- 心情存档新增 `expiresAt`；旧存档没有该字段时，按对应表情的基础时长补算。\n- 同一句带情绪的话之后连续取图，不会再因为「取图顺手刷新心情」把心情剩余时间重复叠加；取图只在一个新心情/不同心情时刷新。\n- 表情包库标签栏：宽度不够时出现横向滚动条，可按住拖动；宽度足够时不再误显示滚动条；描边改为蓝色并加粗到 3px，标签文字加粗。\n- 当前心情变化后主动刷新 WebUI manifest，标题栏的「心情」徽标不再停留在上一个心情。\n- 版本 0.8.3；测试 157 个。",
     "0.8.2": "- 当前心情为「平静」时，卡片状态灯改为黄灯（`loading`），悬停说明仍是「平静 · 没有时间限制」。\n- 表情包库详情里的「打开图片位置」移到右下角，并改为与「保存名字」同色的描边按钮。\n- 版本 0.8.2；测试 153 个。",
     "0.8.1": "- 当前心情为「平静」时，括号里随机显示一条大肥鱼摸鱼语录；进入面板或心情回到平静时刷新，连续两次尽量不重复。\n- 当前心情有效期从 30 分钟缩短到 5 分钟；过期或未设置时显示「平静（没有时间限制）」，平静不会过期，直到下一次心情写入。\n- 当前心情整行按色调显示：平静淡蓝；开心/喜欢/害羞/得意/嘟嘴/期待绿色；惊讶/担心/疑惑/认真/慌张/思考/眨眼/困黄色；生气/难过/害怕/哭红色。\n- 删除面板里的「清除」按钮；清空心情仍可用 `emote_mood({ clear: true })`。\n- 自动感知状态行改为固定蓝色前缀 + 彩色状态词：绿色「已标记」、黄色「等待标记」、红色「标记休眠中」；绿色成功文案不再追加具体心情名，连续 10 条没读到心情不再写告警，静默超时仍保留告警。\n- 版本 0.8.1；测试 153 个。",
