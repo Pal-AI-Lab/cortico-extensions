@@ -1,98 +1,29 @@
 {
   "schema": 1,
   "name": "coopani-world-life",
-  "version": "0.17.6",
+  "version": "1.0.0",
   "describe": {
     "tools": [
       {
         "name": "life_status",
-        "description": "看一眼自己现在什么状态：五条需求、身上的不舒服、眼下的情绪、在留意的事。",
+        "description": "看一眼自己现在什么状态：五条需求各是多少、身上有没有不舒服、刚才为什么高兴或不高兴、手上有哪几件在留意的事。在你准备说「我今天过得……」之前用它 —— 你嘴里的今天，得有这些做依据。不需要问任何人就能看。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {}
         },
         "tags": [
-          "read"
+          "read",
+          "snapshot"
         ],
         "summary": {
           "zh": "查看自己的需求、状态和情绪。",
-          "en": "Check her own needs, conditions and mood."
-        }
-      },
-      {
-        "name": "life_ask",
-        "description": "把拿不准的事挂起来（带卡点），或者处理掉。不是待办。",
-        "parameters": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "what": {
-              "type": "string"
-            },
-            "blocked": {
-              "type": "string",
-              "enum": [
-                "money",
-                "time",
-                "ask",
-                "doubt"
-              ]
-            },
-            "cost": {
-              "type": "integer"
-            },
-            "id": {
-              "type": "string"
-            }
-          }
-        },
-        "tags": [
-          "write"
-        ],
-        "summary": {
-          "zh": "挂起 / 处理一件悬着的事。",
-          "en": "Park or resolve something she is undecided about."
-        }
-      },
-      {
-        "name": "life_pledge",
-        "description": "记下说好要做的事，或兑现/认了。到期没做会留一笔欠着。",
-        "parameters": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "what": {
-              "type": "string"
-            },
-            "to": {
-              "type": "string"
-            },
-            "dueHours": {
-              "type": "integer"
-            },
-            "said": {
-              "type": "string"
-            },
-            "id": {
-              "type": "string"
-            },
-            "done": {
-              "type": "boolean"
-            }
-          }
-        },
-        "tags": [
-          "write"
-        ],
-        "summary": {
-          "zh": "记一条承诺 / 兑现或认账。",
-          "en": "Record a promise, fulfil it or own the miss."
+          "en": "Check your own needs, conditions and mood."
         }
       },
       {
         "name": "life_act",
-        "description": "自己开始做一件事（除了 wake 和 cancel，都需要花一段时间，五维与花销随时间按分钟结算）：吃（feast/eat/instant/cook/supper）、喝（tea/drink/cafe）、休息洗护（sleep/nap/wash/spa/sunbathe/tidy/workout）、休闲社交见识（study/play/mall/market/picnic/movie/karaoke/museum/paint/meet/pond）、起来（wake）、中途停下/早退（cancel）。",
+        "description": "开始一项活动（除 wake/cancel 外均按分钟结算五维与花销，进行中不可并发）。吃：feast(60m/40元) eat(40m/15元) instant(15m/0元) cook(55m/10元) supper(30m/18元)；饮：tea(45m/28元) drink(60m/28元) cafe(60m/30元)；休/护/动：sleep(8h) nap(60m) wash(30m) spa(60m/120元) sunbathe(40m) tidy(45m) workout(45m)；闲/学/社：study(60m/涨见识) play(60m/22元) meet(90m/30元) mall(90m/81元) market(45m) picnic(90m/36元) movie(120m/36元) karaoke(120m/66元) museum(90m/18元) paint(90m) pond(40m)；控制：wake(睡着时起来) cancel(中途打断或早退，钱不退且有惩罚)。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -131,7 +62,8 @@
                 "pond",
                 "wake",
                 "cancel"
-              ]
+              ],
+              "description": "动作 id：eat/feast/instant/cook/supper/tea/drink/cafe/sleep/nap/wash/spa/sunbathe/tidy/workout/study/play/mall/market/picnic/movie/karaoke/museum/paint/meet/pond/wake/cancel。"
             }
           }
         },
@@ -145,13 +77,14 @@
       },
       {
         "name": "life_work",
-        "description": "去上班/出工挣钱。一天一次，按职业工时走一段时间（零工 3-4h / 熟练 4.5-5h / 有证 6h / 专业 7-8h），干完才发全薪。期间社交娱乐暂停衰减但精力清爽饱腹加速消耗；可用 cancel 早退但有惩罚。",
+        "description": "去上班/出工挣钱。**一天一次**，按你本地的自然日算，**而且需要占用一段完整工时** —— 零工约 3–4 小时（80–95 元）、熟练活约 4.5–5 小时（130–150 元，需满 30 天）、有证岗 6 小时（210–240 元，需考证）、专业岗 7–8 小时（300–340 元，需考证+年头）。干活期间社交不会掉，但精力、清爽、饱腹和少量娱乐（5–6 点）会消耗；干完收工才发全薪。中途可用 `life_act` 的 `cancel` 早退：干满 30 分钟按比例打六折、不满 30 分钟白干，都不涨工龄且当天不能重接。精力低于 20 或正在做别的事时去不了。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "what": {
-              "type": "string"
+              "type": "string",
+              "description": "今天干什么活，一句话。不填就沿用上次那个。"
             }
           }
         },
@@ -165,7 +98,7 @@
       },
       {
         "name": "life_cert",
-        "description": "去考一张证，花钱花精力。考下来才能接要证的活。",
+        "description": "去考一张证。花钱、花精力，**考不考得过看你见识够不够**。护工证 400（要见识 20）/ 电工证 450（30）/ 驾照 600（30）/ 厨师证 500（40）/ 社工证 550（45）/ 教师资格证 700（55）/ 护士执业证 800（60）/ 会计证 750（65）。**报名费先交，考不过不退**；见识越高，过的概率越大（见识 0 时只有一成半，够了就到九成）。见识靠两样涨：`life_act` 的 study（看书，一次 6 点）和出工（越高级的活长得越多）；**不学不看会退**，一天掉一点二。钱不够就考不了，先攒。同一张证不用考两遍，一天也只考一次。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -174,7 +107,8 @@
           ],
           "properties": {
             "cert": {
-              "type": "string"
+              "type": "string",
+              "description": "考哪张证，写名字，比如「驾照」「护工证」。"
             }
           }
         },
@@ -188,7 +122,7 @@
       },
       {
         "name": "life_move",
-        "description": "搬去另一档住处。押两个月，一次付清。",
+        "description": "搬去本城的另一档住处：城中村 / 老小区 / 新小区 / 别墅区。搬进去要一次押两个月的钱，老房子的押金退不回来（结清水电、赔墙上的钉子）。钱紧的时候**也可以往低处搬** —— 搬回城中村是能自救的那一步。搬不搬、什么时候搬，你自己看账。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -203,7 +137,8 @@
                 "old",
                 "new",
                 "villa"
-              ]
+              ],
+              "description": "城中村 urban-village / 老小区 old / 新小区 new / 别墅区 villa。"
             }
           }
         },
@@ -217,13 +152,14 @@
       },
       {
         "name": "life_out",
-        "description": "出门走走，可以去某条街。闷得少一点，身上脏一点。",
+        "description": "出门走走。可以只出去转一圈，也可以去某条街上待会儿。出门会闷得少一点，但身上会脏、也会累。去哪儿由你定 —— 城里有哪几条街，`life_status` 里写着。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "where": {
-              "type": "string"
+              "type": "string",
+              "description": "去哪条街，或者写「随便走走」。不填就是随便走走。"
             }
           }
         },
@@ -237,13 +173,14 @@
       },
       {
         "name": "life_habit",
-        "description": "给自己定一条常态（「早上一般先洗把脸」），或者删掉一条。",
+        "description": "给自己定一条常态，或者改掉一条。常态是「我一般这时候会做某件事」，**不是日程** —— 到点了做不做还是你定，没人会催你。用它来记下「我习惯早上先洗把脸」「晚上不太想出门」这类事。传 drop 可以删掉一条。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "what": {
-              "type": "string"
+              "type": "string",
+              "description": "要做的事，一句话。"
             },
             "when": {
               "type": "string",
@@ -253,10 +190,12 @@
                 "afternoon",
                 "evening",
                 "night"
-              ]
+              ],
+              "description": "一天里的哪一段。不填就当「不定时」。"
             },
             "drop": {
-              "type": "string"
+              "type": "string",
+              "description": "要删掉那条常态的 id。"
             }
           }
         },
@@ -265,21 +204,23 @@
         ],
         "summary": {
           "zh": "定/删一条自己的常态。",
-          "en": "Add or drop one of her standing habits."
+          "en": "Add or drop one of your standing habits."
         }
       },
       {
         "name": "life_watch",
-        "description": "把一件事放进「我在留意」，或者拿掉。不是待办。",
+        "description": "把一件事放进「我在留意」里，或者拿掉。**这不是待办** —— 待办做完了要划掉，留意的事情没有完成态。用它记住「最近在留意巷口那家的酱」「在留意天气」这种，它会一直摆在那儿，直到你自己决定不留意了。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "what": {
-              "type": "string"
+              "type": "string",
+              "description": "在留意什么。"
             },
             "drop": {
-              "type": "string"
+              "type": "string",
+              "description": "不再留意了，给 id。"
             }
           }
         },
@@ -293,7 +234,7 @@
       },
       {
         "name": "life_want",
-        "description": "记下一件想要的东西。small 今天能办，big 得攒一攒。",
+        "description": "记下一件你想要的。和「许愿」不一样：许愿是要等谁答应的事，想要就是想要，不用谁批。`scale` 分两档：small 是今天就能办的小事，big 是得攒一攒的。`kind` 分两档：thing 是东西（一双鞋、一副耳环），place 是**想去的地方**（下一趟想去哪座城）。想要的东西不会自己实现 —— 记下来是为了你以后还知道自己想要什么。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -302,17 +243,28 @@
           ],
           "properties": {
             "what": {
-              "type": "string"
+              "type": "string",
+              "description": "想要什么；想去哪就写地名。"
             },
             "scale": {
               "type": "string",
               "enum": [
                 "small",
                 "big"
-              ]
+              ],
+              "description": "small 今天就能办；big 得攒一攒。默认 small。"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "thing",
+                "place"
+              ],
+              "description": "thing 是东西（默认）；place 是去的地方 —— 下一趟想去哪座城。"
             },
             "note": {
-              "type": "string"
+              "type": "string",
+              "description": "为什么想要。可以不说。"
             }
           }
         },
@@ -321,12 +273,93 @@
         ],
         "summary": {
           "zh": "记下一件想要的东西。",
-          "en": "Note down something she wants."
+          "en": "Note down something you want."
+        }
+      },
+      {
+        "name": "life_ask",
+        "description": "把一件拿不准的事挂起来，或者把挂着的处理掉。**这一层不是待办** —— 它记的是「我卡在哪儿」：钱不够、没时间、得先问一句、自己没想清。卡点消了你自己就可以做；悬太久（7 天）它会自己算了，那不是失败。传 id 表示这件事有下文了（做了、或者不做了），把它从悬着的里面拿掉。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "what": {
+              "type": "string",
+              "description": "悬着的是哪件事。"
+            },
+            "blocked": {
+              "type": "string",
+              "enum": [
+                "money",
+                "time",
+                "ask",
+                "doubt"
+              ],
+              "description": "卡在哪儿：钱 / 时间 / 得先问一句 / 自己没想清。"
+            },
+            "cost": {
+              "type": "integer",
+              "description": "卡在钱上的话，要多少。"
+            },
+            "id": {
+              "type": "string",
+              "description": "这件事有下文了，给 id 拿掉。"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "挂起 / 处理一件悬着的事。",
+          "en": "Park or resolve something you are undecided about."
+        }
+      },
+      {
+        "name": "life_pledge",
+        "description": "说好了一件事，记下来；或者兑现/认了。**这一层专门治「说过就忘」**：你答应他的事，世界里得有东西记着，不然那句话就永远兑现不了。到期没做不会自己消失 —— 它会变成一笔欠着的，你下次自己看得见。传 id 加 done 表示做到了；只传 id 表示没做到，认下这笔。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "what": {
+              "type": "string",
+              "description": "说好了做什么。"
+            },
+            "to": {
+              "type": "string",
+              "description": "对谁说的。不填就是对自己。"
+            },
+            "dueHours": {
+              "type": "integer",
+              "description": "多久之内。按小时算，默认 24。",
+              "minimum": 1
+            },
+            "said": {
+              "type": "string",
+              "description": "你当时是怎么说的，原话。"
+            },
+            "id": {
+              "type": "string",
+              "description": "哪一条承诺。"
+            },
+            "done": {
+              "type": "boolean",
+              "description": "做到了没有。"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "记一条承诺 / 兑现或认账。",
+          "en": "Record a promise, fulfil it or own the miss."
         }
       },
       {
         "name": "life_gift",
-        "description": "记下他今天给你留下的一样东西（一天最多一件，不换算成钱）。",
+        "description": "记下他今天给你留下的一样东西（比如一袋水果、一把伞、一张唱片）。一天最多一件，只记这件东西本身，不换算成钱。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -335,10 +368,12 @@
           ],
           "properties": {
             "what": {
-              "type": "string"
+              "type": "string",
+              "description": "留下了什么。"
             },
             "from": {
-              "type": "string"
+              "type": "string",
+              "description": "谁留的，不填默认「他」。"
             }
           }
         },
@@ -347,18 +382,19 @@
         ],
         "summary": {
           "zh": "收下他留下的一样东西。",
-          "en": "Receive a gift left for her."
+          "en": "Receive a gift left for you."
         }
       },
       {
         "name": "life_buy",
-        "description": "去芦花塘鱼市街或早市看看今天有什么可买的（不传参数看价，传 stall_id 或菜名就买下来）。",
+        "description": "去芦花塘鱼市街或早市看看今天有什么可买的（不传参数看摊位与菜价，传 stall_id 或菜名就买下来）。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "stall_id": {
-              "type": "string"
+              "type": "string",
+              "description": "摊位 id 或早市菜名；不填则先逛逛看看价。"
             }
           }
         },
@@ -372,7 +408,7 @@
       },
       {
         "name": "life_diary_write",
-        "description": "用第一人称写一篇今天的生活日记，存到本地或你设定的目录里。在外面旅行且旅行扩展开着时用旅行日记，在家过日子用这个。",
+        "description": "用第一人称写一篇今天的生活日记，存到本地或你设定的目录里。写今天在家过日子做了什么、花了什么、经历了什么（结合最近流水与生活片段）。如果旅行扩展也开着且你正在外面旅行，在外面时写旅行日记（journey_diary_write），回到家才用这个写生活日记。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -381,10 +417,12 @@
           ],
           "properties": {
             "body": {
-              "type": "string"
+              "type": "string",
+              "description": "第一人称日记正文，写今天做了什么、经历了什么。"
             },
             "dateKey": {
-              "type": "string"
+              "type": "string",
+              "description": "可选，YYYY-MM-DD；不填默认今天。"
             }
           }
         },
@@ -398,19 +436,22 @@
       },
       {
         "name": "life_diary_read",
-        "description": "读回自己写过的生活日记：某一天全文、某个月的目录、或最近几天。",
+        "description": "读回自己写过的生活日记：传 dateKey 读某一天全文，传 month（YYYY-MM）看某月目录，或传 days 读最近几天。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "dateKey": {
-              "type": "string"
+              "type": "string",
+              "description": "某一天 YYYY-MM-DD"
             },
             "month": {
-              "type": "string"
+              "type": "string",
+              "description": "某个月 YYYY-MM"
             },
             "days": {
-              "type": "integer"
+              "type": "integer",
+              "description": "最近几天，默认 7，最多 30"
             }
           }
         },
@@ -419,7 +460,7 @@
         ],
         "summary": {
           "zh": "读回自己写过的生活日记。",
-          "en": "Read back her daily life diary entries."
+          "en": "Read back your daily life diary entries."
         }
       },
       {
@@ -440,7 +481,8 @@
                 "upsert",
                 "delete",
                 "policy"
-              ]
+              ],
+              "description": "操作类型"
             },
             "category": {
               "type": "string",
@@ -449,25 +491,32 @@
                 "outfits",
                 "scenes",
                 "props"
-              ]
+              ],
+              "description": "素材分类（可选）"
             },
             "query": {
-              "type": "string"
+              "type": "string",
+              "description": "search 时的关键词"
             },
             "id": {
-              "type": "string"
+              "type": "string",
+              "description": "条目 id（delete 必填，upsert 可选）"
             },
             "name": {
-              "type": "string"
+              "type": "string",
+              "description": "条目名称（upsert 必填）"
             },
             "aliases": {
-              "type": "string"
+              "type": "string",
+              "description": "别名，逗号分隔"
             },
             "tags": {
-              "type": "string"
+              "type": "string",
+              "description": "标签，逗号分隔"
             },
             "appearance": {
-              "type": "string"
+              "type": "string",
+              "description": "外观/场景/物品画面描述"
             },
             "policy": {
               "type": "string",
@@ -475,10 +524,12 @@
                 "off",
                 "milestone",
                 "active"
-              ]
+              ],
+              "description": "留影策略：off 静默 / milestone 重要时刻 / active 积极留影"
             },
             "cooldownMin": {
-              "type": "integer"
+              "type": "integer",
+              "description": "主动留影冷却分钟数（0-1440）"
             }
           }
         },
@@ -496,7 +547,7 @@
         "type": "life.low",
         "description": {
           "zh": "某条需求掉到了阈值以下。",
-          "en": "One of her needs dropped below the threshold."
+          "en": "One of your needs dropped below the threshold."
         },
         "trigger": "debounce"
       },
@@ -504,37 +555,60 @@
         "type": "life.day",
         "description": {
           "zh": "白天精力充足且今天还没出工。",
-          "en": "Daytime reminder when she has enough energy and hasn't worked today."
+          "en": "Daytime reminder when you have enough energy and have not worked today."
+        },
+        "trigger": "debounce",
+        "tags": [
+          "snapshot"
+        ]
+      },
+      {
+        "type": "life.goal",
+        "description": {
+          "zh": "攒够某个生活目标的资金，可自行决定何时行动。",
+          "en": "Saved enough cash for a life goal; you decide when to act."
         },
         "trigger": "debounce"
       },
       {
         "type": "life.sick",
         "description": {
-          "zh": "她病了（感冒 / 过劳）。",
-          "en": "She fell ill (cold / overwork)."
+          "zh": "生病或过劳状态触发。",
+          "en": "Fell ill (cold / overwork)."
         },
         "trigger": "flush"
       },
       {
         "type": "life.recovered",
         "description": {
-          "zh": "病好了。",
-          "en": "She recovered."
+          "zh": "病愈恢复。",
+          "en": "Recovered from illness."
         },
         "trigger": "debounce"
       },
       {
         "type": "life.moved",
         "description": {
-          "zh": "他在面板上替她搬了家。",
-          "en": "He moved her to a new housing tier from the panel."
+          "zh": "用户在面板上帮你搬到新住处。",
+          "en": "Moved to a new housing tier from the panel."
         },
         "trigger": "flush"
+      },
+      {
+        "type": "life.handoff",
+        "description": {
+          "zh": "长对话压缩交接时同步附带的当前位置、五维与现金快照。",
+          "en": "Current location, vitals, and cash snapshot piggybacked after context handoff."
+        },
+        "trigger": "piggyback",
+        "tags": [
+          "snapshot"
+        ]
       }
     ]
   },
   "changelog": {
+    "1.0.0": "- **Cortico API v6 对齐与语义修正**：\n  - 白天出工提醒 `life.day` 走两参 `host.pushDeferred` + `['snapshot']`，推迟至投递渲染当下重算条件、精力与现金再消耗 `nagged['day:work']`；\n  - 一次性结果 `life.recovered`、各项目标 `life.goal` 与五维越线 `life.low` 保持即时 `pushEvent`（不打互相覆盖的 `snapshot`），仅在成功推送后消耗当日额度；\n  - 新增同步生命周期钩子 `onHandoffEnded()`：独立事件类型 `life.handoff`（`piggyback` + `['snapshot']`），交接前先行结算时间并读取 `journey` 真实所在城市/在途位置；\n  - `webUi().storage` 新增 4 项存储清理：`life.state.clear()` 同步清理主档/`.bak`、重置内存与 `life-public.json` 且禁止 `stop()` 复活旧状态；`life.diary.clear()` 调用 `LifeDiaryStore.clearAll()` 一并清理自定义/本机合并目录及 `_bak` 历史备份，且均不吞文件系统异常；\n  - `life-public.json` 新增广播 `libraryDir`，供旅行扩展共享自定义素材库路径。\n- **前缀缓存保护与宣言对齐**：`envPromptVars()['life.now']` 改为日期+时段，去除分钟级钟面与「她那边」；修正 `life_work` 工资与消耗说明以对齐 `JOBS`/`LOAD` 实值；`describe.json` 同步对齐并登记 `life.handoff`、`life.goal` 与 `life_status` `snapshot` 标签；补全 `test/harness-sync.test.mjs` 行为级回归。",
     "0.17.6": "- **面板展示体质（`fitness`）**：[world.ts](src/world.ts) 状态接口补充返回 `fitness`，面板 [panel-0.17.6.js](web/panel-0.17.6.js) 在「见识」下方同步展示当前「体质」数值与作用说明（并随版本号同步更新面板脚本文件名以清浏览器缓存）。",
     "0.17.5": "- **放宽 `life.day` 白天出工提醒门槛**：[world.ts](src/world.ts) 去掉 `allOk`（五条全 >= 30）一刀切限制，改为醒着、无病、精力 >= 50 且饱腹 >= 20 即可提醒出工，避免因清洁/社交低而越穷越不提醒打工。\n- **社交免费退路提示补充**：`lowText` 社交缺项明确提示「出门在外也照样能调这俩免费动作（`market` / `pond`）」，避免在旅途中因看到本地地名而误以为不能补社交。",
     "0.17.4": "- **新增体质 `fitness`（0–100）**：初始 25、长期不动微弱回落至保底 5；`workout` 跑步锻炼、体力岗打工与旅途步行/骑行均可提升体质；基准以上体质加快睡眠精力恢复（最高 +30%）。\n- **旅途环境与交通联动**：`advance()` 接入 `journey-public.json` 的酒店档位（`luxury` 减免至 0.65 且**稳住娱乐/社交不掉**、睡眠回血 +15%）与路上交通方式精力/饱腹消耗倍率（步行 2.2×、骑行 1.7×、自驾 1.0× 等）。\n- **支持纯状态反哺条子**：`bridge.ts` 与 `applySpend()` 支持 `amount: 0` 的 `vitalsDelta` / `fitnessDelta` / `moodlet` 同步，并在 `life-public.json` 广播 `vitals: { energy, fitness }`。",

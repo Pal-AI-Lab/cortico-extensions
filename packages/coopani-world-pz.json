@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-pz",
-  "version": "0.7.9",
+  "version": "1.0.0",
   "describe": {
     "tools": [
       {
@@ -92,24 +92,132 @@
           "write"
         ],
         "summary": {
-          "zh": "读/写她自己的陪玩日记：这局怎么活的、死在哪一步、下回注意、还没想明白。",
-          "en": "Reads and writes her own survivor notebook, across runs."
-        }
-      },
-      {
-        "name": "pz_recipes",
-        "description": "What she could actually make right now, with the exact recipe names. The game itself checks ingredients, required skill, workbench and heat source, so this is \"genuinely possible now\", not \"theoretically craftable\". Ask this before crafting something specific: the names in the reply are what pz_play verb craft expects. Takes a second or two. An empty list is a real answer - she has nothing to work with where she stands.",
-        "summary": {
-          "zh": "现在能做哪些东西（材料、技能、工作台都由游戏判），带配方名，拿去喂给 pz_play 的 craft。",
-          "en": "What she can actually craft right now, with the recipe names to pass to craft."
+          "zh": "读或写自己的跨周目陪玩复盘笔记。",
+          "en": "Read and write your own survivor notebook across runs."
         }
       },
       {
         "name": "pz_play",
-        "description": "Not available in this version. The play pipeline is still being tested; the extension does not expose the switch. Calling this returns not-authorized.",
+        "description": "Execute one survivor action when \"allowPlay\" is enabled and `hands.on` is false. Verbs: walk/face/attack/take/door/eat/drink/cook/craft/look/equip/menu/pick/squad/order/recruit/guide/dog/dogo/dogwait/dogfree/stop/guard. Use `menu` to inspect right-click interactions at your tile and `pick` by index; `look` reads containers without opening UI; `attack` is for active engagement (close-range auto-reflex already handles threats within 2 tiles unless guard=false). Issuing returns command acceptance only — check `busy` and coordinates in `pz_state` before queuing the next move. If the user verbally asks you to stop or hand control back, pass verb=\"stop\" with hold=true and do not act again until explicit verbal permission with resume=true.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "verb"
+          ],
+          "properties": {
+            "verb": {
+              "type": "string",
+              "enum": [
+                "walk",
+                "face",
+                "attack",
+                "take",
+                "door",
+                "eat",
+                "drink",
+                "cook",
+                "craft",
+                "stop",
+                "guard",
+                "look",
+                "equip",
+                "menu",
+                "pick",
+                "squad",
+                "order",
+                "recruit",
+                "guide",
+                "dog",
+                "dogo",
+                "dogwait",
+                "dogfree"
+              ],
+              "description": "Action verb to queue."
+            },
+            "x": {
+              "type": "number",
+              "description": "World X (walk / face / take / look / guide / dogo / optional door)."
+            },
+            "y": {
+              "type": "number",
+              "description": "World Y (walk / face / take / look / guide / dogo / optional door)."
+            },
+            "stance": {
+              "type": "string",
+              "enum": [
+                "walk",
+                "run",
+                "sneak"
+              ],
+              "description": "Movement stance (default walk)."
+            },
+            "objIdx": {
+              "type": "integer",
+              "description": "Container object index on square from pz_state/look (take only)."
+            },
+            "itemIdx": {
+              "type": "integer",
+              "description": "Item index inside container (take only)."
+            },
+            "recipe": {
+              "type": "string",
+              "description": "Exact recipe name copied verbatim from pz_recipes (craft only)."
+            },
+            "index": {
+              "type": "integer",
+              "description": "Menu option index from pz_state menu.list[].i (pick only)."
+            },
+            "id": {
+              "type": "string",
+              "description": "Squad NPC id from pz_state squad.list[].id (order / recruit / guide)."
+            },
+            "job": {
+              "type": "string",
+              "description": "order job: follow, hold, guard, patrol, explore, farm, relax, sort, corpses, auto, fish, clean, cook, chop, dismantle, medic."
+            },
+            "on": {
+              "type": "boolean",
+              "description": "guard reflex switch: true (default) auto-swings within 2 tiles; false pauses auto-swing."
+            },
+            "ttlSeconds": {
+              "type": "integer",
+              "description": "Command expiry in seconds (3-120, default 25).",
+              "minimum": 3,
+              "maximum": 120
+            },
+            "hold": {
+              "type": "boolean",
+              "description": "Set true with verb=\"stop\" to pause autonomous actions until explicit verbal resume=true."
+            },
+            "resume": {
+              "type": "boolean",
+              "description": "Set true only after user explicitly grants control back to clear verbal hold."
+            }
+          }
+        },
+        "tags": [
+          "act"
+        ],
         "summary": {
-          "zh": "（这一版未开放）让她在游戏里做一个动作。",
-          "en": "(not available in this version) Make her do one thing in the game."
+          "zh": "在游戏内执行一项操作（默认只陪聊，需手动开启 worlds.pz.allowPlay 授权）。",
+          "en": "Execute one survivor action in game when play permission is enabled."
+        }
+      },
+      {
+        "name": "pz_recipes",
+        "description": "Query genuinely craftable recipes right now (checks inventory, skills, workbench and heat source). Always check before `pz_play` verb `craft` and copy names verbatim. An empty list means nothing can be crafted where you stand. This read-only query asks the bridge to scan; it never crafts, but is refused while verbal hold is active.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查询当前可制作配方及准确名称，供 pz_play craft 使用。",
+          "en": "List recipes you can actually craft right now."
         }
       }
     ],
@@ -120,7 +228,10 @@
           "zh": "他进游戏了。",
           "en": "A save was loaded."
         },
-        "trigger": "flush"
+        "trigger": "flush",
+        "tags": [
+          "snapshot"
+        ]
       },
       {
         "type": "pz.day.start",
@@ -165,42 +276,45 @@
       {
         "type": "pz.need",
         "description": {
-          "zh": "他自己的状态跨了一档：饿、渴、累、体力、疼、惊恐、压力、心情、无聊。",
-          "en": "One of his own condition stats crossed a band: hunger, thirst, fatigue, stamina, pain, panic, stress, mood, boredom."
+          "zh": "他自己的状态跨了一档（饿、渴、累、体力、疼、惊恐、压力、心情、无聊）。",
+          "en": "One of his own condition stats crossed a band."
         },
         "trigger": "flush"
       },
       {
         "type": "pz.weapon",
         "description": {
-          "zh": "手上的武器耐久见底了（20% 以下，5% 以下会再报一次）。",
-          "en": "The weapon in hand is nearly worn out: under 20%, and again under 5%."
-        },
-        "trigger": "flush"
-      },
-      {
-        "type": "pz.tv",
-        "description": {
-          "zh": "前期电视上有技能课（Life and Living TV）：烹饪、木工、钓鱼、农业、采集。开播前 30 分钟到开播后 60 分钟之间提一次，一天最多一次，第 5 天之后不提。",
-          "en": "A free skill programme is on or starting soon on Life and Living TV. Mentioned once a day, first five days only."
+          "zh": "手上的武器耐久见底了。",
+          "en": "The weapon in hand is nearly worn out."
         },
         "trigger": "flush"
       },
       {
         "type": "pz.play",
         "description": {
-          "zh": "轮到她决定下一步了（设置里开了「让她自己动手玩」）。",
-          "en": "It is her turn to decide the next move; the play switch is on."
+          "zh": "轮到决定下一步动作（需手动开启 worlds.pz.allowPlay 授权）。",
+          "en": "It is your turn to decide the next move when play permission is enabled."
         },
         "trigger": "flush"
       },
       {
         "type": "pz.loot",
         "description": {
-          "zh": "他正打开的那个容器里有值得停一下的东西（大锤、发电机、好武器、工具、背包、光源、车钥匙）。只看他已经打开的那一个，不预告没翻过的地方。",
-          "en": "The container he has open holds something worth pausing for. Only the one he opened - never a room he has not searched."
+          "zh": "他正打开的那个容器里有值得停一下的东西（只看已经打开的那一个）。",
+          "en": "The container he has open holds something worth pausing for. Only the one he opened."
         },
         "trigger": "flush"
+      },
+      {
+        "type": "pz.tv",
+        "description": {
+          "zh": "前期电视上有技能课（Life and Living TV），一天最多提一次，第 5 天之后不提。",
+          "en": "A skill programme is on or about to start on Life and Living TV. Once a day, first five days only."
+        },
+        "trigger": "flush",
+        "tags": [
+          "snapshot"
+        ]
       },
       {
         "type": "pz.infected",
@@ -232,7 +346,10 @@
           "zh": "清单里那条还悬着（没水、没绷带、武器快断这类），隔一阵提醒一次，换着说法。",
           "en": "A checklist item is still open; a periodic nudge, reworded each time."
         },
-        "trigger": "flush"
+        "trigger": "flush",
+        "tags": [
+          "snapshot"
+        ]
       },
       {
         "type": "pz.setup",
@@ -241,10 +358,22 @@
           "en": "Environment problem: no save dir, mod not installed, or no data at all."
         },
         "trigger": "flush"
+      },
+      {
+        "type": "pz.handoff",
+        "description": {
+          "zh": "用户交接（handoff）结束时顺路搭车（piggyback）补齐当前局内或连接状态的最新快照。",
+          "en": "Piggybacked game or connection snapshot after user handoff ends."
+        },
+        "trigger": "piggyback",
+        "tags": [
+          "snapshot"
+        ]
       }
     ]
   },
   "changelog": {
+    "1.0.0": "- **前缀大瘦身（12,561 → ≤2,800 字）**：`ENV_PROMPT.md` 聚焦观察边界、响应分寸与核心操作门禁；将 23 verb 详表、新手成长路线与武器评级按需下沉到开局提示与 `pz_tips` / `pz_recipes` / `pz_play` 工具说明及回执；未开局时 `pz.now` / `pz.journal` 精简展示（常驻不返回 null）。\n- **摘除废弃词表调用与人称清洗**：移除启动与回合中已废弃的 `readVocab()` 调用及冗余 warn；收敛 `PERSONA_TEXT` 为仅调节陪玩提醒敏感度；全量消除 `describe.json` 与工具描述第三人称并从源码重构生成同步 `describe.json`（补全 `pz_play` / `pz_recipes` 的 `parameters` 与 `tags`）。\n- **Cortico API v6 对齐**：非紧急状态提醒事件（`pz.nudge`、`pz.tv`）接入两参 `host.pushDeferred` + `['snapshot']` 标签并在投递时校验 `link === 'ok'` 与刷新当前局内时刻/血量，一次性历史事实（`pz.kill`、`pz.day.start`）保持即时 `pushEvent` 不丢失；新增同步 `onHandoffEnded()`（独立 `pz.handoff` 事件，`piggyback` + `['snapshot']`，严格区分 `link === 'ok'` 与 `'stale'`）及 `webUi().storage`（`pz-journal.md`、`pz-judge.json`）；修正 `package.json` 关于实验性自主操作配置项 `worlds.pz.allowPlay` 的说明。",
     "0.7.8": "- 两个工具的 `tags` 去掉非法的 `'game'`（`ToolTag` 只有 read / write / speak / act / flow / snapshot；\n  `game` 是**扩展分类**，不能写在工具声明上）。\n- `TOOL_DECLS` 补上 `pz_play` / `pz_recipes` —— 宿主校验的是这个 JS 对象，漏两条就一直报 WARN。\n- `test/lua-syntax.test.mjs` 改用 `import.meta.url` 定位，不再依赖 CWD（之前从别处跑会 ENOENT）。\n- `ENV_PROMPT.md` 的动作数从「十个」改成**实际 23 个**（表里保留常用十个，其余点名，不编语义）。\n- 测试 **176/176**（原来 175/176）。",
     "0.7.7": "**面板底部加了一块「扩展名旁边那三盏灯怎么看？」**\n\n灯是宿主画在扩展名旁边的，原因只在悬停时出现 —— 没人知道要悬停。\n最底下加一个默认折叠的说明：绿=上次是好的 / 灰=没启用，不是坏了 / 红=读得到但不对。\n最后一行列出三盏灯各管什么（游戏、桥接、日记）。\n\n颜色走宿主的 `--ink / --ink-soft / --line` + 兜底（这个文件的规矩），只有红是硬编码的 ——\n宿主没提供 error 色。",
     "0.7.6": "市集用户的反馈：看不懂灯灰了是什么意思。\n\n- **桥接**（灰）：「还没检查（游戏目录没找到之前不装）。」← 说了原因，没说要不要管 →\n  补成「还没检查过 —— 先开一次游戏，它会自己去找目录。」",

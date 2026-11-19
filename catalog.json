@@ -1728,7 +1728,7 @@
     },
     "@wocwang/cortico-world-rvc-for-coopanion": {
       "kind": "world",
-      "version": "0.4.58",
+      "version": "0.4.61",
       "displayName": "RVC唱歌-大肥鱼",
       "description": "Cortico World for Coopanion: voice conversion with RVC — upload any audio and get it back in the pet's voice, plus a local HTTP endpoint (127.0.0.1:9881) for other plugins",
       "locales": {
@@ -1763,8 +1763,8 @@
         "win32"
       ],
       "created": "2026-10-29T02:52:41.041Z",
-      "published": "2026-11-19T04:44:56.615Z",
-      "versionCount": 28,
+      "published": "2026-11-19T15:27:47.708Z",
+      "versionCount": 29,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2198,17 +2198,17 @@
     },
     "coopani-world-fish-ride": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "1.0.2",
       "displayName": "鱼鱼出行",
-      "description": "鱼鱼出行 · 给《大肥鱼环游世界》配套的随行打车软件：在当前城市帮她叫快车、专车或包车，车费自动记进旅行账本，也会写进当天日记里。（需 Coopani 0.2.17+、journey 1.2.1+）",
+      "description": "需 Coopani 0.2.17+、journey 1.12.17+：鱼鱼出行，给《大肥鱼环游世界》配套的打车/包车 App；读取城市与预算，车费进旅行总花费，日记留下这一程。",
       "locales": {
         "zh": {
           "displayName": "鱼鱼出行",
-          "description": "给《大肥鱼环游世界》配套的打车小助手，出门在外不用自己苦哈哈暴走啦。（需要 Coopani 0.2.17+、大肥鱼环游世界 1.2.1+）\n\n- **随叫随到**：根据她此刻所在的城市，挑选快车、专车或包车，还能选喜欢的车型与价位。\n- **账本与日记同步**：打车花掉的钱会自动记入旅行总花销，坐过哪趟车也会写进她当天的旅行日记里，首页还会出现「正在打车」的小卡片。"
+          "description": "需 Coopani 0.2.17+、journey 1.12.17+。给《大肥鱼环游世界》配套的打车 App：按当前城市叫快车、专车或包车，选车型和价位；车费通过正式桥接记进旅行总花费，日记里也会留下今天叫车的经历。"
         },
         "en": {
           "displayName": "Fish Ride",
-          "description": "A handy ride-hailing companion for Big Fish World Tour so she doesn't have to walk everywhere. (Needs Coopani 0.2.17+ and journey 1.2.1+)\n\n- **Hail a ride anytime**: pick an express, premier, or charter car right in her current city.\n- **Synced with her trip**: fares automatically flow into her travel budget and daily diary, with a live ride card on the home panel."
+          "description": "Requires Coopani 0.2.17+ and journey 1.12.17+. A ride-hailing companion for Big Fish World Tour: hail a taxi or charter a car in her current city, pick a tier and car model; the fare is bridged into the trip ledger and written into her diary."
         }
       },
       "author": "Laffey & Coo",
@@ -2231,8 +2231,8 @@
         "npm": "https://www.npmjs.com/package/coopani-world-fish-ride"
       },
       "created": "2026-11-15T10:14:20.368Z",
-      "published": "2026-11-17T14:03:32.851Z",
-      "versionCount": 4,
+      "published": "2026-11-19T14:45:03.194Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2257,10 +2257,15 @@
       },
       "changelog": {
         "versions": [
+          "1.0.2",
+          "1.0.1",
+          "1.0.0",
+          "0.1.4",
+          "0.1.3",
           "0.1.2",
           "0.1.1"
         ],
-        "url": "https://unpkg.com/coopani-world-fish-ride@0.1.3/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-fish-ride@1.0.2/CHANGELOG.md"
       },
       "discussion": {
         "number": 951,
@@ -2272,7 +2277,7 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "1.12.18",
+      "version": "2.0.0",
       "displayName": "大肥鱼环游世界",
       "description": "大肥鱼环游世界 · 让桌宠真的出门去旅行：走遍 193 座城市，路上耗着真实时间、按当地作息吃饭看日出、写旅行日记，还能在城里偶遇别人的宠物、月底生成一份手账。（需 Coopani 0.2.17+）",
       "locales": {
@@ -2310,8 +2315,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-18T13:00:35.514Z",
-      "versionCount": 186,
+      "published": "2026-11-19T14:24:10.656Z",
+      "versionCount": 187,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2335,12 +2340,13 @@
       },
       "summary": {
         "tools": 25,
-        "events": 19,
-        "toolTokens": 8754,
+        "events": 20,
+        "toolTokens": 4281,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "2.0.0",
           "1.12.18",
           "1.12.17",
           "1.12.16",
@@ -2554,7 +2560,7 @@
     },
     "coopani-world-life": {
       "kind": "world",
-      "version": "0.17.6",
+      "version": "1.0.0",
       "displayName": "模拟鱼生",
       "description": "模拟鱼生 · 给她一个小日子：会饿会困会闷、自己出门打工挣钱、看书考证、从城中村一步步攒钱搬进新家，还会用第一人称写下每天的生活日记。（需 Coopani 0.2.17+）",
       "locales": {
@@ -2590,8 +2596,8 @@
         "bugs": "https://github.com/fateSSD/coopani-world-life/issues"
       },
       "created": "2026-11-15T03:01:26.063Z",
-      "published": "2026-11-18T11:56:51.669Z",
-      "versionCount": 35,
+      "published": "2026-11-19T14:25:27.431Z",
+      "versionCount": 36,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2610,12 +2616,13 @@
       },
       "summary": {
         "tools": 16,
-        "events": 5,
-        "toolTokens": 1653,
+        "events": 7,
+        "toolTokens": 3027,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.0.0",
           "0.17.6",
           "0.17.5",
           "0.17.4",
@@ -2656,17 +2663,17 @@
     },
     "coopani-world-music": {
       "kind": "world",
-      "version": "0.7.5",
+      "version": "1.0.0",
       "displayName": "一起听歌",
-      "description": "一起听歌 · 桌宠陪你一起听歌的小伴侣：实时知道 QQ 音乐和网易云在放哪首歌，跟着真实鼓点摇摆、聊刚唱过的歌词、记住你的听歌口味，还能听出调性和乐器。（Windows 10/11，需 Coopani 0.2.16+）",
+      "description": "一起听歌（Windows 10/11，需 Coopani 0.2.16+）· 桌宠陪你一起听歌的小伴侣：实时知道 QQ 音乐和网易云在放哪首歌，跟着真实鼓点摇摆、聊刚唱过的歌词、记住你的听歌口味，还能听出调性和乐器。",
       "locales": {
         "zh": {
           "displayName": "一起听歌",
-          "description": "让桌宠坐在桌角陪你一起听歌，而不是各听各的。（支持 Windows 10/11，需要 Coopani 0.2.16+）\n\n- **切歌就搭话，不吵不闹**：在 QQ 音乐或网易云按下播放，她几秒后就能认出歌名与歌手，结合刚唱过的歌词和你随口聊几句；你回她就接着聊，不回也不催。\n- **踩着真鼓点跳舞**：她不是按固定节拍瞎晃，而是跟着歌曲副歌真实的鼓点起伏律动（自带「律动版大肥鱼」形象包，装完去换装页选一下即可）。\n- **真的听得懂曲子**：支持云端（填 API 密钥即可）或本地模型两种深听方式，能听出调性、和弦、旋律走向与主要乐器。\n- **记住你的品味**：帮你记下每日听歌记录、常听歌手与她自己的听歌口味档案，也可以由她帮你挑一首想听的歌、或在你说「暂停/切歌」时搭把手。\n- **和旅行联动**：装了「大肥鱼环游世界」时，歌名里带的地名（比如《成都》）会被她放进「想去」清单里，哪天说不定就照着歌单出发去旅行啦。"
+          "description": "支持 Windows 10/11，需要 Coopani 0.2.16+。\n\n让桌宠坐在桌角陪你一起听歌，而不是各听各的。\n\n- **切歌就搭话，不吵不闹**：在 QQ 音乐或网易云按下播放，她几秒后就能认出歌名与歌手，结合刚唱过的歌词和你随口聊几句；你回她就接着聊，不回也不催。\n- **踩着真鼓点跳舞**：她不是按固定节拍瞎晃，而是跟着歌曲副歌真实的鼓点起伏律动（自带「律动版大肥鱼」形象包，装完去换装页选一下即可）。\n- **真的听得懂曲子**：支持云端（填 API 密钥即可）或本地模型两种深听方式，能听出调性、和弦、旋律走向与主要乐器。\n- **记住你的品味**：帮你记下每日听歌记录、常听歌手与她自己的听歌口味档案，也可以由她帮你挑一首想听的歌、或在你说「暂停/切歌」时搭把手。\n- **和旅行联动**：装了「大肥鱼环游世界」时，歌名里带的地名（比如《成都》）会被她放进「想去」清单里，哪天说不定就照着歌单出发去旅行啦。"
         },
         "en": {
           "displayName": "Listen With Me",
-          "description": "A cozy companion who listens to music right beside you on Windows 10/11. (Needs Coopani 0.2.16+)\n\n- **Natural song chats**: automatically detects tracks in QQ Music and NetEase Cloud Music, chats about the lines just sung, and never nags if you stay quiet.\n- **Moves to the real beat**: dances in sync with the actual drums and chorus energy (includes a grooved Big Fish figure pack—just select it on the dress-up page).\n- **Truly hears the music**: optional cloud or local deep listening picks up keys, chords, melodies, and instruments.\n- **Remembers your taste**: keeps your listening history, favorite artists, and her own music notes.\n- **Travel tie-in**: with Big Fish World Tour installed, place names in your songs quietly inspire her next travel destination."
+          "description": "Windows 10/11, needs Coopani 0.2.16+.\n\nA cozy companion who listens to music right beside you.\n\n- **Natural song chats**: automatically detects tracks in QQ Music and NetEase Cloud Music, chats about the lines just sung, and never nags if you stay quiet.\n- **Moves to the real beat**: dances in sync with the actual drums and chorus energy (includes a grooved Big Fish figure pack—just select it on the dress-up page).\n- **Truly hears the music**: optional cloud or local deep listening picks up keys, chords, melodies, and instruments.\n- **Remembers your taste**: keeps your listening history, favorite artists, and her own music notes.\n- **Travel tie-in**: with Big Fish World Tour installed, place names in your songs quietly inspire her next travel destination."
         }
       },
       "author": "Mr.Q",
@@ -2694,8 +2701,8 @@
         "win32"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-11-17T14:04:14.087Z",
-      "versionCount": 62,
+      "published": "2026-11-19T14:33:52.167Z",
+      "versionCount": 63,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2723,12 +2730,13 @@
       },
       "summary": {
         "tools": 10,
-        "events": 10,
-        "toolTokens": 2579,
+        "events": 11,
+        "toolTokens": 2578,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.0.0",
           "0.7.4",
           "0.7.3",
           "0.7.2",
@@ -2800,22 +2808,22 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/384",
         "up": 3,
         "down": 0,
-        "comments": 7
+        "comments": 8
       }
     },
     "coopani-world-pz": {
       "kind": "world",
-      "version": "0.7.9",
+      "version": "1.0.0",
       "displayName": "僵毁陪玩",
-      "description": "僵毁陪玩 · 让桌宠陪你一起打《僵尸毁灭工程》：天黑催你回家、被尸群围住提醒你跑、翻到好武器替你高兴，打开开关还能亲自上阵帮你清丧尸、捡物资。（Windows，需 Coopani 0.2.17+）",
+      "description": "Coopani 0.2.17+ · 僵毁陪玩（Windows）· 让桌宠陪你一起打《僵尸毁灭工程》：天黑催你回家、被尸群围住提醒你跑、翻到好武器替你高兴；默认只陪聊、设置页不提供自动操作开关，实验性自主操作仅供手动配置 worlds.pz.allowPlay: true 开启。",
       "locales": {
         "zh": {
           "displayName": "僵毁陪玩",
-          "description": "给你的《僵尸毁灭工程》配一个真正懂局势的桌宠队友！她读的是游戏内部真实状态，不靠截屏也不剧透。（支持 Windows，需要 Coopani 0.2.17+）\n\n- **实时盯着战况**：天要黑了催你回屋、周围丧尸多起来提醒你留神、掉血或被咬时会心疼又急着问伤口；当你亲手翻出大锤、发电机或好武器时，她也会跟着兴奋。\n- **连你的状态也一起记挂**：饿了、渴了、累了、武器快磨坏了，甚至前期电视上有免费技能节目（Life and Living TV）她都会顺口提醒一句。\n- **四种性格随便挑**：毒舌队友、稳重搭档、慌里慌张的学妹，或者平时损你、危急时刻瞬间严肃的「按局面切换」。\n- **平时不动手，开开关能陪打**：默认只陪聊不抢鼠标；如果你打开「让她自己动手玩」，她还能亲自操控角色走位、清身边丧尸、从打开的柜子里帮忙拿东西。\n- **装起来很省心**：首次启动会自动把桥接小 mod（CoopaniBridge）放进 Zomboid/mods/，在游戏模组列表勾一次启用就能用。"
+          "description": "Coopani 0.2.17+ · 在 Windows 上给你的《僵尸毁灭工程》配一个真正懂局势的桌宠队友！她读的是游戏内部真实状态，不靠截屏也不剧透。\n\n- **实时盯着战况**：天要黑了催你回屋、周围丧尸多起来提醒你留神、掉血或被咬时会心疼又急着问伤口；当你亲手翻出大锤、发电机或好武器时，她也会跟着兴奋。\n- **连你的状态也一起记挂**：饿了、渴了、累了、武器快磨坏了，甚至前期电视上有免费技能节目（Life and Living TV）她都会顺口提醒一句。\n- **四种性格随便挑**：毒舌队友、稳重搭档、慌里慌张的学妹，或者平时损你、危急时刻瞬间严肃的「按局面切换」。\n- **默认只陪聊不抢鼠标**：平时绝不干扰操作；实验性自主操作模式可通过配置文件 `worlds.pz.allowPlay: true` 开启（暂未开放设置页开关）。\n- **装起来很省心**：首次启动会自动把桥接小 mod（CoopaniBridge）放进 Zomboid/mods/，在游戏模组列表勾一次启用就能用。"
         },
         "en": {
           "displayName": "Project Zomboid Companion",
-          "description": "Bring a desktop teammate into Project Zomboid! She reads live game state directly—no screen capture, no spoilers. (Windows, needs Coopani 0.2.17+)\n\n- **Always watching out for you**: reminds you when dusk is falling, warns when zombies close in, reacts when you get bitten or injured, and celebrates when you find a sledgehammer or generator in a container.\n- **Notices how you feel**: keeps an eye on your hunger, thirst, fatigue, panic, and weapon durability, plus reminds you about free Life and Living TV shows early on.\n- **Four personalities**: pick from snarky teammate, steady partner, jumpy underclassman, or serious-mode-only.\n- **Optional hands-on help**: flip on the auto-play switch if you want her to walk, fight nearby zombies, and grab loot alongside you.\n- **Zero-hassle setup**: automatically places the CoopaniBridge Lua mod into Zomboid/mods/—just enable it once in-game."
+          "description": "Coopani 0.2.17+ · Bring a desktop teammate into Project Zomboid on Windows! She reads live game state directly—no screen capture, no spoilers.\n\n- **Always watching out for you**: reminds you when dusk is falling, warns when zombies close in, reacts when you get bitten or injured, and celebrates when you find a sledgehammer or generator in a container.\n- **Notices how you feel**: keeps an eye on your hunger, thirst, fatigue, panic, and weapon durability, plus reminds you about free Life and Living TV shows early on.\n- **Four personalities**: pick from snarky teammate, steady partner, jumpy underclassman, or serious-mode-only.\n- **Hands-off by default**: never touches your controls unless experimental auto-play is explicitly enabled in config (`worlds.pz.allowPlay: true`).\n- **Zero-hassle setup**: automatically places the CoopaniBridge Lua mod into Zomboid/mods/—just enable it once in-game."
         }
       },
       "author": "Mr.Q",
@@ -2840,8 +2848,8 @@
         "win32"
       ],
       "created": "2026-11-07T10:43:28.721Z",
-      "published": "2026-11-17T14:03:21.378Z",
-      "versionCount": 24,
+      "published": "2026-11-19T14:25:31.374Z",
+      "versionCount": 25,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2862,12 +2870,13 @@
       },
       "summary": {
         "tools": 6,
-        "events": 16,
-        "toolTokens": 954,
+        "events": 17,
+        "toolTokens": 1682,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.0.0",
           "0.7.8",
           "0.7.7",
           "0.7.6",
@@ -6186,7 +6195,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/11",
         "up": 0,
         "down": 0,
-        "comments": 5
+        "comments": 6
       }
     },
     "cortico-world-bilibili-video": {
@@ -12572,17 +12581,17 @@
     },
     "cortico-world-fun": {
       "kind": "world",
-      "version": "0.2.1",
+      "version": "0.3.0",
       "displayName": "娱乐时间",
       "description": "娱乐时间 —— 给 Coopanion 桌宠二十处真能去逛的地方：游乐场、海洋馆、庙会、漫展、电影院、动物园、公园、电玩城、KTV、博物馆、猫咖、爬山、咖啡店、奶茶店、餐厅、图书馆、夜市、澡堂、旧货市场、江边。进门、逛摊位、买纪念品、拍张照、吃喝点什么，收摊记一笔。能和「鱼的每一天」「生图工作室」联动，但都不依赖。",
       "locales": {
         "zh": {
           "displayName": "娱乐时间",
-          "description": "给 Coo 二十处能真去逛的地方：游乐场、海洋馆、庙会、漫展、电影院、动物园、公园、电玩城、KTV、博物馆、猫咖、爬山、咖啡店、奶茶店、餐厅、图书馆、夜市、澡堂、旧货市场、江边。她说一声进门，一处一处地逛项目、抽个签、买点纪念品、拍张照、喝杯奶茶，收摊时回执把这一趟收成一句话，接着去记进自己的日程。\n\n能和别的插件联动，但都不依赖：装了「鱼的每一天」时，日程叫醒里会顺手提到这块、收摊回执也会提醒她去 feast_life_play 记一笔；咖啡店、奶茶店、餐厅、夜市吃的东西去「鱼的每一天」点一道，那里才有九维口感、香气和余韵——没装就只知道喝了杯奶茶，不编味道。装了「生图工作室」时，收摊回执会告诉她发图该填哪个 scene、哪身衣服；素材库里没有的那几处会明说不用填，绝不替她编一个不存在的场景名。这些插件一个都不装也照样能逛，库挪走了也不影响。"
+          "description": "给 Coo 二十处能真去逛的地方：游乐场、海洋馆、庙会、漫展、电影院、动物园、公园、电玩城、KTV、博物馆、猫咖、爬山、咖啡店、奶茶店、餐厅、图书馆、夜市、澡堂、旧货市场、江边。她说一声进门，一处一处地逛项目、抽个签、买点纪念品、拍张照、喝杯奶茶，收摊时回执把这一趟收成一句话，接着去记进自己的日程。\n\n能和别的插件联动，但都不依赖：装了「鱼的每一天」时，日程叫醒里会顺手提到这块、收摊回执也会提醒她去 feast_life_play 记一笔；咖啡店、奶茶店、餐厅、夜市吃的东西去「鱼的每一天」点一道，那里才有九维口感、香气和余韵——没装就只知道喝了杯奶茶，不编味道。装了「生图工作室」时，收摊回执会告诉她发图该填哪个 scene、哪身衣服；素材库里没有的那几处会明说不用填，绝不替她编一个不存在的场景名。这些插件一个都不装也照样能逛，库挪走了也不影响。\n\n0.3.0 新增用户自填剧情包、两站出游、未完行程恢复、长期探索档案与可检索的出游手账。四个面板配原创地点插画、沿途时间线和纪念品图标。用户剧情与地点配置独立保存，预设只提供少量可停用示例，自填地点无剧情也可正常游玩。"
         },
         "en": {
           "displayName": "Fun time",
-          "description": "Twenty places she can actually go: an amusement park, an aquarium, a temple fair, a fan convention, a cinema, a zoo, a park, an arcade, a karaoke box, a museum, a cat cafe, a hike, a coffee shop, a bubble-tea stand, a restaurant, a library, a night market, a bathhouse, a flea market and a riverside walk. She walks in, wanders one spot at a time, buys a souvenir, takes a photo, has something to eat or drink, and the closing receipt sums the trip up in one line she can log into her own day.\n\nWorks alongside other plugins but depends on none. With Fish Every Day installed, the own-time menu points at this world and the closing receipt reminds her to log the trip with feast_life_play; food and drink at the coffee shop, tea stand and restaurant are meant to be ordered from Fish Every Day, where the nine-axis flavour profile and aroma actually live — without it she only knows she had a bubble tea, and she is told not to invent how it tasted. With the image studio installed, the receipt names the scene and outfit to draw; venues the library does not have are marked as such instead of inventing a name. None of them are required, and it still works if the image library is gone."
+          "description": "Twenty places she can actually go: an amusement park, an aquarium, a temple fair, a fan convention, a cinema, a zoo, a park, an arcade, a karaoke box, a museum, a cat cafe, a hike, a coffee shop, a bubble-tea stand, a restaurant, a library, a night market, a bathhouse, a flea market and a riverside walk. She walks in, wanders one spot at a time, buys a souvenir, takes a photo, has something to eat or drink, and the closing receipt sums the trip up in one line she can log into her own day.\n\nWorks alongside other plugins but depends on none. With Fish Every Day installed, the own-time menu points at this world and the closing receipt reminds her to log the trip with feast_life_play; food and drink at the coffee shop, tea stand and restaurant are meant to be ordered from Fish Every Day, where the nine-axis flavour profile and aroma actually live — without it she only knows she had a bubble tea, and she is told not to invent how it tasted. With the image studio installed, the receipt names the scene and outfit to draw; venues the library does not have are marked as such instead of inventing a name. None of them are required, and it still works if the image library is gone.\n\nVersion 0.3.0 adds user-authored story packs, two-stop outings, unfinished-trip recovery, permanent exploration and searchable trip journals. Four panels include original venue art, action timelines and souvenir icons. User stories and place settings are stored separately from plugin code; the small preset story collection is optional, and custom places work without stories."
         }
       },
       "author": "青",
@@ -12606,8 +12615,8 @@
         "bugs": "https://github.com/bailuhanyi/cortico-world-fun/issues"
       },
       "created": "2026-11-15T06:36:15.951Z",
-      "published": "2026-11-18T11:51:47.317Z",
-      "versionCount": 8,
+      "published": "2026-11-19T14:44:43.739Z",
+      "versionCount": 9,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -12623,13 +12632,14 @@
         "week": 1399
       },
       "summary": {
-        "tools": 11,
+        "tools": 14,
         "events": 0,
-        "toolTokens": 1385,
-        "envPromptTokens": 315
+        "toolTokens": 2053,
+        "envPromptTokens": 339
       },
       "changelog": {
         "versions": [
+          "0.3.0",
           "0.2.1",
           "0.2.0",
           "0.1.6",
@@ -12762,7 +12772,7 @@
     },
     "cortico-world-genesis": {
       "kind": "world",
-      "version": "3.2.1",
+      "version": "3.5.2",
       "displayName": "创世记",
       "description": "给 Agent 一颗物理自洽、一次性创世的星球：种子与少量旋钮生成恒星系与行星属性。",
       "author": "Nami-Mizu",
@@ -12782,8 +12792,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-genesis"
       },
       "created": "2026-11-13T12:15:34.380Z",
-      "published": "2026-11-19T11:45:31.328Z",
-      "versionCount": 20,
+      "published": "2026-11-19T14:56:50.529Z",
+      "versionCount": 23,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -12806,6 +12816,16 @@
       },
       "changelog": {
         "versions": [
+          "3.5.2",
+          "3.5.1",
+          "3.5.0",
+          "3.4.3",
+          "3.4.2",
+          "3.4.1",
+          "3.4.0",
+          "3.3.2",
+          "3.3.1",
+          "3.3.0",
           "3.2.1",
           "3.2.0",
           "3.1.2",
@@ -12873,7 +12893,7 @@
           "1.2.0",
           "1.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-genesis@3.2.1/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-genesis@3.5.2/CHANGELOG.md"
       },
       "discussion": {
         "number": 915,
@@ -13290,17 +13310,17 @@
     },
     "cortico-world-hearthstone": {
       "kind": "world",
-      "version": "0.8.5",
+      "version": "1.0.1",
       "displayName": "炉石陪打",
       "description": "陪打炉石（需 Coopani 0.2.17+）:读对局日志,就知道双方血量、场面、手牌和水晶。该开口时开口:该解场还是该压、费够不够上那张大牌、对面有没有斩杀。只看不动手,不代打;第一次启动会替你把 Power 日志打开。打完能陪你复盘:哪一手走了岔路、她当时建议什么,也记得住最近几十局的战绩。她自己还有一份打法档案——信哪一套、看不惯什么,边打边写,越打越像她;但算出的斩杀她照样得喊,风格盖不住账。竞技场也认。",
       "locales": {
         "zh": {
           "displayName": "炉石陪打",
-          "description": "陪打炉石（需 Coopani 0.2.17 以上）：她读的是游戏自己写的对局日志，不是屏幕。\n\n**她看得到什么。** 双方职业与英雄、生命值与护甲、场上每个随从的攻击力与生命和关键词、两边手牌与牌库张数、水晶、回合数、谁打了什么牌。**开局换牌阶段还看得到起手那几张的牌名和费用。**\n\n**她看不到什么。** 对手手牌具体是哪几张、卡牌的文字效果、动画和演出。日志比画面晚几百毫秒，极快的一瞬间可能漏掉。信息没跟上时她会直说没看到，不会用推测把场面补完整。\n\n**该开口的时候开口。** 轮到你了她说这回合打什么；残血、被铺场、牌库见底、进入斩杀线时她会提醒；打出意料之外的牌（跨职业的、比水晶还贵的、8/8 以上的）她会愣一下。开局换牌只来一次，过时不补——那是唯一能改起手的机会。\n\n**算得清的账。** 斩杀线把场面、武器、英雄攻击力、过墙和手牌里的直伤一起算进去，并说明哪些没算（光环、潜行、免疫、战吼伤害不在数里，所以那个数是下界）。对手有嘲讽时，过墙用掉多少攻击力会写清楚——9 攻打 2 血嘲讽，剩的是 0 不是 7。硬币算进预算了，被加价时会提醒你「打了也换不到水晶」。\n\n**她拦得住几种常见的错。** 血厚没嘲讽不是墙；带前提的战吼没满足就只是个随从；狂怒、复生、亡语这些打下去还有后续；同一张牌连劝四个回合就不是牌友了，是催命的。\n\n**她有自己的打法档案。** 信哪一套、话多话少、看到臭手会不会直接说——边打边写，越打越像她。但有一条她不能拿风格当理由：**算出的斩杀必须喊，建议里点出的风险必须转告。**\n\n**按谁的思路打，你说了算。** 面板上一个按钮：默认按她自己的立场，也能切到「你的」——那份不是猜的，是从你的对局记录里数出来的：你多久听一次建议、哪个回合段开始自己拿主意、没听的时候先打了哪几张。每打完一局自动重算。切到「你的」之后她照样会反驳你，**算出来的斩杀和风险一样必须说** —— 立场换的是措辞和先推哪条，不是数字。\n\n**打完能复盘。** 逐回合的双方血量、手牌数、场面，加上全部出牌与攻击。她说得出「第 13 回合你场攻 11，对面 14 血，那回合已经进斩杀窗口了」，而不是「你打得不错」。\n\n**竞技场也认。** 三张候选牌念给她，她给解析和分数，选完记进牌组曲线；开局前先看她有没有这个职业的赢法。\n\n**她不动手。** 不模拟点击、不操作游戏。给的是判断和建议，鼠标在你手上——不听也是你的牌。\n\n**第一次启动会替你把 Power 日志的上限打开**（改的是炉石自己 client.config 里的 FileSizeLimit.Int），否则日志写到 10MB 就停笔，后面全是残影。如果哪天日志又断了，多半是游戏更新把配置覆盖回去了，她会明说数据停在几点。\n\n**已知限制**：看不到对手手牌，也就猜不准对面手里有没有解；卡牌效果只认卡表摘要，遇到生僻牌她会说「这张具体效果我得看牌面」。\n\n---\n\n桌面宠在旁边时，她说话走气泡，还会跟着局面的松紧换表情。\n\n**动作要靠形象包。** 蹦迪、律动这类原地动作不在宿主里 —— 宿主认不出的名字会被静默丢掉（脸变、人不动、不报错）。所以这个扩展自带一个带 12 个动作的形象包，启动时自动装进 data/figures/，装完去换装页选一次：装和用是两步。它只写你自己的 data 目录，不碰宿主安装目录。\n\n**她会自己让开。** 对局版形象包现在盯着屏幕：只要有窗口盖住屏幕底部中央（打牌、看视频），她就站到牌区两侧，不挡手牌也不抢点击；桌面上没东西被她挡着就照常走。想让她去指定一侧也行 —— 叫 `pet_move_to` 的 off-hand-left / off-hand-right，带 run 就一蹦一蹦跑过去。"
+          "description": "陪打炉石（需 Coopani 0.2.17 以上）：她读的是游戏自己写的对局日志，不是屏幕。\n\n**她看得到什么。** 双方职业与英雄、生命值与护甲、场上每个随从的攻击力与生命和关键词、两边手牌与牌库张数、水晶、回合数、谁打了什么牌。**开局换牌阶段还看得到起手那几张的牌名和费用。**\n\n**她看不到什么。** 对手手牌具体是哪几张、卡牌的文字效果、动画和演出。日志比画面晚几百毫秒，极快的一瞬间可能漏掉。信息没跟上时她会直说没看到，不会用推测把场面补完整。\n\n**该开口的时候开口。** 轮到你了她说这回合打什么；残血、被铺场、牌库见底、进入斩杀线时她会提醒；打出意料之外的牌（跨职业的、比水晶还贵的、8/8 以上的）她会愣一下。开局换牌只来一次，过时不补——那是唯一能改起手的机会。\n\n**算得清的账。** 斩杀线把场面、武器、英雄攻击力、过墙和手牌里的直伤一起算进去，并说明哪些没算（光环、潜行、免疫、战吼伤害不在数里，所以那个数是下界）。对手有嘲讽时，过墙用掉多少攻击力会写清楚——9 攻打 2 血嘲讽，剩的是 0 不是 7。硬币算进预算了，被加价时会提醒你「打了也换不到水晶」。\n\n**她拦得住几种常见的错。** 血厚没嘲讽不是墙；带前提的战吼没满足就只是个随从；狂怒、复生、亡语这些打下去还有后续；同一张牌连劝四个回合就不是牌友了，是催命的。\n\n**她有自己的打法档案。** 信哪一套、话多话少、看到臭手会不会直接说——边打边写，越打越像她。但有一条她不能拿风格当理由：**算出的斩杀必须喊，建议里点出的风险必须转告。**\n\n**按谁的思路打，你说了算。** 面板上一个按钮：默认按她自己的立场，也能切到「你的」——那份不是猜的，是从你的对局记录里数出来的：你多久听一次建议、哪个回合段开始自己拿主意、没听的时候先打了哪几张。每打完一局自动重算。切到「你的」之后她照样会反驳你，**算出来的斩杀和风险一样必须说** —— 立场换的是措辞和先推哪条，不是数字。\n\n**打完能复盘。** 逐回合的双方血量、手牌数、场面，加上全部出牌与攻击。她说得出「第 13 回合你场攻 11，对面 14 血，那回合已经进斩杀窗口了」，而不是「你打得不错」。\n\n**竞技场也认。** 三张候选牌念给她，她给解析和分数，选完记进牌组曲线；开局前先看她有没有这个职业的赢法。\n\n**她不动手。** 不模拟点击、不操作游戏。给的是判断和建议，鼠标在你手上——不听也是你的牌。\n\n**第一次启动会替你把 Power 日志的上限打开**（改的是炉石自己 client.config 里的 FileSizeLimit.Int），否则日志写到 10MB 就停笔，后面全是残影。如果哪天日志又断了，多半是游戏更新把配置覆盖回去了，她会明说数据停在几点。\n\n**已知限制**：看不到对手手牌，也就猜不准对面手里有没有解；卡牌效果只认卡表摘要，遇到生僻牌她会说「这张具体效果我得看牌面」。\n\n---\n\n桌面宠在旁边时，她说话走气泡，还会跟着局面的松紧换表情。\n\n**动作要靠形象包。** 蹦迪、律动这类原地动作不在宿主里 —— 宿主认不出的名字会被静默丢掉（脸变、人不动、不报错）。所以这个扩展自带一个带 12 个动作的形象包 —— 在扩展面板里点一下即可装进 data/figures/，装完去换装页选一次：装和用是两步。它只写你自己的 data 目录，不碰宿主安装目录。\n\n**她会自己让开。** 对局版形象包现在盯着屏幕：只要有窗口盖住屏幕底部中央（打牌、看视频），她就站到牌区两侧，不挡手牌也不抢点击；桌面上没东西被她挡着就照常走。想让她去指定一侧也行 —— 叫 `pet_move_to` 的 off-hand-left / off-hand-right，带 run 就一蹦一蹦跑过去。"
         },
         "en": {
           "displayName": "Hearthstone Companion",
-          "description": "Hearthstone Companion (needs Coopani 0.2.17+): reads your match from the Power log — heroes, board, hand, mana. Speaks up when it matters: clear or push, afford that card, lethal. Read-only; sets up the log. Reviews the game and remembers your last few dozen results. She also keeps her own play-style file in her own words — what she believes in, what she cannot stand, written as she plays. A lethal she sees is still a lethal she calls.\n\n**Whose read you get is your call.** One button on the panel: her own stance by default, or yours — and yours is not guessed, it is counted from your own match archive: how often you follow the advice, which stretch of the game you stop following it, what you played first when you did not. Recounted after every match. Switching to yours does not turn her into a yes-man: a lethal she sees is still called, and so are the risks the advice names — the stance changes the wording and which line comes first, never the numbers. Arena too. The game figure pack now watches the screen: while a window covers the bottom middle of it (a game, a video) she keeps clear of that band on her own, and walks as usual when nothing is behind her. You can still send her to one side by name (off-hand-left / off-hand-right), and she bounds over when you ask for a run.\n\n**Motions need a figure pack.** Bounce and groove are not in the host - a name it does not know is silently dropped (the face changes, the body does not move, no error). So this extension ships a figure pack with twelve of them, installed into data/figures/ at startup; pick it once on the dress page - installing and wearing are two steps. It writes only inside your own data folder, never into the host's install directory."
+          "description": "Hearthstone Companion (needs Coopani 0.2.17+): reads your match from the Power log — heroes, board, hand, mana. Speaks up when it matters: clear or push, afford that card, lethal. Read-only; sets up the log. Reviews the game and remembers your last few dozen results. She also keeps her own play-style file in her own words — what she believes in, what she cannot stand, written as she plays. A lethal she sees is still a lethal she calls.\n\n**Whose read you get is your call.** One button on the panel: her own stance by default, or yours — and yours is not guessed, it is counted from your own match archive: how often you follow the advice, which stretch of the game you stop following it, what you played first when you did not. Recounted after every match. Switching to yours does not turn her into a yes-man: a lethal she sees is still called, and so are the risks the advice names — the stance changes the wording and which line comes first, never the numbers. Arena too. The game figure pack now watches the screen: while a window covers the bottom middle of it (a game, a video) she keeps clear of that band on her own, and walks as usual when nothing is behind her. You can still send her to one side by name (off-hand-left / off-hand-right), and she bounds over when you ask for a run.\n\n**Motions need a figure pack.** Bounce and groove are not in the host - a name it does not know is silently dropped (the face changes, the body does not move, no error). So this extension ships a figure pack with twelve of them — click once in the extension panel to install it into data/figures/, then pick it on the dress page; installing and wearing are two steps. It writes only inside your own data folder, never into the host's install directory."
         }
       },
       "author": "Mr.Q",
@@ -13326,8 +13346,8 @@
         "darwin"
       ],
       "created": "2026-10-27T13:42:43.161Z",
-      "published": "2026-11-16T16:02:47.524Z",
-      "versionCount": 41,
+      "published": "2026-11-19T15:28:41.950Z",
+      "versionCount": 43,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -13347,12 +13367,14 @@
       },
       "summary": {
         "tools": 11,
-        "events": 8,
-        "toolTokens": 2983,
+        "events": 9,
+        "toolTokens": 2980,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.0.1",
+          "1.0.0",
           "0.8.5",
           "0.8.3",
           "0.8.2",
@@ -14019,17 +14041,17 @@
     },
     "cortico-world-imggen": {
       "kind": "world",
-      "version": "0.4.0",
-      "displayName": "生图工作室",
-      "description": "Coopanion World：本地参考库 + 关键词的生图工作室，支持云端接口与本机 ComfyUI 双后端，桌宠自己画图并发到 QQ。",
+      "version": "0.4.2",
+      "displayName": "鱼的生图包",
+      "description": "生图工具包：给桌宠画她现在的样子（做饭、出门买菜、按描述换造型），支持云端口与本机 ComfyUI，可与其他插件联动。",
       "locales": {
         "zh": {
-          "displayName": "生图工作室",
-          "description": "带本地参考库（人物/服饰/场景/道具）和关键词（情境/神态/动作/镜头/光线）的生图能力：Coo 挑参考图、拼提示词、出图后直接发到 QQ。支持云端接口与本机 ComfyUI 双后端，工作室页面一键切换；本地可指定角色 LoRA 与工作流模板（人物 LoRA + 画风/姿势工作流自由搭配），并有后台出图（不卡对话）、纯提示词模式、卡住自动重提。"
+          "displayName": "鱼的生图包",
+          "description": "给你的大肥鱼加上生图工具包，随时随地展示她现在的样子，例如正在做饭，或者依你描述造型，出门买菜，可与其他插件联动。支持本地参考库（人物/服饰/场景/道具）与关键词词表，云端接口与本机 ComfyUI 双后端，人物 LoRA 与画风/姿势工作流自由搭配，出图直接发到 QQ，后台出图不卡对话。"
         },
         "en": {
-          "displayName": "Image studio",
-          "description": "Image generation with a local reference library (characters, outfits, scenes, props) and keyword presets. Coo picks references, builds the prompt, draws, and sends the picture straight to QQ. Dual backend: cloud API or local ComfyUI, switchable from the studio page; character LoRA + workflow templates, background drawing that does not block chat."
+          "displayName": "Fish's Image Pack",
+          "description": "Image generation with a local reference library and keyword presets, sending results straight to QQ. Dual backend (cloud API or local ComfyUI) with backend profiles: backend + endpoint + model + key switch as one group. Character LoRA pairs with any style/pose workflow; background drawing keeps chat responsive."
         }
       },
       "maintainers": [
@@ -14046,11 +14068,13 @@
         "qq"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-imggen"
+        "npm": "https://www.npmjs.com/package/cortico-world-imggen",
+        "repository": "https://github.com/cormini/cortico-world-imggen",
+        "homepage": "https://github.com/cormini/cortico-world-imggen#readme"
       },
       "created": "2026-11-06T18:02:16.406Z",
-      "published": "2026-11-15T07:10:50.979Z",
-      "versionCount": 7,
+      "published": "2026-11-19T15:22:54.683Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -14073,15 +14097,16 @@
         "experimental",
         "unofficial-api"
       ],
+      "icon": "assets/cortico-world-imggen/icon.png",
       "downloads": {
         "total": 1727,
         "month": 1727,
         "week": 543
       },
       "summary": {
-        "tools": 6,
+        "tools": 7,
         "events": 0,
-        "toolTokens": 1383,
+        "toolTokens": 1772,
         "envPromptTokens": 0
       },
       "discussion": {
@@ -18703,7 +18728,7 @@
     },
     "cortico-world-parlor": {
       "kind": "world",
-      "version": "0.48.1",
+      "version": "0.49.0",
       "displayName": "鲸语茶室",
       "description": "鲸语茶室是 Coo 与家长的共享客厅。支持聊天、说书、斗地主、狼人杀、五子棋、中国象棋、飞行棋、麻将和快局大富翁，提供网页牌桌与家长观战页。反馈 QQ 群 1061389211。",
       "locales": {
@@ -18759,8 +18784,8 @@
         "bugs": "https://github.com/biliye/cortico-world-parlor/issues"
       },
       "created": "2026-10-30T12:05:22.925Z",
-      "published": "2026-11-19T12:45:06.121Z",
-      "versionCount": 61,
+      "published": "2026-11-19T14:20:08.358Z",
+      "versionCount": 62,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -18789,6 +18814,7 @@
       },
       "changelog": {
         "versions": [
+          "0.49.0",
           "0.48.1",
           "0.48.0",
           "0.47.0",
@@ -19595,7 +19621,7 @@
     },
     "cortico-world-private-companion": {
       "kind": "world",
-      "version": "0.8.4",
+      "version": "0.8.5",
       "displayName": "我会永远陪着你",
       "description": "「我会永远陪着你」Coopanion 版：把原作的生活感、主动联系、关系卡与说话分寸独立实现为 World 扩展。内置可迁移记忆，支持本地图库导入与可选视觉自动描述，并打通记忆 × QQ × B站的多功能联动。",
       "author": "yaya-super",
@@ -19629,8 +19655,8 @@
         "bugs": "https://github.com/YaYa-super/cortico-world-private-companion/issues"
       },
       "created": "2026-10-29T11:24:55.064Z",
-      "published": "2026-11-17T02:49:43.530Z",
-      "versionCount": 21,
+      "published": "2026-11-19T14:06:31.046Z",
+      "versionCount": 22,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -19671,6 +19697,7 @@
       },
       "changelog": {
         "versions": [
+          "0.8.5",
           "0.8.4",
           "0.8.3",
           "0.8.2",
@@ -22698,9 +22725,9 @@
     },
     "cortico-world-selftalk": {
       "kind": "world",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "displayName": "自主发言",
-      "description": "Coopanion / Cortico 的自主发言 World 扩展：安静一段时间后叫醒 Coo，由它自己决定开不开口、用什么工具；不想说就继续安静。0.3.0 新增：自定义提示词（可用 {time}/{quiet}/{round} 占位符）、勿扰时段、再次叫醒退避、状态灯倒计时。推荐搭配：https://github.com/Pal-AI-Lab/cortico-world-qqbot",
+      "description": "Coopanion / Cortico 的自主发言 World 扩展：安静一段时间后叫醒 Coo，由它自己决定开不开口、用什么工具；不想说就继续安静。\n1. 0.3.0 新增：自定义提示词（可用 {time}/{quiet}/{round} 占位符）、勿扰时段、再次叫醒退避、状态灯倒计时。\n2. 推荐搭配：https://github.com/Pal-AI-Lab/cortico-world-qqbot",
       "author": "qwq-awa-qnq",
       "maintainers": [
         "zihaitaier"
@@ -22721,8 +22748,8 @@
         "bugs": "https://github.com/qwq-awa-qnq/cortico-world-selftalk/issues"
       },
       "created": "2026-10-19T14:38:22.724Z",
-      "published": "2026-11-18T15:10:13.069Z",
-      "versionCount": 5,
+      "published": "2026-11-19T14:15:12.360Z",
+      "versionCount": 6,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -22744,6 +22771,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.2",
           "0.3.1",
           "0.3.0",
           "0.2.2",

@@ -1,33 +1,33 @@
 {
   "schema": 1,
   "name": "cortico-world-imggen",
-  "version": "0.4.0",
+  "version": "0.4.2",
   "describe": {
     "tools": [
       {
         "name": "imggen_draw",
-        "description": "画一张图存本地并发 QQ。prompt 只写画面；神态/动作/镜头/光线用关键词。人物/服饰/场景/道具填库里的名字；to 抄消息 meta 里的 conv。回执有路径、尺寸、参考图和发送结果；「生成失败」开头不算成功。本地出图需等几十秒到两分钟。",
+        "description": "画一张图，存本地并发 QQ。prompt 只写画面；神态/动作/镜头/光线用关键词；人物/服饰/场景/道具填库里的名字。to 抄消息 meta 里的 conv。回执含路径、尺寸和发送结果；「生成失败」不算成功。本地约 30 秒~2 分钟。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "prompt": {
               "type": "string",
-              "description": "画面：谁在做什么、在哪、什么风格。一到两句；本地模式写英文 tag。"
+              "description": "画面本身：谁在做啥、在哪、什么风格。一到两句；本地写英文 tag"
             },
             "characters": {
               "type": "array",
               "items": {
                 "type": "string"
               },
-              "description": "人物名（库里的，可多个）"
+              "description": "人物名（库里的）"
             },
             "outfits": {
               "type": "array",
               "items": {
                 "type": "string"
               },
-              "description": "服饰名，不填自动搭配"
+              "description": "服饰名，不填自动配"
             },
             "scene": {
               "type": "string",
@@ -42,7 +42,7 @@
             },
             "situation": {
               "type": "string",
-              "description": "情境关键词"
+              "description": "情境关键词（定整体场合）"
             },
             "expression": {
               "type": "string",
@@ -93,6 +93,52 @@
         "summary": {
           "zh": "按描述和参考库画一张图，存本地并发到 QQ。",
           "en": "Draws an image using the reference library, saves it and sends it to QQ."
+        }
+      },
+      {
+        "name": "imggen_redraw",
+        "description": "以图改图：拿一张已有的图当底图，按 prompt 重绘。file 填 imggen_list 的文件名或绝对路径，不填用最新一张。denoise 越小越贴近原图（0.3 只是微调细节，0.7 改动很大），默认 0.55。底图的构图和人物位置会保留，只有画面内容按 prompt 变。只有本地 ComfyUI 支持，云端会拒绝。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "file": {
+              "type": "string",
+              "description": "底图文件名或绝对路径；不填=最新一张"
+            },
+            "prompt": {
+              "type": "string",
+              "description": "改完要变成什么样，写英文 tag 更稳"
+            },
+            "denoise": {
+              "type": "number",
+              "minimum": 0.1,
+              "maximum": 0.95,
+              "description": "重绘幅度，默认 0.55"
+            },
+            "to": {
+              "type": "string",
+              "description": "group:<群号> / private:<QQ号>"
+            },
+            "caption": {
+              "type": "string",
+              "description": "跟图一起说的话"
+            },
+            "send": {
+              "type": "boolean",
+              "description": "false = 只存不发"
+            }
+          },
+          "required": [
+            "prompt"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "拿一张已有的图当底图改图（图生图）。",
+          "en": "Redraws an existing image with a prompt (img2img)."
         }
       },
       {
@@ -262,19 +308,27 @@
       },
       {
         "name": "imggen_comfy",
-        "description": "本地 ComfyUI 的设置：status 看当前用哪个 LoRA / 工作流，list 列出可选的 LoRA 文件，set 改成别的（backend 选 local/cloud；lora 传文件名、空串表示不挂；workflow 传 API 格式 JSON 的路径或文件名、空串表示内置）。切到 local 后是纯提示词模式：要自己写完整英文提示词，别用参考库。对方说「换个画风」「用 XX LoRA」「换成我的工作流」时用它。",
+        "description": "本地设置：status 看状态，list 列可用 LoRA / 工作流（按架构分组），set 改（backend=local|cloud；model=本地模型架构名；lora=文件名，空串不挂；workflow=路径或文件名，空串用内置）。profiles / useProfile / saveProfile 管后端档案。换画风、换 LoRA、快速试几张用它。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "q": {
+              "type": "string",
+              "description": "list 时按关键词过滤 LoRA / 工作流名"
+            },
             "action": {
               "type": "string",
               "enum": [
                 "status",
                 "list",
-                "set"
+                "set",
+                "profiles",
+                "useProfile",
+                "saveProfile",
+                "restart"
               ],
-              "description": "要做的事"
+              "description": "status 看状态；list 列 LoRA/工作流；set 改后端/模型/LoRA/工作流；profiles 列档案；useProfile 切档案；saveProfile 存档案"
             },
             "backend": {
               "type": "string",
@@ -284,6 +338,14 @@
               ],
               "description": "set：local/cloud"
             },
+            "model": {
+              "type": "string",
+              "enum": [
+                "krea2",
+                "anima"
+              ],
+              "description": "set：本地模型架构（本机装的那几个；不确定先 status）"
+            },
             "lora": {
               "type": "string",
               "description": "set：角色 LoRA 文件名，空=不挂"
@@ -291,6 +353,14 @@
             "workflow": {
               "type": "string",
               "description": "set：工作流文件名，空=内置"
+            },
+            "profile": {
+              "type": "string",
+              "description": "useProfile/saveProfile：档案名"
+            },
+            "apiKey": {
+              "type": "string",
+              "description": "saveProfile：顺手把这个档案的 key 存下来（可选）"
             }
           },
           "required": [

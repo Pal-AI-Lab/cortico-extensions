@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-hearthstone",
-  "version": "0.8.5",
+  "version": "1.0.1",
   "describe": {
     "tools": [
       {
@@ -179,8 +179,8 @@
           "write"
         ],
         "summary": {
-          "zh": "读/写她自己的打法立场：我怎么说话、我倾向推哪条路（第一人称，不是攻略）。",
-          "en": "Reads and writes her own play style: how she talks and which line she leans toward."
+          "zh": "读/写你的打法立场：怎么说话、倾向推哪条路（第一人称，不是攻略）。",
+          "en": "Reads and writes your own play style: how you talk and which line you lean toward."
         }
       },
       {
@@ -207,7 +207,7 @@
       },
       {
         "name": "hearthstone_diary",
-        "description": "Write the post-match review — why it went the way it did, in your own words. The diary file already records the facts automatically (result, both heroes' hp, lowest hp, which turns your pick and his play diverged). **Do not restate those numbers** — say what the numbers cannot: why the game turned, which single turn was the hinge, what you would look at differently next time. One entry per match. Write it after a loss or after a clear misjudgement; skip it when nothing stands out — a diary full of \"打完了\" is worse than an empty one. First person, under 120 characters, no bullet points. This is also what the panel's 「她最近想到的」 shows.",
+        "description": "Write the post-match review — why it went the way it did, in your own words. The diary file already records the facts automatically (result, both heroes' hp, lowest hp, which turns your pick and his play diverged). **Do not restate those numbers** — say what the numbers cannot: why the game turned, which single turn was the hinge, what you would look at differently next time. One entry per match. Write it after a loss or after a clear misjudgement; skip it when nothing stands out — a diary full of \"打完了\" is worse than an empty one. First person, under 120 characters, no bullet points. This also appears in the diary notes panel.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -230,7 +230,7 @@
         ],
         "summary": {
           "zh": "每局打完记一段复盘（第一人称）：为什么赢/输、哪一手是关键。面板的感想栏读的就是这里。",
-          "en": "Writes her own post-match review; the panel reads it back."
+          "en": "Writes your own post-match review; the panel reads it back."
         }
       },
       {
@@ -338,7 +338,10 @@
           "zh": "轮到本地玩家行动,附当前双方状态。",
           "en": "It is the operator's turn, with both sides' state."
         },
-        "trigger": "debounce"
+        "trigger": "debounce",
+        "tags": [
+          "snapshot"
+        ]
       },
       {
         "type": "hearthstone.alert",
@@ -359,7 +362,7 @@
       {
         "type": "hearthstone.ask",
         "description": {
-          "zh": "他在扩展页上点了「让她看这回合」,附当前局面与机械建议。",
+          "zh": "他在扩展页上点了「看这回合」,附当前局面与机械建议。",
           "en": "The operator clicked \"ask about this turn\" on the panel, with the board and the mechanical advice."
         },
         "trigger": "flush"
@@ -371,10 +374,23 @@
           "en": "Something about this machine is off: Coopani too old, host patch blocked, or host pack missing. Carries what to tell the operator."
         },
         "trigger": "flush"
+      },
+      {
+        "type": "hearthstone.handoff",
+        "description": {
+          "zh": "用户交接（handoff）结束时顺路搭车（piggyback）补齐当前对局的回合、双方血量护甲与水晶快照。",
+          "en": "Piggybacked match snapshot after user handoff ends, refreshing turn, health/armor and mana."
+        },
+        "trigger": "piggyback",
+        "tags": [
+          "snapshot"
+        ]
       }
     ]
   },
   "changelog": {
+    "1.0.1": "报障原话：「有一把术士 8 费，明明我两个战吼就把对面斩杀了，肥鱼没看出来。」\n复现用的真实对局：`Hearthstone_2026_11_19_20_09_27/Power.log` 第 7 局（圣骑士 vs 术士）第 15 回合 ——\n8 水晶、头上挂着誓缚光环、手上两张时间流具象（各 4 费、战吼 3 伤）、对面 6 血 + 1 个 3/7 嘲讽。\n当时的回执是「过墙后可打脸 0 + buff 1 = 1 → 差 5」，外加两条「这一条我判断不了」。\n\n三处叠加成这一个错，都修了：\n\n- **`parser.ts` 新增 `SideState.auras`**：光环在日志里不进 PLAY 区，而是 `ZONE=SECRET`（跟奥秘同一个区），\n  原来只有一个 `secrets` 计数，分不出「奥秘」和「光环」。现在按实体名带「光环」挑出来单独记 cardId + 名字。\n  可选字段：拿不到时按「判不了」处理，不拿 `undefined` 当「肯定没有」。\n- **`effects.ts` 的 `battlecryState` 认识「控制着光环」**：此前只认「装备武器」「没有控制其他随从」，\n  其余一律 `unknown` —— 时间流具象正好卡在这条上，于是它的 3 点伤害从来没进过任何计算。\n- **`lethal.ts` 战吼进背包解**：新增 `battlecriesInHand()`，逐张筛「前提确定满足 + 能打到脸」，\n  **同名多张各算一次**（原来 `sureBattlecry` 只取最大的一张，两张永远只报 3 点）；\n  战吼和直伤、buff 抢同一份水晶，走同一个 DP；`LethalPlan` 加 `battlecryDamage` / `battlecries`。\n  落点不确定的战吼一律不计：「只能打随从」（「伤害6随从」）和「随机分配」（「伤害1随机」）——\n  后者的下界是 0 点，拿它算斩杀是在赌。判据看卡面摘要，和 `damage.ts` 收直伤法术的口径一致。\n- **`advice.ts`**：斩杀序列加战吼步；过墙步骤只在 `faceAtk > 0` 时写进去（战吼不吃嘲讽，\n  否则会出现「先用 8 点攻击力撞墙、再靠战吼斩杀」这种自相矛盾的走法）；\n  删除「不进斩杀线但能补刀」那句旧措辞。\n- **`alerts.ts`**：`lethalText` 补报战吼那一笔，否则账面加起来对不上总数；「注意」里不再笼统划掉战吼。\n- **`ENV_PROMPT.md`**：第 5 条原来写死「**所有战吼伤害**均未计入此数」—— 代码算了、提示词说不算，\n  她会自己把这一笔刨掉。改成「前提确定满足且能打到脸的才计入」。\n- **`advice.ts` 的场面渲染分两侧口径**：原来我方和对手都用 `canAttack` 标「(不能攻击)」，\n  而对手刚铺下来的随从这一刻是召唤失调、到了他的回合全能打 —— 同一句话里出现\n  「场攻 15（随从 15）」配「4 个都（不能攻击）」。现在对手只标**永久**打不了的（`cantAttack`，显示「打不了」）。\n- 回归测试 +6：双战吼累加够斩 / 没光环不算 / 只能打随从不算 / 随机落点不算 /\n  对手召唤失调不标「不能攻击」/ 对手永久打不了仍要标。",
+    "1.0.0": "- **`ENV_PROMPT.md` 大幅瘦身**：从 16,503 字符压至 ~3,050 字符（减幅 ~81.5%），剔除冗长举例与与 `tools()` 重叠的清单，完整保留全部 7 个占位符与核心风控规则（日志断供残影、只据动作记录说打出牌名、以当前实付费用为准、仅嘲讽算墙、疲劳追杀勿劝架墙、所有战吼伤害不入下界、最坏情况斩杀与 `<happy, jump>` 动作规范等）。\n- **未对局历史注入降噪**：`!snapshot` 时 `envPromptVars()['hs.recent']` 改为单行归档统计+按需调工具指引，避免未开局向静态前缀灌入历史战绩。\n- **LLM 取消与真实用量上报**：`src/llm.ts` 扩展 `askModelWithUsage` 与 `LlmRequest.signal`，显式区分 `aborted` 取消状态并在 HTTP 200 空文本但带 `usage` 时仍如实返回供 `host.reportUsage` 记账，去掉无法核实的「没花钱」承诺；为 `hearthstone_advice` 与 `hearthstone_plan` 启用 `interruptible: true` 并透传 `ctx.signal`。\n- **API v6 生命周期与队列原语对齐**：\n  - `hearthstone.turn` 接入两参 `host.pushDeferred`（附旧测试零参兼容降级）+ `['snapshot']`，投递渲染时校验同局/同回合/我方行动并基于当前最新局面重算正文与 `advice`；\n  - 新增同步 `onHandoffEnded()` 会话交接回调（独立 `hearthstone.handoff` 事件，`piggyback` + `['snapshot']`，遵守 `quiet`/`speakTurns`/`musicRunning` 开关并统一护甲格式，渲染时实时生成当前对局快照）；\n  - `webUi().storage` 新增 5 项 `StoragePart`（上局存档、对局流、竞技场草稿/攻略/推演、复盘日记 `DIARY_FILE_RE`、打法档案），移除清理吞错逻辑并在 `unlinkSync` 成功后重置内存态；\n  - 对局版形象包 `groove-game` 升至 `1.3.8`（恢复 `BODY_SCALE = 1` 正常体型并联动底部遮挡自动避让 `avoidLogo`），同步刷新 `figure.js` 与测试注释；\n  - 精简 `RULES_BRIEF`（守住全部 8 个核心机制关键词），清理工具声明、面板描述、日记提示及事件描述中的第三人称「她」，补齐 `tags` 校验并重新同步 `describe.json`。",
     "0.8.5": "- **跑（`run`）时的避让方向改成顺她的朝向**（`pose.sign`，即宿主 `kx` 的符号）。\n  原来按「在中线哪一侧」选的是**远侧**，落地后 `avoidSide` 又按近侧翻转，\n  会出现「白白飞过去再飞回来」。\n- `avoidLocked` 改名 `avoidEngaged` 并写清语义：它是「避让已触发」，存的是**每帧重算的目标偏移**；\n  真正锁住落点的是 `avoidSide` 的 ±20px 迟滞，不是这个变量。\n- 形象包已同步到运行时目录（`data/figures/groove-game`，版本 1.3.4）。",
     "0.8.3": "宿主 `build/cortico/src/extensions/describe.ts` 的注释原话：**索引仓的 Action 和 WebUI 的\n扩展市场只读 describe.json，不执行扩展代码**。那份 JSON 一直是手抄的，漂了不止一处：\n\n- **`hearthstone.selfplay` 代码里有、JSON 里没有** —— 市场页面上这个事件等于不存在，\n  「他在面板上按了『这局你来打』，先用 pet_ask 问一句，答应了才动手」这条规矩用户读不到。\n- 六条工具说明是旧的：`meta` / `plan` / `style` / `his_style` / `diary` / `recent`。\n- `hearthstone.mulligan`、`hearthstone.setup` 的正文也是旧的（换牌那句「过时不补」没写进去）。\n- 全部从源码重新生成（11 工具 / 8 事件）；新增 `test/describe-sync.test.mjs` 钉住一致性，\n  工具名单 / 说明 / 参数、事件名单 / trigger / 说明逐条比对，改一遍忘一边测试就红。",
     "0.8.2": "上一版在日志里写「自动做不到」，这一版把它推翻了 —— 但做法和原来的补丁不是一回事，代价写在下面。\n\n**查到的三件事（宿主 0.2.20 官方版，未打补丁）**\n\n- 舞台那个 iframe **铺满整屏**（`pet.css`：`.figure-layer .figure-clip{position:absolute;inset:0}`，\n  iframe `inset:0;width/height:100%`），所以她画在 iframe 里的坐标就是舞台坐标。\n- 宿主每帧往 `petG` 写 `transform`，照 `kit/body.js` 的 `toStage()`（`x = AX + (lx - ax) * kx`）反解，\n  就能还原「身体中心此刻站在画面的哪一列」。**形象包一直知道自己在哪，只是没人这么用过。**\n- 而她上报给宿主的三样 —— `extent`（包围盒）、`hits`（点哪儿算点她）、`anchors`（气泡锚点）——\n  宿主都用它们定位。三样加同一个量，视觉、点击、气泡**同时**跟上。\n\n**做法**：不打补丁、不调宿主。她检测到有窗口盖住屏幕底部中央时，把自己**画**到牌带（屏宽 26%～74%）之外，\n脚下那圈阴影（宿主画的，是 `petG` 的前一个兄弟）跟着平移。桌面上没有东西被她挡着就不躲。\n\n- manifest 加 `needs: [\"windows\"]`（官方字段，宿主每 0.7s 给一次窗口矩形）。\n- 判断「在打牌」只能靠矩形估：够宽（≥屏宽 55%）+ 够到屏幕底（≥高 90%）+ 盖住中间。**窗口列表里没有应用名。**\n- 形象包 1.2.0 → **1.3.0**；扩展 0.8.1 → 0.8.2。\n\n**代价（明写）**\n\n- 宿主眼里的位置没变。漫游目标、撞边、换装取景框都按原位算 —— 她可能「看着贴屏幕边、逻辑还在中间」。\n- 依赖「iframe 铺满舞台」这个实现细节。作者若改成局部窗口（`swap-motion` 里提到过 `haloRect` 那种切窗），\n  这套失效的表现是「她不挪」，不会崩。\n- 平台不给窗口信息时（`needs` 未生效/系统不支持），一律不躲。",

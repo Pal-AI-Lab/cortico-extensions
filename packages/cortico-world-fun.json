@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-fun",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "describe": {
     "tools": [
       {
         "name": "fun_places",
-        "description": "查询当前可去地点，默认按营业状态和拥挤度排序；all 列出全部，kind 筛选类别。地点名以此工具返回为准。",
+        "description": "查询地点、当前可逛项目及心愿的合适时段。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -103,7 +103,7 @@
       },
       {
         "name": "fun_choice",
-        "description": "处理 fun_wander 回执中出现的待选择事件。按回执提供的 choiceId 和 optionId 选一个，不会凭空添加收获。",
+        "description": "按待选回执的选项处理当前事件，也可略过。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -113,7 +113,7 @@
             },
             "optionId": {
               "type": "string",
-              "description": "待选择事件回执给出的 optionId。"
+              "description": "使用回执中的 optionId，或填 skip 略过。"
             }
           },
           "required": [
@@ -126,19 +126,47 @@
           "write"
         ],
         "summary": {
-          "zh": "处理逛到的结构化事件选择，按回执中的 choiceId 和 optionId 选择。",
-          "en": "Resolve a structured event choice using the choiceId and optionId from the receipt."
+          "zh": "处理待选择事件，可按回执选择或略过。",
+          "en": "Resolve or skip a pending event choice."
+        }
+      },
+      {
+        "name": "fun_resume",
+        "description": "继续未逛完的行程，返回进度和待选事件。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "fun_view 提供的未完行程 ID。"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "继续一趟未逛完的行程。",
+          "en": "Resume an unfinished outing."
         }
       },
       {
         "name": "fun_home",
-        "description": "结束当前行程并返回摘要及记录提示。note 可选，记录一句本趟感受。",
+        "description": "收摊并把已发生的经历记入纪念册。",
         "parameters": {
           "type": "object",
           "properties": {
             "note": {
               "type": "string",
               "description": "这一趟怎么样，一句话，可选。"
+            },
+            "draftId": {
+              "type": "string",
+              "description": "要按已有记录结束未完行程时，填 fun_view 提供的 ID。结束正在逛的行程时不填。"
             }
           },
           "additionalProperties": false
@@ -167,8 +195,59 @@
         }
       },
       {
+        "name": "fun_route",
+        "description": "规划两站出门、前往下一站、改下一站或取消后续；不自动移动。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "plan",
+                "status",
+                "next",
+                "change",
+                "cancel"
+              ]
+            },
+            "places": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 2,
+              "maxItems": 2,
+              "description": "plan 时填两个不同地点正名或 ID。"
+            },
+            "id": {
+              "type": "string",
+              "description": "next/change/cancel 时填回执中的路线 ID。"
+            },
+            "place": {
+              "type": "string",
+              "description": "change 时的新下一站；只改尚未去的站。"
+            },
+            "company": {
+              "type": "string",
+              "description": "plan 时的同行人，可选。"
+            }
+          },
+          "required": [
+            "action"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "规划和管理最多两站的出门路线，明确前往下一站或提前结束。",
+          "en": "Plan and manage a two-stop outing, explicitly move on or end early."
+        }
+      },
+      {
         "name": "fun_view",
-        "description": "按需查询近期或珍藏的行程记录。",
+        "description": "查询行程，可按地点、同行人、日期或关键词检索。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -177,6 +256,30 @@
               "description": "看最近几趟，默认 5。",
               "minimum": 1,
               "maximum": 20
+            },
+            "query": {
+              "type": "string",
+              "description": "搜索地点、项目、备注、小事或纪念品。"
+            },
+            "place": {
+              "type": "string",
+              "description": "只看这个地点的行程，正名或别名。"
+            },
+            "company": {
+              "type": "string",
+              "description": "只看与这位同行人的行程。"
+            },
+            "from": {
+              "type": "string",
+              "description": "开始日期 YYYY-MM-DD，包含当天。"
+            },
+            "to": {
+              "type": "string",
+              "description": "结束日期 YYYY-MM-DD，包含当天。"
+            },
+            "id": {
+              "type": "string",
+              "description": "精确查看一个已有行程 ID。"
             }
           },
           "additionalProperties": false
@@ -186,8 +289,8 @@
           "snapshot"
         ],
         "summary": {
-          "zh": "按需查询近期或珍藏的行程记录。",
-          "en": "Query recent or kept trip records on demand."
+          "zh": "查看正在逛、未逛完或已收摊的行程。",
+          "en": "View active, unfinished, or finished outings."
         }
       },
       {
@@ -290,6 +393,64 @@
         }
       },
       {
+        "name": "fun_story",
+        "description": "管理本地地点剧情包，校验和预览只读，导入或启停须指定操作。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "list",
+                "template",
+                "validate",
+                "preview",
+                "export",
+                "import",
+                "enable",
+                "disable",
+                "remove"
+              ]
+            },
+            "id": {
+              "type": "string",
+              "description": "已有剧情包 ID，来自 list。"
+            },
+            "json": {
+              "type": "string",
+              "description": "完整剧情包 JSON，最多 32 KB；validate/preview 不保存。"
+            },
+            "placeId": {
+              "type": "string",
+              "description": "template 绑定的真实地点 ID，可来自自填地点；list 提供可用 ID。"
+            },
+            "area": {
+              "type": "string",
+              "description": "preview 的项目，默认使用起始节点项目。"
+            },
+            "time": {
+              "type": "string",
+              "description": "preview 的测试时刻 HH:MM，默认当前本地时刻。"
+            },
+            "replace": {
+              "type": "boolean",
+              "description": "import 覆盖已有同 ID 自定义包时才设 true。"
+            }
+          },
+          "required": [
+            "action"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "管理、校验与预览本地地点剧情包，支持自填地点。",
+          "en": "Manage, validate, and preview local story packs, including custom places."
+        }
+      },
+      {
         "name": "fun_shelf",
         "description": "按地点查询长期纪念品收藏和收集进度。",
         "parameters": {
@@ -318,11 +479,12 @@
         "key": "worlds.fun.env",
         "title": "娱乐时间",
         "role": "envPrompt",
-        "content": "## 娱乐时间\n\n出游流程：`fun_places` 查询地点 → `fun_go` 进门 → `fun_wander` 逐处游逛 → `fun_home` 收摊；现在出门可用 `fun_start`。地点、项目、纪念品和拍照点名称以工具回执为准；吃喝只填当前地点真实提供的品类。历史与收藏按需用 `fun_view`、`fun_shelf` 查询。\n\n- 遇到带 `choiceId` / `optionId` 的待选事件，必须照回执调用 `fun_choice` 完成选择后再继续，不猜 ID 或选项。\n- 明确表达想去或想做时用 `fun_wish` 记录、`fun_wishes` 查询；不催促、不从旧行程推断完成。\n- 发图用 `imggen_draw`：按 `fun_home` 回执填写 `scene` / `outfits` 正名，不编场景或衣服名字；库里没找到的不要填。\n- 食物只记品类。开关联动允许且实际用「鱼的每一天」的 `feast_menu` → `feast_eat` 后才能描述口感；否则只说吃喝了什么，别形容味道。本插件不会探测别的扩展装没装，不依赖其他 World。\n- 时段可能改变氛围和可逛项目；重复到访有效。历史只按需查询，不编造未发生的经历。\n- 用户自填地点通常没有素材库场景；以回执为准。地点清单和动态详情通过 `fun_places` 查询。预设删不掉，只能恢复。\n- 出门前可用 `feast_life_now` 对齐日程；收摊后按回执用 `feast_life_play` 记录实际经历。\n\n{{fun_places_block}}\n"
+        "content": "## 娱乐时间\n\n出游流程：`fun_places` 查询地点 → `fun_go` 进门 → `fun_wander` 逐处游逛 → `fun_home` 收摊；现在出门可用 `fun_start`。地点、项目、纪念品和拍照点名称以工具回执为准；吃喝只填当前地点真实提供的品类。历史与收藏按需用 `fun_view`、`fun_shelf` 查询。\n\n- 连逛两处可用 `fun_route` 规划；每站自己进门、收摊，再决定下一站、换一站或提前结束，不自动移动。\n- 中断后用 `fun_view` 找未完行程，再决定续逛或按已有记录收摊。待选事件按回执的选项处理。\n- 明确表达想去或想做时用 `fun_wish` 记录、`fun_wishes` 查询；不催促、不从旧行程推断完成。\n- 发图用 `imggen_draw`：按 `fun_home` 回执填写 `scene` / `outfits` 正名，不编场景或衣服名字；库里没找到的不要填。\n- 食物只记品类。开关联动允许且实际用「鱼的每一天」的 `feast_menu` → `feast_eat` 后才能描述口感；否则只说吃喝了什么，别形容味道。本插件不会探测别的扩展装没装，不依赖其他 World。\n- 时段可能改变氛围和可逛项目；重复到访有效。历史只按需查询，不编造未发生的经历。\n- 用户自填地点通常没有素材库场景；以回执为准。地点清单和动态详情通过 `fun_places` 查询。预设删不掉，只能恢复。\n- 出门前可用 `feast_life_now` 对齐日程；收摊后按回执用 `feast_life_play` 记录实际经历。\n\n{{fun_places_block}}\n"
       }
     ]
   },
   "changelog": {
+    "0.3.0": "- 新增「地点剧情包」面板和 `fun_story`，以用户自填为主，附带三个可停用的独立原创示例。\n- 提供简易分支填写表单，以及高级 JSON 模板、校验、只读预览、导入导出、启停和移除；覆盖同 ID 内容必须明确确认。\n- 用户剧情独立保存，启动和插件更新不写回覆盖；清空出游记录不删除创作。自填地点无专属剧情时沿用普通出游，缺少关联地点或项目时暂停对应包。\n- 分支进度与已给出的选择可持久化，替换或移除定义不改写旧经历；本次功能独立实现，不借用其他 Coo 插件代码，也未增加地图。\n\n- 长期探索档案独立保存到访、项目、拍照、小事与时段，升级只补建仍有来源的历史。\n- 新增 `fun_route` 两站出门：明确下一站、途中换站或取消后续，行程保持独立并关联同次出门。\n- 江边、夜市与海洋馆的选择增加基于已选结果的后续，受真实项目和当前时段约束，不自动移动或生成收获。\n- 纪念册增加关键词、地点与日期筛选，工具支持组合检索；地点与纪念品可只读回看保留行程。\n- 增加沿途时间线与事件选择关联，旧记录不伪造时间；长行程保留最新活动与收摊并标明省略。\n- 二十处地点原创 SVG 插画、装饰性纪念品图标，优化推荐阅读层级、折叠管理、联程分组及键盘焦点，保留宿主主题与减少动态效果支持。\n\n- 跨天超时的行程保留为未完草稿，可明确续逛或按已有记录收摊；暂停期间不计入逗留，原有同日与跨午夜时限规则继续保留。\n- 新增 `fun_resume`；`fun_view` 显示未完行程 ID，`fun_home` 可用 `draftId` 结束草稿。待选事件可重新查看或用 `skip` 略过。\n- 「去哪儿」展示未完行程处理入口与待选问题、选项；工具和面板共享续逛与收摊实现，阻止重复处理旧草稿。\n- 推荐按当前营业与时段项目生成，显示可实现心愿、已记录的重游理由及下一合适时段；支持跨夜与自定义营业时间，不增加主动提醒。",
     "0.2.1": "- 三个面板统一为轻手账风格，调整字号、留白、卡片、圆角、窄屏布局与键盘焦点，沿用宿主明暗主题。\n- 「去哪儿」增加全部、现在开着、室内、户外、夜游、我的地点快捷筛选，可与名称、别名和标签搜索叠加。\n- 纪念册优先展示当前或最近行程，增加全部行程、珍藏、心愿分类；行程按日期分组，「常去的」保留为折叠区域。\n- 新增心愿表单默认折叠，保存成功后收起；已实现、暂缓与取消的心愿折叠收纳，操作中或失败时保持反馈可见。\n- 行程卡支持展开完整路线、事件、选择结果、纪念品、拍照、吃喝、同行人与收摊备注，并保留已有 scene/outfits 指引。\n- 纪念品架采用收藏小卡和探索进度条，提示仅保留账本的旧收藏；修复没有购买纪念品时探索进度被隐藏及说明文字重复的问题。\n- 三个面板补充加载提示、失败重试，刷新失败时保留已有内容；新增交互回归测试。状态格式、工具与提示词保持兼容。",
     "0.2.0": "- 精简常驻环境提示词与工具描述，地点清单改为按需查询；进门集中提供可逛、买、拍、吃喝清单，游逛回执只保留本次事实与选择提示，减少重复上下文。纪念册备注、长期收藏和心愿仍可完整按需查询。\n\n- 新增结构化事件选择：部分海洋馆事件会提供明确选项，使用 `fun_choice` 处理；选择状态可持久化，选择前不能继续逛，结果会写入当前行程。\n- 新增出游心愿：可记录地点、项目、时段或纪念品目标，支持查看、暂缓、恢复和取消；只有真实进门、逛到项目、匹配时段或买到物品时才完成，不自动催促。\n- 推荐地点在营业状态排序之后，优先显示当前可实现的心愿，并带出用户填写的缘由。\n- 新增长期收藏账本：独立记录每件纪念品的来源地点、首次获得日期与累计次数，不随最近 40 趟行程裁剪消失。升级时从仍保留的旧行程初始化，不猜补已裁掉的历史。\n- 新增 `fun_keepsake` 与纪念册珍藏/取消珍藏入口。珍藏行程独立保留并可在重启后查看；取消珍藏不影响近期行程与收藏账本。\n- 海洋馆六个区域新增专属空间描写；对应事件补充项目细节，避免同一段通用环境反复出现。\n- 购买、拍照、吃喝的唯一简称统一解析为清单正名后落盘；多义匹配列出候选，不再随意记成简称，保证收藏完成度和重复判断一致。旧记录不做模糊迁移。\n- 营业状态成为推荐排序的首要条件；同状态下保留自填地点优先和最近去过降权，避免打烊地点挤到营业地点前面。\n- 先确定项目和本次有效收获，再按项目与事实前置条件筛选事件；自动逛和指定项目使用同一套抽事件流程。\n- 显式空事件池保持为空，不再静默回退原始通用事件；历史候选耗尽时允许没有事件。\n- 预设编辑表单展示各时段范围、当前阶段与覆盖字段，说明通用描写/项目何时生效，以及修改营业时间不会移动阶段。\n- 增加名称匹配、事件条件、排序与时段编辑的回归覆盖。",
     "0.1.6": "接在 **0.1.5** 之后。这一版有两半：**修掉五个真会踩到的缺陷**，以及**让「去过」留下点东西**。\n\n### 发布前补齐\n\n- 纪念品关联购买它的每趟行程：面板可展开看同行人、逛过的项目与收摊备注；`fun_shelf` 指定地方也会列出。\n- 旧记录没有 `leftDay` 时，统一按插件当前时区读取 `leftAt`，修正凌晨日期偏移，不迁移或改写旧记录；已有 `leftDay` 保持原值。\n- 完成度按当前清单精确匹配，移除或改名不删除历史；加上场所编辑、坏数据和重复清单的边界验证。\n- 常客表达改为熟悉地方，不再凭来访次数编出店员认得她或固定订单。\n- 旧版架子和进度曾只来自纪念册保留的最近 40 趟；新版长期收藏不再依赖该窗口，历史详情仍以近期或珍藏行程为准。\n\n### 五个缺陷（都是实测复现出来的，不是猜的）\n\n1. **跨午夜逛着逛着就「你还没进门呢」。** 夜市开到 01:00、KTV 开到 02:00。\n   23:50 进夜市，过了零点再 `fun_wander`，回执是「你还没进门呢」——她正在逛的那一趟\n   凭空消失，而那个地方本来就没打烊。成因是 `normalizeState` 按**日历日**清 session。\n   现在判据换成两条取或：**还是同一天就留着**（同一天挂久了只提醒、不替她收，这是原行为），\n   **跨了天但上次动在 TTL 之内也留着**。跨了天又挂过 TTL 的才丢。\n2. **`fun_wander` 的 `area` 不校验。** 填一个库里没有的名字（「蹦极」）会被原样接受，\n   回执写「海洋馆 · 蹦极」，还进了纪念册——等于替她编了一个不存在的地方。\n   `buy` / `photo` / `consume` 三个都校验，只有 `area` 漏了。现在三档认：\n   正名、别名式包含、或者不填让系统挑；认不出就说「这儿没有这处，这会儿能逛的是……」。\n   时段收窄时（夜市白天只开一半摊子）会补一句「这会儿还没开」，和「压根没有」分开说。\n3. **日期按 UTC 算，早上 8 点前收的摊算成前一天。** 上海时间 06:20 爬完山、07:10 再去，\n   会被告知「你之前来过这里 1 次，上一次是**昨天**」——其实是同一个早上。\n   现在 `trip` 里存 `leftDay`（收摊时按本地时区算好），读的一方不用再猜时区。\n   老数据没有这个字段，读取时按插件当前时区换算时间戳，**不迁移、不改写老记录**。\n4. **收摊那句话转头就没了。** 回执里有「你记的：今天人很多，但很开心」，\n   但 `closeSession` 没往 trip 里写 `note`，所以 `fun_view` 和面板重看这一趟只剩「逛了哪儿」。\n   现在存进纪念册，两边都能看到。\n5. **同行的人不留档。** `company` 只进当次回执，trip 里没有——「上一次是和阿岚去的」\n   这种话永远说不出来。现在进 session 也进纪念册，`fun_view` 会写「跟阿岚一起」。\n\n顺带修了一个**写了没接**的地方：`historyFor` 一直算着 `events`（以前碰上过哪些小事），\n但没有任何人用它，于是同一处去五次、事件池只有五条，第五次就全是旧话。\n现在 `filterRepeatedEvents` 把它接上了。抽事件也收成一个 `pickEvent`——池子抽干时\n退回全池，**宁可重复也不给「没有事件」**。\n\n### 纪念品架：跨趟攒下来的东西（新工具 `fun_shelf` + 新面板）\n\n以前纪念册是一串孤立的趟，纪念品在 `trip.souvenirs` 里只是几个字符串，**跨趟没有任何归集**。\n所以「这枚纪念币是第一次去游乐场那天买的」这句话说不出来，面板上也看不出攒了多少东西——\n而这条数据一直躺在 `state.trips` 里，只是没人取。\n\n- **`fun_shelf`**：按地方归着列出攒到的每一样，写清**保留记录中最早拿到是哪天**、同一处买过几次。\n  还能只看某一处（`place` 填地方名）。\n- **第三张面板「纪念品架」**：顶部四个数（多少样、多少件、几处地方、几处逛遍），\n  按地方分组，下面是每处的进度。\n- **不落新状态**：架子和进度都是 `trips` 的**视图**（`src/keepsakes.js`，纯函数），\n  随时从头算。所以老用户的纪念册一升级就自动有架子了，**不需要迁移**。\n\n### 场所完成度：一个「再去一次把它补完」的理由\n\n每处地方算三条进度：**逛过的项目 / 买到的纪念品 / 拍到的拍照点**。\n\n- `fun_go` 进门时，…",

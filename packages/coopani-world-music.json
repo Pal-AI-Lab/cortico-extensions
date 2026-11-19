@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-music",
-  "version": "0.7.5",
+  "version": "1.0.0",
   "describe": {
     "tools": [
       {
@@ -13,7 +13,8 @@
           "properties": {}
         },
         "tags": [
-          "read"
+          "read",
+          "snapshot"
         ],
         "summary": {
           "zh": "现在在放什么、放了多久、以及读不到时为什么读不到。",
@@ -226,7 +227,7 @@
       },
       {
         "name": "music_soul",
-        "description": "Your own taste file — who you are as a listener, in your own words. Read it with no arguments. Call it when he asks what you like, when a song tells you something about your own taste you did not know before, or when you catch yourself contradicting what is already written there. **All four sections have to actually get used.** Only filling love while the other three stay empty is bookkeeping half a taste — the owner called this out on 2026-11-03 (\"only the ones she likes, the other three are missing\"). A track that made you frown belongs in hate; \"fine, but I would not put it on again\" belongs in tolerate; \"cannot tell whether it is the song or the moment\" belongs in unsure. A complaint said once in a bubble and never written down is gone by tomorrow. The bar for hate: it genuinely made you frown, and you can name the kind — not \"I did not feel like it today\". Write one short first-person line at a time (`add`), or remove one that no longer holds (`drop`). Not a log of what he played: that is music_taste.",
+        "description": "Your own taste file — who you are as a listener, in your own words. Read it with no arguments. Call it when he asks what you like, when a song tells you something about your own taste you did not know before, or when you catch yourself contradicting what is already written there. **All four sections have to actually get used.** Only filling love while the other three stay empty is bookkeeping half a taste — the owner called this out on 2026-11-03 (\"only likes recorded, the other three are missing\"). A track that made you frown belongs in hate; \"fine, but I would not put it on again\" belongs in tolerate; \"cannot tell whether it is the song or the moment\" belongs in unsure. A complaint said once in a bubble and never written down is gone by tomorrow. The bar for hate: it genuinely made you frown, and you can name the kind — not \"I did not feel like it today\". Write one short first-person line at a time (`add`), or remove one that no longer holds (`drop`). Not a log of what he played: that is music_taste.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -256,8 +257,8 @@
           "write"
         ],
         "summary": {
-          "zh": "读/写她自己的口味档案（我爱听什么，第一人称）。",
-          "en": "Reads and writes her own taste file."
+          "zh": "读/写自己的听歌口味档案（我爱听什么，第一人称）。",
+          "en": "Reads and writes your own taste file."
         }
       },
       {
@@ -332,13 +333,16 @@
           "zh": "这一首又走完一段（每首最多 3 段，短歌约一分钟一段，长曲按曲长拉开），可以就这一段说一句。",
           "en": "Another passage of the current track went by (at most three per track); a cue to comment on this stretch."
         },
-        "trigger": "debounce"
+        "trigger": "debounce",
+        "tags": [
+          "snapshot"
+        ]
       },
       {
         "type": "music.relay",
         "description": {
-          "zh": "她自己点的那一首快放完了，该把下一首递过去。",
-          "en": "The track she picked is nearly over; time to hand over the next one."
+          "zh": "你点的那一首快放完了，该把下一首递过去。",
+          "en": "The track you picked is nearly over; time to hand over the next one."
         },
         "trigger": "flush"
       },
@@ -357,10 +361,22 @@
           "en": "Deep-listening status changed: newly usable (once per build), or unusable (missing cloud key / local engine not installed, at most daily). The text says how to use it and that it overrides the older \"never describe specific sound\" rule."
         },
         "trigger": "flush"
+      },
+      {
+        "type": "music.handoff",
+        "description": {
+          "zh": "用户交接（handoff）结束时顺路搭车（piggyback）补齐当前正在播放的曲目与场次时长快照。",
+          "en": "Piggybacked playback snapshot after user handoff ends, refreshing the active track and session duration."
+        },
+        "trigger": "piggyback",
+        "tags": [
+          "snapshot"
+        ]
       }
     ]
   },
   "changelog": {
+    "1.0.0": "- **P0 修复 `speechNorm is not defined`**：导出 `helpers.ts` 的 `speechNorm` 并在 `world-hearing.ts` 显式导入，彻底根治自动深听命中 `checkSpeechMatch` 时的 `ReferenceError`；补充回归单测。\n- **ENV_PROMPT 大幅瘦身**：从 13,496 字符压至 2,200 余字符（删去与 `tools()` 重复的工具清单与强迫每段必说话的命令式指令），保留全部占位符与词表护栏。\n- **Harness 原语对齐**：\n  - `music.segment` 接入 `host.pushDeferred`（并在切歌或暂停时由 `render()` 返回 `null` 自动取消、配合 `host.withdrawPending` + `playEpoch` 播放代次与按 `trackKey` 过滤撤回未投递旧游标，保留同批 `loop/night/long` 事件，拦截异步查词期间已切走的过期 `emit`）；无歌词/无深听的后续平缓段降级 `piggyback`；\n  - 新增 `onHandoffEnded()`（独立 `music.handoff` 事件，`piggyback` + `['snapshot']` 延迟重算最新连听时长与曲目）与 `onEventsSettled()` 清理已结算游标；\n  - `music_now` 增加 `'snapshot'` 标签，`music_listen` 支持 `interruptible: true` 与 `ctx.signal` 全链路取消（含 `captureWav`、4.5 秒重切等待、常驻/一次性本地分析进程终止及落盘前拦截）；\n  - 云端深听 `cloudListen` 捕获真实 token 用量并通过 `host.reportUsage()` 上报；\n  - 清理 `describe.ts` / `describe.json` 残留第三人称并重新同步。\n- **结算账目修正（第四轮复审）**：\n  - `withdrawPending` 只有明确返回 `true` 才按撤回结算并回滚占位；返回 `false`、抛错或没有撤回通道时保留 `cursor → attempt` 账目，迟到的真实 `delivered` 仍会且只会提交一次，不再把撤回失败误当成丢弃；\n  - 隐藏 World（或宿主租约失效）的 `pushDeferred` 会被静默丢弃：未 render 的 attempt 给两分钟保守租约，到期仍未 render 才回滚；一旦 render 立即撤销租约，之后只等 `settled`，不按短超时判死；\n  - 隐藏 World 的 `pushEvent` 返回 `contextDelivery: 'archive-only'`（只归档不投递）时当场回滚占位，不登记一条永远等不到回执的游标；\n  - `pushEvent` 未返回游标时按宿主能力分流：两参 `pushDeferred` 的现代宿主视为异常、当场回滚；旧宿主没有 settled 流水线，按技能契约假定 delivered 一次性结清，避免里程碑、动作与深听账目永久卡在占位上反复重报。",
     "0.7.4": "在 journey 上踩到的坑，回头自查这一包也中了。宿主 `build/cortico/src/extensions/describe.ts`\n的注释原话：**索引仓的 Action 和 WebUI 的扩展市场只读 describe.json，不执行扩展代码**。\n而这份 JSON 一直是手抄的 —— 于是代码改了、JSON 没跟，**运行时不报错**，只有市场页面在骗人。\n\n- `music_tag` 漂了两处：`summary` 写的是「标一个听感」，实际还标态度（like / meh / no），\n  页面上完全看不出来；`verdict` 的说明也还是老措辞。\n- 全部从源码重新生成（10 工具 / 10 事件）。\n- 新增 `test/describe-sync.test.mjs`：工具名单 / description / summary / parameters、\n  事件名单 / trigger / 说明，全部与 `MUSIC_DESCRIBE` 逐一比对。改 `src/describe.ts`\n  忘了重生成，测试会红 —— 以后不用靠人记得。\n- 负向验过：改一个字、删一条事件都能抓住。",
     "0.7.3": "反馈来自同一个人：装过一次之后，面板上「形象包」那一格**什么按钮都没有**了 ——\n原来的写法只在 `missing`（没装）时画按钮，于是他既看不到状态能操作，也重装不了。\n\n- 面板按钮**常驻**：没装写「装形象包」，装过写「重装形象包」。\n- `ensureFigurePack` 加 `force`：按钮是明确的用户动作，**同版本也整格重写**。\n  真正需要重装的场合恰恰是\"版本一样但包坏了\"（复制到一半断电、手动删过文件、被杀软拦了半个）。\n- 只有 `occupied`（那一格里是别人的包）不给点 —— 覆盖别人做的东西比装不上更糟。\n- 装之前先收掉 `.groove-install-*` 残料：残留的临时目录和正式目录同 id 并存时，\n  宿主会报「id 已被另一个形象包占用」，而包本身看着正常。\n- 测试 173 条全过（新增 1 条钉住 force）。顺手修了一条老断言：它对照的是宿主自带鲸鱼包的\n  `figure.json`，能过是因为宿主文件当时被补丁改过；补丁撤掉后它立刻红，改成对照**我们自己的包**。",
     "0.7.2": "官方在 `cortico-extensions#659` 里的原话：\n\n> 请不要在 World 载入时自动安装，改成在 World 面板上放一个按钮，使用者点了才装，\n> 避免出现使用者预期之外的行为。\n\n照做。`start()` 里那一步从 `ensureFigurePack()` 换成了新的 `inspectFigurePack()` ——\n**World 载入这一步一个字节都不写盘**，只判断「装了没、是不是别人的、版本旧没旧」。\n\n- `figure-pack.ts`：新增 `inspectFigurePack()`（只读），`FigurePackResult.status` 多一个\n  `missing`。它和 `failed` 分开是因为面板要做的事不同：`missing` 该给「装」的按钮，\n  `failed` 该去看日志。\n- `panelInvoke` 多一个动作 `installFigure` —— **这是这个面板唯一的写动作**。\n- 面板上多一块「形象包」：说清现在什么状态，只有 `missing` 才出现「装形象包」按钮。\n- 形象包那盏灯：`missing` / `occupied` 算灰（没启用，不是故障），只有 `failed` 是红。\n- 测试 172/172，新增两条钉住这件事：`inspect` 不写盘（连 `figures/` 都不建）、\n  装过之后 `inspect` 报的是真状态（版本旧了要报 `missing`）。\n  谁把 `start()` 改回 `ensureFigurePack`，第一条就会红。\n\n「装完还要去换装页选上」这句话在灯和按钮下面都留着 —— 装好和用上是两步，不能只做一步。",
