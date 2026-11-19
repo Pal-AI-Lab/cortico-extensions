@@ -2,14 +2,30 @@
   "schema": 1,
   "name": "cortico-provider-deepseek",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/5",
-  "total": 1,
+  "total": 3,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BLUOo",
+      "author": "DTMosken",
+      "avatar": "https://avatars.githubusercontent.com/u/73480710?s=64&u=9f11428fbc5374d9450cb92c91ab8e3090907e1f&v=4",
+      "body": "**DeepSeek Provider 0.3.0 已发布：支持联网搜索和阅读链接**\r\n\r\n在 Cortico 里使用 `deepseek-flash` 时，现在可以让模型自己上网查资料、给出来源，也可以发一个公开网页链接，让它总结文章或回答相关问题。搜索和读网页不另收工具费，模型用量照常计费。[DeepSeek 官方说明](https://api-docs.deepseek.com/zh-cn/guides/web_tools/)\r\n\r\n**哪些插件可以省？** 如果你装通用搜索或网页阅读插件，主要是为了“帮我查一下最新消息”或“这篇文章讲了什么”，可以直接用 DeepSeek Provider。\r\n\r\n**哪些功能还需要插件？** 如果你需要看视频、网页截图、点击操作或按页查看 PDF 图表等功能，建议继续使用外部插件。这个更新不影响其它插件的使用。开启「阅读链接」后，由模型判断是否打开网页；如果你需要明确取得网页原文，也建议保留网页阅读插件。\r\n\r\n**怎么开启？**\r\n\r\n1. 安装或更新到 **0.3.0 或更高版本**，然后重启 Cortico。\r\n2. 回到 **「模型供应商」**。已经有 **「DeepSeek（峰谷计价）」** 实例的，直接打开它。第一次使用的，点 **「新建供应商实例」**，选择 **「DeepSeek（峰谷计价）」**，填入自己的 DeepSeek API Key，模型选 `deepseek-flash`。\r\n3. 在 **「联网工具」** 里按需打开 **「联网搜索」**、**「阅读链接」**，点 **「保存」**。如果是新建实例，再点 **「设为当前供应商」** 即可。",
+      "createdAt": "2026-11-19T11:26:57Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BLFLF",
       "author": "ylzqq",
       "avatar": "https://avatars.githubusercontent.com/u/153294227?s=64&v=4",
       "body": "为什么重启就没了",
-      "createdAt": "2026-11-17T14:10:43Z"
+      "createdAt": "2026-11-17T14:10:43Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BLUSk",
+          "author": "DTMosken",
+          "avatar": "https://avatars.githubusercontent.com/u/73480710?s=64&u=9f11428fbc5374d9450cb92c91ab8e3090907e1f&v=4",
+          "body": "我不清楚你是怎么使用的，可以提供更详细的说明吗？\r\n另外，附正确完整食用方式：\r\n1. 打开 Cortico WebUI，进入 **「模型供应商」→「扩展市场」**，搜索 `cortico-provider-deepseek`，安装或更新到 **最新版本**，然后重启 Cortico。\r\n2. 回到 **「模型供应商」**。已经有 **「DeepSeek（峰谷计价）」** 实例的，直接打开它。第一次使用的，点 **「新建供应商实例」**，选择 **「DeepSeek（峰谷计价）」**，填入自己的 DeepSeek API Key，模型选 `deepseek-flash`。",
+          "createdAt": "2026-11-19T11:30:00Z"
+        }
+      ]
     }
   ]
 }

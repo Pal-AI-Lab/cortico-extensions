@@ -2,8 +2,31 @@
   "schema": 1,
   "name": "cortico-world-figure",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/453",
-  "total": 2,
+  "total": 5,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BLRJg",
+      "author": "SkywardAtlas",
+      "avatar": "https://avatars.githubusercontent.com/u/125880997?s=64&u=3380e075ddff2d82b11998627ca3188469bc734f&v=4",
+      "body": "作者老大你好，我使用自己的模型的时候，如何实现走路的效果，目前web页面中里面似乎没有提供可以修改移动动画的口子。移动只能飘过去吗？",
+      "createdAt": "2026-11-19T08:59:40Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BLT26",
+          "author": "as124da1231",
+          "avatar": "https://avatars.githubusercontent.com/u/285245090?s=64&u=8ecbeb760259bc3da06cb37f2b9b0592a78e01c0&v=4",
+          "body": "1136066256这是qq群可以进来 细说。因为我手上各个liv2d模型的腿部功能都是空缺的所以这部分并没有过多设计，你可以在动作适配那里拉到AI那一挡位交给coo来让他自己判断，相关的工具给我有给coo，但是是否能实际解决各个模型的差异结果我没有测过。\r\n<img width=\"1287\" height=\"177\" alt=\"image\" src=\"https://github.com/user-attachments/assets/7989b583-d6cc-49cd-8061-73a3aead57a2\" />\r\n",
+          "createdAt": "2026-11-19T11:05:17Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BLVqp",
+          "author": "SkywardAtlas",
+          "avatar": "https://avatars.githubusercontent.com/u/125880997?s=64&u=3380e075ddff2d82b11998627ca3188469bc734f&v=4",
+          "body": "@as124da1231 已经解决了。我让鱼帮我看了一下，只要制作模型的时候制作了走路的参数，在backends/live2d.js里面加一段让他往复运动就可以了",
+          "createdAt": "2026-11-19T13:23:07Z"
+        }
+      ]
+    },
     {
       "id": "DC_kwDOVLPtGM4BJ0lU",
       "author": "3782125854-byte",

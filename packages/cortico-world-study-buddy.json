@@ -1,0 +1,135 @@
+{
+  "schema": 1,
+  "name": "cortico-world-study-buddy",
+  "version": "0.1.7",
+  "describe": {
+    "tools": [
+      {
+        "name": "study_start",
+        "description": "Start a kids study activity with the pet: dictation, mental math, poem recitation, pomodoro, read-aloud or mistake review. Call when the child wants to practise. The returned first prompt should be voiced/shown with pet_say in the same reply, copied verbatim, without waiting for this result. kind is required; payload is optional (poem name, book id, grade or minutes).",
+        "tags": [
+          "study"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "dictation",
+                "math",
+                "recite",
+                "pomodoro",
+                "read",
+                "review"
+              ],
+              "description": "Which activity to start."
+            },
+            "payload": {
+              "type": "string",
+              "description": "Optional: poem name, book id, grade or minutes."
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        "summary": {
+          "zh": "开始一项学习练习（听写/口算/背诵/番茄钟/伴读/复习）。",
+          "en": "Start a kids study activity."
+        }
+      },
+      {
+        "name": "study_answer",
+        "description": "Submit the child's answer to the current study question. Pass exactly what the child said or typed. The reply tells right/wrong and gives the next prompt; voice it with pet_say right after.",
+        "tags": [
+          "study"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "answer": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "answer"
+          ]
+        },
+        "summary": {
+          "zh": "提交孩子的答案，返回对错和下一题。",
+          "en": "Submit the child's answer."
+        }
+      },
+      {
+        "name": "study_next",
+        "description": "Skip the current item and move to the next one.",
+        "tags": [
+          "study"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "summary": {
+          "zh": "跳过当前题，进入下一题。",
+          "en": "Skip to the next item."
+        }
+      },
+      {
+        "name": "study_status",
+        "description": "Ask about current study progress, pomodoro time left, or how many mistakes are due for review.",
+        "tags": [
+          "study"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "summary": {
+          "zh": "查看当前学习进度、番茄剩余、待复习数。",
+          "en": "Check study progress and pomodoro status."
+        }
+      },
+      {
+        "name": "study_hush",
+        "description": "Stop the current study activity and its timer.",
+        "tags": [
+          "study"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "summary": {
+          "zh": "结束当前学习活动并清空计时。",
+          "en": "Stop the current study activity."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.study-buddy.envPrompt",
+        "title": "学习伴侣 · 环境提示词",
+        "role": "envPrompt",
+        "content": "## 学习伴侣\n\n`study_start` 开始一项学习：听写（dictation）、口算（math）、古诗背诵（recite）、番茄钟（pomodoro）、绘本伴读（read）、错题复习（review）。\n\n**这些工具只返回文字，不朗读。** 把返回文字原样交给紧随其后的 `pet_say` 显示出来；朗读由「米Mo语音」插件对气泡内容统一处理，不要自己再调别的工具念一遍，否则会念两遍。两个调用在同一次回复里连着发出，不要等工具回执。\n\n孩子回答后，把内容原样传给 `study_answer`；它返回对错和下一题，同样原样交给 `pet_say`。要跳过用 `study_next`，查进度用 `study_status`，结束用 `study_hush`。\n\n只有真正开始练习时才调用这些工具；普通聊天、状态提示不用。孩子想换项目或说结束时，先 `study_hush` 再 `study_start`。番茄钟到点会主动推送一条提醒事件给你——收到后用 `pet_say` 把提醒内容原样说给孩子听即可，不要调用任何 `study` 工具。\n\n学习伴侣此刻：{{study.state}}。不可用时只用 `pet_say`，如实说明。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.7": "- 配置页「朗读」区域补充安装引导：指引用户到软件的「扩展市场 → World 扩展」搜索「米Mo语音」安装并配置（纯文字说明，不加外部链接）。",
+    "0.1.6": "- README 强化「安装米Mo语音」引导：给出市场搜索名、npm 命令、API Key 申请入口（mimo.mi.com）和测试连接步骤，说明装了它本模块无需任何 TTS 配置。\n- 修正 0.1.5 清理后已过时的“忽略遗留音色控件”说明；安装章节补充配套 TTS 插件命令。",
+    "0.1.5": "- 彻底移除 TTS 残留：删除 `src/synth.ts` / `src/player.ts`，config.ts 去掉 `apiKey`/`voice`/`style*`/`audioTag`/`volume` 字段与「朗读」配置组，world.ts 去掉 `saveKey`/`test` 空壳方法与 `maskKey`，配置页移除无效的音色/风格/音量控件。\n- 这些在 0.1.2 职责分离后已成为死代码/死配置（填了不生效、易误导用户），清理零功能损失。config.json 里已存的旧字段会被宿主忽略，不影响运行。",
+    "0.1.4": "- README 新增「朗读说明」：装了「米Mo语音」插件后，本模块无需任何 TTS 配置（音色/风格/音量/密钥都在米Mo语音里）；未装则只显示文字不朗读。标注遗留的音色等选项已失效。\n- 同步修正计费、安装、依赖、番茄钟等过时描述。",
+    "0.1.3": "- 修复番茄钟到点不提醒：改为通过 `WorldHost.pushEvent(..., {trigger:'flush'})` 主动推送内部事件唤醒 bot，桌宠会立即说出「专注时间到/休息结束」提醒（由米Mo语音朗读），无需用户先开口。\n- 重启 Coopanion 后自动恢复未结束的番茄钟计时；若期间已到点则补发一次提醒。\n- 投递失败时退回 `pendingNotice`，在下次 `study_status` 带出作为兜底。",
+    "0.1.2": "- 职责分离：学习伴侣不再自己调 TTS 朗读，只返回文字交给 `pet_say`，由「米Mo语音」统一朗读，避免同一句话被念两遍。\n- 配置页「连接」改为说明，移除本插件的密钥/测试朗读入口（朗读由米Mo语音负责）。",
+    "0.1.1": "- 修复配置页「测试朗读」把打码后的密钥当真 key 发送导致 HTTP 401 的问题。",
+    "0.1.0": "- 首个版本：小学生的学习伴侣 World。\n- 6 个功能：听写/默写、口算练习、古诗背诵（内置约 30 首公有领域古诗）、番茄钟、绘本伴读、错题本+间隔复习。\n- 5 个工具：`study_start` / `study_answer` / `study_next` / `study_status` / `study_hush`，统一会话状态机。\n- 朗读复用小米 MiMo TTS（内置 synth + winmm 播放），音色/风格/音量可调。\n- 三个配置面板：设置 / 学习台 / 数据。"
+  }
+}

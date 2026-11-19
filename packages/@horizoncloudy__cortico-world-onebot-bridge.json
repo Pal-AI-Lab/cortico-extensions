@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "@horizoncloudy/cortico-world-onebot-bridge",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "describe": {
     "tools": [
       {
         "name": "onebot_call",
-        "description": "Call any OneBot v11 action. Read-only actions run immediately. Write actions run only on a turn with an identified inbound sender (a turn without an inbound message is refused, 60004) and follow writePolicy (default: confirm=true required). Credential actions get_cookies/get_csrf_token/get_credentials are not served (10002).",
+        "description": "Call only actions from the static v11 catalog (35 entries). Implementation-specific extension actions are no longer forwarded (10002). Any local file reference in params - drive letters, UNC, absolute paths, .., file:// or [CQ:*,file=...] - is refused before the call leaves the process; media must be an http(s) URL or base64 data. Read-only actions run immediately. Write actions run only on a turn with an identified inbound sender (a turn without an inbound message is refused, 60004) and follow writePolicy (default: confirm=true required). Credential actions get_cookies/get_csrf_token/get_credentials are not served (10002).",
         "parameters": {
           "type": "object",
           "properties": {
@@ -36,8 +36,8 @@
           "act"
         ],
         "summary": {
-          "zh": "调用 v11 action；只读直接执行，写动作要求本轮有实证发起方（缺入站记录回 60004）并按策略需 confirm=true；凭证动作不进桥（10002）。",
-          "en": "Call a v11 action; reads run immediately, writes need an identified inbound sender this turn (60004 without one) and follow the write policy; credential actions are not served (10002)."
+          "zh": "只调用 v11 静态目录内的 action；只读直接执行，写动作要求本轮有实证发起方（缺入站记录回 60004）并按策略需 confirm=true；凭证动作、目录外扩展动作、参数里的本机文件路径一律拒（10002）。",
+          "en": "Call only actions from the static v11 catalog; reads run immediately, writes need an identified inbound sender this turn (60004 without one) and follow the write policy; credential actions, non-catalog extension actions and local file references in params are refused (10002)."
         }
       },
       {
@@ -144,6 +144,8 @@
     ]
   },
   "changelog": {
+    "0.1.5": "*2026-11-19 · 能力面收敛 / 声明撤回*\n\n- **能力面收敛（10-22）**：新增 `src/guard.js` 两闸——`guardParams` 出网前拒本机文件引用（盘符/UNC/绝对路径/`..`/`file://`/CQ 码/深嵌套），`guardActionName` 只放行静态目录 action，实现端扩展动作不再透传。\n- 撤回 `0.1.4` 节里**从未发布**的 `unsafe` 声明；`cortico.tags` 不再含 warning tag。不写 `safe`（词表外 tag 会被 `check:extension` 拒）。\n- 工具声明 / summary / `describe.json` 同步重写；新增 `test/guard.test.mjs` 9 条；`node --test \"test/*.test.mjs\"` 34/34，selfcheck 62 闸。",
+    "0.1.4": "> 注：本节未发布；其中「自声明 unsafe」一条已由下一版撤回，能力面收敛见下一节。\n*2026-11-19 · 安全修复*\n\n- **按 10-22 判例（commit `7dec0b00d`）自声明 `cortico.tags: [\"unsafe\", ...]`**。\n  理由：`onebot_call` 是开放 dispatcher，`params` 为 `additionalProperties: true`，\n  实现端扩展 action 原样透传（`src/catalog.js:12`）；OneBot v11 的 `file` 参数可指向\n  本机路径，模型能把本机任意文件发到群聊或私聊。凭证三动作已挡（10002），\n  但文件外发能力面未收敛，不能靠「没声明」冒充 safe（`TAGS.md:42`）。\n- README 补安全声明章节，写清风险面与使用前置条件。",
     "0.1.3": "- 删 `onebot`、`onebot-v11`：两个词都不在索引仓 29 词词表内。市场抓取端会静默丢掉它们（cortico-extensions scan.mjs:56），既不报错也不提示，结果是按平台筛不到本包。\n- 补 `qq` + `im` + `experimental`：连的是 NapCat / SnowLuma / LLOneBot / Lagrange 这类非官方 QQ 客户端，本包又是骨架（图片下载、WebUI 与方言目录同步未做）。\n- 发布闸新增第五项：`cortico.tags` 每一项必须在市场词表内（`tests/_lib/release-gate.mjs` 的 `MARKET_TAGS`，抓自 cortico-extensions index.json，2026-11-16）。",
     "0.1.2": "- 面板「桥状态」补客户端产物：`src/webui/client.js`，`cortico.webUiClient` 声明它。\n- 描述改简体中文，并补 `cortico.locales.zh` / `.en` 两份。\n- 服务端补 `webUi().panels` 与 `invoke('status','get')`，面板数据面与状态工具同源。",
     "0.1.0": "首个版本：Cortico 侧 OneBot v11 world 包骨架。只承诺 v11，不承诺 v12。\n\n- 装载契约：`package.json` 的 `cortico` 块 `kind:\"world\"`、`api:6`（精确等于当前锚\n  `EXTENSION_API_VERSIONS.world`，`repos/cortico/src/extensions/manifest.ts:24 @836238311`）、\n  `describe:\"describe.json\"`。`main`/`exports` 指向 `src/definition.js`。\n- 定义与实例：`isWorldDefinition` 四件 `id/label/defaults()/create()`；`create()` 纯，\n  `defaults().enabled=false`。实例实现 World 的 `start / stop / envPromptVars / tools()`，\n  无 `send/on/storage`，不实现 `outputTap()`。\n- 事件投影：`onebot-bridge.message / notice / request / connection`。自发回声与\n  `meta_event` 走 `deliver:false` 只归档；`meta_event/heartbeat` 缺省丢弃；每条保留\n  `meta.raw`；缺 `raw_message/font` 的消息标 `meta.malformed`。\n- 工具四件（名字均 ⊆ describe.tools）：`onebot_call`（act，门序固定：名字闸→身份闸→策略闸，\n  写动作需本轮实证发起方 `anon=identified`，缺省需 `confirm=true`；`readOnly` 拦写；\n  未知/扩展动作按写处理）、\n  `onebot_actions`（read，目录/分类/覆盖）、`onebot_events`（read，查归档）、\n  `onebot_status`（read，连接+账号+覆盖面+策略）。\n- OneBot v11 覆盖面钉自运行产物：38 公开 action 中凭证三动作（`get_cookies`/`get_csrf_token`/\n  `get_credentials`）按 `SECURITY-CBP.md:125` 不进目录、命中名字回 `10002 unsupported_action`；\n  目录实发 35（读 16 / 写 19）、17 事件叶子、\n  20 线上消息段（`r-nonebot-onebot.md:133,121-126,141 @2450b67a1`）。快照在\n  `src/catalog.js`，实现端扩展动作由 `onebot_call` 按写处理、不进快照。\n- 传输：正向双工 WebSocket，一条连接同时收事件、按 `echo` 关联 action 回执；\n  退避 `1000ms×2` 封顶 `30000ms`；`start()` 永不 reject，连接等待封顶 `connectWaitMs`\n  后放行、后台继续重连。`ws` 走延迟 dynamic import，import 本包与跑单测都无需装 `ws`。\n- 产物与闸：`describe.json` 由 `npm run describe`（`node tools/selfcheck.mjs --write`）从\n  `definition` 派生、幂等；`tools/selfcheck.mjs` 离线复刻 `check:extension` 的可判据\n  （api 锚、上一版拒、describe 一致性、dryMount 形状、v11 覆盖面、未知段兜底）。\n- 测试：`node --test`（`test/normalize / world / contract`）覆盖纯函数、事件投影、\n  写门禁、驱动分类、装载契约与 v11 覆盖面计数。\n\n骨架阶段未做（留待完整实现，需要实现端或宿主）：图片 `blobs` 下载与\n`modelFacts.accepts` 投递前检查、WebUI 面板、按 `get_version_info` 识别实现并切目录、\n真实 WS 往返与 `delete_msg` 回执语义、实现方言目录同步。行为对齐第三方先例\n`cortico-world-onebot @2e91b7fb1`，不 fork、不重写。"

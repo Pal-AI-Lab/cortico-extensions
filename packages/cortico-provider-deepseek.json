@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-provider-deepseek",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "describe": {
     "provider": {
       "protocols": [
@@ -19,12 +19,6 @@
       "description": "DeepSeek Responses API，支持峰谷计价与关闭、低、高、最大四档思考。",
       "reasoningTiers": [
         {
-          "id": "high",
-          "label": "高",
-          "thinking": true,
-          "effort": "high"
-        },
-        {
           "id": "none",
           "label": "关闭",
           "thinking": false
@@ -36,6 +30,12 @@
           "effort": "low"
         },
         {
+          "id": "high",
+          "label": "高",
+          "thinking": true,
+          "effort": "high"
+        },
+        {
           "id": "max",
           "label": "最大",
           "thinking": true,
@@ -45,6 +45,7 @@
     }
   },
   "changelog": {
+    "0.3.0": "- Add independent web search and URL reading switches for `deepseek-flash` in the fourth section of the endpoint editor. Both default to off and can be used alongside existing function tools.\n- Keep signed web results in the conversation history so follow-up questions can refer to previously read pages.\n- Order reasoning levels from Off through Low and High to Max. New DeepSeek endpoints start with Off.",
     "0.2.2": "- Support Cortico 0.2.13. Use its built-in connection pricing editor for custom quotes and keep official peak/off-peak rates in a separate panel.\n- Pin development checks and WebUI builds to Cortico 0.2.13 without a sibling checkout.",
     "0.2.1": "- Identify peak/off-peak pricing in the provider title and all four reasoning tiers in its descriptions.\n- Correct the README requirement to provider contract 6.",
     "0.2.0": "- Target Cortico 0.2.1 and provider contract 6.\n- Rename browser contributions, imports and bundles to WebUI.\n- Add extension self-description and publishing guidance; keep tags empty to match the official index.",

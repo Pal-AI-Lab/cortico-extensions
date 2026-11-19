@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "@horizoncloudy/cortico-world-maibot",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "describe": {
     "tools": [
       {
@@ -172,6 +172,8 @@
     ]
   },
   "changelog": {
+    "0.1.5": "*2026-11-19 · 能力面收敛 / 声明撤回*\n\n- 撤回 `0.1.4` 节里**从未发布**的 `unsafe` 声明；`cortico.tags` 不再含 warning tag。\n- 复核 11-13 能力面已收敛：F20 的 Bearer + Origin + fail-shut 堵住「任意网页拨入」，`egress` 默认关、未申报能力本地判 60002、工具集静态表，模型无法借链路读写本机任意文件。\n- README 安全声明改写为能力面收敛证据；不写 `safe`，最终状态留待索引仓维护者审查。",
+    "0.1.4": "> 注：本节未发布；其中「自声明 unsafe」一条已由下一版撤回，能力面收敛见下一节。\n*2026-11-19 · 安全修复*\n\n- **按 11-13 判例（commit `5b453aa0b`）自声明 `cortico.tags: [\"unsafe\", ...]`**。\n  理由：本包在本机开 CBP WS 监听口；浏览器 WebSocket 没有 CORS 预检，本机任意网页\n  都能拨环回端口，无鉴权时等价于以控制台身份与 Coo 对话并触及本机文件。\n- 删 `MaibotConfig.token` / `DEFAULTS.token` / `normalizeConfig` token 读取 / 面板\n  `worlds.maibot.token` 项（SECURITY-CBP.md:132 点名落点）。\n- `definition.create` 改从 `ctx.secret('CORTICO_BRIDGE_TOKEN')` 注入 `authToken`；\n  缺密钥时内核 `listen()` fail-shut 拒绑定。\n- 依赖内核钉到 `^0.1.3`（含强制密钥 + Origin 校验），避免解析到旧版免鉴权 core。\n- `node --test \"tests/*.test.ts\"` 54/54 通过。",
     "0.1.3": "- `apps` 换成 `qq` + `im`：TAGS.md:28 规定别的 tag 成立时不用 `apps`；TAGS.md:60 又要求标了 `qq` 就同时标 `im`。\n- 补 `experimental`：发信腿刚接线，真机派发路径未起宿主实测，只在单一宿主装态验过加载。\n- 发信腿接线（工单 K1）：`maibot_send_message` 与 `maibot_streams` 两支固定工具回到 `TOOL_DECLS`、\n  `describe.json`、`ENV_PROMPT.md`；`PEER_CAPABILITIES` 镜像改成桥 `hello.tools` 真申报的两支\n  （`maibot_send`、`chat.get_all_streams`）。对面 = `cortico-bridge-maibot/sender.py`。\n- 新增出站限流 `rateAllowed()`：60 秒滑动窗，参数校验排在限流之前，坏请求不吃额度。\n- 发布闸新增第五项：`cortico.tags` 每一项必须在市场词表内（`tests/_lib/release-gate.mjs` 的 `MARKET_TAGS`，抓自 cortico-extensions index.json，2026-11-16）。",
     "0.1.2": "- 面板「桥状态」补客户端产物：`src/webui/client.js`，`cortico.webUiClient` 声明它。\n- 描述改简体中文，并补 `cortico.locales.zh` / `.en` 两份。\n- 服务端补 `webUi().panels` 与 `invoke('status','get')`，面板数据面与状态工具同源。",
     "0.1.1": "- 内核依赖从 `^0.1.0` 收紧到 `^0.1.1`。",

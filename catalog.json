@@ -184,6 +184,9 @@
     "cortico-world-screen-diary": [
       "sensitive-data"
     ],
+    "cortico-world-screen-peek": [
+      "sensitive-data"
+    ],
     "cortico-world-screen-sense": [
       "sensitive-data"
     ],
@@ -288,9 +291,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 758,
-        "month": 758,
-        "week": 109
+        "total": 773,
+        "month": 773,
+        "week": 112
       },
       "summary": {
         "tools": 2,
@@ -367,9 +370,9 @@
       ],
       "icon": "assets/@aqualcross__cortico-world-audio/icon.svg",
       "downloads": {
-        "total": 2801,
-        "month": 2801,
-        "week": 1092
+        "total": 3449,
+        "month": 3449,
+        "week": 1640
       },
       "summary": {
         "tools": 12,
@@ -399,7 +402,7 @@
     },
     "@horizoncloudy/cortico-world-astrbot-bridge": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.1.5",
       "displayName": "AstrBot · QQ (CBP)",
       "description": "经 CBP 连接 AstrBot 的桥，收编旧私有帧协议并保留两阶段升级路径。",
       "locales": {
@@ -431,8 +434,8 @@
         "bugs": "https://github.com/HorizonCloudy/cortico-bridge-fleet/issues"
       },
       "created": "2026-11-16T12:50:46.432Z",
-      "published": "2026-11-16T23:51:27.144Z",
-      "versionCount": 4,
+      "published": "2026-11-19T13:36:36.931Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -450,9 +453,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 586,
-        "month": 586,
-        "week": 586
+        "total": 605,
+        "month": 605,
+        "week": 605
       },
       "summary": {
         "tools": 4,
@@ -462,6 +465,8 @@
       },
       "changelog": {
         "versions": [
+          "0.1.5",
+          "0.1.4",
           "0.1.3",
           "0.1.2",
           "0.1.0"
@@ -478,7 +483,7 @@
     },
     "@horizoncloudy/cortico-world-koishi": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.2",
       "displayName": "Koishi Bridge",
       "description": "Koishi 插件兼容入口薄壳：不写 Koishi 协议码，用 OneBot v11 正向 WebSocket 拨 NapCat 类实现端，再叠 catalog 实现选择。",
       "locales": {
@@ -511,8 +516,8 @@
         "bugs": "https://github.com/HorizonCloudy/cortico-bridge-fleet/issues"
       },
       "created": "2026-11-16T23:50:23.174Z",
-      "published": "2026-11-16T23:52:00.726Z",
-      "versionCount": 2,
+      "published": "2026-11-19T13:35:34.566Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -531,18 +536,20 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 197,
-        "month": 197,
-        "week": 197
+        "total": 208,
+        "month": 208,
+        "week": 208
       },
       "summary": {
         "tools": 4,
         "events": 4,
-        "toolTokens": 649,
+        "toolTokens": 737,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.1.2",
+          "0.1.1",
           "0.1.0"
         ],
         "url": "https://github.com/HorizonCloudy/cortico-bridge-fleet/blob/HEAD/packages/cortico-world-koishi/CHANGELOG.md"
@@ -557,7 +564,7 @@
     },
     "@horizoncloudy/cortico-world-maibot": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.1.5",
       "displayName": "MaiBot · QQ (CBP)",
       "description": "经 CBP v1 帧协议连接 MaiBot 的桥：监听 WebSocket、能力协商、出站门与对端工具清单。",
       "locales": {
@@ -589,8 +596,8 @@
         "bugs": "https://github.com/HorizonCloudy/cortico-bridge-fleet/issues"
       },
       "created": "2026-11-16T12:50:36.012Z",
-      "published": "2026-11-16T23:51:20.255Z",
-      "versionCount": 5,
+      "published": "2026-11-19T13:35:43.112Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -609,9 +616,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 713,
-        "month": 713,
-        "week": 713
+        "total": 725,
+        "month": 725,
+        "week": 725
       },
       "summary": {
         "tools": 5,
@@ -621,6 +628,8 @@
       },
       "changelog": {
         "versions": [
+          "0.1.5",
+          "0.1.4",
           "0.1.3",
           "0.1.2",
           "0.1.1",
@@ -638,7 +647,7 @@
     },
     "@horizoncloudy/cortico-world-neko": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.1.5",
       "displayName": "N.E.K.O · 猫娘 (CBP)",
       "description": "经 CBP v1 帧协议连接 N.E.K.O 猫娘平台的桥：双角色 WebSocket、能力协商、出站门与身份登记。",
       "locales": {
@@ -670,34 +679,39 @@
         "bugs": "https://github.com/HorizonCloudy/cortico-bridge-fleet/issues"
       },
       "created": "2026-11-16T12:50:26.655Z",
-      "published": "2026-11-16T14:28:14.799Z",
-      "versionCount": 4,
+      "published": "2026-11-19T13:36:54.369Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
         "apps",
         "external-setup",
-        "unofficial-api"
+        "unofficial-api",
+        "experimental"
       ],
       "tags": [
         "apps",
         "external-setup",
+        "experimental",
         "unsafe",
         "unofficial-api"
       ],
       "downloads": {
-        "total": 572,
-        "month": 572,
-        "week": 572
+        "total": 592,
+        "month": 592,
+        "week": 592
       },
       "summary": {
         "tools": 4,
         "events": 5,
-        "toolTokens": 546,
-        "envPromptTokens": 648
+        "toolTokens": 629,
+        "envPromptTokens": 804
       },
       "changelog": {
         "versions": [
+          "0.1.5",
+          "0.1.4",
+          "0.1.3",
           "0.1.2",
           "0.1.1",
           "0.1.0"
@@ -714,7 +728,7 @@
     },
     "@horizoncloudy/cortico-world-onebot-bridge": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.1.5",
       "displayName": "OneBot Bridge",
       "description": "接任意 OneBot v11 实现的桥：正向 WebSocket、通用 action 调度与动作目录覆盖度。",
       "locales": {
@@ -749,8 +763,8 @@
         "bugs": "https://github.com/HorizonCloudy/cortico-bridge-fleet/issues"
       },
       "created": "2026-11-16T12:50:55.494Z",
-      "published": "2026-11-16T23:51:32.714Z",
-      "versionCount": 4,
+      "published": "2026-11-19T13:34:55.546Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -769,18 +783,20 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 587,
-        "month": 587,
-        "week": 587
+        "total": 606,
+        "month": 606,
+        "week": 606
       },
       "summary": {
         "tools": 4,
         "events": 4,
-        "toolTokens": 568,
+        "toolTokens": 660,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.1.5",
+          "0.1.4",
           "0.1.3",
           "0.1.2",
           "0.1.0"
@@ -833,9 +849,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 730,
-        "month": 730,
-        "week": 64
+        "total": 745,
+        "month": 745,
+        "week": 70
       },
       "summary": {
         "tools": 1,
@@ -925,9 +941,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 1888,
-        "month": 1888,
-        "week": 98
+        "total": 1890,
+        "month": 1890,
+        "week": 84
       },
       "summary": {
         "worlds": 4,
@@ -1016,9 +1032,9 @@
         "experimental"
       ],
       "downloads": {
-        "total": 2562,
-        "month": 2562,
-        "week": 141
+        "total": 2580,
+        "month": 2580,
+        "week": 147
       },
       "summary": {
         "tools": 0,
@@ -1111,9 +1127,9 @@
         "requires-extension"
       ],
       "downloads": {
-        "total": 2072,
-        "month": 2072,
-        "week": 190
+        "total": 2128,
+        "month": 2128,
+        "week": 219
       },
       "summary": {
         "tools": 2,
@@ -1202,9 +1218,9 @@
       ],
       "icon": "assets/@lily-cooperative__custom-farm/icon.png",
       "downloads": {
-        "total": 6528,
-        "month": 6528,
-        "week": 1127
+        "total": 6771,
+        "month": 6771,
+        "week": 1273
       },
       "summary": {
         "tools": 13,
@@ -1268,9 +1284,9 @@
       ],
       "icon": "assets/@niuzhi__cortico-world-bili-video-pro/icon.png",
       "downloads": {
-        "total": 890,
-        "month": 890,
-        "week": 166
+        "total": 933,
+        "month": 933,
+        "week": 178
       },
       "summary": {
         "tools": 18,
@@ -1362,9 +1378,9 @@
       ],
       "icon": "assets/@niuzhi__cortico-world-bubble-emotes/icon.svg",
       "downloads": {
-        "total": 396,
-        "month": 396,
-        "week": 108
+        "total": 434,
+        "month": 434,
+        "week": 126
       },
       "summary": {
         "tools": 3,
@@ -1486,9 +1502,9 @@
       ],
       "icon": "assets/@niuzhi__cortico-world-listening-companion/icon.png",
       "downloads": {
-        "total": 280,
-        "month": 280,
-        "week": 67
+        "total": 309,
+        "month": 309,
+        "week": 86
       },
       "summary": {
         "tools": 15,
@@ -1606,9 +1622,9 @@
         "experimental"
       ],
       "downloads": {
-        "total": 40407,
-        "month": 40407,
-        "week": 5419
+        "total": 41938,
+        "month": 41938,
+        "week": 6199
       },
       "summary": {
         "tools": 2,
@@ -1762,9 +1778,9 @@
         "experimental"
       ],
       "downloads": {
-        "total": 6716,
-        "month": 6716,
-        "week": 3521
+        "total": 7359,
+        "month": 7359,
+        "week": 4104
       },
       "summary": {
         "tools": 6,
@@ -1837,9 +1853,9 @@
         "experimental"
       ],
       "downloads": {
-        "total": 4037,
-        "month": 4037,
-        "week": 1815
+        "total": 4201,
+        "month": 4201,
+        "week": 1936
       },
       "summary": {
         "tools": 1,
@@ -1943,9 +1959,9 @@
       ],
       "icon": "assets/better-cortico-world-netease-companion/icon.png",
       "downloads": {
-        "total": 16508,
-        "month": 16508,
-        "week": 2819
+        "total": 17096,
+        "month": 17096,
+        "week": 2643
       },
       "summary": {
         "tools": 15,
@@ -2041,9 +2057,9 @@
       "tags": [],
       "icon": "assets/coo-whale-home/icon.svg",
       "downloads": {
-        "total": 1314,
-        "month": 1314,
-        "week": 303
+        "total": 1352,
+        "month": 1352,
+        "week": 284
       },
       "discussion": {
         "number": 744,
@@ -2094,9 +2110,9 @@
       ],
       "icon": "assets/coo-world-petdiary/icon.svg",
       "downloads": {
-        "total": 2708,
-        "month": 2708,
-        "week": 818
+        "total": 2794,
+        "month": 2794,
+        "week": 851
       },
       "summary": {
         "tools": 4,
@@ -2168,9 +2184,9 @@
       "tags": [],
       "icon": "assets/coo-world-room/icon.png",
       "downloads": {
-        "total": 1791,
-        "month": 1791,
-        "week": 728
+        "total": 1901,
+        "month": 1901,
+        "week": 723
       },
       "discussion": {
         "number": 789,
@@ -2229,9 +2245,9 @@
       ],
       "icon": "assets/coopani-world-fish-ride/icon.svg",
       "downloads": {
-        "total": 823,
-        "month": 823,
-        "week": 823
+        "total": 945,
+        "month": 945,
+        "week": 945
       },
       "summary": {
         "tools": 9,
@@ -2313,9 +2329,9 @@
       ],
       "icon": "assets/coopani-world-journey/icon.png",
       "downloads": {
-        "total": 42780,
-        "month": 42780,
-        "week": 15593
+        "total": 45596,
+        "month": 45596,
+        "week": 14413
       },
       "summary": {
         "tools": 25,
@@ -2531,7 +2547,7 @@
       "discussion": {
         "number": 586,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/586",
-        "up": 13,
+        "up": 14,
         "down": 0,
         "comments": 44
       }
@@ -2588,9 +2604,9 @@
       ],
       "icon": "assets/coopani-world-life/icon.png",
       "downloads": {
-        "total": 4539,
-        "month": 4539,
-        "week": 4539
+        "total": 6009,
+        "month": 6009,
+        "week": 6009
       },
       "summary": {
         "tools": 16,
@@ -2701,9 +2717,9 @@
       ],
       "icon": "assets/coopani-world-music/icon.png",
       "downloads": {
-        "total": 14456,
-        "month": 14456,
-        "week": 2780
+        "total": 14683,
+        "month": 14683,
+        "week": 2861
       },
       "summary": {
         "tools": 10,
@@ -2782,9 +2798,9 @@
       "discussion": {
         "number": 384,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/384",
-        "up": 2,
+        "up": 3,
         "down": 0,
-        "comments": 6
+        "comments": 7
       }
     },
     "coopani-world-pz": {
@@ -2840,9 +2856,9 @@
       ],
       "icon": "assets/coopani-world-pz/icon.png",
       "downloads": {
-        "total": 4491,
-        "month": 4491,
-        "week": 1010
+        "total": 4557,
+        "month": 4557,
+        "week": 1025
       },
       "summary": {
         "tools": 6,
@@ -2939,9 +2955,9 @@
       ],
       "icon": "assets/coopanion-connect-workbuddy/icon.svg",
       "downloads": {
-        "total": 0,
-        "month": 0,
-        "week": 0
+        "total": 682,
+        "month": 682,
+        "week": 682
       },
       "summary": {
         "protocols": [
@@ -3029,9 +3045,9 @@
         "high-cost"
       ],
       "downloads": {
-        "total": 1057,
-        "month": 1057,
-        "week": 33
+        "total": 1059,
+        "month": 1059,
+        "week": 32
       },
       "summary": {
         "tools": 5,
@@ -3092,9 +3108,9 @@
         "unsafe"
       ],
       "downloads": {
-        "total": 478,
-        "month": 478,
-        "week": 61
+        "total": 480,
+        "month": 480,
+        "week": 53
       },
       "summary": {
         "tools": 4,
@@ -3158,9 +3174,9 @@
         "memory"
       ],
       "downloads": {
-        "total": 1184,
-        "month": 1184,
-        "week": 267
+        "total": 1248,
+        "month": 1248,
+        "week": 294
       },
       "summary": {
         "tools": 5,
@@ -3244,9 +3260,9 @@
         "diagnostics"
       ],
       "downloads": {
-        "total": 504,
-        "month": 504,
-        "week": 504
+        "total": 563,
+        "month": 563,
+        "week": 563
       },
       "summary": {
         "tools": 0,
@@ -3316,9 +3332,9 @@
         "unsafe"
       ],
       "downloads": {
-        "total": 1067,
-        "month": 1067,
-        "week": 572
+        "total": 1097,
+        "month": 1097,
+        "week": 574
       },
       "summary": {
         "tools": 4,
@@ -3386,9 +3402,9 @@
         "companion"
       ],
       "downloads": {
-        "total": 9811,
-        "month": 6673,
-        "week": 253
+        "total": 9824,
+        "month": 6686,
+        "week": 201
       },
       "summary": {
         "worlds": 3,
@@ -3451,9 +3467,9 @@
         "high-cost"
       ],
       "downloads": {
-        "total": 349,
-        "month": 349,
-        "week": 41
+        "total": 352,
+        "month": 352,
+        "week": 34
       },
       "summary": {
         "worlds": 1,
@@ -3520,9 +3536,9 @@
         "memory"
       ],
       "downloads": {
-        "total": 2535,
-        "month": 2535,
-        "week": 95
+        "total": 2543,
+        "month": 2543,
+        "week": 87
       },
       "summary": {
         "worlds": 0
@@ -3581,8 +3597,8 @@
         "injection-risk"
       ],
       "downloads": {
-        "total": 446,
-        "month": 446,
+        "total": 448,
+        "month": 448,
         "week": 15
       },
       "summary": {
@@ -3638,9 +3654,9 @@
         "companion"
       ],
       "downloads": {
-        "total": 851,
-        "month": 851,
-        "week": 33
+        "total": 855,
+        "month": 855,
+        "week": 23
       },
       "summary": {
         "worlds": 0,
@@ -3683,9 +3699,9 @@
         "memory"
       ],
       "downloads": {
-        "total": 375,
-        "month": 375,
-        "week": 42
+        "total": 378,
+        "month": 378,
+        "week": 34
       },
       "discussion": {
         "number": 846,
@@ -3742,9 +3758,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 1693,
-        "month": 1140,
-        "week": 66
+        "total": 1696,
+        "month": 1143,
+        "week": 58
       },
       "summary": {
         "worlds": 1,
@@ -3816,9 +3832,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 391,
-        "month": 391,
-        "week": 16
+        "total": 394,
+        "month": 394,
+        "week": 14
       },
       "summary": {
         "worlds": 1,
@@ -3874,9 +3890,9 @@
         "companion"
       ],
       "downloads": {
-        "total": 1127,
-        "month": 1127,
-        "week": 36
+        "total": 1133,
+        "month": 1133,
+        "week": 29
       },
       "summary": {
         "worlds": 1,
@@ -3928,9 +3944,9 @@
         "companion"
       ],
       "downloads": {
-        "total": 1074,
-        "month": 360,
-        "week": 67
+        "total": 1076,
+        "month": 362,
+        "week": 57
       },
       "summary": {
         "worlds": 1,
@@ -3984,9 +4000,9 @@
         "diagnostics"
       ],
       "downloads": {
-        "total": 1252,
-        "month": 1028,
-        "week": 43
+        "total": 1255,
+        "month": 1031,
+        "week": 34
       },
       "changelog": {
         "versions": [
@@ -4033,9 +4049,9 @@
         "experimental"
       ],
       "downloads": {
-        "total": 915,
-        "month": 414,
-        "week": 116
+        "total": 947,
+        "month": 446,
+        "week": 126
       },
       "summary": {
         "protocols": [
@@ -4109,9 +4125,9 @@
       ],
       "icon": "assets/cortico-provider-coo/icon.svg",
       "downloads": {
-        "total": 2366,
-        "month": 1738,
-        "week": 508
+        "total": 2454,
+        "month": 1826,
+        "week": 531
       },
       "summary": {
         "protocols": [
@@ -4146,7 +4162,7 @@
     },
     "cortico-provider-deepseek": {
       "kind": "provider",
-      "version": "0.2.2",
+      "version": "0.3.0",
       "description": "Cortico 的 DeepSeek Responses API 模型供应商扩展，支持峰谷计价与关闭、低、高、最大四档思考。",
       "author": "DTMosken",
       "maintainers": [
@@ -4163,15 +4179,15 @@
         "bugs": "https://github.com/DTMosken/cortico-provider-deepseek/issues"
       },
       "created": "2026-09-23T06:27:10.866Z",
-      "published": "2026-11-05T01:57:38.487Z",
-      "versionCount": 7,
+      "published": "2026-11-19T11:13:02.860Z",
+      "versionCount": 8,
       "official": false,
       "isNew": false,
       "tags": [],
       "downloads": {
-        "total": 3247,
-        "month": 1957,
-        "week": 340
+        "total": 3346,
+        "month": 2056,
+        "week": 409
       },
       "summary": {
         "protocols": [
@@ -4188,6 +4204,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.0",
           "0.2.2",
           "0.2.1",
           "0.2.0",
@@ -4200,7 +4217,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/5",
         "up": 0,
         "down": 0,
-        "comments": 1
+        "comments": 3
       }
     },
     "cortico-provider-deepseek-web": {
@@ -4243,9 +4260,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 1539,
-        "month": 1539,
-        "week": 230
+        "total": 1548,
+        "month": 1548,
+        "week": 219
       },
       "summary": {
         "protocols": [
@@ -4282,17 +4299,17 @@
     },
     "cortico-provider-gemini-gateway": {
       "kind": "provider",
-      "version": "0.1.0",
-      "displayName": "Custom Gemini Gateway",
-      "description": "Cortico provider for Gemini Robin desktop OAuth multi-account pools, Web2API Gemini REST, and custom session RPC gateways.",
+      "version": "0.1.4",
+      "displayName": "🐦 Gemini 多合一粮仓",
+      "description": "### 📦**Gemini 多合一粮仓（Robin / Web2API / 自定义 RPC）**\n给自家桌宠搭的三合一 Gemini 喂食通道，WebUI 面板随切随用：\n- **🐦 知更鸟模式（Robin）**：支持绑多个号轮着喂（主备切号 / 雨露均沾 / 谁额度多先吃谁），自带 5h & 周额度小看板、原生传图和账号打码防社死。\n- **🔑 Web2API 模式**：切过去直接填官方 Gemini API Key 或自建反代 Key，零门槛开箱即用。\n- **🛠️ 自定义 RPC**：给喜欢",
       "locales": {
         "zh": {
-          "displayName": "Gemini 多协议网关 (Robin / Web2API / RPC)",
-          "description": "支持 Robin 桌面 OAuth 多账号调度、Web2API 原生 Gemini 与自定义会话式 RPC 网关，内置额度监控与自动计价。"
+          "displayName": "🐦 Gemini 多合一粮仓",
+          "description": "### 📦**Gemini 多合一粮仓（Robin / Web2API / 自定义 RPC）**\n给自家桌宠搭的三合一 Gemini 喂食通道，WebUI 面板随切随用：\n- **🐦 知更鸟模式（Robin）**：支持绑多个号轮着喂（主备切号 / 雨露均沾 / 谁额度多先吃谁），自带 5h & 周额度小看板、原生传图和账号打码防社死。\n- **🔑 Web2API 模式**：切过去直接填官方 Gemini API Key 或自建反代 Key，零门槛开箱即用。\n- **🛠️ 自定义 RPC**：给喜欢自己搭网关的折腾党留的后门。"
         },
         "en": {
-          "displayName": "Custom Gemini Gateway (Robin / Web2API / RPC)",
-          "description": "Gemini Robin desktop OAuth multi-account pool, Web2API Gemini REST, and custom session RPC gateway with quota tracking and pricing."
+          "displayName": "🐦 Gemini All-in-One Feeder",
+          "description": "### 📦**Gemini All-in-One Gateway (Robin / Web2API / Custom RPC)**\nA 3-in-1 Gemini feeder for your Cortico desktop companion with adaptive WebUI panels:\n- **🐦 Robin Mode**: Multi-account OAuth pool (failover / round-robin / weekly-quota-first), 5h & weekly quota dashboard, native image upload, and one-click email masking.\n- **🔑 Web2API Mode**: Paste an official Gemini API Key or self-hosted proxy key and start right away.\n- **🛠️ Custom RPC**: Flexible routing and headers for self-hosted gateway tinkerers."
         }
       },
       "author": "云纪&云洄",
@@ -4314,8 +4331,8 @@
         "bugs": "https://github.com/Unnori/cortico-provider-gemini-gateway/issues"
       },
       "created": "2026-11-19T06:39:56.778Z",
-      "published": "2026-11-19T06:41:33.328Z",
-      "versionCount": 2,
+      "published": "2026-11-19T11:35:46.748Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4326,6 +4343,7 @@
         "experimental",
         "unofficial-api"
       ],
+      "icon": "assets/cortico-provider-gemini-gateway/icon.png",
       "downloads": {
         "total": 0,
         "month": 0,
@@ -4350,6 +4368,10 @@
       },
       "changelog": {
         "versions": [
+          "0.1.4",
+          "0.1.3",
+          "0.1.2",
+          "0.1.1",
           "0.1.0"
         ],
         "url": "https://github.com/Unnori/cortico-provider-gemini-gateway/blob/HEAD/CHANGELOG.md"
@@ -4393,9 +4415,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 1861,
-        "month": 1292,
-        "week": 670
+        "total": 1924,
+        "month": 1355,
+        "week": 629
       },
       "discussion": {
         "number": 6,
@@ -4453,9 +4475,9 @@
         "requires-extension"
       ],
       "downloads": {
-        "total": 1243,
-        "month": 1243,
-        "week": 290
+        "total": 1247,
+        "month": 1247,
+        "week": 275
       },
       "summary": {
         "protocols": [
@@ -4523,9 +4545,9 @@
       "isNew": false,
       "tags": [],
       "downloads": {
-        "total": 974,
-        "month": 974,
-        "week": 201
+        "total": 1032,
+        "month": 1032,
+        "week": 238
       },
       "summary": {
         "protocols": [
@@ -4584,9 +4606,9 @@
       "tags": [],
       "icon": "assets/cortico-provider-opencode/icon.png",
       "downloads": {
-        "total": 2798,
-        "month": 2798,
-        "week": 1079
+        "total": 2861,
+        "month": 2861,
+        "week": 1097
       },
       "summary": {
         "protocols": [
@@ -4677,9 +4699,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 496,
-        "month": 496,
-        "week": 62
+        "total": 505,
+        "month": 505,
+        "week": 66
       },
       "summary": {
         "protocols": [
@@ -4739,9 +4761,9 @@
         "diagnostics"
       ],
       "downloads": {
-        "total": 1045,
-        "month": 594,
-        "week": 40
+        "total": 1048,
+        "month": 597,
+        "week": 36
       },
       "discussion": {
         "number": 84,
@@ -4780,9 +4802,9 @@
       "isNew": false,
       "tags": [],
       "downloads": {
-        "total": 1251,
-        "month": 1251,
-        "week": 68
+        "total": 1254,
+        "month": 1254,
+        "week": 56
       },
       "discussion": {
         "number": 409,
@@ -4829,9 +4851,9 @@
         "requires-extension"
       ],
       "downloads": {
-        "total": 8262,
-        "month": 6410,
-        "week": 173
+        "total": 8279,
+        "month": 6427,
+        "week": 156
       },
       "summary": {
         "tools": 4,
@@ -4900,9 +4922,9 @@
       ],
       "icon": "assets/cortico-world-agenda/icon.svg",
       "downloads": {
-        "total": 2036,
-        "month": 1719,
-        "week": 96
+        "total": 2050,
+        "month": 1733,
+        "week": 88
       },
       "summary": {
         "tools": 8,
@@ -4986,9 +5008,9 @@
       ],
       "icon": "assets/cortico-world-agent-wechat-native/icon.svg",
       "downloads": {
-        "total": 1173,
-        "month": 1173,
-        "week": 1173
+        "total": 1264,
+        "month": 1264,
+        "week": 1264
       },
       "summary": {
         "tools": 7,
@@ -5077,9 +5099,9 @@
         "unsafe"
       ],
       "downloads": {
-        "total": 890,
-        "month": 890,
-        "week": 37
+        "total": 894,
+        "month": 894,
+        "week": 36
       },
       "summary": {
         "tools": 3,
@@ -5134,9 +5156,9 @@
         "memory"
       ],
       "downloads": {
-        "total": 2624,
-        "month": 1999,
-        "week": 66
+        "total": 2631,
+        "month": 2006,
+        "week": 61
       },
       "summary": {
         "tools": 4,
@@ -5197,9 +5219,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 5877,
-        "month": 4899,
-        "week": 196
+        "total": 5900,
+        "month": 4922,
+        "week": 188
       },
       "summary": {
         "tools": 8,
@@ -5266,7 +5288,7 @@
       "published": "2026-11-15T06:50:19.873Z",
       "versionCount": 5,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "diagnostics"
       ],
@@ -5274,9 +5296,9 @@
         "diagnostics"
       ],
       "downloads": {
-        "total": 1140,
-        "month": 1140,
-        "week": 697
+        "total": 1188,
+        "month": 1188,
+        "week": 731
       },
       "summary": {
         "tools": 0,
@@ -5357,9 +5379,9 @@
       ],
       "icon": "assets/cortico-world-asr/icon.png",
       "downloads": {
-        "total": 1484,
-        "month": 734,
-        "week": 131
+        "total": 1530,
+        "month": 780,
+        "week": 154
       },
       "summary": {
         "tools": 0,
@@ -5434,9 +5456,9 @@
       ],
       "icon": "assets/cortico-world-astrbot/icon.png",
       "downloads": {
-        "total": 6710,
-        "month": 6710,
-        "week": 726
+        "total": 6979,
+        "month": 6979,
+        "week": 924
       },
       "summary": {
         "tools": 4,
@@ -5449,7 +5471,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/333",
         "up": 0,
         "down": 0,
-        "comments": 2
+        "comments": 3
       }
     },
     "cortico-world-astrbot-livingmemory": {
@@ -5490,7 +5512,7 @@
       "published": "2026-11-16T03:24:14.948Z",
       "versionCount": 7,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "memory",
         "companion",
@@ -5503,9 +5525,9 @@
       ],
       "icon": "assets/cortico-world-astrbot-livingmemory/icon.png",
       "downloads": {
-        "total": 1487,
-        "month": 1487,
-        "week": 704
+        "total": 1522,
+        "month": 1522,
+        "week": 729
       },
       "summary": {
         "tools": 7,
@@ -5527,8 +5549,8 @@
         "number": 749,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/749",
         "up": 0,
-        "down": 0,
-        "comments": 1
+        "down": 1,
+        "comments": 2
       }
     },
     "cortico-world-audio": {
@@ -5568,9 +5590,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 6812,
-        "month": 6812,
-        "week": 223
+        "total": 6866,
+        "month": 6866,
+        "week": 245
       },
       "summary": {
         "tools": 1,
@@ -5629,9 +5651,9 @@
         "voice"
       ],
       "downloads": {
-        "total": 1886,
-        "month": 1627,
-        "week": 45
+        "total": 1890,
+        "month": 1631,
+        "week": 37
       },
       "summary": {
         "tools": 3,
@@ -5705,9 +5727,9 @@
       ],
       "icon": "assets/cortico-world-auto-interact/icon.png",
       "downloads": {
-        "total": 2066,
-        "month": 2066,
-        "week": 262
+        "total": 2137,
+        "month": 2137,
+        "week": 293
       },
       "summary": {
         "tools": 5,
@@ -5764,9 +5786,9 @@
         "video"
       ],
       "downloads": {
-        "total": 4472,
-        "month": 4472,
-        "week": 186
+        "total": 4518,
+        "month": 4518,
+        "week": 205
       },
       "summary": {
         "tools": 2,
@@ -5837,9 +5859,9 @@
       ],
       "icon": "assets/cortico-world-bili-live-reminder/icon.svg",
       "downloads": {
-        "total": 856,
-        "month": 856,
-        "week": 53
+        "total": 870,
+        "month": 870,
+        "week": 52
       },
       "summary": {
         "tools": 4,
@@ -5917,9 +5939,9 @@
       ],
       "icon": "assets/cortico-world-bili-video-pro/icon.png",
       "downloads": {
-        "total": 6766,
-        "month": 6766,
-        "week": 1681
+        "total": 7709,
+        "month": 7709,
+        "week": 2571
       },
       "summary": {
         "tools": 18,
@@ -5984,16 +6006,16 @@
       "published": "2026-11-19T03:57:09.362Z",
       "versionCount": 14,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [
         "browser",
         "video",
         "unofficial-api"
       ],
       "downloads": {
-        "total": 3072,
-        "month": 3072,
-        "week": 1197
+        "total": 3177,
+        "month": 3177,
+        "week": 1236
       },
       "summary": {
         "tools": 18,
@@ -6098,9 +6120,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 1601,
-        "month": 1601,
-        "week": 184
+        "total": 1627,
+        "month": 1627,
+        "week": 181
       },
       "summary": {
         "tools": 28,
@@ -6149,9 +6171,9 @@
       ],
       "icon": "assets/cortico-world-bilibili/icon.svg",
       "downloads": {
-        "total": 10469,
-        "month": 8230,
-        "week": 900
+        "total": 10584,
+        "month": 8345,
+        "week": 949
       },
       "summary": {
         "tools": 2,
@@ -6223,9 +6245,9 @@
       ],
       "icon": "assets/cortico-world-bilibili-video/icon.png",
       "downloads": {
-        "total": 18647,
-        "month": 18351,
-        "week": 918
+        "total": 18909,
+        "month": 18613,
+        "week": 1090
       },
       "summary": {
         "tools": 13,
@@ -6285,9 +6307,9 @@
         "video"
       ],
       "downloads": {
-        "total": 2424,
-        "month": 2424,
-        "week": 82
+        "total": 2442,
+        "month": 2442,
+        "week": 86
       },
       "summary": {
         "tools": 13,
@@ -6344,9 +6366,9 @@
         "internet"
       ],
       "downloads": {
-        "total": 312,
-        "month": 312,
-        "week": 312
+        "total": 350,
+        "month": 350,
+        "week": 350
       },
       "summary": {
         "tools": 1,
@@ -6407,9 +6429,9 @@
         "companion"
       ],
       "downloads": {
-        "total": 1612,
-        "month": 1612,
-        "week": 45
+        "total": 1614,
+        "month": 1614,
+        "week": 37
       },
       "summary": {
         "tools": 7,
@@ -6435,7 +6457,7 @@
     },
     "cortico-world-bloom-kpect": {
       "kind": "world",
-      "version": "0.3.2-dev.v15.3bloom",
+      "version": "0.3.2-dev.v15.4bloom",
       "displayName": "花语乡 Project Bloom",
       "description": "花语乡 Project Bloom（群 1132517396）：让 Cortico Bot 自主生活、交易、送礼与交流的 World 扩展",
       "locales": {
@@ -6467,8 +6489,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-bloom-kpect"
       },
       "created": "2026-11-03T06:21:04.448Z",
-      "published": "2026-11-14T16:35:30.150Z",
-      "versionCount": 28,
+      "published": "2026-11-19T12:59:10.871Z",
+      "versionCount": 29,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -6480,9 +6502,9 @@
         "companion"
       ],
       "downloads": {
-        "total": 7360,
-        "month": 7360,
-        "week": 1066
+        "total": 7397,
+        "month": 7397,
+        "week": 1039
       },
       "summary": {
         "tools": 11,
@@ -6492,7 +6514,7 @@
       },
       "changelog": {
         "versions": [
-          "0.3.2-dev.v15.3bloom",
+          "0.3.2-dev.v15.4bloom",
           "0.3.2-dev.v11Metier",
           "0.3.2-dev.v10.4",
           "0.3.2-dev.v10.3",
@@ -6522,7 +6544,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-bloom-kpect@0.3.2-dev.v15.3bloom/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-bloom-kpect@0.3.2-dev.v15.4bloom/CHANGELOG.md"
       },
       "discussion": {
         "number": 697,
@@ -6572,9 +6594,9 @@
         "assets/cortico-world-bookfish/screenshot-1.jpg"
       ],
       "downloads": {
-        "total": 4868,
-        "month": 4868,
-        "week": 3821
+        "total": 5002,
+        "month": 5002,
+        "week": 2377
       },
       "summary": {
         "tools": 15,
@@ -6697,7 +6719,7 @@
     },
     "cortico-world-bottle": {
       "kind": "world",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "displayName": "漂流瓶",
       "description": "桌宠起草漂流瓶与小纸条，伙伴确认寄出；共读、回信与星笺记忆分别授权。",
       "locales": {
@@ -6729,25 +6751,26 @@
         "bugs": "https://github.com/Unnori/cortico-world-bottle-client/issues"
       },
       "created": "2026-10-28T20:41:06.331Z",
-      "published": "2026-11-16T15:56:33.085Z",
-      "versionCount": 25,
+      "published": "2026-11-19T12:40:40.731Z",
+      "versionCount": 26,
       "official": false,
       "isNew": false,
       "tags": [],
       "icon": "assets/cortico-world-bottle/icon.png",
       "downloads": {
-        "total": 6938,
-        "month": 6938,
-        "week": 1639
+        "total": 7062,
+        "month": 7062,
+        "week": 1669
       },
       "summary": {
         "tools": 16,
         "events": 18,
-        "toolTokens": 4843,
+        "toolTokens": 4848,
         "envPromptTokens": 374
       },
       "changelog": {
         "versions": [
+          "1.0.1",
           "1.0.0",
           "0.9.3",
           "0.9.2",
@@ -6837,9 +6860,9 @@
         "high-cost"
       ],
       "downloads": {
-        "total": 708,
-        "month": 708,
-        "week": 49
+        "total": 713,
+        "month": 713,
+        "week": 42
       },
       "summary": {
         "tools": 3,
@@ -6896,9 +6919,9 @@
         "companion"
       ],
       "downloads": {
-        "total": 3296,
-        "month": 2685,
-        "week": 114
+        "total": 3338,
+        "month": 2727,
+        "week": 142
       },
       "summary": {
         "tools": 1,
@@ -6957,9 +6980,9 @@
       ],
       "icon": "assets/cortico-world-breezeblue-tts/icon.svg",
       "downloads": {
-        "total": 1197,
-        "month": 1197,
-        "week": 90
+        "total": 1218,
+        "month": 1218,
+        "week": 103
       },
       "discussion": {
         "number": 324,
@@ -7028,8 +7051,8 @@
         "assets/cortico-world-browser/screenshot-1.png"
       ],
       "downloads": {
-        "total": 6253,
-        "month": 6253,
+        "total": 6298,
+        "month": 6298,
         "week": 291
       },
       "summary": {
@@ -7117,9 +7140,9 @@
       ],
       "icon": "assets/cortico-world-bubble-emotes/icon.svg",
       "downloads": {
-        "total": 8904,
-        "month": 8904,
-        "week": 522
+        "total": 9052,
+        "month": 9052,
+        "week": 606
       },
       "summary": {
         "tools": 3,
@@ -7236,9 +7259,9 @@
       ],
       "icon": "assets/cortico-world-buckshot/icon.png",
       "downloads": {
-        "total": 1388,
-        "month": 682,
-        "week": 100
+        "total": 1424,
+        "month": 718,
+        "week": 123
       },
       "summary": {
         "tools": 10,
@@ -7288,9 +7311,9 @@
         "diagnostics"
       ],
       "downloads": {
-        "total": 599,
-        "month": 599,
-        "week": 108
+        "total": 627,
+        "month": 627,
+        "week": 119
       },
       "summary": {
         "tools": 2,
@@ -7341,9 +7364,9 @@
       "isNew": true,
       "tags": [],
       "downloads": {
-        "total": 363,
-        "month": 363,
-        "week": 363
+        "total": 377,
+        "month": 377,
+        "week": 377
       },
       "summary": {
         "tools": 5,
@@ -7390,9 +7413,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 784,
-        "month": 784,
-        "week": 39
+        "total": 791,
+        "month": 791,
+        "week": 41
       },
       "discussion": {
         "number": 269,
@@ -7454,9 +7477,9 @@
       ],
       "icon": "assets/cortico-world-canvas/icon.png",
       "downloads": {
-        "total": 1770,
-        "month": 1019,
-        "week": 128
+        "total": 1791,
+        "month": 1040,
+        "week": 126
       },
       "summary": {
         "tools": 15,
@@ -7524,9 +7547,9 @@
         "requires-extension"
       ],
       "downloads": {
-        "total": 384,
-        "month": 384,
-        "week": 41
+        "total": 389,
+        "month": 389,
+        "week": 35
       },
       "summary": {
         "tools": 0,
@@ -7614,9 +7637,9 @@
       ],
       "icon": "assets/cortico-world-checkin/icon.svg",
       "downloads": {
-        "total": 3182,
-        "month": 3182,
-        "week": 433
+        "total": 3221,
+        "month": 3221,
+        "week": 443
       },
       "summary": {
         "tools": 6,
@@ -7712,9 +7735,9 @@
       ],
       "icon": "assets/cortico-world-civ6-assistant-plus/icon.png",
       "downloads": {
-        "total": 1269,
-        "month": 1269,
-        "week": 88
+        "total": 1293,
+        "month": 1293,
+        "week": 96
       },
       "summary": {
         "tools": 3,
@@ -7800,9 +7823,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 2930,
-        "month": 2930,
-        "week": 102
+        "total": 2961,
+        "month": 2961,
+        "week": 122
       },
       "summary": {
         "tools": 3,
@@ -7859,9 +7882,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 1326,
-        "month": 1326,
-        "week": 48
+        "total": 1333,
+        "month": 1333,
+        "week": 44
       },
       "summary": {
         "tools": 1,
@@ -7912,9 +7935,9 @@
         "companion"
       ],
       "downloads": {
-        "total": 2857,
-        "month": 2006,
-        "week": 172
+        "total": 2866,
+        "month": 2015,
+        "week": 127
       },
       "summary": {
         "tools": 1,
@@ -7977,8 +8000,8 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 440,
-        "month": 440,
+        "total": 445,
+        "month": 445,
         "week": 27
       },
       "summary": {
@@ -8057,9 +8080,9 @@
       ],
       "icon": "assets/cortico-world-coding-agent-notify/icon.svg",
       "downloads": {
-        "total": 2130,
-        "month": 2130,
-        "week": 1067
+        "total": 2230,
+        "month": 2230,
+        "week": 1124
       },
       "summary": {
         "tools": 0,
@@ -8135,9 +8158,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 1046,
-        "month": 1046,
-        "week": 122
+        "total": 1076,
+        "month": 1076,
+        "week": 131
       },
       "summary": {
         "tools": 7,
@@ -8198,9 +8221,9 @@
       ],
       "icon": "assets/cortico-world-compose/icon.svg",
       "downloads": {
-        "total": 392,
-        "month": 392,
-        "week": 392
+        "total": 413,
+        "month": 413,
+        "week": 413
       },
       "summary": {
         "tools": 6,
@@ -8264,9 +8287,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 460,
-        "month": 460,
-        "week": 19
+        "total": 462,
+        "month": 462,
+        "week": 15
       },
       "summary": {
         "tools": 1,
@@ -8330,9 +8353,9 @@
         "experimental"
       ],
       "downloads": {
-        "total": 1204,
-        "month": 1204,
-        "week": 99
+        "total": 1224,
+        "month": 1224,
+        "week": 106
       },
       "summary": {
         "tools": 0,
@@ -8422,7 +8445,7 @@
       "downloads": {
         "total": 526,
         "month": 526,
-        "week": 12
+        "week": 9
       },
       "summary": {
         "tools": 6,
@@ -8504,9 +8527,9 @@
         "assets/cortico-world-coo-home/screenshot-8.jpg"
       ],
       "downloads": {
-        "total": 587,
-        "month": 587,
-        "week": 587
+        "total": 651,
+        "month": 651,
+        "week": 651
       },
       "summary": {
         "tools": 1,
@@ -8582,9 +8605,9 @@
       ],
       "icon": "assets/cortico-world-coo-mobile/icon.png",
       "downloads": {
-        "total": 1024,
-        "month": 1024,
-        "week": 47
+        "total": 1030,
+        "month": 1030,
+        "week": 45
       },
       "summary": {
         "tools": 8,
@@ -8668,9 +8691,9 @@
       ],
       "icon": "assets/cortico-world-coocowork/icon.svg",
       "downloads": {
-        "total": 1780,
-        "month": 1780,
-        "week": 83
+        "total": 1807,
+        "month": 1807,
+        "week": 96
       },
       "summary": {
         "tools": 6,
@@ -8749,9 +8772,9 @@
       ],
       "icon": "assets/cortico-world-cortidrive/icon.png",
       "downloads": {
-        "total": 1167,
-        "month": 451,
-        "week": 34
+        "total": 1176,
+        "month": 460,
+        "week": 33
       },
       "summary": {
         "tools": 3,
@@ -8804,9 +8827,9 @@
         "external-setup"
       ],
       "downloads": {
-        "total": 628,
-        "month": 506,
-        "week": 44
+        "total": 647,
+        "month": 525,
+        "week": 60
       },
       "discussion": {
         "number": 17,
@@ -8851,9 +8874,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 3362,
-        "month": 3035,
-        "week": 132
+        "total": 3380,
+        "month": 3053,
+        "week": 115
       },
       "summary": {
         "tools": 16,
@@ -8922,9 +8945,9 @@
         "assets/cortico-world-dailypaper/screenshot-3.png"
       ],
       "downloads": {
-        "total": 1166,
-        "month": 1166,
-        "week": 30
+        "total": 1175,
+        "month": 1175,
+        "week": 34
       },
       "changelog": {
         "versions": [
@@ -8987,9 +9010,9 @@
         "companion"
       ],
       "downloads": {
-        "total": 3478,
-        "month": 3478,
-        "week": 448
+        "total": 3563,
+        "month": 3563,
+        "week": 471
       },
       "summary": {
         "tools": 1,
@@ -9063,9 +9086,9 @@
       ],
       "icon": "assets/cortico-world-deepseek-usage/icon.png",
       "downloads": {
-        "total": 10858,
-        "month": 10858,
-        "week": 822
+        "total": 11031,
+        "month": 11031,
+        "week": 901
       },
       "summary": {
         "tools": 4,
@@ -9133,9 +9156,9 @@
       ],
       "icon": "assets/cortico-world-devtools/icon.svg",
       "downloads": {
-        "total": 2349,
-        "month": 2349,
-        "week": 102
+        "total": 2372,
+        "month": 2372,
+        "week": 103
       },
       "summary": {
         "tools": 4,
@@ -9177,9 +9200,9 @@
         "memory"
       ],
       "downloads": {
-        "total": 3127,
-        "month": 3127,
-        "week": 152
+        "total": 3149,
+        "month": 3149,
+        "week": 149
       },
       "summary": {
         "tools": 4,
@@ -9239,9 +9262,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 1398,
-        "month": 1398,
-        "week": 46
+        "total": 1407,
+        "month": 1407,
+        "week": 40
       },
       "summary": {
         "tools": 3,
@@ -9324,9 +9347,9 @@
         "assets/cortico-world-diary-recall/screenshot-2.png"
       ],
       "downloads": {
-        "total": 1946,
-        "month": 1946,
-        "week": 113
+        "total": 1981,
+        "month": 1981,
+        "week": 134
       },
       "summary": {
         "tools": 3,
@@ -9400,9 +9423,9 @@
       ],
       "icon": "assets/cortico-world-dol-sfw/icon.png",
       "downloads": {
-        "total": 1813,
-        "month": 1813,
-        "week": 97
+        "total": 1838,
+        "month": 1838,
+        "week": 104
       },
       "summary": {
         "tools": 8,
@@ -9474,9 +9497,9 @@
       ],
       "icon": "assets/cortico-world-dota2-gsi/icon.png",
       "downloads": {
-        "total": 740,
-        "month": 740,
-        "week": 740
+        "total": 757,
+        "month": 757,
+        "week": 757
       },
       "summary": {
         "tools": 3,
@@ -9547,9 +9570,9 @@
       ],
       "icon": "assets/cortico-world-doubao-tts/icon.png",
       "downloads": {
-        "total": 3849,
-        "month": 3849,
-        "week": 950
+        "total": 3967,
+        "month": 3967,
+        "week": 1041
       },
       "summary": {
         "tools": 2,
@@ -9621,9 +9644,9 @@
         "external-setup"
       ],
       "downloads": {
-        "total": 7140,
-        "month": 7140,
-        "week": 1299
+        "total": 7185,
+        "month": 7185,
+        "week": 1262
       },
       "changelog": {
         "versions": [
@@ -9701,9 +9724,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 3871,
-        "month": 3871,
-        "week": 228
+        "total": 3931,
+        "month": 3931,
+        "week": 256
       },
       "summary": {
         "tools": 7,
@@ -9781,9 +9804,9 @@
       ],
       "icon": "assets/cortico-world-douyin-live/icon.svg",
       "downloads": {
-        "total": 1437,
-        "month": 1437,
-        "week": 180
+        "total": 1472,
+        "month": 1472,
+        "week": 169
       },
       "summary": {
         "tools": 1,
@@ -9845,9 +9868,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 1301,
-        "month": 1301,
-        "week": 37
+        "total": 1307,
+        "month": 1307,
+        "week": 32
       },
       "summary": {
         "tools": 2,
@@ -9911,9 +9934,9 @@
         "external-setup"
       ],
       "downloads": {
-        "total": 5101,
-        "month": 5101,
-        "week": 291
+        "total": 5139,
+        "month": 5139,
+        "week": 277
       },
       "summary": {
         "tools": 2,
@@ -9994,9 +10017,9 @@
         "internal-state"
       ],
       "downloads": {
-        "total": 3657,
-        "month": 3657,
-        "week": 199
+        "total": 3681,
+        "month": 3681,
+        "week": 181
       },
       "summary": {
         "tools": 23,
@@ -10081,9 +10104,9 @@
       ],
       "icon": "assets/cortico-world-dsh-launcher/icon.svg",
       "downloads": {
-        "total": 986,
-        "month": 986,
-        "week": 58
+        "total": 1005,
+        "month": 1005,
+        "week": 71
       },
       "summary": {
         "tools": 5,
@@ -10155,9 +10178,9 @@
       ],
       "icon": "assets/cortico-world-dungeon/icon.png",
       "downloads": {
-        "total": 2100,
-        "month": 684,
-        "week": 91
+        "total": 2118,
+        "month": 702,
+        "week": 90
       },
       "summary": {
         "tools": 10,
@@ -10230,9 +10253,9 @@
         "game"
       ],
       "downloads": {
-        "total": 5411,
-        "month": 5411,
-        "week": 232
+        "total": 5486,
+        "month": 5486,
+        "week": 282
       },
       "summary": {
         "tools": 9,
@@ -10310,9 +10333,9 @@
       ],
       "icon": "assets/cortico-world-ego/icon.webp",
       "downloads": {
-        "total": 6922,
-        "month": 6922,
-        "week": 816
+        "total": 6999,
+        "month": 6999,
+        "week": 793
       },
       "summary": {
         "tools": 17,
@@ -10375,9 +10398,9 @@
       "tags": [],
       "icon": "assets/cortico-world-ellen-page-patch/icon.svg",
       "downloads": {
-        "total": 499,
-        "month": 499,
-        "week": 39
+        "total": 500,
+        "month": 500,
+        "week": 27
       },
       "summary": {
         "tools": 1,
@@ -10442,9 +10465,9 @@
       ],
       "icon": "assets/cortico-world-ellen-voice/icon.svg",
       "downloads": {
-        "total": 2867,
-        "month": 2867,
-        "week": 170
+        "total": 2897,
+        "month": 2897,
+        "week": 163
       },
       "summary": {
         "tools": 7,
@@ -10508,9 +10531,9 @@
       ],
       "icon": "assets/cortico-world-emote-pics/icon.png",
       "downloads": {
-        "total": 10005,
-        "month": 10005,
-        "week": 3001
+        "total": 10192,
+        "month": 10192,
+        "week": 3085
       },
       "summary": {
         "tools": 3,
@@ -10611,9 +10634,9 @@
         "requires-extension"
       ],
       "downloads": {
-        "total": 4664,
-        "month": 4664,
-        "week": 217
+        "total": 4717,
+        "month": 4717,
+        "week": 221
       },
       "summary": {
         "tools": 7,
@@ -10695,9 +10718,9 @@
       ],
       "icon": "assets/cortico-world-ets2-dafeiyu/icon.png",
       "downloads": {
-        "total": 6020,
-        "month": 6020,
-        "week": 775
+        "total": 6055,
+        "month": 6055,
+        "week": 778
       },
       "summary": {
         "tools": 9,
@@ -10825,9 +10848,9 @@
         "assets/cortico-world-extra-actions/screenshot-1.webp"
       ],
       "downloads": {
-        "total": 9838,
-        "month": 9838,
-        "week": 1157
+        "total": 10014,
+        "month": 10014,
+        "week": 1235
       },
       "discussion": {
         "number": 671,
@@ -10883,9 +10906,9 @@
         "injection-risk"
       ],
       "downloads": {
-        "total": 1410,
-        "month": 1410,
-        "week": 76
+        "total": 1415,
+        "month": 1415,
+        "week": 64
       },
       "summary": {
         "tools": 5,
@@ -10950,9 +10973,9 @@
       "tags": [],
       "icon": "assets/cortico-world-fast-files/icon.png",
       "downloads": {
-        "total": 650,
-        "month": 650,
-        "week": 650
+        "total": 664,
+        "month": 664,
+        "week": 664
       },
       "summary": {
         "tools": 9,
@@ -11019,9 +11042,9 @@
       ],
       "icon": "assets/cortico-world-fatfish/icon.png",
       "downloads": {
-        "total": 50809,
-        "month": 49888,
-        "week": 4425
+        "total": 52144,
+        "month": 51223,
+        "week": 5363
       },
       "summary": {
         "tools": 6,
@@ -11079,7 +11102,7 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 65,
+        "up": 67,
         "down": 7,
         "comments": 71
       }
@@ -11129,9 +11152,9 @@
         "internal-state"
       ],
       "downloads": {
-        "total": 942,
-        "month": 942,
-        "week": 68
+        "total": 955,
+        "month": 955,
+        "week": 70
       },
       "summary": {
         "tools": 5,
@@ -11211,9 +11234,9 @@
       ],
       "icon": "assets/cortico-world-feast/icon.png",
       "downloads": {
-        "total": 3929,
-        "month": 3929,
-        "week": 1446
+        "total": 4505,
+        "month": 4505,
+        "week": 1924
       },
       "summary": {
         "tools": 18,
@@ -11291,9 +11314,9 @@
         "requires-extension"
       ],
       "downloads": {
-        "total": 771,
-        "month": 771,
-        "week": 27
+        "total": 785,
+        "month": 785,
+        "week": 32
       },
       "summary": {
         "tools": 0,
@@ -11365,9 +11388,9 @@
       ],
       "icon": "assets/cortico-world-feeling/icon.webp",
       "downloads": {
-        "total": 3500,
-        "month": 3500,
-        "week": 924
+        "total": 3603,
+        "month": 3603,
+        "week": 967
       },
       "summary": {
         "tools": 2,
@@ -11455,9 +11478,9 @@
       ],
       "icon": "assets/cortico-world-feishu/icon.svg",
       "downloads": {
-        "total": 1663,
-        "month": 1663,
-        "week": 107
+        "total": 1681,
+        "month": 1681,
+        "week": 106
       },
       "summary": {
         "tools": 4,
@@ -11556,9 +11579,9 @@
         "injection-risk"
       ],
       "downloads": {
-        "total": 2386,
-        "month": 2386,
-        "week": 79
+        "total": 2387,
+        "month": 2387,
+        "week": 58
       },
       "discussion": {
         "number": 363,
@@ -11601,9 +11624,9 @@
         "companion"
       ],
       "downloads": {
-        "total": 428,
-        "month": 428,
-        "week": 27
+        "total": 430,
+        "month": 430,
+        "week": 24
       },
       "summary": {
         "tools": 0,
@@ -11680,9 +11703,9 @@
       ],
       "icon": "assets/cortico-world-figure/icon.svg",
       "downloads": {
-        "total": 7370,
-        "month": 7370,
-        "week": 1401
+        "total": 7586,
+        "month": 7586,
+        "week": 1297
       },
       "summary": {
         "tools": 8,
@@ -11715,7 +11738,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/453",
         "up": 4,
         "down": 0,
-        "comments": 2
+        "comments": 5
       }
     },
     "cortico-world-figure-persona": {
@@ -11771,9 +11794,9 @@
       ],
       "icon": "assets/cortico-world-figure-persona/icon.svg",
       "downloads": {
-        "total": 2366,
-        "month": 2366,
-        "week": 70
+        "total": 2386,
+        "month": 2386,
+        "week": 75
       },
       "summary": {
         "tools": 2,
@@ -11860,9 +11883,9 @@
         "experimental"
       ],
       "downloads": {
-        "total": 610,
-        "month": 610,
-        "week": 610
+        "total": 828,
+        "month": 828,
+        "week": 828
       },
       "summary": {
         "tools": 25,
@@ -11932,9 +11955,9 @@
       ],
       "icon": "assets/cortico-world-figure-sound/icon.svg",
       "downloads": {
-        "total": 1838,
-        "month": 1838,
-        "week": 333
+        "total": 1851,
+        "month": 1851,
+        "week": 308
       },
       "summary": {
         "tools": 0,
@@ -12012,9 +12035,9 @@
       ],
       "icon": "assets/cortico-world-filter-paper/icon.svg",
       "downloads": {
-        "total": 482,
-        "month": 482,
-        "week": 37
+        "total": 483,
+        "month": 483,
+        "week": 33
       },
       "discussion": {
         "number": 447,
@@ -12079,9 +12102,9 @@
         "assets/cortico-world-fish-house/screenshot-1.png"
       ],
       "downloads": {
-        "total": 569,
-        "month": 569,
-        "week": 569
+        "total": 593,
+        "month": 593,
+        "week": 593
       },
       "summary": {
         "tools": 3,
@@ -12146,9 +12169,9 @@
         "external-setup"
       ],
       "downloads": {
-        "total": 7620,
-        "month": 7620,
-        "week": 965
+        "total": 7676,
+        "month": 7676,
+        "week": 943
       },
       "summary": {
         "tools": 0,
@@ -12245,9 +12268,9 @@
         "high-cost"
       ],
       "downloads": {
-        "total": 1167,
-        "month": 1167,
-        "week": 104
+        "total": 1187,
+        "month": 1187,
+        "week": 98
       },
       "summary": {
         "tools": 30,
@@ -12321,9 +12344,9 @@
         "injection-risk"
       ],
       "downloads": {
-        "total": 1059,
-        "month": 1059,
-        "week": 216
+        "total": 1108,
+        "month": 1108,
+        "week": 231
       },
       "discussion": {
         "number": 717,
@@ -12388,9 +12411,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 2185,
-        "month": 2185,
-        "week": 141
+        "total": 2190,
+        "month": 2190,
+        "week": 97
       },
       "summary": {
         "tools": 2,
@@ -12451,9 +12474,9 @@
         "high-cost"
       ],
       "downloads": {
-        "total": 941,
-        "month": 941,
-        "week": 44
+        "total": 951,
+        "month": 951,
+        "week": 45
       },
       "summary": {
         "tools": 4,
@@ -12520,9 +12543,9 @@
         "requires-key"
       ],
       "downloads": {
-        "total": 957,
-        "month": 957,
-        "week": 54
+        "total": 967,
+        "month": 967,
+        "week": 55
       },
       "summary": {
         "tools": 2,
@@ -12595,9 +12618,9 @@
       ],
       "icon": "assets/cortico-world-fun/icon.png",
       "downloads": {
-        "total": 959,
-        "month": 959,
-        "week": 959
+        "total": 1399,
+        "month": 1399,
+        "week": 1399
       },
       "summary": {
         "tools": 11,
@@ -12669,9 +12692,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 10919,
-        "month": 9384,
-        "week": 478
+        "total": 11083,
+        "month": 9548,
+        "week": 579
       },
       "summary": {
         "tools": 7,
@@ -12725,9 +12748,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 699,
-        "month": 425,
-        "week": 97
+        "total": 721,
+        "month": 447,
+        "week": 101
       },
       "discussion": {
         "number": 21,
@@ -12739,7 +12762,7 @@
     },
     "cortico-world-genesis": {
       "kind": "world",
-      "version": "3.1.1",
+      "version": "3.2.1",
       "displayName": "创世记",
       "description": "给 Agent 一颗物理自洽、一次性创世的星球：种子与少量旋钮生成恒星系与行星属性。",
       "author": "Nami-Mizu",
@@ -12759,8 +12782,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-genesis"
       },
       "created": "2026-11-13T12:15:34.380Z",
-      "published": "2026-11-18T11:50:12.275Z",
-      "versionCount": 19,
+      "published": "2026-11-19T11:45:31.328Z",
+      "versionCount": 20,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -12771,18 +12794,21 @@
         "experimental"
       ],
       "downloads": {
-        "total": 3022,
-        "month": 3022,
-        "week": 3022
+        "total": 3363,
+        "month": 3363,
+        "week": 3363
       },
       "summary": {
         "tools": 44,
         "events": 15,
         "toolTokens": 8555,
-        "envPromptTokens": 2346
+        "envPromptTokens": 2363
       },
       "changelog": {
         "versions": [
+          "3.2.1",
+          "3.2.0",
+          "3.1.2",
           "3.1.1",
           "3.1.0",
           "3.0.0",
@@ -12847,7 +12873,7 @@
           "1.2.0",
           "1.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-genesis@3.1.1/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-genesis@3.2.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 915,
@@ -12897,9 +12923,9 @@
         "internet"
       ],
       "downloads": {
-        "total": 2118,
-        "month": 2118,
-        "week": 217
+        "total": 2143,
+        "month": 2143,
+        "week": 210
       },
       "summary": {
         "tools": 5,
@@ -12959,9 +12985,9 @@
         "requires-key"
       ],
       "downloads": {
-        "total": 550,
-        "month": 550,
-        "week": 272
+        "total": 562,
+        "month": 562,
+        "week": 73
       },
       "summary": {
         "tools": 22,
@@ -13064,9 +13090,9 @@
       ],
       "icon": "assets/cortico-world-gpt-sovits-for-coopanion/icon.png",
       "downloads": {
-        "total": 1828,
-        "month": 1828,
-        "week": 227
+        "total": 1941,
+        "month": 1941,
+        "week": 315
       },
       "summary": {
         "tools": 2,
@@ -13139,9 +13165,9 @@
       ],
       "icon": "assets/cortico-world-gunsmith/icon.png",
       "downloads": {
-        "total": 655,
-        "month": 655,
-        "week": 655
+        "total": 727,
+        "month": 727,
+        "week": 727
       },
       "summary": {
         "tools": 8,
@@ -13193,9 +13219,9 @@
         "im"
       ],
       "downloads": {
-        "total": 1110,
-        "month": 1110,
-        "week": 30
+        "total": 1116,
+        "month": 1116,
+        "week": 27
       },
       "summary": {
         "tools": 6,
@@ -13250,9 +13276,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 20221,
-        "month": 20221,
-        "week": 1672
+        "total": 20260,
+        "month": 20260,
+        "week": 1170
       },
       "discussion": {
         "number": 192,
@@ -13315,9 +13341,9 @@
         "external-setup"
       ],
       "downloads": {
-        "total": 7459,
-        "month": 7459,
-        "week": 2842
+        "total": 7522,
+        "month": 7522,
+        "week": 2875
       },
       "summary": {
         "tools": 11,
@@ -13445,9 +13471,9 @@
       ],
       "icon": "assets/cortico-world-heybox/icon.svg",
       "downloads": {
-        "total": 6556,
-        "month": 6556,
-        "week": 480
+        "total": 6590,
+        "month": 6590,
+        "week": 472
       },
       "summary": {
         "tools": 57,
@@ -13581,8 +13607,8 @@
       ],
       "icon": "assets/cortico-world-homeassistant/icon.svg",
       "downloads": {
-        "total": 559,
-        "month": 559,
+        "total": 561,
+        "month": 561,
         "week": 15
       },
       "summary": {
@@ -13664,9 +13690,9 @@
         "injection-risk"
       ],
       "downloads": {
-        "total": 2329,
-        "month": 2329,
-        "week": 670
+        "total": 2346,
+        "month": 2346,
+        "week": 622
       },
       "summary": {
         "tools": 1,
@@ -13736,9 +13762,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 9838,
-        "month": 8237,
-        "week": 595
+        "total": 9889,
+        "month": 8288,
+        "week": 517
       },
       "summary": {
         "tools": 32,
@@ -13814,9 +13840,9 @@
       ],
       "icon": "assets/cortico-world-image/icon.png",
       "downloads": {
-        "total": 4778,
-        "month": 3998,
-        "week": 650
+        "total": 4835,
+        "month": 4055,
+        "week": 653
       },
       "summary": {
         "tools": 5,
@@ -13898,9 +13924,9 @@
         "unsafe"
       ],
       "downloads": {
-        "total": 888,
-        "month": 888,
-        "week": 20
+        "total": 892,
+        "month": 892,
+        "week": 18
       },
       "summary": {
         "tools": 1,
@@ -13966,9 +13992,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 6545,
-        "month": 6545,
-        "week": 206
+        "total": 6560,
+        "month": 6560,
+        "week": 178
       },
       "summary": {
         "tools": 4,
@@ -14048,9 +14074,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 1680,
-        "month": 1680,
-        "week": 575
+        "total": 1727,
+        "month": 1727,
+        "week": 543
       },
       "summary": {
         "tools": 6,
@@ -14106,9 +14132,9 @@
         "requires-key"
       ],
       "downloads": {
-        "total": 1364,
-        "month": 1364,
-        "week": 52
+        "total": 1378,
+        "month": 1378,
+        "week": 62
       },
       "summary": {
         "tools": 2,
@@ -14190,9 +14216,9 @@
         "assets/cortico-world-infinity/screenshot-3.png"
       ],
       "downloads": {
-        "total": 1459,
-        "month": 1459,
-        "week": 344
+        "total": 1509,
+        "month": 1509,
+        "week": 370
       },
       "summary": {
         "tools": 4,
@@ -14226,7 +14252,7 @@
     },
     "cortico-world-jingliumei": {
       "kind": "world",
-      "version": "0.4.6",
+      "version": "0.7.2",
       "displayName": "大A战士鲸留美",
       "description": "给桌宠开一个 A 股模拟盘：钱是虚拟的，行情是真的。她有自己的账户、自己的日子，不是替你炒股。\n\n盘前看点：持仓、可用现金、昨天净值、自选。开盘后自己挂价格预警、给自己定闹钟，到点醒来决定动不动手。\n\n每张单子都得写清为什么买、什么情况下认错走人，缺一条就下不了单。成交了记账，收盘逐笔对账；亏钱的日子要写复盘，隔一阵把策略拿出来重想一遍。\n\n账户、交割单、净值、复盘、策略都在扩展目录里，面板上能看也能改。\n\n不接任何真实券商，不构成投资建议，也不替你下单。",
       "locales": {
@@ -14254,8 +14280,8 @@
         "win32"
       ],
       "created": "2026-11-18T13:25:13.280Z",
-      "published": "2026-11-18T14:08:56.644Z",
-      "versionCount": 4,
+      "published": "2026-11-19T12:56:36.359Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -14266,18 +14292,28 @@
       ],
       "icon": "assets/cortico-world-jingliumei/icon.png",
       "downloads": {
-        "total": 0,
-        "month": 0,
-        "week": 0
+        "total": 453,
+        "month": 453,
+        "week": 453
       },
       "summary": {
-        "tools": 18,
+        "tools": 19,
         "events": 12,
-        "toolTokens": 2253,
-        "envPromptTokens": 2162
+        "toolTokens": 2684,
+        "envPromptTokens": 2279
       },
       "changelog": {
         "versions": [
+          "0.7.2",
+          "0.7.1",
+          "0.7.0",
+          "0.6.3",
+          "0.6.2",
+          "0.6.1",
+          "0.6.0",
+          "0.5.2",
+          "0.5.1",
+          "0.5.0",
           "0.4.6",
           "0.4.5",
           "0.4.4",
@@ -14289,7 +14325,7 @@
           "0.3.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-jingliumei@0.4.6/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-jingliumei@0.7.2/CHANGELOG.md"
       },
       "discussion": {
         "number": 1018,
@@ -14346,9 +14382,9 @@
       ],
       "icon": "assets/cortico-world-keyhold/icon.png",
       "downloads": {
-        "total": 697,
-        "month": 697,
-        "week": 42
+        "total": 706,
+        "month": 706,
+        "week": 45
       },
       "changelog": {
         "versions": [
@@ -14420,9 +14456,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 461,
-        "month": 461,
-        "week": 92
+        "total": 482,
+        "month": 482,
+        "week": 101
       },
       "summary": {
         "tools": 4,
@@ -14470,9 +14506,9 @@
         "internal-state"
       ],
       "downloads": {
-        "total": 9713,
-        "month": 8388,
-        "week": 405
+        "total": 9768,
+        "month": 8443,
+        "week": 360
       },
       "summary": {
         "tools": 4,
@@ -14527,9 +14563,9 @@
         "game"
       ],
       "downloads": {
-        "total": 3246,
-        "month": 3246,
-        "week": 3246
+        "total": 3316,
+        "month": 3316,
+        "week": 2588
       },
       "changelog": {
         "versions": [
@@ -14590,9 +14626,9 @@
         "internal-state"
       ],
       "downloads": {
-        "total": 5950,
-        "month": 4374,
-        "week": 95
+        "total": 5963,
+        "month": 4387,
+        "week": 82
       },
       "summary": {
         "tools": 6,
@@ -14661,9 +14697,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 3879,
-        "month": 3518,
-        "week": 102
+        "total": 3882,
+        "month": 3521,
+        "week": 90
       },
       "summary": {
         "tools": 2,
@@ -14726,9 +14762,9 @@
         "internal-state"
       ],
       "downloads": {
-        "total": 1558,
-        "month": 1004,
-        "week": 29
+        "total": 1559,
+        "month": 1005,
+        "week": 19
       },
       "summary": {
         "tools": 3,
@@ -14803,9 +14839,9 @@
       ],
       "icon": "assets/cortico-world-live-comments/icon.svg",
       "downloads": {
-        "total": 1303,
-        "month": 1303,
-        "week": 145
+        "total": 1342,
+        "month": 1342,
+        "week": 165
       },
       "summary": {
         "tools": 3,
@@ -14870,9 +14906,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 4019,
-        "month": 4019,
-        "week": 1412
+        "total": 4083,
+        "month": 4083,
+        "week": 1438
       },
       "summary": {
         "tools": 6,
@@ -14911,12 +14947,12 @@
       "published": "2026-11-05T09:43:36.331Z",
       "versionCount": 3,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [],
       "downloads": {
-        "total": 698,
-        "month": 698,
-        "week": 84
+        "total": 713,
+        "month": 713,
+        "week": 91
       },
       "summary": {
         "tools": 8,
@@ -14990,9 +15026,9 @@
       ],
       "icon": "assets/cortico-world-localvision/icon.png",
       "downloads": {
-        "total": 3877,
-        "month": 3877,
-        "week": 50
+        "total": 3882,
+        "month": 3882,
+        "week": 45
       },
       "summary": {
         "tools": 4,
@@ -15069,9 +15105,9 @@
       ],
       "icon": "assets/cortico-world-lofter/icon.svg",
       "downloads": {
-        "total": 1322,
-        "month": 1322,
-        "week": 28
+        "total": 1329,
+        "month": 1329,
+        "week": 25
       },
       "summary": {
         "tools": 9,
@@ -15141,9 +15177,9 @@
         "assets/cortico-world-lulu/screenshot-2.jpg"
       ],
       "downloads": {
-        "total": 1259,
-        "month": 1259,
-        "week": 618
+        "total": 1281,
+        "month": 1281,
+        "week": 605
       },
       "summary": {
         "tools": 0,
@@ -15222,9 +15258,9 @@
       ],
       "icon": "assets/cortico-world-mail/icon.svg",
       "downloads": {
-        "total": 503,
-        "month": 503,
-        "week": 503
+        "total": 507,
+        "month": 507,
+        "week": 507
       },
       "summary": {
         "tools": 7,
@@ -15286,9 +15322,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 1668,
-        "month": 943,
-        "week": 65
+        "total": 1674,
+        "month": 949,
+        "week": 63
       },
       "summary": {
         "tools": 4,
@@ -15360,9 +15396,9 @@
       ],
       "icon": "assets/cortico-world-map/icon.png",
       "downloads": {
-        "total": 544,
-        "month": 544,
-        "week": 544
+        "total": 1068,
+        "month": 1068,
+        "week": 1068
       },
       "summary": {
         "tools": 6,
@@ -15439,9 +15475,9 @@
         "unsafe"
       ],
       "downloads": {
-        "total": 337,
-        "month": 337,
-        "week": 337
+        "total": 377,
+        "month": 377,
+        "week": 377
       },
       "summary": {
         "tools": 9,
@@ -15530,9 +15566,9 @@
         "unsafe"
       ],
       "downloads": {
-        "total": 1234,
-        "month": 1234,
-        "week": 150
+        "total": 1243,
+        "month": 1243,
+        "week": 114
       },
       "summary": {
         "tools": 3,
@@ -15586,9 +15622,9 @@
         "internal-state"
       ],
       "downloads": {
-        "total": 0,
-        "month": 0,
-        "week": 0
+        "total": 405,
+        "month": 405,
+        "week": 405
       },
       "summary": {
         "tools": 6,
@@ -15645,9 +15681,9 @@
         "memory"
       ],
       "downloads": {
-        "total": 6531,
-        "month": 6531,
-        "week": 246
+        "total": 6576,
+        "month": 6576,
+        "week": 243
       },
       "summary": {
         "tools": 4,
@@ -15708,9 +15744,9 @@
         "injection-risk"
       ],
       "downloads": {
-        "total": 645,
-        "month": 645,
-        "week": 79
+        "total": 661,
+        "month": 661,
+        "week": 74
       },
       "summary": {
         "tools": 1,
@@ -15765,9 +15801,9 @@
         "internal-state"
       ],
       "downloads": {
-        "total": 9764,
-        "month": 7173,
-        "week": 192
+        "total": 9789,
+        "month": 7198,
+        "week": 166
       },
       "summary": {
         "tools": 8,
@@ -15815,9 +15851,9 @@
         "experimental"
       ],
       "downloads": {
-        "total": 1735,
-        "month": 1735,
-        "week": 32
+        "total": 1739,
+        "month": 1739,
+        "week": 24
       },
       "summary": {
         "tools": 10,
@@ -15898,9 +15934,9 @@
         "assets/cortico-world-memory-core/screenshot-4.png"
       ],
       "downloads": {
-        "total": 5315,
-        "month": 5315,
-        "week": 2072
+        "total": 5660,
+        "month": 5660,
+        "week": 2340
       },
       "summary": {
         "tools": 4,
@@ -15979,9 +16015,9 @@
         "diagnostics"
       ],
       "downloads": {
-        "total": 2246,
-        "month": 1841,
-        "week": 145
+        "total": 2251,
+        "month": 1846,
+        "week": 103
       },
       "summary": {
         "tools": 2,
@@ -16035,9 +16071,9 @@
         "memory"
       ],
       "downloads": {
-        "total": 2128,
-        "month": 2128,
-        "week": 255
+        "total": 2155,
+        "month": 2155,
+        "week": 216
       },
       "summary": {
         "tools": 8,
@@ -16106,9 +16142,9 @@
         "internal-state"
       ],
       "downloads": {
-        "total": 342,
-        "month": 342,
-        "week": 342
+        "total": 514,
+        "month": 514,
+        "week": 514
       },
       "summary": {
         "tools": 15,
@@ -16178,9 +16214,9 @@
         "assets/cortico-world-memory-weight/screenshot-1.png"
       ],
       "downloads": {
-        "total": 2728,
-        "month": 2728,
-        "week": 790
+        "total": 2775,
+        "month": 2775,
+        "week": 809
       },
       "summary": {
         "tools": 4,
@@ -16241,9 +16277,9 @@
         "memory"
       ],
       "downloads": {
-        "total": 3090,
-        "month": 3090,
-        "week": 105
+        "total": 3102,
+        "month": 3102,
+        "week": 100
       },
       "summary": {
         "tools": 2,
@@ -16324,9 +16360,9 @@
       ],
       "icon": "assets/cortico-world-mi-home/icon.svg",
       "downloads": {
-        "total": 373,
-        "month": 373,
-        "week": 58
+        "total": 378,
+        "month": 378,
+        "week": 33
       },
       "summary": {
         "tools": 5,
@@ -16401,9 +16437,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 2740,
-        "month": 2740,
-        "week": 850
+        "total": 2770,
+        "month": 2770,
+        "week": 822
       },
       "discussion": {
         "number": 589,
@@ -16526,9 +16562,9 @@
         "high-cost"
       ],
       "downloads": {
-        "total": 1893,
-        "month": 1635,
-        "week": 46
+        "total": 1897,
+        "month": 1639,
+        "week": 37
       },
       "summary": {
         "tools": 4,
@@ -16588,9 +16624,9 @@
       ],
       "icon": "assets/cortico-world-minecraft/icon.svg",
       "downloads": {
-        "total": 7828,
-        "month": 5796,
-        "week": 949
+        "total": 7930,
+        "month": 5898,
+        "week": 992
       },
       "summary": {
         "tools": 13,
@@ -16643,9 +16679,9 @@
       ],
       "icon": "assets/cortico-world-miragine/icon.svg",
       "downloads": {
-        "total": 351,
-        "month": 351,
-        "week": 351
+        "total": 365,
+        "month": 365,
+        "week": 365
       },
       "summary": {
         "tools": 5,
@@ -16703,9 +16739,9 @@
       ],
       "icon": "assets/cortico-world-mood/icon.png",
       "downloads": {
-        "total": 383,
-        "month": 383,
-        "week": 383
+        "total": 391,
+        "month": 391,
+        "week": 391
       },
       "changelog": {
         "versions": [
@@ -16768,9 +16804,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 1864,
-        "month": 1864,
-        "week": 59
+        "total": 1876,
+        "month": 1876,
+        "week": 55
       },
       "summary": {
         "tools": 1,
@@ -16858,9 +16894,9 @@
       ],
       "icon": "assets/cortico-world-mosey/icon.png",
       "downloads": {
-        "total": 15217,
-        "month": 15217,
-        "week": 6651
+        "total": 15616,
+        "month": 15616,
+        "week": 6452
       },
       "summary": {
         "tools": 3,
@@ -17024,9 +17060,9 @@
       ],
       "icon": "assets/cortico-world-mota/icon.png",
       "downloads": {
-        "total": 600,
-        "month": 600,
-        "week": 48
+        "total": 613,
+        "month": 613,
+        "week": 54
       },
       "summary": {
         "tools": 14,
@@ -17135,9 +17171,9 @@
       ],
       "icon": "assets/cortico-world-mouse-polling-fix/icon.svg",
       "downloads": {
-        "total": 725,
-        "month": 725,
-        "week": 15
+        "total": 728,
+        "month": 728,
+        "week": 12
       },
       "summary": {
         "tools": 3,
@@ -17219,9 +17255,9 @@
         "external-setup"
       ],
       "downloads": {
-        "total": 461,
-        "month": 461,
-        "week": 461
+        "total": 470,
+        "month": 470,
+        "week": 470
       },
       "summary": {
         "tools": 8,
@@ -17303,9 +17339,9 @@
       ],
       "icon": "assets/cortico-world-mspaint/icon.svg",
       "downloads": {
-        "total": 1043,
-        "month": 1043,
-        "week": 93
+        "total": 1054,
+        "month": 1054,
+        "week": 90
       },
       "summary": {
         "tools": 21,
@@ -17374,9 +17410,9 @@
         "game"
       ],
       "downloads": {
-        "total": 656,
-        "month": 656,
-        "week": 72
+        "total": 668,
+        "month": 668,
+        "week": 68
       },
       "summary": {
         "tools": 7,
@@ -17447,9 +17483,9 @@
         "injection-risk"
       ],
       "downloads": {
-        "total": 1105,
-        "month": 1105,
-        "week": 75
+        "total": 1114,
+        "month": 1114,
+        "week": 74
       },
       "summary": {
         "tools": 3,
@@ -17510,9 +17546,9 @@
         "creative"
       ],
       "downloads": {
-        "total": 924,
-        "month": 924,
-        "week": 22
+        "total": 929,
+        "month": 929,
+        "week": 23
       },
       "summary": {
         "tools": 3,
@@ -17538,7 +17574,7 @@
     },
     "cortico-world-music-companion": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "displayName": "Music Companion",
       "description": "Music Companion — a Cortico World that lets the bot hear what this machine is playing: the track, what it sounds like, and the lyric line being sung right now",
       "locales": {
@@ -17575,33 +17611,36 @@
         "win32"
       ],
       "created": "2026-11-04T14:41:36.917Z",
-      "published": "2026-11-10T08:07:39.368Z",
-      "versionCount": 3,
+      "published": "2026-11-19T12:43:21.839Z",
+      "versionCount": 4,
       "official": false,
       "isNew": false,
       "declaredTags": [
         "internet",
         "apps",
-        "sensitive-data"
+        "sensitive-data",
+        "internal-state"
       ],
       "tags": [
         "internet",
         "apps",
+        "internal-state",
         "sensitive-data"
       ],
       "downloads": {
-        "total": 612,
-        "month": 612,
-        "week": 84
+        "total": 623,
+        "month": 623,
+        "week": 75
       },
       "summary": {
-        "tools": 3,
+        "tools": 5,
         "events": 7,
-        "toolTokens": 326,
-        "envPromptTokens": 538
+        "toolTokens": 668,
+        "envPromptTokens": 690
       },
       "changelog": {
         "versions": [
+          "0.2.0",
           "0.1.1",
           "0.1.0"
         ],
@@ -17667,9 +17706,9 @@
         "requires-extension"
       ],
       "downloads": {
-        "total": 964,
-        "month": 964,
-        "week": 247
+        "total": 978,
+        "month": 978,
+        "week": 257
       },
       "summary": {
         "tools": 1,
@@ -17760,9 +17799,9 @@
       ],
       "icon": "assets/cortico-world-netease-companion/icon.png",
       "downloads": {
-        "total": 2956,
-        "month": 2956,
-        "week": 38
+        "total": 2964,
+        "month": 2964,
+        "week": 35
       },
       "summary": {
         "tools": 4,
@@ -17846,9 +17885,9 @@
         "companion"
       ],
       "downloads": {
-        "total": 8181,
-        "month": 8181,
-        "week": 248
+        "total": 8225,
+        "month": 8225,
+        "week": 251
       },
       "summary": {
         "tools": 16,
@@ -17911,8 +17950,8 @@
         "memory"
       ],
       "downloads": {
-        "total": 392,
-        "month": 392,
+        "total": 395,
+        "month": 395,
         "week": 14
       },
       "summary": {
@@ -17968,9 +18007,9 @@
         "memory"
       ],
       "downloads": {
-        "total": 847,
-        "month": 423,
-        "week": 35
+        "total": 851,
+        "month": 427,
+        "week": 34
       },
       "summary": {
         "tools": 5,
@@ -18041,9 +18080,9 @@
       ],
       "icon": "assets/cortico-world-ntfy/icon.svg",
       "downloads": {
-        "total": 395,
-        "month": 395,
-        "week": 395
+        "total": 400,
+        "month": 400,
+        "week": 400
       },
       "summary": {
         "tools": 0,
@@ -18086,9 +18125,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 579,
-        "month": 579,
-        "week": 75
+        "total": 602,
+        "month": 602,
+        "week": 89
       },
       "summary": {
         "tools": 2,
@@ -18155,9 +18194,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 3570,
-        "month": 3570,
-        "week": 84
+        "total": 3595,
+        "month": 3595,
+        "week": 89
       },
       "summary": {
         "tools": 6,
@@ -18249,9 +18288,9 @@
         "assets/cortico-world-onepiece/screenshot-5.png"
       ],
       "downloads": {
-        "total": 1480,
-        "month": 1480,
-        "week": 101
+        "total": 1488,
+        "month": 1488,
+        "week": 93
       },
       "summary": {
         "tools": 4,
@@ -18348,9 +18387,9 @@
       ],
       "icon": "assets/cortico-world-open-xiaoai/icon.svg",
       "downloads": {
-        "total": 722,
-        "month": 722,
-        "week": 101
+        "total": 729,
+        "month": 729,
+        "week": 70
       },
       "summary": {
         "tools": 3,
@@ -18402,9 +18441,9 @@
       ],
       "icon": "assets/cortico-world-opencode-quota/icon.png",
       "downloads": {
-        "total": 1067,
-        "month": 1067,
-        "week": 49
+        "total": 1074,
+        "month": 1074,
+        "week": 39
       },
       "summary": {
         "tools": 2,
@@ -18479,9 +18518,9 @@
         "internal-state"
       ],
       "downloads": {
-        "total": 426,
-        "month": 426,
-        "week": 426
+        "total": 436,
+        "month": 436,
+        "week": 436
       },
       "summary": {
         "tools": 13,
@@ -18561,9 +18600,9 @@
       ],
       "icon": "assets/cortico-world-ops/icon.svg",
       "downloads": {
-        "total": 989,
-        "month": 989,
-        "week": 617
+        "total": 1015,
+        "month": 1015,
+        "week": 625
       },
       "summary": {
         "tools": 11,
@@ -18637,9 +18676,9 @@
       ],
       "icon": "assets/cortico-world-overcooked2/icon.png",
       "downloads": {
-        "total": 1280,
-        "month": 582,
-        "week": 60
+        "total": 1301,
+        "month": 603,
+        "week": 70
       },
       "summary": {
         "tools": 5,
@@ -18664,7 +18703,7 @@
     },
     "cortico-world-parlor": {
       "kind": "world",
-      "version": "0.48.0",
+      "version": "0.48.1",
       "displayName": "鲸语茶室",
       "description": "鲸语茶室是 Coo 与家长的共享客厅。支持聊天、说书、斗地主、狼人杀、五子棋、中国象棋、飞行棋、麻将和快局大富翁，提供网页牌桌与家长观战页。反馈 QQ 群 1061389211。",
       "locales": {
@@ -18716,11 +18755,12 @@
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-parlor",
         "repository": "https://github.com/biliye/cortico-world-parlor",
-        "homepage": "https://github.com/biliye/cortico-world-parlor#readme"
+        "homepage": "https://github.com/biliye/cortico-world-parlor#readme",
+        "bugs": "https://github.com/biliye/cortico-world-parlor/issues"
       },
       "created": "2026-10-30T12:05:22.925Z",
-      "published": "2026-11-18T04:52:48.827Z",
-      "versionCount": 60,
+      "published": "2026-11-19T12:45:06.121Z",
+      "versionCount": 61,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -18737,9 +18777,9 @@
         "assets/cortico-world-parlor/screenshot-2.png"
       ],
       "downloads": {
-        "total": 14542,
-        "month": 14542,
-        "week": 3997
+        "total": 15198,
+        "month": 15198,
+        "week": 4302
       },
       "summary": {
         "tools": 9,
@@ -18749,6 +18789,7 @@
       },
       "changelog": {
         "versions": [
+          "0.48.1",
           "0.48.0",
           "0.47.0",
           "0.46.1",
@@ -18910,9 +18951,9 @@
         "game"
       ],
       "downloads": {
-        "total": 925,
-        "month": 925,
-        "week": 41
+        "total": 931,
+        "month": 931,
+        "week": 36
       },
       "summary": {
         "tools": 13,
@@ -18993,9 +19034,9 @@
       ],
       "icon": "assets/cortico-world-perch/icon.png",
       "downloads": {
-        "total": 610,
-        "month": 610,
-        "week": 37
+        "total": 625,
+        "month": 625,
+        "week": 38
       },
       "summary": {
         "tools": 2,
@@ -19082,9 +19123,9 @@
       ],
       "icon": "assets/cortico-world-personal-agenda/icon.png",
       "downloads": {
-        "total": 508,
-        "month": 508,
-        "week": 508
+        "total": 522,
+        "month": 522,
+        "week": 522
       },
       "summary": {
         "tools": 0,
@@ -19146,9 +19187,9 @@
         "requires-key"
       ],
       "downloads": {
-        "total": 983,
-        "month": 983,
-        "week": 65
+        "total": 997,
+        "month": 997,
+        "week": 70
       },
       "discussion": {
         "number": 279,
@@ -19195,9 +19236,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 2485,
-        "month": 1572,
-        "week": 82
+        "total": 2494,
+        "month": 1581,
+        "week": 72
       },
       "summary": {
         "tools": 6,
@@ -19262,9 +19303,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 2333,
-        "month": 2333,
-        "week": 101
+        "total": 2341,
+        "month": 2341,
+        "week": 88
       },
       "summary": {
         "tools": 11,
@@ -19323,9 +19364,9 @@
         "creative"
       ],
       "downloads": {
-        "total": 1206,
-        "month": 1206,
-        "week": 29
+        "total": 1211,
+        "month": 1211,
+        "week": 20
       },
       "summary": {
         "tools": 2,
@@ -19402,9 +19443,9 @@
         "assets/cortico-world-postcard/screenshot-1.jpg"
       ],
       "downloads": {
-        "total": 3391,
-        "month": 3391,
-        "week": 194
+        "total": 3418,
+        "month": 3418,
+        "week": 188
       },
       "summary": {
         "tools": 15,
@@ -19525,9 +19566,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 1383,
-        "month": 921,
-        "week": 61
+        "total": 1387,
+        "month": 925,
+        "week": 50
       },
       "summary": {
         "tools": 3,
@@ -19618,9 +19659,9 @@
       ],
       "icon": "assets/cortico-world-private-companion/icon.png",
       "downloads": {
-        "total": 7943,
-        "month": 7943,
-        "week": 2461
+        "total": 8165,
+        "month": 8165,
+        "week": 2473
       },
       "summary": {
         "tools": 53,
@@ -19714,9 +19755,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 951,
-        "month": 951,
-        "week": 64
+        "total": 969,
+        "month": 969,
+        "week": 67
       },
       "summary": {
         "tools": 22,
@@ -19764,9 +19805,9 @@
       "isNew": true,
       "tags": [],
       "downloads": {
-        "total": 374,
-        "month": 374,
-        "week": 38
+        "total": 380,
+        "month": 380,
+        "week": 35
       },
       "summary": {
         "tools": 2,
@@ -19844,9 +19885,9 @@
       ],
       "icon": "assets/cortico-world-pvz/icon.png",
       "downloads": {
-        "total": 1678,
-        "month": 964,
-        "week": 143
+        "total": 1717,
+        "month": 1003,
+        "week": 163
       },
       "summary": {
         "tools": 6,
@@ -19918,9 +19959,9 @@
         "experimental"
       ],
       "downloads": {
-        "total": 1454,
-        "month": 1454,
-        "week": 182
+        "total": 1511,
+        "month": 1511,
+        "week": 226
       },
       "discussion": {
         "number": 597,
@@ -19960,9 +20001,9 @@
         "external-setup"
       ],
       "downloads": {
-        "total": 773,
-        "month": 219,
-        "week": 27
+        "total": 775,
+        "month": 221,
+        "week": 26
       },
       "summary": {
         "tools": 0,
@@ -20008,9 +20049,9 @@
         "external-setup"
       ],
       "downloads": {
-        "total": 1327,
-        "month": 994,
-        "week": 46
+        "total": 1332,
+        "month": 999,
+        "week": 39
       },
       "discussion": {
         "number": 38,
@@ -20060,9 +20101,9 @@
         "high-cost"
       ],
       "downloads": {
-        "total": 400,
-        "month": 400,
-        "week": 20
+        "total": 401,
+        "month": 401,
+        "week": 17
       },
       "summary": {
         "tools": 14,
@@ -20122,9 +20163,9 @@
       ],
       "icon": "assets/cortico-world-qq/icon.svg",
       "downloads": {
-        "total": 57000,
-        "month": 56557,
-        "week": 2901
+        "total": 57368,
+        "month": 56925,
+        "week": 2980
       },
       "summary": {
         "tools": 5,
@@ -20182,9 +20223,9 @@
       ],
       "icon": "assets/cortico-world-qq-all/icon.svg",
       "downloads": {
-        "total": 3710,
-        "month": 3710,
-        "week": 199
+        "total": 3740,
+        "month": 3740,
+        "week": 204
       },
       "summary": {
         "tools": 10,
@@ -20249,9 +20290,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 879,
-        "month": 879,
-        "week": 48
+        "total": 886,
+        "month": 886,
+        "week": 45
       },
       "summary": {
         "tools": 1,
@@ -20311,9 +20352,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 5046,
-        "month": 2491,
-        "week": 188
+        "total": 5055,
+        "month": 2500,
+        "week": 144
       },
       "summary": {
         "tools": 42,
@@ -20371,9 +20412,9 @@
         "requires-extension"
       ],
       "downloads": {
-        "total": 180,
-        "month": 180,
-        "week": 180
+        "total": 598,
+        "month": 598,
+        "week": 598
       },
       "summary": {
         "tools": 4,
@@ -20438,9 +20479,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 28841,
-        "month": 24369,
-        "week": 2084
+        "total": 29087,
+        "month": 24615,
+        "week": 2029
       },
       "summary": {
         "tools": 18,
@@ -20576,9 +20617,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 5816,
-        "month": 511,
-        "week": 88
+        "total": 5818,
+        "month": 513,
+        "week": 52
       },
       "summary": {
         "tools": 31,
@@ -20658,7 +20699,7 @@
       "published": "2026-11-15T10:33:08.663Z",
       "versionCount": 4,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "experimental",
         "im",
@@ -20677,9 +20718,9 @@
       ],
       "icon": "assets/cortico-world-qq-initiative/icon.svg",
       "downloads": {
-        "total": 1066,
-        "month": 1066,
-        "week": 382
+        "total": 1099,
+        "month": 1099,
+        "week": 383
       },
       "summary": {
         "tools": 4,
@@ -20741,9 +20782,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 3817,
-        "month": 1301,
-        "week": 127
+        "total": 3823,
+        "month": 1307,
+        "week": 94
       },
       "summary": {
         "tools": 0,
@@ -20822,9 +20863,9 @@
         "assets/cortico-world-qq-official/screenshot-3.png"
       ],
       "downloads": {
-        "total": 1099,
-        "month": 1099,
-        "week": 24
+        "total": 1103,
+        "month": 1103,
+        "week": 22
       },
       "summary": {
         "tools": 8,
@@ -20915,8 +20956,8 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 5314,
-        "month": 4733,
+        "total": 5335,
+        "month": 4754,
         "week": 124
       },
       "summary": {
@@ -21011,9 +21052,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 2666,
-        "month": 2666,
-        "week": 306
+        "total": 2747,
+        "month": 2747,
+        "week": 358
       },
       "summary": {
         "tools": 17,
@@ -21081,7 +21122,7 @@
       "published": "2026-11-15T10:32:55.513Z",
       "versionCount": 4,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "experimental",
         "im",
@@ -21099,8 +21140,8 @@
       ],
       "icon": "assets/cortico-world-qq-stickers/icon.svg",
       "downloads": {
-        "total": 999,
-        "month": 999,
+        "total": 1023,
+        "month": 1023,
         "week": 360
       },
       "summary": {
@@ -21185,9 +21226,9 @@
         "assets/cortico-world-qqbot/screenshot-3.png"
       ],
       "downloads": {
-        "total": 4786,
-        "month": 4786,
-        "week": 418
+        "total": 4905,
+        "month": 4905,
+        "week": 488
       },
       "summary": {
         "tools": 8,
@@ -21271,9 +21312,9 @@
         "unsafe"
       ],
       "downloads": {
-        "total": 640,
-        "month": 640,
-        "week": 52
+        "total": 645,
+        "month": 645,
+        "week": 45
       },
       "summary": {
         "tools": 11,
@@ -21344,9 +21385,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 1141,
-        "month": 1141,
-        "week": 47
+        "total": 1146,
+        "month": 1146,
+        "week": 45
       },
       "summary": {
         "tools": 0,
@@ -21402,9 +21443,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 5132,
-        "month": 4308,
-        "week": 183
+        "total": 5151,
+        "month": 4327,
+        "week": 186
       },
       "summary": {
         "tools": 3,
@@ -21461,9 +21502,9 @@
         "qq"
       ],
       "downloads": {
-        "total": 1092,
-        "month": 1092,
-        "week": 47
+        "total": 1094,
+        "month": 1094,
+        "week": 36
       },
       "summary": {
         "tools": 0,
@@ -21509,9 +21550,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 1428,
-        "month": 1174,
-        "week": 42
+        "total": 1430,
+        "month": 1176,
+        "week": 32
       },
       "summary": {
         "tools": 4,
@@ -21568,9 +21609,9 @@
         "requires-key"
       ],
       "downloads": {
-        "total": 1140,
-        "month": 1140,
-        "week": 263
+        "total": 1157,
+        "month": 1157,
+        "week": 268
       },
       "summary": {
         "tools": 2,
@@ -21626,9 +21667,9 @@
         "experimental"
       ],
       "downloads": {
-        "total": 353,
-        "month": 353,
-        "week": 353
+        "total": 360,
+        "month": 360,
+        "week": 360
       },
       "summary": {
         "tools": 3,
@@ -21701,8 +21742,8 @@
       ],
       "icon": "assets/cortico-world-reminder/icon.svg",
       "downloads": {
-        "total": 1039,
-        "month": 1039,
+        "total": 1046,
+        "month": 1046,
         "week": 40
       },
       "summary": {
@@ -21780,9 +21821,9 @@
       ],
       "icon": "assets/cortico-world-rhythm/icon.png",
       "downloads": {
-        "total": 1509,
-        "month": 1509,
-        "week": 505
+        "total": 1552,
+        "month": 1552,
+        "week": 507
       },
       "summary": {
         "tools": 0,
@@ -21815,7 +21856,7 @@
       "discussion": {
         "number": 740,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/740",
-        "up": 1,
+        "up": 2,
         "down": 0,
         "comments": 0
       }
@@ -21855,8 +21896,8 @@
         "companion"
       ],
       "downloads": {
-        "total": 2074,
-        "month": 2074,
+        "total": 2088,
+        "month": 2088,
         "week": 53
       },
       "summary": {
@@ -21934,8 +21975,8 @@
       ],
       "icon": "assets/cortico-world-rsm/icon.svg",
       "downloads": {
-        "total": 593,
-        "month": 593,
+        "total": 599,
+        "month": 599,
         "week": 51
       },
       "summary": {
@@ -22005,9 +22046,9 @@
       ],
       "icon": "assets/cortico-world-rss/icon.svg",
       "downloads": {
-        "total": 584,
-        "month": 584,
-        "week": 36
+        "total": 590,
+        "month": 590,
+        "week": 33
       },
       "summary": {
         "tools": 7,
@@ -22068,9 +22109,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 1030,
-        "month": 1030,
-        "week": 145
+        "total": 1083,
+        "month": 1083,
+        "week": 175
       },
       "summary": {
         "tools": 9,
@@ -22143,9 +22184,9 @@
       ],
       "icon": "assets/cortico-world-screen-diary/icon.svg",
       "downloads": {
-        "total": 957,
-        "month": 957,
-        "week": 234
+        "total": 967,
+        "month": 967,
+        "week": 76
       },
       "summary": {
         "tools": 7,
@@ -22216,9 +22257,9 @@
       "isNew": false,
       "tags": [],
       "downloads": {
-        "total": 867,
-        "month": 867,
-        "week": 38
+        "total": 882,
+        "month": 882,
+        "week": 49
       },
       "summary": {
         "tools": 0,
@@ -22242,7 +22283,7 @@
     },
     "cortico-world-screen-peek": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.1.3",
       "displayName": "随手瞥一眼",
       "description": "大肥鱼偶尔随手瞥一眼屏幕：随机间隔、只在有人在的时候，看到什么算什么，不点击也不操作。",
       "locales": {
@@ -22272,16 +22313,25 @@
         "npm": "https://www.npmjs.com/package/cortico-world-screen-peek"
       },
       "created": "2026-11-18T23:12:28.310Z",
-      "published": "2026-11-18T23:26:10.671Z",
-      "versionCount": 3,
+      "published": "2026-11-19T10:30:59.186Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
-      "tags": [],
+      "declaredTags": [
+        "companion",
+        "sensitive-data",
+        "high-cost"
+      ],
+      "tags": [
+        "companion",
+        "high-cost",
+        "sensitive-data"
+      ],
       "icon": "assets/cortico-world-screen-peek/icon.png",
       "downloads": {
-        "total": 0,
-        "month": 0,
-        "week": 0
+        "total": 314,
+        "month": 314,
+        "week": 314
       },
       "discussion": {
         "number": 1022,
@@ -22339,9 +22389,9 @@
       ],
       "icon": "assets/cortico-world-screen-sense/icon.svg",
       "downloads": {
-        "total": 2519,
-        "month": 2519,
-        "week": 108
+        "total": 2535,
+        "month": 2535,
+        "week": 112
       },
       "summary": {
         "tools": 3,
@@ -22420,9 +22470,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 1257,
-        "month": 1257,
-        "week": 172
+        "total": 1403,
+        "month": 1403,
+        "week": 301
       },
       "discussion": {
         "number": 711,
@@ -22482,9 +22532,9 @@
       ],
       "icon": "assets/cortico-world-self-awareness/icon.svg",
       "downloads": {
-        "total": 2060,
-        "month": 2060,
-        "week": 2060
+        "total": 2359,
+        "month": 2359,
+        "week": 2359
       },
       "summary": {
         "tools": 0,
@@ -22561,9 +22611,9 @@
         "unsafe"
       ],
       "downloads": {
-        "total": 667,
-        "month": 667,
-        "week": 78
+        "total": 675,
+        "month": 675,
+        "week": 69
       },
       "summary": {
         "tools": 8,
@@ -22621,9 +22671,9 @@
         "diagnostics"
       ],
       "downloads": {
-        "total": 2217,
-        "month": 2217,
-        "week": 111
+        "total": 2228,
+        "month": 2228,
+        "week": 102
       },
       "summary": {
         "tools": 3,
@@ -22682,9 +22732,9 @@
         "companion"
       ],
       "downloads": {
-        "total": 4226,
-        "month": 4226,
-        "week": 349
+        "total": 4527,
+        "month": 4527,
+        "week": 610
       },
       "summary": {
         "tools": 0,
@@ -22752,9 +22802,9 @@
       ],
       "icon": "assets/cortico-world-shell/icon.svg",
       "downloads": {
-        "total": 985,
-        "month": 985,
-        "week": 55
+        "total": 1000,
+        "month": 1000,
+        "week": 57
       },
       "summary": {
         "tools": 1,
@@ -22802,9 +22852,9 @@
       "isNew": false,
       "tags": [],
       "downloads": {
-        "total": 446,
-        "month": 446,
-        "week": 63
+        "total": 447,
+        "month": 447,
+        "week": 54
       },
       "discussion": {
         "number": 730,
@@ -22839,9 +22889,9 @@
       "isNew": false,
       "tags": [],
       "downloads": {
-        "total": 462,
-        "month": 462,
-        "week": 64
+        "total": 463,
+        "month": 463,
+        "week": 58
       },
       "discussion": {
         "number": 731,
@@ -22876,9 +22926,9 @@
       "isNew": false,
       "tags": [],
       "downloads": {
-        "total": 460,
-        "month": 460,
-        "week": 61
+        "total": 462,
+        "month": 462,
+        "week": 55
       },
       "discussion": {
         "number": 732,
@@ -22913,9 +22963,9 @@
       "isNew": false,
       "tags": [],
       "downloads": {
-        "total": 456,
-        "month": 456,
-        "week": 68
+        "total": 458,
+        "month": 458,
+        "week": 63
       },
       "discussion": {
         "number": 733,
@@ -22950,9 +23000,9 @@
       "isNew": false,
       "tags": [],
       "downloads": {
-        "total": 428,
-        "month": 428,
-        "week": 64
+        "total": 429,
+        "month": 429,
+        "week": 56
       },
       "discussion": {
         "number": 734,
@@ -22987,9 +23037,9 @@
       "isNew": false,
       "tags": [],
       "downloads": {
-        "total": 427,
-        "month": 427,
-        "week": 66
+        "total": 428,
+        "month": 428,
+        "week": 59
       },
       "discussion": {
         "number": 735,
@@ -23024,9 +23074,9 @@
       "isNew": false,
       "tags": [],
       "downloads": {
-        "total": 426,
-        "month": 426,
-        "week": 64
+        "total": 427,
+        "month": 427,
+        "week": 58
       },
       "discussion": {
         "number": 736,
@@ -23061,9 +23111,9 @@
       "isNew": false,
       "tags": [],
       "downloads": {
-        "total": 430,
-        "month": 430,
-        "week": 72
+        "total": 432,
+        "month": 432,
+        "week": 63
       },
       "discussion": {
         "number": 737,
@@ -23110,9 +23160,9 @@
         "requires-key"
       ],
       "downloads": {
-        "total": 3489,
-        "month": 1638,
-        "week": 279
+        "total": 3505,
+        "month": 1654,
+        "week": 288
       },
       "summary": {
         "tools": 2,
@@ -23195,9 +23245,9 @@
       ],
       "icon": "assets/cortico-world-sisterdrive/icon.png",
       "downloads": {
-        "total": 1178,
-        "month": 426,
-        "week": 39
+        "total": 1187,
+        "month": 435,
+        "week": 37
       },
       "summary": {
         "tools": 3,
@@ -23270,9 +23320,9 @@
       ],
       "icon": "assets/cortico-world-skillhost/icon.svg",
       "downloads": {
-        "total": 313,
-        "month": 313,
-        "week": 313
+        "total": 338,
+        "month": 338,
+        "week": 338
       },
       "summary": {
         "tools": 4,
@@ -23334,9 +23384,9 @@
         "unsafe"
       ],
       "downloads": {
-        "total": 564,
-        "month": 564,
-        "week": 26
+        "total": 569,
+        "month": 569,
+        "week": 27
       },
       "summary": {
         "tools": 4,
@@ -23410,9 +23460,9 @@
         "requires-extension"
       ],
       "downloads": {
-        "total": 657,
-        "month": 657,
-        "week": 36
+        "total": 660,
+        "month": 660,
+        "week": 30
       },
       "summary": {
         "tools": 3,
@@ -23481,9 +23531,9 @@
         "memory"
       ],
       "downloads": {
-        "total": 1446,
-        "month": 1446,
-        "week": 126
+        "total": 1463,
+        "month": 1463,
+        "week": 132
       },
       "summary": {
         "tools": 3,
@@ -23529,9 +23579,9 @@
       "isNew": false,
       "tags": [],
       "downloads": {
-        "total": 386,
-        "month": 386,
-        "week": 26
+        "total": 387,
+        "month": 387,
+        "week": 21
       },
       "summary": {
         "tools": 4,
@@ -23598,9 +23648,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 616,
-        "month": 307,
-        "week": 49
+        "total": 619,
+        "month": 310,
+        "week": 37
       },
       "summary": {
         "tools": 5,
@@ -23658,9 +23708,9 @@
       ],
       "icon": "assets/cortico-world-social/icon.png",
       "downloads": {
-        "total": 780,
-        "month": 780,
-        "week": 42
+        "total": 789,
+        "month": 789,
+        "week": 41
       },
       "summary": {
         "tools": 8,
@@ -23744,9 +23794,9 @@
         "assets/cortico-world-social-media/screenshot-3.png"
       ],
       "downloads": {
-        "total": 6971,
-        "month": 6971,
-        "week": 562
+        "total": 7026,
+        "month": 7026,
+        "week": 585
       },
       "summary": {
         "tools": 14,
@@ -23850,9 +23900,9 @@
         "requires-extension"
       ],
       "downloads": {
-        "total": 1393,
-        "month": 724,
-        "week": 81
+        "total": 1398,
+        "month": 729,
+        "week": 66
       },
       "summary": {
         "tools": 0,
@@ -23929,9 +23979,9 @@
       ],
       "icon": "assets/cortico-world-sound-del/icon.svg",
       "downloads": {
-        "total": 601,
-        "month": 601,
-        "week": 33
+        "total": 602,
+        "month": 602,
+        "week": 21
       },
       "summary": {
         "tools": 0,
@@ -23995,9 +24045,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 698,
-        "month": 698,
-        "week": 21
+        "total": 702,
+        "month": 702,
+        "week": 19
       },
       "summary": {
         "tools": 0,
@@ -24069,9 +24119,9 @@
       ],
       "icon": "assets/cortico-world-spotify-lyrics/icon.svg",
       "downloads": {
-        "total": 513,
-        "month": 513,
-        "week": 18
+        "total": 514,
+        "month": 514,
+        "week": 10
       },
       "summary": {
         "tools": 4,
@@ -24140,9 +24190,9 @@
         "high-cost"
       ],
       "downloads": {
-        "total": 1289,
-        "month": 1289,
-        "week": 69
+        "total": 1305,
+        "month": 1305,
+        "week": 76
       },
       "summary": {
         "tools": 3,
@@ -24207,9 +24257,9 @@
         "high-cost"
       ],
       "downloads": {
-        "total": 18234,
-        "month": 18234,
-        "week": 3016
+        "total": 18665,
+        "month": 18665,
+        "week": 3276
       },
       "summary": {
         "tools": 1,
@@ -24349,9 +24399,9 @@
       ],
       "icon": "assets/cortico-world-steam/icon.png",
       "downloads": {
-        "total": 1886,
-        "month": 1886,
-        "week": 200
+        "total": 1955,
+        "month": 1955,
+        "week": 243
       },
       "summary": {
         "tools": 9,
@@ -24422,9 +24472,9 @@
       ],
       "icon": "assets/cortico-world-sticker-album/icon.png",
       "downloads": {
-        "total": 372,
-        "month": 372,
-        "week": 372
+        "total": 379,
+        "month": 379,
+        "week": 379
       },
       "summary": {
         "tools": 3,
@@ -24475,9 +24525,9 @@
       "isNew": false,
       "tags": [],
       "downloads": {
-        "total": 1225,
-        "month": 1225,
-        "week": 36
+        "total": 1234,
+        "month": 1234,
+        "week": 35
       },
       "summary": {
         "tools": 2,
@@ -24553,9 +24603,9 @@
         "assets/cortico-world-stickerbook/screenshot-2.png"
       ],
       "downloads": {
-        "total": 697,
-        "month": 697,
-        "week": 58
+        "total": 706,
+        "month": 706,
+        "week": 49
       },
       "summary": {
         "tools": 8,
@@ -24637,8 +24687,8 @@
         "assets/cortico-world-stock/screenshot-4.png"
       ],
       "downloads": {
-        "total": 1144,
-        "month": 1144,
+        "total": 1154,
+        "month": 1154,
         "week": 42
       },
       "summary": {
@@ -24721,9 +24771,9 @@
         "high-cost"
       ],
       "downloads": {
-        "total": 1044,
-        "month": 1044,
-        "week": 59
+        "total": 1049,
+        "month": 1049,
+        "week": 52
       },
       "summary": {
         "tools": 5,
@@ -24796,9 +24846,9 @@
         "assets/cortico-world-streamvoice/screenshot-2.png"
       ],
       "downloads": {
-        "total": 2415,
-        "month": 2415,
-        "week": 140
+        "total": 2442,
+        "month": 2442,
+        "week": 134
       },
       "summary": {
         "tools": 3,
@@ -24870,9 +24920,9 @@
       ],
       "icon": "assets/cortico-world-sts-1/icon.png",
       "downloads": {
-        "total": 2979,
-        "month": 2481,
-        "week": 184
+        "total": 3036,
+        "month": 2538,
+        "week": 221
       },
       "summary": {
         "tools": 4,
@@ -24939,9 +24989,9 @@
         "requires-key"
       ],
       "downloads": {
-        "total": 1512,
-        "month": 1239,
-        "week": 55
+        "total": 1513,
+        "month": 1240,
+        "week": 46
       },
       "summary": {
         "tools": 2,
@@ -24962,6 +25012,89 @@
       "discussion": {
         "number": 64,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/64",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-study-buddy": {
+      "kind": "world",
+      "version": "0.1.7",
+      "displayName": "学习伴侣",
+      "description": "小学生的学习伴侣：听写、口算、古诗背诵、番茄钟、绘本伴读、错题本。配合「米Mo语音」插件朗读，桌宠陪孩子一起学。",
+      "locales": {
+        "zh": {
+          "displayName": "学习伴侣",
+          "description": "陪小学生学习：听写、口算、古诗背诵、番茄钟、绘本伴读、错题本。配合「米Mo语音」插件朗读，桌宠陪孩子一起学。"
+        },
+        "en": {
+          "displayName": "Study Buddy",
+          "description": "A study companion for kids: dictation, mental math, poem recitation, pomodoro, read-aloud and a mistake notebook. Pairs with the \"MiMo voice\" plugin for TTS."
+        }
+      },
+      "author": "local-port",
+      "maintainers": [
+        "chenhuilove123"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "education",
+        "study",
+        "kids",
+        "mimo",
+        "tts",
+        "学习"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-study-buddy"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-11-19T13:35:14.615Z",
+      "published": "2026-11-19T13:37:22.315Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "requires-key",
+        "internet"
+      ],
+      "tags": [
+        "internet",
+        "requires-key"
+      ],
+      "icon": "assets/cortico-world-study-buddy/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 5,
+        "events": 0,
+        "toolTokens": 533,
+        "envPromptTokens": 248
+      },
+      "changelog": {
+        "versions": [
+          "0.1.7",
+          "0.1.6",
+          "0.1.5",
+          "0.1.4",
+          "0.1.3",
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-study-buddy@0.1.7/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1030,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1030",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -25017,9 +25150,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 786,
-        "month": 786,
-        "week": 93
+        "total": 798,
+        "month": 798,
+        "week": 94
       },
       "summary": {
         "tools": 2,
@@ -25085,9 +25218,9 @@
         "external-setup"
       ],
       "downloads": {
-        "total": 7192,
-        "month": 6508,
-        "week": 1645
+        "total": 7511,
+        "month": 6827,
+        "week": 1896
       },
       "summary": {
         "tools": 4,
@@ -25113,7 +25246,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/65",
         "up": 3,
         "down": 4,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-switch": {
@@ -25159,9 +25292,9 @@
       ],
       "icon": "assets/cortico-world-switch/icon.svg",
       "downloads": {
-        "total": 509,
-        "month": 509,
-        "week": 37
+        "total": 514,
+        "month": 514,
+        "week": 32
       },
       "summary": {
         "tools": 3,
@@ -25235,9 +25368,9 @@
       ],
       "icon": "assets/cortico-world-sysmon/icon.svg",
       "downloads": {
-        "total": 644,
-        "month": 644,
-        "week": 36
+        "total": 654,
+        "month": 654,
+        "week": 42
       },
       "summary": {
         "tools": 2,
@@ -25317,9 +25450,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 812,
-        "month": 812,
-        "week": 37
+        "total": 821,
+        "month": 821,
+        "week": 33
       },
       "summary": {
         "tools": 25,
@@ -25377,7 +25510,7 @@
       "downloads": {
         "total": 419,
         "month": 419,
-        "week": 20
+        "week": 16
       },
       "summary": {
         "tools": 1,
@@ -25434,9 +25567,9 @@
       "isNew": false,
       "tags": [],
       "downloads": {
-        "total": 602,
-        "month": 602,
-        "week": 32
+        "total": 605,
+        "month": 605,
+        "week": 29
       },
       "summary": {
         "tools": 2,
@@ -25506,9 +25639,9 @@
       ],
       "icon": "assets/cortico-world-telegram/icon.png",
       "downloads": {
-        "total": 687,
-        "month": 687,
-        "week": 687
+        "total": 694,
+        "month": 694,
+        "week": 694
       },
       "summary": {
         "tools": 47,
@@ -25590,9 +25723,9 @@
         "game"
       ],
       "downloads": {
-        "total": 24333,
-        "month": 21193,
-        "week": 2435
+        "total": 24565,
+        "month": 21425,
+        "week": 2485
       },
       "summary": {
         "tools": 15,
@@ -25705,9 +25838,9 @@
         "companion"
       ],
       "downloads": {
-        "total": 649,
-        "month": 649,
-        "week": 24
+        "total": 651,
+        "month": 651,
+        "week": 19
       },
       "summary": {
         "tools": 4,
@@ -25790,9 +25923,9 @@
       ],
       "icon": "assets/cortico-world-titanfall2-assistant/icon.png",
       "downloads": {
-        "total": 995,
-        "month": 995,
-        "week": 49
+        "total": 1008,
+        "month": 1008,
+        "week": 50
       },
       "summary": {
         "tools": 10,
@@ -25862,9 +25995,9 @@
         "companion"
       ],
       "downloads": {
-        "total": 1261,
-        "month": 1261,
-        "week": 46
+        "total": 1262,
+        "month": 1262,
+        "week": 37
       },
       "summary": {
         "tools": 4,
@@ -25919,9 +26052,9 @@
         "internal-state"
       ],
       "downloads": {
-        "total": 4434,
-        "month": 3235,
-        "week": 101
+        "total": 4443,
+        "month": 3244,
+        "week": 79
       },
       "summary": {
         "tools": 4,
@@ -25998,9 +26131,9 @@
       ],
       "icon": "assets/cortico-world-token-ledger/icon.svg",
       "downloads": {
-        "total": 1374,
-        "month": 1374,
-        "week": 145
+        "total": 1405,
+        "month": 1405,
+        "week": 143
       },
       "summary": {
         "tools": 0,
@@ -26066,9 +26199,9 @@
         "requires-key"
       ],
       "downloads": {
-        "total": 2213,
-        "month": 1992,
-        "week": 51
+        "total": 2216,
+        "month": 1995,
+        "week": 44
       },
       "summary": {
         "tools": 2,
@@ -26127,9 +26260,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 377,
-        "month": 377,
-        "week": 28
+        "total": 380,
+        "month": 380,
+        "week": 26
       },
       "summary": {
         "tools": 2,
@@ -26199,9 +26332,9 @@
       ],
       "icon": "assets/cortico-world-usage-relay/icon.svg",
       "downloads": {
-        "total": 1503,
-        "month": 1503,
-        "week": 808
+        "total": 1762,
+        "month": 1762,
+        "week": 1052
       },
       "summary": {
         "tools": 2,
@@ -26246,9 +26379,9 @@
         "external-setup"
       ],
       "downloads": {
-        "total": 999,
-        "month": 999,
-        "week": 29
+        "total": 1001,
+        "month": 1001,
+        "week": 20
       },
       "summary": {
         "tools": 2,
@@ -26324,9 +26457,9 @@
         "external-setup"
       ],
       "downloads": {
-        "total": 744,
-        "month": 744,
-        "week": 56
+        "total": 750,
+        "month": 750,
+        "week": 53
       },
       "summary": {
         "tools": 5,
@@ -26394,9 +26527,9 @@
         "video"
       ],
       "downloads": {
-        "total": 1306,
-        "month": 1306,
-        "week": 62
+        "total": 1314,
+        "month": 1314,
+        "week": 54
       },
       "discussion": {
         "number": 393,
@@ -26461,9 +26594,9 @@
       ],
       "icon": "assets/cortico-world-vn/icon.svg",
       "downloads": {
-        "total": 757,
-        "month": 757,
-        "week": 68
+        "total": 770,
+        "month": 770,
+        "week": 70
       },
       "summary": {
         "tools": 7,
@@ -26543,9 +26676,9 @@
       ],
       "icon": "assets/cortico-world-voice/icon.svg",
       "downloads": {
-        "total": 1579,
-        "month": 1579,
-        "week": 187
+        "total": 1599,
+        "month": 1599,
+        "week": 188
       },
       "summary": {
         "tools": 13,
@@ -26622,9 +26755,9 @@
       ],
       "icon": "assets/cortico-world-voice-qq/icon.png",
       "downloads": {
-        "total": 879,
-        "month": 879,
-        "week": 189
+        "total": 932,
+        "month": 932,
+        "week": 220
       },
       "summary": {
         "tools": 1,
@@ -26696,9 +26829,9 @@
         "experimental"
       ],
       "downloads": {
-        "total": 675,
-        "month": 675,
-        "week": 40
+        "total": 678,
+        "month": 678,
+        "week": 35
       },
       "summary": {
         "tools": 3,
@@ -26759,7 +26892,7 @@
       "downloads": {
         "total": 735,
         "month": 735,
-        "week": 50
+        "week": 38
       },
       "changelog": {
         "versions": [
@@ -26810,9 +26943,9 @@
         "companion"
       ],
       "downloads": {
-        "total": 5502,
-        "month": 5502,
-        "week": 378
+        "total": 5582,
+        "month": 5582,
+        "week": 393
       },
       "summary": {
         "tools": 4,
@@ -26895,9 +27028,9 @@
         "assets/cortico-world-wardrobe-studio/screenshot-2.jpg"
       ],
       "downloads": {
-        "total": 1893,
-        "month": 1893,
-        "week": 481
+        "total": 1915,
+        "month": 1915,
+        "week": 466
       },
       "summary": {
         "tools": 4,
@@ -27002,9 +27135,9 @@
         "assets/cortico-world-warthunder/screenshot-4.png"
       ],
       "downloads": {
-        "total": 4222,
-        "month": 4222,
-        "week": 335
+        "total": 4255,
+        "month": 4255,
+        "week": 322
       },
       "summary": {
         "tools": 15,
@@ -27117,9 +27250,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 915,
-        "month": 915,
-        "week": 915
+        "total": 953,
+        "month": 953,
+        "week": 953
       },
       "summary": {
         "tools": 6,
@@ -27194,9 +27327,9 @@
       ],
       "icon": "assets/cortico-world-watch-window/icon.png",
       "downloads": {
-        "total": 4863,
-        "month": 4863,
-        "week": 1188
+        "total": 5397,
+        "month": 5397,
+        "week": 1655
       },
       "summary": {
         "tools": 3,
@@ -27267,9 +27400,9 @@
         "internet"
       ],
       "downloads": {
-        "total": 999,
-        "month": 999,
-        "week": 99
+        "total": 1014,
+        "month": 1014,
+        "week": 102
       },
       "summary": {
         "tools": 3,
@@ -27331,9 +27464,9 @@
         "internet"
       ],
       "downloads": {
-        "total": 2289,
-        "month": 2289,
-        "week": 79
+        "total": 2301,
+        "month": 2301,
+        "week": 77
       },
       "summary": {
         "tools": 1,
@@ -27392,9 +27525,9 @@
         "internet"
       ],
       "downloads": {
-        "total": 3627,
-        "month": 3627,
-        "week": 163
+        "total": 3646,
+        "month": 3646,
+        "week": 153
       },
       "summary": {
         "tools": 2,
@@ -27457,9 +27590,9 @@
         "internet"
       ],
       "downloads": {
-        "total": 1572,
-        "month": 1572,
-        "week": 95
+        "total": 1586,
+        "month": 1586,
+        "week": 101
       },
       "summary": {
         "tools": 2,
@@ -27509,9 +27642,9 @@
         "internet"
       ],
       "downloads": {
-        "total": 1529,
-        "month": 779,
-        "week": 55
+        "total": 1539,
+        "month": 789,
+        "week": 57
       },
       "summary": {
         "tools": 1,
@@ -27569,9 +27702,9 @@
       ],
       "icon": "assets/cortico-world-websearch/icon.svg",
       "downloads": {
-        "total": 10087,
-        "month": 7975,
-        "week": 1023
+        "total": 10165,
+        "month": 8053,
+        "week": 1022
       },
       "summary": {
         "tools": 1,
@@ -27628,9 +27761,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 2710,
-        "month": 1212,
-        "week": 101
+        "total": 2727,
+        "month": 1229,
+        "week": 93
       },
       "summary": {
         "tools": 0,
@@ -27718,9 +27851,9 @@
       ],
       "icon": "assets/cortico-world-wechat-claw/icon.png",
       "downloads": {
-        "total": 2616,
-        "month": 2616,
-        "week": 869
+        "total": 2666,
+        "month": 2666,
+        "week": 733
       },
       "summary": {
         "tools": 5,
@@ -27803,9 +27936,9 @@
       ],
       "icon": "assets/cortico-world-wechat-clawbridge/icon.png",
       "downloads": {
-        "total": 1635,
-        "month": 1635,
-        "week": 309
+        "total": 1834,
+        "month": 1834,
+        "week": 484
       },
       "summary": {
         "tools": 3,
@@ -27901,9 +28034,9 @@
         "unofficial-api"
       ],
       "downloads": {
-        "total": 976,
-        "month": 976,
-        "week": 122
+        "total": 1017,
+        "month": 1017,
+        "week": 145
       },
       "summary": {
         "tools": 7,
@@ -27974,9 +28107,9 @@
       ],
       "icon": "assets/cortico-world-whale-balance/icon.png",
       "downloads": {
-        "total": 1803,
-        "month": 1803,
-        "week": 262
+        "total": 1854,
+        "month": 1854,
+        "week": 283
       },
       "summary": {
         "tools": 0,
@@ -28046,9 +28179,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 778,
-        "month": 778,
-        "week": 778
+        "total": 802,
+        "month": 802,
+        "week": 802
       },
       "summary": {
         "tools": 1,
@@ -28123,9 +28256,9 @@
       ],
       "icon": "assets/cortico-world-workbuddy/icon.svg",
       "downloads": {
-        "total": 1421,
-        "month": 1421,
-        "week": 84
+        "total": 1452,
+        "month": 1452,
+        "week": 98
       },
       "summary": {
         "tools": 4,
@@ -28198,9 +28331,9 @@
         "creative"
       ],
       "downloads": {
-        "total": 1157,
-        "month": 1157,
-        "week": 44
+        "total": 1158,
+        "month": 1158,
+        "week": 34
       },
       "summary": {
         "tools": 3,
@@ -28273,9 +28406,9 @@
       ],
       "icon": "assets/cortico-world-x/icon.svg",
       "downloads": {
-        "total": 839,
-        "month": 839,
-        "week": 22
+        "total": 840,
+        "month": 840,
+        "week": 18
       },
       "summary": {
         "tools": 7,
@@ -28328,9 +28461,9 @@
         "browser"
       ],
       "downloads": {
-        "total": 296,
-        "month": 296,
-        "week": 296
+        "total": 318,
+        "month": 318,
+        "week": 318
       },
       "summary": {
         "tools": 4,
@@ -28376,9 +28509,9 @@
         "external-setup"
       ],
       "downloads": {
-        "total": 0,
-        "month": 0,
-        "week": 0
+        "total": 755,
+        "month": 755,
+        "week": 755
       },
       "discussion": {
         "number": 1014,
@@ -28424,9 +28557,9 @@
       ],
       "icon": "assets/cortico-world-zcode/icon.svg",
       "downloads": {
-        "total": 638,
-        "month": 638,
-        "week": 25
+        "total": 643,
+        "month": 643,
+        "week": 23
       },
       "summary": {
         "tools": 2,
@@ -28488,9 +28621,9 @@
       "tags": [],
       "icon": "assets/cortico-world-zhengzhan/icon.png",
       "downloads": {
-        "total": 469,
-        "month": 469,
-        "week": 61
+        "total": 479,
+        "month": 479,
+        "week": 62
       },
       "summary": {
         "tools": 0,
@@ -28551,9 +28684,9 @@
       "isNew": false,
       "tags": [],
       "downloads": {
-        "total": 770,
-        "month": 770,
-        "week": 55
+        "total": 785,
+        "month": 785,
+        "week": 61
       },
       "summary": {
         "tools": 1,
@@ -28645,9 +28778,9 @@
         "assets/elymes-nte-web/screenshot-5.jpg"
       ],
       "downloads": {
-        "total": 953,
-        "month": 953,
-        "week": 656
+        "total": 971,
+        "month": 971,
+        "week": 633
       },
       "discussion": {
         "number": 860,
@@ -28720,9 +28853,9 @@
         "assets/glutton-balance/screenshot-7.png"
       ],
       "downloads": {
-        "total": 1393,
-        "month": 1393,
-        "week": 771
+        "total": 1408,
+        "month": 1408,
+        "week": 627
       },
       "summary": {
         "tools": 0,
@@ -28814,9 +28947,9 @@
         "assets/pet-balance-world/screenshot-7.png"
       ],
       "downloads": {
-        "total": 948,
-        "month": 948,
-        "week": 33
+        "total": 949,
+        "month": 949,
+        "week": 28
       },
       "summary": {
         "tools": 0,
@@ -28889,9 +29022,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 2925,
-        "month": 2925,
-        "week": 2082
+        "total": 2995,
+        "month": 2995,
+        "week": 2142
       },
       "changelog": {
         "versions": [
@@ -28922,7 +29055,7 @@
       "discussion": {
         "number": 834,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/834",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -28964,9 +29097,9 @@
         "high-cost"
       ],
       "downloads": {
-        "total": 435,
-        "month": 435,
-        "week": 435
+        "total": 454,
+        "month": 454,
+        "week": 454
       },
       "discussion": {
         "number": 976,
@@ -29017,9 +29150,9 @@
         "memory"
       ],
       "downloads": {
-        "total": 1243,
-        "month": 1243,
-        "week": 81
+        "total": 1256,
+        "month": 1256,
+        "week": 76
       },
       "changelog": {
         "versions": [
@@ -29086,9 +29219,9 @@
         "requires-key"
       ],
       "downloads": {
-        "total": 324,
-        "month": 324,
-        "week": 60
+        "total": 330,
+        "month": 330,
+        "week": 35
       },
       "changelog": {
         "versions": [

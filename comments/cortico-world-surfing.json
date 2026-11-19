@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "name": "cortico-world-surfing",
+  "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/65",
+  "total": 1,
+  "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BLTxZ",
+      "author": "DTMosken",
+      "avatar": "https://avatars.githubusercontent.com/u/73480710?s=64&u=9f11428fbc5374d9450cb92c91ab8e3090907e1f&v=4",
+      "body": "**给使用 DeepSeek 的用户**\n\nDeepSeek 官方现在支持在对话里搜索网页、阅读你发来的链接。搜索和读链接不另外收费，模型回答问题仍按用量计费。Cortico 的 DeepSeek 供应商扩展已经接入这两项功能，会从 0.3.0 起提供。[DeepSeek 官方说明](https://api-docs.deepseek.com/zh-cn/guides/web_tools/)\n\n如果你平时主要是**查资料、总结文章，或者发个链接问“这篇讲了什么”**，建议新版发布后直接用 DeepSeek。如果你还会**读 B 站字幕和评论、去贴吧查梗、看网页截图或 PDF 里的图表**，可以继续保留 Surfing。两个扩展可以一起用。\n\n**新版发布后，怎么安装和开启？**\n\n1. 打开 Cortico WebUI，进入 **「模型供应商」→「扩展市场」**，搜索 `cortico-provider-deepseek`，安装或更新到 **0.3.0 或更高版本**，然后重启 Cortico。\n2. 回到 **「模型供应商」**。已经有 **「DeepSeek（峰谷计价）」** 实例的，直接打开它。第一次使用的，点 **「新建供应商实例」**，选择 **「DeepSeek（峰谷计价）」**，填入自己的 DeepSeek API Key，模型选 `deepseek-flash`。\n3. 在 **「联网工具」** 里按需打开 **「联网搜索」**、**「阅读链接」**，点 **「保存」**。如果是新建实例，再点 **「设为当前供应商」** 即可。",
+      "createdAt": "2026-11-19T11:01:36Z"
+    }
+  ]
+}

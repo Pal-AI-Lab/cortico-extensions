@@ -2,14 +2,23 @@
   "schema": 1,
   "name": "cortico-world-astrbot",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/333",
-  "total": 2,
+  "total": 3,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BKpCv",
       "author": "adkjfhakjdfh",
       "avatar": "https://avatars.githubusercontent.com/u/28283259?s=64&v=4",
       "body": "大佬有没有教程呀，没整明白咋用，我已经asrtbot+SnowLuma连上了，但是我不知道我连没连上coo里面的，只要说话就一直显示LLM 请求失败：未找到任何可用的对话模型（提供商）。请先在 WebUI 中配置并启用可用模型。不用再asrtbot里面再配置一个模型吧？这样的话就不是和coo连接了呀！",
-      "createdAt": "2026-11-12T14:37:19Z"
+      "createdAt": "2026-11-12T14:37:19Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BLVrZ",
+          "author": "as124da1231",
+          "avatar": "https://avatars.githubusercontent.com/u/285245090?s=64&u=8ecbeb760259bc3da06cb37f2b9b0592a78e01c0&v=4",
+          "body": "需要在群聊设置那里选择你要接管的群聊。这里我设计的是只有在接管群聊的情况下才会拦截astrbot的llm调用。私聊的设计现在完全是空白，你连接上在asrebot那边配置好的情况下会直接接管所有私聊。",
+          "createdAt": "2026-11-19T13:26:14Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BJqHs",
