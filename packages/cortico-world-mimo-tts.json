@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "name": "cortico-world-mimo-tts",
+  "version": "0.1.3",
+  "describe": {
+    "tools": [
+      {
+        "name": "mimo_speak",
+        "description": "Say a line aloud in your voice with MiMo TTS, after any line still playing. Emit it in the same reply as the pet_say it voices, immediately followed by that pet_say, without waiting for this result: the bubble then appears as the voice begins. Bubble markup (【…】 and <…>) is skipped, so the text can be the pet_say script verbatim.",
+        "tags": [
+          "speak"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "type": "string",
+              "maxLength": 2000,
+              "description": "The line to say."
+            }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "summary": {
+          "zh": "用米Mo语音把一句台词念出来，排在没念完的句子后面。",
+          "en": "Says a line aloud with MiMo TTS, after any line still playing."
+        }
+      },
+      {
+        "name": "mimo_hush",
+        "description": "Stop the voice now: the line playing is cut and queued lines are dropped. Bubbles are not affected.",
+        "tags": [
+          "speak"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "summary": {
+          "zh": "停下正在念的句子并清空队列。",
+          "en": "Stops the line playing and drops the queue."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.mimo-tts.envPrompt",
+        "title": "米Mo语音 · 环境提示词",
+        "role": "envPrompt",
+        "content": "## 语音\n\n`mimo_speak` 把一句话用你的声音从对方电脑的扬声器念出来。\n\n每次调用 `pet_say` 之前，在同一次回复里先调用 `mimo_speak`，text 与这次 `pet_say` 的 script 逐字相同（连标记照抄，标记不会被念出来），紧接着调用 `pet_say`。两个调用在同一次回复里连着发出，不要等 `mimo_speak` 的回执；这样气泡会在声音开始时出现。`pet_ask` 的问题不用念。\n\n被戳、被摸、被拖动、精力/在线奖励这类状态提示的短反应，**不要**调用 `mimo_speak`，只出气泡就行；只有真正说给对方听的话才念。\n\n对方让你安静，或者你要长时间专心做事时，调用 `mimo_hush` 停下声音；气泡不受影响。\n\n语音在这段提示词写下时：{{mimo.state}}。不可用时只用 `pet_say`；被问起时如实说明。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.3": "- README 增加计费说明：当前限时免费（以小米开放平台公告为准）。",
+    "0.1.2": "- 图标替换为小米风格的橙色语音图标。\n- 配置页样式美化：对齐的分组布局、弱化的提示文字、禁用变灰、变更 toast 反馈。",
+    "0.1.1": "- 默认生效时间段改为 08:00–23:00。\n- 配置页时间输入改用原生时间选择器。",
+    "0.1.0": "- 首个版本：基于小米 MiMo TTS 2.5（OpenAI 兼容接口）的 Coopanion 桌宠语音扩展。\n- 9 个预置音色，自然语言风格指令与音频标签（方言 / 情绪 / 唱歌）。\n- 工具 `mimo_speak` / `mimo_hush`，队列播放、试听、导出 wav、省消耗设置。"
+  }
+}
