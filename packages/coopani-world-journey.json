@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-journey",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "describe": {
     "tools": [
       {
@@ -871,6 +871,7 @@
     ]
   },
   "changelog": {
+    "2.1.0": "读者问「2.0.0 是不是彻底不支持参考图」。不是不支持，是**从来没做过这层** —— 但从这一版起有了，\n而且走的是图鉴那条现成的路，不是让用户手填路径。\n\n- **参考图默认关**，开了之后才读图鉴、才把图发出去。图会离开本机、过服务商的内容审核，\n  这一步必须由人主动打开。\n- **来源以图鉴为主**：命中 `characters / outfits / scenes` 条目 → 取条目自己的 `ref-*.png`\n  （人物最多 2 张、服饰 1 张、场景 1 张）。手填 `imageRefs` 只作补充，每行一个路径。\n  理由：图鉴跟着 `libraryDir` 走，换设备还在；手填是本机绝对路径，换台电脑就断。\n- **只发火山方舟系**：`imagePreset: 'doubao'`，或域名/模型名指向 `volces.com` / `doubao-seedream`。\n  OpenAI 官方把图生图放 `/images/edits`（multipart）、硅基流动字段是 `image` 或 `input_image`\n  且看模型 —— 无条件发会把这两家打挂，所以按能力放行，其余跳过并写一行日志。\n- **压图**：PNG 缩到长边 1600（双线性，不引依赖）；JPEG 不重编码，原样发。单张 4MB、总量 12MB 封顶，\n  超了跳过并记账。base64 会膨胀 4/3，三张两兆就是十兆的请求体 —— 这才是要压的真实原因，\n  不是\"会被拒\"（方舟单图上限 10MB，两兆本来能过）。\n- **有参考图时不写人物描述**：外观交给图，提示词只留「画面里只有这一个人」。两套外观同时给，\n  模型会各听一半。场景/服饰仍走图鉴的 appearance 与 `activity.visualPrompt`。\n- **重拍沿用当初那份名单**：`photos.json` 里存 `refs`（文件名），不存\"当前配置\"。\n  否则换了图鉴再重拍，相册显示同一张、人却不是同一个。\n- **降级不阻断**：单张读不到、不是图片、太大 → 跳过；服务端拒收 `image` → 去掉重发一次并记\n  `refsDropped`；图鉴目录不存在 → 当没有参考图。**任何一条都不许让拍照失败。**",
     "2.0.0": "- **生图提示词重构（Option B）**：`minimalPrompt(scene)` 覆盖全部 6 种 `subject` 与 `onRoad`（含在途 `food`/`detail` 题材优先分支），剔除 6 类画质杀手（元指令废话、季节废话、画质自残词、高速行人、房评 `doing` 噪音、冗余长否定），保留正常酒店窗边/夜间作息句；`describe` 上限扩至 120 字；极简与详细模式均支持 `life-public.json` 暴露的 `libraryDir`（或 `<dataDir>/image-library/`）按名称/别名匹配角色、服饰与场景图鉴；\n- **Cortico API v6 对齐**：`journey_photo` 接入 `interruptible: true` 与 `AbortSignal` 取消（含 ComfyUI 下载阶段快速跳出），接入生图响应 `usage` 至 `host.reportUsage` 与 `host.modelFacts` 看图能力判断；`journey.beat`/`journey.road` 支持 `pushDeferred` + `['snapshot']` 标签且 `journey.road` 延迟渲染实时重算旅途进度；新增同步 `onHandoffEnded()`（独立 `journey.handoff` 事件，`piggyback` + `['snapshot']` 延迟重算）与 `webUi().storage`（`StoragePart[]` 四项 `clear()` 同步重置内存状态、相册索引、多目录日记与跨设备记忆）；\n- **前缀与 Schema 瘦身**：`ENV_PROMPT.md` 由 8,583 字压至 2,825 字；`describe.ts` / `describe.json` 单源同步瘦身并给快照工具打上 `snapshot` 标签。",
     "1.12.18": "读者 zzy1053 报的：1.12.14 那次批量把 `she/her` 换成 `you/your`，**只换了代词，动词没跟着变**：\n\n```\nyou wants / you takes / you says / you remembers / You plans to …\n```\n\n实际清点 **23 种、36 处**（他估「约 26 处」，比估的多）。\n\n### 改法\n\n`you <第三人称单数>` → `you <原形>`。特殊的是 `passes`：去 `es`，不是去 `s`\n（去 `s` 会变成 `passe`）。`describe.json` 与 `src/describe.ts` 两边同步，**各 40 处**。\n\n> **我的失误**：替换词表第一行写成 `wants wants`（自己映射自己），所以 `you wants`\n> 一直没变，第一遍跑完还剩 4 处，回扫才发现。\n> **教训：「命令报了多少处」和「还剩多少处」是两个数，跑完必须回扫源模式。**\n\n### 顺带：修 1.12.16 漏掉的城市表刷新\n\n`1.12.16` 加了台湾地区 5 座城（`CITIES` 188 → 193），但没重生成页面那份手抄表 ——\n`test/pets-page.test.mjs` 的「城市表覆盖 CITIES 全部」因此变红，缺的 5 座会显示成英文 id。\n\n按测试自己给的提示跑了两步：\n\n```\nnode tools/regen-city-table.mjs        → 重写 site/pets.html（188 → 193）\nnode cloud/sight-cf/build-pets.mjs     → 同步 cloud/sight-cf/src/pets-page.js\n```\n\n**第二条容易漏**：`pets-page.js` 是 `site/pets.html` 的副本，两条测试分别守着它们。\n以后加城市，这两步要一起跑。",
     "1.12.17": "- **`addSpent()` 守住请客模式边界**：[world-purse.ts](src/world-purse.ts) 仅在 `moneyEnabled && payFromLife` 同时开启时才向 `life-spend/` 递扣款条子；关闭旅行记账（你请客）时不再在未检查余额的情况下把模拟鱼生余额扣穿到 0。",
