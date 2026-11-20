@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-compose",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "describe": {
     "tools": [
       {
         "name": "compose_render",
-        "description": "Render a song written as a lead sheet to an audio file. You write the form, the chords and the melodic lines; chords, bass and drums are played from each section's groove and energy. Rendering a title again replaces its audio. A line is bars separated by \"|\". A bar is slots of equal length separated by spaces: 4 slots are quarter notes, 8 are eighths, 16 are sixteenths (3, 6 or 12 for triplets); bars of one line may use different slot counts. A slot is a pitch (\"F#5\", \"Bb4\"; C4 is middle C), \"-\" to hold the previous note, or \".\" for a rest. \"%\" repeats the previous bar. Two bars of eighths: \". F#5 A5 D6 - - E6 - | - . . C#6 B5 - . .\" The receipt gives the file and measured facts: length, the level of each section, ranges, notes that clash with their chord, bars that repeat.",
+        "description": "Render a song written as a lead sheet to an audio file. You write the form, the chords and the melodic lines; chords, bass and drums are played from each section's groove and energy. Rendering a title again replaces its audio. A line is bars separated by \"|\". A bar is slots of equal length separated by spaces: 4 slots are quarter notes, 8 are eighths, 16 are sixteenths (3, 6 or 12 for triplets); bars of one line may use different slot counts. A slot is a pitch (\"F#5\", \"Bb4\"; C4 is middle C), \"-\" to hold the previous note, or \".\" for a rest. \"%\" repeats the previous bar. Two bars of eighths on one pitch: \". C4 C4 C4 - - C4 - | - . . C4 C4 - . .\" A line can also hold, where the music asks for it: pitches joined by \"+\" that sound together (\"C3+G3+E4\"); \"[..]\", a group of slots that share one slot (\"C4 [C4 C4 C4] C4 -\" puts a triplet on beat 2); dynamic marks \"(pp)\" \"(p)\" \"(mp)\" \"(mf)\" \"(f)\" \"(ff)\", which take no slot and set the loudness of that line from there on, with \"(<)\" and \"(>)\" ramping to the next mark. A line without marks takes its loudness from the section's energy. The receipt gives the file and measured facts: length, the level of each section and what of the band played in it, ranges, notes that clash with their chord, bars that repeat.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -17,7 +17,7 @@
             },
             "tempo": {
               "type": "number",
-              "description": "Beats per minute, 30–300."
+              "description": "Quarter notes per minute, 30–300."
             },
             "key": {
               "type": "string",
@@ -25,11 +25,7 @@
             },
             "meter": {
               "type": "string",
-              "enum": [
-                "4/4",
-                "3/4"
-              ],
-              "description": "Default 4/4."
+              "description": "Like \"4/4\", \"3/4\", \"6/8\", \"5/4\", \"7/8\": a bar of 1 to 8 quarter notes. Default 4/4. Tempo counts quarter notes in every meter."
             },
             "lead": {
               "type": "string",
@@ -89,7 +85,7 @@
                   },
                   "chords": {
                     "type": "string",
-                    "description": "One bar per \"|\", one to eight symbols per bar sharing it equally, \"-\" holds, \"%\" repeats the bar, \"N.C.\" silences the band: \"Dmaj9 | Em9 A13 | F#m7 - - B7b9\"."
+                    "description": "One bar per \"|\", one to eight symbols per bar sharing it equally, \"-\" holds, \"%\" repeats the bar, \"N.C.\" silences the band: \"C | F G7 | Am7 - - E7b9\"."
                   },
                   "melody": {
                     "type": "string",
@@ -100,7 +96,7 @@
                     "additionalProperties": {
                       "type": "string"
                     },
-                    "description": "More lines, keyed by instrument name: counter-melodies, answers, doublings. The key \"drums\" takes drum letters instead of pitches (K kick, S snare, X rim, H hi-hat, O open hat, R ride, C crash, T tom, M shaker), several per slot."
+                    "description": "More lines, keyed by instrument name: counter-melodies, answers, doublings, or a role of the band written by hand. An instrument name may carry a label after a colon (\"piano:left\", \"drums:hats\"), which gives that instrument one more line of its own, and may be \"gm\" with a General MIDI program number (\"gm 105\") for an instrument not in the list. The key \"drums\" takes drum letters instead of pitches (K kick, S snare, X rim, H hi-hat, O open hat, R ride, C crash, T tom, M shaker) or General MIDI percussion key numbers, several per slot (\"KH\", \"K+56\")."
                   },
                   "stops": {
                     "type": "array",
@@ -108,6 +104,37 @@
                       "type": "integer"
                     },
                     "description": "Bar numbers within the section where the band plays one hit on beat 1 and then rests; written lines go on."
+                  },
+                  "band": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "chords": {
+                        "type": "string"
+                      },
+                      "bass": {
+                        "type": "string"
+                      },
+                      "drums": {
+                        "type": "string"
+                      },
+                      "fills": {
+                        "type": "string"
+                      }
+                    },
+                    "description": "Changes to the band the groove brings, in this section. Its roles are \"chords\", \"bass\", \"drums\" and \"fills\" (the fill into the next section and the crash that opens a loud one). \"off\" silences a role, leaving it to a line you write or to nobody; \"chords\" and \"bass\" also take an instrument name, which hands the role to that instrument. Roles not named play as the groove has them. Example: {\"bass\": \"off\", \"chords\": \"vibraphone\"}."
+                  },
+                  "tempo": {
+                    "type": "number",
+                    "description": "This section's own tempo, when it differs from the song's."
+                  },
+                  "meter": {
+                    "type": "string",
+                    "description": "This section's own meter, when it differs from the song's."
+                  },
+                  "key": {
+                    "type": "string",
+                    "description": "This section's own key, when it differs from the song's."
                   }
                 },
                 "required": [
@@ -126,8 +153,8 @@
           "write"
         ],
         "summary": {
-          "zh": "把一份谱子(曲式、和弦、旋律)渲染成音频，伴奏按律动生成。",
-          "en": "Renders a lead sheet (form, chords, melodies) to audio; the band is generated from the groove."
+          "zh": "把一份谱子(曲式、和弦、旋律)渲染成音频;伴奏按律动生成，每段可以关掉或改写其中任一角色。",
+          "en": "Renders a lead sheet (form, chords, melodies) to audio; the band is generated from the groove, and any of its roles can be switched off or rewritten per section."
         }
       },
       {
@@ -143,7 +170,7 @@
             },
             "tempo": {
               "type": "number",
-              "description": "Beats per minute, 30–300."
+              "description": "Quarter notes per minute, 30–300."
             },
             "key": {
               "type": "string",
@@ -207,7 +234,7 @@
                   },
                   "chords": {
                     "type": "string",
-                    "description": "One bar per \"|\", one to eight symbols per bar sharing it equally, \"-\" holds, \"%\" repeats the bar, \"N.C.\" silences the band: \"Dmaj9 | Em9 A13 | F#m7 - - B7b9\"."
+                    "description": "One bar per \"|\", one to eight symbols per bar sharing it equally, \"-\" holds, \"%\" repeats the bar, \"N.C.\" silences the band: \"C | F G7 | Am7 - - E7b9\"."
                   },
                   "melody": {
                     "type": "string",
@@ -218,7 +245,7 @@
                     "additionalProperties": {
                       "type": "string"
                     },
-                    "description": "More lines, keyed by instrument name: counter-melodies, answers, doublings. The key \"drums\" takes drum letters instead of pitches (K kick, S snare, X rim, H hi-hat, O open hat, R ride, C crash, T tom, M shaker), several per slot."
+                    "description": "More lines, keyed by instrument name: counter-melodies, answers, doublings, or a role of the band written by hand. An instrument name may carry a label after a colon (\"piano:left\", \"drums:hats\"), which gives that instrument one more line of its own, and may be \"gm\" with a General MIDI program number (\"gm 105\") for an instrument not in the list. The key \"drums\" takes drum letters instead of pitches (K kick, S snare, X rim, H hi-hat, O open hat, R ride, C crash, T tom, M shaker) or General MIDI percussion key numbers, several per slot (\"KH\", \"K+56\")."
                   },
                   "stops": {
                     "type": "array",
@@ -226,6 +253,37 @@
                       "type": "integer"
                     },
                     "description": "Bar numbers within the section where the band plays one hit on beat 1 and then rests; written lines go on."
+                  },
+                  "band": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "chords": {
+                        "type": "string"
+                      },
+                      "bass": {
+                        "type": "string"
+                      },
+                      "drums": {
+                        "type": "string"
+                      },
+                      "fills": {
+                        "type": "string"
+                      }
+                    },
+                    "description": "Changes to the band the groove brings, in this section. Its roles are \"chords\", \"bass\", \"drums\" and \"fills\" (the fill into the next section and the crash that opens a loud one). \"off\" silences a role, leaving it to a line you write or to nobody; \"chords\" and \"bass\" also take an instrument name, which hands the role to that instrument. Roles not named play as the groove has them. Example: {\"bass\": \"off\", \"chords\": \"vibraphone\"}."
+                  },
+                  "tempo": {
+                    "type": "number",
+                    "description": "This section's own tempo, when it differs from the song's."
+                  },
+                  "meter": {
+                    "type": "string",
+                    "description": "This section's own meter, when it differs from the song's."
+                  },
+                  "key": {
+                    "type": "string",
+                    "description": "This section's own key, when it differs from the song's."
                   }
                 },
                 "required": [
@@ -247,8 +305,83 @@
         }
       },
       {
+        "name": "compose_phrase",
+        "description": "Keep a phrase: a bar or a few, written to try an idea out, to answer one, or to show what something sounds like. It is rendered at once and kept in a notebook under its name, apart from the songs; writing a name again replaces the phrase. A phrase is played, read and opened by its name like a song by its title. In a song, a bar written \"@name\" stands for a phrase of one line, as it does for a motif. The line is written as in compose_render. The receipt gives the file, the length and what was measured in the notes.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Letters, digits and underscores."
+            },
+            "line": {
+              "type": "string",
+              "description": "The phrase."
+            },
+            "instrument": {
+              "type": "string",
+              "description": "Instrument that plays the line. One of: piano, electric piano, harpsichord, celesta, glockenspiel, music box, vibraphone, marimba, organ, accordion, harmonica, nylon guitar, steel guitar, jazz guitar, clean guitar, overdrive guitar, acoustic bass, electric bass, fretless bass, synth bass, violin, viola, cello, pizzicato, harp, strings, choir, trumpet, trombone, french horn, muted trumpet, brass, soprano sax, alto sax, tenor sax, oboe, clarinet, piccolo, flute, recorder, pan flute, whistle, ocarina, synth lead, saw lead, synth pad, kalimba, koto, shakuhachi, steel drums. Default piano."
+            },
+            "tempo": {
+              "type": "number",
+              "description": "Quarter notes per minute, 30–300."
+            },
+            "key": {
+              "type": "string",
+              "description": "Like \"D major\", \"B minor\", \"F dorian\"."
+            },
+            "meter": {
+              "type": "string",
+              "description": "Like \"4/4\", \"3/4\", \"6/8\", \"5/4\", \"7/8\": a bar of 1 to 8 quarter notes. Default 4/4. Tempo counts quarter notes in every meter."
+            },
+            "parts": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "More lines sounding with it, keyed by instrument name, as in a section of a song."
+            },
+            "chords": {
+              "type": "string",
+              "description": "The chords under the phrase, written as in a section of a song. They are what the notes are measured against, and what a band plays when a groove is given."
+            },
+            "groove": {
+              "type": "string",
+              "enum": [
+                "pop",
+                "rock",
+                "ballad",
+                "bossa",
+                "samba",
+                "swing",
+                "waltz",
+                "funk",
+                "lofi",
+                "dance",
+                "ambient",
+                "none"
+              ],
+              "description": "A band under the phrase, as in a section of a song. Default none: only the written lines sound."
+            }
+          },
+          "required": [
+            "name",
+            "line",
+            "tempo"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "写下一两句旋律并立刻渲染，存进乐句本;在曲子里用 @名字 引用。",
+          "en": "Writes down a phrase or two, renders it at once and keeps it in the notebook; a song refers to it as @name."
+        }
+      },
+      {
         "name": "compose_read",
-        "description": "Without a title: list the songs written so far. With a title: return the sheet last rendered under it, as it was written.",
+        "description": "Without a title: list the songs and phrases written so far, and the phrases someone played on the keyboard. With a title or a phrase name: return it as it was written or played.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -262,13 +395,13 @@
           "read"
         ],
         "summary": {
-          "zh": "列出写过的曲子，或取回某一首最近一次渲染的谱子。",
-          "en": "Lists the songs written so far, or returns the sheet last rendered under a title."
+          "zh": "列出写过的曲子和乐句，或取回其中一个。",
+          "en": "Lists the songs and phrases written so far, or returns one of them."
         }
       },
       {
         "name": "compose_play",
-        "description": "Play a rendered song aloud on this computer, through the output device chosen in this World's settings. It returns as soon as playback has started; a song already playing is stopped first.",
+        "description": "Play a rendered song (by its title) or a phrase (by its name) aloud on this computer, through the output device chosen in this World's settings. It returns as soon as playback has started; whatever was playing is stopped first.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -285,13 +418,13 @@
           "act"
         ],
         "summary": {
-          "zh": "在配置里选定的输出设备上播放一首渲染好的曲子。",
-          "en": "Plays a rendered song on the output device chosen in the settings."
+          "zh": "在配置里选定的输出设备上播放一首曲子或一个乐句。",
+          "en": "Plays a song or a phrase on the output device chosen in the settings."
         }
       },
       {
         "name": "compose_stop",
-        "description": "Stop the song that compose_play is playing.",
+        "description": "Stop what compose_play is playing.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -301,13 +434,13 @@
           "act"
         ],
         "summary": {
-          "zh": "停止正在播放的曲子。",
-          "en": "Stops the song that is playing."
+          "zh": "停止正在播放的声音。",
+          "en": "Stops what is playing."
         }
       },
       {
         "name": "compose_open",
-        "description": "Open a rendered song's audio file in the computer's default player application, where the person can pause, seek and replay it themselves.",
+        "description": "Open the audio file of a song or a phrase in the computer's default player application, where the person can pause, seek and replay it themselves.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -324,22 +457,33 @@
           "act"
         ],
         "summary": {
-          "zh": "用系统默认播放器打开一首曲子的音频文件。",
-          "en": "Opens a song's audio file in the system's default player."
+          "zh": "用系统默认播放器打开曲子或乐句的音频文件。",
+          "en": "Opens the audio file of a song or a phrase in the system's default player."
         }
       }
     ],
-    "events": [],
+    "events": [
+      {
+        "type": "compose.take",
+        "description": {
+          "zh": "有人在「键盘」页签弹了一段并录了下来:音符数据、对齐到十六分音符的谱面(开了节拍器时)和这段演奏的音频。",
+          "en": "Someone played and recorded a take on the Keyboard tab: the notes as data, as lines moved to sixteenths (when the metronome was on), and the audio of the playing."
+        },
+        "trigger": "flush"
+      }
+    ],
     "prompts": [
       {
         "key": "worlds.compose.envPrompt",
         "title": "作曲 · 环境提示词",
         "role": "envPrompt",
-        "content": "You can write music here: a song goes in as a lead sheet and comes back as an audio file on this computer. Nobody hears it until it is played for them.\n\nBefore writing notes, decide three things: one short motif (a rhythm with a few pitches, two bars at most) that the song grows from; the sections and what each one is for; where the song is quietest and where it peaks.\n\nWrite melody as phrases, not bar by bar. State the motif, repeat it changed (moved up or down a step, or with a new ending), then on the third or fourth time break the pattern the listener has come to expect. End phrases with rests; a second instrument can answer in those gaps. Prefer steps to leaps and save a leap for where it matters.\n\nSections should differ in more than their notes: groove, energy, which instruments play, register. A section that comes back should change something. A bar where the band stops, a new key and a new groove are all ways to break an expectation.\n\nNotes held for a beat or longer belong to the chord or are a tension you chose; quick notes may pass through anything.\n\nWork in passes. Write a short first version straight into a render, without drafting every bar beforehand, then listen through the receipt: compare the measured facts with what you intended and change the parts that disagree. Section levels that are all alike, many identical bars, or a single bar rhythm throughout mean the song is monotonous. A long song is easier to get right by adding and replacing sections than by writing it whole in one go.\n"
+        "content": "You can write music here at two sizes. A phrase is a bar or a few: written in a moment, rendered at once, kept in a notebook under its name. A song is the whole thing, with sections and a band. Both come back as audio files on this computer. Nobody hears them until they are played for them.\n\nMost musical moments in a conversation are phrase-sized: what would this sound like, here is an idea, give me a hook, which of these two endings. A phrase played aloud answers them better than a description, and far sooner than a song. People can also play to you: what someone plays on the keyboard of the Compose page arrives as a take, with its notes as data and as audio, and is kept in the same notebook. A take can be played back, answered, continued, harmonised or varied with a phrase of your own.\n\nA song is easier to get right when it grows from phrases that were heard first. Try the motif as a phrase, change it until it is worth a song, then let the song call it by name; a take someone played can be the motif too.\n\nBefore writing the notes of a song, decide three things: one short motif (a rhythm with a few pitches, two bars at most) that the song grows from; the sections and what each one is for; where the song is quietest and where it peaks.\n\nWrite melody as phrases, not bar by bar. State the motif, repeat it changed (moved up or down a step, or with a new ending), then on the third or fourth time break the pattern the listener has come to expect. End phrases with rests; a second instrument can answer in those gaps. Prefer steps to leaps and save a leap for where it matters.\n\nSections should differ in more than their notes: groove, energy, which instruments play, register. A section that comes back should change something. A bar where the band stops, a new key and a new groove are all ways to break an expectation.\n\nThe band a groove brings is a starting point, not a rule. In any section you can keep all of it, switch off the roles you would rather write yourself (the bass line, the drum pattern, the chord playing, the fills), hand a role to another instrument, or have no band and write every line. Meter, tempo and key can change from one section to the next, and a line can carry its own dynamics, notes sounding together and tuplets.\n\nNotes held for a beat or longer belong to the chord or are a tension you chose; quick notes may pass through anything.\n\nWork in passes. Write a short first version straight into a render, without drafting every bar beforehand, then listen through the receipt: compare the measured facts with what you intended and change the parts that disagree. Section levels that are all alike, many identical bars, or a single bar rhythm throughout mean the song is monotonous. A long song is easier to get right by adding and replacing sections than by writing it whole in one go.\n"
       }
     ]
   },
   "changelog": {
+    "0.3.0": "- 新增乐句：`compose_phrase` 写下一两句并立刻渲染，存进乐句本(`outputDir` 下的 `phrases/`);`compose_play`、`compose_read`、`compose_open` 对乐句名同样有效;\n  曲子里写 `@乐句名` 就把它当动机用，渲染时把那一行抄进曲子自己的 `motifs`。\n- World 页多一个「键盘」页签：鼠标或电脑键盘弹，节拍器可开可关，按录音键录一段，停下时作为 `compose.take` 事件发给 Coo,\n  带音符数据、(开了节拍器时)对齐到十六分音符的谱面和这段演奏的音频;录的这段也存成乐句。乐句本里的每一条都能在页签里试听，琴键跟着亮。\n- 环境提示词开头改成两种尺寸(乐句和整首),说明什么时候一句就够。",
+    "0.2.0": "- 自动伴奏变成可以按段解除的默认值:`band` 逐个角色(和弦、贝斯、鼓、过门)关掉或换乐器;行里可以写力度记号、叠音(`C3+G3`)、分组(`[..]`);\n  同一件乐器可以多行(`piano:left`);各段可以有自己的拍号、速度和调，拍号放开到 5/4、6/8、7/8 这类;乐器可以用 GM 音色号，鼓可以用 GM 键号。\n  不用这些写法的谱子编配结果与 0.1.0 相同。\n- 新增两种记谱方式(配置 `toolset`):`score` 把同一套记法写成一整段文本，`abc` 用 ABC 记谱。\n- 回执的段落一行写明这一段乐队实际出了哪几个角色。\n- 工具说明里的示例换成不带旋律的格式示意(原来那句示例会被模型原样写进曲子)。\n- 面板按各段的拍号和速度画小节线、走播放线。",
     "0.1.0": "- 第一版:`compose_render`、`compose_revise`、`compose_read`、`compose_play`;11 种律动的自动伴奏;渲染回执带测量结果。\n- `compose_play` 在配置里选定的输出设备上播放，`compose_stop` 停止，`compose_open` 用系统播放器打开文件。\n- World 页的「曲子」面板：钢琴卷帘、段落与和弦、实测电平、和弦外音标记、浏览器试听与设备播放。"
   }
 }
