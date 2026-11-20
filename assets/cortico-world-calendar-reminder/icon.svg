@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="Calendar Reminder">
+  <title>日历提醒</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --surface: #F4F5F4;
+      --card: #FFFFFF;
+      --ink: #1B1626;
+      --accent: #2563EB;
+      --badge: #EF4444;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --surface: #1B1626;
+        --card: #262035;
+        --ink: #F4F5F4;
+        --accent: #60A5FA;
+        --badge: #F87171;
+      }
+    }
+    .surface { fill: var(--surface); }
+    .card { fill: var(--card); }
+    .ink-stroke { stroke: var(--ink); }
+    .accent-stroke { stroke: var(--accent); }
+    .accent-fill { fill: var(--accent); }
+    .badge-stroke { stroke: var(--badge); }
+  </style>
+  <rect class="surface" width="256" height="256" rx="56" fill="#F4F5F4"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <rect class="card ink-stroke" x="44" y="58" width="168" height="154" rx="26" fill="#FFFFFF" stroke="#1B1626" stroke-width="18"/>
+    <path class="accent-stroke" d="M44 102H212" stroke="#2563EB" stroke-width="16"/>
+    <path class="ink-stroke" d="M88 38V70M168 38V70" stroke="#1B1626" stroke-width="18"/>
+    <circle class="card accent-stroke" cx="128" cy="154" r="36" fill="#FFFFFF" stroke="#2563EB" stroke-width="14"/>
+    <path class="badge-stroke" d="M128 136V154L141 163" stroke="#EF4444" stroke-width="12"/>
+  </g>
+</svg>

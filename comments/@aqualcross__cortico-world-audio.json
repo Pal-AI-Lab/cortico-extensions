@@ -2,8 +2,24 @@
   "schema": 1,
   "name": "@aqualcross/cortico-world-audio",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/721",
-  "total": 4,
+  "total": 6,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BLa0I",
+      "author": "KurroK",
+      "avatar": "https://avatars.githubusercontent.com/u/20787888?s=64&v=4",
+      "body": "ffmpeg依赖无法下载，报错如下。看了看好像是连接所在的11月1号的这个版本整个没了，下载不到了。\nhttps://gh-proxy.com/https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2026-11-01-12-49/ffmpeg-N-128273-g836436cfb9-win64-gpl.zip（第 3 次）: HTTP 404 https://gh-proxy.com/https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2026-11-01-12-49/ffmpeg-N-128273-g836436cfb9-win64-gpl.zip\nhttps://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2026-11-01-12-49/ffmpeg-N-128273-g836436cfb9-win64-gpl.zip: HTTP 404 https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2026-11-01-12-49/ffmpeg-N-128273-g836436cfb9-win64-gpl.zip\nhttps://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2026-11-01-12-49/ffmpeg-N-128273-g836436cfb9-win64-gpl.zip（第 2 次）: HTTP 404 https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2026-11-01-12-49/ffmpeg-N-128273-g836436cfb9-win64-gpl.zip\nhttps://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2026-11-01-12-49/ffmpeg-N-128273-g836436cfb9-win64-gpl.zip（第 3 次）: HTTP 404 https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2026-11-01-12-49/ffmpeg-N-128273-g836436cfb9-win64-gpl.zip",
+      "createdAt": "2026-11-20T09:38:46Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BLbAq",
+          "author": "AqualCross",
+          "avatar": "https://avatars.githubusercontent.com/u/130270771?s=64&u=1c23c4322a7781d16ce1a75a598839403449a10d&v=4",
+          "body": "感谢反馈，确认是 BtbN 的 autobuild 只保留最近几天，之前钉的 `autobuild-2026-11-01-12-49` 已被上游清理，所以压缩包和校验清单都是 404。\r\n\r\n**0.1.8 已发布**：Windows/Linux 改用 BtbN `latest` 标签下资产名固定的包，下载前从同一 release 的 `checksums.sha256` 现取 SHA-256 校验；macOS 仍钉版本与哈希。升级或重装即可。\r\n\r\n临时也可先 `winget install ffmpeg`（或填 `ffmpegPath`），扩展会从 PATH 识别。",
+          "createdAt": "2026-11-20T10:13:28Z"
+        }
+      ]
+    },
     {
       "id": "DC_kwDOVLPtGM4BLKR9",
       "author": "leaon-1226",

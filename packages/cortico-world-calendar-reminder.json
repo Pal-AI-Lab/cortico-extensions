@@ -1,0 +1,150 @@
+{
+  "schema": 1,
+  "name": "cortico-world-calendar-reminder",
+  "version": "1.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "calendar_list",
+        "description": "List upcoming and currently active calendar events synced from system calendar or CalDAV.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "limit": {
+              "type": "number",
+              "description": "Maximum number of events to return (default 20)."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "按时间顺序列出近期与进行中的日历事件。",
+          "en": "List upcoming and active calendar events in chronological order."
+        }
+      },
+      {
+        "name": "calendar_sync",
+        "description": "Immediately sync calendar events from system calendar and CalDAV subscriptions.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "立即从系统日历与 CalDAV 订阅同步日程。",
+          "en": "Immediately sync calendar events from OS calendar and CalDAV subscriptions."
+        }
+      },
+      {
+        "name": "calendar_ack",
+        "description": "Acknowledge and mute further interval reminders for a specific calendar event.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "event": {
+              "type": "string",
+              "description": "Event key, uid, or title keyword from calendar_list."
+            }
+          },
+          "required": [
+            "event"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "静默指定区间日程的后续重复提醒。",
+          "en": "Mute further interval reminders for a specific calendar event."
+        }
+      },
+      {
+        "name": "calendar_add",
+        "description": "Create a new calendar event in the user-selected writable calendar(s). Use ONLY when the user explicitly asks to add to a calendar or schedule a calendar event (NOT for general alarms/reminders).",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Title/summary of the calendar event."
+            },
+            "start": {
+              "type": "string",
+              "description": "Start time in ISO 8601 with timezone offset, e.g. 2026-11-21T14:00:00+08:00."
+            },
+            "end": {
+              "type": "string",
+              "description": "Optional end time in ISO 8601 with timezone offset; omit for a point event."
+            },
+            "location": {
+              "type": "string",
+              "description": "Optional event location."
+            },
+            "description": {
+              "type": "string",
+              "description": "Optional event notes or description."
+            },
+            "all_day": {
+              "type": "boolean",
+              "description": "Whether this is an all-day event."
+            }
+          },
+          "required": [
+            "title",
+            "start"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "向已勾选的可写日历写入一条新日程（仅在用户明确要求写入日历/日程时使用，普通提醒请用闹钟）。",
+          "en": "Write a new event to selected writable calendar(s) (use only when explicitly asked for a calendar/schedule event)."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "calendar.ready",
+        "description": {
+          "zh": "日历提醒 World 挂载并完成首次同步，附带近期日程摘要。",
+          "en": "Calendar Reminder World mounted and completed initial sync."
+        }
+      },
+      {
+        "type": "calendar.due",
+        "description": {
+          "zh": "点任务到点，或区间任务开始/按设定频率重复提醒。",
+          "en": "A point event came due, or an interval event started/repeated."
+        }
+      },
+      {
+        "type": "calendar.ended",
+        "description": {
+          "zh": "开启结束提醒时，区间任务到达结束时间。",
+          "en": "An interval event reached its end time (when notifyOnEnd is enabled)."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.calendar-reminder.envPrompt",
+        "title": "日历提醒 · 环境提示词",
+        "role": "envPrompt",
+        "content": "这是一个日历提醒 World：定期从本机系统日历与 CalDAV / ICS 订阅同步日程，到点由 World 主动推事件叫你，不需要轮询。\n当前时间 {{calendar.now}}；{{calendar.summary}}；下一条日程是 {{calendar.next}}。\n当收到 `calendar.due` 或 `calendar.ended` 事件时，用自然、简短的语气提醒用户（若当前环境有 `pet_say` 等播报工具可一并调用）；如果用户表示某条进行中的区间日程不再需要继续提醒，可调用 `calendar_ack` 静默该条日程的后续重复提醒。\n用户询问近期日程或要求立即刷新日历时，可调用 `calendar_list` 或 `calendar_sync`。\n\n重要约束（区分「闹钟/一般提醒」与「日历/日程」）：\n- 一般的提醒、倒计时、定时任务（如“10 分钟后提醒我喝水”“明天 8 点叫我”），一律使用闹钟 / 提醒工具，**禁止**写入日历。\n- **只有当用户明确要求写入「日历」或制定「日程」**（如“帮我记到日历里”“在日历上安排一个日程”）时，才调用 `calendar_add` 写入已勾选的可写日历。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "1.1.0": "- 新增写入日历功能：`calendar_add` 工具支持向已勾选的可写日历（CalDAV / 系统日历 / 本地 ICS）写入新日程。\n- WebUI「日历选择与同步」面板新增「写入」复选框，可单独控制允许写入的目标日历（只读 ICS 订阅自动禁用写入）。\n- 优化 `ENV_PROMPT.md` 提示词约束：明确区分「闹钟/一般提醒」与「日历/日程」，仅在用户明确要求日历或日程时才调用 `calendar_add`。",
+    "1.0.0": "- 初始正式版本发布。\n- 支持从系统日历（Linux / Windows / macOS）与本地 `.ics` 路径提取日程。\n- 支持 CalDAV（含 `PROPFIND` 自动发现、`calendar-query` + `calendar-multiget` 两步拉取、`/.well-known/caldav` 回退）及 `.ics` / `webcal://` / `caldav://` / `webdav://` 订阅（支持省略 `https://`）。\n- 区分点任务（单次提醒）与区间任务（支持只提醒一次 / 每天 / 每小时 / 每 15 分钟），支持区间结束时提醒开关（`notifyOnEnd`）与自定义同步频率（`syncIntervalMinutes`）。\n- 新增 WebUI「日历选择与同步」面板，支持多日历复选框启停与手动立即同步。\n- 支持深色 / 浅色双主题 SVG 图标。"
+  }
+}

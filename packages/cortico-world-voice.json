@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-voice",
-  "version": "0.1.6",
+  "version": "0.1.16",
   "describe": {
     "tools": [
       {
@@ -55,6 +55,31 @@
         "summary": {
           "zh": "播放一个音频文件，后面的排队。",
           "en": "Plays an audio file; later requests queue up."
+        }
+      },
+      {
+        "name": "audio_open",
+        "description": "Open an audio file in the computer's default player application, where the person can pause, seek and replay it themselves. Accepts a local path or a log:/mem: blob handle. This does not use the playback queue.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "Absolute path to the audio file; give this or handle."
+            },
+            "handle": {
+              "type": "string",
+              "description": "A log:/mem: blob handle for the audio; give this or path."
+            }
+          }
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "用系统默认播放器打开一个音频文件。",
+          "en": "Opens an audio file in the system default player."
         }
       },
       {
@@ -324,8 +349,52 @@
         }
       },
       {
+        "name": "audio_idle",
+        "description": "Read or set how many minutes each local engine stays loaded while idle before its worker process exits: gpt-sovits (speech), sensevoice (transcription), rvc (conversion), diffsinger (singing). 0 keeps the process resident. A set applies immediately to a running process without restarting it.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "status",
+                "set"
+              ],
+              "description": "status reports all four values; set changes one engine."
+            },
+            "engine": {
+              "type": "string",
+              "enum": [
+                "gpt-sovits",
+                "sensevoice",
+                "rvc",
+                "diffsinger"
+              ],
+              "description": "Which local engine to set (only for action=set)."
+            },
+            "minutes": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 120,
+              "description": "Idle minutes, 0-120; 0 keeps the process resident (only for action=set)."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "查看或调整本地模型闲置多久自动退出。",
+          "en": "Reads or sets how long local models stay loaded while idle."
+        }
+      },
+      {
         "name": "audio_abc_music_score",
-        "description": "Validate, save or read ABC scores. Saved scores appear as sheet music in the Scores panel. Before editing, get the current score and save with expectedRevision. Audio rendering is separate. Validation and saving work without installed SoundFonts.",
+        "description": "Validate, save, revise or read ABC scores and drafts. Saved scores appear as sheet music in the Scores panel. Before editing, get the current score and save with expectedRevision. A rejected score is kept as a draft; list drafts with action=drafts and fetch one with action=draft. Use action=revise with a block marker (% block: A ... % end: A) to replace only one section; block names are listed when a block is missing. backing selects whether quoted chords only label the score (off), drive abcjs backing (abcjs), or drive the full groove band (band). groove, energy and sections are the band settings. Audio rendering is separate. Validation and saving work without installed SoundFonts.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -335,17 +404,24 @@
               "enum": [
                 "check",
                 "save",
+                "revise",
                 "get",
-                "list"
+                "list",
+                "drafts",
+                "draft"
               ]
             },
             "abc": {
               "type": "string",
               "maxLength": 48000,
-              "description": "One complete ABC tune with X/M/L/K headers; T/Q recommended. Use V: for independent voices and [CEG] for chords. Quoted chord names are labels and do not create accompaniment."
+              "description": "For check/save: one complete ABC tune with X/M/L/K headers; T/Q recommended. For action=revise: only the new body of the named block. Use V: for independent voices and [CEG] for chords. Define motifs with comment lines \"% motif name: ...\"; the motif body is ordinary ABC music (note lengths and z rests, not a compose slot grid). Write @name, @name+1 or @name-1 alone in a bar to reuse and transpose them by scale steps. Wrap sections between \"% block: A\" and \"% end: A\" to revise one section without resending the score. Quoted chord names are labels and drive accompaniment only when backing is abcjs or band; the receipt checks long and downbeat notes against them."
             },
             "id": {
               "type": "string"
+            },
+            "block": {
+              "type": "string",
+              "description": "For action=revise: the name between \"% block: name\" and \"% end: name\"."
             },
             "expectedRevision": {
               "type": "string"
@@ -357,6 +433,93 @@
             "instrument": {
               "type": "string",
               "description": "Preset ID from audio_abc_music_control action=instruments. Selects the SoundFont and default MIDI patch. Explicit ABC %%MIDI program overrides individual voices within that SoundFont."
+            },
+            "backing": {
+              "type": "string",
+              "enum": [
+                "off",
+                "abcjs",
+                "band"
+              ],
+              "description": "off: quoted chord names are labels only. abcjs: a simple bass/chord backing from abcjs. band: the full groove band (comp, bass, drums, fills) arranged from the quoted chord names. The written ABC is unchanged; the backing only exists in the rendered MIDI/WAV."
+            },
+            "groove": {
+              "type": "string",
+              "enum": [
+                "pop",
+                "rock",
+                "ballad",
+                "bossa",
+                "samba",
+                "swing",
+                "waltz",
+                "funk",
+                "lofi",
+                "dance",
+                "ambient",
+                "none"
+              ],
+              "description": "Groove for backing=band: pop, rock, ballad, bossa, samba, swing, waltz, funk, lofi, dance, ambient, or none. Meter-specific grooves must fit the tune."
+            },
+            "energy": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5,
+              "description": "Band energy for backing=band: 1 is the sparsest version of the groove, 5 the busiest."
+            },
+            "sections": {
+              "type": "array",
+              "maxItems": 32,
+              "description": "Optional per-section overrides for backing=band. Bars are 1-based performance bars (a pickup counts as bar 1). A section without groove or energy inherits the top-level value.",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "fromBar": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "toBar": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "groove": {
+                    "type": "string",
+                    "enum": [
+                      "pop",
+                      "rock",
+                      "ballad",
+                      "bossa",
+                      "samba",
+                      "swing",
+                      "waltz",
+                      "funk",
+                      "lofi",
+                      "dance",
+                      "ambient",
+                      "none"
+                    ]
+                  },
+                  "energy": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
+                  },
+                  "stopBars": {
+                    "type": "array",
+                    "maxItems": 64,
+                    "description": "Absolute 1-based performance bars in this section where the band plays one hit on beat 1 and then rests; the written ABC continues.",
+                    "items": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  }
+                },
+                "required": [
+                  "fromBar",
+                  "toBar"
+                ]
+              }
             }
           },
           "required": [
@@ -367,13 +530,13 @@
           "act"
         ],
         "summary": {
-          "zh": "检查、保存与读取 ABC 曲谱和版本。",
-          "en": "Validate, save and read ABC scores."
+          "zh": "检查、保存与读取 ABC 曲谱、版本和草稿。",
+          "en": "Validate, save and read ABC scores and drafts."
         }
       },
       {
         "name": "audio_abc_music_play",
-        "description": "Render a WAV in the background using an installed SoundFont. Supply exactly one of score or abc. Direct ABC is saved after rendering succeeds. Works retain the ABC snapshot and MIDI. return attaches audio to the tool receipt; event emits audio.abc_played. Playback and sending use other tools. Ask the user to obtain or import a SoundFont in Instruments when none is installed.",
+        "description": "Render a WAV in the background using an installed SoundFont. Supply exactly one of score or abc. Direct ABC is saved after rendering succeeds. The receipt carries measured facts: length, voices, ranges, notes outside an instrument range, repeated bars, rhythm variety, steps and leaps, chromatic notes outside a quoted chord, and the rendered level and peak. backing=band arranges the full comp, bass and drum band from the quoted chords with the selected groove and energy; backing=abcjs asks abcjs for a simple bass/chord backing; off keeps quoted chords as labels. Works retain the ABC snapshot and MIDI. return attaches audio to the tool receipt; event emits audio.abc_played. Playback and sending use other tools. Ask the user to obtain or import a SoundFont in Instruments when none is installed.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -385,7 +548,7 @@
             "abc": {
               "type": "string",
               "maxLength": 48000,
-              "description": "One complete ABC tune with X/M/L/K headers; T/Q recommended. Use V: for independent voices and [CEG] for chords. Quoted chord names are labels and do not create accompaniment."
+              "description": "For check/save: one complete ABC tune with X/M/L/K headers; T/Q recommended. For action=revise: only the new body of the named block. Use V: for independent voices and [CEG] for chords. Define motifs with comment lines \"% motif name: ...\"; the motif body is ordinary ABC music (note lengths and z rests, not a compose slot grid). Write @name, @name+1 or @name-1 alone in a bar to reuse and transpose them by scale steps. Wrap sections between \"% block: A\" and \"% end: A\" to revise one section without resending the score. Quoted chord names are labels and drive accompaniment only when backing is abcjs or band; the receipt checks long and downbeat notes against them."
             },
             "title": {
               "type": "string",
@@ -394,6 +557,93 @@
             "instrument": {
               "type": "string",
               "description": "Preset ID from audio_abc_music_control action=instruments. Selects the SoundFont and default MIDI patch. Explicit ABC %%MIDI program overrides individual voices within that SoundFont."
+            },
+            "backing": {
+              "type": "string",
+              "enum": [
+                "off",
+                "abcjs",
+                "band"
+              ],
+              "description": "off: quoted chord names are labels only. abcjs: a simple bass/chord backing from abcjs. band: the full groove band (comp, bass, drums, fills) arranged from the quoted chord names. The written ABC is unchanged; the backing only exists in the rendered MIDI/WAV."
+            },
+            "groove": {
+              "type": "string",
+              "enum": [
+                "pop",
+                "rock",
+                "ballad",
+                "bossa",
+                "samba",
+                "swing",
+                "waltz",
+                "funk",
+                "lofi",
+                "dance",
+                "ambient",
+                "none"
+              ],
+              "description": "Groove for backing=band: pop, rock, ballad, bossa, samba, swing, waltz, funk, lofi, dance, ambient, or none. Meter-specific grooves must fit the tune."
+            },
+            "energy": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5,
+              "description": "Band energy for backing=band: 1 is the sparsest version of the groove, 5 the busiest."
+            },
+            "sections": {
+              "type": "array",
+              "maxItems": 32,
+              "description": "Optional per-section overrides for backing=band. Bars are 1-based performance bars (a pickup counts as bar 1). A section without groove or energy inherits the top-level value.",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "fromBar": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "toBar": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "groove": {
+                    "type": "string",
+                    "enum": [
+                      "pop",
+                      "rock",
+                      "ballad",
+                      "bossa",
+                      "samba",
+                      "swing",
+                      "waltz",
+                      "funk",
+                      "lofi",
+                      "dance",
+                      "ambient",
+                      "none"
+                    ]
+                  },
+                  "energy": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
+                  },
+                  "stopBars": {
+                    "type": "array",
+                    "maxItems": 64,
+                    "description": "Absolute 1-based performance bars in this section where the band plays one hit on beat 1 and then rests; the written ABC continues.",
+                    "items": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  }
+                },
+                "required": [
+                  "fromBar",
+                  "toBar"
+                ]
+              }
             },
             "delivery": {
               "type": "string",
@@ -408,13 +658,13 @@
           "act"
         ],
         "summary": {
-          "zh": "把 ABC 曲谱渲染为采样音源 WAV，并保存作品。",
-          "en": "Render ABC to sampled audio and retain a score snapshot."
+          "zh": "把 ABC 曲谱渲染为采样音源 WAV，回执带测量结果，并保存作品。",
+          "en": "Render ABC to sampled audio, retain a score snapshot and report measured facts."
         }
       },
       {
         "name": "audio_abc_music_control",
-        "description": "Read ABC Music status, list installed SoundFont presets, or set the default instrument and audio delivery. Use instruments before choosing a preset ID. SoundFonts are obtained or imported by the user in the Instruments panel.",
+        "description": "Read ABC Music status, list installed SoundFont presets, or set the default instrument, backing mode, band groove, band energy and audio delivery. Use instruments before choosing a preset ID. SoundFonts are obtained or imported by the user in the Instruments panel.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -430,6 +680,39 @@
             "instrument": {
               "type": "string",
               "description": "Preset ID from audio_abc_music_control action=instruments. Selects the SoundFont and default MIDI patch. Explicit ABC %%MIDI program overrides individual voices within that SoundFont."
+            },
+            "backing": {
+              "type": "string",
+              "enum": [
+                "off",
+                "abcjs",
+                "band"
+              ],
+              "description": "off: quoted chord names are labels only. abcjs: a simple bass/chord backing from abcjs. band: the full groove band (comp, bass, drums, fills) arranged from the quoted chord names. The written ABC is unchanged; the backing only exists in the rendered MIDI/WAV."
+            },
+            "groove": {
+              "type": "string",
+              "enum": [
+                "pop",
+                "rock",
+                "ballad",
+                "bossa",
+                "samba",
+                "swing",
+                "waltz",
+                "funk",
+                "lofi",
+                "dance",
+                "ambient",
+                "none"
+              ],
+              "description": "Groove for backing=band: pop, rock, ballad, bossa, samba, swing, waltz, funk, lofi, dance, ambient, or none. Meter-specific grooves must fit the tune."
+            },
+            "energy": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5,
+              "description": "Band energy for backing=band: 1 is the sparsest version of the groove, 5 the busiest."
             },
             "delivery": {
               "type": "string",
@@ -454,8 +737,8 @@
           "act"
         ],
         "summary": {
-          "zh": "列出音源预设、查看状态或设置乐器与交付方式。",
-          "en": "List SoundFont presets, read status or configure instruments and delivery."
+          "zh": "列出音源预设、查看状态或设置乐器、伴奏与交付方式。",
+          "en": "List SoundFont presets, read status or configure instruments, backing and delivery."
         }
       }
     ],
@@ -535,7 +818,9 @@
     ]
   },
   "changelog": {
-    "0.1.6": "- 参考音频导入支持任意格式：WAV 校验改成看 RIFF/WAVE 头（改扩展名的假 WAV 会被挡下），其他格式（mp3/flac/m4a/ogg 等）交给 ffmpeg 转成 16 kHz 单声道 WAV；没装 ffmpeg 时提示先装或自行转换。说话页的选择器与拖拽文案同步放宽。\n- 云端合成写分阶段日志：按 request / response / download / failed 回报目标 host、字数与各阶段耗时，卡住时能看出停在哪一段；失败时区分自己的超时与队列取消。\n- 混音输出从 24 bit 改为 16 bit PCM，避免部分客户端拒收。",
+    "0.1.16": "- 修复 ffmpeg 下载 404：BtbN 的 autobuild 只保留最近几天，原先钉死的 `autobuild-2026-11-01-12-49` 已被上游清理。改用 `latest` 标签下资产名固定的 `ffmpeg-master-latest-win64-gpl.zip`，下载前从同一 release 的 `checksums.sha256` 现取 SHA-256 校验；镜像顺序不变。\n- 版本号提到 0.1.16：面板 bundle 的 URL 带版本且按 immutable 缓存，旧版本号会让宿主继续用缓存的 `webui.js`。",
+    "0.1.15": "- ABC 音乐加入自动伴奏：`off`（只标注）、`abcjs`（简单低音+和弦）、`band`（compose 式完整编曲：和弦、贝斯、鼓、过门/停顿、swing、人性化、每角色混音）。`band` 支持 pop、rock、ballad、bossa、samba、swing、waltz、funk、lofi、dance、ambient，`energy` 1–5 控制密度，`sections` 可按小节覆盖律动/能量、`stopBars` 让乐队给一下再停。写谱与乐谱版本不变，伴奏只影响渲染出的 MIDI/WAV。默认 `off`。\n- 「作曲」和「编曲」页都增加「导出 MIDI」：按当前谱子和编曲设置即时生成并下载，不落 MIDI 文件。\n- 作曲页只负责写谱/检查/保存，不再重复放自动伴奏、律动、能量控件；伴奏统一在「编曲」页设置。作曲页的试听/生成作品沿用已保存的编曲设置。\n- 音乐页改为一级页签：分离、混音、作曲、编曲、音源、记录。原「乐谱」更名「作曲」，原「乐器」更名「音源」；「作品」并入「记录」，与分离/混音的作品同页、同一卡片格式。作曲记录只保留 WAV：不再保存谱面快照、MIDI/ABC 文件，也不再提供快照、MIDI/ABC 下载、打开文件夹或刷新按钮。编曲页保留选曲、自动伴奏、律动、能量、分段 JSON、试听、生成作品和保存编曲。\n- 新增 `audio_open`：用系统默认播放器打开音频文件（不走播放队列）。\n- ABC 渲染回执带测量事实：小节、声部音域、超域音、重复/节奏、级进/跳进、和弦冲突音，以及成品 RMS/峰值；`check` 在渲染前就能返回结构事实。和弦冲突音只报长音/强拍音里真正冲突的调外音，调内的 9/11/13 度张力不再误报。\n- ABC 支持动机宏：`% motif 名字: ...` 定义，`@名字` / `@名字+1` / `@名字-1` 按调内音级复用和移调。\n- ABC 支持按命名块局部修订：`% block: A` … `% end: A`，`audio_abc_music_score action=revise block=A abc=...` 只替换这一段，不再整份重存。\n- 检查或渲染失败时保留 ABC 草稿；`audio_abc_music_score` 支持 `drafts` / `draft`，`get` 也会回退到草稿。\n- ABC 母带改为分位峰值归一化 + 软膝限幅 + 0.5 秒淡出。\n- 版本号提到 0.1.15：面板 bundle 的 URL 带版本且按 immutable 缓存，旧版本号会让宿主继续用缓存的 `webui.js`。",
+    "0.1.6": "- FireRed 监听不再吃满 CPU：VAD 与 AED 的 ONNX 会话改为单线程、顺序执行并关闭空闲自旋。onnxruntime 默认按物理核开线程池、线程空闲时自旋等活，监听有声音时几十个核都在空转（64 线程机器上实测 30.8 核 → 0.04 核），单帧延迟反而略降；AED 60 秒块约 0.4 秒，不受影响。\n- 参考音频导入支持任意格式：WAV 校验改成看 RIFF/WAVE 头（改扩展名的假 WAV 会被挡下），其他格式（mp3/flac/m4a/ogg 等）交给 ffmpeg 转成 16 kHz 单声道 WAV；没装 ffmpeg 时提示先装或自行转换。说话页的选择器与拖拽文案同步放宽。\n- 云端合成写分阶段日志：按 request / response / download / failed 回报目标 host、字数与各阶段耗时，卡住时能看出停在哪一段；失败时区分自己的超时与队列取消。\n- 混音输出从 24 bit 改为 16 bit PCM，避免部分客户端拒收。",
     "0.1.5": "- 说话改为流式：Edge、本机 GPT-SoVITS 与 OpenAI 兼容接口边合成边交给 ffmpeg 解码播放，不再等整句；播放队列在当前句开播时预取下一条，连续说话不再等合成。缺 ffmpeg 或原生输出时自动退回收齐再播；流式 WAV 落盘前补长度，记录能读出准确时长。\n- Edge 连接按音色复用，同一音色连说不再每次重连；新建连接约 1 秒的代价只付一次，之后首音约 0.3 秒。\n- 说话首块 PCM 到达时写一条「说话首音」日志（`worlds.audio`），带播放等待与合成耗时。\n- 播放支持左右平衡（-100 全左 … 100 全右），「播放」页可调，`audio_play` / `audio_say` 可按条覆盖。",
     "0.1.4": "- 「说话」默认引擎改为 Edge 朗读（免密钥、免安装，需要联网），默认音色 `zh-CN-XiaoyiNeural`；合成结果是 mp3，附件的类型与文件名跟随实际格式。没配本地 GPT-SoVITS 或云端密钥也能直接出声，失败时提示检查音色名或切换引擎。\n- 去掉 uv/ffmpeg 的「常见安装位置」猜测：uv 只认配置与 PATH 上的裸名；ffmpeg 从 PATH 解析成真实路径并写回配置，有 audify 时播放默认走原生 PCM 输出。",
     "0.1.3": "- 修复 PCM 输出无声：打开流后先启动流；打断或切歌后关闭流，下一次播放会重新打开；每次播放新建输出以跟随当前默认音频设备；按 `openStream` 返回的实际帧长写 PCM，避免帧长不符时播放失败。",
