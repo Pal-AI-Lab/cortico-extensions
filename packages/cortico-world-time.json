@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "name": "cortico-world-time",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "time_now",
+        "tags": [
+          "read"
+        ],
+        "description": "查询此刻的日期、星期、时间和时区，并按时间感知设置返回农历、今日节日与节气。只读，不设提醒。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "summary": {
+          "zh": "随时查询当前时间、农历、节日和节气。",
+          "en": "Read the current clock, Chinese lunar date, festivals and solar terms."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.time.envPrompt",
+        "title": "时间感知",
+        "role": "envPrompt",
+        "content": "{{time.now}}\n{{time.lunar}}\n{{time.festivals}}\n{{time.solarTerms}}\n\n回答“现在几点”“今天星期几”“今天是什么日子”等问题时，以以上时间快照为依据。快照在环境前缀重建时更新；对话已经持续较久、跨过午夜，或需要确认此刻时间时，先调用 time_now 查询。\n节日和节气可在相关话题中自然呼应，无需每轮播报。内置节日只是日期信息，不代表官方放假或调休安排。未标注节日不代表不存在其他地区或宗教的节日。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "- 从 qq-final 的时间感知能力独立发布为 Cortico World 扩展，无需 QQ 或 NapCat，qq-final 原有功能保留。\n- 注入当前日期、星期、时分秒、时区及 UTC 偏移，默认跟随部署时区，支持配置热更新。\n- 提供农历、常用节日、二十四节气及当地交节时刻，各项可独立开关。\n- 使用经过历表样例验证的农历与节气计算，正确处理闰月、腊月廿九除夕和海外时区的交节日期。\n- 新增只读工具 `time_now`，供长对话实时查询；不推送事件、不主动唤醒模型。\n- 使用独立的 `worlds.time` 配置与 `time.*` 提示词变量，可与 QQ 扩展共存。"
+  }
+}

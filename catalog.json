@@ -2819,7 +2819,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/384",
         "up": 3,
         "down": 0,
-        "comments": 14
+        "comments": 15
       }
     },
     "coopani-world-pz": {
@@ -8198,17 +8198,17 @@
     },
     "cortico-world-compose": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "displayName": "Compose",
-      "description": "Coo writes a lead sheet (form, chords, melodies); the World adds the band and renders it to audio",
+      "description": "Coo writes a song down (form, chords, melodies) as fields, as a text score or in ABC; the World adds the band and renders it to audio",
       "locales": {
         "zh": {
           "displayName": "作曲",
-          "description": "Coo 写谱(曲式、和弦、旋律),World 按律动配上伴奏并渲染成音频。"
+          "description": "Coo 把曲子写下来(曲式、和弦、旋律),World 按律动配上伴奏并渲染成音频;伴奏的每个角色都可以按段关掉自己写。"
         },
         "en": {
           "displayName": "Compose",
-          "description": "Coo writes a lead sheet (form, chords, melodies); the World adds the band and renders it to audio."
+          "description": "Coo writes a song down (form, chords, melodies); the World adds the band and renders it to audio. Every role of the band can be switched off per section and written by hand."
         }
       },
       "author": "Phantivia",
@@ -8227,8 +8227,8 @@
         "bugs": "https://github.com/Phantivia/cortico-world-compose/issues"
       },
       "created": "2026-11-16T06:24:01.737Z",
-      "published": "2026-11-16T06:49:26.139Z",
-      "versionCount": 2,
+      "published": "2026-11-20T02:59:37.873Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -25986,6 +25986,74 @@
         "up": 23,
         "down": 3,
         "comments": 13
+      }
+    },
+    "cortico-world-time": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "时间感知",
+      "description": "Cortico World 独立时间感知扩展：实时时间、时区、农历、节日与二十四节气，无需 QQ。",
+      "locales": {
+        "zh": {
+          "displayName": "时间感知",
+          "description": "独立注入当前时间、农历、节日与二十四节气，无需 QQ。"
+        },
+        "en": {
+          "displayName": "Time Awareness",
+          "description": "Current time, Chinese lunar dates, festivals and solar terms for any Cortico bot. No QQ required."
+        }
+      },
+      "maintainers": [
+        "hth768"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "time",
+        "calendar",
+        "lunar",
+        "solar-terms"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-time",
+        "repository": "https://github.com/hth768/cortico-world-time",
+        "homepage": "https://github.com/hth768/cortico-world-time#readme",
+        "bugs": "https://github.com/hth768/cortico-world-time/issues"
+      },
+      "created": "2026-11-20T02:46:39.175Z",
+      "published": "2026-11-20T02:47:54.645Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion"
+      ],
+      "tags": [
+        "companion"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 1,
+        "events": 0,
+        "toolTokens": 71,
+        "envPromptTokens": 115
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/hth768/cortico-world-time/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1044,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1044",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-timetable": {
