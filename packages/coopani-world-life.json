@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-life",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "describe": {
     "tools": [
       {
@@ -608,6 +608,7 @@
     ]
   },
   "changelog": {
+    "1.0.1": "Mr.Q 报：公司电脑上的桌宠，昨天下班关机、今早上班开机，「她应该自己吃饭睡觉才对，可精力没恢复」，\n面板上精力 **28**。\n\n**按旧公式跑一遍就是那个数**：`100 − 4.6 × 15.7 ≈ 26.4`（17 点走、9 点到 = 15.7 小时按「醒着」结算）。\n根因是补睡的触发条件 `floor(awakeHours / 24) > 0` —— **上班族的日子永远够不着 24 小时**，\n于是周一到周五每一个晚上都按醒着算，精力只降不升，一夜掉 72 点。\n\n- 新增 `offlineNightHours(fromMs, to)`：数本地 23:00–07:00 之间**跨过了几夜**，一夜盖住 **≥4 小时**就算她睡过，\n  精力回到 85（`wholeDays > 0 || nightSlept > 0`，老规矩保留）。\n- 4 小时是下限：晚上 11 点关、凌晨 1 点开只盖 2 小时，**不补** —— 那是他回来得晚，不是她过了一夜。\n- 仍只补精力：吃饭、洗澡、找乐子、见人**不能凭空补**，补了等于「她不在的时候你替她过了日子」。\n- 仍按 `awakeHours` 封顶，不重复领 —— 她真睡过的那段已经走 `asleepFrom/asleepUntil` 结算过。\n- `test/offline-night.test.mjs` 7 条钉住，含反例「白天离开 8 小时不许白拿补睡」；\n  旧断言「离线三天回来 85」一个字没改，仍然绿。",
     "1.0.0": "- **Cortico API v6 对齐与语义修正**：\n  - 白天出工提醒 `life.day` 走两参 `host.pushDeferred` + `['snapshot']`，推迟至投递渲染当下重算条件、精力与现金再消耗 `nagged['day:work']`；\n  - 一次性结果 `life.recovered`、各项目标 `life.goal` 与五维越线 `life.low` 保持即时 `pushEvent`（不打互相覆盖的 `snapshot`），仅在成功推送后消耗当日额度；\n  - 新增同步生命周期钩子 `onHandoffEnded()`：独立事件类型 `life.handoff`（`piggyback` + `['snapshot']`），交接前先行结算时间并读取 `journey` 真实所在城市/在途位置；\n  - `webUi().storage` 新增 4 项存储清理：`life.state.clear()` 同步清理主档/`.bak`、重置内存与 `life-public.json` 且禁止 `stop()` 复活旧状态；`life.diary.clear()` 调用 `LifeDiaryStore.clearAll()` 一并清理自定义/本机合并目录及 `_bak` 历史备份，且均不吞文件系统异常；\n  - `life-public.json` 新增广播 `libraryDir`，供旅行扩展共享自定义素材库路径。\n- **前缀缓存保护与宣言对齐**：`envPromptVars()['life.now']` 改为日期+时段，去除分钟级钟面与「她那边」；修正 `life_work` 工资与消耗说明以对齐 `JOBS`/`LOAD` 实值；`describe.json` 同步对齐并登记 `life.handoff`、`life.goal` 与 `life_status` `snapshot` 标签；补全 `test/harness-sync.test.mjs` 行为级回归。",
     "0.17.6": "- **面板展示体质（`fitness`）**：[world.ts](src/world.ts) 状态接口补充返回 `fitness`，面板 [panel-0.17.6.js](web/panel-0.17.6.js) 在「见识」下方同步展示当前「体质」数值与作用说明（并随版本号同步更新面板脚本文件名以清浏览器缓存）。",
     "0.17.5": "- **放宽 `life.day` 白天出工提醒门槛**：[world.ts](src/world.ts) 去掉 `allOk`（五条全 >= 30）一刀切限制，改为醒着、无病、精力 >= 50 且饱腹 >= 20 即可提醒出工，避免因清洁/社交低而越穷越不提醒打工。\n- **社交免费退路提示补充**：`lowText` 社交缺项明确提示「出门在外也照样能调这俩免费动作（`market` / `pond`）」，避免在旅途中因看到本地地名而误以为不能补社交。",
