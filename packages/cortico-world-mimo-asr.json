@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "name": "cortico-world-mimo-asr",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "mimo_asr_transcribe",
+        "description": "Transcribe an audio file to text with the Xiaomi MiMo speech model (mimo-v2.5-asr). The audio comes from a local file path or a log:/mem: handle. The call returns at once and the transcript arrives as an event (`mimo-asr.transcript`). Use it when a voice message or an audio file needs to become text; for the microphone keep using the voice panel.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "audio": {
+              "type": "string",
+              "description": "Audio file path (absolute, or relative to the bot workflow), or a log:/mem: handle."
+            },
+            "note": {
+              "type": "string",
+              "description": "Short label shown next to the transcript."
+            },
+            "language": {
+              "type": "string",
+              "description": "Language code such as zh / en; overrides the configured one."
+            }
+          },
+          "required": [
+            "audio"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "用小米 MiMo 语音模型把一个音频文件（或 log:/mem: 句柄）转成文字，立刻回执，文字稍后以事件送达。",
+          "en": "Transcribe an audio file (or a log:/mem: handle) with the Xiaomi MiMo speech model; the call returns at once and the text arrives later as an event."
+        }
+      },
+      {
+        "name": "mimo_asr_gateway",
+        "description": "Read, start or stop the built-in MiMo transcription gateway, which serves an OpenAI-compatible endpoint on http://127.0.0.1:<port>/v1 for the voice panel. `status` shows the address, endpoint, model and whether the API key is set; `start` and `stop` control it.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "status",
+                "start",
+                "stop",
+                "restart"
+              ],
+              "description": "status = read the state; start / stop / restart = control the gateway."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "查看、启动、停止或重启内置的小米转写网关（供语音面板的「转写接口」引擎使用），并读回它的地址与状态。",
+          "en": "Read, start, stop or restart the built-in MiMo transcription gateway used by the voice panel, and read its address and state."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "mimo-asr.transcript",
+        "description": {
+          "zh": "小米识别完成：正文是转写出来的文字，meta 带备注、模型、来源与耗时。",
+          "en": "Transcription finished: the text is the transcript; meta carries the note, model, source and duration."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "mimo-asr.failed",
+        "description": {
+          "zh": "小米识别失败：正文是原因，meta 带备注与来源。",
+          "en": "Transcription failed: the text is the reason; meta carries the note and source."
+        },
+        "trigger": "debounce"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "- 首个版本：小米 MiMo 语音识别 World。\n- 内置转写网关：`127.0.0.1:<port>/v1/audio/transcriptions`（OpenAI 兼容）→ 小米 `chat/completions` 的 `input_audio`（`mimo-v2.5-asr`）。\n- 工具：`mimo_asr_transcribe`（音频转文字，事件送达）、`mimo_asr_gateway`（查看/启动/停止/重启网关）。\n- 事件：`mimo-asr.transcript`、`mimo-asr.failed`。\n- 配置面板：端口、端点（cn/sgp/ams/按量付费）、模型、语言、密钥（.env 变量名或直接填）、超时。\n- 密钥可复用 Coopanion 语音面板已存的 `DESKTOP_PET_ASR_API_KEY`。"
+  }
+}

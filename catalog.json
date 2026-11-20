@@ -2286,7 +2286,7 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "2.1.4",
+      "version": "2.1.5",
       "displayName": "大肥鱼环游世界",
       "description": "大肥鱼环游世界 · 让桌宠真的出门去旅行：走遍 193 座城市，路上耗着真实时间、按当地作息吃饭看日出、写旅行日记，还能在城里偶遇别人的宠物、月底生成一份手账。（需 Coopani 0.2.17+）",
       "locales": {
@@ -2324,8 +2324,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-20T05:10:47.553Z",
-      "versionCount": 192,
+      "published": "2026-11-20T12:08:44.706Z",
+      "versionCount": 193,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2355,6 +2355,7 @@
       },
       "changelog": {
         "versions": [
+          "2.1.5",
           "2.1.4",
           "2.1.3",
           "2.1.2",
@@ -2574,7 +2575,7 @@
     },
     "coopani-world-life": {
       "kind": "world",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "displayName": "模拟鱼生",
       "description": "模拟鱼生 · 给她一个小日子：会饿会困会闷、自己出门打工挣钱、看书考证、从城中村一步步攒钱搬进新家，还会用第一人称写下每天的生活日记。（需 Coopani 0.2.17+）",
       "locales": {
@@ -2610,8 +2611,8 @@
         "bugs": "https://github.com/fateSSD/coopani-world-life/issues"
       },
       "created": "2026-11-15T03:01:26.063Z",
-      "published": "2026-11-20T03:23:21.190Z",
-      "versionCount": 38,
+      "published": "2026-11-20T12:09:05.955Z",
+      "versionCount": 39,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2631,11 +2632,12 @@
       "summary": {
         "tools": 16,
         "events": 7,
-        "toolTokens": 3027,
+        "toolTokens": 3035,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.0.3",
           "1.0.2",
           "1.0.1",
           "1.0.0",
@@ -4317,7 +4319,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/5",
         "up": 0,
         "down": 0,
-        "comments": 4
+        "comments": 5
       }
     },
     "cortico-provider-deepseek-web": {
@@ -13085,7 +13087,7 @@
     },
     "cortico-world-genesis": {
       "kind": "world",
-      "version": "3.5.2",
+      "version": "3.6.3",
       "displayName": "创世记",
       "description": "给 Agent 一颗物理自洽、一次性创世的星球：种子与少量旋钮生成恒星系与行星属性。",
       "author": "Nami-Mizu",
@@ -13105,8 +13107,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-genesis"
       },
       "created": "2026-11-13T12:15:34.380Z",
-      "published": "2026-11-19T14:56:50.529Z",
-      "versionCount": 23,
+      "published": "2026-11-20T12:04:26.675Z",
+      "versionCount": 24,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -13129,6 +13131,10 @@
       },
       "changelog": {
         "versions": [
+          "3.6.3",
+          "3.6.2",
+          "3.6.1",
+          "3.6.0",
           "3.5.2",
           "3.5.1",
           "3.5.0",
@@ -13206,7 +13212,7 @@
           "1.2.0",
           "1.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-genesis@3.5.2/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-genesis@3.6.3/CHANGELOG.md"
       },
       "discussion": {
         "number": 915,
@@ -16785,6 +16791,81 @@
         "up": 0,
         "down": 0,
         "comments": 3
+      }
+    },
+    "cortico-world-mimo-asr": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "小米语音识别",
+      "description": "Cortico World: Xiaomi MiMo speech recognition for Coopanion. Serves an OpenAI-compatible transcription endpoint on 127.0.0.1 backed by the MiMo Token Plan audio endpoint (mimo-v2.5-asr), so the desktop pet's voice input runs on Xiaomi's recognizer.",
+      "locales": {
+        "zh": {
+          "displayName": "小米语音识别",
+          "description": "把小米 MiMo Token Plan 的语音识别接进 Coopanion：本机起一个 OpenAI 兼容的转写网关，桌面宠的语音输入改走 mimo-v2.5-asr。"
+        },
+        "en": {
+          "displayName": "Xiaomi Speech Recognition",
+          "description": "Brings the Xiaomi MiMo Token Plan speech recognizer to Coopanion: a local OpenAI-compatible transcription gateway, so the desktop pet's voice input runs on mimo-v2.5-asr."
+        }
+      },
+      "author": "Tianxuan0830",
+      "maintainers": [
+        "tianxuan"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "asr",
+        "stt",
+        "speech-recognition",
+        "xiaomi",
+        "mimo",
+        "openai-compatible"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-mimo-asr",
+        "repository": "https://github.com/Tianxuan0830/cortico-world-mimo-asr",
+        "homepage": "https://github.com/Tianxuan0830/cortico-world-mimo-asr#readme",
+        "bugs": "https://github.com/Tianxuan0830/cortico-world-mimo-asr/issues"
+      },
+      "created": "2026-11-20T12:04:26.266Z",
+      "published": "2026-11-20T12:10:59.621Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "voice",
+        "requires-key"
+      ],
+      "tags": [
+        "voice",
+        "requires-key"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 2,
+        "toolTokens": 412,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://github.com/Tianxuan0830/cortico-world-mimo-asr/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1059,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1059",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-mimo-tts": {
@@ -21751,7 +21832,7 @@
         "number": 308,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/308",
         "up": 0,
-        "down": 0,
+        "down": 1,
         "comments": 0
       }
     },
