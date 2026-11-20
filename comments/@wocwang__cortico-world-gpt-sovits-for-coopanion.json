@@ -2,14 +2,23 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-  "total": 86,
+  "total": 87,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BLXLz",
       "author": "Emerald-Firework",
       "avatar": "https://avatars.githubusercontent.com/u/358840473?s=64&v=4",
       "body": "安装runtime的时候显示替换失败，被推理服务占用了，但是我啥也没开。我不管是重启还是重装都试过了，一直装不上，不知道为啥，给agent搞也没搞定",
-      "createdAt": "2026-11-19T17:38:36Z"
+      "createdAt": "2026-11-19T17:38:36Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BLYxg",
+          "author": "wocwang",
+          "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+          "body": "@Emerald-Firework 这个问题是安装器没有先停推理服务：Windows 上 runtime/ 里的 python.exe\r\n会锁住文件，插件的自动预热/按需拉起，或者上一轮残留的 python.exe，都会导致“替换失败”。\r\n\r\n0.9.6 起已改成：下载/解压期间服务可以继续用；真正替换 runtime/ 前自动停服并等文件句柄\r\n释放，替换期间禁止按需拉起，装完自动恢复。更新到 0.9.6 后直接重装即可。\r\n\r\n如果还提示占用：任务管理器搜 python.exe，结束命令行里带 gpt-sovits/runtime 的那个\r\n（或者重启电脑）再装；仍不行把完整报错和插件版本发我。",
+          "createdAt": "2026-11-20T00:47:21Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BLEsa",

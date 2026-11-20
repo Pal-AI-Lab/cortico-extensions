@@ -1576,7 +1576,7 @@
     },
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.9.5",
+      "version": "0.9.6",
       "displayName": "大肥鱼语音全能包",
       "description": "大肥鱼语音全能包（原 GPTSovits 语音，cortico-world-gpt-sovits-for-coopanion）：给 Coopanion 桌宠用的语音插件，现已全面支持本地 / 云端双引擎与 NVIDIA / AMD（ROCm，实验性）/ CPU 三种方案。本地默认全程本机合成；云端支持自定义 OpenAI 兼容与多家厂商接口（填自己的 Key）。内置大肥鱼、星落落音色，支持自备权重与自定义音色、QQ 语音与唱歌联动；CPU / 核显档可开播放预缓冲（默认关闭）。",
       "locales": {
@@ -1612,8 +1612,8 @@
         "darwin"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-11-18T04:24:05.435Z",
-      "versionCount": 49,
+      "published": "2026-11-20T00:52:25.637Z",
+      "versionCount": 50,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -1640,6 +1640,7 @@
       },
       "changelog": {
         "versions": [
+          "0.9.6",
           "0.9.5",
           "0.9.4",
           "0.9.3",
@@ -1729,7 +1730,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
         "up": 25,
         "down": 0,
-        "comments": 86
+        "comments": 87
       }
     },
     "@wocwang/cortico-world-rvc-for-coopanion": {
@@ -2815,7 +2816,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/384",
         "up": 3,
         "down": 0,
-        "comments": 10
+        "comments": 14
       }
     },
     "coopani-world-pz": {
@@ -10078,9 +10079,10 @@
     },
     "cortico-world-dream-fragments": {
       "kind": "world",
-      "version": "0.7.0",
+      "version": "0.7.2",
       "displayName": "碎片梦",
       "description": "从中文日记的重点句为 Cortico Bot 生成并单独保存碎片梦，使用本地 Ollama。 / Generate and archive fictional dreams from Chinese diary entries using local Ollama.",
+      "author": "末地凋零",
       "maintainers": [
         "mddl0314"
       ],
@@ -10097,8 +10099,8 @@
         "bugs": "https://github.com/mddl314/cortico-world-dream-fragments/issues"
       },
       "created": "2026-11-19T16:18:57.223Z",
-      "published": "2026-11-19T16:20:33.575Z",
-      "versionCount": 2,
+      "published": "2026-11-20T01:25:29.882Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10115,6 +10117,7 @@
         "experimental",
         "sensitive-data"
       ],
+      "icon": "assets/cortico-world-dream-fragments/icon.png",
       "downloads": {
         "total": 0,
         "month": 0,
@@ -10128,6 +10131,8 @@
       },
       "changelog": {
         "versions": [
+          "0.7.2",
+          "0.7.1",
           "0.7.0"
         ],
         "url": "https://github.com/mddl314/cortico-world-dream-fragments/blob/HEAD/CHANGELOG.md"
@@ -18806,7 +18811,7 @@
     },
     "cortico-world-parlor": {
       "kind": "world",
-      "version": "0.49.0",
+      "version": "0.49.1",
       "displayName": "鲸语茶室",
       "description": "鲸语茶室是 Coo 与家长的共享客厅。支持聊天、说书、斗地主、狼人杀、五子棋、中国象棋、飞行棋、麻将和快局大富翁，提供网页牌桌与家长观战页。反馈 QQ 群 1061389211。",
       "locales": {
@@ -18862,8 +18867,8 @@
         "bugs": "https://github.com/biliye/cortico-world-parlor/issues"
       },
       "created": "2026-10-30T12:05:22.925Z",
-      "published": "2026-11-19T14:20:08.358Z",
-      "versionCount": 62,
+      "published": "2026-11-20T01:25:41.174Z",
+      "versionCount": 63,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -18892,6 +18897,7 @@
       },
       "changelog": {
         "versions": [
+          "0.49.1",
           "0.49.0",
           "0.48.1",
           "0.48.0",
@@ -21620,6 +21626,81 @@
       "discussion": {
         "number": 426,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/426",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-reading-cards": {
+      "kind": "world",
+      "version": "0.5.1",
+      "displayName": "读书小卡",
+      "description": "读书小卡：把一起读过、讲过的东西一句一句存成小卡，按出处归拢成一本能翻的 markdown。纯文件、不联网、不调模型。",
+      "locales": {
+        "zh": {
+          "displayName": "读书小卡",
+          "description": "把一起读过、讲过的东西一句一句存成小卡，按出处归拢成一本 markdown。六个工具：card_add / card_list / card_search / card_book / card_answer / card_void；数据是 worlds/reading-cards/data/cards.jsonl 里的纯 JSON 行。"
+        },
+        "en": {
+          "displayName": "Reading cards",
+          "description": "Save what we read and talked through as one-line cards, grouped by source into a markdown book. Tools: card_add / card_list / card_search / card_book / card_answer / card_void; data lives in worlds/reading-cards/data/cards.jsonl."
+        }
+      },
+      "author": "末地凋零",
+      "maintainers": [
+        "mddl0314"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "reading",
+        "cards",
+        "notes"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-reading-cards",
+        "repository": "https://github.com/mddl314/cortico-world-reading-cards",
+        "homepage": "https://github.com/mddl314/cortico-world-reading-cards#readme",
+        "bugs": "https://github.com/mddl314/cortico-world-reading-cards/issues"
+      },
+      "created": "2026-11-20T01:02:38.407Z",
+      "published": "2026-11-20T01:04:46.123Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "memory"
+      ],
+      "tags": [
+        "memory"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 6,
+        "events": 0,
+        "toolTokens": 1045,
+        "envPromptTokens": 71
+      },
+      "changelog": {
+        "versions": [
+          "0.5.1",
+          "0.5.0",
+          "0.4.0",
+          "0.3.0",
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://github.com/mddl314/cortico-world-reading-cards/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1039,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1039",
         "up": 0,
         "down": 0,
         "comments": 0

@@ -1,0 +1,241 @@
+{
+  "schema": 1,
+  "name": "cortico-world-reading-cards",
+  "version": "0.5.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "card_add",
+        "description": "存一张小卡。每张只装一件事：一句原话（kind=quote，text 一字不改）、一个想通了的地方（kind=idea，谁想通写进 by）、一个还没解开的问号（kind=question）。出处（哪本书哪一节、哪节课、谁说的）写进 source。不删卡；记错了就再存一张改正的。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "卡片正文：一句话。quote 必须一字不改。"
+            },
+            "source": {
+              "type": "string",
+              "description": "出处，例如「资本论·第一卷第四节」「线代·第二课」「他 11-08 说的」。"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "quote",
+                "idea",
+                "question"
+              ],
+              "description": "quote=原话；idea=想通的；question=还没解开的。缺省 idea。"
+            },
+            "by": {
+              "type": "string",
+              "enum": [
+                "他",
+                "我",
+                "书"
+              ],
+              "description": "这句话是谁的：他 / 我 / 书。缺省 我。"
+            },
+            "at": {
+              "type": "string",
+              "description": "日期 YYYY-MM-DD；缺省用今天。"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "小标签，例如 [\"资本论\",\"拜物教\"]。"
+            }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "存一张小卡",
+          "en": "Save one reading card"
+        }
+      },
+      {
+        "name": "card_list",
+        "description": "按出处（source）或类型（kind）翻卡，按加入顺序分页返回。不带筛选就是整本最新的若干张。问题卡带补答时，行尾标出解了几条，答案缩进一条一行列在卡片行下面（带日期）；作废的卡默认不出现（includeVoided 可带上）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "description": "只看这个出处；须与存卡时写的完全一致。"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "quote",
+                "idea",
+                "question"
+              ],
+              "description": "只看这一类。"
+            },
+            "limit": {
+              "type": "integer",
+              "description": "本次最多几张，缺省 20，上限 100。"
+            },
+            "offset": {
+              "type": "integer",
+              "description": "从第几张开始（0 起），缺省 0。"
+            },
+            "includeVoided": {
+              "type": "boolean",
+              "description": "true = 连作废的也一并列出（行尾会标作废日期）。缺省 false。"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "按出处或类型翻卡",
+          "en": "List cards by source or kind"
+        }
+      },
+      {
+        "name": "card_search",
+        "description": "关键词找卡：在正文、出处、by、kind、标签里做子串匹配，不区分大小写。够用了，不用向量。问题卡带补答时，答案会缩进一条一行列在卡片行下面（带日期）；作废的卡默认不出现（includeVoided 可带上）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "q": {
+              "type": "string",
+              "description": "关键词，子串即可。"
+            },
+            "source": {
+              "type": "string",
+              "description": "先按出处收窄。"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "quote",
+                "idea",
+                "question"
+              ],
+              "description": "先按类型收窄。"
+            },
+            "limit": {
+              "type": "integer",
+              "description": "最多返回几张，缺省 20。"
+            },
+            "includeVoided": {
+              "type": "boolean",
+              "description": "true = 连作废的也搜。缺省 false。"
+            }
+          },
+          "required": [
+            "q"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "关键词找卡",
+          "en": "Search cards by keyword"
+        }
+      },
+      {
+        "name": "card_book",
+        "description": "把没作废的卡按出处归拢，装订成一本 markdown，写到 data/书.md；回执报路径和条数（作废的不装订，只在摘要里报数）。不联网、不调模型。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "write",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "按出处装订成一本",
+          "en": "Bind all cards into one book by source"
+        }
+      },
+      {
+        "name": "card_answer",
+        "description": "往一张问题卡追加一条补答：只追加、不覆盖，日期由工具补成 `YYYY-MM-DD：`。非 question 卡会报错。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "卡 id，例如 c0005。"
+            },
+            "text": {
+              "type": "string",
+              "description": "补答正文：一句。"
+            }
+          },
+          "required": [
+            "id",
+            "text"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "给问题卡补一条答案",
+          "en": "Append one answer to a question card"
+        }
+      },
+      {
+        "name": "card_void",
+        "description": "作废一张卡：写 voidedAt 标记，不删 jsonl 行；正文、出处、答案都不动。undo=true 则恢复（清掉 voidedAt）。默认 card_list / card_search / card_book 都跳过作废的卡。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "卡 id，例如 c0002。"
+            },
+            "undo": {
+              "type": "boolean",
+              "description": "true = 恢复这张卡（清掉 voidedAt）；缺省 false = 作废。"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "作废 / 恢复一张卡",
+          "en": "Void or restore a card"
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.reading-cards.envPrompt",
+        "title": "读书小卡 · 环境提示词",
+        "role": "envPrompt",
+        "content": "读书小卡：`card_add` 存一张，`card_search` 找，`card_book` 攒成一本；问题卡用 `card_answer` 补答，`card_void` 作废（`undo:true` 恢复）。数据在 worlds\\reading-cards\\data\\cards.jsonl，纯文件。\n不用为日常小事主动建档，读到哪里记到哪里。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.5.1": "- 新增作者署名「末地凋零」，同步扩展市场工具说明与运行时声明。",
+    "0.5.0": "- 新增 `card_answer`：给问题卡追加补答（只追加、不覆盖，日期自动 `YYYY-MM-DD：`）\n- 新增 `card_void`：作废 / 恢复（`voidedAt` 标记，不删 jsonl 行）\n- `ENV_PROMPT.md` 两行里提及新工具（121 → 174 字）",
+    "0.4.0": "- 作废卡片：`voidedAt` 标记、页面两段式确认、「看作废的」开关、`card_book` 跳过并在摘要报数\n- `card_list` / `card_search` 默认跳过作废卡（可选 `includeVoided`）",
+    "0.3.0": "- 问题卡补答：`answers` 字段、页面补答输入框、`card_book` 里答案缩进排在问题下面\n- `card_list` / `card_search` 行尾标「解了 N 条」，答案正文缩进列出",
+    "0.2.0": "- World 页面（WebUI）：写卡表单、搜索、最近列表（`dist/webui.js` / `dist/webui.css`）",
+    "0.1.0": "- 初版：`card_add` / `card_list` / `card_search` / `card_book`；jsonl 数据、两行 envPrompt"
+  }
+}
