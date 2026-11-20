@@ -7462,6 +7462,68 @@
         "comments": 1
       }
     },
+    "cortico-world-calendar-reminder": {
+      "kind": "world",
+      "version": "1.1.0",
+      "displayName": "日历提醒",
+      "description": "日历提醒：从系统日历（Linux/Windows/macOS）或 CalDAV / ICS 订阅提取日程并按时提醒。支持点任务单次提醒、区间任务多种重复频率与结束提醒。",
+      "locales": {
+        "zh": {
+          "displayName": "日历提醒",
+          "description": "从系统日历（Linux/Windows/macOS）或 CalDAV 订阅提取日程并按时提醒。支持点任务单次提醒，以及区间任务（只提醒一次/每天/每小时/每15分钟）和结束时提醒。"
+        },
+        "en": {
+          "displayName": "Calendar Reminder",
+          "description": "Extract calendar events from your OS calendar (Linux/Windows/macOS) or CalDAV subscriptions and deliver timely reminders. Supports one-time point events and configurable interval event reminders plus end-of-event notifications."
+        }
+      },
+      "author": "ThermalEng",
+      "maintainers": [
+        "wcysylmc"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "calendar",
+        "reminder",
+        "caldav",
+        "ics",
+        "icalendar",
+        "schedule",
+        "notification"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-calendar-reminder",
+        "repository": "https://github.com/ThermalEng/cortico-world-calendar-reminder",
+        "homepage": "https://github.com/ThermalEng/cortico-world-calendar-reminder#readme",
+        "bugs": "https://github.com/ThermalEng/cortico-world-calendar-reminder/issues"
+      },
+      "created": "2026-11-20T08:02:33.634Z",
+      "published": "2026-11-20T08:17:38.353Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion"
+      ],
+      "tags": [
+        "companion"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 1053,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1053",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-camera": {
       "kind": "world",
       "version": "0.2.0",
@@ -10651,7 +10713,7 @@
     },
     "cortico-world-emote-pics": {
       "kind": "world",
-      "version": "0.9.5",
+      "version": "0.9.6",
       "displayName": "对话表情包",
       "description": "桌宠发文字时，可按当前心情或场景，从你整理的图库里挑张表情包随消息发出。心情路线支持为每个情绪绑定文件夹、设置概率与冷却；场景路线提供固定和自定义场景，共用一个全局冷却。桌面弹图会跟随桌宠位置，支持 Overlay 精确定位。内置表情包库可浏览、搜索、收藏和批量管理；开启语义化后，还能用 OpenAI 兼容服务生成图片描述和向量，让桌宠按句意选图。图片在本地读取，只有语义化会联网。表情包合集：https://pan.baidu.com/s/1p5amZmne03qVWWBf_Si47A?pwd=c485",
       "maintainers": [
@@ -10669,8 +10731,8 @@
         "win32"
       ],
       "created": "2026-10-23T09:09:50.168Z",
-      "published": "2026-11-20T07:17:37.488Z",
-      "versionCount": 26,
+      "published": "2026-11-20T08:05:34.519Z",
+      "versionCount": 27,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -10697,6 +10759,7 @@
       },
       "changelog": {
         "versions": [
+          "0.9.6",
           "0.9.5",
           "0.9.4",
           "0.9.3",
@@ -10739,7 +10802,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-emote-pics@0.9.5/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-emote-pics@0.9.6/CHANGELOG.md"
       },
       "discussion": {
         "number": 209,
