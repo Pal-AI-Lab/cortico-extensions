@@ -3135,7 +3135,7 @@
       "published": "2026-11-06T18:55:17.635Z",
       "versionCount": 2,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [
         "companion",
         "unsafe"
@@ -3430,7 +3430,7 @@
       "published": "2026-11-13T17:57:27.593Z",
       "versionCount": 4,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "companion"
       ],
@@ -10808,14 +10808,14 @@
       "discussion": {
         "number": 438,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/438",
-        "up": 0,
+        "up": 1,
         "down": 1,
-        "comments": 5
+        "comments": 12
       }
     },
     "cortico-world-emote-pics": {
       "kind": "world",
-      "version": "0.9.8",
+      "version": "0.9.9",
       "displayName": "对话表情包",
       "description": "桌宠发文字时，可按当前心情或场景，从你整理的图库里挑张表情包随消息发出。心情路线支持为每个情绪绑定文件夹、设置概率与冷却；场景路线提供固定和自定义场景，共用一个全局冷却。桌面弹图会跟随桌宠位置，支持 Overlay 精确定位。内置表情包库可浏览、搜索、收藏和批量管理；开启语义化后，还能用 OpenAI 兼容服务生成图片描述和向量，让桌宠按句意选图。图片在本地读取，只有语义化会联网。表情包合集：https://pan.baidu.com/s/1p5amZmne03qVWWBf_Si47A?pwd=c485",
       "maintainers": [
@@ -10833,8 +10833,8 @@
         "win32"
       ],
       "created": "2026-10-23T09:09:50.168Z",
-      "published": "2026-11-20T14:01:12.580Z",
-      "versionCount": 29,
+      "published": "2026-11-20T17:15:52.335Z",
+      "versionCount": 30,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -10871,6 +10871,7 @@
       },
       "changelog": {
         "versions": [
+          "0.9.9",
           "0.9.8",
           "0.9.7",
           "0.9.6",
@@ -10916,7 +10917,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-emote-pics@0.9.8/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-emote-pics@0.9.9/CHANGELOG.md"
       },
       "discussion": {
         "number": 209,
@@ -11444,6 +11445,74 @@
         "up": 67,
         "down": 7,
         "comments": 71
+      }
+    },
+    "cortico-world-fatfish-memo": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "大肥鱼记事",
+      "description": "给 Coo 的「记一笔」和「体检」：把一句话写进当天日记（自动带时间和别名），并定期检查记忆文件里过时、过长、没被索引的条目。",
+      "locales": {
+        "zh": {
+          "displayName": "大肥鱼记事",
+          "description": "两个小工具：memo_add 把一句话写进当天日记（自动带时间、可选别名），memo_check 体检记忆文件（过时的待办、过长的文件、没进索引的文件）。只写自己的 workspace，不联网。"
+        },
+        "en": {
+          "displayName": "Fatfish Memo",
+          "description": "Two small tools: memo_add appends a line to today's diary with time and optional aliases; memo_check audits memory files for stale TODOs, oversized files and unindexed notes. Local only, no network."
+        }
+      },
+      "author": "大肥鱼",
+      "maintainers": [
+        "lzyiluo"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "world",
+        "memory",
+        "diary"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-fatfish-memo"
+      },
+      "os": [
+        "win32",
+        "darwin",
+        "linux"
+      ],
+      "created": "2026-11-20T17:05:16.827Z",
+      "published": "2026-11-20T17:06:32.268Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "memory",
+        "local"
+      ],
+      "tags": [
+        "memory",
+        "local"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 0,
+        "toolTokens": 199,
+        "envPromptTokens": 0
+      },
+      "discussion": {
+        "number": 1060,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1060",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-fatigue-mood": {
@@ -14419,7 +14488,7 @@
       "published": "2026-11-19T18:44:07.063Z",
       "versionCount": 9,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "im",
         "qq",
@@ -14620,7 +14689,7 @@
     },
     "cortico-world-jingliumei": {
       "kind": "world",
-      "version": "0.7.2",
+      "version": "0.8.1",
       "displayName": "大A战士鲸留美",
       "description": "给桌宠开一个 A 股模拟盘：钱是虚拟的，行情是真的。她有自己的账户、自己的日子，不是替你炒股。\n\n盘前看点：持仓、可用现金、昨天净值、自选。开盘后自己挂价格预警、给自己定闹钟，到点醒来决定动不动手。\n\n每张单子都得写清为什么买、什么情况下认错走人，缺一条就下不了单。成交了记账，收盘逐笔对账；亏钱的日子要写复盘，隔一阵把策略拿出来重想一遍。\n\n账户、交割单、净值、复盘、策略都在扩展目录里，面板上能看也能改。\n\n不接任何真实券商，不构成投资建议，也不替你下单。",
       "locales": {
@@ -14648,8 +14717,8 @@
         "win32"
       ],
       "created": "2026-11-18T13:25:13.280Z",
-      "published": "2026-11-19T12:56:36.359Z",
-      "versionCount": 7,
+      "published": "2026-11-20T18:26:32.406Z",
+      "versionCount": 9,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -14667,11 +14736,13 @@
       "summary": {
         "tools": 19,
         "events": 12,
-        "toolTokens": 2684,
-        "envPromptTokens": 2279
+        "toolTokens": 2699,
+        "envPromptTokens": 2524
       },
       "changelog": {
         "versions": [
+          "0.8.1",
+          "0.8.0",
           "0.7.2",
           "0.7.1",
           "0.7.0",
@@ -14693,7 +14764,7 @@
           "0.3.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-jingliumei@0.7.2/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-jingliumei@0.8.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 1018,
@@ -15960,9 +16031,9 @@
     },
     "cortico-world-memcore": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.2.0",
       "displayName": "记忆核心",
-      "description": "Cortico World 记忆核心：把对话里的原话按日期存下来，需要时按意思或字面翻回去。只增原文、带遗忘曲线、不联网。",
+      "description": "Cortico / Coopanion 的记忆 World：把对话原话按日期存成本地账本，字面(BM25)+向量+别名三路召回，带遗忘曲线、置顶与小黑屋；原文只增不删、默认不联网、自动捕获时脱敏。需要宿主扩展契约 world API 6 与 Node ≥22；语义检索可选本机 Ollama(bge-m3)，服务不可达时自动退回哈希向量。",
       "author": "某个四月",
       "maintainers": [
         "yu-xing-le"
@@ -15971,17 +16042,25 @@
       "keywords": [
         "cortico-world",
         "cortico",
+        "coopanion",
         "memory",
+        "long-term-memory",
+        "recall",
         "semantic-search",
+        "vector-search",
+        "bm25",
+        "forgetting-curve",
         "local-first",
-        "experimental"
+        "offline",
+        "privacy",
+        "chinese"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-memcore"
       },
       "created": "2026-11-18T16:42:34.916Z",
-      "published": "2026-11-19T03:54:59.357Z",
-      "versionCount": 5,
+      "published": "2026-11-20T18:53:49.420Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "tags": [
@@ -16001,10 +16080,11 @@
       },
       "changelog": {
         "versions": [
+          "0.2.0",
           "0.1.3",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-memcore@0.1.3/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-memcore@0.2.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 1021,
@@ -22812,7 +22892,7 @@
     },
     "cortico-world-screen-peek": {
       "kind": "world",
-      "version": "0.6.0",
+      "version": "0.6.1",
       "displayName": "随手瞥一眼",
       "description": "大肥鱼偶尔随手瞥一眼屏幕：随机间隔、只在有人在的时候，看到什么算什么，不点击也不操作。",
       "locales": {
@@ -22842,8 +22922,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-screen-peek"
       },
       "created": "2026-11-18T23:12:28.310Z",
-      "published": "2026-11-19T22:28:06.202Z",
-      "versionCount": 6,
+      "published": "2026-11-20T17:16:02.146Z",
+      "versionCount": 7,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -22867,7 +22947,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1022",
         "up": 0,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-screen-sense": {

@@ -2,14 +2,23 @@
   "schema": 1,
   "name": "cortico-world-ellen-voice",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/438",
-  "total": 5,
+  "total": 12,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BKhAr",
       "author": "ls56647426",
       "avatar": "https://avatars.githubusercontent.com/u/48777554?s=64&v=4",
       "body": "只能发qq吗？不能读气泡文字吗？",
-      "createdAt": "2026-11-11T03:01:40Z"
+      "createdAt": "2026-11-11T03:01:40Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BLdV1",
+          "author": "deek-234",
+          "avatar": "https://avatars.githubusercontent.com/u/349321417?s=64&v=4",
+          "body": "抱歉github账户刚解封 是可以读出文字的 要下载额外的gpt-sovit模型 在网盘链接里面都有",
+          "createdAt": "2026-11-20T18:08:00Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BKAzT",
@@ -23,21 +32,69 @@
       "author": "xiaobaibibo",
       "avatar": "https://avatars.githubusercontent.com/u/351269370?s=64&v=4",
       "body": "网盘删了发个锤子",
-      "createdAt": "2026-11-02T01:14:35Z"
+      "createdAt": "2026-11-02T01:14:35Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BLdV8",
+          "author": "deek-234",
+          "avatar": "https://avatars.githubusercontent.com/u/349321417?s=64&v=4",
+          "body": "检查过网盘链接没有失效 设置的是永久分享 可以再去试试",
+          "createdAt": "2026-11-20T18:08:32Z"
+        }
+      ]
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BJm4Q",
+      "author": "deek-234",
+      "avatar": "https://avatars.githubusercontent.com/u/349321417?s=64&v=4",
+      "body": "你好，\r\n\r\n\r\n插件和整合包能顺利装上就好。你问的南宫羽中文配音，我这边没有自己录的素材，\r\n用的是社区从游戏里解包整理出来的公开语音库，链接整理在下面，和我们的插件、\r\n模型没有关系，所以你拿去自己训练完全没问题。\r\n\r\n\r\n一、数据在哪\r\n\r\n\r\n主仓库（处理流程与说明）：\r\nhttps://github.com/simon300000/zenless-voice\r\n\r\n\r\nHugging Face 数据集页（全部语言、全部角色，含中文）：\r\nhttps://huggingface.co/datasets/simon3000/zenless-voice\r\n\r\n\r\n国内镜像（HF 打不开时用这个，内容一样）：\r\nhttps://hf-mirror.com/datasets/simon3000/zenless-voice\r\n\r\n\r\nModelScope 镜像（另一个国内源）：\r\nhttps://modelscope.cn/datasets/simono/zenless-voice\r\n\r\n\r\n南宫羽（中文）直接下载，约 228 MB：\r\nhttps://huggingface.co/datasets/simon3000/zenless-voice/resolve/main/speaker-archives/Chinese/501-plus/nangongyu.zip\r\n\r\n\r\n国内镜像同一份：\r\nhttps://hf-mirror.com/datasets/simon3000/zenless-voice/resolve/main/speaker-archives/Chinese/501-plus/nangongyu.zip\r\n\r\n\r\n另外还有一个短剧/活动向的小包（约 7 MB，只有二十条，可以先拿它试流程）：\r\nhttps://hf-mirror.com/datasets/simon3000/zenless-voice/resolve/main/speaker-archives/Chinese/11-500/RhapsodyNangongYu.zip\r\n\r\n\r\n压缩包里是 WAV + 同名 JSON，JSON 字段：\r\n&nbsp; inGameFilename &nbsp;原始游戏路径\r\n&nbsp; language &nbsp; &nbsp; &nbsp; &nbsp;Chinese\r\n&nbsp; transcription &nbsp; 这句的台词（可直接当训练文本）\r\n&nbsp; speaker &nbsp; &nbsp; &nbsp; &nbsp; 角色名\r\n&nbsp; voiceType &nbsp; &nbsp; &nbsp; Galgame / 战斗 / 剧情 等\r\n\r\n\r\n二、怎么训练（GPT-SoVITS，用整合包自带的 webui）\r\n\r\n\r\n1. 解压后先筛素材。战斗语音里常有吼叫、技能音效、混响，建议只留剧情/日常/短句，\r\n&nbsp; &nbsp;10–20 分钟干净人声就够；少于 5 分钟效果会明显飘。\r\n2. 把 JSON 整理成 GPT-SoVITS 的 list 文件，每行 `wav路径|说话人|zh|台词`。\r\n&nbsp; &nbsp;台词里的 <color=...&gt; 这类标记、括号里的动作说明要清掉，transcription 为空的丢弃。\r\n3. 用 webui 的 0-1 做切分（wav 本身已是单句可跳过），0-2 跑 ASR、0-3 人工校对——\r\n&nbsp; &nbsp;官方标注偶尔和实际语音有出入，尤其语气词。\r\n4. 1A 训练 SoVITS：素材 10 分钟左右建议 8–12 epoch；1B 训练 GPT：10–20 epoch。\r\n&nbsp; &nbsp;8 GB 显存就够，16 GB 更稳。\r\n5. 推理时把 GPT_SoVITS/configs/tts_infer.yaml 指到新权重，参考音频取 3–10 秒、\r\n&nbsp; &nbsp;和训练集同风格的干净片段，参考文本要和音频逐字一致。\r\n6. 出来的声音发闷或带电流，优先查：素材里是否混进了 BGM/音效、参考音频是否本身有底噪。\r\n&nbsp; &nbsp;音色不像多半是素材混了别的角色或喊叫，不是训练参数问题。\r\n\r\n\r\n三、一句提醒\r\n\r\n\r\n这套语音版权属于米哈游（COGNOSPHERE），社区整理只适合个人学习、研究和本地玩，\r\n不要商用、不要二次分发、不要拿去做对外发布的作品。你自己的模型权重同理。\r\n\r\n\r\n训练过程中卡住了可以把报错或样本发我，我看一下。\r\n\r\n\r\n祝顺利。\r\n\r\n\r\n\r\n\r\n         原始邮件\r\n         \r\n       \r\n发件人：amomo0612 ***@***.***&gt;\r\n发件时间：2026年10月30日 18:56\r\n收件人：Pal-AI-Lab/cortico-extensions ***@***.***&gt;\r\n抄送：deek-234 ***@***.***&gt;, Comment ***@***.***&gt;\r\n主题：Re: [Pal-AI-Lab/cortico-extensions] cortico-world-ellen-voice (Discussion #438)\r\n\r\n\r\n\r\n\r\n同ZZZ玩家，求一个南宫羽的，大佬\r\n\r\n—\r\nReply to this email directly, view it on GitHub, or unsubscribe.\r\nTriage notifications, keep track of coding agent tasks and review pull requests on the go with GitHub Mobile for iOS&nbsp;and Android. Download it today! \r\nYou are receiving this because you commented.",
+      "createdAt": "2026-10-30T14:40:15Z"
     },
     {
       "id": "DC_kwDOVLPtGM4BJl2S",
       "author": "amomo0612",
       "avatar": "https://avatars.githubusercontent.com/u/182498565?s=64&v=4",
       "body": "同ZZZ玩家，求一个南宫羽的，大佬",
-      "createdAt": "2026-10-30T10:56:24Z"
+      "createdAt": "2026-10-30T10:56:24Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BLdWV",
+          "author": "deek-234",
+          "avatar": "https://avatars.githubusercontent.com/u/349321417?s=64&v=4",
+          "body": "下载完gpt-sovit模型后 可以直接训练想要的声线 米哈游有开源的音频供你使用",
+          "createdAt": "2026-11-20T18:09:58Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BJlyq",
       "author": "ranqirong",
       "avatar": "https://avatars.githubusercontent.com/u/130033560?s=64&v=4",
       "body": "下载之后mac怎么使用呀",
-      "createdAt": "2026-10-30T10:43:26Z"
+      "createdAt": "2026-10-30T10:43:26Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BLdW1",
+          "author": "deek-234",
+          "avatar": "https://avatars.githubusercontent.com/u/349321417?s=64&v=4",
+          "body": "抱歉 mac的版本我还没有尝试",
+          "createdAt": "2026-11-20T18:11:28Z"
+        }
+      ]
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BJiy4",
+      "author": "deek-234",
+      "avatar": "https://avatars.githubusercontent.com/u/349321417?s=64&v=4",
+      "body": "有问题请评论 看到就会回复",
+      "createdAt": "2026-10-29T21:37:06Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BJZ55",
+      "author": "deek-234",
+      "avatar": "https://avatars.githubusercontent.com/u/349321417?s=64&v=4",
+      "body": "欢迎绝区零伙伴们下载使用 可以评论更多角色",
+      "createdAt": "2026-10-28T13:17:41Z"
     }
   ]
 }

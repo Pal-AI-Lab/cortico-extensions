@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "name": "cortico-world-fatfish-memo",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "memo_add",
+        "tags": [
+          "write"
+        ],
+        "description": "「记一笔」：把一句话追加进当天的日记（workspace/diary/日记/YYYY-MM-DD.md），自动带时间；可选 aliases 写进同一行的别名。只追加，不改别的东西。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "要记的内容。能带上他的原话最好。"
+            },
+            "aliases": {
+              "type": "string",
+              "description": "可选。别名，逗号分隔。"
+            },
+            "date": {
+              "type": "string",
+              "description": "可选。记到哪天，YYYY-MM-DD。"
+            }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "summary": {
+          "zh": "把一句话写进当天日记，自动带时间和可选别名。",
+          "en": "Append a line to today's diary with a timestamp and optional aliases."
+        }
+      },
+      {
+        "name": "memo_check",
+        "tags": [
+          "read"
+        ],
+        "description": "「体检」：报过时的待办、过大的文件、没进索引的笔记。只读。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "summary": {
+          "zh": "体检记忆文件：过时的待办、过大的文件、没进索引的笔记。只读。",
+          "en": "Audit memory files: stale TODOs, oversized files, unindexed notes. Read-only."
+        }
+      }
+    ],
+    "events": []
+  }
+}
