@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-screen-sense",
-  "version": "0.1.11",
+  "version": "0.2.1",
   "describe": {
     "tools": [
       {
@@ -92,6 +92,8 @@
     ]
   },
   "changelog": {
+    "0.2.1": "- 本地视觉安全标记：NSFW / 政治敏感 / 擦边画面只输出 `[nsfw]` 或 `[filter]`，事件只带标记，不描述细节\n- 截图事件 meta 增加 `safety: 'safe' | 'nsfw' | 'filter'`；标记事件的正文使用安全占位文案\n- 默认视觉提示词加入安全指令；前台关键词过滤保持不变",
+    "0.2.0": "- 新增底层隐私过滤：私密应用/敏感标题直接跳过，不截图、不发事件\n- 云端视觉端点默认禁用，只有显式打开 `caption.allowRemoteVision` 才允许上传\n- 视觉描述文本脱敏：密码、邮箱、手机号、银行卡号、API key 等替换为 `[已过滤]`\n- 新增配置：`sensitiveKeywords`、`caption.allowRemoteVision`",
     "0.1.11": "- 简介与 README 互相指路：明确搭配「活动日记」（cortico-world-screen-diary）可获得平滑记忆与搭话时机\n- keywords 增加 activity-diary，方便市场搜索",
     "0.1.10": "- 视觉提示词支持变量：`{window_title}`、`{app}`，每次描述时实时渲染\n- 提示词模板每次描述前重新读取，UI 改完立即生效，不需要重启\n- 中文默认提示词改为结构化视觉特征/标签（忽略边框小字，只描述中央画面）\n- 用户编辑的模板不再自动追加“只给一句话”；只有内置回退提示词会补语言后缀",
     "0.1.9": "- UI 与文档统一使用「窥屏助手」（此前面板仍写屏幕感知，和包名/简介不一致）\n- 视觉描述提示词独立为可编辑文件 `src/CAPTION_PROMPT.md` / `.en.md`，在扩展页的提示词文档中可直接修改；缺省回退到配置里的 prompt\n- 环境提示词与视觉提示词分列，便于分别调整",

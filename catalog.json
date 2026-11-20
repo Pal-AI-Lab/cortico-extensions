@@ -1727,7 +1727,7 @@
       "discussion": {
         "number": 228,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-        "up": 25,
+        "up": 26,
         "down": 0,
         "comments": 87
       }
@@ -1804,17 +1804,17 @@
     },
     "@wocwang/cortico-world-singer-for-coopanion": {
       "kind": "world",
-      "version": "0.1.30",
+      "version": "0.2.3",
       "displayName": "DiffSinger唱歌",
       "description": "Cortico World for Coopanion: let the pet improvise a line and sing it on the spot with DiffSinger (Qixuan voicebank), optionally through RVC",
       "locales": {
         "zh": {
           "displayName": "DiffSinger唱歌",
-          "description": "让大肥鱼临场发挥、随意唱歌：聊到兴头上，它自己现编一句词，旋律按起承转合生成——每句一个拱形（上行—顶点—下行），句末落主音、三音或五度，不同歌词走不同旋律，起音与落点也会变；节奏利落，每字半拍、句末一拍、不插气口。歌声由 DiffSinger 在本机合成（默认「绮萱」声库，不联网、不训练）；声库可放多个，设置里按「名称 · 中/日/英 · 音色」挑。可选接 RVC 换成小肥鱼 / 星落落大肥鱼的音色。桌宠 / 对话页用工具 singer_sing 直接本机外放，声音先起、随后气泡显示同一句歌词；面板可试听、下载 wav；另开只监听 127.0.0.1:9882 的 HTTP 接口，其他插件和外部大模型可 POST /sing 取 wav。有 NVIDIA 显卡时自动用显卡（热跑约 0.7 秒一句），否则用 CPU；默认随 Coopanion 启动，可在面板停掉；不装 gpt-sovits 也能单独用，缺共享运行时会自动下载一份 CPU 档（约 1 GB）。"
+          "description": "让大肥鱼临场发挥、随意唱歌：聊到兴头上，它自己现编一句词，旋律按起承转合生成——每句一个拱形（上行—顶点—下行），句末落主音、三音或五度，不同歌词走不同旋律，起音与落点也会变；节奏利落，每字半拍、句末一拍、不插气口。歌声由 DiffSinger 在本机合成（默认「绮萱」声库，不联网、不训练）；声库可放多个，设置里按「名称 · 中/日/英 · 音色」挑。可选接 RVC 换成小肥鱼 / 星落落大肥鱼的音色。桌宠 / 对话页用工具 singer_sing 直接本机外放，声音先起、随后气泡显示同一句歌词；面板可试听、下载 wav；另开只监听 127.0.0.1:9882 的 HTTP 接口，其他插件和外部大模型可 POST /sing 取 wav。有 NVIDIA 显卡时自动用显卡（热跑约 0.7 秒一句），否则用 CPU；默认随 Coopanion 启动，可在面板停掉；不装 gpt-sovits 也能单独用，缺共享运行时会自动下载一份 CPU 档（约 1 GB）。支持与「作曲」插件（cortico-world-compose）联动：把它写出的 lead-sheet 旋律（`C4 D4 E4 - | G4 - - .`）直接交给唱歌插件唱出来，也可以自己写一段、让桌宠补完，再用同一段旋律唱。"
         },
         "en": {
           "displayName": "DiffSinger Singing",
-          "description": "Let the pet improvise and sing on the spot: it writes a line from the current chat, and the melody follows a four-part 起承转合 arc — each phrase is an arch (rise, peak, fall), ending on the tonic, third or fifth; different lyrics get different melodies, and the starting and ending notes vary. The rhythm stays crisp: half a beat per character, one beat on the phrase's last character, no breath gaps. DiffSinger sings it locally (Qixuan voicebank by default; no network, no training); keep several voicebanks and pick one in the settings by name, language marker (中 / 日 / 英) and colour. An optional RVC pass switches the timbre to 小肥鱼 / 星落落大肥鱼. In the pet window or chat page the singer_sing tool plays the line straight to this computer's speakers — the voice starts first, then the bubble shows the same lyric; the panel can preview and download wav; a loopback-only HTTP endpoint (127.0.0.1:9882) lets other plugins and online LLMs POST /sing for a wav. An NVIDIA GPU is used automatically when available (~0.7 s per line once warm), otherwise CPU; starts with Coopanion by default and can be stopped in the panel; works without the gpt-sovits plugin (it downloads a ~1 GB CPU runtime tier if the shared runtime is missing)."
+          "description": "Let the pet improvise and sing on the spot: it writes a line from the current chat, and the melody follows a four-part 起承转合 arc — each phrase is an arch (rise, peak, fall), ending on the tonic, third or fifth; different lyrics get different melodies, and the starting and ending notes vary. The rhythm stays crisp: half a beat per character, one beat on the phrase's last character, no breath gaps. DiffSinger sings it locally (Qixuan voicebank by default; no network, no training); keep several voicebanks and pick one in the settings by name, language marker (中 / 日 / 英) and colour. An optional RVC pass switches the timbre to 小肥鱼 / 星落落大肥鱼. In the pet window or chat page the singer_sing tool plays the line straight to this computer's speakers — the voice starts first, then the bubble shows the same lyric; the panel can preview and download wav; a loopback-only HTTP endpoint (127.0.0.1:9882) lets other plugins and online LLMs POST /sing for a wav. An NVIDIA GPU is used automatically when available (~0.7 s per line once warm), otherwise CPU; starts with Coopanion by default and can be stopped in the panel; works without the gpt-sovits plugin (it downloads a ~1 GB CPU runtime tier if the shared runtime is missing). Pairs with the compose world (cortico-world-compose): hand it the lead-sheet line compose wrote (C4 D4 E4 - | G4 - - .) and the singer sings that melody, or write a phrase yourself, let the pet finish it, then sing it."
         }
       },
       "author": "wocwang",
@@ -1840,8 +1840,8 @@
         "win32"
       ],
       "created": "2026-10-29T02:52:13.755Z",
-      "published": "2026-11-20T04:57:13.946Z",
-      "versionCount": 13,
+      "published": "2026-11-20T13:45:40.590Z",
+      "versionCount": 14,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -1866,11 +1866,15 @@
       "summary": {
         "tools": 1,
         "events": 0,
-        "toolTokens": 400,
-        "envPromptTokens": 468
+        "toolTokens": 790,
+        "envPromptTokens": 755
       },
       "changelog": {
         "versions": [
+          "0.2.3",
+          "0.2.2",
+          "0.2.1",
+          "0.2.0",
           "0.1.30",
           "0.1.29",
           "0.1.28",
@@ -2286,7 +2290,7 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "2.1.5",
+      "version": "2.2.0",
       "displayName": "大肥鱼环游世界",
       "description": "大肥鱼环游世界 · 让桌宠真的出门去旅行：走遍 193 座城市，路上耗着真实时间、按当地作息吃饭看日出、写旅行日记，还能在城里偶遇别人的宠物、月底生成一份手账。（需 Coopani 0.2.17+）",
       "locales": {
@@ -2324,8 +2328,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-20T12:08:44.706Z",
-      "versionCount": 193,
+      "published": "2026-11-20T12:36:41.876Z",
+      "versionCount": 194,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2355,6 +2359,7 @@
       },
       "changelog": {
         "versions": [
+          "2.2.0",
           "2.1.5",
           "2.1.4",
           "2.1.3",
@@ -9870,7 +9875,7 @@
       "published": "2026-11-15T17:43:01.247Z",
       "versionCount": 35,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "game",
         "im",
@@ -10809,7 +10814,7 @@
     },
     "cortico-world-emote-pics": {
       "kind": "world",
-      "version": "0.9.7",
+      "version": "0.9.8",
       "displayName": "对话表情包",
       "description": "桌宠发文字时，可按当前心情或场景，从你整理的图库里挑张表情包随消息发出。心情路线支持为每个情绪绑定文件夹、设置概率与冷却；场景路线提供固定和自定义场景，共用一个全局冷却。桌面弹图会跟随桌宠位置，支持 Overlay 精确定位。内置表情包库可浏览、搜索、收藏和批量管理；开启语义化后，还能用 OpenAI 兼容服务生成图片描述和向量，让桌宠按句意选图。图片在本地读取，只有语义化会联网。表情包合集：https://pan.baidu.com/s/1p5amZmne03qVWWBf_Si47A?pwd=c485",
       "maintainers": [
@@ -10827,8 +10832,8 @@
         "win32"
       ],
       "created": "2026-10-23T09:09:50.168Z",
-      "published": "2026-11-20T11:52:01.094Z",
-      "versionCount": 28,
+      "published": "2026-11-20T14:01:12.580Z",
+      "versionCount": 29,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -10842,6 +10847,16 @@
         "sensitive-data"
       ],
       "icon": "assets/cortico-world-emote-pics/icon.png",
+      "screenshots": [
+        "assets/cortico-world-emote-pics/screenshot-1.webp",
+        "assets/cortico-world-emote-pics/screenshot-2.webp",
+        "assets/cortico-world-emote-pics/screenshot-3.webp",
+        "assets/cortico-world-emote-pics/screenshot-4.webp",
+        "assets/cortico-world-emote-pics/screenshot-5.webp",
+        "assets/cortico-world-emote-pics/screenshot-6.webp",
+        "assets/cortico-world-emote-pics/screenshot-7.webp",
+        "assets/cortico-world-emote-pics/screenshot-8.webp"
+      ],
       "downloads": {
         "total": 10659,
         "month": 10659,
@@ -10855,6 +10870,7 @@
       },
       "changelog": {
         "versions": [
+          "0.9.8",
           "0.9.7",
           "0.9.6",
           "0.9.5",
@@ -10899,7 +10915,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-emote-pics@0.9.7/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-emote-pics@0.9.8/CHANGELOG.md"
       },
       "discussion": {
         "number": 209,
@@ -13087,7 +13103,7 @@
     },
     "cortico-world-genesis": {
       "kind": "world",
-      "version": "3.6.3",
+      "version": "3.8.3",
       "displayName": "创世记",
       "description": "给 Agent 一颗物理自洽、一次性创世的星球：种子与少量旋钮生成恒星系与行星属性。",
       "author": "Nami-Mizu",
@@ -13107,8 +13123,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-genesis"
       },
       "created": "2026-11-13T12:15:34.380Z",
-      "published": "2026-11-20T12:04:26.675Z",
-      "versionCount": 24,
+      "published": "2026-11-20T15:17:51.511Z",
+      "versionCount": 26,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -13125,12 +13141,18 @@
       },
       "summary": {
         "tools": 44,
-        "events": 15,
-        "toolTokens": 8555,
-        "envPromptTokens": 2363
+        "events": 16,
+        "toolTokens": 8565,
+        "envPromptTokens": 2672
       },
       "changelog": {
         "versions": [
+          "3.8.3",
+          "3.8.2",
+          "3.8.1",
+          "3.8.0",
+          "3.7.0",
+          "3.6.4",
           "3.6.3",
           "3.6.2",
           "3.6.1",
@@ -13212,7 +13234,7 @@
           "1.2.0",
           "1.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-genesis@3.6.3/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-genesis@3.8.3/CHANGELOG.md"
       },
       "discussion": {
         "number": 915,
@@ -13587,7 +13609,7 @@
     },
     "cortico-world-hands": {
       "kind": "world",
-      "version": "0.20.69",
+      "version": "0.20.71",
       "displayName": "手",
       "description": "Cortico World: hands for the desktop pet — looks at the phone screen, then taps, swipes, pinches, drags, types and presses keys through whatever actuator the device actually has",
       "maintainers": [
@@ -13605,8 +13627,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-hands"
       },
       "created": "2026-10-22T14:40:37.506Z",
-      "published": "2026-11-19T18:02:43.590Z",
-      "versionCount": 107,
+      "published": "2026-11-20T14:23:32.328Z",
+      "versionCount": 109,
       "official": false,
       "isNew": false,
       "tags": [
@@ -13751,7 +13773,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/382",
         "up": 0,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-heybox": {
@@ -14434,7 +14456,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/780",
         "up": 0,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-immortal": {
@@ -22847,7 +22869,7 @@
     },
     "cortico-world-screen-sense": {
       "kind": "world",
-      "version": "0.1.11",
+      "version": "0.2.1",
       "displayName": "窥屏助手",
       "description": "窥屏助手：让 Coo 用事件流感知前台切换，可选截图 + 本地视觉速写；默认关闭，原图不进主上下文。搭配「活动日记」（cortico-world-screen-diary）可把事件整理成平滑记忆。",
       "locales": {
@@ -22876,8 +22898,8 @@
         "bugs": "https://github.com/Wwhois163wW/cortico-world-screen-sense/issues"
       },
       "created": "2026-11-03T06:36:57.535Z",
-      "published": "2026-11-08T09:45:05.445Z",
-      "versionCount": 13,
+      "published": "2026-11-20T14:39:01.084Z",
+      "versionCount": 15,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -22905,6 +22927,8 @@
       },
       "changelog": {
         "versions": [
+          "0.2.1",
+          "0.2.0",
           "0.1.11",
           "0.1.10",
           "0.1.9",
@@ -28376,7 +28400,7 @@
     },
     "cortico-world-wechat-claw": {
       "kind": "world",
-      "version": "0.1.9",
+      "version": "0.1.10",
       "displayName": "微信 ClawBot",
       "description": "在微信里和桌宠一对一聊天：文字、图片、文件双向收发，按 Provider 能力传入原生音视频，不支持视频时抽帧理解。",
       "locales": {
@@ -28412,8 +28436,8 @@
         "bugs": "https://github.com/Unnori/cortico-world-wechat-claw/issues"
       },
       "created": "2026-10-27T12:04:10.102Z",
-      "published": "2026-11-17T08:15:36.278Z",
-      "versionCount": 10,
+      "published": "2026-11-20T13:40:20.574Z",
+      "versionCount": 11,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -28434,11 +28458,12 @@
       "summary": {
         "tools": 5,
         "events": 2,
-        "toolTokens": 1004,
-        "envPromptTokens": 1132
+        "toolTokens": 1034,
+        "envPromptTokens": 1172
       },
       "changelog": {
         "versions": [
+          "0.1.10",
           "0.1.9",
           "0.1.8",
           "0.1.7",
