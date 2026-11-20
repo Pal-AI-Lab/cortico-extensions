@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "name": "cortico-world-screen-peek",
+  "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1022",
+  "total": 1,
+  "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BLZxP",
+      "author": "SakuraWww123",
+      "avatar": "https://avatars.githubusercontent.com/u/204754249?s=64&v=4",
+      "body": "# [bug] cortico-world-screen-peek 0.6.0 发布包缺少 webui.js，面板「计时」无法加载\n\n## 环境\n- Coopanion（Windows 11），world 扩展 `cortico-world-screen-peek@0.6.0`（`cortico.api = 6`）\n- 通过扩展市场安装，安装目录：`<data>/extensions/node_modules/cortico-world-screen-peek`\n\n## 现象\n打开该 World 的面板时报错：\n\n> 面板「计时」加载失败：[world:screen-peek] 缺少面板构建产物。\n> 仓内页面请先停止 bot,再运行 pnpm build:web;extensions/ 下的扩展请在包目录构建,再重启进程。\n\n## 排查\n1. 安装目录里只有 6 个文件：\n   `index.ts`、`package.json`、`README.md`、`LICENSE`、`icon.png`、`icon.svg`\n2. 但 `package.json` 里声明的是：\n   ```json\n   \"files\": [\"index.ts\", \"webui.js\", \"prompts\", \"icon.png\", \"icon.svg\", \"README.md\", \"LICENSE\"],\n   \"webUIClient\": \"webui.js\"\n   ```\n   —— `webui.js` 和 `prompts/` 两个都不在包里。\n3. 怀疑是本机安装不完整，于是直接从公共 npm 重新拉包验证：\n   ```\n   npm pack cortico-world-screen-peek@0.6.0\n   ```\n   结果：`total files: 6`，`unpacked size 249.1 kB`，压缩包里同样**没有 webui.js、没有 prompts/**。\n   所以是发布时漏打包，不是安装端的问题。\n4. 提示里说「在包目录构建」，但这个包的 `package.json` 没有任何 `scripts`（没有 `build:web`），\n   用户端也没有源码可以构建，这条指引在这里走不通。\n5. 想退到上一个版本试试：`npm view cortico-world-screen-peek versions` 能看到 `0.5.8`，\n   但 `npm pack cortico-world-screen-peek@0.5.8` 返回 `E404 No matching version found`。\n\n## 期望\n- 重新发布一版（例如 0.6.1），把构建好的 `webui.js`（以及 `files` 里声明的 `prompts/`）打进包里；\n- 如果面板需要构建，要么在 `package.json` 里带上 `build:web` 脚本并说明构建步骤，要么直接把产物放进发布包；\n- 顺手看一下 0.5.8 的版本记录，它现在能从 `versions` 列出来但下载 404。\n\n## 影响\nWorld 本体（index.ts）能正常加载，只是面板一直显示加载失败的错误框；功能本身有没有受影响我没法确认，\n因为面板是唯一的入口。",
+      "createdAt": "2026-11-20T05:32:23Z"
+    }
+  ]
+}

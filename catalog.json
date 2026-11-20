@@ -538,7 +538,6 @@
         "qq",
         "external-setup",
         "experimental",
-        "unsafe",
         "unofficial-api"
       ],
       "downloads": {
@@ -618,7 +617,6 @@
         "qq",
         "external-setup",
         "experimental",
-        "unsafe",
         "unofficial-api"
       ],
       "downloads": {
@@ -699,7 +697,6 @@
         "apps",
         "external-setup",
         "experimental",
-        "unsafe",
         "unofficial-api"
       ],
       "downloads": {
@@ -785,7 +782,6 @@
         "qq",
         "external-setup",
         "experimental",
-        "unsafe",
         "unofficial-api"
       ],
       "downloads": {
@@ -4325,7 +4321,7 @@
     },
     "cortico-provider-gemini-gateway": {
       "kind": "provider",
-      "version": "0.1.4",
+      "version": "0.1.5",
       "displayName": "🐦 Gemini 多合一粮仓",
       "description": "### 📦**Gemini 多合一粮仓（Robin / Web2API / 自定义 RPC）**\n给自家桌宠搭的三合一 Gemini 喂食通道，WebUI 面板随切随用：\n- **🐦 知更鸟模式（Robin）**：支持绑多个号轮着喂（主备切号 / 雨露均沾 / 谁额度多先吃谁），自带 5h & 周额度小看板、原生传图和账号打码防社死。\n- **🔑 Web2API 模式**：切过去直接填官方 Gemini API Key 或自建反代 Key，零门槛开箱即用。\n- **🛠️ 自定义 RPC**：给喜欢",
       "locales": {
@@ -4357,8 +4353,8 @@
         "bugs": "https://github.com/Unnori/cortico-provider-gemini-gateway/issues"
       },
       "created": "2026-11-19T06:39:56.778Z",
-      "published": "2026-11-19T11:35:46.748Z",
-      "versionCount": 5,
+      "published": "2026-11-20T05:51:00.355Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4394,6 +4390,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.5",
           "0.1.4",
           "0.1.3",
           "0.1.2",
@@ -4537,6 +4534,63 @@
         "up": 0,
         "down": 0,
         "comments": 4
+      }
+    },
+    "cortico-provider-mimo-tokenplan": {
+      "kind": "provider",
+      "version": "0.1.0",
+      "description": "Cortico provider for Xiaomi MiMo Token Plan subscription endpoint (OpenAI Chat Completions)",
+      "author": "DSH assistant",
+      "maintainers": [
+        "tianxuan"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-provider",
+        "cortico",
+        "xiaomi",
+        "mimo",
+        "token-plan",
+        "llm"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-provider-mimo-tokenplan"
+      },
+      "created": "2026-11-20T05:31:42.805Z",
+      "published": "2026-11-20T05:47:57.223Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "protocols": [
+          "openai-chat"
+        ],
+        "auth": [
+          "api-key"
+        ],
+        "input": [
+          "text"
+        ],
+        "local": false
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-provider-mimo-tokenplan@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1049,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1049",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-provider-openai-chat-compat": {
@@ -10597,7 +10651,7 @@
     },
     "cortico-world-emote-pics": {
       "kind": "world",
-      "version": "0.9.3",
+      "version": "0.9.5",
       "displayName": "对话表情包",
       "description": "桌宠发文字时，可按当前心情或场景，从你整理的图库里挑张表情包随消息发出。心情路线支持为每个情绪绑定文件夹、设置概率与冷却；场景路线提供固定和自定义场景，共用一个全局冷却。桌面弹图会跟随桌宠位置，支持 Overlay 精确定位。内置表情包库可浏览、搜索、收藏和批量管理；开启语义化后，还能用 OpenAI 兼容服务生成图片描述和向量，让桌宠按句意选图。图片在本地读取，只有语义化会联网。表情包合集：https://pan.baidu.com/s/1p5amZmne03qVWWBf_Si47A?pwd=c485",
       "maintainers": [
@@ -10615,8 +10669,8 @@
         "win32"
       ],
       "created": "2026-10-23T09:09:50.168Z",
-      "published": "2026-11-20T04:24:14.409Z",
-      "versionCount": 24,
+      "published": "2026-11-20T07:17:37.488Z",
+      "versionCount": 26,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -10643,6 +10697,8 @@
       },
       "changelog": {
         "versions": [
+          "0.9.5",
+          "0.9.4",
           "0.9.3",
           "0.9.2",
           "0.9.1",
@@ -10683,7 +10739,7 @@
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-emote-pics@0.9.3/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-emote-pics@0.9.5/CHANGELOG.md"
       },
       "discussion": {
         "number": 209,
@@ -10959,7 +11015,7 @@
       "discussion": {
         "number": 671,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/671",
-        "up": 4,
+        "up": 5,
         "down": 0,
         "comments": 11
       }
@@ -16647,7 +16703,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1024",
         "up": 1,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-mind-alont1": {
@@ -22540,7 +22596,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1022",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-screen-sense": {
@@ -27537,7 +27593,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/959",
         "up": 1,
         "down": 0,
-        "comments": 2
+        "comments": 3
       }
     },
     "cortico-world-watch-window": {
@@ -27623,7 +27679,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/395",
         "up": 1,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-weather": {
@@ -29247,7 +29303,7 @@
     },
     "world-are-you-there": {
       "kind": "world",
-      "version": "0.7.5",
+      "version": "0.7.8",
       "displayName": "Are you there",
       "description": "锁屏、键鼠、雷达三路信号一起看 ta 在不在：锁了就是走了，键鼠久没动静算可能走了，接一颗 24 GHz 毫米波人体存在传感器还能认出「人坐着没动」。结论作为系统前缀的一部分交给 bot，变化时推事件。第三路可选，硬件模型与教程已开源（见 README）。判定全在本机完成，只读屏幕锁、串口上的雷达帧、前台窗口名与两帧差分，画面不出内存。只在 Windows + Coopanion 上验证过。",
       "locales": {
@@ -29281,8 +29337,8 @@
         "win32"
       ],
       "created": "2026-11-09T05:43:14.275Z",
-      "published": "2026-11-19T07:17:50.839Z",
-      "versionCount": 21,
+      "published": "2026-11-20T06:55:01.368Z",
+      "versionCount": 22,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -29300,6 +29356,9 @@
       },
       "changelog": {
         "versions": [
+          "0.7.8",
+          "0.7.7",
+          "0.7.6",
           "0.7.5",
           "0.7.4",
           "0.7.3",
