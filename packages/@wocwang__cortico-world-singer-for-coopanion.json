@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "@wocwang/cortico-world-singer-for-coopanion",
-  "version": "0.1.28",
+  "version": "0.1.30",
   "describe": {
     "tools": [
       {
@@ -61,6 +61,8 @@
     ]
   },
   "changelog": {
+    "0.1.30": "- 现象：桌宠里唱到一半（或紧接着再唱一句）时，角色消失、过一会儿像刚启动一样落回来；\n  其实是**整个 Coopanion 主进程崩溃后自动重启**。\n- 根因：gpt-sovits 与唱歌插件各自随包带了一份 `audify.node`。同一个 N-API 模块在同一个\n  Electron 主进程里注册第二次时，`node::AddEnvironmentCleanupHook` 断言 `result.second`\n  失败，进程直接 abort（日志里 `exit 134`，栈顶 `loadAudify`）。\n- 修法：**不再加载任何原生模块**。本机播放改成把整句 PCM 落成临时 WAV，交给系统自带的\n  播放器在独立子进程里播（Windows 用 PowerShell 的 `Media.SoundPlayer`，macOS 用 `afplay`），\n  一句接一句排队；播放器报「started」后 `flush()` 才返回，气泡与声音仍然同时开始。\n- 包体去掉 `vendor/audify/`（约 840 KB 与三份第三方许可证），`files` 同步移除 `vendor`。\n- `WavPlayer.flush()` 改为异步（等真正开始出声）；`cut()` 杀掉播放子进程并清空队列。\n- 验证：`tsc --noEmit`、`vitest run` 101 个用例全绿；真机用新播放器放 1.5 秒正弦音，\n  播放器在 1.2 秒内报「已开始」并完整播完（PowerShell 冷启动开销，之后每句只多这一次等待）。",
+    "0.1.29": "- 修：RVC 的 `autoStart` 默认关、闲置回收也靠请求触发；它的 `/health` 只回报 `ready:false`、不会拉起引擎，\n  只有 `POST /convert` 进来才 `ensureReady()` 自己启动。旧逻辑轮询 `/health` 等 ready，永远等不到，\n  于是每次都是「超时 → 退回绮萱原声」，RVC 一次请求都没收到。\n- 改：`waitForRvc` 换成 `wakeRvc`——只确认接口通不通（`ready` / `ready:false` 都放行，端口不通等 4 秒），\n  通了就直接送干声，RVC 在这次请求里完成「启动 + 转换」。\n- 外放链路的转换上限从 30 秒放宽到 50 秒（含 RVC 冷启动约 25–30 秒），仍赶在 `singer_sing` 的 60 秒窗口内；\n  接口与面板仍为 180 秒。去掉不再需要的「等就绪」预算与 `rvcWaitMs`。\n- 失败说明保留并更清楚：接口没响应、令牌不对、RVC 手动停了引擎（`/convert` 回 409）都会写进回执/气泡，\n  并用绮萱原声唱完；409 时提示去 RVC 插件的服务页点「启动引擎」——那边手动停过之后按设计不再按需拉起。\n- 验证：`tsc --noEmit`、`vitest run` 98 个用例全绿（RVC 探测用例按新语义改写）。",
     "0.1.28": "- 开 RVC 时先探它的 `/health`，等到 `ready:true` 再送干声，不再一上来就吃 409；\n  等待上限：桌宠外放 25 秒、接口与面板 60 秒；单次转换 30 / 180 秒。\n- 五种情况都会在回执与气泡里写明，并用绮萱原声唱完：没装、已安装但接口没响应（插件没启用或关了\n  HTTP 接口）、启动超时、令牌不匹配、转换失败。成功时不加任何后缀，气泡仍是纯歌词。\n- HTTP 新增 `x-singer-rvc-note` 响应头（`base64` 模式多一个 `rvcNote` 字段），面板从 `lastSing.rvcNote` 可见。\n- 边界：不自行启动 RVC 插件、不调用宿主重启 API；RVC 插件未启用时只报「已安装但接口没响应」。\n- 验证：99 个单测（新增 5 个 RVC 用例）、`tsc --noEmit`、`npm run build` 全绿；旋律与节奏代码未动。",
     "0.1.27": "- 「唱歌参数」新增「唱歌时让嘴型动起来」，默认开。开启后每句唱完用 `pet_say` 显示同一句\n  歌词，气泡带动嘴型，这一句结束气泡消失、嘴闭上；关闭后不再为嘴型调 `pet_say`，歌词只放在\n  普通回复里。环境提示词新增 `{{singer.mouth}}`，按开关给出两种写法。\n- 验证：`tsc --noEmit`、93 个单测、`npm run build` 全绿；未改 9882 契约。",
     "0.1.26": "- **闲置回收支持小数分钟**：`idleMinutes` 不再限制整数，`0.5` 就是 30 秒，内部按毫秒计时；\n  配置文案写明桌宠按需拉起的服务也会照常排闲置回收（引擎启动成功即 `armIdle()`）。\n  新增单测覆盖 1.2 秒回收与「桌宠拉起后再回收」。\n- **嘴型与气泡同步**：`singer_sing` 每句唱完气泡自然结束、嘴随之闭合；提示词要求不要为嘴型\n  额外挂长气泡，也不要在唱完后继续补长句。桌面宠物只暴露气泡，没有直接驱动嘴型的接口，\n  这一句歌词的同步是插件侧能做到的范围。\n- 验证：`tsc --noEmit`、91 个单测、`npm run build` 全绿；未改 9882 契约。",
