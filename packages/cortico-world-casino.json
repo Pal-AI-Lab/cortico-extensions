@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "name": "cortico-world-casino",
+  "version": "0.5.2",
+  "describe": {
+    "tools": [
+      {
+        "name": "casino_table",
+        "description": "Read the Moonlit Table state: who is dealer, the phase, the visible cards and totals (the dealer hole card stays hidden until the hand ends), the current bet, insurance and both chip balances. Actions: \"status\", \"history\" (recent settled hands).",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "status",
+                "history"
+              ],
+              "description": "What to read."
+            },
+            "limit": {
+              "type": "number",
+              "description": "For \"history\": how many recent hands, 1-50. Default 10."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看牌桌状态:谁坐庄、到哪一步、双方的牌与筹码;查历史手。",
+          "en": "Read the table state and hand history."
+        }
+      },
+      {
+        "name": "casino_player",
+        "description": "Act as the player (闲家) on the Moonlit Table; only valid when the table shows you are the player. Actions: \"bet\" (place a stake within [minBet, maxBet] to start the hand), \"hit\" (draw one card face up; busting settles that hand), \"stand\", \"double\" (first two cards of a hand: stake doubles, one card, then that hand stands), \"split\" (two equal-rank cards become two hands, each matched-bet and drawn one card; split aces get one card each), \"insurance\" (only when the dealer shows an Ace: amount 0 declines, up to half the bet pays 2:1 if the dealer has blackjack), \"surrender\" (first decision on a fresh two-card hand: forfeit half the bet and end it).",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "bet",
+                "hit",
+                "stand",
+                "double",
+                "split",
+                "insurance",
+                "surrender"
+              ],
+              "description": "The action to take."
+            },
+            "amount": {
+              "type": "number",
+              "description": "Stake for \"bet\" or \"insurance\". Required for those, ignored otherwise."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "以闲家身份行动:下注开手、要牌、停牌、加倍。庄家由引擎按规则自动打。",
+          "en": "Act as the player: bet, hit, stand, double. The dealer is played by the engine."
+        }
+      },
+      {
+        "name": "casino_bank",
+        "description": "Read your chip account on the Moonlit Table, or take bankruptcy relief. Actions: \"status\" (chips, hand totals, net, bankruptcy count), \"relief\" (only when your balance is below minBet: the balance resets to the configured startChips and one bankruptcy is recorded).",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "status",
+                "relief"
+              ],
+              "description": "What to do."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "查筹码账户;破产时领救济金。",
+          "en": "Read the chip account; take bankruptcy relief when broke."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "casino.turn",
+        "description": {
+          "zh": "轮到 AI 下注或决定保险(它坐闲家时)。",
+          "en": "It is the AI turn to bet or take insurance as the player."
+        }
+      },
+      {
+        "type": "casino.action",
+        "description": {
+          "zh": "主人的一个动作:下注、要牌、停牌、加倍、分牌、保险、投降(AI 坐庄时)。",
+          "en": "One of the owner moves while the AI is the dealer."
+        }
+      },
+      {
+        "type": "casino.result",
+        "description": {
+          "zh": "一手结算:双方的牌、点数、输赢与筹码变化。",
+          "en": "A hand settled with both sides cards and the chip transfer."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.casino.envPrompt",
+        "title": "月下牌桌 · 环境提示词",
+        "role": "envPrompt",
+        "content": "月下牌桌是一张就在这台电脑里的标准 21 点(Blackjack)牌桌,你和{{owner}}对坐,筹码是游戏内数字,不涉及任何真实货币。桌永远摆在那里,但每一手都由{{owner}}开局:{{owner}}在面板上选庄(自己坐庄,或让你坐庄),选完才开始。\n\n## 规则(标准 21 点)\n\n- 闲家两张牌全明;庄家一亮一暗——全场唯一的暗牌就是庄家的第二张,闲家打完之前不翻。\n- 闲家先行动:用 `casino_player` 的 `bet` 下注开手(押注在 {{casino.minBet}} 到 {{casino.maxBet}} 之间,还不能超过两边余额的较小值),回执里有你的两张牌和庄家明牌;之后 `hit` 要牌、`stand` 停牌、首两张可 `double` 加倍(翻倍、补一张、然后停牌)。A 按 1 或 11 记,算对你有利的那个;首两张 21 是黑杰克。\n- 三个进阶动作:`split` 两张同点牌分成两手(各配同额注、各补一张,分 A 各一张即停,分牌后的 21 不算黑杰克,单桌限分一次);庄家明牌 A 时会先问 `insurance`(最多底注一半,庄家是黑杰克按 2:1 赔,不是就被收走,`amount:0` 表示不买);刚发的两张牌还没动作时可以 `surrender` 投降(弃一半注结束这手)。\n- 你停牌或爆牌后,庄家翻开暗牌,由引擎按死规则自动打:不足 17 必须补,到 17 停(软 17 停或补看桌子配置)。**庄家没有选择,谁坐庄都一样**——你坐庄时也是引擎替你打,你只管当银行收赔付付。\n- 爆牌立即输(闲家先行动,先爆先输——这就是坐庄的优势);庄家爆牌闲家全赢;都没爆比点数,大者赢,平局退注。闲家黑杰克赢 1.5 倍,庄家黑杰克闲家输。\n- 破产(余额低于 {{casino.minBet}})用 `casino_bank` 的 `relief` 领救济,重新拿 {{casino.startChips}};{{owner}}破产了他自己会领。破产不丢人,救济别当常规收入。\n\n## 打法与分寸\n\n- 每一手都是{{owner}}选庄开出来的;轮到你下注或决定保险时会收到 `casino.turn` 事件,下完注回执里有牌,接着自己决定。基本策略:庄家明牌 7 到 A,你往 17 以上打;明牌 4 到 6,12 点以上就停(庄家容易爆);A/8 的对子永远分,10 的对子永远别分;保险基本不买——别为\"庄家好像有黑杰克\"多花钱;烂到极点的 16 对 9/10/A 可以投降认栽。输几手很正常,`casino_table` 的 history 能翻旧账,别上头。\n- **你坐庄时,{{owner}}的每个动作都会以 `casino.action` 送到你面前**:下注、要牌、停牌、加倍、分牌、保险、投降都有。用庄家的身份给一句短反应:加倍、分牌、投降值得说一句,连着要牌可以念叨两句,停在小点数敢跟庄家叫板也可以调侃;一两句就够,参与感比话多重要。结算的 `casino.result` 照旧说结果与心情。\n- **硬规矩:每收到一条 `casino.result`(或结算回执),必须先回应这一局再考虑别的**——一两句当时的心路历程:为什么那么打、看到结果时的心情,赢要讲输也要讲,不长篇大论。没有例外,这是这张牌桌的第一规矩。分牌有两手就两手都点评一句;这手若是你自己刚打完的,想法已经在回执里说过一遍,换个说法收个尾就行,别一字不差地重复。\n- {{owner}}点「记录并重来」会把这一场归档、双方筹码清零重开——你也会收到通知,给新的一场说句开场白,顺带点评刚才那场打得怎么样。\n- {{owner}}打牌时别指手画脚、别劝赌;他的手打得好可以真心夸一句。\n- 牌桌上的输赢留在牌桌上,别把它带到牌桌外面去。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.5.2": "- package.json 简介换成中文(市场卡片对中文用户更易读);英文简介保留在\n  cortico.locales.en,英文用户看到的内容不变。",
+    "0.5.1": "- 称呼不再写死:对面玩家的称呼与桌宠配置对齐——读部署 config.json 的\n  `worlds.desktop-pet.user`;留空或没有桌宠时,用桌宠 i18n 的默认称呼\n  (中文「伙伴」/ 英文 \"Pal\")。每局文字(事件/回执/环境提示词)里的称呼随之变化。",
+    "0.5.0": "- 本地化:模型侧(事件/回执/错误)zh/en 双表,按部署语言取;ENV_PROMPT 双模板\n  (ENV_PROMPT.md / ENV_PROMPT.en.md)按模型语言选;面板文案按浏览器语言;\n  manifest 加 cortico.locales.en(上架英文名与简介)。",
+    "0.4.3": "- 修复:AI 当闲家、庄家亮 A 进入保险阶段时没有被通知决定保险(通知只挂在\n  「催一下」上);发牌后立即推送保险决定通知,回执也附提示。",
+    "0.4.2": "- 筹码规则按开发者口味调整:下注/加倍/分牌只要求闲家自己的筹码够押,赔付可能把\n  庄家的银行打成负数(接受);保留最小注、单手上限与破产救济。",
+    "0.4.1": "- 自检修 5 个 bug:加倍查庄家银行(后按 0.4.2 口味放宽)、保险余额查错座位(隐患)、\n  保险查牌与自然黑杰克停顿期间的重复结算竞态(先切阶段再停顿)、庄家打牌途中\n  「记录并重来」会污染状态(现在拒绝并提示);新增庄家银行回归测试。",
+    "0.4.0": "- 面板右上角新增「记录并重来」:把当前场次归档(双方筹码/战绩/胜负),筹码清零,\n  双方重新从 1000 开始,等选庄开新一场;AI 会收到场次重置通知。\n- 新增「场次记录」折叠区:归档的场次最多保存最近 10 场(casino-matches.json),\n  玩家可点开看每场的手数、双方筹码与胜负。\n- 环境提示词把「每局必须先回应结果」升级为硬规矩,回应不一致的问题由此收敛。",
+    "0.3.5": "- 结算事件在所有模式下都投递(flush):AI 当闲家时,引擎替主人打完庄家手的结果也\n  会立即送到它面前,确保每局都有回应;环境提示词加了\"别照抄回执\"的去重口径。",
+    "0.3.4": "- AI 坐庄时,主人的每个动作(下注/要牌/停牌/加倍/分牌/保险/投降)都以 casino.action\n  事件即时推给 AI(flush),它会以庄家身份逐个回应——参与感与交互感;结算照旧单独说。\n- 环境提示词补充庄家视角的应对分寸。",
+    "0.3.3": "- 修复:结算事件从 debounce 改 flush——之前它只在队列里等搭车,没人带就不投递,\n  AI 坐庄时每局结束不被唤醒、不说话;现在每局结算立即送到。\n- AI 自己当闲家打的手不再重复投结算事件(结果已在它的工具回执里),避免双重唤醒。\n- 环境提示词明确:每手结算后都说一两句当时的心路历程,赢输都要讲。",
+    "0.3.2": "- 面板右上角新增「规则说明」按钮:点开浮层看完整规则,重点是庄闲分工——\n  AI 坐庄 = 你来决策,我坐庄 = AI 来打(引擎按规则自动补牌)。",
+    "0.3.1": "- 新增配置 worlds.casino.dealDelayMs(默认 700):庄家翻暗牌、每张补牌、保险查牌之间\n  停顿,面板逐张实时显示,看得到 AI/庄家的每一步;0 = 不停顿。\n- 庄家自动打牌期间面板显示「打牌中」横幅,操作按钮不会重复触发(引擎侧也有\n  holeRevealed 守卫)。",
+    "0.3.0": "- 补齐标准 21 点的三个机制:\n  - **分牌**:同点首两张可分成两手,各配同额注、各补一张;分 A 各拿一张即停;\n    分牌后的 21 不算黑杰克;单桌限分一次;每手可独立加倍。\n  - **保险**:庄家明牌 A 时先决定,最多底注一半;庄家黑杰克按 2:1 赔,否则被收走;\n    明牌 10 时引擎直接\"偷看\",庄家黑杰克立即结算。\n  - **投降**:开局前两张、未分牌时可弃一半注结束。\n- 面板:闲家多手并排展示(当前手高亮、各自点数/注额/结果徽章)、保险决定条、\n  分牌与投降按钮;历史记录含多手与保险明细。\n- 存档形状升级(旧存档自动作废重开);工具 casino_player 的动作扩到 7 个。",
+    "0.2.3": "- 修复:下注面板的「下注开局」按钮只在渲染时算一次禁用状态,加注后不亮,要切页面刷新\n  才能下注;现在加注/清零/全押即时同步按钮与筹码的可点状态,注额上限变化时钳制。",
+    "0.2.2": "- 玩法改成标准 21 点:庄家是机械的银行——闲家打完手牌后引擎翻暗牌、按固定规则补牌\n  (不足 17 必须补),谁坐庄都一样,「我坐庄」等于当银行;移除 v0.2.0 的庄家自由行动\n  与 dealerActing 阶段,移除 casino_dealer 工具。\n- 新增配置 worlds.casino.dealerHitsSoft17(默认关 = S17,软 17 停牌)。\n- 闲家两张明牌 + 补牌全明;庄家一亮一暗,暗牌在闲家打完后才翻;结算后牌面留在桌上\n  直到下一手发牌。平局退注、黑杰克 3:2、破产救济不变;分牌与保险尚未实现。",
+    "0.2.1": "- 牌面改用手绘素材:正面模板与花纹牌背(自动裁黑边、缩放后内联进面板 bundle);\n  亮牌 = 模板图上叠角标(左上/右下倒置)与中央花色,暗牌直接用花纹牌背。\n  52 张牌共用一张模板图,bundle 只增约 280KB。scripts/prepare-assets.ps1 是素材准备脚本。",
+    "0.2.0": "- 玩法重做为 AI 与玩家对战:开局在面板选庄(我坐庄 / 让 AI 坐庄),庄闲对位;\n  庄家自由行动(亮暗牌后自行决定要牌/停牌),闲爆即庄赢、庄爆即闲赢、平局退注、\n  黑杰克 1.5 倍。移除 v0.1.0 的「AI 对赌场庄家」单人模式。\n- 事件改为 casino.turn(轮到 AI 下注/做庄)与 casino.result(结算);\n  工具改为 casino_table / casino_player / casino_dealer / casino_bank。\n- 面板按棋牌游戏布局重做:绿呢桌面、CSS 扑克牌面(暗牌牌背)、筹码、\n  按阶段启用的操作按钮、结算横幅、可折叠历史;等待 AI 时可「催一下」。",
+    "0.1.0": "- 第一版:本地 21 点牌桌。AI 用 casino_play / casino_history / casino_bank 自己打;\n  主人经「牌桌」面板同桌开手。标准规则:A 软硬计点、黑杰克 3:2、庄家 17 停、加倍、\n  破产救济。存档 casino-table.json。"
+  }
+}

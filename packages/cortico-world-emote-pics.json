@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-emote-pics",
-  "version": "0.9.9",
+  "version": "0.9.10",
   "describe": {
     "tools": [
       {
@@ -38,7 +38,7 @@
             },
             "scene": {
               "type": "string",
-              "description": "Scene route only: a scene id from the environment prompt, or \"none\" when you checked and no scene fits. Omit is not a substitute for \"none\"."
+              "description": "Scene route only: a scene id from the environment prompt, or \"none\" when you checked and no scene fits. Omit is not a substitute for \"none\". Do not use reply as a default fallback; when unsure, pass \"none\" and send no picture this time."
             },
             "query": {
               "type": "string",
@@ -140,6 +140,7 @@
     ]
   },
   "changelog": {
+    "0.9.10": "- 语义化：建库任务右侧的「刷新」改为重新扫描当前建库范围内的文件夹，新增/删除图片会立刻反映到待处理数和最近记录。\n- 场景配图：新增全局概率（放在全局冷却左边）；默认 100%，为 0 时不再出图，`force` 仍可绕过测试。\n- 场景配图：「吃喝」默认描述补充「仅限自己吃喝的时候用，询问别人吃喝状态时，不用」。\n- 场景配图：「回应」不再写成默认兜底；提示词和场景说明明确要求拿不准时传 `none`，不要每句都落到「回应」，日常接话可以隔几次才配一张。5 分钟内连续第二次选「回应」时，扩展会先跳过这张，让它重新判断。\n- 版本 0.9.10；测试 203 个。",
     "0.9.9": "- 语义化：最近记录在图片路径下显示该图的建库时间，使用主题色；列表改为按建库时间倒序，最新的在最前，未建库的记录排在最后；页码左侧新增筛选菜单（全部/待处理/进行中/各类失败/各类完成）。\n- 版本 0.9.9；测试 200 个。",
     "0.9.8": "- 市场：8 张预览图改放到 `cortico.screenshots`。官方索引只读 manifest 的 `cortico` 字段，0.9.7 放在 package.json 顶层所以没有生效。\n- 场景配图：新增「一键配置文件夹」：选择一个总目录后，自动把与场景中文名/英文名同名的子目录绑定到对应场景；没匹配到的场景保留原文件夹和启用状态。\n- 心情配图：同一位置新增「一键配置文件夹」：按 19 个心情的显示名/中文名/英文名匹配子目录，只改匹配到的文件夹，保留概率和未匹配心情的旧配置；按钮放在「默认概率/冷却」行右侧。\n- 版本 0.9.8；测试 200 个。",
     "0.9.7": "- 表情包库：「全部」选中块、模式按钮、标签栏描边和横向拖动条统一跟随主题色；场景启用开关也跟随主题色。\n- 语义化：建库任务计数按范围、图片、描述、向量、失败、待处理分别着色；删除「每 1 秒自动刷新」提示，自动刷新保留。\n- 市场：新增 8 张预览图（桌面弹图、桌宠跟随、场景配图、自定义场景、表情包库、语义化配置/建库范围/最近记录）。\n- 版本 0.9.7；测试 197 个。",
