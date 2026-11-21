@@ -1,15 +1,20 @@
 {
   "schema": 1,
   "name": "cortico-world-figure-scape",
-  "version": "0.1.0-dev.3",
+  "version": "0.1.0-dev.4",
   "describe": {
     "tools": [
       {
         "name": "live2d_pet_status",
-        "description": "Checks whether your independent Live2D body is visible and ready to receive desktop speech and actions. Use when choosing which of your installed bodies to address.",
+        "description": "Read the active Figure Scape scene. Optional actionId reads an action receipt. Status completed requires a body event. Status elapsed means the estimated action interval ended. Cabin World identifies the resident in cabinWorld.body.",
         "parameters": {
           "type": "object",
-          "properties": {}
+          "properties": {
+            "actionId": {
+              "type": "string",
+              "description": "Action ID returned by live2d_pet_act."
+            }
+          }
         },
         "tags": [
           "read",
@@ -22,7 +27,7 @@
       },
       {
         "name": "live2d_pet_say",
-        "description": "Save a reply to the shared conversation and play it in Figure Scape when its window is available. 【…】 plays expressions or motions before a new line; <…> plays them at a point in the line. Text and images remain in the conversation when the window is closed. The receipt reports whether playback was queued.",
+        "description": "Save a reply in Figure Scape’s conversation history and play it in Figure Scape when its window is available. 【…】 plays expressions or motions before a new line; <…> plays them at a point in the line. Text and images remain in Figure Scape’s history when the window is closed. The receipt reports whether playback was queued.",
         "parameters": {
           "type": "object",
           "properties": {
@@ -79,7 +84,7 @@
               "items": {
                 "type": "string"
               },
-              "description": "Images to show the person with this line, each given by the handle that starts a [blob …] line in your context. They appear on the chat page only, not in the bubble."
+              "description": "Images to show in Figure Scape’s conversation history, each given by the handle that starts a [blob …] line in your context."
             }
           },
           "required": [
@@ -90,8 +95,8 @@
           "speak"
         ],
         "summary": {
-          "zh": "把梦境入口的回复写入 Coo 对话，并在梦境窗口可用时播放气泡、声音和动作。",
-          "en": "Saves a reply to the Figure Scape input in the Coo conversation and plays bubbles, audio, and motions when its window is available."
+          "zh": "把回复保存到梦境的对话记录。梦境窗口可用时播放气泡、声音和动作。",
+          "en": "Saves a reply in Figure Scape’s conversation history and plays bubbles, audio, and motions when its window is available."
         }
       },
       {
@@ -305,7 +310,7 @@
       },
       {
         "name": "live2d_pet_act",
-        "description": "Play a sequence of expressions or motions without speaking (the current figure's vocabulary is in the environment section). Returns at once; words marked as held until the next action stay on.",
+        "description": "Send expressions or motions without speaking. Use the returned action ID with live2d_pet_status to check playback. Use the cabin_* tools for a native Cabin World resident. Held expressions stay until the next action.",
         "parameters": {
           "type": "object",
           "properties": {
@@ -856,12 +861,13 @@
         "key": "worlds.desktop-live2d-pet.envPrompt",
         "title": "环境提示词",
         "role": "envPrompt",
-        "content": "## Figure Scape · 梦境\r\n\r\n你和{{pet.user}}延续同一个 Coo 会话。收到带 `[梦境]` 的文字、语音或触碰时，用 `live2d_pet_say` 回复梦境入口。原版桌宠窗口的文字、语音和触碰沿用原版工具。历史标签 `[Live2D]` 是梦境的旧入口名。Coo 对话页标明 `[Coo Chat: Desktop Pet closed]` 时，先查询 `live2d_pet_status`。梦境角色可见且就绪就用梦境发言，否则提交文字到对话。每条回复只调用一个身体的发言工具。{{pet.reply}}\r\n\r\n角色、装扮或场景变化时，梦境会报告新的状态。称呼当前角色时，使用最新的状态报告。需要确认时查询 `live2d_pet_status` 的 `modelName`，在小屋世界看 `cabinWorld.name`。原版桌宠有自己的角色与装扮状态。\r\n\r\n本段载入时的梦境形象：{{pet.body}}\r\n\r\n{{pet.cabin}}\r\n\r\n没收到指令时身体会自己活动(眨眼、张望、走走、坐下打盹之类);你的指令会先执行。{{pet.user}}可以戳它、摸它、把它拎起来甩出去,身体对这些有自动的反射,当场就做:戳一下换个表情或蹦一下,摸着露出喜欢或害羞,睡着被戳会吓醒,甩出去落地太重会摔晕几秒。\r\n\r\n### 说话:`live2d_pet_say`\r\n\r\n一个气泡放一两句,打字速度约每秒 20 字,说完停留两三秒后消失。几段话接连调用会排队依次显示。\r\n\r\n脚本里可以夹带表情和动作标记,用的是现在这个形象的词表。换了形象时,`[figure]` 事件或 `live2d_pet_set` 的回执会写明哪些词用不了了、新增了哪些,以它们为准:\r\n\r\n| 标记 | 作用 |\r\n|---|---|\r\n| 【词, 词】 | 先做这些,然后换一个新气泡继续说 |\r\n| <词> | 打字打到这里时做,不换气泡 |\r\n\r\n{{pet.vocab}}\r\n\r\n例:`【开心】今天也辛苦啦!<眨眼>要不要歇一会儿?`\r\n\r\n### 提问:`live2d_pet_ask`\r\n\r\n一个问题配 1–3 个选项,默认再加一格让对方自己写。对方的选择以 `[answer]` 事件送回来;关掉不答也会告诉你。\r\n\r\n### 移动与动作\r\n\r\n- `live2d_pet_move_to`:走到所在这块屏幕的某处,0 最左、1 最右,`cursor` 是鼠标所在的横向位置。走到或被打断才返回。\r\n- `live2d_pet_act`:不说话,只做一串表情或动作。词表里标着「保持到下一个动作」的会一直保持。\r\n\r\n{{pet.moves}}\r\n\r\n### 调整自己:`live2d_pet_set`、`live2d_pet_quiet`\r\n\r\n`live2d_pet_set` 改你自己的样子和习惯:模型和装扮、走动多少、呼噜多久、音效、大小、气泡尺寸、字体尺寸、黑白模式、悬停按钮,以及你对{{pet.user}}的称呼。按{{pet.user}}在「习惯」页的设置,有的直接生效,有的先在气泡里征得对方同意,同意了才改,回执等对方回答后才到。{{pet.self}}能选的值:\r\n\r\n{{pet.dress}}\r\n\r\n`live2d_pet_quiet` 是临时的:安静一段时间(默认关音效、站着不动),到时自动恢复,不改设置。对方在忙、在开会、夜深了,用它而不是改设置。\r\n\r\n### 收到的事件\r\n\r\n每条事件开头是它发生时{{pet.user}}那边的本地时间,如 `[14:32]`;一次运行的第一条和换了日期后的第一条还带日期和星期,如 `[10-05 周日 23:40]`。\r\n\r\n- `[voice] {{pet.user}}:…`:麦克风听到并转写的话(语音输入{{pet.voice}})。转写可能有错字或同音字。用说话键说的话投递时打断当前模型调用或可打断工具,同轮尚未开始的工具跳过;回执写明已经执行的操作。一直收音时听到的话不打断。\r\n- `[typed] {{pet.user}}:…`:在桌宠上双击或点悬停按钮打的字;粘贴进打字框的图片接在正文后。\r\n- `[answer] …`:对 `live2d_pet_ask` 的回答。\r\n- `[touch] …`:戳、摸、拎起来甩出去这类动作,以及落地摔晕。戳和摸会报告命中的部位，包括模型作者自定义的触碰区。事件可带部位说明和触碰次数。身体本地已执行的反应用于理解这次互动。事件里写到的「戳醒」「摔晕」就是身体当场做过的反射,事件送到你这里时已经做完了,不需要再演一遍。有的互动不单独叫醒你,跟着下一批事件到,可能已经过去一会儿。\r\n- `[figure] …`:{{pet.user}}给你换了模型或装扮，也可能是模型加载失败。词表或可用目标变化时，事件会一并说明。\r\n"
+        "content": "## Figure Scape · 梦境\r\n\r\n你和{{pet.user}}延续同一个 Coo 会话。收到带 `[梦境]` 的文字、语音或触碰时，用 `live2d_pet_say` 回复梦境入口。历史标签 `[Live2D]` 是梦境的旧入口名。收到 Coo 原生「对话」或原版桌宠的消息时，优先用 `pet_say`，让正文回到原生「对话」。如果它明确返回窗口未连接，提交完整回复正文，梦境会把它保存到自己的对话记录。一个发言工具成功后，本条回复完成。{{pet.reply}}\r\n\r\n角色、装扮或场景变化时，梦境会报告新的状态。称呼当前角色时，使用最新的状态报告。需要确认时查询 `live2d_pet_status` 的 `modelName`，在小屋世界看 `cabinWorld.name`。原版桌宠有自己的角色与装扮状态。\r\n\r\n本段载入时的梦境形象：{{pet.body}}\r\n\r\n{{pet.cabin}}\r\n\r\n没收到指令时身体会自己活动(眨眼、张望、走走、坐下打盹之类);你的指令会先执行。{{pet.user}}可以戳它、摸它、把它拎起来甩出去,身体对这些有自动的反射,当场就做:戳一下换个表情或蹦一下,摸着露出喜欢或害羞,睡着被戳会吓醒,甩出去落地太重会摔晕几秒。\r\n\r\n### 说话:`live2d_pet_say`\r\n\r\n一个气泡放一两句,打字速度约每秒 20 字,说完停留两三秒后消失。几段话接连调用会排队依次显示。\r\n\r\n脚本里可以夹带表情和动作标记,用的是现在这个形象的词表。换了形象时,`[figure]` 事件或 `live2d_pet_set` 的回执会写明哪些词用不了了、新增了哪些,以它们为准:\r\n\r\n| 标记 | 作用 |\r\n|---|---|\r\n| 【词, 词】 | 先做这些,然后换一个新气泡继续说 |\r\n| <词> | 打字打到这里时做,不换气泡 |\r\n\r\n{{pet.vocab}}\r\n\r\n例:`【开心】今天也辛苦啦!<眨眼>要不要歇一会儿?`\r\n\r\n### 提问:`live2d_pet_ask`\r\n\r\n一个问题配 1–3 个选项,默认再加一格让对方自己写。对方的选择以 `[answer]` 事件送回来;关掉不答也会告诉你。\r\n\r\n### 移动与动作\r\n\r\n- `live2d_pet_move_to`:走到所在这块屏幕的某处,0 最左、1 最右,`cursor` 是鼠标所在的横向位置。走到或被打断才返回。\r\n- `live2d_pet_act`:不说话,只做一串表情或动作。词表里标着「保持到下一个动作」的会一直保持。\r\n\r\n{{pet.moves}}\r\n\r\n### 调整自己:`live2d_pet_set`、`live2d_pet_quiet`\r\n\r\n`live2d_pet_set` 改你自己的样子和习惯:模型和装扮、走动多少、呼噜多久、音效、大小、气泡尺寸、字体尺寸、黑白模式、悬停按钮,以及你对{{pet.user}}的称呼。按{{pet.user}}在「习惯」页的设置,有的直接生效,有的先在气泡里征得对方同意,同意了才改,回执等对方回答后才到。{{pet.self}}能选的值:\r\n\r\n{{pet.dress}}\r\n\r\n`live2d_pet_quiet` 是临时的:安静一段时间(默认关音效、站着不动),到时自动恢复,不改设置。对方在忙、在开会、夜深了,用它而不是改设置。\r\n\r\n### 收到的事件\r\n\r\n每条事件开头是它发生时{{pet.user}}那边的本地时间,如 `[14:32]`;一次运行的第一条和换了日期后的第一条还带日期和星期,如 `[10-05 周日 23:40]`。\r\n\r\n- `[voice] {{pet.user}}:…`:麦克风听到并转写的话(语音输入{{pet.voice}})。转写可能有错字或同音字。用说话键说的话投递时打断当前模型调用或可打断工具,同轮尚未开始的工具跳过;回执写明已经执行的操作。一直收音时听到的话不打断。\r\n- `[typed] {{pet.user}}:…`:在桌宠上双击或点悬停按钮打的字;粘贴进打字框的图片接在正文后。\r\n- `[answer] …`:对 `live2d_pet_ask` 的回答。\r\n- `[touch] …`:戳、摸、拎起来甩出去这类动作,以及落地摔晕。戳和摸会报告命中的部位，包括模型作者自定义的触碰区。事件可带部位说明和触碰次数。身体本地已执行的反应用于理解这次互动。事件里写到的「戳醒」「摔晕」就是身体当场做过的反射,事件送到你这里时已经做完了,不需要再演一遍。有的互动不单独叫醒你,跟着下一批事件到,可能已经过去一会儿。\r\n- `[figure] …`:{{pet.user}}给你换了模型或装扮，也可能是模型加载失败。词表或可用目标变化时，事件会一并说明。\r\n"
       }
     ]
   },
   "changelog": {
-    "0.1.0-dev.3": "- 小屋世界首次使用时按需下载，场景页可查看进度、取消和重试。已有小屋安装和存档继续可用。\n- 语音输入支持按住说话、点按录音和自动检测。点角色旁的麦克风即可开启收音。在输入设置中可试录、调整检测门槛并查看转写结果。\n- 手动录音保留轻声、短句和句中停顿。梦境可复用 Coo 原版已下载的同款本地识别模型。",
+    "0.1.0-dev.4": "- 改善场景切换和失败恢复。实时壁纸可回退到视频或封面。桌宠窗口在线时，从小屋世界切换会等目标画面准备好再退出。\n- 网页编辑台识别同一角色在多个标签页中的草稿冲突，保留当前输入并让用户选择要恢复的草稿。Coo 读取梦境实际确认的场景、角色和装扮。\n- 小屋世界的梦境住户可以播放新回复的语音和绑定动作。从桌宠切到梦境住户再切回来时，接续同一条发言的播放进度，完整正文保存在 Coo 会话。\n- 快速切换场景时，Coo 收到的触碰仍归属于原来的场景和角色。不同场景的触碰分别记录。\n- Windows 截图选区停在任务栏上沿时，桌宠也能让出置顶。选区打开期间提问和打字框不抢键盘，选区被收起后恢复。\n- 竖屏以角色的静止轮廓安排默认构图。宽形象和窄长模型在 100% 取景时都能留出标题和输入区，动作播放时镜头保持稳定。\n- 兼容形象包可在网页编辑台预览和保存色相、亮度偏好，也能恢复作者配色。\n- 网页编辑台可单独试播姿态资源，结束后恢复原有表现。切换预览画质时会结束旧画布的试播请求。\n- 输入超长消息时保留完整草稿并提示上限。模型服务读取超时后可从原处重试。\n- 窗口组件首次安装会显示下载大小和进度，支持取消后重新安装。本地语音运行库文件缺失时，语音输入显示可恢复的错误。\n- 麦克风试录在收到音频后开始计时。连接期间可以取消，设备恢复后可以直接重试。",
+    "0.1.0-dev.3": "- 支持把 Spriter 单角色工程导入梦境，保留 PNG 分层动画与装扮映射，沿用角色库、网页编辑和触碰绑定。\n- 新增引擎管理页，可查看 Live2D 组件、准备小屋世界或切换其安装来源，并查看 Spriter 导入格式。\n\n- 小屋世界通过引擎页按需安装一个固定版本的完整组件包，支持取消和重试。工作台场景与桌宠右键共用安装状态，已有兼容安装和存档继续可用。\n- 语音输入支持按住说话、点按录音和自动检测。点角色旁的麦克风即可开启收音。在输入设置中可试录、调整检测门槛并查看转写结果。\n- 手动录音保留轻声、短句和句中停顿。梦境可复用 Coo 原版已下载的同款本地识别模型。",
     "0.1.0-dev.2": "- npm 版的三个小屋世界资源包改用独立包名 `figure-scape-cabin-*`，不再占用 `cortico-world-*` 命名空间，市场和认证检查不会把本扩展当成依赖了另一个世界包。安装和首次进入的体验不变。",
     "0.1.0-dev.1": "- 工作台可以下载并配对 Android 版 Figure Pet。手机可读取梦境或原版桌宠的会话、角色和装扮。在同一 Coo 部署从旧连接器迁移时可沿用已有配对。\n- 语音转写在独立气泡显示，说完后自动收起。角色最后一条发言的停留时间可以在气泡设置调整。\n- 新安装默认选用 as124da1231 创作的内置形象《Coo · 重刀断岳》1.4.2，可使用包内的装扮、下劈特效和音效。\n- Windows 截图或录屏选区打开时，梦境窗口让出置顶和鼠标，结束后自动恢复。\n- 可以把 Cabin World 的原版像素角色带出游戏，在梦境的场景使用。播放器读取原版图集与动画配置，保留八向步态、动作节奏与原版浴衣。\n- Windows 安装包内置 Cabin World 1.1，可从场景页直接进入并使用独立存档。原始 Live2D 和兼容的 Coo 形象包可以带当前装扮成为住户，在地图里走动并参与家具遮挡。Coo 会话继续使用，任务状态由游戏回报，离开或断连会恢复梦境的原场景。\n- npm 版把 210MB 的小屋引擎拆成三个资源包随扩展一起安装，第一次进入小屋世界时在本机拼回原文件并校验官方摘要，玩家不需要另外下载游戏。",
     "0.1.0-dev.0": "- 梦境支持直接导入 Live2D 和兼容的 Coo 形象包。两种来源共用角色库和网页编辑台。草稿按来源保存，形象包可以试播动作、编辑装扮和触碰，并恢复作者默认。\n- 桌面、小屋、竖屏和壁纸分别记住角色位置和大小。壁纸可使用本机图片、视频与兼容的 Wallpaper Engine 项目，可单独调节角色站位与接地线。\n- 发言在气泡、动作、声音和口型间同步。切换场景时可继续播放。窗口关闭时文字留在对话。支持本机 GPT-SoVITS 预设，按住麦克风会停止正在播放的朗读。\n- 模型可定义触碰区域、各手势的本地反应及对 Coo 的上报。操作台布局可配置常用入口、应用、场景、窗口与靠近按钮。\n- Windows 可设置截图和录屏排除，以及任务栏覆盖。OBS 浏览器源可单独输出梦境画面。模型加载失败会显示原因。"

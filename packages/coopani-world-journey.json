@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-journey",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "describe": {
     "tools": [
       {
@@ -871,6 +871,7 @@
     ]
   },
   "changelog": {
+    "2.5.1": "- 精简 [package.json](package.json) 扩展简介与中英文市场描述，补明与「模拟鱼生」的公开快照和留影同步能力。\n- 精简 [site/pets.html](site/pets.html)（同步重编 `cloud/sight-cf/src/pets-page.js`）管理后台各页签提示与页脚说明。",
     "2.5.0": "- **生活层公开快照补全与防过期**：`publicSnapshot()` 与 `writePublic()` 补充 `home / rest / work / party` 四格，并仅在 `restEnd.getTime() > now.getTime()` 时输出 `rest`，防止已过期休息天数持续显示为「在落脚点休整中」。\n- **云端 `sight-cf` 上线 L2 市集买卖双半场与《街口黑板报》**：\n  - `schema.sql` 与 `migrate-2026-11-21-town-market.sql` 新增 `town`、`stalls`（含 `fresh_veg`）、`deals`（无金额列、含 `seen` 与 `idx_deals_unseen`）三张 D1 表；\n  - `worker.js` 新增 `POST /town/join`、`GET/POST /town/stalls`（15 分钟缓存 + 写后失效 + 单用户限挂 3 摊 + 20/天限流）、`POST /town/buy`（强制 `buyerUid` + 60/天限流 + 原子防超卖）、`GET /town/deals`、`POST /town/deals/seen` 与 `scheduled()` 定时清理。\n- **管鱼管理页分区与 Life 居民看板**：新增受 `ADMIN_KEY` 守门的 `GET /admin/life`（分别探测三张表并报告 `missing`），改造 `site/pets.html` 并重编 `cloud/sight-cf/src/pets-page.js`，顶部拆分为「环游世界 · Journey」与「芦花塘 · Life」两大分区，补全 `/pets/life` 与 `/pets/town` 路由，支持直观查看小城鱼数、街区分布与摊位/成交统计。",
     "2.4.0": "- **配置层认多值（为联邦留位置，运行时仍只连第一台）**：`meetUrl` 类型放宽到 `string | string[]`，新增 `normalizeMeetTargets()` —— 按空格 / 逗号 / 分号切、数组也认、`https://a` 与 `https://a/` 去重、上限 `MEET_MAX_TARGETS = 3`。超过一台时**只连第一台**，并在主面板写明「目前只连第一台：xxx（另外 N 个地址先没用上）」—— 用户填了第二条却一点反馈都没有，是下一个「怎么没生效」。设置页仍是单行输入框（宿主 schema 的 `array` 只认二元数值区间，承载不了地址列表），所以键名与默认值都没动，老配置一条都不用迁。\n- **修「地址读不成网址，面板却亮绿灯」**：原来「配没配」只判字符串非空 —— 填 `ftp://bad` 时非空为真，可 `normalizeMeetUrl` 报错、`meetOptions()` 返回 null、所有请求一次都没发出去，`lastMeetOk` 停在初始值 `null`，而 `online = lastMeetOk !== false` 于是得出 **true**。面板写着「这段时间没别人」，和「一切正常但没人」长得一模一样，用户看着绿灯去等人永远等不到。现在按解析结果判（新增 `meetUsable()`），主面板改口为「碰面地址读不成（原因），去设置里改一下」，路上那段说明也不再误报「没连上」。\n- **`meetUsable()` 是纯判断**：不生成 uid、不写盘。`uiSnapshot()` 每次开面板都走一遍，在里面调 `meetOptions()` 会触发 `meetUid()` 读写 `meet-uid.txt` —— 渲染路径不做文件 IO。\n\n测试：新增 `test/meet-targets.test.mjs` 18 条，全量 `test/*.test.mjs` **1213/1213** 通过（原 1195）。",
     "2.3.1": "- **跨洲机票校准 + 整趟算钱按真实可用方式算**：3000km 以上跨国机票按 `2550 + (km - 3000) * 0.56` 计算（11000km ≈ 7030 元，对齐实际报价）；`cheapestFare` / `canAffordTrip` / `pledgeAffordable` 传入起终点后按 `usableModesFor` 过滤可用方式，跨海 / 跨洲 / 大陆 ↔ 台湾不再拿 0.21 元/公里的火车价低估票钱；`inviteSomeone` 补齐第二段连通性检查。\n- **参考图与提示词四处防呆**：提前解析出图后端；仅当后端认参考图且真带了人物/服饰/非 `*` 手填图（`hasPersonRef`）时才清空文字 `cast` 并设 `castFromRef`，非方舟后端或仅带 `*` 画风图/场景图不再丢人物描述；后端拒收参考图降级时不再写入 `photos.json`；`castFromRef` 不再在未填 `imageStyle` 时被硬塞写实胶片底色。\n- **同城探针时钟/时区与换城脏数**：`refreshMeetIfDown` 与 `probeNearby` 统一改用目的地当地小时和世界日期（`localMoment(now, city.tz)`），消除倍速与跨时区下的错位；`uiSnapshot().social` 读取 `nearbyProbe` 时先校验 `cityId === hereId`，换城未刷新探针前不再漏出旧城数字。\n- **接约回执与竞态**：`reopenTodayDecision` 拆出 `'here'`（已在目的地或已在会合城等人）并把八点后未判归入 `'reopened'`，消除「已在会合城等人却说这就赶车」与「大白天说太晚/在睡」的自相矛盾；`takeInvite` 返程竞态补上 `isError: true`。\n- **细节补齐**：月报海报水印检查补传 `arkBackend`；手填 `imageRefs` 支持重拍按文件名找回；相册放大层关闭时追加 `removeAttribute('src')`。\n\n测试：新增 6 条回归断言，全量 `test/*.test.mjs` **1195/1195**、`ui-smoke` **25/25**、`clock-sync` **8/8**、`home-e2e` **37/37**、`home-reason` **8/8**、`photo-e2e` **38/38** 通过。",

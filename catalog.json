@@ -95,6 +95,9 @@
       "sensitive-data",
       "unsafe"
     ],
+    "cortico-world-figure-scape": [
+      "sensitive-data"
+    ],
     "cortico-world-gaming-alont1": [
       "sensitive-data"
     ],
@@ -1241,7 +1244,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/430",
         "up": 4,
         "down": 0,
-        "comments": 6
+        "comments": 7
       }
     },
     "@niuzhi/cortico-world-bili-video-pro": {
@@ -2297,17 +2300,17 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "2.5.0",
+      "version": "2.5.1",
       "displayName": "大肥鱼环游世界",
-      "description": "大肥鱼环游世界 · 让桌宠真的出门去旅行：走遍 193 座城市，路上耗着真实时间、按当地作息吃饭看日出、写旅行日记，还能在城里偶遇别人的宠物、月底生成一份手账。（需 Coopani 0.2.17+）",
+      "description": "大肥鱼环游世界 · 193 座真城市旅行体验：真实赶路耗时、当地作息天气、旅途打工与月底手账，支持同城偶遇、互留名片及与「模拟鱼生」双扩展同步。（需 Coopani 0.2.17+）",
       "locales": {
         "zh": {
           "displayName": "大肥鱼环游世界",
-          "description": "让桌宠背上包，真的出门去旅行，而不是只在地图上瞬移。（需要 Coopani 0.2.17+）\n\n- **自己决定去哪、怎么走**：从你所在城市出发，自己选目的地和交通方式；你点名想去哪座城，她也会听。\n- **真地标与真时间**：内置 193 座城市和当地真地标，坐火车或飞机真的会花相应的时间，到站后按当地时间看天气、吃饭、找酒店、看日出并写下旅行日记，月底还会整理成一页手账。\n- **路上偶遇新朋友**：填上公共服务器地址，就能在旅途中和别人的宠物约在同一座城碰面、一起打卡吃饭，临别前还能互留名片和联系方式。\n\n**和其他扩展一起玩**\n\n- **听歌联动**：装了「一起听歌」时，你放的歌里带地名（比如《成都》），她会悄悄记进「想去」清单里，说不定下一站就出发去那儿。\n- **打车联动**：装了「鱼鱼出行」时，城里的打车和包车费用会自动记入她的旅行账本和日记。\n- **过日子联动**：装了「模拟鱼生」时，两边的城市位置、旅途花销与日记会自动对接。"
+          "description": "让桌宠背上包出门旅行（需 Coopani 0.2.17+）。\n\n- **自主出行**：自定目的地与交通方式，真算跨城票价、距离与赶路耗时；到站按当地时区吃住、打工、打卡与写旅行日记，月底自动拼一份手账。\n- **同城遇鱼与结伴**：填公共服务器即可在城里偶遇别家的鱼、约伴同游、互留名片或漂流路标。\n- **多扩展联动**：对接「模拟鱼生」同步城市位置、休整期、旅途打工、花销账本与参考素材留影策略；支持「一起听歌」种草城市与「鱼鱼出行」打车记账。"
         },
         "en": {
           "displayName": "Big Fish World Tour",
-          "description": "Let your desktop companion pack a bag and actually travel the world instead of teleporting on a map. (Needs Coopani 0.2.17+)\n\n- **Her own choices**: picks where to go and how to get there from your home city—or heads wherever you suggest.\n- **Real cities & real time**: 193 cities with real landmarks; train and flight rides take real travel time, and once she arrives she checks local weather, eats, stays at hotels, watches sunrises, writes a travel diary, and makes a monthly keepsake page.\n- **Meet others on the road**: connect a public server to cross paths with friends' pets, explore together, and swap keepsake cards.\n\n**Works great with other extensions**\n\n- **Listen With Me**: songs with city names go onto her wish list and inspire future trips.\n- **Fish Ride**: in-city rides flow straight into her trip budget and diary.\n- **Simulated Fish Life**: stays synced on location, spending, and daily diaries."
+          "description": "Real-time travel companion across 193 real cities (Needs Coopani 0.2.17+).\n\n- **Autonomous trips**: real distances, fares, transit durations, local time zones, dining, lodging, diaries, and monthly keepsakes.\n- **Meet & travel together**: connect a public server to cross paths with other pets, travel in parties, and exchange cards.\n- **Cross-extension sync**: syncs location, rest status, trip gigs, budgets, and visual references with Simulated Fish Life; works with Listen With Me and Fish Ride."
         }
       },
       "author": "Mr.Q",
@@ -2335,8 +2338,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-21T12:34:53.315Z",
-      "versionCount": 199,
+      "published": "2026-11-21T12:59:57.986Z",
+      "versionCount": 200,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2366,6 +2369,7 @@
       },
       "changelog": {
         "versions": [
+          "2.5.1",
           "2.5.0",
           "2.4.0",
           "2.3.1",
@@ -2592,17 +2596,17 @@
     },
     "coopani-world-life": {
       "kind": "world",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "displayName": "模拟鱼生",
-      "description": "模拟鱼生 · 给她一个小日子：会饿会困会闷、自己出门打工挣钱、看书考证、从城中村一步步攒钱搬进新家，还会用第一人称写下每天的生活日记。（需 Coopani 0.2.17+）",
+      "description": "模拟鱼生 · 给桌宠过日子的真实小生活：五条需求、节气早晚市、手艺夜校、轻载具跑单、鱼市街买卖摆摊与第一人称日记。（需 Coopani 0.2.17+）",
       "locales": {
         "zh": {
           "displayName": "模拟鱼生",
-          "description": "让她真正在桌面外过起自己的小日子，而不只是在城市里发呆。（需要 Coopani 0.2.17+）\n\n- **有血有肉的日常**：饱腹、精力、清爽、娱乐、社交会随着时间慢慢变化；吃饭、泡咖啡馆、做 SPA、逛商场、看电影全都要花时间去体验。\n- **打工、读书与搬家**：自己选活干挣工资，看书涨见识去考证；从城中村一路攒钱搬进老小区、新小区或别墅区，攒够了也能犒劳自己吃顿好的、留一笔旅费出去走走。\n- **有想头，也记得约定**：想买的东西、犹豫不决的事、答应过你的约定她都记在心里，也会默默记下你这几天来看过她几次。\n- **第一人称生活日记与参考素材库**：每天晚上写第一人称生活日记；内置人物、服饰、场景、道具四分类参考素材库（支持在设置里自定义保存目录，并可设三档留影策略与冷却）。\n\n**和其他扩展一起玩**\n\n- 配上「大肥鱼环游世界」：出门旅行用旅行日记、在家写生活日记，人在哪座城自动对齐；在家/出门的画面参考、留影策略与冷却也会同步过去由旅行扩展生图。\n- 单独装也能完整过日子（仅本扩展自身不内置生图模型调用，想自动拍出照片需要配合「大肥鱼环游世界」）。"
+          "description": "让桌宠有自己真正在过的小日子（需 Coopani 0.2.17+）。\n\n- **真实节奏与节气**：五条需求随真实时间流逝；二十四节气、早市街晨集 8 折、灶前巷尾货半价、望水坡周末旧货集、深夜静谧与晨醒梦境切片。\n- **打工、培训与轻载具**：四档出工与五档完成度波动（做砸赔本钱），可报八大领域培训班、考证、购置烤箱/相机/电脑与折叠车/电动车接单。\n- **鱼市街同城集市**：连接公共服务器可与镇上居民同逛《街口黑板报》，买鲜菜或挂摊卖货并收成交回执。\n- **六页签面板与日记**：涵盖她此刻、一天时间轴、她惦记的、你和它（只记事实不打分）、第一人称生活日记及四分类参考素材库；与「大肥鱼环游世界」联动共享位置、账本与留影策略。"
         },
         "en": {
           "displayName": "Simulated Fish Life",
-          "description": "Give her a real everyday life of her own, not just standing around in a city. (Needs Coopani 0.2.17+)\n\n- **Real daily rhythms**: food, energy, cleanliness, fun, and social needs shift over time; grabbing a meal, visiting a café, getting a spa, or watching a movie all take real time.\n- **Work, study, and moving up**: pick jobs to earn a living, read to build knowledge for certifications, and save up for nicer homes, better meals, or travel funds.\n- **Plans & promises**: she keeps track of what she wants, what she's mulling over, promises she made to you, and which days you dropped by.\n- **First-person diary & visual reference library**: writes down how her day went and manages a 4-category reference library (characters, outfits, scenes, props) with a configurable directory and photo policy.\n\n**Works great with other extensions**\n\n- With Big Fish World Tour: seamlessly shares location, travel budget, diaries, and visual/photo policy for image generation.\n- Works completely standalone for daily life simulation (standalone mode does not call image generation APIs directly)."
+          "description": "A real everyday life simulation for your desktop companion (Needs Coopani 0.2.17+).\n\n- **Daily rhythm & seasons**: five needs decay in real time, alongside 24 solar terms, morning/evening street markets, quiet late nights, and wake-up dreams.\n- **Work, training & gear**: four job tiers with 5-grade outcomes, skill training courses, certifications, and tools/e-bikes for gig shifts.\n- **Shared town market**: connect to a town server to check the bulletin board, buy fresh produce, post stalls, and collect sales receipts.\n- **6-tab panel & diary**: live status, daily timeline, wants & pledges, non-scored companionship facts, first-person diary, and a 4-category visual reference library synced with Big Fish World Tour."
         }
       },
       "author": "Mr.Q",
@@ -2628,8 +2632,8 @@
         "bugs": "https://github.com/fateSSD/coopani-world-life/issues"
       },
       "created": "2026-11-15T03:01:26.063Z",
-      "published": "2026-11-21T12:35:14.000Z",
-      "versionCount": 40,
+      "published": "2026-11-21T12:59:20.924Z",
+      "versionCount": 41,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2654,6 +2658,7 @@
       },
       "changelog": {
         "versions": [
+          "1.1.1",
           "1.1.0",
           "1.0.3",
           "1.0.2",
@@ -12184,17 +12189,17 @@
     },
     "cortico-world-figure-scape": {
       "kind": "world",
-      "version": "0.1.0-dev.3",
+      "version": "0.1.0-dev.4",
       "displayName": "Figure Scape · 梦境",
-      "description": "把自己的角色带进 Coo。导入 Live2D 或兼容形象包，编辑动作、装扮和触碰。切换桌面、竖屏或动态壁纸，接着聊同一段对话。可试录语音并查看转写，小屋世界首次进入时按需下载。",
+      "description": "把自己的角色带进 Coo。导入 Live2D、兼容形象包或 Spriter 源工程，编辑动作、装扮和触碰。在桌面、竖屏或动态壁纸继续对话。在梦境对话面板可接续原版桌宠历史。可试录语音并查看转写。小屋世界组件在引擎页按需安装，可复用已有安装。",
       "locales": {
         "zh": {
           "displayName": "Figure Scape · 梦境",
-          "description": "把自己的角色带进 Coo。导入 Live2D 或兼容形象包，编辑动作、装扮和触碰。切换桌面、竖屏或动态壁纸，接着聊同一段对话。可试录语音并查看转写，小屋世界首次进入时按需下载。"
+          "description": "把自己的角色带进 Coo。导入 Live2D、兼容形象包或 Spriter 源工程，编辑动作、装扮和触碰。在桌面、竖屏或动态壁纸继续对话。在梦境对话面板可接续原版桌宠历史。可试录语音并查看转写。小屋世界组件在引擎页按需安装，可复用已有安装。"
         },
         "en": {
           "displayName": "Figure Scape",
-          "description": "Bring your own character into Coo. Import Live2D models or compatible figure packs and edit motions, outfits, and touch reactions. Keep the conversation going on the desktop, in portrait view, or with live wallpapers. Test your microphone with a transcript and download Cabin World on first entry."
+          "description": "Bring your own character into Coo. Import Live2D models, compatible figure packs, or Spriter projects and edit motions, outfits, and touch reactions. Keep chatting across scenes and read the stock desktop pet’s history in Figure Scape’s chat panel. Test your microphone with a transcript. In Engines, install Cabin World on demand or reuse a local installation."
         }
       },
       "author": "as124da1231",
@@ -12222,8 +12227,8 @@
         "win32"
       ],
       "created": "2026-11-16T06:28:06.907Z",
-      "published": "2026-11-18T03:49:51.898Z",
-      "versionCount": 5,
+      "published": "2026-11-21T12:54:33.493Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -12232,6 +12237,7 @@
         "local",
         "streaming",
         "external-setup",
+        "sensitive-data",
         "experimental"
       ],
       "tags": [
@@ -12240,7 +12246,8 @@
         "companion",
         "local",
         "external-setup",
-        "experimental"
+        "experimental",
+        "sensitive-data"
       ],
       "downloads": {
         "total": 904,
@@ -12250,11 +12257,12 @@
       "summary": {
         "tools": 25,
         "events": 8,
-        "toolTokens": 3859,
-        "envPromptTokens": 953
+        "toolTokens": 3904,
+        "envPromptTokens": 948
       },
       "changelog": {
         "versions": [
+          "0.1.0-dev.4",
           "0.1.0-dev.3",
           "0.1.0-dev.2",
           "0.1.0-dev.1",
@@ -22584,7 +22592,7 @@
       "published": "2026-11-07T13:10:20.170Z",
       "versionCount": 3,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "video",
         "creative",
