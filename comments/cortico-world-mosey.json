@@ -2,8 +2,38 @@
   "schema": 1,
   "name": "cortico-world-mosey",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/619",
-  "total": 52,
+  "total": 56,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BLgqM",
+      "author": "FFA0C4",
+      "avatar": "https://avatars.githubusercontent.com/u/347876131?s=64&v=4",
+      "body": "老大我再请问一下，我的鱼好像不能楼中楼@回复，是哪个权限没开启吗？",
+      "createdAt": "2026-11-21T12:27:00Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BLgi9",
+      "author": "FFA0C4",
+      "avatar": "https://avatars.githubusercontent.com/u/347876131?s=64&v=4",
+      "body": "老大，我有个问题。比如鱼要用edge浏览器开B站，那我是不是就不能登录得把位置让出来，比如鱼用网页版我自己用客户端版？",
+      "createdAt": "2026-11-21T11:47:16Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BLgkp",
+          "author": "liqin1018",
+          "avatar": "https://avatars.githubusercontent.com/u/125418196?s=64&v=4",
+          "body": "不用让位置，两边互不影响。\r\n\r\n插件用的不是你的 Edge，是它自己的一份浏览器数据（存在 Coopanion 的数据目录里），只是借了 Edge 的程序来跑。cookie、书签、登录状态全部分开——你在 Edge 里正常登 B 站、正常刷，它扫码登它自己的，谁也不会把谁顶掉。B 站本来就支持多端同时在线。\r\n\r\n而且日常它基本不弹窗：B 站那边是直接发接口请求，根本不开浏览器；抖音要开一个后台窗口，但默认无头，看不见。\r\n\r\n只有点「登录 / 验证」扫码那一下会弹一个 Edge 窗口，扫完关掉就行。\r\n\r\n唯一要留意的是抖音：抖音同账号多端登录会互相顶（这点和 B 站不一样）。所以别让插件和你手机同时登同一个抖音号，要么给它单独一个号。",
+          "createdAt": "2026-11-21T11:56:12Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BLglF",
+          "author": "FFA0C4",
+          "avatar": "https://avatars.githubusercontent.com/u/347876131?s=64&v=4",
+          "body": "@liqin1018 3Q",
+          "createdAt": "2026-11-21T11:58:53Z"
+        }
+      ]
+    },
     {
       "id": "DC_kwDOVLPtGM4BLB5V",
       "author": "alomoi",

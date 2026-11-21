@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-life",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "describe": {
     "tools": [
       {
@@ -78,14 +78,14 @@
       },
       {
         "name": "life_work",
-        "description": "去上班/出工挣钱。**一天一次**，按你本地的自然日算，**而且需要占用一段完整工时** —— 零工约 3–4 小时（80–95 元）、熟练活约 4.5–5 小时（130–150 元，需满 30 天）、有证岗 6 小时（210–240 元，需考证）、专业岗 7–8 小时（300–340 元，需考证+年头）。干活期间社交不会掉，但精力、清爽、饱腹和少量娱乐（5–6 点）会消耗；干完收工才发全薪。中途可用 `life_act` 的 `cancel` 早退：干满 30 分钟按比例打六折、不满 30 分钟白干，都不涨工龄且当天不能重接。精力低于 20 或正在做别的事时去不了。",
+        "description": "去上班/出工挣钱。**一天一次**，按你本地的自然日算，**而且需要占用一段完整工时** —— 零工约 3–4 小时（80–95 元）、熟练活约 4.5–5 小时（130–150 元，需满 30 天或自备轻载具）、有证岗 6 小时（210–240 元，需考证，部分需电脑或电动车）、专业岗 7–8 小时（300–340 元，需考证+年头）。部分手艺与跑单活受该领域熟练度、精力与心情影响，收工会评五档完成度（砸了会少拿甚至亏本钱，漂亮多拿）；干活期间社交不会掉，但精力、清爽、饱腹和少量娱乐（5–6 点）会消耗；干完收工才发全薪。中途可用 `life_act` 的 `cancel` 早退：干满 30 分钟按比例打六折、不满 30 分钟白干，都不涨工龄且当天不能重接。精力低于 20 或正在做别的事时去不了。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "what": {
               "type": "string",
-              "description": "今天干什么活，一句话。不填就沿用上次那个。"
+              "description": "今天干什么活，一句话。不填且之前没定过活时，会先按当前条件列出可接的 3–5 项。"
             }
           }
         },
@@ -99,7 +99,7 @@
       },
       {
         "name": "life_cert",
-        "description": "去考一张证。花钱、花精力，**考不考得过看你见识够不够**。护工证 400（要见识 20）/ 电工证 450（30）/ 驾照 600（30）/ 厨师证 500（40）/ 社工证 550（45）/ 教师资格证 700（55）/ 护士执业证 800（60）/ 会计证 750（65）。**报名费先交，考不过不退**；见识越高，过的概率越大（见识 0 时只有一成半，够了就到九成）。见识靠两样涨：`life_act` 的 study（看书，一次 6 点）和出工（越高级的活长得越多）；**不学不看会退**，一天掉一点二。钱不够就考不了，先攒。同一张证不用考两遍，一天也只考一次。",
+        "description": "去考一张证。花钱、花精力，**考不考得过看你见识够不够**。健康证 80（要见识 10）/ 护工证 400（20）/ 电工证 450（30）/ 驾照 600（30）/ 厨师证 500（40）/ 社工证 550（45）/ 教师资格证 700（55）/ 护士执业证 800（60）/ 会计证 750（65）。**报名费先交，考不过不退**；见识越高，过的概率越大（见识 0 时只有一成半，够了就到九成）。见识靠两样涨：`life_act` 的 study（看书，一次 6 点）和出工（越高级的活长得越多）；**不学不看会退**，一天掉一点二。钱不够就考不了，先攒。同一张证不用考两遍，一天也只考一次。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -119,6 +119,27 @@
         "summary": {
           "zh": "考一张证。",
           "en": "Sit an exam for a certificate."
+        }
+      },
+      {
+        "name": "life_learn",
+        "description": "报名手艺培训班（烹饪/影像/文字/手作/体力/交际/办事/驾驶）或购置工具与轻载具（如家用小烤箱/老式缝纫机/二手胶片微单/二手笔记本电脑/折叠自行车/二手电动车）。不传参数先看可报课程与待买装备清单；传入名称或 id 即上课扣精力长熟练度，或花钱把家伙配齐（配齐后才能接对应手艺单和跑单活）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "what": {
+              "type": "string",
+              "description": "要报名的课程名/领域，或要购买的装备/轻载具名。不填先看清单和当前熟练度。"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "上培训班涨熟练度，或购置手艺装备与轻载具。",
+          "en": "Take a training course or buy tools and light vehicles."
         }
       },
       {
@@ -388,14 +409,14 @@
       },
       {
         "name": "life_buy",
-        "description": "去芦花塘鱼市街或早市看看今天有什么可买的（不传参数看摊位与菜价，传 stall_id 或菜名就买下来）。",
+        "description": "去芦花塘早市街、灶前巷或鱼市街看看今天有什么可买的（不传参数看摊位、时段折扣与街口黑板报，传 stall_id 或菜名就买下来）。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "stall_id": {
               "type": "string",
-              "description": "摊位 id 或早市菜名；不填则先逛逛看看价。"
+              "description": "摊位 id 或早市/尾货/节气菜名；不填则先逛逛看看价。"
             }
           }
         },
@@ -403,8 +424,66 @@
           "write"
         ],
         "summary": {
-          "zh": "在早市或鱼市街摊位买菜。",
-          "en": "Buy food at the morning market or town stalls."
+          "zh": "在早市、尾货或鱼市街摊位买菜。",
+          "en": "Buy food at the morning market, evening stalls or town stalls."
+        }
+      },
+      {
+        "name": "life_stall",
+        "description": "去芦花塘鱼市街摆摊卖货（或传空参数查看此刻鱼市街你在架上的摊位）。价格 1–999、份数 1–99、每人同时最多挂 3 个有效摊位（3 天有效）；做的是新鲜蔬果时可标 fresh_veg: true 让买回家下厨的人有香气加成。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "item": {
+              "type": "string",
+              "description": "卖什么东西，不填则查看自己此刻挂着的摊位。"
+            },
+            "price": {
+              "type": "number",
+              "description": "定价（1–999 元）。"
+            },
+            "stock": {
+              "type": "number",
+              "description": "准备卖几份（1–99，默认 3）。"
+            },
+            "fresh_veg": {
+              "type": "boolean",
+              "description": "是否新鲜蔬菜果品（默认 false）。"
+            },
+            "note": {
+              "type": "string",
+              "description": "摊头吆喝的一句话（可选）。"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "在芦花塘鱼市街摆摊或查看自己在架摊位。",
+          "en": "Post or inspect your stall at town market."
+        }
+      },
+      {
+        "name": "life_deals",
+        "description": "看看自己在鱼市街的摊位有没有被人买走，返回最近成交回执（谁买了什么、几份，以及未读条数），并顺手把看过的回执标成已读。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ack": {
+              "type": "boolean",
+              "description": "看完是否顺手把未读回执标成已读（默认 true）。"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查看自己在鱼市街的成交回执。",
+          "en": "Check sales receipts from your town stalls."
         }
       },
       {
@@ -609,6 +688,7 @@
     ]
   },
   "changelog": {
+    "1.1.0": "- **二期收尾**：\n  - [panel-0.17.6.js](web/panel-0.17.6.js) 新增 `day`（一天·时间轴）、`wants`（她惦记的）、`relation`（你和它，严格只列事实不设好感打分）三个独立页签，与 `now` / `diary` / `library` 共 6 页签并存；统一引入 `fmtLocal()`（固定 `Asia/Shanghai`）修复全部时间片按 UTC 截断错 8 小时的缺陷。\n  - `bridge.ts` 接入 `journey-public.json` 的 `home / rest / work / party` 四格并在 `readJourney()` 层兜底过滤已过期 `rest.until`，与 `coopani-world-journey@2.5.0` 严格对齐。\n- **三期生活闭环（`town-life.ts` / `state.ts` / `jobs.ts` / `world.ts`）**：\n  - **芦花塘公共时间轴与二十四节气**：实现早市街晨集（06:00–09:30 8 折与下厨鲜蔬加成 `freshVegUntil`）、灶前巷尾货（19:30–21:30 半价）、望水坡周末旧货集（周六/日 18:00–22:00）及二十四节气物候与时令菜品。\n  - **梦境切片与深夜静谧态**：自然醒且整觉 ≥ 4 小时低频从真实惦记/行程/记忆拼接梦境入 `tellable`；00:00–04:00 深夜动作触发静谧暖意 `late-night` 情绪。\n  - **成长与轻载具闭环**：新增 `life_learn` 工具与 `applyLearn()`，支持 8 大领域经验、8 门培训课与 6 件家用/跑单家伙（含 400 元折叠自行车 / 2500 元二手电动车）购置；新增 G 类轻载具 3 岗（`跑平台送外卖`、`片区送快递`、`夜间代驾` + 80 元健康证）及 `shift` 班次状态；手艺与跑单按 5 档完成度（`砸了 0.3` / `凑合 0.6` / `过得去 0.9` / `不错 1.2` / `漂亮 1.6`）浮动，垫付成本做砸实亏本钱；`life_work` 无参按 `jobGate()` 过滤可接活。\n- **三期 L2 市集买卖双半场与多址容灾**：\n  - `config.ts` & `bridge.ts` 支持 `townUrl` 多值数组并实现 `tryTownFetch` 断网/5xx 自动切换备胎；`readMeetUid()` 优先复用 `meet-uid.txt`，单装 `life` 时自动生成并复用本机 `life-town-uid.txt`。\n  - 打通 `POST /town/join` 入册、逛摊看《街口黑板报》、`life_buy` 按 `freshVeg` 标记下厨加成并区分本地摊位文案与 `payee`；新增 `life_stall`（鱼市街挂摊，含 `fresh_veg`）与 `life_deals`（查成交回执并标已读），并接进 `relation` 面板展示。\n- **测试**：新增 `test/stage23.test.mjs`，全量 `test/*.test.mjs` **57/57** 通过、`test/smoke.mjs` **334/334** 通过，`describe.json` 与 `ENV_PROMPT.md` 单源对齐且零第三人称。",
     "1.0.3": "- **跨日持续见底/危急补提**：`flushCrossed()` 新增跨日持续状态检查（`checkSustained`），修复小幅回补（如 `market` +8）未过解锁线、当天二次归零撞当日锁后次日永久静音的问题；同时阻断同日已推 `zero:` 后小幅回补再降级补推 `crit:`，醒着且受当日锁约束（`notify = 'always'` 亦不刷屏）。\n- **补低门槛闲聊 + 缩短约聊耗时 + 归零情绪提示**：`ACTS.meet` 耗时由 90 分钟缩至 45 分钟（30 元 / +31 社交）；新增 `ACTS.chat`（「跟人闲聊几句」，20 分钟 / 0 元 / +18 社交 / +5 娱乐 / -2 精力 / 3h 好情绪）；`advance()` 在醒着且社交归零时挂上 6h `lonely` 负面情绪，通过 `meet` 或 `applySpend` 补回 `>= 30` 后自动清除。\n- **旅途分场景提醒与宣言同步**：`lowText('social')` 区分旅途与在家话术（旅途优先推 `chat` / `meet`，不催芦花塘早市/望水坡）；同步更新 `toolAct`、`describe.json` 与 `ENV_PROMPT.md`。\n- **测试**：新增 `test/social-recovery.test.mjs`（5 条），更新 `test/smoke.mjs`（334/334）与 `test/lowtext.test.mjs`；全量 `test/*.test.mjs` 52/52。",
     "1.0.2": "1.0.1 上线当天发现并修掉。**判据没错，实现漏了一步。**\n\n- **重复领取**：`offlineNightHours(from, to)` 扫的是整段 `[from, to]`，而同一段里她显式睡着的那一觉\n  （`asleepFrom/asleepUntil`）在 `advance()` 里已经结算过精力。于是那一夜被数两遍 ——\n  「饿醒」「没睡够」这两个惩罚全被抹平。实测三组反例（修复前）：\n\n  | 场景 | 修复前 | 修复后 |\n  |---|---|---|\n  | 23:00 睡下、01:00 饿醒、硬熬到 09:00 | 精力 85 | 3.2 |\n  | 23:00–01:30 短睡，熬到 15:00 | 精力 85 | 18.3 |\n  | 睡满 8h 后白天醒 15h（起点 40） | 卡在 85 | 46.4 |\n\n  **她已经醒了，之后每一小时都是清醒的代价**，补睡不该替她抹掉。\n- **修法**：`offlineNightHours` 收 `skip`（已结算的睡眠段，逐小时相减挖掉）与 `fullNightOnly`\n  （有睡眠记录时**只认整夜**：23:00–07:00 全 8 小时覆盖才算）。\n  反例 1 挖完还剩 01:00–09:00 的 6 小时，按 4 小时门槛照样会补 —— 那不是「睡过」，\n  是「醒着熬到了天亮」。没有睡眠记录时保持 4 小时容差（17:30 关机、08:30 开机不能算没睡）。\n- **顺手补的**：补睡回上 85 之后清掉当天的 `nagged.energy / crit:energy / zero:energy`。\n  和其他两处回精力的路径同规矩 —— 不清的话凌晨提醒过一次，傍晚真掉到 30 以下会被静音。\n- **测试**：`test/offline-night.test.mjs` 从 7 条涨到 13 条，把三条反例和「睡前在睡、关机三天\n  照样补」都钉住。**同时把 UTC+8 硬编码去掉了** —— 第一版用 `Date.parse('...T09:00:00.000Z')`\n  冒充「本地 17:00」，`TZ=UTC` 下 4 条直接挂、而代码是对的。现在一律本地构造\n  （`new Date(2026, 10, 19, 17)`），UTC / America/New_York / Asia/Shanghai 三个时区跑都全绿。",
     "1.0.1": "Mr.Q 报：公司电脑上的桌宠，昨天下班关机、今早上班开机，「她应该自己吃饭睡觉才对，可精力没恢复」，\n面板上精力 **28**。\n\n**按旧公式跑一遍就是那个数**：`100 − 4.6 × 15.7 ≈ 26.4`（17 点走、9 点到 = 15.7 小时按「醒着」结算）。\n根因是补睡的触发条件 `floor(awakeHours / 24) > 0` —— **上班族的日子永远够不着 24 小时**，\n于是周一到周五每一个晚上都按醒着算，精力只降不升，一夜掉 72 点。\n\n- 新增 `offlineNightHours(fromMs, to)`：数本地 23:00–07:00 之间**跨过了几夜**，一夜盖住 **≥4 小时**就算她睡过，\n  精力回到 85（`wholeDays > 0 || nightSlept > 0`，老规矩保留）。\n- 4 小时是下限：晚上 11 点关、凌晨 1 点开只盖 2 小时，**不补** —— 那是他回来得晚，不是她过了一夜。\n- 仍只补精力：吃饭、洗澡、找乐子、见人**不能凭空补**，补了等于「她不在的时候你替她过了日子」。\n- 仍按 `awakeHours` 封顶，不重复领 —— 她真睡过的那段已经走 `asleepFrom/asleepUntil` 结算过。\n- `test/offline-night.test.mjs` 7 条钉住，含反例「白天离开 8 小时不许白拿补睡」；\n  旧断言「离线三天回来 85」一个字没改，仍然绿。",
