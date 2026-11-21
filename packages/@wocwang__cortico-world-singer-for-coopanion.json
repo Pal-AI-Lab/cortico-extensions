@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "@wocwang/cortico-world-singer-for-coopanion",
-  "version": "0.2.3",
+  "version": "0.2.5",
   "describe": {
     "tools": [
       {
@@ -80,6 +80,8 @@
     ]
   },
   "changelog": {
+    "0.2.5": "- 共享运行时原来只有 ModelScope + 官方 GitHub；官方直连在国内常打不开，ModelScope 一失败就装不上。\n  现在 GitHub 包也过 ghfast / ghproxy.net / gh-proxy：国内顺序 ModelScope → ghfast → ghproxy.net →\n  gh-proxy → 官方，设了代理时官方最前。\n- 实测（每个源拉 1 MB，国内宽带）：ModelScope 约 1.4 MB/s、ghfast 约 0.3 MB/s、gh-proxy 约 0.2 MB/s、\n  ghproxy.net 约 0.18 MB/s；官方 GitHub 直连在 Node 里证书校验失败。绮萱包的 ghfast 仍稳定 403，\n  声码器正常；阿里云 PyPI 镜像确认有 `diffsinger-utau 0.3.8` 与 `onnxruntime-gpu 1.22.0`。\n- 验证：`tsc --noEmit`、`vitest run` 130 个用例全绿（新增 2 个运行时来源顺序用例）。",
+    "0.2.4": "- 修：首次安装时共享运行时装好后，`setup()` 会重建 installer / venv，但「一键安装」链还持有旧 installer；\n  声库下载跑在旧实例上，面板看到的却是新实例（显示未安装、没有进度条、安装按钮可再点、取消/停用打不到旧下载）。\n  现在 `setup()` 之后重新取当前 installer；安装期间 `startSetup()` 与 `restartEngine()` 都拒绝重入，\n  面板新增 `installing`，整条安装链期间安装 / 取消 / 重启 / 卸载按钮都按它处理。\n- 修：取消与停用插件会同时取消共享运行时、派生 venv、声库三件事里正在跑的任务。\n- 修：`.partial` 删不掉（EPERM，例如被另一个下载占着）不再中断来源回退：删失败就继续换源，\n  校验失败后强制从 0 重下，避免在坏数据上续传。\n- 验证：`tsc --noEmit`、`vitest run` 128 个用例全绿（新增 2 个安装实例归属用例）。",
     "0.2.3": "- 修：compose 渲染的 wav 在第 1 小节前留了 0.3 秒静音（`arrange.ts` 的 `LEAD_IN`），而干声从第 0 个采样点\n  就开唱，于是歌声听起来比伴奏早约 0.3 秒。混音时自动裁掉伴奏开头最多 0.5 秒的数字静音（约 −48 dBFS），\n  让第 1 拍和歌声从同一个采样点开始；曲子本身更长的前奏休止不受影响。\n- 验证：新增 2 个混音用例（0.3 秒前导被裁掉、最多只裁 0.5 秒）。",
     "0.2.2": "- `singer_sing` 新增 `backing`：传一段 PCM16 wav（通常是 `compose_render` 回执里的文件路径），\n  干声与伴奏在插件里混成一条单声道再交给播放器，从同一个采样点同时开始，不会出现两条音频先后起播的错位。\n  伴奏按人声一半左右的音量垫在下面，句尾多留 1.5 秒并淡出；立体声会降混、采样率不同会重采样，\n  不是 16-bit / 声道数不支持 / 文件读不了时照常清唱，并在回执里写明原因。\n- 环境提示词与 README 加入「渲染一段只有和弦与律动（不写 melody）的段落 → 把 wav 路径填进 backing」的写法；\n  已有主旋律的曲子也能当伴奏，但主旋律会和歌声重复，最好用不写 melody 的版本。\n- 验证：`tsc --noEmit`、`vitest run` 全绿（新增混音 5 个、工具链路 2 个）。",
     "0.2.1": "- 设置「唱歌参数」新增「与作曲插件联动」（`composeLink`，默认关）：开着且部署里检测到\n  `cortico-world-compose` 时，桌宠 / 对话页不再由 DiffSinger 现编旋律——模型要先 `compose_phrase`\n  写一段，把 line 放进 `singer_sing` 的 `melody` 再唱；不带 `melody` 的调用会被拒绝并提示先作曲。\n  没检测到作曲插件时保持原行为；面板试听与 HTTP 接口不受这个开关影响。\n- 环境提示词新增 `{{singer.compose}}`，按「关着 / 开启且检测到 / 开启但没装」给出三种写法。\n- 验证：`tsc --noEmit`、`vitest run` 117 个用例全绿（新增作曲联动 3 个、提示词变量 1 个）。",

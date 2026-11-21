@@ -1804,7 +1804,7 @@
     },
     "@wocwang/cortico-world-singer-for-coopanion": {
       "kind": "world",
-      "version": "0.2.3",
+      "version": "0.2.5",
       "displayName": "DiffSinger唱歌",
       "description": "Cortico World for Coopanion: let the pet improvise a line and sing it on the spot with DiffSinger (Qixuan voicebank), optionally through RVC",
       "locales": {
@@ -1840,8 +1840,8 @@
         "win32"
       ],
       "created": "2026-10-29T02:52:13.755Z",
-      "published": "2026-11-20T13:45:40.590Z",
-      "versionCount": 14,
+      "published": "2026-11-21T00:58:32.605Z",
+      "versionCount": 15,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -1871,6 +1871,8 @@
       },
       "changelog": {
         "versions": [
+          "0.2.5",
+          "0.2.4",
           "0.2.3",
           "0.2.2",
           "0.2.1",
@@ -1910,13 +1912,13 @@
     },
     "better-cortico-world-netease-companion": {
       "kind": "world",
-      "version": "1.21.2",
+      "version": "1.22.1",
       "displayName": "听搭子",
-      "description": "和表达助手插件一起使用有奇效！读取网易云音乐、QQ 音乐、酷狗音乐、酷我音乐、Spotify 与 Apple Music 曲目（优先 SMTC，必要时窗口标题），开启通用识别（默认关闭）后其他向系统媒体控件上报会话的播放器也能参与；设置中可把官方与已保存的播放器统一排序，已保存项可随时取消保存，取消后按普通未知播放器参与、不会被拉黑；新增读取诊断页，可查看全部会话、窗口候选与选择原因；切歌后让桌宠参考评论区、歌曲百科、歌手资料与歌词主动陪听，支持切歌报幕、同曲分段、评论侧重轮换与副歌动作建议；能记住单曲笔",
+      "description": "和表达助手插件一起使用有奇效！读取网易云音乐、QQ 音乐、酷狗音乐、酷我音乐、Spotify 与 Apple Music 曲目（优先 SMTC，必要时窗口标题），开启通用识别（默认关闭）后其他向系统媒体控件上报会话的播放器也能参与；可选的音频陪听（默认关闭）能把最近几秒系统声音直接交给支持音频输入的模型，也可另配一个外部听歌模型换回文字分析；设置中可把官方与已保存的播放器统一排序，已保存项可随时取消保存，取消后按普通未知播放器参与、不会被拉黑；新增读取诊断页，可查看全部会话、窗口候选与选择原因；切歌后让桌",
       "locales": {
         "en": {
           "displayName": "Listening Companion",
-          "description": "Pairs with your desktop pet while you listen: reads what NetEase, QQ Music, Kugou, Kuwo, Spotify or Apple Music is playing (SMTC first, window-title fallback), plus any other player that publishes a media session (generic detection is off by default); saved players can be reordered together with the built-in ones and removed at any time, and removing one just drops it back to an ordinary unknown player instead of blacklisting it. Comments on track changes, follows the song in segments, and may borrow the figure's own actions at the chorus. Remembers song notes, feel tags, daily history, rankings and a taste profile; memory can live in a folder you choose, including a synced drive. Can pause, resume or skip, or search a track on request. Metadata only, no audio, no API key."
+          "description": "Pairs with your desktop pet while you listen: reads what NetEase, QQ Music, Kugou, Kuwo, Spotify or Apple Music is playing (SMTC first, window-title fallback), plus any other player that publishes a media session; optional audio listening (off by default) can hand the last few seconds of system sound to an audio-capable model, and an optional external listening model can return a short text analysis. Saved players can be reordered together with the built-in ones and removed at any time, and removing one just drops it back to an ordinary unknown player instead of blacklisting it. Comments on track changes, follows the song in segments, and may borrow the figure's own actions at the chorus. Remembers song notes, feel tags, daily history, rankings and a taste profile; memory can live in a folder you choose, including a synced drive. Can pause, resume or skip, or search a track on request. Metadata only, no audio, no API key."
         }
       },
       "author": "wocwang & oceanxuhaiao",
@@ -1945,8 +1947,8 @@
         "win32"
       ],
       "created": "2026-10-23T17:18:51.610Z",
-      "published": "2026-11-14T02:28:31.131Z",
-      "versionCount": 34,
+      "published": "2026-11-21T01:00:04.696Z",
+      "versionCount": 35,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -1978,11 +1980,13 @@
       "summary": {
         "tools": 15,
         "events": 4,
-        "toolTokens": 2708,
-        "envPromptTokens": 3412
+        "toolTokens": 2733,
+        "envPromptTokens": 3702
       },
       "changelog": {
         "versions": [
+          "1.22.1",
+          "1.22.0",
           "1.21.2",
           "1.21.1",
           "1.21.0",
@@ -2193,7 +2197,7 @@
       "published": "2026-11-07T03:37:52.671Z",
       "versionCount": 3,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [],
       "icon": "assets/coo-world-room/icon.png",
       "downloads": {
@@ -24470,7 +24474,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/204",
         "up": 0,
         "down": 0,
-        "comments": 20
+        "comments": 21
       }
     },
     "cortico-world-soft-voice": {
@@ -29659,7 +29663,7 @@
     },
     "world-are-you-there": {
       "kind": "world",
-      "version": "0.7.8",
+      "version": "0.7.9",
       "displayName": "Are you there",
       "description": "锁屏、键鼠、雷达三路信号一起看 ta 在不在：锁了就是走了，键鼠久没动静算可能走了，接一颗 24 GHz 毫米波人体存在传感器还能认出「人坐着没动」。结论作为系统前缀的一部分交给 bot，变化时推事件。第三路可选，硬件模型与教程已开源（见 README）。判定全在本机完成，只读屏幕锁、串口上的雷达帧、前台窗口名与两帧差分，画面不出内存。只在 Windows + Coopanion 上验证过。",
       "locales": {
@@ -29693,8 +29697,8 @@
         "win32"
       ],
       "created": "2026-11-09T05:43:14.275Z",
-      "published": "2026-11-20T06:55:01.368Z",
-      "versionCount": 22,
+      "published": "2026-11-21T02:39:35.572Z",
+      "versionCount": 23,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -29712,6 +29716,7 @@
       },
       "changelog": {
         "versions": [
+          "0.7.9",
           "0.7.8",
           "0.7.7",
           "0.7.6",
