@@ -2,8 +2,52 @@
   "schema": 1,
   "name": "cortico-provider-deepseek",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/5",
-  "total": 5,
+  "total": 11,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BLfkY",
+      "author": "ylzqq",
+      "avatar": "https://avatars.githubusercontent.com/u/153294227?s=64&v=4",
+      "body": "新建实例 111，类型选 DeepSeek（峰谷计价），填地址密钥保存；这时一切正常，能对话。然后完全关掉应用再打开，回到这个实例，类型已经变成 Coo Pet Provider。名称、地址、密钥、模型都还在，只有类型丢了。\n连带的是思维链、联网工具、官方价目整块消失，探出来的「明文」也丢，重开还得重探一次。期望写一句就够：重启后类型应该保持原样\n以上是我用ai帮我总结出来的",
+      "createdAt": "2026-11-21T06:06:39Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BLfjE",
+      "author": "ylzqq",
+      "avatar": "https://avatars.githubusercontent.com/u/153294227?s=64&v=4",
+      "body": "v0.2.23，Windows。新建供应商实例，类型选 DeepSeek（峰谷计价），保存；重启应用后类型变回 Coo Pet Provider，其余字段都在。",
+      "createdAt": "2026-11-21T06:00:42Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BLfkH",
+          "author": "DTMosken",
+          "avatar": "https://avatars.githubusercontent.com/u/73480710?s=64&u=9f11428fbc5374d9450cb92c91ab8e3090907e1f&v=4",
+          "body": "<img width=\"325\" height=\"172\" alt=\"image\" src=\"https://github.com/user-attachments/assets/b7c93901-5f2a-419c-90be-1d6adfaad2e2\" />\r\n你是不是没点这个连接？",
+          "createdAt": "2026-11-21T06:05:34Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BLflK",
+          "author": "ylzqq",
+          "avatar": "https://avatars.githubusercontent.com/u/153294227?s=64&v=4",
+          "body": "不是这个，我很确定我不仅设置好了，并且还可以正常使用，但是只要软件重启或者电脑重启它就变成默认的了，我也很奇怪，只有我有这种情况吗",
+          "createdAt": "2026-11-21T06:10:15Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BLflg",
+          "author": "ylzqq",
+          "avatar": "https://avatars.githubusercontent.com/u/153294227?s=64&v=4",
+          "body": "<img width=\"434\" height=\"474\" alt=\"QQ20261121-141114\" src=\"https://github.com/user-attachments/assets/5c93155c-c5c2-4a5b-929f-ae55c7d2feda\" />\r\n每次重启供应商就成默认，就变成这个样子",
+          "createdAt": "2026-11-21T06:11:54Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BLfrM",
+          "author": "DTMosken",
+          "avatar": "https://avatars.githubusercontent.com/u/73480710?s=64&u=9f11428fbc5374d9450cb92c91ab8e3090907e1f&v=4",
+          "body": "我已经确认问题了，是Coopanion那边的问题，我会在那边提Isssue，感谢提供这么详细的复现信息",
+          "createdAt": "2026-11-21T06:24:21Z"
+        }
+      ]
+    },
     {
       "id": "DC_kwDOVLPtGM4BLbcX",
       "author": "ylzqq",

@@ -174,6 +174,9 @@
     "cortico-world-qiandengji-lite": [
       "unsafe"
     ],
+    "cortico-world-qiqi-codex": [
+      "unsafe"
+    ],
     "cortico-world-qq-audio-input": [
       "sensitive-data"
     ],
@@ -2294,7 +2297,7 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "2.2.0",
+      "version": "2.2.1",
       "displayName": "大肥鱼环游世界",
       "description": "大肥鱼环游世界 · 让桌宠真的出门去旅行：走遍 193 座城市，路上耗着真实时间、按当地作息吃饭看日出、写旅行日记，还能在城里偶遇别人的宠物、月底生成一份手账。（需 Coopani 0.2.17+）",
       "locales": {
@@ -2332,8 +2335,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-20T12:36:41.876Z",
-      "versionCount": 194,
+      "published": "2026-11-21T06:36:39.261Z",
+      "versionCount": 195,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2363,6 +2366,7 @@
       },
       "changelog": {
         "versions": [
+          "2.2.1",
           "2.2.0",
           "2.1.5",
           "2.1.4",
@@ -2834,7 +2838,7 @@
       "discussion": {
         "number": 384,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/384",
-        "up": 3,
+        "up": 4,
         "down": 0,
         "comments": 15
       }
@@ -4328,7 +4332,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/5",
         "up": 0,
         "down": 0,
-        "comments": 5
+        "comments": 11
       }
     },
     "cortico-provider-deepseek-web": {
@@ -10857,7 +10861,7 @@
       "discussion": {
         "number": 209,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/209",
-        "up": 4,
+        "up": 5,
         "down": 0,
         "comments": 24
       }
@@ -11130,7 +11134,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/671",
         "up": 5,
         "down": 0,
-        "comments": 11
+        "comments": 12
       }
     },
     "cortico-world-extsearch": {
@@ -11377,7 +11381,7 @@
       "discussion": {
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-        "up": 67,
+        "up": 66,
         "down": 7,
         "comments": 71
       }
@@ -16260,7 +16264,7 @@
     },
     "cortico-world-memory-core": {
       "kind": "world",
-      "version": "0.25.0",
+      "version": "0.26.1",
       "displayName": "记忆核心",
       "description": "四个工具写卡、查卡、改状态、排日程，改口不覆盖。每轮自动把 2 条相关旧记忆推到眼前，不用模型自己查；搜索分「对得上 / 可能沾边」两档。冷层收走三个月没想起的流水账，不删、可回暖。3D 星图一眼看完整个库。常驻约 1,000 token，本地不联网，MIT。\n\nQQ 交流群：745879632",
       "locales": {
@@ -16292,8 +16296,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-memory-core/issues"
       },
       "created": "2026-11-01T13:09:43.487Z",
-      "published": "2026-11-21T04:40:54.220Z",
-      "versionCount": 27,
+      "published": "2026-11-21T05:45:54.651Z",
+      "versionCount": 28,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -16328,6 +16332,8 @@
       },
       "changelog": {
         "versions": [
+          "0.26.1",
+          "0.26.0",
           "0.25.0",
           "0.24.0",
           "0.23.0",
@@ -20588,6 +20594,66 @@
       "discussion": {
         "number": 645,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/645",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-qiqi-codex": {
+      "kind": "world",
+      "version": "0.3.4",
+      "displayName": "鳍鳍的 Codex",
+      "description": "鳍鳍可调用的本地 Codex 委托工具。",
+      "author": "末地凋零",
+      "maintainers": [
+        "mddl0314"
+      ],
+      "keywords": [
+        "cortico-world"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-qiqi-codex",
+        "repository": "https://github.com/mddl314/cortico-world-qiqi-codex",
+        "homepage": "https://github.com/mddl314/cortico-world-qiqi-codex#readme",
+        "bugs": "https://github.com/mddl314/cortico-world-qiqi-codex/issues"
+      },
+      "created": "2026-11-21T06:57:52.604Z",
+      "published": "2026-11-21T07:00:00.009Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "apps",
+        "external-setup",
+        "experimental",
+        "unsafe"
+      ],
+      "tags": [
+        "apps",
+        "external-setup",
+        "experimental",
+        "unsafe"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 1,
+        "toolTokens": 734,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.3.4"
+        ],
+        "url": "https://github.com/mddl314/cortico-world-qiqi-codex/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1064,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1064",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -29766,7 +29832,7 @@
       "published": "2026-11-09T09:57:00.054Z",
       "versionCount": 6,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "memory"
       ],
