@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-casino",
-  "version": "0.5.2",
+  "version": "0.6.2",
   "describe": {
     "tools": [
       {
         "name": "casino_table",
-        "description": "Read the Moonlit Table state: who is dealer, the phase, the visible cards and totals (the dealer hole card stays hidden until the hand ends), the current bet, insurance and both chip balances. Actions: \"status\", \"history\" (recent settled hands).",
+        "description": "Read the Moonlit Table state: which game is on the table (blackjack or Old Maid), whose turn, all visible cards and counts, and the running score. Actions: \"status\", \"history\".",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -21,7 +21,7 @@
             },
             "limit": {
               "type": "number",
-              "description": "For \"history\": how many recent hands, 1-50. Default 10."
+              "description": "For \"history\": how many recent records, 1-20. Default 10."
             }
           },
           "required": [
@@ -32,13 +32,13 @@
           "read"
         ],
         "summary": {
-          "zh": "看牌桌状态:谁坐庄、到哪一步、双方的牌与筹码;查历史手。",
-          "en": "Read the table state and hand history."
+          "zh": "看牌桌状态:当前游戏、轮到谁、双方的牌与筹码;查两个游戏的历史。",
+          "en": "Read the table state, the running score and both games history."
         }
       },
       {
         "name": "casino_player",
-        "description": "Act as the player (闲家) on the Moonlit Table; only valid when the table shows you are the player. Actions: \"bet\" (place a stake within [minBet, maxBet] to start the hand), \"hit\" (draw one card face up; busting settles that hand), \"stand\", \"double\" (first two cards of a hand: stake doubles, one card, then that hand stands), \"split\" (two equal-rank cards become two hands, each matched-bet and drawn one card; split aces get one card each), \"insurance\" (only when the dealer shows an Ace: amount 0 declines, up to half the bet pays 2:1 if the dealer has blackjack), \"surrender\" (first decision on a fresh two-card hand: forfeit half the bet and end it).",
+        "description": "Act as the player in a blackjack hand; only valid while a blackjack hand is on the table and you are the player. Actions: \"bet\", \"hit\", \"stand\", \"double\", \"split\", \"insurance\", \"surrender\".",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -58,7 +58,7 @@
             },
             "amount": {
               "type": "number",
-              "description": "Stake for \"bet\" or \"insurance\". Required for those, ignored otherwise."
+              "description": "Stake for \"bet\" or \"insurance\"."
             }
           },
           "required": [
@@ -69,13 +69,13 @@
           "act"
         ],
         "summary": {
-          "zh": "以闲家身份行动:下注开手、要牌、停牌、加倍。庄家由引擎按规则自动打。",
-          "en": "Act as the player: bet, hit, stand, double. The dealer is played by the engine."
+          "zh": "以 21 点闲家身份行动:下注开手、要牌、停牌、加倍、分牌、保险、投降。庄家由引擎按规则自动打。",
+          "en": "Act as the blackjack player: bet, hit, stand, double, split, insurance, surrender. The dealer is played by the engine."
         }
       },
       {
         "name": "casino_bank",
-        "description": "Read your chip account on the Moonlit Table, or take bankruptcy relief. Actions: \"status\" (chips, hand totals, net, bankruptcy count), \"relief\" (only when your balance is below minBet: the balance resets to the configured startChips and one bankruptcy is recorded).",
+        "description": "Read your blackjack chip account, or take bankruptcy relief. Actions: \"status\" (chips, hand totals, net, bankruptcy count), \"relief\" (only when your balance is below minBet: the balance resets to startChips and one bankruptcy is recorded).",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -100,28 +100,58 @@
           "zh": "查筹码账户;破产时领救济金。",
           "en": "Read the chip account; take bankruptcy relief when broke."
         }
+      },
+      {
+        "name": "oldmaid_draw",
+        "description": "Draw one face-down card from the owner's hand in an Old Maid game; only valid when it is your turn to draw. The receipt tells you which card you drew and whether it formed a pair that was discarded.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "抽鬼牌里轮到你时,从{{owner}}手中随机抽一张牌。",
+          "en": "Draw one random card from the owner hand on your Old Maid turn."
+        }
       }
     ],
     "events": [
       {
         "type": "casino.turn",
         "description": {
-          "zh": "轮到 AI 下注或决定保险(它坐闲家时)。",
-          "en": "It is the AI turn to bet or take insurance as the player."
+          "zh": "轮到 AI 下注或决定保险(它坐 21 点闲家时)。",
+          "en": "It is the AI turn to bet or take insurance as the blackjack player."
         }
       },
       {
         "type": "casino.action",
         "description": {
-          "zh": "主人的一个动作:下注、要牌、停牌、加倍、分牌、保险、投降(AI 坐庄时)。",
-          "en": "One of the owner moves while the AI is the dealer."
+          "zh": "主人的一个动作:下注、要牌、停牌、加倍、分牌、保险、投降(21 点,AI 坐庄时)。",
+          "en": "One of the owner moves in a blackjack hand while the AI is the dealer."
         }
       },
       {
         "type": "casino.result",
         "description": {
-          "zh": "一手结算:双方的牌、点数、输赢与筹码变化。",
-          "en": "A hand settled with both sides cards and the chip transfer."
+          "zh": "一手 21 点结算:双方的牌、点数、输赢与筹码变化。",
+          "en": "A blackjack hand settled with both sides cards and the chip transfer."
+        }
+      },
+      {
+        "type": "oldmaid.turn",
+        "description": {
+          "zh": "抽鬼牌里轮到 AI 从{{owner}}手中抽牌。",
+          "en": "It is the AI turn to draw a card from the owner hand in Old Maid."
+        }
+      },
+      {
+        "type": "oldmaid.result",
+        "description": {
+          "zh": "一局抽鬼牌结束:谁赢了与胜场。",
+          "en": "An Old Maid game ended with the winner and the running score."
         }
       }
     ],
@@ -130,11 +160,13 @@
         "key": "worlds.casino.envPrompt",
         "title": "月下牌桌 · 环境提示词",
         "role": "envPrompt",
-        "content": "月下牌桌是一张就在这台电脑里的标准 21 点(Blackjack)牌桌,你和{{owner}}对坐,筹码是游戏内数字,不涉及任何真实货币。桌永远摆在那里,但每一手都由{{owner}}开局:{{owner}}在面板上选庄(自己坐庄,或让你坐庄),选完才开始。\n\n## 规则(标准 21 点)\n\n- 闲家两张牌全明;庄家一亮一暗——全场唯一的暗牌就是庄家的第二张,闲家打完之前不翻。\n- 闲家先行动:用 `casino_player` 的 `bet` 下注开手(押注在 {{casino.minBet}} 到 {{casino.maxBet}} 之间,还不能超过两边余额的较小值),回执里有你的两张牌和庄家明牌;之后 `hit` 要牌、`stand` 停牌、首两张可 `double` 加倍(翻倍、补一张、然后停牌)。A 按 1 或 11 记,算对你有利的那个;首两张 21 是黑杰克。\n- 三个进阶动作:`split` 两张同点牌分成两手(各配同额注、各补一张,分 A 各一张即停,分牌后的 21 不算黑杰克,单桌限分一次);庄家明牌 A 时会先问 `insurance`(最多底注一半,庄家是黑杰克按 2:1 赔,不是就被收走,`amount:0` 表示不买);刚发的两张牌还没动作时可以 `surrender` 投降(弃一半注结束这手)。\n- 你停牌或爆牌后,庄家翻开暗牌,由引擎按死规则自动打:不足 17 必须补,到 17 停(软 17 停或补看桌子配置)。**庄家没有选择,谁坐庄都一样**——你坐庄时也是引擎替你打,你只管当银行收赔付付。\n- 爆牌立即输(闲家先行动,先爆先输——这就是坐庄的优势);庄家爆牌闲家全赢;都没爆比点数,大者赢,平局退注。闲家黑杰克赢 1.5 倍,庄家黑杰克闲家输。\n- 破产(余额低于 {{casino.minBet}})用 `casino_bank` 的 `relief` 领救济,重新拿 {{casino.startChips}};{{owner}}破产了他自己会领。破产不丢人,救济别当常规收入。\n\n## 打法与分寸\n\n- 每一手都是{{owner}}选庄开出来的;轮到你下注或决定保险时会收到 `casino.turn` 事件,下完注回执里有牌,接着自己决定。基本策略:庄家明牌 7 到 A,你往 17 以上打;明牌 4 到 6,12 点以上就停(庄家容易爆);A/8 的对子永远分,10 的对子永远别分;保险基本不买——别为\"庄家好像有黑杰克\"多花钱;烂到极点的 16 对 9/10/A 可以投降认栽。输几手很正常,`casino_table` 的 history 能翻旧账,别上头。\n- **你坐庄时,{{owner}}的每个动作都会以 `casino.action` 送到你面前**:下注、要牌、停牌、加倍、分牌、保险、投降都有。用庄家的身份给一句短反应:加倍、分牌、投降值得说一句,连着要牌可以念叨两句,停在小点数敢跟庄家叫板也可以调侃;一两句就够,参与感比话多重要。结算的 `casino.result` 照旧说结果与心情。\n- **硬规矩:每收到一条 `casino.result`(或结算回执),必须先回应这一局再考虑别的**——一两句当时的心路历程:为什么那么打、看到结果时的心情,赢要讲输也要讲,不长篇大论。没有例外,这是这张牌桌的第一规矩。分牌有两手就两手都点评一句;这手若是你自己刚打完的,想法已经在回执里说过一遍,换个说法收个尾就行,别一字不差地重复。\n- {{owner}}点「记录并重来」会把这一场归档、双方筹码清零重开——你也会收到通知,给新的一场说句开场白,顺带点评刚才那场打得怎么样。\n- {{owner}}打牌时别指手画脚、别劝赌;他的手打得好可以真心夸一句。\n- 牌桌上的输赢留在牌桌上,别把它带到牌桌外面去。\n"
+        "content": "月下牌桌是一张就在这台电脑里的标准 21 点(Blackjack)牌桌,你和{{owner}}对坐,筹码是游戏内数字,不涉及任何真实货币。桌永远摆在那里,但每一手都由{{owner}}开局:{{owner}}在面板上选庄(自己坐庄,或让你坐庄),选完才开始。\n\n## 规则(标准 21 点)\n\n- 闲家两张牌全明;庄家一亮一暗——全场唯一的暗牌就是庄家的第二张,闲家打完之前不翻。\n- 闲家先行动:用 `casino_player` 的 `bet` 下注开手(押注在 {{casino.minBet}} 到 {{casino.maxBet}} 之间,还不能超过两边余额的较小值),回执里有你的两张牌和庄家明牌;之后 `hit` 要牌、`stand` 停牌、首两张可 `double` 加倍(翻倍、补一张、然后停牌)。A 按 1 或 11 记,算对你有利的那个;首两张 21 是黑杰克。\n- 三个进阶动作:`split` 两张同点牌分成两手(各配同额注、各补一张,分 A 各一张即停,分牌后的 21 不算黑杰克,单桌限分一次);庄家明牌 A 时会先问 `insurance`(最多底注一半,庄家是黑杰克按 2:1 赔,不是就被收走,`amount:0` 表示不买);刚发的两张牌还没动作时可以 `surrender` 投降(弃一半注结束这手)。\n- 你停牌或爆牌后,庄家翻开暗牌,由引擎按死规则自动打:不足 17 必须补,到 17 停(软 17 停或补看桌子配置)。**庄家没有选择,谁坐庄都一样**——你坐庄时也是引擎替你打,你只管当银行收赔付付。\n- 爆牌立即输(闲家先行动,先爆先输——这就是坐庄的优势);庄家爆牌闲家全赢;都没爆比点数,大者赢,平局退注。闲家黑杰克赢 1.5 倍,庄家黑杰克闲家输。\n- 破产(余额低于 {{casino.minBet}})用 `casino_bank` 的 `relief` 领救济,重新拿 {{casino.startChips}};{{owner}}破产了他自己会领。破产不丢人,救济别当常规收入。\n\n## 打法与分寸\n\n- 每一手都是{{owner}}选庄开出来的;轮到你下注或决定保险时会收到 `casino.turn` 事件,下完注回执里有牌,接着自己决定。基本策略:庄家明牌 7 到 A,你往 17 以上打;明牌 4 到 6,12 点以上就停(庄家容易爆);A/8 的对子永远分,10 的对子永远别分;保险基本不买——别为\"庄家好像有黑杰克\"多花钱;烂到极点的 16 对 9/10/A 可以投降认栽。输几手很正常,`casino_table` 的 history 能翻旧账,别上头。\n- **你坐庄时,{{owner}}的每个动作都会以 `casino.action` 送到你面前**:下注、要牌、停牌、加倍、分牌、保险、投降都有。用庄家的身份给一句短反应:加倍、分牌、投降值得说一句,连着要牌可以念叨两句,停在小点数敢跟庄家叫板也可以调侃;一两句就够,参与感比话多重要。结算的 `casino.result` 照旧说结果与心情。\n- **硬规矩:每收到一条 `casino.result`(或结算回执),必须先回应这一局再考虑别的**——一两句当时的心路历程:为什么那么打、看到结果时的心情,赢要讲输也要讲,不长篇大论。没有例外,这是这张牌桌的第一规矩。分牌有两手就两手都点评一句;这手若是你自己刚打完的,想法已经在回执里说过一遍,换个说法收个尾就行,别一字不差地重复。\n- {{owner}}点「记录并重来」会把这一场归档、双方筹码清零重开——你也会收到通知,给新的一场说句开场白,顺带点评刚才那场打得怎么样。\n- {{owner}}打牌时别指手画脚、别劝赌;他的手打得好可以真心夸一句。\n- 牌桌上的输赢留在牌桌上,别把它带到牌桌外面去。\n\n## 抽鬼牌(桌上的第二个游戏)\n\n点「抽鬼牌」开局:整副 52 张洗匀后,先随机藏起一张,谁也不给——它同点的同伴就成了「鬼牌」,藏在牌局里,双方都不知道鬼牌是哪张。剩下的 51 张轮流发完,双方先弃掉手里成对的牌,之后轮流传抽:轮到你时用 `oldmaid_draw` 从{{owner}}手中随机抽一张,抽到的牌与自己手牌同点就立刻成对弃掉;{{owner}}的回合则在面板上点你的一张背面牌抽走——他挑哪个位置、抽走了什么,你都不知道,只会看到自己的手牌少了一张。谁先把手抽空谁赢,最后剩在输家手里的必然是那张同点落单的鬼牌;终局时桌上会亮出开局藏的那张牌,一局的心理战就此揭晓。桌面中间会展示最近弃掉的对子,可以据此推理{{owner}}手里还留着什么、鬼牌落在谁那边;弃牌堆里没出现过的点数才可疑。结束后手牌与弃对留在桌上,下一局重新藏牌、重新发。\n"
       }
     ]
   },
   "changelog": {
+    "0.6.2": "- 新增扩展图标:月亮与烛光牌桌的 512×512 圆形图标(`assets/icon.png`),市场卡片与\n  扩展列表里不再用默认占位图;`files` 增加 `assets`,`cortico.icon` 指向该文件。",
+    "0.6.1": "- 新增第二个游戏「抽鬼牌」:整副 52 张先随机藏起一张,它的同点同伴就是鬼牌;主人点选\n  对方任意一张背面牌抽走,AI 用新工具 `oldmaid_draw` 从主人手里随机抽;先抽空手牌者赢,\n  终局亮出开局藏的那张牌,弃牌堆展示最近弃掉的对子。新增 `oldmaid.turn` /\n  `oldmaid.result` 事件与胜场记分,历史记录含藏牌与弃对子数。\n- 开局改版:原来的三个开局按钮换成游戏大厅卡片(21 点 / 抽鬼牌),进桌后有「← 返回」;\n  规则浮层按当前游戏显示各自的规则。\n- 状态与存档:`TableState` 拆成 `blackjack` / `oldmaid` 子对象;0.5.x 的平面存档按键\n  存在性迁移,保留双方筹码与战绩;空状态快照垫一张新桌,修掉启动时读到空桌的竞态。\n- 修复:启动竞态的空快照、`matches` 缺失时的防御、`.btnrow` 按钮字色继承了绿毡的米白字\n  (浅底上几乎看不见)。\n- 提示词:ENV_PROMPT 增加抽鬼牌规则段;英文版整体改写为现行的「机械庄家」设计。\n- 发布元数据:补 `homepage` / `repository` / `bugs`,市场页显示 npm 包、源码仓库、项目主页、\n  问题反馈四个链接;简介与英文简介改为同时介绍两个游戏;README 重写,覆盖抽鬼牌、大厅与\n  现行工具/配置/存档。",
     "0.5.2": "- package.json 简介换成中文(市场卡片对中文用户更易读);英文简介保留在\n  cortico.locales.en,英文用户看到的内容不变。",
     "0.5.1": "- 称呼不再写死:对面玩家的称呼与桌宠配置对齐——读部署 config.json 的\n  `worlds.desktop-pet.user`;留空或没有桌宠时,用桌宠 i18n 的默认称呼\n  (中文「伙伴」/ 英文 \"Pal\")。每局文字(事件/回执/环境提示词)里的称呼随之变化。",
     "0.5.0": "- 本地化:模型侧(事件/回执/错误)zh/en 双表,按部署语言取;ENV_PROMPT 双模板\n  (ENV_PROMPT.md / ENV_PROMPT.en.md)按模型语言选;面板文案按浏览器语言;\n  manifest 加 cortico.locales.en(上架英文名与简介)。",

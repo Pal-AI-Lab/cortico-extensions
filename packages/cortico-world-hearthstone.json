@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-hearthstone",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "describe": {
     "tools": [
       {
@@ -41,6 +41,159 @@
         "summary": {
           "zh": "这回合怎么打:手牌、斩杀、能做的交换、对面下回合的威胁。",
           "en": "What to play this turn: hand by name, lethal math, available trades, and next-turn threat."
+        }
+      },
+      {
+        "name": "hearthstone_tracker",
+        "description": "Deck tracker and ranked/arena progress tool. Call with action=\"status\" (default) during a game to inspect exact remaining cards and draw probabilities in your deck (when a deck code is imported or arena draft was recorded), whether no duplicates remain for Reno/highlander triggers, cards the opponent has played (initial vs. created), opponent hand card ages/created sources, secrets, and current ranked/arena win-loss record. Also supports importing a Blizzard deck code (action=\"import_deck\"), clearing it (\"clear_deck\"), calibrating ranked tier (\"set_rank\", e.g. \"钻5 2星\" or \"传说 #1200\"), or calibrating/resetting arena wins and losses (\"set_arena\" / \"reset_arena\").",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "status",
+                "import_deck",
+                "clear_deck",
+                "set_rank",
+                "set_arena",
+                "reset_arena"
+              ],
+              "description": "Operation to perform. Defaults to status."
+            },
+            "deckCode": {
+              "type": "string",
+              "description": "For import_deck: Blizzard deckstring or full in-game copied deck text."
+            },
+            "deckName": {
+              "type": "string",
+              "description": "Optional label for the imported deck."
+            },
+            "format": {
+              "type": "string",
+              "enum": [
+                "standard",
+                "wild",
+                "twist"
+              ],
+              "description": "Ranked format for set_rank (defaults to standard or current match format)."
+            },
+            "rank": {
+              "type": "string",
+              "description": "For set_rank: current tier and stars, e.g. \"钻5 2星\", \"白金10\", or \"传说 #800\". Empty clears it."
+            },
+            "starBonus": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 11,
+              "description": "Optional season star bonus multiplier (1-11)."
+            },
+            "wins": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 12,
+              "description": "For set_arena: current arena wins."
+            },
+            "losses": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3,
+              "description": "For set_arena: current arena losses."
+            },
+            "arenaMode": {
+              "type": "string",
+              "enum": [
+                "arena",
+                "underground"
+              ],
+              "description": "Arena mode: arena (5W/2L) or underground (12W/3L)."
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "记牌器与天梯/竞技场战绩：看剩余牌库概率/宇宙、对手已交牌与手牌滞留、导入卡组代码或校准段位/胜负。",
+          "en": "Deck tracker and ranked/arena progress: remaining deck odds, opponent played/hand tracking, deck code import, and rank/arena calibration."
+        }
+      },
+      {
+        "name": "hearthstone_matchup",
+        "description": "Read or update local constructed ladder archetype intel for an opponent class (e.g. what meta decks that class plays right now, their signature core cards, and key removals/finishers to play around). Workflow: call with action=\"read\" when a ranked game starts against a class. If no fresh cache (within 7 days) exists, use browser_search to look up current Hearthstone meta decks for that format and class (e.g. \"炉石传说 标准 <职业> 主流卡组\" or \"HSReplay/Vicious Syndicate <class>\"), distil 2-5 archetypes with coreCards and threats, and save them here with action=\"save\". Subsequent turns automatically match the opponent's non-created plays against these archetypes.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "read",
+                "save",
+                "clear"
+              ],
+              "description": "read (default), save, or clear cached archetypes for this format+class."
+            },
+            "format": {
+              "type": "string",
+              "enum": [
+                "standard",
+                "wild",
+                "twist"
+              ],
+              "description": "Ladder format (defaults to current match format or standard)."
+            },
+            "heroClass": {
+              "type": "string",
+              "description": "Opponent hero class in Chinese, e.g. 法师 / 潜行者 / 战士 (defaults to current opponent)."
+            },
+            "archetypes": {
+              "type": "array",
+              "description": "For save: 1-8 mainstream meta archetypes for that class.",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Archetype name, e.g. 节奏贼."
+                  },
+                  "coreCards": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "3-10 signature Chinese card names used to identify this deck."
+                  },
+                  "threats": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Key board clears, finishers, or swing cards not yet played."
+                  },
+                  "strategy": {
+                    "type": "string",
+                    "description": "1 short sentence on how to play against it."
+                  }
+                },
+                "required": [
+                  "name",
+                  "coreCards"
+                ]
+              }
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "天梯对手主流卡组库：读取或写入联网查到的对手职业主流构筑，对局中自动识别并提示未交出的关键牌。",
+          "en": "Read or store meta archetypes for opponent classes so the companion can recognise decks and pending threats."
         }
       },
       {
@@ -389,6 +542,7 @@
     ]
   },
   "changelog": {
+    "1.0.2": "报障原话：「炉石上一把最后一回合，明明能斩她没算出来。」\n真实对局：2026-11-20 19:40–19:46（圣骑士 vs 萨满）第 17 回合 ——\n9/9 水晶、30 血、场面 时间流具象 3/2 + 灭世信徒 8/8 + 瓦尼尔士兵 8/8圣盾（合计 19 攻），\n手里 6 张（坚韧的托雷斯 / 飞龙机动 / 谦恭审判 / 血色斗士 / 生而平等 / 龙鳞军备），\n对面 15 血、两道嘲讽（女巫的学徒 5/6、滑行者巨怪 6/7）＋ 火羽精灵 4/5、烈焰元素 6/7。\n\n当时她算的是「过墙后可打脸 3 + buff 1 = 4 → 差 11」，给的建议是\n「两只 8/8 各撞一只，剩下两费下血色斗士，**别贪着打脸**」。\n而他实际打的是「谦恭审判（抽 3 张，抽到时间流具象）→ 生而平等 → 时间流具象」：\n生而平等把对面全变成 1 血，群伤 3 点连墙带人一起扫，19 点场攻全部打脸 —— 当回合斩。\n\n三处问题，分两条修（A 是确定性 bug，B 是斩杀口径）：\n\n**A. 「先换」的主语是身材，不是随从名**（`advice.ts` / `turn-event.ts`）\n\n- `advice.ts` 里生成交换文案时直接拿 `${atk}/${health}` 当句子开头，于是回合事件出现\n  「先换:8/8 打 滑行者巨怪(6/7嘲讽)」。场上有两只 8/8（灭世信徒、瓦尼尔士兵圣盾）时分不清是谁；\n  更麻烦的是 `advicePick` 从「先换:」后面抓第一个 token，抓到身材就当成了「她推的那张牌」——\n  日记写下来是「T17：我说『8/8』，他打了『谦恭审判』」，再被算进「推了他没听」的分歧。\n  历史上同型还有 4 处（「2/3」「2/1圣盾」「2/2」「3/3」），全在 `先换` 分支上。\n- 现在生成处改成 `随从名(身材)`；`advicePick` 再加一层拦截，抓到 `^\\d+/\\d+` 开头的返回空串，\n  不参与去重计数，也不进打法档案的听从率。\n\n**B. 斩杀线只认「用随从撞墙」一条路**（`lethal.ts` / `advice.ts`）\n\n- `lethal.ts` 新增 `detectSweep()` + 「清场组合」第二条账：手上同时有\n  「所有随从生命值变为 1」和「群体伤害」时，可以花两张牌把对面连墙带人扫干净，\n  `swingsTotal` 全部变成 `faceAtk`，群伤那一下照旧记在战吼账上。\n  三条硬门槛，缺一不算：对面上必须有嘲讽（没墙这条路没有额外价值）、\n  对面不能有**圣盾**随从（群伤是一次伤害实例，圣盾整个吃掉）、不能有**复生**随从（扫完 1 血站起来）。\n  被挡住时给一句 caveat 说清原因，而不是闷着不算。\n- **只在「撞墙算不出斩杀、清场算得出」时才采纳。** 两条都够斩的时候不换 ——\n  19 点直接撞就带走了，没必要为了账上多记 3 点去绕两张牌；这张表回答「最多能打多少」，\n  而建议要的是「这回合该怎么打」。\n- `advice.ts` 在「先换」这条路上补一句 `openersInHand()`：手上还有能改变判断的\n  **抽牌 / 全场变形 / 群体伤害**（且这回合打得出）时，把它们点出来。\n  加攻、直伤、随从不在里面 —— 那些在「斩杀线」和「按费打」里各有位置，再念一遍是凑字数。\n  这一条正是这次漏斩的直接原因：谦恭审判（抽三张）和生而平等是她**没提到的两张钥匙**。\n- DP 抽成 `packBest()` / `sumPicks()`，两条路各自算完取大的那组，各分项之和恒等于 `total`。\n\n**C. 记牌器、模式进度、主流卡组缓存与新词条联动**（2026-11-22）\n\n- **记牌器与暴雪卡组代码解析**：新增 `deck-code.ts`、`tracker.ts` 与 `dbf-map.json`（7957 条映射），支持导入天梯代码或同步竞技场选牌列表，实时计算牌库剩余抽中概率、剩余直伤/清场资源、宇宙前提与对手手牌追踪（衍生牌来源与硬币推算）。\n- **天梯段位 B 方案与竞技场战绩**：新增 `progress.ts` 按模式分别追踪天梯推算段位（标准/狂野/幻变）及竞技场/地下竞技场当轮胜负；新增 `archetypes.ts` 支持缓存并识别天梯对手主流构筑与未交关键牌。\n- **扩展面板 UI**：新增 `hearthstone_tracker` / `hearthstone_matchup` 工具，扩展面板支持导入/清空卡组代码、校准天梯/竞技场进度及分页浏览余牌/已出/对手手牌。\n- **词条与出牌逻辑扩展**：`effects.ts`、`leth…",
     "1.0.1": "报障原话：「有一把术士 8 费，明明我两个战吼就把对面斩杀了，肥鱼没看出来。」\n复现用的真实对局：`Hearthstone_2026_11_19_20_09_27/Power.log` 第 7 局（圣骑士 vs 术士）第 15 回合 ——\n8 水晶、头上挂着誓缚光环、手上两张时间流具象（各 4 费、战吼 3 伤）、对面 6 血 + 1 个 3/7 嘲讽。\n当时的回执是「过墙后可打脸 0 + buff 1 = 1 → 差 5」，外加两条「这一条我判断不了」。\n\n三处叠加成这一个错，都修了：\n\n- **`parser.ts` 新增 `SideState.auras`**：光环在日志里不进 PLAY 区，而是 `ZONE=SECRET`（跟奥秘同一个区），\n  原来只有一个 `secrets` 计数，分不出「奥秘」和「光环」。现在按实体名带「光环」挑出来单独记 cardId + 名字。\n  可选字段：拿不到时按「判不了」处理，不拿 `undefined` 当「肯定没有」。\n- **`effects.ts` 的 `battlecryState` 认识「控制着光环」**：此前只认「装备武器」「没有控制其他随从」，\n  其余一律 `unknown` —— 时间流具象正好卡在这条上，于是它的 3 点伤害从来没进过任何计算。\n- **`lethal.ts` 战吼进背包解**：新增 `battlecriesInHand()`，逐张筛「前提确定满足 + 能打到脸」，\n  **同名多张各算一次**（原来 `sureBattlecry` 只取最大的一张，两张永远只报 3 点）；\n  战吼和直伤、buff 抢同一份水晶，走同一个 DP；`LethalPlan` 加 `battlecryDamage` / `battlecries`。\n  落点不确定的战吼一律不计：「只能打随从」（「伤害6随从」）和「随机分配」（「伤害1随机」）——\n  后者的下界是 0 点，拿它算斩杀是在赌。判据看卡面摘要，和 `damage.ts` 收直伤法术的口径一致。\n- **`advice.ts`**：斩杀序列加战吼步；过墙步骤只在 `faceAtk > 0` 时写进去（战吼不吃嘲讽，\n  否则会出现「先用 8 点攻击力撞墙、再靠战吼斩杀」这种自相矛盾的走法）；\n  删除「不进斩杀线但能补刀」那句旧措辞。\n- **`alerts.ts`**：`lethalText` 补报战吼那一笔，否则账面加起来对不上总数；「注意」里不再笼统划掉战吼。\n- **`ENV_PROMPT.md`**：第 5 条原来写死「**所有战吼伤害**均未计入此数」—— 代码算了、提示词说不算，\n  她会自己把这一笔刨掉。改成「前提确定满足且能打到脸的才计入」。\n- **`advice.ts` 的场面渲染分两侧口径**：原来我方和对手都用 `canAttack` 标「(不能攻击)」，\n  而对手刚铺下来的随从这一刻是召唤失调、到了他的回合全能打 —— 同一句话里出现\n  「场攻 15（随从 15）」配「4 个都（不能攻击）」。现在对手只标**永久**打不了的（`cantAttack`，显示「打不了」）。\n- 回归测试 +6：双战吼累加够斩 / 没光环不算 / 只能打随从不算 / 随机落点不算 /\n  对手召唤失调不标「不能攻击」/ 对手永久打不了仍要标。",
     "1.0.0": "- **`ENV_PROMPT.md` 大幅瘦身**：从 16,503 字符压至 ~3,050 字符（减幅 ~81.5%），剔除冗长举例与与 `tools()` 重叠的清单，完整保留全部 7 个占位符与核心风控规则（日志断供残影、只据动作记录说打出牌名、以当前实付费用为准、仅嘲讽算墙、疲劳追杀勿劝架墙、所有战吼伤害不入下界、最坏情况斩杀与 `<happy, jump>` 动作规范等）。\n- **未对局历史注入降噪**：`!snapshot` 时 `envPromptVars()['hs.recent']` 改为单行归档统计+按需调工具指引，避免未开局向静态前缀灌入历史战绩。\n- **LLM 取消与真实用量上报**：`src/llm.ts` 扩展 `askModelWithUsage` 与 `LlmRequest.signal`，显式区分 `aborted` 取消状态并在 HTTP 200 空文本但带 `usage` 时仍如实返回供 `host.reportUsage` 记账，去掉无法核实的「没花钱」承诺；为 `hearthstone_advice` 与 `hearthstone_plan` 启用 `interruptible: true` 并透传 `ctx.signal`。\n- **API v6 生命周期与队列原语对齐**：\n  - `hearthstone.turn` 接入两参 `host.pushDeferred`（附旧测试零参兼容降级）+ `['snapshot']`，投递渲染时校验同局/同回合/我方行动并基于当前最新局面重算正文与 `advice`；\n  - 新增同步 `onHandoffEnded()` 会话交接回调（独立 `hearthstone.handoff` 事件，`piggyback` + `['snapshot']`，遵守 `quiet`/`speakTurns`/`musicRunning` 开关并统一护甲格式，渲染时实时生成当前对局快照）；\n  - `webUi().storage` 新增 5 项 `StoragePart`（上局存档、对局流、竞技场草稿/攻略/推演、复盘日记 `DIARY_FILE_RE`、打法档案），移除清理吞错逻辑并在 `unlinkSync` 成功后重置内存态；\n  - 对局版形象包 `groove-game` 升至 `1.3.8`（恢复 `BODY_SCALE = 1` 正常体型并联动底部遮挡自动避让 `avoidLogo`），同步刷新 `figure.js` 与测试注释；\n  - 精简 `RULES_BRIEF`（守住全部 8 个核心机制关键词），清理工具声明、面板描述、日记提示及事件描述中的第三人称「她」，补齐 `tags` 校验并重新同步 `describe.json`。",
     "0.8.5": "- **跑（`run`）时的避让方向改成顺她的朝向**（`pose.sign`，即宿主 `kx` 的符号）。\n  原来按「在中线哪一侧」选的是**远侧**，落地后 `avoidSide` 又按近侧翻转，\n  会出现「白白飞过去再飞回来」。\n- `avoidLocked` 改名 `avoidEngaged` 并写清语义：它是「避让已触发」，存的是**每帧重算的目标偏移**；\n  真正锁住落点的是 `avoidSide` 的 ±20px 迟滞，不是这个变量。\n- 形象包已同步到运行时目录（`data/figures/groove-game`，版本 1.3.4）。",

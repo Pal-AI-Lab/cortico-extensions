@@ -1,0 +1,601 @@
+{
+  "schema": 1,
+  "name": "cortico-world-beijianji",
+  "version": "9.5.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "drink_bar",
+        "tags": [
+          "read",
+          "write"
+        ],
+        "description": "杯间集本地饮品模拟。点名或自配都可以试做，不要求先收卡。prepare 开始做；make_and_drink 为自己安排制作和分次品尝；inspect 看手边，sip 尝一口，accept 收下玩家留给你的杯。明确要做给玩家时用 prepare + recipient=guest，按结果告知在杯间集「手边」收下或使用已绑定的专用通道；开始制作不代表已经递杯或尝过。menu 看共同收录，cards 看试做线索，photo 可以回传配方插画（非现场照片）。平时不查手记；有权限且要复做或微调某杯时，才用 journal + recipe 看同款最多两条摘要。用 trial_id 复作某次，摘记只是资料。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "menu",
+                "choose",
+                "material",
+                "recipe",
+                "procedure",
+                "preview",
+                "status",
+                "inspect",
+                "prepare",
+                "sip",
+                "finish",
+                "discard",
+                "make_and_drink",
+                "remember",
+                "save_version",
+                "strain",
+                "remove_ice",
+                "add_bubbles",
+                "intention",
+                "photo",
+                "journal",
+                "note",
+                "cards",
+                "serve",
+                "accept"
+              ]
+            },
+            "recipe": {
+              "type": "string",
+              "description": "配方编号或饮品名；journal 必填，按完整名称或编号只查这一杯。只想挑一杯时可按 mood 选择。"
+            },
+            "ingredient": {
+              "type": "string",
+              "description": "material 时填配料编号或中文名。"
+            },
+            "mood": {
+              "type": "string",
+              "enum": [
+                "随意",
+                "清爽",
+                "想喝热的",
+                "想换口味",
+                "想调酒"
+              ],
+              "description": "选择时可用的当前口味。"
+            },
+            "category": {
+              "type": "string",
+              "enum": [
+                "茶",
+                "无酒精",
+                "鸡尾酒"
+              ],
+              "description": "选饮品时可指定分类。"
+            },
+            "ingredients": {
+              "type": "array",
+              "maxItems": 16,
+              "description": "自由组合，每项填材料 ID 和数量，单位按 material。可以只放干料。",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "ingredient": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "ingredient",
+                  "amount"
+                ]
+              }
+            },
+            "custom_name": {
+              "type": "string",
+              "maxLength": 45,
+              "description": "自己给自由配方起的名字。"
+            },
+            "recipient": {
+              "type": "string",
+              "enum": [
+                "self",
+                "guest",
+                "user",
+                "for_partner"
+              ],
+              "description": "self 自己喝；guest 做给玩家，普通安装在面板收杯；user 和 for_partner 仅面板可用。"
+            },
+            "auto_finish": {
+              "type": "boolean",
+              "description": "普通配方默认到点自动滤茶；自由调制按 timeline 做完。可关闭普通配方的自动滤茶。"
+            },
+            "speed": {
+              "type": "string",
+              "enum": [
+                "quick",
+                "normal",
+                "slow"
+              ],
+              "description": "quick 喝得快，normal 正常，slow 慢慢喝。"
+            },
+            "base": {
+              "type": "string",
+              "enum": [
+                "water",
+                "soda",
+                "tonic",
+                "gingerale",
+                "sparkling",
+                "cola",
+                "milk",
+                "oat",
+                "sodaLemon",
+                "coconut",
+                "apple",
+                "orange",
+                "grapefruit",
+                "pineapple",
+                "cranberry",
+                "lemon",
+                "lime",
+                "syrup",
+                "honey",
+                "grenadine",
+                "peach",
+                "vanilla",
+                "mint",
+                "ginger",
+                "cinnamon",
+                "orangePeel",
+                "lemonPeel",
+                "bitters",
+                "darjeeling",
+                "assam",
+                "earl",
+                "greens",
+                "longjing",
+                "jasmine",
+                "oolong",
+                "tieguanyin",
+                "white",
+                "puer",
+                "rooibos",
+                "chamomile",
+                "hibiscus",
+                "matcha",
+                "cocoa",
+                "espresso",
+                "gin",
+                "whisky",
+                "rye",
+                "rum",
+                "darkRum",
+                "vodka",
+                "tequila",
+                "cognac",
+                "campari",
+                "aperol",
+                "vermouth",
+                "dryVermouth",
+                "orangeLiqueur",
+                "coffeeLiqueur",
+                "angostura",
+                "amaretto",
+                "sherry",
+                "ice",
+                "salt",
+                "sugar",
+                "cream",
+                "lemonZest",
+                "pear",
+                "gingerBeer",
+                "coconutMilk",
+                "cucumber",
+                "blackCoffee"
+              ],
+              "description": "自配时用，和 recipe 二选一。"
+            },
+            "extras": {
+              "type": "array",
+              "maxItems": 5,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "water",
+                  "soda",
+                  "tonic",
+                  "gingerale",
+                  "sparkling",
+                  "cola",
+                  "milk",
+                  "oat",
+                  "sodaLemon",
+                  "coconut",
+                  "apple",
+                  "orange",
+                  "grapefruit",
+                  "pineapple",
+                  "cranberry",
+                  "lemon",
+                  "lime",
+                  "syrup",
+                  "honey",
+                  "grenadine",
+                  "peach",
+                  "vanilla",
+                  "mint",
+                  "ginger",
+                  "cinnamon",
+                  "orangePeel",
+                  "lemonPeel",
+                  "bitters",
+                  "darjeeling",
+                  "assam",
+                  "earl",
+                  "greens",
+                  "longjing",
+                  "jasmine",
+                  "oolong",
+                  "tieguanyin",
+                  "white",
+                  "puer",
+                  "rooibos",
+                  "chamomile",
+                  "hibiscus",
+                  "matcha",
+                  "cocoa",
+                  "espresso",
+                  "gin",
+                  "whisky",
+                  "rye",
+                  "rum",
+                  "darkRum",
+                  "vodka",
+                  "tequila",
+                  "cognac",
+                  "campari",
+                  "aperol",
+                  "vermouth",
+                  "dryVermouth",
+                  "orangeLiqueur",
+                  "coffeeLiqueur",
+                  "angostura",
+                  "amaretto",
+                  "sherry",
+                  "ice",
+                  "salt",
+                  "sugar",
+                  "cream",
+                  "lemonZest",
+                  "pear",
+                  "gingerBeer",
+                  "coconutMilk",
+                  "cucumber",
+                  "blackCoffee"
+                ]
+              }
+            },
+            "amounts": {
+              "type": "array",
+              "maxItems": 12,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "ingredient": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "ingredient",
+                  "amount"
+                ]
+              },
+              "description": "调整配方里的材料，单位跟原配方一样。填 0 是省掉该配料。"
+            },
+            "strength": {
+              "type": "string",
+              "enum": [
+                "light",
+                "regular",
+                "strong"
+              ]
+            },
+            "serving": {
+              "type": "string",
+              "enum": [
+                "small",
+                "regular"
+              ]
+            },
+            "intention": {
+              "type": "string",
+              "enum": [
+                "stay_clear",
+                "tipsy",
+                "linger",
+                "rest"
+              ],
+              "description": "stay_clear 清醒些，tipsy 想微醺就停，linger 今晚有兴致慢慢喝，rest 今天歇。"
+            },
+            "with_food": {
+              "type": "boolean",
+              "description": "已知刚吃过东西时可选。"
+            },
+            "abv": {
+              "type": "array",
+              "maxItems": 8,
+              "description": "可选，标注瓶身度数以替换默认估计。",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "ingredient": {
+                    "type": "string"
+                  },
+                  "percent": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 65
+                  }
+                },
+                "required": [
+                  "ingredient",
+                  "percent"
+                ]
+              }
+            },
+            "steep_seconds": {
+              "type": "integer",
+              "minimum": 5,
+              "maximum": 86400
+            },
+            "temperature_c": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "mix_method": {
+              "type": "string",
+              "enum": [
+                "build",
+                "shake",
+                "stir",
+                "whisk",
+                "warm",
+                "layer",
+                "brew",
+                "cold_brew",
+                "brew_build",
+                "brew_shake",
+                "eat"
+              ],
+              "description": "自由配方的直调 build、摇和 shake、搅拌 stir、打匀 whisk、温调 warm、分层 layer、热泡 brew、冷泡 cold_brew、泡茶后直调 brew_build、出汤后再摇 brew_shake、直接吃 eat。"
+            },
+            "mix_seconds": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 90,
+              "description": "实际摇和、搅拌或打匀时长，0 表示这步没做。"
+            },
+            "prep": {
+              "type": "array",
+              "maxItems": 32,
+              "description": "逐项记录材料处理。method 按 recipe/procedure/material 的处理代号填写。一项材料可以依次记录最多三种不同处理。",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "ingredient": {
+                    "type": "string"
+                  },
+                  "method": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ingredient",
+                  "method"
+                ]
+              }
+            },
+            "order": {
+              "type": "array",
+              "maxItems": 17,
+              "uniqueItems": true,
+              "description": "按实操先后列出全部有用量的材料 ID 和一个 @mix。@mix 表示摇匀、搅拌、打匀、茶滤出或直调基底完成这一刻。放在 @mix 之后的才算后加。",
+              "items": {
+                "type": "string"
+              }
+            },
+            "mix_ice": {
+              "type": "string",
+              "enum": [
+                "regular",
+                "crushed",
+                "wet",
+                "none"
+              ],
+              "description": "摇壶或调酒杯里的冰。与成品杯里留的冰分开。"
+            },
+            "mix_effort": {
+              "type": "string",
+              "enum": [
+                "gentle",
+                "normal",
+                "vigorous"
+              ],
+              "description": "调制时用力轻、正常或较猛。"
+            },
+            "strain_style": {
+              "type": "string",
+              "enum": [
+                "regular",
+                "fine",
+                "none",
+                "reuse_ice"
+              ],
+              "description": "酒液普通滤、细滤、不滤，或把调过的冰一起倒进杯。"
+            },
+            "glass": {
+              "type": "string",
+              "enum": [
+                "recipe",
+                "chilled",
+                "room"
+              ],
+              "description": "用配方默认、预冷杯或常温杯。"
+            },
+            "timeline": {
+              "type": "array",
+              "maxItems": 48,
+              "description": "完整自动制作步骤。add 加入指定 ingredient，材料各一次。可穿插 brew/cold_brew 冲泡，strain 滤茶，stir 搅拌，shake 摇和，whisk 打匀，warm 温调，layer 分层，filter 过滤果渣或调制冰，remove_ice 取出留杯冰，wait 静置。prep 的材料处理在加入该材料前按顺序自动做。",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "action"
+                ],
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "enum": [
+                      "add",
+                      "build",
+                      "brew",
+                      "cold_brew",
+                      "strain",
+                      "stir",
+                      "shake",
+                      "whisk",
+                      "warm",
+                      "layer",
+                      "filter",
+                      "remove_ice",
+                      "wait"
+                    ]
+                  },
+                  "ingredient": {
+                    "type": "string"
+                  },
+                  "seconds": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 86400
+                  },
+                  "temperature": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100
+                  }
+                }
+              }
+            },
+            "rest_seconds": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10800,
+              "description": "preview 时试算做好后静置多久。实际的杯子按已经过去的时间判断。"
+            },
+            "tasting_note": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "想记住的试喝感受或堂食念头。"
+            },
+            "next_time": {
+              "type": "string",
+              "maxLength": 80,
+              "description": "这杯尝过以后，记一句下次具体想怎么做，例如「下回我少压两下薄荷。」"
+            },
+            "trial_id": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "来自调饮手记。查看、预演或重做那一份试过的配比和手法。与 recipe、base、version_id 二选一。"
+            },
+            "when": {
+              "type": "string",
+              "enum": [
+                "next",
+                "tomorrow_morning",
+                "tonight",
+                "tomorrow_evening"
+              ],
+              "description": "remember 时记下哪一段空闲时间。"
+            },
+            "version_id": {
+              "type": "string",
+              "description": "choose 返回的私房配方编号，也能用名字查。"
+            },
+            "version_name": {
+              "type": "string",
+              "maxLength": 55,
+              "description": "save_version 给私房配方取的名字。"
+            },
+            "rating": {
+              "type": "string",
+              "enum": [
+                "喜欢",
+                "还要调整",
+                "下次换一种"
+              ]
+            },
+            "leave_leaves": {
+              "type": "boolean",
+              "description": "让叶子留杯直到手动滤出，或在预演中模拟忘记滤叶。"
+            },
+            "ice_size": {
+              "type": "string",
+              "enum": [
+                "small",
+                "regular",
+                "large"
+              ]
+            },
+            "ice_seconds": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10800,
+              "description": "普通配方出杯后多少秒自动取冰；自由调制请在 timeline 排入静置和取冰步骤。"
+            },
+            "late_bubbles": {
+              "type": "boolean",
+              "description": "先把汽水留在旁边，随后用 add_bubbles。"
+            },
+            "stirred_bubbles": {
+              "type": "boolean",
+              "description": "加完汽水后搅得过多。"
+            },
+            "muddle": {
+              "type": "string",
+              "enum": [
+                "light",
+                "hard"
+              ],
+              "description": "薄荷轻压或重压。"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "summary": "查配方、试用量、泡茶调酒并回看试喝记录。"
+      }
+    ],
+    "events": []
+  },
+  "changelog": {
+    "9.5.1": "- 9.5.0 的 npm 发布被 staged 记录占用，此版内容与 9.5.0 相同。",
+    "9.5.0": "- 标准 Coopanion 工具上下文即可操作本机调饮模拟，无需个人适配层。\n- 加入面板收杯与试喝反馈，随包插画可在对话工具回执中展示。\n- 本地计时负责试喝结算与有限的无酒精自主调饮，不依赖外部作息服务或模型唤醒。\n- 保留旧存档、分开的杯位与手记。聊天私房手记默认关闭，QQ 递杯与现场生图保持可选接入。",
+    "9.4.2": "- 不绑定特定角色；面板、工具说明与环境提示统一使用「调饮伙伴」。\n- 保留两册 46 张共享收藏、自由调制和按需手记。\n- 提供独立安装说明；已有存档结构不变。"
+  }
+}

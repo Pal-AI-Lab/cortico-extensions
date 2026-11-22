@@ -2,7 +2,7 @@
   "schema": 1,
   "name": "cortico-world-astrbot-livingmemory",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/749",
-  "total": 3,
+  "total": 6,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BLVtT",
@@ -17,6 +17,20 @@
           "avatar": "https://avatars.githubusercontent.com/u/129617573?s=64&v=4",
           "body": "这还不是主要的 我今天用它之共享了关键记忆 对话的记忆临时的不共享",
           "createdAt": "2026-11-19T18:06:46Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BLkoE",
+          "author": "HirannU-OVO",
+          "avatar": "https://avatars.githubusercontent.com/u/107823543?s=64&u=2ed1a9c507b3285c2c2f161f186521d4331e12f0&v=4",
+          "body": "如果想让coo桌宠完全接管astrbot，不让astrbot的llm回复消息，也就是不产生双人格，有一个现成的插件cortico-world-astrbot做了这个工作，因此本插件只负责livingmemory桥接，并没有负责发消息这一流程",
+          "createdAt": "2026-11-22T09:50:08Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BLlMd",
+          "author": "HirannU-OVO",
+          "avatar": "https://avatars.githubusercontent.com/u/107823543?s=64&u=2ed1a9c507b3285c2c2f161f186521d4331e12f0&v=4",
+          "body": "0.2.5新版针对不同的使用环境做了具体的配置引导和说明，如果仍遇到相关问题，可以带着使用的环境（是否有让桌宠接管astrbot）和world扩展（例如是否使用上述的桥插件），方便进一步改进",
+          "createdAt": "2026-11-22T12:39:27Z"
         }
       ]
     },
@@ -25,7 +39,16 @@
       "author": "chenyananhao",
       "avatar": "https://avatars.githubusercontent.com/u/129617573?s=64&v=4",
       "body": "反应问题AstrBot端里 写死了服务器地址127.0.0.1 导致外部连接不上 建议换成0.0.0.0  让我找了半天才发现是这个问题",
-      "createdAt": "2026-11-17T14:20:31Z"
+      "createdAt": "2026-11-17T14:20:31Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BLkoO",
+          "author": "HirannU-OVO",
+          "avatar": "https://avatars.githubusercontent.com/u/107823543?s=64&u=2ed1a9c507b3285c2c2f161f186521d4331e12f0&v=4",
+          "body": "问题收到，将在下个版本进行修复，现在正在做群聊记忆相关，这两天就会修好，感谢反馈",
+          "createdAt": "2026-11-22T09:51:00Z"
+        }
+      ]
     }
   ]
 }

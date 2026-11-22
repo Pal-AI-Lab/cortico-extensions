@@ -34,6 +34,7 @@
       "sensitive-data"
     ],
     "cortico-world-astrbot": [
+      "injection-risk",
       "unsafe"
     ],
     "cortico-world-auto-interact": [
@@ -4429,7 +4430,7 @@
     },
     "cortico-provider-gemini-gateway": {
       "kind": "provider",
-      "version": "0.1.9",
+      "version": "0.2.1",
       "displayName": "🐦 Gemini 多合一粮仓",
       "description": "Gemini 多合一粮仓：支持 Robin 桌面 OAuth 多账号调度与额度看板、原生多模态附件上传，以及 Web2API 与自定义 RPC 接入。",
       "locales": {
@@ -4461,8 +4462,8 @@
         "bugs": "https://github.com/Unnori/cortico-provider-gemini-gateway/issues"
       },
       "created": "2026-11-19T06:39:56.778Z",
-      "published": "2026-11-21T15:05:30.412Z",
-      "versionCount": 9,
+      "published": "2026-11-22T11:41:33.722Z",
+      "versionCount": 11,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4498,6 +4499,8 @@
       },
       "changelog": {
         "versions": [
+          "0.2.1",
+          "0.2.0",
           "0.1.9",
           "0.1.8",
           "0.1.7",
@@ -5599,13 +5602,13 @@
     },
     "cortico-world-astrbot": {
       "kind": "world",
-      "version": "1.3.7",
+      "version": "1.3.8",
       "displayName": "AstrBot · QQ",
-      "description": "通过 AstrBot 把 QQ 群聊和私聊接到 Coo，支持图片、语音和经授权的 AstrBot 工具。交流 QQ 群 1136066256。",
+      "description": "通过 AstrBot 把 QQ 群聊和私聊接到 Coo，支持引用、合并转发、图片、语音和经授权的 AstrBot 工具。交流 QQ 群 1136066256。",
       "locales": {
         "zh": {
           "displayName": "AstrBot · QQ",
-          "description": "让 Coo 接入你在 AstrBot 上的 QQ 群聊和私聊。AstrBot 管理账号、接管范围和插件，Coo 沿用自己的对话和记忆给出回复。\n\n支持点名唤醒、图片、语音转写和语音回复。管理员可逐项授权 AstrBot 工具。Coo 本地对话使用主人权限调用工具时，需要单独配置主人 QQ 和工具令牌。\n\n使用前请在 AstrBot 4.29.1 或更新版本安装配套桥插件。交流 QQ 群 1136066256。"
+          "description": "让 Coo 接入你在 AstrBot 上的 QQ 群聊和私聊。AstrBot 管理账号、接管范围和插件，Coo 沿用自己的对话和记忆给出回复。\n\n支持查看引用和合并转发、点名唤醒、图片、语音转写和语音回复。管理员可逐项授权 AstrBot 工具。Coo 本地对话使用主人权限调用工具时，需要单独配置主人 QQ 和工具令牌。\n\n使用前请在 AstrBot 4.29.1 或更新版本安装配套桥插件。交流 QQ 群 1136066256。"
         }
       },
       "author": "as124da1231",
@@ -5627,22 +5630,26 @@
         "bugs": "https://github.com/as124da1231/cortico-world-astrbot/issues"
       },
       "created": "2026-10-26T13:38:37.862Z",
-      "published": "2026-11-22T07:06:12.201Z",
-      "versionCount": 21,
+      "published": "2026-11-22T13:02:54.514Z",
+      "versionCount": 22,
       "official": false,
       "isNew": false,
       "declaredTags": [
-        "apps",
+        "im",
+        "qq",
+        "voice",
         "external-setup",
         "unofficial-api",
-        "unsafe"
+        "unsafe",
+        "injection-risk"
       ],
       "tags": [
         "im",
         "qq",
-        "apps",
+        "voice",
         "external-setup",
         "unsafe",
+        "injection-risk",
         "unofficial-api"
       ],
       "icon": "assets/cortico-world-astrbot/icon.png",
@@ -5652,13 +5659,14 @@
         "week": 1397
       },
       "summary": {
-        "tools": 4,
+        "tools": 5,
         "events": 4,
-        "toolTokens": 1393,
-        "envPromptTokens": 1186
+        "toolTokens": 1714,
+        "envPromptTokens": 1321
       },
       "changelog": {
         "versions": [
+          "1.3.8",
           "1.3.7",
           "1.3.6",
           "1.3.5"
@@ -5670,12 +5678,12 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/333",
         "up": 0,
         "down": 0,
-        "comments": 3
+        "comments": 4
       }
     },
     "cortico-world-astrbot-livingmemory": {
       "kind": "world",
-      "version": "0.2.4",
+      "version": "0.2.5-fix1",
       "displayName": "LivingMemory 桌宠直连",
       "description": "给 Coopanion 桌面宠物接入 AstrBot 的 LivingMemory 长期记忆：桌宠与 QQ 智能体共用一套记忆库与知识图谱。需要配合 AstrBot 侧 astrbot_plugin_coopanion_livingmemory 使用。",
       "locales": {
@@ -5708,8 +5716,8 @@
         "bugs": "https://github.com/HirannU-OVO/cortico-world-astrbot-livingmemory/issues"
       },
       "created": "2026-11-05T09:23:15.528Z",
-      "published": "2026-11-16T03:24:14.948Z",
-      "versionCount": 7,
+      "published": "2026-11-22T13:02:45.586Z",
+      "versionCount": 9,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -5736,6 +5744,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.5",
           "0.2.4",
           "0.2.3",
           "0.2.2",
@@ -5749,7 +5758,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/749",
         "up": 0,
         "down": 1,
-        "comments": 3
+        "comments": 6
       }
     },
     "cortico-world-audio": {
@@ -5953,6 +5962,75 @@
         "up": 0,
         "down": 0,
         "comments": 2
+      }
+    },
+    "cortico-world-beijianji": {
+      "kind": "world",
+      "version": "9.5.1",
+      "displayName": "杯间集",
+      "description": "杯间集：Coo 里的本地饮品台。泡茶、调酒或搭配无酒精饮品，边做边比较风味，把喜欢的配比留在调饮手记里。46 张新艺术风格收藏卡，本地面板独立可玩。",
+      "author": "杯间集项目",
+      "maintainers": [
+        "2fffff"
+      ],
+      "license": "SEE LICENSE IN LICENSE.txt",
+      "keywords": [
+        "cortico-world",
+        "coopanion",
+        "饮品台",
+        "配方卡",
+        "杯间集",
+        "cortico",
+        "调饮",
+        "茶",
+        "鸡尾酒",
+        "收藏卡"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-beijianji"
+      },
+      "created": "2026-11-22T11:10:24.523Z",
+      "published": "2026-11-22T12:49:38.758Z",
+      "versionCount": 4,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "game",
+        "companion",
+        "local",
+        "internal-state"
+      ],
+      "tags": [
+        "game",
+        "companion",
+        "local",
+        "internal-state"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 1,
+        "events": 0,
+        "toolTokens": 2529,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "9.5.1",
+          "9.5.0",
+          "9.4.2"
+        ],
+        "url": "https://unpkg.com/cortico-world-beijianji@9.5.1/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1082,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1082",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-bili-alont1": {
@@ -7787,13 +7865,13 @@
     },
     "cortico-world-casino": {
       "kind": "world",
-      "version": "0.5.2",
+      "version": "0.6.2",
       "displayName": "月下牌桌",
-      "description": "月下牌桌:一张就在电脑里的标准 21 点牌桌,与你的 AI 同桌对打——选庄、下注、要牌、停牌、分牌、保险,绿呢桌面实时显示双方的牌;筹码是游戏内数字,不涉及真钱。",
+      "description": "月下牌桌:一张就在电脑里的牌桌,和你的 AI 同桌对打——21 点(选庄、下注、要牌、分牌、保险、投降)与抽鬼牌(藏一张、点选抽牌、终局亮牌)两个游戏,绿呢桌面实时显示双方手牌;筹码是游戏内数字,不涉及真钱。",
       "locales": {
         "en": {
           "displayName": "Moonlit Table",
-          "description": "A local blackjack table you share with your AI: pick the dealer, bet, hit and stand; chips are game numbers only."
+          "description": "A card table inside your computer shared with your AI: blackjack (pick the dealer, bet, hit, split, insure, surrender) and Old Maid (one card hidden, click a face-down card to draw, reveal at the end) on one felt table that shows both hands live; chips are game numbers only."
         }
       },
       "maintainers": [
@@ -7804,16 +7882,20 @@
         "cortico-world",
         "cortico",
         "blackjack",
+        "oldmaid",
         "cards",
         "game",
         "local"
       ],
       "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-casino"
+        "npm": "https://www.npmjs.com/package/cortico-world-casino",
+        "repository": "https://github.com/Flerish/cortico-world-casino",
+        "homepage": "https://github.com/Flerish/cortico-world-casino#readme",
+        "bugs": "https://github.com/Flerish/cortico-world-casino/issues"
       },
       "created": "2026-11-21T15:37:24.697Z",
-      "published": "2026-11-21T15:50:02.760Z",
-      "versionCount": 3,
+      "published": "2026-11-22T09:06:06.907Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -7825,19 +7907,22 @@
         "local",
         "experimental"
       ],
+      "icon": "assets/cortico-world-casino/icon.png",
       "downloads": {
         "total": 369,
         "month": 369,
         "week": 369
       },
       "summary": {
-        "tools": 3,
-        "events": 3,
-        "toolTokens": 664,
-        "envPromptTokens": 771
+        "tools": 4,
+        "events": 5,
+        "toolTokens": 589,
+        "envPromptTokens": 976
       },
       "changelog": {
         "versions": [
+          "0.6.2",
+          "0.6.1",
           "0.5.2",
           "0.5.1",
           "0.5.0",
@@ -7857,7 +7942,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-casino@0.5.2/CHANGELOG.md"
+        "url": "https://github.com/Flerish/cortico-world-casino/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 1076,
@@ -9746,17 +9831,17 @@
     },
     "cortico-world-dota2-gsi": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.2.2",
       "displayName": "刀塔战况",
-      "description": "将 Dota 2 官方接口提供的实时对局数据传递给 Coo，包括：\n\n英雄、等级、生命值、魔法值、金钱、补刀、战绩、装备及冷却时间、复活与买活时间、双方比分、游戏时间和昼夜状态，以及对局的开始和结束时间。\n\n对局中出现状态变化时，会向 Coo 发送简短记录，没有新事件时不会重复发送。Coo 也可以随时主动读取当前的最新数据。\n\n扩展只负责采集和传递数据，不负责分析局势或决定是否发言。如何理解这些数据、是否据此作出回应，由 Coo 自行处理。\n\n数据仅来自 Dota 2 官方本地接口，范围限于本机玩家可以获",
+      "description": "将 Dota 2 官方接口提供的实时对局数据传递给 Coo，包括：\n\n英雄、等级、生命值、魔法值、金钱、补刀、战绩、装备及冷却时间、复活与买活时间、双方比分、游戏时间和昼夜状态，以及对局的开始和结束时间。\n\nv0.2 起接入官方接口的小地图和事件流：开局确认双方阵容；己方队友的实时位置区域、敌方每个人最后露头的时间和区域随时可查；团战打完报几换几；敌方全员消失、抱团、绕后贴脸、进肉山坑这四种动向会按固定规则提醒；塔和兵营被摧毁（带路别）、肉山被杀和盾的归属、买活也会推送。\n\n对局中出现状态变化时，会向 C",
       "locales": {
         "zh": {
           "displayName": "刀塔战况",
-          "description": "把 Dota 2 这一局的英雄、血蓝、金钱、装备、比分和复活时间读给 Coo，有变化时给她发一条记录。只读，只在本机。"
+          "description": "把 Dota 2 这一局的英雄、血蓝、金钱、装备、比分读给 Coo，还带双方阵容、团战收口、敌方最后露头、敌方建筑和肉山状态。作者主玩加速模式、已实测多日；普通模式有问题欢迎反馈。只读，只在本机。"
         },
         "en": {
           "displayName": "Dota 2 Live",
-          "description": "Reads Dota 2's official Game State Integration so Coo can see your hero, health, mana, gold, items, score and respawn timer, and sends her a note when something changes. Read-only and loopback only."
+          "description": "Reads Dota 2's official Game State Integration so Coo can see your hero, health, gold, items and score, plus both rosters, team-fight summaries, enemy last-known map positions, enemy buildings and Roshan. Battle-tested in Turbo mode; regular-mode feedback welcome. Read-only and loopback only."
         }
       },
       "author": "year",
@@ -9782,8 +9867,8 @@
         "win32"
       ],
       "created": "2026-11-14T03:42:05.486Z",
-      "published": "2026-11-14T07:35:05.379Z",
-      "versionCount": 5,
+      "published": "2026-11-22T12:54:58.449Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -9799,10 +9884,22 @@
         "week": 112
       },
       "summary": {
-        "tools": 3,
-        "events": 18,
-        "toolTokens": 354,
-        "envPromptTokens": 314
+        "tools": 4,
+        "events": 26,
+        "toolTokens": 471,
+        "envPromptTokens": 652
+      },
+      "changelog": {
+        "versions": [
+          "0.2.2",
+          "0.2.1",
+          "0.2.0",
+          "0.1.3",
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/YearDouble/cortico-world-dota2-gsi/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 930,
@@ -11196,7 +11293,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/485",
         "up": 2,
         "down": 0,
-        "comments": 8
+        "comments": 9
       }
     },
     "cortico-world-extra-actions": {
@@ -12117,9 +12214,9 @@
     },
     "cortico-world-figure": {
       "kind": "world",
-      "version": "4.1.0",
+      "version": "4.1.2",
       "displayName": "Live2D 模型一键安装",
-      "description": "把本地 Live2D 和 BongoCat 模型一键打包安装到 Coo。\n\n## 一、导入与打包\n1. 拖入模型文件夹或 ZIP。\n2. 打包时可生成封面，按需选择贴图画质。\n3. 在工作台预览、编辑和管理形象包。\n\n## 二、适配 Live2D 动作与表情\n1. 用通用配方快速适配常用表情。\n2. 先预览模型原有的动作与表情，再手动绑定。\n3. 也可让 AI 分析原生资源，生成适配方案。\n\n## 三、桌宠个性化\n1. 切换装扮，调整全身或半身取景。\n2. 配置桌宠特效、语音朗读和随音频变化的口型。",
+      "description": "把本地 Live2D 和 BongoCat 模型变成 Coo 桌宠。\n\n## 一、导入与安装\n1. 拖入模型文件夹、ZIP 或现成形象包。\n2. 生成封面，一键打包和安装，也可保留卡片稍后编辑。\n\n## 二、动作与装扮\n1. 用通用配方自动适配 Live2D 参数和常用表情。\n2. 在浏览器试播原生资源、组合表情和编辑装扮，或让 AI 提出适配方案。\n\n## 三、桌宠表现\n1. 调整全身或半身取景，默认使用 Coo 原生特效，可为 Live2D 形象勾选多种随包安装的额外特效。\n2. 配置多套语音服务，试",
       "locales": {
         "zh": {
           "displayName": "Live2D 模型一键安装"
@@ -12154,8 +12251,8 @@
         "bugs": "https://github.com/as124da1231/cortico-world-figure/issues"
       },
       "created": "2026-10-28T16:52:00.088Z",
-      "published": "2026-11-14T11:27:19.425Z",
-      "versionCount": 22,
+      "published": "2026-11-22T10:57:45.313Z",
+      "versionCount": 23,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -12180,6 +12277,8 @@
       },
       "changelog": {
         "versions": [
+          "4.1.2",
+          "4.1.1",
           "4.1.0",
           "4.0.0",
           "3.0.3",
@@ -13232,7 +13331,7 @@
     },
     "cortico-world-genesis": {
       "kind": "world",
-      "version": "3.8.3",
+      "version": "4.1.0",
       "displayName": "创世记",
       "description": "给 Agent 一颗物理自洽、一次性创世的星球：种子与少量旋钮生成恒星系与行星属性。",
       "author": "Nami-Mizu",
@@ -13252,8 +13351,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-genesis"
       },
       "created": "2026-11-13T12:15:34.380Z",
-      "published": "2026-11-20T15:17:51.511Z",
-      "versionCount": 26,
+      "published": "2026-11-22T07:55:12.668Z",
+      "versionCount": 27,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -13269,13 +13368,18 @@
         "week": 3074
       },
       "summary": {
-        "tools": 44,
+        "tools": 46,
         "events": 16,
-        "toolTokens": 8565,
-        "envPromptTokens": 2672
+        "toolTokens": 9064,
+        "envPromptTokens": 2847
       },
       "changelog": {
         "versions": [
+          "4.1.0",
+          "4.0.0",
+          "3.9.2",
+          "3.9.1",
+          "3.9.0",
           "3.8.3",
           "3.8.2",
           "3.8.1",
@@ -13363,7 +13467,7 @@
           "1.2.0",
           "1.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-genesis@3.8.3/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-genesis@4.1.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 915,
@@ -13781,7 +13885,7 @@
     },
     "cortico-world-hearthstone": {
       "kind": "world",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "displayName": "炉石陪打",
       "description": "陪打炉石（需 Coopani 0.2.17+）:读对局日志,就知道双方血量、场面、手牌和水晶。该开口时开口:该解场还是该压、费够不够上那张大牌、对面有没有斩杀。只看不动手,不代打;第一次启动会替你把 Power 日志打开。打完能陪你复盘:哪一手走了岔路、她当时建议什么,也记得住最近几十局的战绩。她自己还有一份打法档案——信哪一套、看不惯什么,边打边写,越打越像她;但算出的斩杀她照样得喊,风格盖不住账。竞技场也认。",
       "locales": {
@@ -13817,8 +13921,8 @@
         "darwin"
       ],
       "created": "2026-10-27T13:42:43.161Z",
-      "published": "2026-11-19T15:28:41.950Z",
-      "versionCount": 43,
+      "published": "2026-11-22T10:36:27.059Z",
+      "versionCount": 44,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -13837,13 +13941,14 @@
         "week": 1838
       },
       "summary": {
-        "tools": 11,
+        "tools": 13,
         "events": 9,
-        "toolTokens": 2980,
+        "toolTokens": 4132,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.0.2",
           "1.0.1",
           "1.0.0",
           "0.8.5",
@@ -14047,6 +14152,76 @@
         "up": 0,
         "down": 0,
         "comments": 2
+      }
+    },
+    "cortico-world-hippocampus": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "海马体 · 记忆",
+      "description": "Coopanion World: 类人长期记忆。原话只增不改、按线索浮现、会忘也会想起，细节要了才给。",
+      "locales": {
+        "zh": {
+          "displayName": "海马体 · 记忆",
+          "description": "给桌宠一套类人的长期记忆：原话只增不改、按当前话题自动浮起旧事、强度随时间衰减、被想起就变牢。线索每轮最多三行，细节要用工具翻原话。全部本地，不联网、不调用模型。"
+        },
+        "en": {
+          "displayName": "Hippocampus memory",
+          "description": "Human-like long-term memory for the desktop pet: append-only verbatim records, topic-driven reminiscence, strength decay and rehearsal. At most three short cues per turn, with verbatim details available on demand. Fully local, no network or model calls."
+        }
+      },
+      "author": "早油",
+      "maintainers": [
+        "zaoyou"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "memory",
+        "hippocampus"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-hippocampus"
+      },
+      "created": "2026-11-22T12:02:46.393Z",
+      "published": "2026-11-22T12:04:23.901Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "memory",
+        "internal-state",
+        "experimental"
+      ],
+      "tags": [
+        "memory",
+        "experimental",
+        "internal-state"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 8,
+        "events": 4,
+        "toolTokens": 2259,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-hippocampus@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1083,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1083",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-homeassistant": {
@@ -14280,6 +14455,83 @@
         "up": 1,
         "down": 0,
         "comments": 2
+      }
+    },
+    "cortico-world-idle-abyss": {
+      "kind": "world",
+      "version": "0.3.0",
+      "displayName": "深渊放置姬",
+      "description": "让 Coo 自己玩《深渊放置姬》，也能陪你玩：状态、装备、剧情、技能、扭蛋、铁匠、领奖、秘境、背包、营地，层数推进不主动打扰。",
+      "locales": {
+        "zh": {
+          "displayName": "深渊放置姬",
+          "description": "《深渊放置姬》陪玩 World：Coo 能自己经营这一局——看状态、换装备、处理剧情、改技能、抽扭蛋、强化/附魔/打孔/镶宝石、领奖、进秘境、管背包、收营地，也能陪你一起玩。层数推进不吵，卡关才提醒，不碰鼠标也不抢窗口。"
+        },
+        "en": {
+          "displayName": "Abyss Companion",
+          "description": "A Coopanion World for Idle Abyss Princesses: your companion can run her own run — status, gear, story, skills, gacha, forging, rewards, rifts, bag and camp — or play alongside you. Quiet on stage progress, speaks up when stuck; never touches the mouse."
+        }
+      },
+      "author": "YearDouble",
+      "maintainers": [
+        "ymhedgar"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "world",
+        "cortico",
+        "coopanion",
+        "idle-abyss",
+        "game",
+        "companion",
+        "steam"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-idle-abyss"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-11-22T12:48:39.811Z",
+      "published": "2026-11-22T12:51:47.325Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "game",
+        "companion"
+      ],
+      "tags": [
+        "game",
+        "companion"
+      ],
+      "icon": "assets/cortico-world-idle-abyss/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 15,
+        "events": 15,
+        "toolTokens": 3107,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.3.0",
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-idle-abyss@0.3.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1084,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1084",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-image": {
@@ -16150,7 +16402,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1021",
         "up": 1,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-meme-alont1": {
@@ -20396,7 +20648,7 @@
       "published": "2026-11-08T12:52:07.162Z",
       "versionCount": 2,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "tags": [],
       "downloads": {
         "total": 390,
@@ -21230,7 +21482,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/46",
         "up": 14,
         "down": 1,
-        "comments": 17
+        "comments": 18
       }
     },
     "cortico-world-qq-final-beta": {
@@ -21995,7 +22247,7 @@
     },
     "cortico-world-quark": {
       "kind": "world",
-      "version": "0.3.0",
+      "version": "0.3.2",
       "displayName": "夸克网盘",
       "description": "夸克网盘 World：接授权码登录，展示账号昵称、网盘空间与会员状态",
       "maintainers": [
@@ -22012,8 +22264,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-quark"
       },
       "created": "2026-11-22T03:44:09.900Z",
-      "published": "2026-11-22T04:04:34.032Z",
-      "versionCount": 3,
+      "published": "2026-11-22T11:49:26.493Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -22039,9 +22291,11 @@
         "versions": [
           "0.1.0",
           "0.2.0",
-          "0.3.0"
+          "0.3.0",
+          "0.3.1",
+          "0.3.2"
         ],
-        "url": "https://unpkg.com/cortico-world-quark@0.3.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-quark@0.3.2/CHANGELOG.md"
       },
       "discussion": {
         "number": 1079,
@@ -29163,7 +29417,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/690",
         "up": 0,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-works-alont1": {

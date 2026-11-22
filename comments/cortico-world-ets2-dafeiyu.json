@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "cortico-world-ets2-dafeiyu",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/485",
-  "total": 8,
+  "total": 9,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BLkIX",
+      "author": "ForgottenLH",
+      "avatar": "https://avatars.githubusercontent.com/u/53442452?s=64&v=4",
+      "body": "> **版本对比**：`cortico-world-ets2-dafeiyu` 1.3.2 → 1.3.1（Windows，Coopanion，ETS2 Steam，遥测走自带 `scs_direct_telemetry.dll`）\n>\n> 反馈一个问题：**升级到 1.3.2 之后，罚款、收费站收费、交付结算这三类事件不推了；退回 1.3.1 就都正常。** 同一台电脑、同一个存档、同一天，只差插件版本。\n>\n> **1.3.2 上**：导航、进入城市、超速、电子狗、车辆启动都照常在报，**事故（车损跳变）也一直有**——所以事件通道本身没断，是这三类没发出来。\n>\n> **退回 1.3.1 之后（2026-11-22，加莱 → 阿姆斯特丹，420 km）三条都验到了**：\n>\n> | 时间 | 事件 | 收到的内容 |\n> |---|---|---|\n> | 13:24 | `fine` | crash 罚款 €400 |\n> | 13:42 | `tollgate` | 收费站 €15 |\n> | 13:59 | `job_delivered` | Amsterdam，420 km，运费 €21,974，货损 0.3% |\n>\n> 所以可以排除电脑、遥测连接、路网数据的问题——**是 1.3.2 这个版本本身没把这几类事件发出来**。\n>\n> 1.3.2 主要是给客车模式那个 DLC 的。对不跑客车、只开货车的人来说，这次升级等于**只赔不赚**：新功能用不上，扣钱的和结算的反而全丢了。\n>\n> **一个猜测，供参考**：这几类大概率都靠「瞬时脉冲 + 比较金额」判（`pulse()`、`toll.amount` 增长之类），而 `events.ts` 的 `update()` 在 `!connected || pause` 时直接 return。1.3.2 里如果加了客车相关字段或多跑了一步判断，可能让这些脉冲落在被跳过的帧里。建议改成「记住上一次已知金额，每帧比大小，涨了就报」，即使漏一帧也不会永久丢。\n>\n> 另外顺带一个不相干的：`ets2_ahead` 查 400 公里内的停车/休息区经常一个都查不到（toll 点位却有几百个），偶尔会报「前方约 793.5 公里有停车区」。看着像路线数据里 parking 基本是空的，这个在 1.3.1 上也一样。",
+      "createdAt": "2026-11-22T07:42:48Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BJnNY",
       "author": "kerserlin",

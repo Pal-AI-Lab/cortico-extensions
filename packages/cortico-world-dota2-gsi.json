@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-dota2-gsi",
-  "version": "0.1.3",
+  "version": "0.2.2",
   "describe": {
     "tools": [
       {
@@ -45,6 +45,18 @@
         "name": "dota_match",
         "summary": "一局的汇总",
         "description": "给一局 Dota 2 的汇总：英雄、比分、时长、战绩、补刀、金钱、结局。正在打就给到此刻为止的；没在打就给最近结束的一局。想知道细节（血蓝、装备、复活）用 dota_status。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "dota_minimap",
+        "summary": "现读小地图位置库",
+        "description": "现读 Dota 2 小地图的位置库：己方队友的实时区域、敌方每个人最后露头的时间和区域、敌方名单确认进度、肉山状态（是否被杀、盾在谁手里、刷新倒计时）。只报区域不报坐标。什么时候值得看一眼：你阵亡等复活的时候、团战刚结束想复盘的时候、感觉有人 miss 要确认的时候、给战术建议之前。",
         "parameters": {
           "type": "object",
           "properties": {}
@@ -128,10 +140,18 @@
         "trigger": "debounce"
       },
       {
+        "type": "dota.match.lineup",
+        "description": {
+          "zh": "双方阵容确认（选人到落线 30 秒内）：你、队友、敌方各是什么英雄。",
+          "en": "Both rosters are confirmed."
+        },
+        "trigger": "debounce"
+      },
+      {
         "type": "dota.player.leveled",
         "description": {
-          "zh": "英雄升级。",
-          "en": "The hero leveled up."
+          "zh": "英雄升到里程碑等级（6=大招解锁、15、25、30），跨级合并成一条。",
+          "en": "The hero hit a level milestone (6/15/25/30)."
         },
         "trigger": "debounce"
       },
@@ -168,6 +188,54 @@
         "trigger": "debounce"
       },
       {
+        "type": "dota.player.buyback",
+        "description": {
+          "zh": "你买活了。",
+          "en": "The player bought back."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "dota.fight.ended",
+        "description": {
+          "zh": "团战收口：≥2 杀的窗口结束，报几换几和关键人头。",
+          "en": "A team fight wrapped up (2+ kills in the window)."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "dota.intel.missing_all",
+        "description": {
+          "zh": "敌方五人同时消失 ≥10 秒。",
+          "en": "All five enemies went missing for 10+ seconds."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "dota.intel.grouped",
+        "description": {
+          "zh": "敌方 ≥3 人同区域 ≥10 秒，抱团了。",
+          "en": "3+ enemies grouped in one area for 10+ seconds."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "dota.intel.nearby",
+        "description": {
+          "zh": "消失 ≥20 秒的敌人出现在你附近。",
+          "en": "A missing enemy reappeared near you."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "dota.intel.roshan_threat",
+        "description": {
+          "zh": "敌方 ≥2 人进了肉山坑且肉山还活着。",
+          "en": "2+ enemies entered the Roshan pit while Roshan is alive."
+        },
+        "trigger": "debounce"
+      },
+      {
         "type": "dota.map.score",
         "description": {
           "zh": "比分变化。",
@@ -178,16 +246,16 @@
       {
         "type": "dota.map.roshan",
         "description": {
-          "zh": "肉山被击杀或刷新（这一版 GSI 暂不提供）。",
-          "en": "Roshan was killed or respawned (not sent by this GSI version)."
+          "zh": "肉山被击杀（带击杀方、盾的归属和刷新倒计时）或刷新。",
+          "en": "Roshan was killed (with aegis carrier and respawn timer) or respawned."
         },
         "trigger": "debounce"
       },
       {
         "type": "dota.map.building",
         "description": {
-          "zh": "防御塔或兵营被摧毁（只报自己这边）。",
-          "en": "A tower or barracks was destroyed (own side only)."
+          "zh": "防御塔或兵营被摧毁：己方来自建筑血量，敌方来自小地图（带路别）。",
+          "en": "A tower or barracks fell: own side from building HP, enemy side from the minimap."
         },
         "trigger": "debounce"
       },
@@ -198,6 +266,14 @@
           "en": "Day turned to night or back."
         },
         "trigger": "piggyback"
+      },
+      {
+        "type": "dota.map.pickup",
+        "description": {
+          "zh": "固定时刻的拾取提醒，提前 30 秒，每局每条最多一次：莲花快熟（中单不提醒）、圣水符要出（只提醒中单）、第一颗经验符文要刷。例行通报：收到直接转告，一句带过，不分析。文案不带精确秒数、同类措辞轮换（延迟不可控）。时刻可在设置里改，填 0 关掉。",
+          "en": "Timed pickup reminders 30s before lotus (not for mid), water rune (mid only) and the first wisdom rune. Mechanical relay: pass it on in one line, no analysis. Wording varies per reminder; no precise countdown. Times configurable; 0 disables."
+        },
+        "trigger": "debounce"
       }
     ],
     "prompts": [
@@ -205,8 +281,17 @@
         "key": "worlds.dota2-gsi.envPrompt",
         "title": "刀塔战况 · 环境提示词",
         "role": "envPrompt",
-        "content": "这台电脑上装着 Dota 2，用户可能一边打一边跟你说话。\n\n游戏客户端通过官方接口把这一局的数字持续报过来，所以关于他这一局的状态，你手里有真实数据，不用猜。\n\n## 数据覆盖什么\n\n- 他玩的英雄、等级、血量魔法、沉默眩晕中毒这类状态\n- 金钱（可靠与不可靠）、GPM、XPM、净价值\n- 击杀、死亡、助攻、补刀、反补\n- 装备格子和冷却、背包\n- 复活倒计时、买活价格和冷却\n- 大招的名字和是否就绪\n- 比分、游戏时间、昼夜、肉山刷新、防御塔、暂停\n- 对局什么时候开始、什么时候结束、谁赢\n\n## 数据不覆盖什么\n\n- 谁杀了他、敌人在哪、对面买了什么\n- 地图画面、视野、团战过程\n- 队友和对手的装备与状态\n\n游戏只报这个客户端自己的玩家。别的事情不在这里。\n\n## 什么时候会有记录进来\n\n对局开始和结束、阵亡和复活、升级、击杀助攻、买到装备、拿到 A 杖、塔被摧毁、肉山、暂停，会作为战况记录出现在你的上下文里。这些是系统写的记录，不是用户打的字。\n\n其余的数字不会主动送过来。\n\n## 工具\n\n- `dota_status`：此刻这一局的卡。\n- `dota_events`：最近一段时间里发生过的变化。\n- `dota_match`：一局的汇总，正在打就给到现在为止。\n\n游戏没开、没在打的时候，`dota_status` 会说清连接状态，并把手边上一局的数字给你。\n"
+        "content": "这台电脑上装着 Dota 2，用户可能一边打一边跟你说话。\n\n游戏客户端通过官方接口把这一局的战况和地图视野持续报过来，所以关于他这一局的状态，你手里有真实数据，不用猜。\n\n## 数据覆盖什么\n\n- 他玩的英雄、等级、血量魔法、沉默眩晕这类状态\n- 金钱（可靠与不可靠）、GPM、XPM、净价值\n- 击杀、死亡、助攻、补刀、反补\n- 装备格子和冷却、背包\n- 复活倒计时、买活价格和冷却\n- 大招的名字和是否就绪\n- 比分、游戏时间、昼夜、肉山、防御塔、暂停\n- 对局什么时候开始、什么时候结束、谁赢\n- 双方阵容：开局名单确认后，你和队友、敌方各是什么英雄\n- 团战：多人交火收口时会告诉你几换几、谁参与了\n- 地图动向：己方队友的实时位置区域；敌方每个人最后露头的时间和区域\n- 敌方建筑：塔和兵营被摧毁（带路别）\n- 肉山：被谁杀了、盾在谁手里、多久刷新\n\n## 数据不覆盖什么\n\n- 敌方英雄的等级（接口不报，这个真没有）\n- 对面每个人买了什么装备（收集了但还没有查询入口）\n- 敌方在被迷雾遮住时的实时位置——只有「最后露头在哪、多久了」\n\n判断「敌方在干什么」时，用最后露头的时间差去想，别当成实时位置。\n\n## 什么时候会有记录进来\n\n开局和结束、阵容确认、阵亡和复活、升级（里程碑等级才报）、击杀助攻、买到装备、拿到 A 杖、买活、塔和兵营被摧毁、肉山、暂停会作为战况记录出现在你的上下文里。\n\n敌方动向有四条固定规则，命中才报：全员消失超过 10 秒（警惕绕后或开盾）、三人以上同区域抱团、消失 20 秒以上的人出现在你附近、两人以上进肉山坑。团战打完会有一条收口总结。\n\n这些记录都自带发生时刻。隔了半分钟以上才转告某条的话，先调 `dota_minimap` 或 `dota_status` 现读最新的数字再开口——记录里的是当时，不是现在。\n\n还有几种固定时刻的拾取提醒，提前 30 秒、每局每条最多一次：莲花快熟（中单不提醒，文案会带哪朵离他近）、圣水符要出（只提醒中单）、第一颗经验符文要刷。这些是例行通报，不是场上已发生的事：收到就直接告诉他，一句带过，不用分析局势、不用给建议。\n\n这些是系统写的记录，不是用户打的字。其余的数字不会主动送过来。\n\n## 工具\n\n- `dota_status`：此刻这一局的卡（数字和状态）。\n- `dota_minimap`：现读位置库——己方在哪、敌方最后露头在哪、名单确认进度、肉山状态。\n- `dota_events`：最近一段时间里发生过的变化。\n- `dota_match`：一局的汇总，正在打就给到现在为止。\n\n什么时候值得看一眼地图：你阵亡等复活的时候、团战刚结束想复盘的时候、感觉有人 miss 要确认的时候、给战术建议之前。\n\n游戏没开、没在打的时候，`dota_status` 会说清连接状态，并把手边上一局的数字给你。\n"
       }
     ]
+  },
+  "changelog": {
+    "0.2.2": "- **修一个真 bug**：一局结束的瞬间，终局收口可能把一条格式不对的记录发给宿主（2026-11-15 那次「连崩 30 次」事故的产生分支，这次由 2026-11-15 埋的告警金丝雀定位：11-22 两局终局各触发一次）。已修，并加了回归测试。\n- **模式显示**：扩展面板新增「模式」一栏，显示 加速/常规/判断中 和判定依据（被动金钱速率、补刀单价）；`dota_status` 卡和 `dota_minimap` 回执的头部也带「加速模式（推断）/常规模式（推断）」；每次判定结果会写一条进宿主日志，一局一条。\n- **模式识别提速**：新增第二个信号「补刀单价」（击杀金钱 ÷ 补刀数，常规约 40 金/刀、Turbo 翻倍约 80）。它不吃补刀数多少，出兵一两条线就能量出来；就算被动金钱不翻倍，也能在两分钟内判出 Turbo，并把先前误判的常规纠正回来。",
+    "0.2.1": "- 简介补充作者的实测范围：主要打加速（Turbo）模式，连续用了很多天；普通模式的时刻表按官方数据配置、未经长期实战，遇到问题欢迎到 Issues 反馈。\n- 无功能改动。",
+    "0.2.0": "官方接口的小地图和事件流接进来，从「读数字」升级到「看得见场上发生什么」。\n\n- **双方阵容**：开局自动确认名单，敌我各是谁；选人阶段的幻影英雄会被清掉。\n- **位置库**：己方队友的实时位置区域；敌方每个人最后露头的时间和区域。迷雾里的位置拿不到，回执只报「最后露头」。\n- **团战收口**：多人交火结束后报几换几、谁参与了。\n- **四条动向提醒**：敌方全员消失、三人以上抱团、消失 20 秒以上的人出现在你附近、两人以上进肉山坑。各 30 秒冷却，命中才报。\n- **建筑与肉山**：敌方塔和兵营被摧毁（带路别）；肉山被杀、盾的归属、刷新时间。\n- **拾取提醒**：莲花、圣水符、第一颗经验符文，提前 30 秒，每局每条一次；莲花只提醒非中单，圣水符只提醒中单。\n- **常规/Turbo 自动识别**：官方接口不报游戏模式，扩展从被动金钱速率（常规 3 金/秒、Turbo 约翻倍）和升级速度推断，肉山 20:00 前露头直接判 Turbo；判不出来先按常规走，判出来立刻换时刻表。\n- **新工具 `dota_minimap`**：现读位置库。工具总数 4，事件 26 种。\n- **中文名表**：包内自带 127 个英雄和常用装备的中文名，卡片直接说「影魔」「闪烁匕首」；支持在 data 目录放自己的叫法覆盖。\n- **肉山时刻**：首刷常规 20:00、Turbo 起手就在；复活基准 11 分钟，每次被打败减 1 分钟、最低 5 分钟，都能在设置里改。小地图上看到本体就按看到的算，估时明确标「估」。\n- **两个肉山坑**：7.33 起肉山在两个坑之间轮换，两处都识别。\n- 修：`deliver` 边界丢弃缺 `type`/`text` 的畸形事件，不再可能炸宿主主循环（2026-11-15 事故）。\n- 事件和工具的自描述 `describe.json` 随版本重生成。",
+    "0.1.3": "- 图标与简介定稿；`repository` 指向公开仓库。",
+    "0.1.2": "- 简介换成正式版：官方接口、事件推送、不做判断、能力边界。\n- 真机修复：空装备格不再念成 `empty`；选人阶段不再念「英雄 0」；开局载入的空白帧不再误报「回到菜单」；出兵前的昼夜翻转不再误报「天亮了」。",
+    "0.1.1": "- 图标换成角色立绘裁切版（512 / 128），淘汰 0.1.0 的三条状态条图标。",
+    "0.1.0": "- 第一版：英雄、等级、血蓝、金钱、补刀、战绩、装备与冷却、复活与买活、比分、时间、昼夜、对局开始和结束。\n- 三个工具：`dota_status`、`dota_events`、`dota_match`。"
   }
 }
