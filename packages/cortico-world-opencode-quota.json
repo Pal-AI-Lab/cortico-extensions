@@ -1,19 +1,19 @@
 {
   "schema": 1,
   "name": "cortico-world-opencode-quota",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "describe": {
     "tools": [
       {
         "name": "ocq_read",
-        "description": "Read the OpenCode subscription allowance: the 5-hour, weekly and monthly windows with percentages and reset times.",
+        "description": "查 OpenCode 订阅额度：返回 5小时/周/月已用与剩余比例及重置倒计时。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "endpoint": {
               "type": "string",
-              "description": "Only this source; omit to read every watched source."
+              "description": "来源名，留空查全部。"
             }
           }
         },
@@ -21,26 +21,26 @@
           "read"
         ],
         "summary": {
-          "zh": "读 OpenCode 端点的订阅额度:三个窗口的百分比与重置时间。",
-          "en": "Reads the subscription allowance of OpenCode endpoints: each window’s percentage and reset time."
+          "zh": "查询 OpenCode 订阅额度（5小时/周/月的已用与剩余比例及重置倒计时）。",
+          "en": "Reads OpenCode subscription usage and remaining percentages with reset countdowns."
         }
       },
       {
         "name": "ocq_history",
-        "description": "Recent allowance trend: sample count, each window’s peak and latest value.",
+        "description": "查本地记录的近期额度峰值、最新已用/剩余值与月度日均消耗。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "endpoint": {
               "type": "string",
-              "description": "Only this source; omit for one line per source."
+              "description": "来源名，留空查全部。"
             },
             "days": {
               "type": "integer",
               "minimum": 1,
-              "maximum": 90,
-              "description": "How many days back, defaulting to 14."
+              "maximum": 365,
+              "description": "回看天数，默认按配置的本地保留天数。"
             }
           }
         },
@@ -48,31 +48,33 @@
           "read"
         ],
         "summary": {
-          "zh": "看最近记录的额度趋势:样本数、峰值与最新值。",
-          "en": "Recent allowance trend: sample count, peak and latest value."
+          "zh": "查询本地记录的近期额度峰值、最新值与月度日均消耗。",
+          "en": "Reads locally recorded quota peaks, latest values, and monthly burn pace."
         }
       }
     ],
     "events": [
       {
         "type": "opencode-quota.threshold",
+        "trigger": "piggyback",
         "description": {
-          "zh": "某个额度窗口刚越过配置的告警线。",
-          "en": "An allowance window just crossed its configured threshold."
+          "zh": "某个额度窗口刚越过配置的告警线（默认 piggyback 静默搭便车，可在配置中切换投递规则）。",
+          "en": "An allowance window crossed the alert threshold (defaults to piggyback; configurable)."
         }
       },
       {
         "type": "opencode-quota.reset",
+        "trigger": "piggyback",
         "description": {
-          "zh": "某个额度窗口重置了(重置时刻变了)。",
-          "en": "An allowance window reset, which shows as a new reset time."
+          "zh": "某个额度窗口已重置刷新（默认 piggyback 静默搭便车，可在配置中切换投递规则）。",
+          "en": "An allowance window reset after a usage drop (defaults to piggyback; configurable)."
         }
       },
       {
         "type": "opencode-quota.unavailable",
         "description": {
-          "zh": "某个端点的额度从此读不到;同一个原因只报一次。",
-          "en": "An endpoint’s allowance became unreadable; each reason is reported once."
+          "zh": "某个来源的额度读取失败（仅入库不唤醒 bot，同一来源只记录一次）。",
+          "en": "A source could not be read (archived only without waking the bot; recorded once per outage)."
         }
       }
     ],
@@ -81,11 +83,12 @@
         "key": "worlds.opencode-quota.envPrompt",
         "title": "OpenCode 额度 · 环境提示词",
         "role": "envPrompt",
-        "content": "OpenCode 额度 World 定时读你正在用的 OpenCode 端点的订阅额度。此刻监控的端点:{{opencode-quota.endpoints}};最紧的一个窗口是 {{opencode-quota.worst}};上次读到的时刻是 {{opencode-quota.lastRead}}。\n\n用户问到额度、还剩多少、还能用多久时,先调用 ocq_read 取此刻的数字再回答;要看趋势就调 ocq_history。这两个工具只读,不消耗额度。\n\n不要主动报额度数字。只有收到额度相关的事件(越过告警线、窗口重置)时,才按事件正文说一句;没收到就别提,也不要定期汇报。\n"
+        "content": "监控中的 OpenCode 额度来源：{{opencode-quota.endpoints}}。\n用户问额度、余量或重置时间时调 ocq_read；问趋势调 ocq_history（均只读，不耗额度）。\n平时勿主动报额度，仅收到告警或重置事件时简短转告。\n"
       }
     ]
   },
   "changelog": {
+    "0.3.0": "- **剩余 / 已用双模式切换**:额度面板顶部新增「剩余额度 / 已用额度」分段开关,点击即可即时切换面板读数、进度条方向、告警线刻度、月度趋势折线图与页头徽标/状态灯提示,并热更新持久化到 `worlds.opencode-quota.displayMode`。\n- **月度本地趋势与虚线预测折线图**:在每张 Key 卡片内新增基于本地历史记录的轻量 SVG 月度曲线(纯中文,明确标注虚线为预测值,并展示日均消耗与预计触顶/耗尽日期);切换至「剩余额度」模式时,预测虚线跌破 0% 后即停在预计耗尽日,后段留出清晰空档直至订阅重置日。支持鼠标滚轮以光标为锚点缩放、左键左右拖动平移、双击或按钮一键还原全景、悬停十字读数,放大后横轴自动从按周/月细化到逐日与小时刻度。\n- **本地历史保留天数可配置与存储升级**:开放 `worlds.opencode-quota.retainDays`(默认 35 天覆盖完整月度周期,可设 7–365 天,热生效);`History` 升级为内存索引缓存(15 秒刷新与统计 0 磁盘 I/O)、变化去重 + 30 分钟低频心跳 + 变化前稳态锚点(35 天体积压至约 300 KB 且曲线零失真)、临时文件 + `rename` 原子裁剪防崩溃截断,并新增不可逆 `keyId` 指纹绑定(Provider 改名不断历史、换 Key 不串曲线,无缝兼容旧记录)。\n- **按实际 Key 去重合并**:多个 OpenCode Provider 共用同一把 API Key 时自动合并为单个额度来源与单张卡片(列出共享该 Key 的全部 Provider 标签,不再重复请求与重复渲染);只有存在多把不同 Key(含 `options.keys` 备用密钥)时才分列多张额度面板。同时支持密钥尾标脱敏(`••••xxxx`)与错误/无效 JSON 脱敏。\n- **面板视觉重构与市场元数据补齐**:新增独立样式表 `dist/webui.css`(`cortico.webUiStyle`),完全跟随 Cortico 明暗主题 token;补齐 `package.json` 的 `displayName` 与中英双语 `locales` 简介。\n- **低打扰事件投递规则(可配置)**:额度刷新(`opencode-quota.reset`)与越线告警(`opencode-quota.threshold`)的默认投递规则改为 `piggyback`(静默入队不唤醒 bot),并在配置页开放 `resetTrigger` 与 `thresholdTrigger`,支持宿主全部 5 种投递规则热切换。\n- **精简纯中文工具与环境提示词**:全面中文化并压缩 `ENV_PROMPT.md` 与工具描述、`ocq_read`/`ocq_history` 输出同时附带已用与剩余百分比;从静态系统前缀移除易变时间戳与临时最紧窗口。\n- **安全与稳定性加固**:网关请求禁止重定向(`redirect: 'error'`)、补充 15s 超时与 64 KiB 响应体上限、限制 `http/https` 且拒绝内嵌凭证 URL、`stop()` 中止在途请求与重试等待、`poll()` 并发去重、网络抖动保留上次有效缓存读数并显示轻量提示、按量计费 URL 自动识别跳过、`History` 保留 35 天并改为周期性裁剪。",
     "0.2.4": "- 读不到额度这类诊断不再进入 bot 的上下文:事件照常落库(事件库与面板看得到),但带 `deliver: false`,不会叫醒 bot。只有越线与窗口重置才进上下文,并受「越线时提醒」开关与 30 分钟冷却约束。\n- 网络抖动不再算失败:同一次请求先重试一遍(`fetch failed` 这类多半是 DNS 或连接重置),仍失败才记录。",
     "0.2.3": "- 修复事件风暴:每 5 小时窗口的 `resetsAt` 在空闲时每分钟往后滑一分钟,旧逻辑把「重置时刻变了」当成窗口重置,于是每次轮询都推一条 `opencode-quota.reset`,bot 每分钟说一次。现在重置只认用量掉下来(至少 5 个百分点),`resetsAt` 的移动不再触发事件。\n- 同一来源、同一窗口、同一类事件加 30 分钟冷却:判断再出错也最多吵一次,不会连成串。",
     "0.2.2": "- 补 MIT 许可证文件(`LICENSE`),仓库页与 npm 页因此能识别许可;发布物也带上它。\n- `package.json` 补 `bugs` 链接。\n- README 增加「安装」一节:包名、link 本地目录、npm 与仓库链接,以及与供应商插件的配套关系。\n- 新增 `.gitattributes`:行尾统一 LF,二进制不参与转换。",
