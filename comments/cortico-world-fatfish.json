@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "cortico-world-fatfish",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
-  "total": 74,
+  "total": 75,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BLl37",
+      "author": "blacksunshy",
+      "avatar": "https://avatars.githubusercontent.com/u/55180982?s=64&u=a1b3db32b5410fa654e78f603b7115646214f910&v=4",
+      "body": "0.6.29（刚发布）修了这类「说着说着卡死、一直转圈圈」。\n\n根因在语音合成没有任何上限。Edge 的 WebSocket 在网络被 VPN 换路由、或笔记本休眠回来后，可能**既不回包也不关闭**，`toFile()` 就一直挂着——这一句永远不结束，后面的每一句都排在同一个链条后面，`speaking` 灯也一直转；此时人说的话照常转给 DSH，大肥鱼却不再出声，看起来就是卡死。\n\n现在：\n\n- 合成 45 秒上限（高于 http 引擎自身的超时 + 一次 Edge 重试），超时即丢弃这句并断开旧 socket，下一句重新连；\n- 播放 5 分钟上限，播放器僵住时强制结束并放开链条；\n- 超时丢弃**不进失败冷却**，下一句立刻重试，不用重启扩展。\n\n升级到 0.6.29 即可（npm / 市场都会自动更新）。如果升级后还遇到，请把扩展日志里 `TTS synthesis still running after` 或 `TTS playback still running after` 附近的行贴回来，我们再看是不是另一条路径（例如模型侧等一次永远不会点的 `pet_ask`）。\n",
+      "createdAt": "2026-11-22T16:27:42Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BLl3J",
       "author": "1980198034",

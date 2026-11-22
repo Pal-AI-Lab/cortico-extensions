@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-fatfish",
-  "version": "0.6.28",
+  "version": "0.6.29",
   "describe": {
     "tools": [
       {
@@ -131,6 +131,7 @@
     ]
   },
   "changelog": {
+    "0.6.29": "- **修「说着说着就卡死、一直转圈圈、什么话也不说」**（discussion [#19](https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19) 的最新反馈）：语音合成这一步没有任何上限。Edge 的 WebSocket 在网络被 VPN 换路由、笔记本休眠回来之后，可能**既不回包也不关闭**，`toFile()` 就永远挂着——这一句永远不结束，后面的每一句都排在同一个链条后面，`speaking` 灯也一直转；人还在说话、话照常转给 DSH，大肥鱼却不再出声，看起来就是「卡死」。现在：\n  - 合成有 45 秒上限（高于 http 引擎自身的超时 + 一次 Edge 重试），超时即丢弃这一句并断开旧 socket，下一句重新连接；被放弃的调用如果之后才返回，它的临时文件也会被删掉\n  - 播放有 5 分钟上限，播放器僵住时强制结束并放开链条\n  - 超时丢弃**不进失败冷却**，下一句立刻重试，恢复不需要重启\n- 测试：`tsc --noEmit` 通过；`vitest` **118 passed**（新增「合成永不返回时按期限放弃」）",
     "0.6.28": "- **重连不再白等一次全端口扫描**（issue [#19](https://github.com/blacksunshy/coopanion-fatfish/issues/19)）：断线时旧代码在「是否允许扫描」的节流判断之前就把 `discoveredUrl` 清掉了，于是每次重试都去拨配置里的 URL，而能把同一个端口重新找回来的扫描又被 20 秒冷却挡着——端口根本没变，重连却要等完冷却（约 4–5 秒）。现在最后找到的地址会一直用到扫描真的落空才丢弃；扫描确认 DSH 就在配置端口时，也顺手清掉过期的旧地址\n- **上下文占用超过窗口时不再误判为「快满了」**（issue [#17](https://github.com/blacksunshy/coopanion-fatfish/issues/17)）：代理模型会在上游折叠历史，Host 若用 `tokenMeter.measure()` 读原始 transcript，就会报出比窗口还大的数字（实测 1.36M / 1M 窗口，实际只用了 12.5%），大肥鱼据此把刚开的会话交接掉了。现在 `used > size` 或缺少其中一个数都视为「读不出可信占用」，退回 400 轮兜底\n- **1–3 个选项的问题会先用 `pet_ask` 放进气泡给人物点**（issue [#18](https://github.com/blacksunshy/coopanion-fatfish/issues/18)）：此前题目与选项只进了模型上下文，气泡上没有能点的按钮；现在单个问题且选项 ≤ 3 时，通知里会让模型先调 `pet_ask` 把选项摆出来，人物点完或直接说话后再用 `dsh_answer` 提交。没有 `pet_ask`（未装桌面宠物包）时按原样把问题交给人物\n- 与 Host 侧配对：`coopanion-connector-dsh ≥ 0.2.28`（占用数字改为读 `contextPressure`）；旧 Host 也能用，只是拿到不可信数字时按轮次兜底\n- 测试：`tsc --noEmit` 通过；`vitest` **117 passed**（新增重连保留地址、不可信占用不回退、缺数字退回轮次、1–3 选项提示与 4 选项不提示）",
     "0.6.27": "- **扩展简介重写**：市场里只留「能做什么」与「安装需要什么」，不再把每一版的改动堆在简介里（原先中英文各七千多字节）；逐版改动统一看本文件\n- 无功能改动，行为与 0.6.26 完全一致",
     "0.6.26": "- **新增「替人物点 DSH 的选项与批准」（讨论 [#19](https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19) 里 qwq-awa-qnq 的建议，需 connector-dsh ≥ 0.2.25）**：设置里打开 `answerForMe`（默认关）后，大肥鱼连上 DSH 时在 `hello` 里声明 `caps: ['answers']`；DSH 弹出批准或 `ask_user_question` 时请求直接发过来，它用两个新工具回决定——`dsh_approve`（`allowed-once` / `rejected` / `cancelled`）与 `dsh_answer`（按选项 label 选择，支持多选与自定义文本），你不在键鼠前也能让它代点\n- **只点你自己的会话**：Host 只在桌宠拥有的那个会话里接管，别处的提问照旧交还桌面；请求带编号与工具名进通知，5 分钟没处理由 Host 自动过期交还，断线时本地待决请求一起清空\n- **默认关闭、旧组合不受影响**：开关关着就不声明能力、也不暴露这两个工具，Host 继续按原来的批准 / 问句通知路径工作；`notify` 各档位行为不变\n- 与 Host 侧配对：`coopanion-connector-dsh ≥ 0.2.25`（`request` / `request-end` / `answer` 帧）\n- 本版同时发布 main 上累积的 0.6.22 ~ 0.6.25（`dsh_sessions` 清单、指名投递、固定与落点分开、会话标题、运行状态）\n- 测试：`tsc --noEmit` 通过，`vitest` 全绿（新增请求帧解析、`dsh_approve` / `dsh_answer` 的 label 往返与单选/多选/未知选项拒绝、请求过期与开关关闭四条路径）",
