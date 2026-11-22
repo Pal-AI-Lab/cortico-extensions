@@ -1,0 +1,204 @@
+{
+  "schema": 1,
+  "name": "cortico-world-quark",
+  "version": "0.3.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "qk_get_user_info",
+        "description": "读夸克网盘当前账号的昵称、网盘空间与会员状态。未登录时先调 qk_login。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "读当前账号的昵称、网盘空间与会员状态。",
+          "en": "Reads the current account nickname, storage and membership."
+        }
+      },
+      {
+        "name": "qk_login",
+        "description": "用授权码登录夸克网盘。授权码从部署 .env 的 QUARK_AUTH_CODE 读；用户没填时如实说明。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "用部署里保存的授权码登录。",
+          "en": "Signs in with the authorization code stored in the deployment."
+        }
+      },
+      {
+        "name": "qk_unauthorize",
+        "description": "解除夸克网盘授权，返回解绑地址。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "解除授权并给出解绑地址。",
+          "en": "Revokes the authorization and returns the revoke URL."
+        }
+      },
+      {
+        "name": "qk_confirm",
+        "description": "回应“每次操作前需确认”的询问：同意则本次操作继续，拒绝则本次不继续。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "confirm",
+                "reject"
+              ]
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "qk_search",
+        "description": "按关键词搜索网盘文件，返回文件名、大小、类型、FID 等。可选限定目录 FID、搜索类型、单页大小。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "keyword": {
+              "type": "string",
+              "description": "搜索关键词，最大 50 字符"
+            },
+            "parentFid": {
+              "type": "string",
+              "description": "限定搜索目录 FID，缺省为全盘"
+            },
+            "searchType": {
+              "type": "string",
+              "description": "搜索类型：mix/video/album/doc/audio/dir/package/other/app，缺省 mix"
+            },
+            "size": {
+              "type": "integer",
+              "description": "单页结果数量，范围 1～100，缺省 100"
+            }
+          },
+          "required": [
+            "keyword"
+          ]
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "qk_browse",
+        "description": "列出指定目录的直接子项，返回文件列表。可选父目录 FID、单页大小、是否获取全部子项。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "parentFid": {
+              "type": "string",
+              "description": "父目录 FID，缺省为根目录 0"
+            },
+            "pageSize": {
+              "type": "integer",
+              "description": "单页大小，范围 1～100，缺省 100"
+            },
+            "all": {
+              "type": "boolean",
+              "description": "是否获取全部直接子项，缺省 false"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "qk_download",
+        "description": "下载网盘文件到本地，返回下载任务与本地保存路径。需要文件 FID。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "fid": {
+              "type": "string",
+              "description": "要下载的文件 FID"
+            },
+            "outputDir": {
+              "type": "string",
+              "description": "输出目录，缺省 ./downloads"
+            },
+            "overwrite": {
+              "type": "boolean",
+              "description": "同名文件时是否覆盖，缺省自动重命名"
+            }
+          },
+          "required": [
+            "fid"
+          ]
+        },
+        "tags": [
+          "act"
+        ]
+      }
+    ],
+    "events": [
+      {
+        "type": "quark.started",
+        "description": {
+          "zh": "World 挂载完成。",
+          "en": "The World was mounted."
+        }
+      },
+      {
+        "type": "quark.account",
+        "description": {
+          "zh": "账号信息读取完成。",
+          "en": "Account information was read."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "quark.authFailed",
+        "description": {
+          "zh": "授权不可用或读取账号信息失败。",
+          "en": "Authorization is unavailable or reading account information failed."
+        },
+        "trigger": "flush"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.quark.envPrompt",
+        "title": "夸克网盘 · 环境提示词",
+        "role": "envPrompt",
+        "content": "夸克网盘 World 把包内的命令行工具接成三个工具。\n\n- 想知道当前账号是谁、还剩多少空间、是不是会员，调 `qk_get_user_info`。\n- 用户说「授权」「登录」「绑定」时调 `qk_login`；授权码存在部署配置里，用户没填就如实说，不要让用户去命令行执行什么。\n- 用户说「取消授权」「解除绑定」时调 `qk_unauthorize`，并把回执里的地址给出去。\n\n命令行工具用一行 JSON 回报结果，失败时 `code` 非零、`msg` 是给用户看的话，回执里原样带上，不要改写。未授权时不要再调原命令，直接说明并引导登录。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "首个版本：授权码登录、账号信息（昵称、网盘空间、会员状态）展示、解除授权。",
+    "0.2.0": "新增「每次操作前需确认」开关（默认打开）：开关打开时 AI 要动网盘会先返回等待确认，面板出现「AI 正在等确认」卡片，点同意放行本次操作，点拒绝则本次不继续。",
+    "0.3.0": "新增文件操作工具：`qk_search` 按关键词搜索网盘文件、`qk_browse` 列出目录直接子项、`qk_download` 下载网盘文件到本地。AI 现在可以找到并读取网盘里的文件了。"
+  }
+}
