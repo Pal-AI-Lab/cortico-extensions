@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "cortico-world-astrbot-livingmemory",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/749",
-  "total": 6,
+  "total": 7,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BLlVE",
+      "author": "HirannU-OVO",
+      "avatar": "https://avatars.githubusercontent.com/u/107823543?s=64&u=2ed1a9c507b3285c2c2f161f186521d4331e12f0&v=4",
+      "body": "新版0.2.5重新对使用环境进行了模式配置，并引入了群聊记忆机制（私聊记忆不进群聊，不同群聊记忆不会串，但是私聊能知道群聊相关记忆）\n因为桌宠可能会忙，导致多个消息和记忆被同时注入，当前版本下只会保留最新的消息\n在cortico-world-astrbot桥接环境下在两个群+私聊环境进行了相关测试，如果出现了群聊和私聊记忆混合的情况，可以优先检查livingmemory配置是否做了会话隔离，如果确认没问题，欢迎带着实际环境和配置项反馈，谢谢\n另外如果搭配使用cortico-world-astrbot桥接插件，请务必在astrbot侧更新桥至1.3.1以上，插件市场是旧版本的话更换插件源为github重装即可",
+      "createdAt": "2026-11-22T13:17:34Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BLVtT",
       "author": "omg-a111",

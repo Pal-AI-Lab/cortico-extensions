@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
-  "version": "0.9.7",
+  "version": "0.9.8",
   "describe": {
     "tools": [
       {
@@ -78,6 +78,7 @@
     ]
   },
   "changelog": {
+    "0.9.8": "- **显卡探测失败不再当成「没有独显」（#18）**：WMI 被系统拒绝时，`GpuInfo` 返回\n  `probe: 'failed'` 并保留原因；面板提示「显卡探测失败，请手动选择推理档或修复 WMI」，\n  不再误报「没有检测到 NVIDIA 显卡」。WMI 失败时改用注册表\n  `Control\\Video\\<GUID>\\0000\\DriverDesc` 兜底；`nvidia-smi` 失败也会把 `err.code` 写进日志。\n- **NVIDIA 驱动太旧给出人话（#16）**：`torch` 抛\n  `NVIDIA driver on your system is too old (found version 11040)` 时，面板与退出原因\n  直接显示「驱动太旧（当前只支持 CUDA 11.4），显卡档需要 525 以上驱动」，并提示更新\n  驱动或改用 CPU 档；`CUDA driver version is insufficient` / 找不到设备也各有提示。\n- 验证：402 个单测、`tsc --noEmit`、`npm run build`。",
     "0.9.7": "- **音色表单报错就地显示**：参考音频时长错误放在「参考音频」输入框下面，台本错误在\n  台本输入框下面，权重成对错误在权重字段下面；不再只往页面最底部丢一条报错。\n- **分段下载失败时先停住其余段（issue #17）**：`Promise.all` 一 reject，其余三路其实\n  还在写，`finally` 立刻删分片在 Windows 上会因文件被占用而失败，留下约 575 MB 的\n  `.chunk*`，进度还会被旧分片的字节再累加一遍，于是显示 114%/116%。现在 catch 里先\n  `abort` 并 `await Promise.allSettled`，等所有分片真正停下后再清理，进度不再虚增。\n- **下载进度封顶 100%**：多来源重试 / 断点续传时 `done` 可能短暂超过 `total`，UI 的\n  百分比和 `Job.status()` 都做了 0–100 截断，不会出现 114%。\n- 验证：393 个单测、`tsc --noEmit`、`npm run build`。",
     "0.9.6": "- **火山引擎复刻音色 cluster**：自己复刻/克隆的音色要用 `volcano_icl`，系统音色用\n  `volcano_tts`。面板集群输入加了这两个候选与说明；`Init Engine Instance failed` /\n  `Fail to feed text` 的 500 错误现在直接提示是 voice_type / cluster 不匹配。\n- **云端网络错误可诊断**：`fetch failed` 会带出 `err.cause` 的底层原因（DNS / 连接重置 /\n  TLS / 代理等），并自动重试一次；Breeze Blue 偶发断连时不再只显示四个字。\n- 其他厂商复核：Azure、MiniMax、ElevenLabs、MiMo、Fish、OpenAI 兼容的端点、鉴权、\n  音色字段与响应解析未发现新问题。\n- **重装运行时不再被推理服务锁住**：下载/解压期间服务可以继续用，真正替换 `runtime/`\n  前自动停服并等文件句柄释放；替换期间禁止桌宠/接口按需拉起，装好后恢复。替换失败时\n  提示检查任务管理器里残留的 python.exe。\n- 验证：392 个单测、`tsc --noEmit`、`npm run build`。",
     "0.9.5": "- **切换云端厂商不会自动换密钥**：密钥目前是单份保存的，从 Breeze 切到火山时会把 `brz_…`\n  当成火山 Access Token 发出去，表现就是 401/403。面板现在检测 `brz_` / `sk-` 前缀与当前\n  厂商不符时给出警告，README 也写明「切换厂商要重新保存对应密钥」。\n- 火山引擎面板补「APP ID / voice_type 缺失」提示；配合 0.9.4 的 Access Token、cluster、\n  2.0 音色说明，把 401/403 的常见原因写在面板上。\n- 验证：`tsc --noEmit`、389 个单测、`npm run build`。",

@@ -1585,7 +1585,7 @@
     },
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.9.7",
+      "version": "0.9.8",
       "displayName": "大肥鱼语音全能包",
       "description": "大肥鱼语音全能包（原 GPTSovits 语音，cortico-world-gpt-sovits-for-coopanion）：给 Coopanion 桌宠用的语音插件，现已全面支持本地 / 云端双引擎与 NVIDIA / AMD（ROCm，实验性）/ CPU 三种方案。本地默认全程本机合成；云端支持自定义 OpenAI 兼容与多家厂商接口（填自己的 Key）。内置大肥鱼、星落落音色，支持自备权重与自定义音色、QQ 语音与唱歌联动；CPU / 核显档可开播放预缓冲（默认关闭）。",
       "locales": {
@@ -1621,8 +1621,8 @@
         "darwin"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-11-22T05:24:14.018Z",
-      "versionCount": 51,
+      "published": "2026-11-22T13:38:22.850Z",
+      "versionCount": 52,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -1649,6 +1649,7 @@
       },
       "changelog": {
         "versions": [
+          "0.9.8",
           "0.9.7",
           "0.9.6",
           "0.9.5",
@@ -5756,9 +5757,9 @@
       "discussion": {
         "number": 749,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/749",
-        "up": 0,
+        "up": 1,
         "down": 1,
-        "comments": 6
+        "comments": 7
       }
     },
     "cortico-world-audio": {
@@ -9831,7 +9832,7 @@
     },
     "cortico-world-dota2-gsi": {
       "kind": "world",
-      "version": "0.2.2",
+      "version": "0.2.6",
       "displayName": "刀塔战况",
       "description": "将 Dota 2 官方接口提供的实时对局数据传递给 Coo，包括：\n\n英雄、等级、生命值、魔法值、金钱、补刀、战绩、装备及冷却时间、复活与买活时间、双方比分、游戏时间和昼夜状态，以及对局的开始和结束时间。\n\nv0.2 起接入官方接口的小地图和事件流：开局确认双方阵容；己方队友的实时位置区域、敌方每个人最后露头的时间和区域随时可查；团战打完报几换几；敌方全员消失、抱团、绕后贴脸、进肉山坑这四种动向会按固定规则提醒；塔和兵营被摧毁（带路别）、肉山被杀和盾的归属、买活也会推送。\n\n对局中出现状态变化时，会向 C",
       "locales": {
@@ -9867,8 +9868,8 @@
         "win32"
       ],
       "created": "2026-11-14T03:42:05.486Z",
-      "published": "2026-11-22T12:54:58.449Z",
-      "versionCount": 8,
+      "published": "2026-11-22T14:41:03.518Z",
+      "versionCount": 12,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -9884,13 +9885,17 @@
         "week": 112
       },
       "summary": {
-        "tools": 4,
+        "tools": 5,
         "events": 26,
-        "toolTokens": 471,
+        "toolTokens": 652,
         "envPromptTokens": 652
       },
       "changelog": {
         "versions": [
+          "0.2.6",
+          "0.2.5",
+          "0.2.4",
+          "0.2.3",
           "0.2.2",
           "0.2.1",
           "0.2.0",
@@ -13885,7 +13890,7 @@
     },
     "cortico-world-hearthstone": {
       "kind": "world",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "displayName": "炉石陪打",
       "description": "陪打炉石（需 Coopani 0.2.17+）:读对局日志,就知道双方血量、场面、手牌和水晶。该开口时开口:该解场还是该压、费够不够上那张大牌、对面有没有斩杀。只看不动手,不代打;第一次启动会替你把 Power 日志打开。打完能陪你复盘:哪一手走了岔路、她当时建议什么,也记得住最近几十局的战绩。她自己还有一份打法档案——信哪一套、看不惯什么,边打边写,越打越像她;但算出的斩杀她照样得喊,风格盖不住账。竞技场也认。",
       "locales": {
@@ -13921,8 +13926,8 @@
         "darwin"
       ],
       "created": "2026-10-27T13:42:43.161Z",
-      "published": "2026-11-22T10:36:27.059Z",
-      "versionCount": 44,
+      "published": "2026-11-22T13:21:32.742Z",
+      "versionCount": 45,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -13948,6 +13953,7 @@
       },
       "changelog": {
         "versions": [
+          "1.0.3",
           "1.0.2",
           "1.0.1",
           "1.0.0",
@@ -14459,7 +14465,7 @@
     },
     "cortico-world-idle-abyss": {
       "kind": "world",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "displayName": "深渊放置姬",
       "description": "让 Coo 自己玩《深渊放置姬》，也能陪你玩：状态、装备、剧情、技能、扭蛋、铁匠、领奖、秘境、背包、营地，层数推进不主动打扰。",
       "locales": {
@@ -14494,8 +14500,8 @@
         "win32"
       ],
       "created": "2026-11-22T12:48:39.811Z",
-      "published": "2026-11-22T12:51:47.325Z",
-      "versionCount": 2,
+      "published": "2026-11-22T13:43:48.313Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -14520,11 +14526,12 @@
       },
       "changelog": {
         "versions": [
+          "0.3.1",
           "0.3.0",
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-idle-abyss@0.3.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-idle-abyss@0.3.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 1084,
@@ -16853,7 +16860,7 @@
     },
     "cortico-world-memory-files": {
       "kind": "world",
-      "version": "0.2.1",
+      "version": "0.3.0",
       "displayName": "文件记忆",
       "description": "给会失忆的 AI 伙伴用的一套规矩：STATE / 流水 / 待办 / 交接 / 备份，外加带引力的记忆账本和一张钩子表。文件是主线，脑子是缓存。只在 Windows 上跑（底层是 PowerShell 脚本，用了 robocopy）。",
       "locales": {
@@ -16890,8 +16897,8 @@
         "win32"
       ],
       "created": "2026-11-16T01:08:09.632Z",
-      "published": "2026-11-19T07:29:38.323Z",
-      "versionCount": 4,
+      "published": "2026-11-22T14:50:15.298Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -16909,18 +16916,10 @@
         "week": 719
       },
       "summary": {
-        "tools": 15,
+        "tools": 16,
         "events": 0,
-        "toolTokens": 2276,
-        "envPromptTokens": 1876
-      },
-      "changelog": {
-        "versions": [
-          "0.2.1",
-          "0.2.0",
-          "0.1.0"
-        ],
-        "url": "https://github.com/guyusuifengxing/cortico-world-memory-files/blob/HEAD/CHANGELOG.md"
+        "toolTokens": 2470,
+        "envPromptTokens": 2224
       },
       "discussion": {
         "number": 970,
@@ -20440,7 +20439,7 @@
     },
     "cortico-world-private-companion": {
       "kind": "world",
-      "version": "0.8.5",
+      "version": "0.8.6",
       "displayName": "我会永远陪着你",
       "description": "「我会永远陪着你」Coopanion 版：把原作的生活感、主动联系、关系卡与说话分寸独立实现为 World 扩展。内置可迁移记忆，支持本地图库导入与可选视觉自动描述，并打通记忆 × QQ × B站的多功能联动。",
       "author": "yaya-super",
@@ -20474,8 +20473,8 @@
         "bugs": "https://github.com/YaYa-super/cortico-world-private-companion/issues"
       },
       "created": "2026-10-29T11:24:55.064Z",
-      "published": "2026-11-19T14:06:31.046Z",
-      "versionCount": 22,
+      "published": "2026-11-22T13:58:59.132Z",
+      "versionCount": 23,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -20509,13 +20508,14 @@
         "week": 2185
       },
       "summary": {
-        "tools": 53,
+        "tools": 54,
         "events": 11,
-        "toolTokens": 6984,
-        "envPromptTokens": 810
+        "toolTokens": 7119,
+        "envPromptTokens": 1044
       },
       "changelog": {
         "versions": [
+          "0.8.6",
           "0.8.5",
           "0.8.4",
           "0.8.3",
@@ -20554,7 +20554,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/482",
         "up": 3,
         "down": 0,
-        "comments": 16
+        "comments": 17
       }
     },
     "cortico-world-private-companion-kpect": {
