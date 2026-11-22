@@ -1382,7 +1382,7 @@
       "published": "2026-11-08T17:11:04.750Z",
       "versionCount": 2,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "experimental",
         "high-cost"
@@ -1494,7 +1494,7 @@
       "published": "2026-11-08T17:14:32.366Z",
       "versionCount": 2,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "apps",
         "companion",
@@ -5680,7 +5680,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/333",
         "up": 0,
         "down": 0,
-        "comments": 4
+        "comments": 6
       }
     },
     "cortico-world-astrbot-livingmemory": {
@@ -10003,7 +10003,7 @@
     },
     "cortico-world-doudizhu": {
       "kind": "world",
-      "version": "0.5.14",
+      "version": "0.5.15",
       "displayName": "斗地主",
       "description": "斗地主：大肥鱼在线对战，主子可参与可偷窥，挑战AI人机；在线交友聊天。交流群 483590438。",
       "author": "大肥鱼",
@@ -10024,8 +10024,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-doudizhu"
       },
       "created": "2026-11-06T15:06:28.651Z",
-      "published": "2026-11-21T11:31:29.703Z",
-      "versionCount": 38,
+      "published": "2026-11-22T19:15:35.995Z",
+      "versionCount": 39,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -10047,6 +10047,8 @@
       },
       "changelog": {
         "versions": [
+          "0.5.15",
+          "0.5.14",
           "0.5.13",
           "0.5.12",
           "0.5.11",
@@ -10066,7 +10068,7 @@
           "0.4.7",
           "0.4.6"
         ],
-        "url": "https://unpkg.com/cortico-world-doudizhu@0.5.14/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-doudizhu@0.5.15/CHANGELOG.md"
       },
       "discussion": {
         "number": 779,
@@ -11599,7 +11601,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
         "up": 67,
         "down": 8,
-        "comments": 75
+        "comments": 77
       }
     },
     "cortico-world-fatfish-memo": {
@@ -14394,8 +14396,8 @@
     },
     "cortico-world-humanlike-alont1": {
       "kind": "world",
-      "version": "0.3.0",
-      "description": "模块化人味 World：按需开关交情/作息/共同经历/惦记/学梗/时间感/只读观察；内置面向弱 RP 模型的人设中立去客服腔强化段，支持跨平台",
+      "version": "0.3.1",
+      "description": "全平台模块化人味 World（已对 DeepSeek / ds4.1flash 等弱 RP 模型专项优化）：支持 QQ/Discord/Telegram/微信/飞书/Console，按需开关交情/作息/共同经历/惦记/心境精力/学梗/时间感/只读观察",
       "author": "ALonT1",
       "maintainers": [
         "alont1",
@@ -14410,8 +14412,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-humanlike-alont1"
       },
       "created": "2026-09-23T13:05:31.616Z",
-      "published": "2026-11-22T15:27:50.636Z",
-      "versionCount": 17,
+      "published": "2026-11-22T16:50:57.817Z",
+      "versionCount": 18,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -14440,17 +14442,18 @@
         "week": 362
       },
       "summary": {
-        "tools": 28,
+        "tools": 30,
         "events": 7,
-        "toolTokens": 3816,
-        "envPromptTokens": 3020
+        "toolTokens": 4575,
+        "envPromptTokens": 72
       },
       "changelog": {
         "versions": [
+          "0.3.1",
           "0.3.0",
           "0.1.20"
         ],
-        "url": "https://unpkg.com/cortico-world-humanlike-alont1@0.3.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-humanlike-alont1@0.3.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 22,
@@ -23091,7 +23094,7 @@
       "published": "2026-11-20T16:06:28.214Z",
       "versionCount": 3,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "internet"
       ],
@@ -26855,7 +26858,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/85",
         "up": 23,
         "down": 3,
-        "comments": 14
+        "comments": 15
       }
     },
     "cortico-world-time": {
@@ -29712,82 +29715,6 @@
       "discussion": {
         "number": 200,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/200",
-        "up": 0,
-        "down": 0,
-        "comments": 0
-      }
-    },
-    "cortico-world-zh-reason": {
-      "kind": "world",
-      "version": "0.3.18",
-      "displayName": "让我们说中文",
-      "description": "让 Coopanion 里的人物用简体中文思考：每轮请求末尾补一句「用简体中文思考」，thinking 起手保持中文；面板可填上游地址，另有一个「清空会话历史」按钮。",
-      "locales": {
-        "zh": {
-          "displayName": "让我们说中文",
-          "description": "在每一轮请求末尾补一句「用简体中文思考」，让人物的 thinking 起手保持中文；面板另有一个「清空会话历史」按钮，清掉当前上下文（Memory、工作区、事件库不动）。"
-        },
-        "en": {
-          "displayName": "Let's speak Chinese",
-          "description": "Appends a \"think in Simplified Chinese\" reminder to every request so the character's reasoning tends to start in Chinese. The panel also offers a button that clears the current context (memory, workspace and event log are untouched)."
-        }
-      },
-      "author": "wangmy",
-      "maintainers": [
-        "wangmy"
-      ],
-      "license": "MIT",
-      "keywords": [
-        "cortico",
-        "cortico-world",
-        "coopanion",
-        "chinese",
-        "zh-cn",
-        "reasoning",
-        "thinking",
-        "deepseek",
-        "llm",
-        "i18n"
-      ],
-      "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-zh-reason"
-      },
-      "os": [
-        "win32"
-      ],
-      "created": "2026-11-22T16:15:12.293Z",
-      "published": "2026-11-22T16:19:27.305Z",
-      "versionCount": 3,
-      "official": false,
-      "isNew": true,
-      "tags": [],
-      "icon": "assets/cortico-world-zh-reason/icon.png",
-      "downloads": {
-        "total": 0,
-        "month": 0,
-        "week": 0
-      },
-      "summary": {
-        "tools": 0,
-        "events": 0,
-        "toolTokens": 0,
-        "envPromptTokens": 0
-      },
-      "changelog": {
-        "versions": [
-          "0.3.18",
-          "0.3.17",
-          "0.3.2",
-          "0.3.1",
-          "0.3.0",
-          "0.2.1",
-          "0.1.0"
-        ],
-        "url": "https://unpkg.com/cortico-world-zh-reason@0.3.18/CHANGELOG.md"
-      },
-      "discussion": {
-        "number": 1089,
-        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1089",
         "up": 0,
         "down": 0,
         "comments": 0
