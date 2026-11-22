@@ -1585,7 +1585,7 @@
     },
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.9.8",
+      "version": "0.9.9",
       "displayName": "大肥鱼语音全能包",
       "description": "大肥鱼语音全能包（原 GPTSovits 语音，cortico-world-gpt-sovits-for-coopanion）：给 Coopanion 桌宠用的语音插件，现已全面支持本地 / 云端双引擎与 NVIDIA / AMD（ROCm，实验性）/ CPU 三种方案。本地默认全程本机合成；云端支持自定义 OpenAI 兼容与多家厂商接口（填自己的 Key）。内置大肥鱼、星落落音色，支持自备权重与自定义音色、QQ 语音与唱歌联动；CPU / 核显档可开播放预缓冲（默认关闭）。",
       "locales": {
@@ -1621,8 +1621,8 @@
         "darwin"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-11-22T13:38:22.850Z",
-      "versionCount": 52,
+      "published": "2026-11-22T16:20:43.497Z",
+      "versionCount": 53,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -1649,6 +1649,7 @@
       },
       "changelog": {
         "versions": [
+          "0.9.9",
           "0.9.8",
           "0.9.7",
           "0.9.6",
@@ -1746,7 +1747,7 @@
     },
     "@wocwang/cortico-world-rvc-for-coopanion": {
       "kind": "world",
-      "version": "0.4.67",
+      "version": "0.4.71",
       "displayName": "RVC唱歌-大肥鱼",
       "description": "Cortico World for Coopanion: voice conversion with RVC — upload any audio and get it back in the pet's voice, plus a local HTTP endpoint (127.0.0.1:9881) for other plugins",
       "locales": {
@@ -1781,8 +1782,8 @@
         "win32"
       ],
       "created": "2026-10-29T02:52:41.041Z",
-      "published": "2026-11-22T05:50:29.377Z",
-      "versionCount": 35,
+      "published": "2026-11-22T16:22:22.597Z",
+      "versionCount": 36,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2597,7 +2598,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/586",
         "up": 14,
         "down": 0,
-        "comments": 46
+        "comments": 47
       }
     },
     "coopani-world-life": {
@@ -6665,13 +6666,13 @@
     },
     "cortico-world-bloom-kpect": {
       "kind": "world",
-      "version": "0.3.2-dev.v15.4bloom",
+      "version": "0.3.2-dev.v16.9bloom",
       "displayName": "花语乡 Project Bloom",
-      "description": "花语乡 Project Bloom（群 1132517396）：让 Cortico Bot 自主生活、交易、送礼与交流的 World 扩展",
+      "description": "花语乡 Project Bloom：让 Cortico Bot 自主生活、工作、生产、交易与娱乐的 World 扩展",
       "locales": {
         "zh": {
           "displayName": "花语乡 Project Bloom",
-          "description": "花语乡 Project Bloom（群 1132517396）"
+          "description": "花语乡 Project Bloom：让 Cortico Bot 自主生活、工作、生产、交易与娱乐的 World 扩展"
         },
         "en": {
           "displayName": "Project Bloom",
@@ -6688,17 +6689,14 @@
         "project-bloom",
         "simulation",
         "game",
-        "companion",
-        "花语乡",
-        "1132517396",
-        "kpect"
+        "companion"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-bloom-kpect"
       },
       "created": "2026-11-03T06:21:04.448Z",
-      "published": "2026-11-19T12:59:10.871Z",
-      "versionCount": 29,
+      "published": "2026-11-22T16:04:43.056Z",
+      "versionCount": 30,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -6717,12 +6715,11 @@
       "summary": {
         "tools": 11,
         "events": 7,
-        "toolTokens": 2000,
-        "envPromptTokens": 1414
+        "toolTokens": 2272,
+        "envPromptTokens": 1413
       },
       "changelog": {
         "versions": [
-          "0.3.2-dev.v15.4bloom",
           "0.3.2-dev.v11Metier",
           "0.3.2-dev.v10.4",
           "0.3.2-dev.v10.3",
@@ -6752,7 +6749,7 @@
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-bloom-kpect@0.3.2-dev.v15.4bloom/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-bloom-kpect@0.3.2-dev.v16.9bloom/CHANGELOG.md"
       },
       "discussion": {
         "number": 697,
@@ -11600,8 +11597,8 @@
         "number": 19,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/19",
         "up": 67,
-        "down": 7,
-        "comments": 71
+        "down": 8,
+        "comments": 74
       }
     },
     "cortico-world-fatfish-memo": {
@@ -15615,7 +15612,7 @@
     },
     "cortico-world-local-voice-studio": {
       "kind": "world",
-      "version": "0.2.7",
+      "version": "0.2.8",
       "displayName": "大肥鱼语音助手",
       "description": "大肥鱼语音助手：配合 Coopanion 官方 QQ 插件使用，通过本地模型识别 QQ 语音、发送语音回复、生成唱歌语音。支持参考音色、演唱参考和自然语言演唱描述，模型按需下载和加载。",
       "author": "抖音博主 水流东",
@@ -15641,8 +15638,8 @@
         "win32"
       ],
       "created": "2026-11-04T15:24:18.142Z",
-      "published": "2026-11-13T16:27:52.591Z",
-      "versionCount": 19,
+      "published": "2026-11-22T16:21:08.638Z",
+      "versionCount": 20,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -29714,6 +29711,82 @@
       "discussion": {
         "number": 200,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/200",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-zh-reason": {
+      "kind": "world",
+      "version": "0.3.18",
+      "displayName": "让我们说中文",
+      "description": "让 Coopanion 里的人物用简体中文思考：每轮请求末尾补一句「用简体中文思考」，thinking 起手保持中文；面板可填上游地址，另有一个「清空会话历史」按钮。",
+      "locales": {
+        "zh": {
+          "displayName": "让我们说中文",
+          "description": "在每一轮请求末尾补一句「用简体中文思考」，让人物的 thinking 起手保持中文；面板另有一个「清空会话历史」按钮，清掉当前上下文（Memory、工作区、事件库不动）。"
+        },
+        "en": {
+          "displayName": "Let's speak Chinese",
+          "description": "Appends a \"think in Simplified Chinese\" reminder to every request so the character's reasoning tends to start in Chinese. The panel also offers a button that clears the current context (memory, workspace and event log are untouched)."
+        }
+      },
+      "author": "wangmy",
+      "maintainers": [
+        "wangmy"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico",
+        "cortico-world",
+        "coopanion",
+        "chinese",
+        "zh-cn",
+        "reasoning",
+        "thinking",
+        "deepseek",
+        "llm",
+        "i18n"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-zh-reason"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-11-22T16:15:12.293Z",
+      "published": "2026-11-22T16:19:27.305Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "icon": "assets/cortico-world-zh-reason/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 0,
+        "events": 0,
+        "toolTokens": 0,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.3.18",
+          "0.3.17",
+          "0.3.2",
+          "0.3.1",
+          "0.3.0",
+          "0.2.1",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-zh-reason@0.3.18/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1089,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1089",
         "up": 0,
         "down": 0,
         "comments": 0
