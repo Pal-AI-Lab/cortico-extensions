@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "name": "cortico-world-web-search-multi",
+  "version": "0.3.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "web_search_multi",
+        "description": "按关键词在已配置的搜索提供商上搜索（并行还是单源取决于聚合模式），返回去重后的标题、网址和简介；可用 max_results 限制返回条数，最多 10 条。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "The search query."
+            },
+            "provider": {
+              "type": "string",
+              "enum": [
+                "anysearch",
+                "tavily",
+                "exa",
+                "bocha",
+                "ali",
+                "zhipu",
+                "perplexity",
+                "serper",
+                "brave",
+                "mojeek",
+                "youcom",
+                "linkup",
+                "firecrawl",
+                "kimi"
+              ],
+              "description": "不填则按聚合模式调用已开启且已配密钥的引擎；填则只用这一家，优先于聚合模式。"
+            },
+            "max_results": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10,
+              "default": 5,
+              "description": "Maximum number of results to return."
+            }
+          },
+          "required": [
+            "query"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "在已配置的搜索提供商上搜索（并行还是单源取决于聚合模式），返回去重后的标题、网址和简介；可用 max_results 限制返回条数，最多 10 条。",
+          "en": "Search the configured providers (in parallel or from a single source, depending on the aggregation mode) and return deduplicated titles, URLs and snippets. Limit results with max_results, at most 10."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "web-search-multi.started",
+        "description": {
+          "zh": "世界已挂载。",
+          "en": "The world was mounted."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.web-search-multi.envPrompt",
+        "title": "Web 搜索环境",
+        "role": "envPrompt",
+        "content": "# Web 搜索环境\n\n你可调用 `web_search_multi` 在已配置的搜索提供商上搜索（并行还是单源取决于聚合模式），返回去重后的标题、网址和简介；每条结果带提供商名（如 `[bocha]`），供 bot 在回答里引用。\n\n与内建 `web_search` 的区别：内建的 `web_search` 走官方 Brave/DeepSeek 两栈、单源返回；本工具是**多 provider 聚合**，逐家可在配置面板开关，并可在「多引擎优先 / 单引擎优先」两种聚合模式间切换。问最新事实、或需要交叉验证同一件事时用它；只查一个网页时用内建的即可。\n\n## 搜索模式\n\n当前聚合模式：**{{web_search_multi.searchMode}}**。它由使用者在配置面板的「搜索模式」里切换；本段是前缀快照，挂载或重载前缀时重新生成，这一次实际用到哪几家以工具回执里的 `[provider]` 标记为准。\n\n## 可用引擎范围\n\n{{web_search_multi.availableProviders}}\n\n## 已启用引擎的搜索方案\n\n{{web_search_multi.searchPlan}}\n\n## 什么时候调用\n\n- 使用者问的事你本身不知道，或需要按最新信息回答（新闻、价格、文档、技术细节）。\n- 需要核实某个事实，或给出的答案要附来源。\n- 需要两个以上独立来源交叉验证时（多引擎优先模式天然带比较）。\n\n## 如何引用\n\n每条结果自带标题、网址和提供商名。回答时，在引用的句子后紧跟网址，或列出来源清单，让人能按网址打开看原文。不要编造网址，也不要把搜索结果当成你自己的知识概括而不标来源。\n\n## 不要滥用\n\n- 不要为已知的常识、不需要时效性的事实，或已在对话里给出的答案再搜一次。\n- 一次搜索最多返回 10 条，取够用的即可，不要反复搜同一个关键词。\n\n密钥由宿主的 secrets 注入，不要把密钥写入配置文件明文。\n\n## 选哪家引擎（provider 参数）\n\n`web_search_multi` 有可选的 `provider` 参数：指定某家（如 `provider: \"tavily\"`）时只用那家，**优先于聚合模式**；指定但那家没在配置面板开启、或缺少密钥时，工具会明确报错，不会偷偷改用其他家。可用的 id 见上文「可用引擎范围」。\n\n## 硬约束\n\n- Bing Search API 已关停，替代品 Grounding with Bing 只返回模型答案，不给原始结果。\n- Google Custom Search JSON API 已停止接受新客户，存量客户 2027-01-01 过渡截止。\n- SERP 抓取类存在法律尾部风险（如 SerpApi、Reddit 相关诉讼，未结案），合规风险自评。\n- 只用一个供应商是架构缺陷：多引擎优先模式已对各家并行调用并按 url 去重，单家失败只跳过该家；单引擎优先模式只适合明确要省钱或降延迟的场景，此时结论宜标注「单源，未交叉验证」。\n\n## 用户问\"怎么配密钥\"时\n\n直接按下文回答用户，**不要为此搜索代码、不要调用 grep_files 或任何文件/搜索工具、不要尝试自己查证路径**——路径已经在这里给出，照抄即可：\n\n密钥文件路径：`{{web_search_multi.envFile}}`。告诉用户：为想启用的提供商在这个文件里各加一行，例如 `TAVILY_API_KEY=你的密钥`、`EXA_API_KEY=你的密钥`。一行一个，等号后不要有空格、不要加引号；保存后下一次调用就生效，不用重启。十四家的键名是 ANYSEARCH_API_KEY / TAVILY_API_KEY / EXA_API_KEY / BOCHA_API_KEY / ALI_IQS_API_KEY / ZHIPU_API_KEY / PERPLEXITY_API_KEY / SERPER_API_KEY / BRAVE_API_KEY / MOJEEK_API_KEY / YDC_API_KEY / LINKUP_API_KEY / FIRECRAWL_API_KEY / MOONSHOT_API_KEY。密钥不要发给你，也不要填进配置面板；anysearch 可不填（匿名限速）。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.3.0": "- **环境提示词三项变量化**：`src/ENV_PROMPT.md` 里「可用引擎范围」「已启用引擎的搜索方案（调用顺序/组合方式/结果汇总/失败回退）」「搜索模式」改为模板变量 `{{web_search_multi.availableProviders}}` / `{{web_search_multi.searchPlan}}` / `{{web_search_multi.searchMode}}`，由 `envPromptVars()` 按当前配置现算。可用范围按面板开关 + 实际密钥判定，不再是与配置脱钩的静态列表。\n- **新增 `worlds.web-search-multi.searchMode`（`multi` | `single`，默认 `multi`）**：`multi` 与旧行为逐字一致；`single` 只调用 `SINGLE_MODE_PRIORITY` 里第一个可用引擎，失败不自动换家，换源需显式 `provider` 或切回 `multi`。旧配置缺该键按 `multi` 处理，无需迁移。\n- **新增 `SINGLE_MODE_PRIORITY`**（14 家全排列，首 `bocha` 末 `anysearch`），与 `SEARCH_PROVIDER_IDS` 互为全排列由测试锁定。\n- **修复既存缺陷**：`describe.json` 内嵌模板用 `\\n`、Windows autocrlf 检出把 `src/ENV_PROMPT.md` 转成 `\\r\\n`，导致 `check:extension` 的自描述检查在任何 autocrlf=true 的机器上恒失败。新增 `.gitattributes`（`* text=auto eol=lf`）钉住检出换行符，并用生成器重新产出 `describe.json`。\n- 工具 description 改为模式中性（「并行或单源取决于聚合模式」），`cortico` manifest、工具名、参数 schema、14 家 adapter 均未改动。\n- `cortico` devDependency 由 `^0.2.16` 提到 `^0.2.17`（与实际安装版本一致）。",
+    "0.2.0": "- **删除「Anysearch 端点覆盖」**：移除配置面板属性、`WebSearchConfigSection.endpoint` 与 `WEB_SEARCH_DEFAULTS.endpoint`、`envPromptVars()` 的 endpoint 变量与 `ENV_PROMPT.md` 占位符；anysearch 固定走官方端点。不再有端点覆盖旋钮。\n- **工具新增可选 `provider` 参数**：不指定时并行所有已开启且已配密钥的引擎；指定且可用时只调用那一家；指定但未知 id / 开关关闭 / 缺密钥时返回明确错误（`failed: true`），区分三种原因，不静默降级、不忽略开关。enum 从 `PROVIDER_SECRET` 派生，与 `SearchProvider` / `PROVIDER_ADAPTERS.id` 同源。",
+    "0.1.0": "首个可用版本。基于模板重写，修掉契约审议列出的 6 条阻断项。\n\n新增 mojeek / youcom / linkup / firecrawl / kimi 五家 provider（由 9 家扩到 14 家）：各有独立 adapter，按官方文档真实形状构造请求与解析；端点/字段来自官方样例级检索（2026-11-20），未经真实密钥 live 验证。\n\n### 改名（首发前的破坏性改名，无历史用户）\n\n- npm 包名：`cortico-world-web-search` → `cortico-world-web-search-multi`\n- world id：`web-search` → `web-search-multi`（事件 type、配置键 `worlds.web-search-multi.*`、promptDoc key 同步）\n- 工具名：`web_search` → `web_search_multi`（B1：Cortico 内建 world `websearch` 已注册 `web_search`，同名会被装配层拒绝挂载）\n\n### 修复\n\n- **B5 各家解析不到结果**：请求层从「统一 POST + 顶层 results 数组」改为每家一个独立 adapter（9 家），各自按官方文档构造鉴权、端点、请求体与结果路径；exa 改用 `numResults` 并开 `contents.highlights`，brave 改回 GET + query string，perplexity 改用 `/search` 检索接口（Sonar Chat Completions 已于 2026-09-27 停止支持）。\n- **编译错误 8 条**：`WorldSection` 改从 `cortico/world.ts` 导入；删配置组里的 `default`（`ConfigProperty` 无此字段，工具 `parameters` 里的保留）；删掉 `definition.ts` 末尾重复导出（esbuild transform 失败根因）；`TOOL_DECLS` 标成 `ReadonlyArray<Omit<ToolDef, 'handler'>>`；`getByPath` 式归一化改为带显式类型的 adapter，消除 `{} 不可迭代`。\n\n### 变化\n\n- 回执瘦身：不再把 10 家提供商的价格/定位/硬约束整表拼进工具回执，只给结果；单家失败记一条 warn 到日志（拿不到 logger 时在回执末尾补一行）。\n- 删掉 tencent：腾讯云 WSA 需要 TC3-HMAC-SHA256 签名 + SecretId/SecretKey + region，`ctx.secret(name)` 一名字一值塞不进四件套。留待后续版本。\n- 所有 fetch 带 `ToolCallContext.signal`，宿主放弃调用时能中断。\n- `package.json` 加 `cortico.tags: [\"internet\", \"requires-key\"]`，`files` 加 `CHANGELOG.md`。"
+  }
+}

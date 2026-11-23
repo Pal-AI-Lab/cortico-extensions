@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "name": "cortico-world-walk-reminder",
+  "version": "1.0.0",
+  "describe": {
+    "kind": "world",
+    "tools": [
+      {
+        "name": "walk_status",
+        "description": "查久坐提醒的运行状态：本次上线多久、下一次提醒在什么时候、已经提醒过几次。想确认它是不是还在按 40 分钟走时就调这个。只读，不改变任何设置。",
+        "tags": [
+          "read"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "walk-reminder.due",
+        "description": {
+          "zh": "上线满 40 分钟，提醒用户起身走动。",
+          "en": "40 minutes since startup: reminds you to get up and move."
+        },
+        "trigger": "flush"
+      }
+    ]
+  },
+  "changelog": {
+    "1.0.0": "首个版本。\n\n### 新增\n\n- 从桌宠启动那一刻起，每 40 分钟定时提醒一次起身活动。\n- 6 个提醒角度轮换（倒水、伸懒腰、看远处、走一圈、舒展肩背、活动手脚）。\n- 只读工具 `walk_status`：查询本次上线时长、下次提醒时间、已提醒次数。\n- 控制台「运行状态」面板：实时显示倒计时与开关状态。\n- 中英文双语显示名与描述。\n\n[1.0.0]: https://github.com/BokiYBB/coopanion-toolbox/releases/tag/v1.0.0"
+  }
+}
