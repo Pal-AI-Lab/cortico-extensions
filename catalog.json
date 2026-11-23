@@ -2863,7 +2863,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/384",
         "up": 4,
         "down": 0,
-        "comments": 15
+        "comments": 17
       }
     },
     "coopani-world-pz": {
@@ -10526,7 +10526,7 @@
     },
     "cortico-world-dream-fragments": {
       "kind": "world",
-      "version": "0.7.2",
+      "version": "0.8.0",
       "displayName": "碎片梦",
       "description": "从中文日记的重点句为 Cortico Bot 生成并单独保存碎片梦，使用本地 Ollama。 / Generate and archive fictional dreams from Chinese diary entries using local Ollama.",
       "author": "末地凋零",
@@ -10546,8 +10546,8 @@
         "bugs": "https://github.com/mddl314/cortico-world-dream-fragments/issues"
       },
       "created": "2026-11-19T16:18:57.223Z",
-      "published": "2026-11-20T01:25:29.882Z",
-      "versionCount": 3,
+      "published": "2026-11-23T08:49:05.282Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10578,6 +10578,9 @@
       },
       "changelog": {
         "versions": [
+          "0.8.0",
+          "0.7.4",
+          "0.7.3",
           "0.7.2",
           "0.7.1",
           "0.7.0"
@@ -14037,6 +14040,82 @@
       "discussion": {
         "number": 192,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/192",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-hearing": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "听声",
+      "description": "听声：给 Coo 一对耳朵，听系统声音或某几个应用的声音，本地切成一段段语音送进事件流",
+      "author": "梦月",
+      "maintainers": [
+        "icelfire"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico",
+        "cortico-world",
+        "coopanion",
+        "hearing",
+        "listen",
+        "system-audio",
+        "loopback",
+        "wasapi",
+        "audio-capture",
+        "voice",
+        "vad",
+        "voice-activity-detection",
+        "speech-segmentation"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-hearing"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-11-23T08:23:12.528Z",
+      "published": "2026-11-23T08:24:49.784Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "voice"
+      ],
+      "tags": [
+        "voice"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 1,
+        "toolTokens": 639,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0",
+          "0.6.0",
+          "0.5.0",
+          "0.4.1",
+          "0.4.0",
+          "0.3.3",
+          "0.3.2",
+          "0.3.1",
+          "0.3.0",
+          "0.2.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-hearing@0.1.0/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1106,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1106",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -17886,7 +17965,7 @@
     },
     "cortico-world-moonbox-bridge": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "displayName": "月盒互动桥",
       "description": "Receives reviewed Moonbox/StS narration and live-chat events in Coopanion so Coo can respond through its own desktop-pet World tools.",
       "locales": {
@@ -17914,8 +17993,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-moonbox-bridge"
       },
       "created": "2026-11-23T03:57:39.135Z",
-      "published": "2026-11-23T04:51:43.600Z",
-      "versionCount": 5,
+      "published": "2026-11-23T08:23:05.628Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -27794,6 +27873,72 @@
       "discussion": {
         "number": 67,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/67",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-update-check": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "更新与下载",
+      "description": "更新与下载：查 Coopanion 有没有新版本，官方和镜像地址一键拿。\n\n一个只做一件事的 World 面板：读本机 Coopanion 的当前版本，去官网查最新版与历史版，把每个版本的官方下载地址和几个常用镜像地址都列出来，选好保存位置就能直接下。地址跟着官网走，版本更新了面板自动变，不用改代码。不注册任何工具，不占每轮前缀。\n\n更新与下载：查 Coopanion 有没有新版本，官方和镜像地址一键拿。",
+      "locales": {
+        "zh": {
+          "displayName": "更新与下载",
+          "description": "更新与下载：查 Coopanion 有没有新版本，官方和镜像地址一键拿。\n\n面板里能看到：本机当前版本、官网最新版本、历史版本下拉；每个版本下面是官方下载地址和几个常用镜像地址，各带一个按钮。先选保存位置（默认提示别放 C 盘），下载按钮才会亮。\n\n版本信息全部来自官网 GitHub Releases，查不到历史版本就只显示最新版。不注册任何工具，不占每轮前缀。\n\n更新与下载：查 Coopanion 有没有新版本，官方和镜像地址一键拿。"
+        }
+      },
+      "author": "suxiaojun",
+      "maintainers": [
+        "suxiaojun"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "update",
+        "download"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-update-check",
+        "homepage": "https://space.bilibili.com/16666966"
+      },
+      "created": "2026-11-23T08:22:05.184Z",
+      "published": "2026-11-23T08:27:06.577Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "local",
+        "diagnostics"
+      ],
+      "tags": [
+        "diagnostics",
+        "local"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 0,
+        "events": 0,
+        "toolTokens": 0,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-update-check@0.1.1/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1107,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1107",
         "up": 0,
         "down": 0,
         "comments": 0

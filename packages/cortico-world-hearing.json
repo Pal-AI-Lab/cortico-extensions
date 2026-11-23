@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "name": "cortico-world-hearing",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "hearing_act",
+        "description": "Turn the Hearing world on or off. \"start\" captures system audio or one or more applications and delivers speech chunks as events; \"stop\" ends it. Each chunk arrives as an event with a WAV attachment; hand its handle to stt_transcribe when you want the words.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "start",
+                "stop"
+              ],
+              "description": "start = begin listening, stop = end it."
+            },
+            "source": {
+              "type": "string",
+              "enum": [
+                "system",
+                "apps"
+              ],
+              "description": "Required for start unless apps is given: system audio or applications."
+            },
+            "apps": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "For start with source=apps: process names or PID strings from hearing_read action=source_list. Several entries listen to several applications at once; at least one is required."
+            },
+            "vad": {
+              "type": "string",
+              "enum": [
+                "energy",
+                "silero",
+                "firered"
+              ],
+              "description": "For start with source=apps: segmentation for every application listed here. Defaults to each application's configured choice."
+            },
+            "minutes": {
+              "type": "integer",
+              "description": "For start only: auto-stop after this many minutes; 0 uses the configured value."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "打开或关掉听声：开始/停止监听系统声音或若干应用的音频。",
+          "en": "Turn hearing on or off: start/stop listening to system audio or several applications."
+        }
+      },
+      {
+        "name": "hearing_read",
+        "description": "Read Hearing information without starting or stopping capture. source_list lists applications with Windows output audio sessions (including inactive sessions, not necessarily playing now), returning names, PIDs and window titles; use PID strings in hearing_act action=start source=apps apps=[...]. status reads listening state, each source, counters, settings and last error. recent lists heard speech chunks and WAV attachment handles; hand a handle to stt_transcribe for text.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "source_list",
+                "status",
+                "recent"
+              ],
+              "description": "source_list = applications with audio sessions; status = hearing status; recent = recent speech chunks."
+            },
+            "limit": {
+              "type": "integer",
+              "description": "For recent only: how many chunks to list (1-50); default 10."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查询听觉：音频会话应用列表、监听状态或最近语音块。",
+          "en": "Read Hearing information: applications with audio sessions, listening status or recent speech chunks."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "hearing.chunk",
+        "description": {
+          "zh": "听到一段语音：正文说明时长与来源，附件是一段 WAV 音频块，可直接交给 stt_transcribe 转写。",
+          "en": "A speech chunk was heard: the text carries duration and source; the attachment is a WAV chunk that can be handed to stt_transcribe."
+        },
+        "trigger": "debounce"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.hearing.env",
+        "title": "提示词",
+        "role": "envPrompt",
+        "content": ""
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "- 第一次以 `cortico-world-hearing` 的名字发布到扩展市场（npm）。功能和 0.6.0 那条线一致：听系统声音或同时听几个应用，本地切成一段段 WAV 送进事件流，不联网、不做 ASR。\n- World id 是 `hearing`，控制台里叫「听声」，工具 `hearing_act` / `hearing_read`，配置段 `worlds.hearing`；记录与模型缓存仍在数据目录的 `listen/` 下（换名字不影响已有记录）。\n- README 新增「装完之后还要下什么」：必需的原生件、两个可选组件与三个模型的下载地址、放置位置与配置连法，以及只用默认能量门限时一个都不用下的说明。\n- 依赖：`loopback-capture` 必需（自动装）；`sherpa-onnx-node`（Silero）、`onnxruntime-node`（FireRed VAD / AED）是可选依赖，装不上就退回能量门限。\n- 只支持 Windows；其余平台 `preflight` 直接拒绝。",
+    "0.6.0": "- 多来源：系统声音之外，可以同时听若干应用。每一路有自己的采集与切分器，事件正文与 meta 标注它自己那一路的来源。\n- 每一路单独选切分方式（energy / silero / firered），门限、起说、收尾、单块上限、最短块仍是几路共用的一套；系统声音与应用互斥。\n- 配置 `source: app` + `app` 改为 `source: apps` + `apps`（逗号分隔的进程名或 PID，可写 `name=vad` 单独指定那一路的切分方式）。旧键仍被读取。\n- 新增「来源」页：系统声音与每个应用各一行，每行一个勾选框和一个切分方式下拉。勾选即开始监听，取消勾选即停止，全部取消就停；打开页面默认全不选。没有开始与刷新按钮，打开页面时自动查一次应用列表。监听中换切分方式会先停、准备模型、再按原选择重启。\n- 顶部听声徽标在单路时显示该路的切分方式，多路时显示路数。\n- 面板的选择即时写进配置；`hearing_act` 的 start 必须明确给 `source`（`system`，或 `apps` + `apps`），不再回退到配置里的目标。\n- 应用标题改为枚举该应用的全部顶层窗口（含隐藏的托盘 / 迷你播放器窗口）：后台播放的播放器也能显示当前歌名；IME、GDI+、SMTC 这类系统窗口被过滤，根进程的窗口优先。\n- 应用进程退出后静默停掉那一路（每 2 秒检查 PID），正在说的尾巴照常送出；全部退出则结束这一轮。不发事件，面板也不额外提示。\n- 新增「工具」页：查看并改写 `hearing_act` / `hearing_read` 的工具描述与参数说明，支持筛选、逐项恢复默认与整体恢复；保存的文字在下次会话构建工具表时生效。\n- 环境提示词页标题改为「提示词」。\n- 「听到的」页改名「记录」，并去掉顶部统计总览、连接状态与电平条、记录目录小字；卡片合并成一行（时间、时长、来源、大小、峰值），不再显示文件句柄。\n- 按 PID 启动时解析当前进程名，事件与记录里不再出现 `pid:…`。\n- 记录页去掉刷新与复制目录按钮，工具页去掉刷新按钮；「清空列表」改名「全部删除」，卡片的信息与操作按钮排成一行、按钮右对齐。\n- 60 秒送达上限仍是所有来源共用一个额度。\n- 自检 59 项通过。",
+    "0.5.0": "- 新增 FireRed VAD 流式切分（`vad: firered`）：官方 2.3MB ONNX + kaldi 兼容的 80 维 fbank/CMVN 前端，10ms 帧、带 cache 的流式推理，后处理照官方状态机移植；Silero 与能量门限保持不变。\n- 新增可选依赖 `onnxruntime-node`；模型自动下载到 `listen/firered/`（ONNX + cmvn.ark），也可用 `fireredModel` 指本地文件。\n- 切分器支持异步交付（回调），World 按已处理位置修剪音频缓冲，推理落后时不丢段。\n- 实测同一首歌：FireRed 流式 27 段 / 144 秒，前奏 0 误报；AED 三分类逐帧与官方 Python 实现误差 < 1e-4。\n- 新增 `aedMode`（`off` / `tag` / `voice`）：用 FireRed AED 对每个块区分说话/唱歌/音乐；`voice` 下纯音乐块只归档、不发事件。实测前奏（音乐）人声帧 0%、有词段 singing 97.5%、语音样本 speech 74.4%。\n- 自检 52 项通过。",
+    "0.4.1": "- 修复 Electron 下 Silero 切分必报 `External buffers are not allowed`：取段改用 `front(false)`，复制进普通 ArrayBuffer。\n- 「听声开始监听」日志带上切分类型与当前门限（silero 概率 / energy dBFS）。\n- 默认参数按实测调整：`sileroThreshold` 0.5 → 0.4，`minSpeechMs` 200 → 400，`minUtteranceMs` 400 → 1000（引擎仍默认 energy，零依赖）。\n- 移除配置页里与框架 World 开关重复的「启用」项；World 的启用与停用统一在 World 页。",
+    "0.4.0": "- 模型工具合并为 `hearing_act`（start / stop）和 `hearing_read`（source_list / status / recent），统一结构化 action 参数并保留读写权限区分。source_list 查询有音频会话的应用名称、PID 与窗口标题。\n- 应用列表改为仅列出有 Windows 音频会话的应用，包含暂时未播放的会话；其他软件可手动输入进程名或 PID，查询失败时明确报错。\n- 按进程树合并音频子进程，使用具体 PID 区分独立实例；刷新不再自动覆盖监听目标，并清除空结果的旧列表。",
+    "0.3.3": "- 修复详情页顶部徽标未随面板状态和操作结果同步更新的问题。",
+    "0.3.2": "- 精简听到的与状态页面，移除重复标题、说明和配置展示，统一左对齐布局。\n- 合并开始/停止监听按钮，调整操作提示位置，监听徽标显示实际使用的 energy / silero。\n- 增加听声模块选择，与配置同步；选择 Silero 时自动准备缺少的组件和模型，并显示阶段状态。\n- 环境提示词默认留空，保留用户编辑入口，移除动态状态变量。\n- 修复事件写入失败仍计为已送达的问题，保留本地音频及失败原因，失败不占成功投递额度。\n- 修复片段时间戳重复累加和 Silero 长静音后的时间偏移。\n- 移除挂载后自动监听选项，监听由控制台或工具显式开启。\n- 验证：41 项离线自检通过。",
+    "0.3.1": "- 修复启动即崩溃的问题：环境提示词模板与包内 Silero 资产改为按**本扩展自己的目录**解析，不再拿宿主递来的 bot 代码包目录拼路径。此前在 Coopanion 0.2.5（world api 6）上，World 总览打不开（「World 清单加载失败」）、宿主主循环每回合抛一次「主循环异常退出」，且 `worlds.hearing.enabled = false` 也挡不住。\n- 自检补两条回归：模拟宿主递来 bot 目录作为包目录时，包目录与环境提示词模板路径必须仍解析到本扩展内（自检 37 项）。",
+    "0.3.0": "- 「听到的」改成**持久记录**：每块一个 WAV 文件 + 一份 `index.json`（`saveDir` 配置，默认数据目录下的 `listen/`），重启后列表与编号接着走，不再从 1 重来。\n- 记录管理对齐 TTS 世界：试听、复制句柄、**复制路径、删除（连同文件）、清空、打开文件夹、复制目录**；状态页显示记录目录、索引文件与保留条数；`keep`（默认 200）超出时删最旧的记录连同它那份文件，`0` = 不清理。\n- `listen_recent` 读这份持久记录：跨重启也能翻旧块；「听到的」的合计时长/大小按记录算。\n- 事件侧不变：块仍以 `hearing.chunk` + WAV 附件进事件流，`log:` 句柄照旧交给 `stt_transcribe`；删记录只动自己那份文件，事件库与媒体库不受影响。\n- 配置变化：原 `keepRecent`（内存环）被 `saveDir` + `keep` 取代。\n- 自检扩到 35 项：仓库用例（入库/编号/裁剪/删除/清空/坏索引）与「跨重启接着数」的世界级用例；试听改为校验 `$file` 路径、sha256 与事件附件同字节。",
+    "0.2.0": "- 切分可选 **Silero VAD**（`worlds.hearing.vad: energy | silero`）：用 sherpa-onnx 里的 silero 模型分辨人声与音乐/提示音——440Hz 正弦 0 段，真语音按停顿成段；能量门限仍是默认（零依赖）。\n- 模型来路三条：控制台「状态」页一键获取（约 0.6MB，下载进数据目录缓存）→ `worlds.hearing.sileroModel` 指本地文件 → 包内 `assets/silero_vad.onnx`。下载是原子写；失败信息给出全部出路。\n- `sileroThreshold`（概率门限 0.1–0.9）可调；生效方式：`vad` 切换在下次开始监听时生效，silero 参数热改即时生效（切分器就地重建）。\n- 收尾沿用墙上时钟兜底：原生侧安静时不送帧，silero 的静音收尾等不到帧就靠 `tick()` 交卷。\n- 新增**可选依赖** `sherpa-onnx-node`（N-API 预编译）：装不上不影响能量模式，silero 模式会给出明确报错。\n- 自检扩到 33 项：假 sherpa 驱动切分器全链路、模型解析（配置/缓存/下载/伪响应/离线）、世界级 silero 事件链路；`tools/smoke.mjs` 支持 `--vad silero [--model 路径]`。\n- `dist/webui.js`：「状态」页显示切分方式、Silero 门限与模型状态，并带「获取 Silero 模型」。"
+  }
+}
