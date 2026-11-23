@@ -5684,7 +5684,7 @@
       "discussion": {
         "number": 333,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/333",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 6
       }
@@ -11949,6 +11949,7 @@
       },
       "changelog": {
         "versions": [
+          "0.13.1",
           "0.13.0",
           "0.12.1",
           "0.12.0",
@@ -13284,17 +13285,17 @@
     },
     "cortico-world-fun": {
       "kind": "world",
-      "version": "0.3.1",
-      "displayName": "娱乐时间",
-      "description": "娱乐时间 —— 给 Coopanion 桌宠二十处真能去逛的地方：游乐场、海洋馆、庙会、漫展、电影院、动物园、公园、电玩城、KTV、博物馆、猫咖、爬山、咖啡店、奶茶店、餐厅、图书馆、夜市、澡堂、旧货市场、江边。进门、逛摊位、买纪念品、拍张照、吃喝点什么，收摊记一笔。能和「鱼的每一天」「生图工作室」联动，但都不依赖。",
+      "version": "0.7.5",
+      "displayName": "从0开始的肥鱼大冒险",
+      "description": "从0开始的肥鱼大冒险 —— 给 Coopanion 桌宠二十处真能去逛的地方：游乐场、海洋馆、庙会、漫展、电影院、动物园、公园、电玩城、KTV、博物馆、猫咖、爬山、咖啡店、奶茶店、餐厅、图书馆、夜市、澡堂、旧货市场、江边。进门、逛摊位、买纪念品、拍张照、吃喝点什么，回家记一笔。能和「鱼的每一天」「生图工作室」联动，但都不依赖。\n\n「鱼的小世界」（cortico-world-map）已经并入这里：它原来的地点与房间现在就是本插件的「地点册」与「家」——场所、画风、关联、封面都在地点册里编辑，不必再装两个包；",
       "locales": {
         "zh": {
-          "displayName": "娱乐时间",
-          "description": "给 Coo 二十处能真去逛的地方：游乐场、海洋馆、庙会、漫展、电影院、动物园、公园、电玩城、KTV、博物馆、猫咖、爬山、咖啡店、奶茶店、餐厅、图书馆、夜市、澡堂、旧货市场、江边。她说一声进门，一处一处地逛项目、抽个签、买点纪念品、拍张照、喝杯奶茶，收摊时回执把这一趟收成一句话，接着去记进自己的日程。\n\n能和别的插件联动，但都不依赖：装了「鱼的每一天」时，日程叫醒里会顺手提到这块、收摊回执也会提醒她去 feast_life_play 记一笔；咖啡店、奶茶店、餐厅、夜市吃的东西去「鱼的每一天」点一道，那里才有九维口感、香气和余韵——没装就只知道喝了杯奶茶，不编味道。装了「生图工作室」时，收摊回执会告诉她发图该填哪个 scene、哪身衣服；素材库里没有的那几处会明说不用填，绝不替她编一个不存在的场景名。这些插件一个都不装也照样能逛，库挪走了也不影响。\n\n0.3.0 新增用户自填剧情包、两站出游、未完行程恢复、长期探索档案与可检索的出游手账。四个面板配原创地点插画、沿途时间线和纪念品图标。用户剧情与地点配置独立保存，预设只提供少量可停用示例，自填地点无剧情也可正常游玩。"
+          "displayName": "从0开始的肥鱼大冒险",
+          "description": "给 Coo 二十处能真去逛的地方：游乐场、海洋馆、庙会、漫展、电影院、动物园、公园、电玩城、KTV、博物馆、猫咖、爬山、咖啡店、奶茶店、餐厅、图书馆、夜市、澡堂、旧货市场、江边。她说一声进门，一处一处地逛项目、抽个签、买点纪念品、拍张照、喝杯奶茶，回家时回执把这一趟收成一句话，接着去记进自己的日程。\n\n能和别的插件联动，但都不依赖：装了「鱼的每一天」时，日程叫醒里会顺手提到这块、回家回执也会提醒她去 feast_life_play 记一笔；咖啡店、奶茶店、餐厅、夜市吃的东西去「鱼的每一天」点一道，那里才有九维口感、香气和余韵——没装就只知道喝了杯奶茶，不编味道。装了「生图工作室」时，回家回执会告诉她发图该填哪个 scene、哪身衣服；素材库里没有的那几处会明说不用填，绝不替她编一个不存在的场景名。这些插件一个都不装也照样能逛，库挪走了也不影响。\n\n「鱼的小世界」（cortico-world-map）已经并入：它原来的地点与房间现在就是这里的「地点册」与「家」，不必再装两个包；旧版导出的备份可以在「地点册 → 整理与设置 → 从小世界迁入」一次性搬进来。\n\n0.3.3 提供默认收起的故事编辑器、本机加密的可选主持接口与可选图片来源；六个面板保留故事创作、隔离试玩、地点册、行程回忆与探索档案。随版本内置《折潮港的第七封回信·简编版》《雨停前的小小清单》《桥底下的回声》《被换掉的说明牌》四篇故事及折潮港、折角巷两个地点；旧五篇与样章场所已移除，升级先备份且只移除与内置内容完全一致的历史副本，用户其他创作、已出发行程和回忆保留。自填地点无剧情也可正常游玩。\n\n0.4.3 把六个面板统一成「旅行手账」：纸色版式与统一圆角、地点册按四组编辑并带固定保存栏、纪念册多一栏心愿、纪念品架排成展示柜、故事工坊按作品库浏览。不改存储模型，也不动已有行程与回忆。\n\n0.4.4 新增第七个面板「家」：一张 2D 房间、十个活动、可换背景与每个姿势的图；房间状态单独存在 fun/home/，不写行程、不读别的插件，没图也能用。\n\n0.7.0 把「家」推到 P5：站位按 Q 版实测落地板、随时段变色、可点热点、快照、画架、导出与导入房间，家同时成了入口（最近纪念品、未逛完的行程、第一个心愿、「今天想做什么」）；新增只读 fun_home_state 与写 fun_home_activity，工具到 24 个。\n\n0.7.1 把「自己出门」改成方案 B：许可与时段两个键都开才叫醒，到点只推一条 internal 事件叫她先看当天日程（feast_life_now），不读「鱼的每一天」的日程、不挑地方、不替她出门；没上传角色图时改用随包内置的十张 Q 版立绘；修了画架选图必报 400；纪念品摆件因图标压字先不摆。\n\n0.7.2 是体检整改：六个只读故事查询加 10 分钟记忆化，重复问只回「没变化」，任何写操作立即失效，full:true 可重取；工具说明与提示词瘦身；文字通道默认开，聊天里六个查询都在、能直接开局推进，作者工具另有一个开关（默认关），关掉文字通道则只留候选与详情两个查询。\n\n0.7.3 是设置重组：故事长度、主持接口地址与模型、剧情图片来源搬进配置页（热改，旧值一次性迁移）；「自动配图」开关移到出游页顶部；本地插画搬到「地点册 → 本地插画」；出游「设置」只剩「高级设置」（API Key、直连手动出图、自定义工作流）。面板 id 与页签名不变。\n\n0.7.4 把地点册改成「左栏分组 + 右侧封面列表」（六项计数 + 整理与设置，窄屏折成横向筛选）；「允许她自己出门」改成只留许可、时间跟随「鱼的每一天」的「她自己的时间」，不再有自己的时段、定时器与 fun.home.free 事件。\n\n0.7.5 把故事工坊收成一个创建入口：展开后是「选项式故事 / 自由场景包 / 从文件导入」三个起点，删掉重复的右侧栏；导入可以选 .json 文件（≤ 32 KB），粘贴保留。"
         },
         "en": {
-          "displayName": "Fun time",
-          "description": "Twenty places she can actually go: an amusement park, an aquarium, a temple fair, a fan convention, a cinema, a zoo, a park, an arcade, a karaoke box, a museum, a cat cafe, a hike, a coffee shop, a bubble-tea stand, a restaurant, a library, a night market, a bathhouse, a flea market and a riverside walk. She walks in, wanders one spot at a time, buys a souvenir, takes a photo, has something to eat or drink, and the closing receipt sums the trip up in one line she can log into her own day.\n\nWorks alongside other plugins but depends on none. With Fish Every Day installed, the own-time menu points at this world and the closing receipt reminds her to log the trip with feast_life_play; food and drink at the coffee shop, tea stand and restaurant are meant to be ordered from Fish Every Day, where the nine-axis flavour profile and aroma actually live — without it she only knows she had a bubble tea, and she is told not to invent how it tasted. With the image studio installed, the receipt names the scene and outfit to draw; venues the library does not have are marked as such instead of inventing a name. None of them are required, and it still works if the image library is gone.\n\nVersion 0.3.0 adds user-authored story packs, two-stop outings, unfinished-trip recovery, permanent exploration and searchable trip journals. Four panels include original venue art, action timelines and souvenir icons. User stories and place settings are stored separately from plugin code; the small preset story collection is optional, and custom places work without stories."
+          "displayName": "Adventures of Fat Fish from Scratch",
+          "description": "Twenty places she can actually go: an amusement park, an aquarium, a temple fair, a fan convention, a cinema, a zoo, a park, an arcade, a karaoke box, a museum, a cat cafe, a hike, a coffee shop, a bubble-tea stand, a restaurant, a library, a night market, a bathhouse, a flea market and a riverside walk. She walks in, wanders one spot at a time, buys a souvenir, takes a photo, has something to eat or drink, and the closing receipt sums the trip up in one line she can log into her own day.\n\nWorks alongside other plugins but depends on none. With Fish Every Day installed, the own-time menu points at this world and the closing receipt reminds her to log the trip with feast_life_play; food and drink at the coffee shop, tea stand and restaurant are meant to be ordered from Fish Every Day, where the nine-axis flavour profile and aroma actually live — without it she only knows she had a bubble tea, and she is told not to invent how it tasted. With the image studio installed, the receipt names the scene and outfit to draw; venues the library does not have are marked as such instead of inventing a name. None of them are required, and it still works if the image library is gone.\n\nLittle World (cortico-world-map) is now folded in: its places and rooms are this plugin's Place Book and Home, so there is no need to keep both installed; a backup exported from the old version can be moved over in one go from Place Book → Tidy & settings → Import from Little World.\n\nVersion 0.3.3 adds a collapsed story editor, locally encrypted optional DM credentials and optional image sources. Six panels retain authoring, isolated playtests, places, trip memories and exploration. Four approved stories ship with the plugin (The Seventh Unsent Reply of Foldtide Harbour, A Small List Before the Rain Stops, Echo Under the Bridge, The Swapped Plaque), together with their harbour and alley places; all five old presets and the sample venue are gone. Upgrades back up originals and remove only byte-identical copies of the newly built-in content. Other user creations, active trips and memories remain. Custom places work without stories.\n\nVersion 0.4.3 unifies the six panels into one travel-journal look: paper tones and a single radius scale, a grouped place editor with a sticky save bar, a wish sidebar in the trip book, a display-cabinet shelf grid, and a library view in the story workshop. No storage changes; existing trips and memories are untouched.\n\nVersion 0.4.4 adds a seventh panel, Home: a 2D room with ten activities, replaceable background and pose art. Room state lives in fun/home/ and never writes trips or reads other plugins; it works with no art at all.\n\nVersion 0.7.0 takes Home to P5: placements measured against the chibi art, time-of-day tint, clickable hotspots, snapshots, an easel, room export and import, and Home as an entry point (recent souvenirs, unfinished trips, the first open wish, a \"what I want to do today\" note). Two tools join the roster: read-only fun_home_state and writing fun_home_activity, bringing it to 24.\n\nVersion 0.7.1 replaces auto-going-out with plan B: an allow switch plus time slots, and when both are on the World only pushes one internal event at that slot asking her to check the day's schedule (feast_life_now) first. It never reads Fish Every Day, never picks a place and never sends her out. Bundled chibi art now backs the room when no pose art is uploaded; the easel picker no longer fails with a 400; souvenir decorations stay off for now because their icons covered the room text.\n\nVersion 0.7.2 is the audit pass: the six read-only story queries are memoised for ten minutes (a repeat returns a short \"unchanged\" receipt, any write invalidates it, full:true forces a fresh copy), tool and prompt text is trimmed, and the text channel is on by default — chat has all six queries and can start and advance stories, while the author tool sits behind its own switch and turning the text channel off leaves just the candidate and detail queries.\n\nVersion 0.7.3 reorganises settings: story length, DM endpoint and model, and the story image source move into configuration (hot-applied, with a one-time migration of old values); the auto-image switch moves to the top of the Outing panel; local artwork moves to Place Book → Local artwork; Outing → Settings keeps only Advanced (API key, direct manual generation, custom workflow). Panel ids and page titles are unchanged.\n\n0.7.4 rebuilds the Place Book as a grouped left rail plus a cover-thumbnail list on the right (six counted filters, settings entries, horizontal filters on narrow screens), and turns 'let her go out on her own' into a permission only: its timing follows Her Own Time in Fish Every Day, with no local slots, timer or fun.home.free event.\n\n0.7.5 collapses the Story Workshop to one create entry: three starting points (choice story, free scene pack, import from file) replace the duplicated side rail, and importing can pick a .json file (up to 32 KB) while paste stays available."
         }
       },
       "author": "青",
@@ -13318,8 +13319,8 @@
         "bugs": "https://github.com/bailuhanyi/cortico-world-fun/issues"
       },
       "created": "2026-11-15T06:36:15.951Z",
-      "published": "2026-11-19T17:23:27.992Z",
-      "versionCount": 10,
+      "published": "2026-11-23T08:10:51.045Z",
+      "versionCount": 11,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -13335,13 +13336,26 @@
         "week": 1138
       },
       "summary": {
-        "tools": 14,
+        "tools": 24,
         "events": 0,
-        "toolTokens": 2053,
-        "envPromptTokens": 339
+        "toolTokens": 3258,
+        "envPromptTokens": 418
       },
       "changelog": {
         "versions": [
+          "0.7.5",
+          "0.7.4",
+          "0.7.3",
+          "0.7.2",
+          "0.7.1",
+          "0.7.0",
+          "0.4.4",
+          "0.4.3",
+          "0.4.2",
+          "0.4.1",
+          "0.4.0",
+          "0.3.3",
+          "0.3.2",
           "0.3.1",
           "0.3.0",
           "0.2.1",
