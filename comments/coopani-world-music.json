@@ -2,8 +2,38 @@
   "schema": 1,
   "name": "coopani-world-music",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/384",
-  "total": 17,
+  "total": 21,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BLpFW",
+      "author": "fateSSD",
+      "avatar": "https://avatars.githubusercontent.com/u/120785478?s=64&v=4",
+      "body": "@qlc5201314-blip\r\n\r\n**第 3 组命令作废，别跑了。** 我刚查了实现，那个工具内部用的是系统在 15.4 之后已经不让第三方调的那个函数，你跑了只会拿到空，然后我们俩一起误判成「没辙」。是我把命令给你之前该先查。\r\n\r\n换这一条。它不需要装任何东西，就是一个系统自带的 `osascript`，直接验我真正要用的那条路：\r\n\r\n```\r\nosascript -l JavaScript -e &#39;ObjC.import(&quot;Foundation&quot;);$.NSBundle.bundleWithPath(&quot;/System/Library/PrivateFrameworks/MediaRemote.framework/&quot;).load;var R=$.NSClassFromString(&quot;MRNowPlayingRequest&quot;);console.log(R?&quot;有 MRNowPlayingRequest&quot;:&quot;没有这个类&quot;);R&amp;&amp;console.log(String(ObjC.unwrap(R.localNowPlayingItem.nowPlayingInfo.valueForKey(&quot;kMRMediaRemoteNowPlayingInfoTitle&quot;))))&#39;\r\n```\r\n\r\n先放一首歌，再跑。预期两行：\r\n\r\n1. `有 MRNowPlayingRequest`\r\n2. 当前那首歌的名字，比如 `出现又离开 (2026...)`\r\n\r\n三种结果：\r\n\r\n- **两行都有** → 路通了，我这边代码已经写好，就等这个结果。\r\n- **第一行是「没有这个类」** → 系统把这扇门也关了，我换另一条路（需要编译一个小件，你会多一些步骤），不耽误你。\r\n- **报错或第二行是 null** → 把报错原文贴给我，多半是某个字段名在我这版系统上变了。\r\n\r\n可选，想多帮我一步的话再跑这条（会暂停/继续一次，自己按回来就行）：\r\n\r\n```\r\nosascript -l JavaScript -e &#39;ObjC.import(&quot;Foundation&quot;);$.NSBundle.bundleWithPath(&quot;/System/Library/PrivateFrameworks/MediaRemote.framework/&quot;).load;var C=$.NSClassFromString(&quot;MRNowPlayingController&quot;);C?C.localRouteController.sendCommandOptionsCompletion(2,$.NSDictionary.alloc.init,null):null;console.log(&quot;已发 toggle&quot;)&#39;\r\n```\r\n\r\n跑完告我一句「停了 / 没反应」就行。这条决定我能不能把暂停切歌一起给你，还是先只给「认得歌」。\r\n\r\n第 1、2 组（系统版本、播放器进程名）还是要的，那个没问题。\r\n\r\n\r\n---------- Original ----------\r\nFrom: ***@***.***\r\nSubject: Re: [Pal-AI-Lab/cortico-extensions] coopani-world-music (Discussion #384)\r\n\r\n\r\n\r\n \r\n1的两张照片已上传\r\n Image: 网易云 (view on web)\r\n Image: QQ音乐 (view on web)\r\n 1的图片已经上传，出现又离开是QQ音乐，长征是网易云。2的机器信息是：Apple M4芯片，macOS是26.6.2 (25G83)。3可以，需要我怎么整\r\n \r\n&mdash;\r\nReply to this email directly, view it on GitHub, or unsubscribe.\r\nTriage notifications, keep track of coding agent tasks and review pull requests on the go with GitHub Mobile for iOS and Android. Download it today! \r\nYou are receiving this because you were mentioned.Message ID: ***@***.***&gt;",
+      "createdAt": "2026-11-23T10:25:13Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BLo_5",
+      "author": "fateSSD",
+      "avatar": "https://avatars.githubusercontent.com/u/120785478?s=64&v=4",
+      "body": "@qlc5201314-blip\r\n\r\n三样都收到了，谢谢。先说结论：**这两张截图把我最担心的那个问题解决了。**\r\n\r\n**1. 控制中心 —— 两条都通**\r\n\r\n你这两张我看了：网易云那边是「长征 / 罗大佑 - 原乡」，QQ音乐那边是「出现又离开 / 那英」，歌名、歌手、封面都在，卡片上连上一首 / 暂停 / 下一首按钮都有。这意味着两件事：\r\n\r\n- 两个播放器都会把在放的歌报给系统，我不用退回去猜窗口标题了；\r\n- 那几个按钮走的就是系统媒体接口，所以「暂停 / 切歌」这条也不用手动去控制播放器。\r\n\r\n顺带看到两个要处理的细节：QQ音乐给的标题是「出现又离开 (2026…)」，带版本后缀；网易云给的是「歌手 - 专辑」两段。这些我后面清洗，不用你管。\r\n\r\n**2. 机器：Apple M4 / macOS 26.6.2 (25G83)**\r\n\r\n记下了，arm64，按 Apple 芯片出。26.6.2 比我手上的资料新（资料只到 26.3），所以下面第 3 组命令有个额外作用：提前确认这条路在你系统上还通不通，别等我写完才发现。\r\n\r\n**3. 请你跑的命令**\r\n\r\n分三组，都是只读（第 3 组会装个小工具，可选）。一行一条，复制粘贴就行，**不用加 sudo**。\r\n\r\n第 1 组，基础信息：\r\n\r\n```\r\nsw_vers\r\nuname -m\r\n```\r\n\r\n预期：三行版本信息（应该就是 26.6.2 / 25G83），加一行 `arm64`。\r\n\r\n第 2 组，播放器的进程名（先放一首歌，别停）：\r\n\r\n```\r\nps -Ao comm= | grep -iE &#39;qq|netease|music|cloud&#39; | sort -u\r\n```\r\n\r\n预期：两三条以 `/Applications/` 开头的路径。我要的是最后那段可执行文件名 —— 现在我只能靠猜，猜错就认不出播放器。\r\n\r\n如果这条什么都没吐，换这条：\r\n\r\n```\r\nps -Ao comm= | grep -i &#39;/Applications/&#39; | sort -u | head -30\r\n```\r\n\r\n第 3 组，可选但很有价值 —— 验证系统媒体接口：\r\n\r\n```\r\ncommand -v brew\r\nbrew install nowplaying-cli\r\nnowplaying-cli get-raw\r\nnowplaying-cli togglePlayPause\r\n```\r\n\r\n- 第 1 条没输出 = 没装 Homebrew，**整组跳过**，告诉我一声，我另想办法，不会让你为了这个装一堆东西。\r\n- `get-raw` 预期吐一大段 JSON，里面有歌名、歌手、时长、当前进度。\r\n- `togglePlayPause` 预期让播放器暂停或继续（跑完记得再按回来）。\r\n- 如果这条提示不认识这个子命令，就把 `nowplaying-cli --help` 的输出贴给我。\r\n\r\n三种结果对应的处置：\r\n\r\n- **出 JSON** → 我照这个字段结构写，最快。\r\n- **命令能跑但 JSON 是空的** → 接口在、但读不到，我去查权限那一步。\r\n- **直接报错**（比如找不到符号之类）→ 26.6.2 把这条路关了，我换读窗口标题那条，你也省得等。\r\n\r\n补一句：这个工具只是借来验证，**不会打包进扩展**（它是 GPL，和扩展的许可不兼容），所以最后你还是装插件、不装它。\r\n\r\n**结果怎么给我**：直接贴在这条下面就行。贴之前看一眼，别把用户名、主机名、序列号带出来 —— 有就删掉那段，不影响我判断。\r\n\r\n这三组跑完我就能开始写第一版。装机那步会比你想的啰嗝（第一次装可能被系统拦一下），到时候我一步步给你。\r\n\r\n\r\n---------- Original ----------\r\nFrom: ***@***.***\r\nSubject: Re: [Pal-AI-Lab/cortico-extensions] coopani-world-music (Discussion #384)\r\n\r\n\r\n\r\n \r\n1的两张照片已上传\r\n Image: 网易云 (view on web)\r\n Image: QQ音乐 (view on web)\r\n 1的图片已经上传，出现又离开是QQ音乐，长征是网易云。2的机器信息是：Apple M4芯片，macOS是26.6.2 (25G83)。3可以，需要我怎么整\r\n \r\n&mdash;\r\nReply to this email directly, view it on GitHub, or unsubscribe.\r\nTriage notifications, keep track of coding agent tasks and review pull requests on the go with GitHub Mobile for iOS and Android. Download it today! \r\nYou are receiving this because you were mentioned.Message ID: ***@***.***&gt;",
+      "createdAt": "2026-11-23T10:11:56Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BLo3R",
+      "author": "fateSSD",
+      "avatar": "https://avatars.githubusercontent.com/u/120785478?s=64&v=4",
+      "body": "@qlc5201314-blip\r\n\r\n商店里看不到 mac 版是正常的，别找了 —— 线上这版（1.0.1）在包里的平台声明还只写 Windows，mac 上装不了。我是故意没放开的：先放开的话你能装上，但读不到播放器，等于一个空壳，那比装不上更难受。等 mac 的读取通道接通我才会放上去，到时候会在这一帖里说一声。\r\n\r\n现在需要你帮的，就三件，第一件是关键。\r\n\r\n**① 最关键：你的播放器会不会把歌名报给系统**\r\n用网易云音乐或 QQ 音乐（mac 版）随便放一首歌，打开屏幕右上角菜单栏里的「控制中心」，看「正在播放」那块卡片里有没有歌名和歌手。\r\n\r\n- 有 → 这条路通，我按这个往下做。\r\n- 空白，或者显示的是别的 App（浏览器、播客之类）→ 说明这条路不通，整个方案得换。越早知道越好。\r\n\r\n麻烦截个图。两个播放器都试一下最好。\r\n\r\n**② 你的机器信息**\r\n\r\n- 芯片：Apple 芯片（M1 / M2 / M3 / M4）还是 Intel\r\n- macOS 版本号写全：  → 关于本机，比如 14.5、15.3\r\n\r\n型号和系统版本就够，不用发序列号。\r\n\r\n**③ 愿不愿意在终端里跑几条命令**\r\n后面有些东西只能靠你那边实际跑一遍才知道（播放器的进程名到底叫什么、某个系统接口在你这版系统上还通不通）。都是只读命令，一行一条，我会把命令和「正常应该输出什么样子」一起写给你，你贴回来就行。\r\n\r\n不用全都答应 —— 只做 ① 也可以。一条截图就能决定方案生死，②③ 等真到那一步再说。\r\n\r\n我这边现在在搭地基，所以你不急，有空的时候试一下就行。\r\n\r\n\r\n---------- Original ----------\r\nFrom: ***@***.***\r\nSubject: Re: [Pal-AI-Lab/cortico-extensions] coopani-world-music (Discussion #384)\r\n\r\n\r\n\r\n \r\n我才看到具体内容，需要我怎么帮忙，我暂时还没在扩展商店里看到Mac版本的\r\n \r\n&mdash;\r\nReply to this email directly, view it on GitHub, or unsubscribe.\r\nTriage notifications, keep track of coding agent tasks and review pull requests on the go with GitHub Mobile for iOS and Android. Download it today! \r\nYou are receiving this because you were mentioned.Message ID: ***@***.***&gt;",
+      "createdAt": "2026-11-23T09:47:38Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BLo8z",
+          "author": "qlc5201314-blip",
+          "avatar": "https://avatars.githubusercontent.com/u/326399948?s=64&v=4",
+          "body": "1的两张照片已上传\r\n<img width=\"614\" height=\"1126\" alt=\"网易云\" src=\"https://github.com/user-attachments/assets/2cc02d05-1762-48a1-8017-5f9273e96d60\" />\r\n<img width=\"600\" height=\"1092\" alt=\"QQ音乐\" src=\"https://github.com/user-attachments/assets/67fe6db7-21f5-4901-9a62-cc6425a2c396\" />\r\n1的图片已经上传，出现又离开是QQ音乐，长征是网易云。2的机器信息是：Apple M4芯片，macOS是26.6.2 (25G83)。3可以，需要我怎么整\r\n",
+          "createdAt": "2026-11-23T10:04:39Z"
+        }
+      ]
+    },
     {
       "id": "DC_kwDOVLPtGM4BLY7B",
       "author": "ForgottenLH",

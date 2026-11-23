@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "coopani-world-journey",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/586",
-  "total": 49,
+  "total": 50,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BLo1W",
+      "author": "fateSSD",
+      "avatar": "https://avatars.githubusercontent.com/u/120785478?s=64&v=4",
+      "body": "**2.7.0 已发布，千问这一档接进来了。**\n\n生图设置 → 服务商，多了一个「千问 Qwen-Image」：\n\n- **百炼（按量计费）**：地址留默认的 `https://dashscope.aliyuncs.com`，模型 `qwen-image-3.0-pro`，密钥填自己的；\n- **Token Plan**：只改地址这一栏，填 `https://token-plan.maas.qianwenaiapi.com`。\n\n地址栏**只填域名**，`/api/v1/services/aigc/multimodal-generation/generation` 那段由程序补。贴整条接口地址也认，但别带 `/compatible-mode/v1` —— 那是百炼的 OpenAI 兼容模式，走的是另一套协议，选了千问这一档却填兼容模式的地址，会 404。\n\n尺寸照旧填「宽x高」，程序自己转成千问要的星号写法（`1024*1024`）；总像素要落在 512×512 – 2048×2048 之间。\n\n**还差一件：千问的参考图（图生图）还不支持，目前只做文生图。**\n\n它的图生图是另一套 `content` 结构（图片和文字平级塞进 `messages`），字段名我没能拿到确定文档 —— 猜错的两个结果都不好：要么每张都 400，要么被**静默忽略**（你以为图鉴生效了，画面里却换了个人）。所以先没接，日志里会如实写「参考图没生效」。等拿到确定文档或实测一次再补。\n\n**顺带修了一个和这个同源的坑**：从豆包切到千问时，地址栏里如果还留着方舟的地址（`ark.cn-beijing.volces.com/api/v3`），请求会打到方舟上 404，而面板每一栏都「有值」，看不出问题在哪。现在「换服务商」= 换一套 —— 切档会清空地址与模型两栏（尺寸保留），让新一档的默认值当场生效；后端也会忽略「别家服务商自带的那个默认地址」，只保留你自己填的中转地址。\n\n更新到 2.7.0 就能用了，有问题继续在这儿提。",
+      "createdAt": "2026-11-23T09:40:13Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BLoYA",
       "author": "fateSSD",
