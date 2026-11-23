@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-humanlike-alont1",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "describe": {
     "tools": [
       {
@@ -84,6 +84,47 @@
         },
         "tags": [
           "read"
+        ]
+      },
+      {
+        "name": "humanlike_group_vibe",
+        "description": "读写跨平台群聊/频道氛围卡（支持 QQ 群号、Discord 频道/服务器 ID、Telegram chat_id、微信群 ID 等）。用来记住不同群的画风、常玩梗或雷区（如「摸鱼游戏群、每晚十点开黑」「技术群别刷屏」），不常驻前缀，进群按需看。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "get",
+                "set",
+                "list"
+              ],
+              "description": "get=查指定群；set=更新/清除群氛围；list=列出记过的群。"
+            },
+            "groupId": {
+              "type": "string",
+              "description": "群号或频道 ID（get/set 时必填）。"
+            },
+            "name": {
+              "type": "string",
+              "description": "set 可选：群名或备注（最多 24 字；传空串清除）。"
+            },
+            "vibe": {
+              "type": "string",
+              "description": "set 可选：群画风/气氛（如：摸鱼游戏群、爱阴阳反串，最多 40 字；传空串清除）。"
+            },
+            "notes": {
+              "type": "string",
+              "description": "set 可选：常玩梗、活跃习惯或雷区（最多 60 字；传空串清除）。"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "write"
         ]
       },
       {
@@ -388,7 +429,7 @@
       },
       {
         "name": "humanlike_pulse",
-        "description": "管理心境余韵、内心碎碎念与阶段性心头好（四合一精简工具）。action=\"mood\" 记明显情绪波动（会随时间自然衰减）；action=\"note\" 记一条私密内心碎碎念（如挂念对方今天累了、或记个小心思，24h 淡忘）；action=\"clear_note\" 划掉碎碎念；action=\"obsession\" 记这阵子的心头好（几天后淡忘）。",
+        "description": "管理心境余韵、内心碎碎念、阶段性心头好与重要日子本（多合一精简工具）。action=\"mood\" 记明显情绪波动；action=\"note\" / \"clear_note\" 记或划掉私密内心碎碎念（24h 淡忘）；action=\"obsession\" 记这阵子的心头好（几天淡忘）；action=\"milestone\" / \"list_milestones\" / \"del_milestone\" 记、查、删重要日子或纪念日（平时不占前缀，临近 3 天自动提醒）。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -399,7 +440,10 @@
                 "mood",
                 "note",
                 "clear_note",
-                "obsession"
+                "obsession",
+                "milestone",
+                "list_milestones",
+                "del_milestone"
               ],
               "description": "要执行的操作类型。"
             },
@@ -435,13 +479,33 @@
             },
             "id": {
               "type": "string",
-              "description": "[clear_note] 碎碎念 id；省略则清空全部。"
+              "description": "[clear_note/del_milestone] 条目 id；clear_note 省略则清空全部碎碎念。"
             },
             "days": {
               "type": "integer",
               "minimum": 1,
               "maximum": 14,
               "description": "[obsession] 持续天数，默认 5。"
+            },
+            "title": {
+              "type": "string",
+              "description": "[milestone] 日子名称（如：主人生日、高数考试、认识纪念日，最多 24 字）。"
+            },
+            "date": {
+              "type": "string",
+              "description": "[milestone] 日期：一次性填 YYYY-MM-DD，每年循环填 MM-DD。"
+            },
+            "repeat": {
+              "type": "string",
+              "enum": [
+                "yearly",
+                "none"
+              ],
+              "description": "[milestone] 是否每年循环；填 MM-DD 时自动为 yearly。"
+            },
+            "note": {
+              "type": "string",
+              "description": "[milestone] 可选补充备注（最多 40 字）。"
             }
           },
           "required": [
@@ -553,6 +617,55 @@
           },
           "required": [
             "text"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "humanlike_milestone",
+        "description": "管理重要日子本（生日、纪念日、考试、约会等，平时不占前缀，临近 3 天内自动浮现）。action=\"set\" 记一条日子；action=\"list\" 列出全部；action=\"del\" 按 id 删除。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "set",
+                "list",
+                "del"
+              ],
+              "description": "操作类型。"
+            },
+            "title": {
+              "type": "string",
+              "description": "[set] 日子名称（最多 24 字）。"
+            },
+            "date": {
+              "type": "string",
+              "description": "[set] 日期：YYYY-MM-DD（一次性）或 MM-DD（每年循环）。"
+            },
+            "repeat": {
+              "type": "string",
+              "enum": [
+                "yearly",
+                "none"
+              ],
+              "description": "[set] 是否每年循环。"
+            },
+            "note": {
+              "type": "string",
+              "description": "[set] 可选补充备注（最多 40 字）。"
+            },
+            "id": {
+              "type": "string",
+              "description": "[del] 要删除的条目 id。"
+            }
+          },
+          "required": [
+            "action"
           ]
         },
         "tags": [
@@ -775,6 +888,7 @@
     ]
   },
   "changelog": {
+    "0.4.0": "- **傻瓜式可视化 WebUI「人味养成台」（`webUiClient: dist/console.js`）**：\n  - 4 个直观分页：**状态与快捷**（精力/心境/小执念/临近日子一览 + 快捷写入）、**关系 / 日子 / 群氛围**（支持人物搜索过滤、快捷 `+1 / -1` 调分、称呼/标签/雷点编辑、重要日子与群氛围增删改）、**自定义提示词 & 模块**（老用户专属工作台 + 4 套一键填入模板库）、**实时前缀预览**（所见即所得，显示字节数与估算 Token 数）。\n  - 支持 **人味记忆一键导出 / 导入 JSON 备份**（打包 `affinity.json`、`pulse.json`、`custom.json`），换机重装不丢数据。\n- **老用户自定义提示词 & 自定义模块系统（不碰原有 `CONSTITUTION.md` 与记忆）**：\n  - 支持 3 种兼容模式：`append`（追加）、`replace`（用你的提示词替代内置 `rpBoost`）、`off`（纯净模式，仅注入你的自定义内容）。\n  - 支持最多 12 个自定义模块（按全场景 / 仅私聊 / 仅群聊标注，独立启停开关，停用后 0 token 占用）。\n- **DeepSeek（ds4.1flash 等弱 RP 模型）深度防 AI 味升级**：\n  - 重写 `rpBoost`：首条即强调**省掉已知前提、拒绝承上启下**（6~18 字、最多 1 个逗号）、严禁鱼八股与判词腔、不用分号与破折号；经 20 场景双轨高压测试（原版素 Bot 防鱼八股 + 养了半年的老 Bot 记忆/人设保真）全绿通过。\n  - **标签防硬拐分层**：将 `favoredLine` 拆为「称呼与避雷」与「背景印象（仅作底色不硬拐）」。\n  - **零成本动态防复读（`OutputTap`）**：平时 0 token，仅当连续 3 条回复连环反问或撞同一开头词时悄悄提醒换句式。\n- **5 项拟人新能力**：\n  - **久别重逢体感**：超过 24h / 2~3 天 / 1 周未互动时自然浮现断联体感暗线。\n  - **重要日子本 + 周五晚/周末节律**：支持一次性日程与每年循环纪念日/生日，平时 0 token，临近 3 天自动浮现。\n  - **跨平台群聊氛围卡（`humanlike_group_vibe`）**：按群号/频道 ID 记住不同群的画风、常玩梗与雷区。\n  - **生活作息人设包（`life.profile`）**：内置 `default / student / worker / homebody` 4 套活动池，并支持 `customActivities`。\n  - **开箱场景预设（`preset`）** + **主动搭话具体由头（Hook）**：支持 `custom / companion / group / strong_model` 一键切换；主动搭话自动抓取临近日子/心头好/碎碎念作为开场由头，告别“在吗”。",
     "0.3.1": "- **DeepSeek（含 ds4.1flash 等弱 RP / 轻快模型）专项优化**：\n  - 经过多轮 18 场景实测迭代（覆盖私聊情绪陪伴、生病心疼、单字接球、群聊吐槽/抽象接梗、防瞎编经历、轻拒不说教等），重写并精简人设中立的 `rpBoost` 底线（单行短脆、0 换行、0 句末句号、去客服垫话与心理咨询复读、拒绝盘问查岗与班主任说教、真实不瞎编细节）。\n  - **`pulse` 行为级节奏翻译层**：在系统前缀中彻底隐藏百分比与 `3/5` 等内部数值，避免 DeepSeek 等轻量模型把“精力 25%/犯困掉电”直接当台词复读，改为自然行为节奏提示（WebUI 状态灯仍保留精确数值）。\n  - **精简工具聚合模式（`compactTools`，默认开启）**：将 `pulse` 4 个写入工具收拢为统一入口 `humanlike_pulse`，大幅降低弱模型工具选择负担与前缀体积（整体仅 ~4.5 KB）。\n  - **阶段性小执念（`obsession`）与生物钟精力曲线**：支持记录 1~14 天自动淡忘的阶段心头好，并与 `life.reach` 主动搭话上下文联动。\n- **专属称呼 / 雷点 / 印象标签微档案（`affinity` 升级）**：\n  - `humanlike_affinity_adjust` 新增可选字段 `callAs`（专属称呼）、`avoid`（雷点/忌讳）、`addTag` / `removeTag`（印象/圈子标签），支持 `delta: 0` 纯改档案。\n  - 对 `favoredId`（主人/亲密对象）自动将小默契摘要直通 `affinity.favoredLine` 前缀，私聊无需调工具即可稳定记住专属称呼与雷点。\n- **全平台去 QQ 硬编码兼容**：\n  - 全面支持 **QQ / Discord（含 64 位雪花 ID）/ Telegram（`@handle`）/ 微信（`wxid_`）/ 飞书 / Slack / WebUI Console** 等全渠道账号标识；好感度与主动搭话工具新增 `account` 参数并完全向后兼容旧 `qq` 参数，`favoredId` 支持字符串或数字。\n  - `life` 主动搭话自动感知目标最近发言渠道，QQ 渠道继续保留 `private:<id>` 提示，其他平台不再误导调用 `qq_draft`。",
     "0.3.0": "- **新增创新拟人模块 `pulse`（心境余韵 + 内心碎碎念，默认开启）**：\n  - **心境余韵（`humanlike_mood_shift`）**：情绪不再下一句瞬间清零，而是按时间自然衰减（零后台定时器，纯按时间戳计算），让弱 RP 模型也能自然保持连续心境。\n  - **内心碎碎念（`humanlike_inner_note` / `humanlike_inner_clear`）**：保留最近 5 条、24 小时自动淡忘的私密短期小念头，别人看不到，让 Bot 拥有未说出口的主观小心思。\n- **架构模块化重构**：新增 `worlds.humanlike.modules.*` 8 个子模块独立开关（默认开启 `affinity`、`life`、`together`、`mind`、`pulse`；`learn`、`clock`、`real` 默认关闭以避免与 Cortico 0.2.x 内置能力重叠，可随时一键开启）。未启用的模块不启动后台定时器、不注册工具、不占用系统前缀。\n- **提示词全面瘦身与去人设污染**：`ENV_PROMPT.md` 从 14.2 KB 静态长文改为按启用模块动态拼装（默认瘦身约 75%），彻底移除硬编码的「尾巴/耳朵/唔嘛哼/傲娇黏人」等特定角色腔，不再与宿主 `CONSTITUTION.md` 冲突。\n- **弱 RP 模型专门优化（`worlds.humanlike.rpBoost`）**：默认开启人设中立的「去客服腔、去日志汇报体、情绪节奏映射」简短正反对照段，显著改善 DeepSeek 4.1 Flash 等轻快/弱 RP 模型的聊天自然度。\n- **跨平台适配**：`real` 模块的 `humanlike_real_desk` 新增 Linux（X11 `xdotool` + `/proc`）与 macOS（`osascript`）支持，Wayland 或无桌面环境下优雅降级不再报错。",
     "0.1.20": "- 回顾原始消息与机械内部调度分开，保留来源游标和附件；停止直接读取 Persona 的 RECENT 记忆文件。\n- 删除重复启动通知，报时及启动话头随其他事件投递；空闲提醒仅在持续静默后触发。\n- 修复主动搭话每分钟重掷概率及无候选回退；按间隔尝试并持久化节流，正文带关系信息。\n- 普通互动按真实 QQ 原始消息游标去重和自动计分，重复查询不增句数；旧查询总数保存为 legacyQueryCount。\n- 统一查交情、时间、笔记覆盖、前缀重建及同轮记账说明，减少不必要的工具调用。\n\n兼容说明：保留已有工具名和数据；默认提示词在会话开始、交接或重载时重建。部署自定义提示词需按本版说明手动合并。"
