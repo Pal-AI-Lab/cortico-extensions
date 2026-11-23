@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-figure",
-  "version": "4.1.2",
+  "version": "4.2.0",
   "describe": {
     "tools": [
       {
@@ -569,6 +569,35 @@
         }
       },
       {
+        "name": "figure_save_action",
+        "description": "Only when the user explicitly asks to save: name a trial action from figure_perform and register it in the worn figure vocabulary. Rewearing the figure loads the new word. Never overwrite an existing word.",
+        "tags": [
+          "write"
+        ],
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "draft": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647,
+              "description": "The draft returned by figure_perform."
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 32,
+              "description": "A single trigger name without spaces, commas or brackets."
+            }
+          },
+          "required": [
+            "draft",
+            "name"
+          ]
+        }
+      },
+      {
         "name": "figure_speak",
         "description": "Speak the plain text of a desktop pet reply. In the same response call figure_speak first, then the available pet speech tool (pet_say or live2d_pet_say) immediately with the same spoken text. The pet speech tool still displays the text if voice is unavailable. Use once per reply.",
         "parameters": {
@@ -618,6 +647,7 @@
     ]
   },
   "changelog": {
+    "4.2.0": "- 主模型编排试演后，可把动作命名并保存为当前形象的固定词条。重新穿戴后，默认模式也能直接播放。旧版生成的形象需要从模型卡重新安装一次。\n- 新增独立的「素材工坊」页，可打开 FFA Hub 浏览、下载和投稿已获再分发授权的 Live2D 与 BongoCat 素材。\n- 导入和安装现成形象包时检查运行依赖。原包缺少运行文件但原始模型完整时，Figure 会重新打包，并在导入结果中说明原因。",
     "4.1.2": "- 新生成的 Live2D 和 BongoCat 形象包省去重复的模型副本和用不到的组件。新包需要 Coo 0.2.14 或更新版本，旧形象包仍可读取。\n- 「个性化」支持勾选多套主题配色随形象包安装，在 Coo「装扮 → 配色」切换。也可按需携带额外情绪特效，默认使用 Coo 原生特效。",
     "4.1.1": "- Live2D 形象一次安装带上六种情绪特效，可直接在 Coo 的装扮页切换。Figure 特效支持小、中、大三档。\n- 语音页集中管理当前音色、试听与备用服务；切换失败保留当前服务。改进短句补读、停止和音频起点识别，减少重复播报。\n- 浏览器动作编辑器区分已选资源与当前试播，长列表支持按页翻动。",
     "4.1.0": "- 新增「本机 GPT-SoVITS 插件」语音预设。开启插件的本机语音接口后，可直接使用当前音色，支持单独指定音色和语速。\n\n- 快速播报只朗读 Coo 已记录的台词，支持手动停止。编排按记录处理多段台词和可匹配的行内表情。\n- 运行时可从装扮记录识别形象，也可在模型设置选择。涉及图片取证的安装方案需要人工确认。\n\n- 新增默认、主模型编排和独立编排三档运行时表演。主模型编排可查询当前 Live2D 形象的可用动作与参数，也能为气泡台词安排演出。\n- 重装早期 Figure Live2D 形象包可启用姿态和通用表情编排。已有原生动作索引的包保留原生动作支持。\n- 独立编排支持保存和切换多套模型服务，提供常用服务预设、模型查询及连接测试。主模型沿用现有回复方式，编排不可用时继续本地表演。\n- 独立编排采用 SoulLink 原版说话调度，可识别用户点名的动作。同步朗读时并行准备语音和动作，按实测播放起点开演。",

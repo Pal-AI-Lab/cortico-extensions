@@ -1,0 +1,139 @@
+{
+  "schema": 1,
+  "name": "cortico-world-dsh-bridge",
+  "version": "0.1.2",
+  "describe": {
+    "tools": [
+      {
+        "name": "dsh_plugin_list",
+        "description": "列出桌宠这边已装的 DSH 插件，以及每个插件能不能用、有几个工具。装/卸/开关用 dsh_plugin_install / uninstall / toggle。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "dsh_plugin_install",
+        "description": "给一个 DSH 插件生成安装提案（不直接装）：source 填本地目录的绝对路径（含 package.json），reason 写为什么装。生成后要等你在桥面板里点「同意安装」才会真正装入。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "description": "插件包根目录的绝对路径。"
+            },
+            "reason": {
+              "type": "string",
+              "description": "为什么装它、从哪来的，给你做判断。"
+            }
+          },
+          "required": [
+            "source"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "dsh_plugin_uninstall",
+        "description": "卸载一个已装的 DSH 插件：先停掉它的子进程，再删掉它的包目录。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "插件包名，例如 dsh-video-storyboard。"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "dsh_plugin_toggle",
+        "description": "打开或关掉一个已装 DSH 插件。关掉后它的工具不再出现在工具清单里，但包目录保留。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "插件包名。"
+            },
+            "enabled": {
+              "type": "boolean",
+              "description": "true 打开，false 关掉。"
+            }
+          },
+          "required": [
+            "name",
+            "enabled"
+          ]
+        },
+        "tags": [
+          "write"
+        ]
+      },
+      {
+        "name": "dsh_plugin_tools",
+        "description": "看某个 DSH 插件暴露了哪些工具及其参数（从已加载的子进程里读，会顺带验证插件能不能加载）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "插件包名。"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "dsh_plugin_call",
+        "description": "调用某个 DSH 插件里的一个工具。name 是插件包名，tool 是工具名（先用 dsh_plugin_tools 查），args 是该工具自己的参数对象。图片结果会作为附件返回。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "插件包名。"
+            },
+            "tool": {
+              "type": "string",
+              "description": "工具名，例如 video_storyboard。"
+            },
+            "args": {
+              "type": "object",
+              "description": "该工具自己的参数对象；不需要参数时省略。",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "name",
+            "tool"
+          ]
+        },
+        "tags": [
+          "act"
+        ]
+      }
+    ],
+    "events": []
+  },
+  "changelog": {
+    "0.1.2": "首次发布到 npm。\n\n- 在桌宠侧加载 DSH 插件：插件包进 `data/dsh-bridge/vendor/`，跑独立子进程，工具注册成她自己的工具\n- 六个元工具：列出、生成安装提案、卸载、开关、看工具清单、调用插件工具\n- 安装走提案制：她只能提，真正装要你在面板点「同意安装」\n- 面板：「系统详情」里分 DSH 插件扩展栏，看工具清单、设置页、直挂开关\n- 直挂可选：默认插件工具不进每轮前缀，勾直挂才并进工具表，面板报每轮大概多占多少\n- 单个插件连续崩 3 次自动隔离，不影响其他插件\n- 插件自带设置页（`src/settings/server.js` 导出 `createSettingsPage`）时，面板能给个「打开设置页」，桥起本地服务打开"
+  }
+}
