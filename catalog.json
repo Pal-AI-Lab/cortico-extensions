@@ -2601,7 +2601,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/586",
         "up": 14,
         "down": 0,
-        "comments": 47
+        "comments": 49
       }
     },
     "coopani-world-life": {
@@ -10594,13 +10594,13 @@
     },
     "cortico-world-dsh-bridge": {
       "kind": "world",
-      "version": "0.1.2",
+      "version": "0.1.4",
       "displayName": "DSH 插件扩展（迷你宿主）",
-      "description": "在桌宠这边加载 DSH 插件：插件跑在独立子进程里，工具直接变成她自己的工具；DSH 那边不用装。",
+      "description": "DSH 插件扩展（迷你宿主）：让桌宠能装 DSH 插件，工具直接变成她自己的。\n\n插件包从 npm 或本地目录进到 Coo 侧，跑在独立子进程里，工具注册成她的工具，她直接调，DSH 那边一个插件都不用装。带六个 dsh_plugin_* 工具（列/装/卸/开关/看工具/调用），安装走「出提案 → 你同意 → 面板执行」，默认插件工具不进每轮前缀。\n\nDSH 插件扩展（迷你宿主）：让桌宠能装 DSH 插件，工具直接变成她自己的。",
       "locales": {
         "zh": {
           "displayName": "DSH 插件扩展（迷你宿主）",
-          "description": "在桌宠这边直接装 DSH 插件：插件包从 npm 或本地目录进到 Coo 侧，跑在单独的子进程里，工具注册成她自己的工具，她直接调。DSH 那边一个插件都不用装、也不被调用。\n\n**只管手脚**：不接管人格、提示词与记忆，只做「加载工具」这一件事。\n\n**面板**：「系统详情」页签里分两栏——World 扩展（Coo 自己的，只读列出）与 DSH 插件扩展（可卸、可开关、可勾直挂）；安装走「出提案 → 你同意 → 面板执行」，点单个插件看它的工具清单、设置与直挂开关。"
+          "description": "DSH 插件扩展（迷你宿主）：让桌宠能装 DSH 插件，工具直接变成她自己的。\n\n插件包从 npm 或本地目录进到 Coo 侧，跑在单独的子进程里，工具注册成她自己的工具，她直接调。DSH 那边一个插件都不用装、也不被调用。\n\n**带六个工具**：`dsh_plugin_list` 列插件、`dsh_plugin_install` 出安装提案、`dsh_plugin_uninstall` 卸、`dsh_plugin_toggle` 开关、`dsh_plugin_tools` 看某插件有哪些工具、`dsh_plugin_call` 直接调。安装一律走「出提案 → 你同意 → 面板执行」，桌面端和 DSH 侧都没法自己装。\n\n**只管手脚**：不接管人格、提示词与记忆，只做「加载工具」这一件事。默认插件工具不进每轮前缀（装多少个前缀基本不变），勾了「直挂」才并进工具表。\n\n**面板**：「系统详情」页签里分两栏——World 扩展（Coo 自己的，只读列出）与 DSH 插件扩展（可卸、可开关、可勾直挂）；点单个插件看它的工具清单、设置与直挂开关。\n\nDSH 插件扩展（迷你宿主）：让桌宠能装 DSH 插件，工具直接变成她自己的。"
         }
       },
       "author": "suxiaojun",
@@ -10622,8 +10622,8 @@
         "win32"
       ],
       "created": "2026-11-23T06:56:25.745Z",
-      "published": "2026-11-23T06:57:41.531Z",
-      "versionCount": 2,
+      "published": "2026-11-23T07:22:41.799Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -10647,9 +10647,11 @@
       },
       "changelog": {
         "versions": [
+          "0.1.4",
+          "0.1.3",
           "0.1.2"
         ],
-        "url": "https://unpkg.com/cortico-world-dsh-bridge@0.1.2/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-dsh-bridge@0.1.4/CHANGELOG.md"
       },
       "discussion": {
         "number": 1100,
@@ -11880,17 +11882,17 @@
     },
     "cortico-world-feast": {
       "kind": "world",
-      "version": "0.13.0",
+      "version": "0.13.1",
       "displayName": "鱼的每一天",
-      "description": "鱼的每一天 · 先给她一天，再给她一桌饭：她自己的日程（每晚自己写明天，可以按日型给她备一张「能做的事」清单，到点过自己的时间、做完记一笔）+ 824 道菜的桌子，能端一道、端一桌，也能和她一起吃一顿。可选联动「生图工作室」「娱乐时间」，并兼容旧版「鱼的小世界」，不装也完整可用。",
+      "description": "鱼的每一天 · 先给她一天，再给她一桌饭：她自己的日程（每晚自己写明天，可以按日型给她备一张「能做的事」清单，到点过自己的时间、做完记一笔）+ 824 道菜的桌子，能端一道、端一桌，也能和她一起吃一顿。可选联动「鱼的生图包」和「从0开始的肥鱼大冒险」；旧版「鱼的小世界」已废弃、能力已并入从0开始的肥鱼大冒险，无需再安装，不装也完整可用。",
       "locales": {
         "zh": {
           "displayName": "鱼的每一天",
-          "description": "先给她一天，再给她一桌饭。每天晚上到点请她自己写明天怎么过（零 API Key，用已配的模型），第二天按它过；你还能按日型给她备一张「能做的事」清单，日程里就会写成真能做的一件事，而不是「在家玩」这种空白。上不上班可以一句话翻，几点吃也能由她自己按那天定；到点还有「她自己的时间」，让她挑件事做并记一笔——上班/通勤时段默认不叫，开了开关才照叫，但会换成报备的说法。主人能在「今天」面板看今天和明天的时间线、此刻她在做什么、她做过什么、往前翻往期，也能临时改掉某一段。桌上是 824 道菜（28 个菜系组），每道都有九维口味、香气、口感、余韵和一段实吃描写；她能自己按菜系挑，主人也能从面板端一道或整桌端过去（8 套内置套餐，也能自己勾几道攒成一桌存下来）；还能和她一起吃一顿：邀请她、互相喂一口，你吃了什么她也知道。同一道菜每次吃到的都不一样，吃过什么、对什么反应、口味画像跨天攒着。饭点提醒、「她的一天」和自由时间都能在配置里单独关掉。\n\n可选联动：生图工作室沿用衣柜和场景；娱乐时间及旧版小世界提供按需查询和活动例子的提示，实际工具以当前会话为准。小世界的地点、住所、画风、封面与浏览能力正迁入娱乐时间，迁移期保留旧提示和独立开关；新用户无需为此额外安装旧小世界。计划只记打算，故事须明确开始，经历须经每一天工具明确记账。"
+          "description": "先给她一天，再给她一桌饭。每天晚上到点请她自己写明天怎么过（零 API Key，用已配的模型），第二天按它过；你还能按日型给她备一张「能做的事」清单，日程里就会写成真能做的一件事，而不是「在家玩」这种空白。上不上班可以一句话翻，几点吃也能由她自己按那天定；到点还有「她自己的时间」，让她挑件事做并记一笔——上班/通勤时段默认不叫，开了开关才照叫，但会换成报备的说法。主人能在「今天」面板看今天和明天的时间线、此刻她在做什么、她做过什么、往前翻往期，也能临时改掉某一段。桌上是 824 道菜（28 个菜系组），每道都有九维口味、香气、口感、余韵和一段实吃描写；她能自己按菜系挑，主人也能从面板端一道或整桌端过去（8 套内置套餐，也能自己勾几道攒成一桌存下来）；还能和她一起吃一顿：邀请她、互相喂一口，你吃了什么她也知道。同一道菜每次吃到的都不一样，吃过什么、对什么反应、口味画像跨天攒着。饭点提醒、「她的一天」和自由时间都能在配置里单独关掉。\n\n可选联动：鱼的生图包沿用衣柜和场景；从0开始的肥鱼大冒险提供按需查询和活动例子的提示，实际工具以当前会话为准。旧版「鱼的小世界」已废弃、不再更新，它的地点、住所、画风、封面与浏览能力已并入从0开始的肥鱼大冒险；旧提示与独立开关只为兼容保留，新用户不必安装旧小世界。计划只记打算，故事须明确开始，经历须经每一天工具明确记账。"
         },
         "en": {
           "displayName": "Fish Every Day",
-          "description": "First a day of her own, then a table of food. Every evening she is asked to write tomorrow herself (no API key — it uses the model you already have), and the next day she lives it; you can also prepare a list of \"things she can actually do\" per day type, so the day she writes is made of real things instead of a blank \"hanging out at home\". On her own-time slots she picks something to do and logs it — while she is at work or commuting it stays quiet by default, and with one switch on it still speaks but as a check-in rather than \"this time is yours\". The Today panel shows today's and tomorrow's timeline, what she is doing right now, what she has been up to, past days, and lets you change a stretch of it. The table holds 824 dishes across 28 cuisines, each with a nine-axis flavour profile, aroma, texture, aftertaste and a full paragraph of how it actually eats. She can pick by cuisine, or you can put a dish down in front of her from the panel — or serve a whole table at once (8 built-in set meals, plus your own saved tables). You can also share a meal with her: invite her, feed each other a bite, and tell her what you are eating. The same dish never lands the same way twice, and what she ate, how it landed and her taste profile accumulate across days. Whether she works today can be flipped with one word, and she can set that day's meal times herself. Meal reminders, her day, and her own time can each be switched off in config.\n\nOptional integrations retain the image studio wardrobe and scenes, plus activity suggestions for Fun Time and legacy Little World. Tool use depends on what the current session actually provides. Little World's places, home, art style, covers and browsing are moving into Fun Time; existing hints and switches remain compatible, and new users need not install legacy Little World for this migration. Plans express intentions; stories require an explicit start, and experiences are recorded explicitly through Fish Every Day."
+          "description": "First a day of her own, then a table of food. Every evening she is asked to write tomorrow herself (no API key — it uses the model you already have), and the next day she lives it; you can also prepare a list of \"things she can actually do\" per day type, so the day she writes is made of real things instead of a blank \"hanging out at home\". On her own-time slots she picks something to do and logs it — while she is at work or commuting it stays quiet by default, and with one switch on it still speaks but as a check-in rather than \"this time is yours\". The Today panel shows today's and tomorrow's timeline, what she is doing right now, what she has been up to, past days, and lets you change a stretch of it. The table holds 824 dishes across 28 cuisines, each with a nine-axis flavour profile, aroma, texture, aftertaste and a full paragraph of how it actually eats. She can pick by cuisine, or you can put a dish down in front of her from the panel — or serve a whole table at once (8 built-in set meals, plus your own saved tables). You can also share a meal with her: invite her, feed each other a bite, and tell her what you are eating. The same dish never lands the same way twice, and what she ate, how it landed and her taste profile accumulate across days. Whether she works today can be flipped with one word, and she can set that day's meal times herself. Meal reminders, her day, and her own time can each be switched off in config.\n\nOptional integrations retain the image studio wardrobe and scenes, plus activity suggestions for Adventures of Fat Fish from Scratch. Tool use depends on what the current session actually provides. The legacy Little World is deprecated and no longer updated: its places, home, art style, covers and browsing have been merged into Adventures of Fat Fish from Scratch, and the old hints and switches remain only for compatibility, so new users need not install legacy Little World. Plans express intentions; stories require an explicit start, and experiences are recorded explicitly through Fish Every Day."
         }
       },
       "author": "青",
@@ -11919,8 +11921,8 @@
         "bugs": "https://github.com/bailuhanyi/cortico-world-feast/issues"
       },
       "created": "2026-11-05T03:38:03.816Z",
-      "published": "2026-11-21T13:28:23.436Z",
-      "versionCount": 24,
+      "published": "2026-11-23T08:07:00.225Z",
+      "versionCount": 25,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -15138,6 +15140,71 @@
       "discussion": {
         "number": 710,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/710",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-interrupt-turn": {
+      "kind": "world",
+      "version": "0.1.3",
+      "displayName": "打断当前轮",
+      "description": "打断当前轮：桌宠上多一个「停」，这一轮说停就停。\n\n给 Coo 补上「打断/取消思考」入口：她说错话、工具跑偏时点一下就能停，模型和在途工具随叫随停。改动落在 Coo 框架与桌宠源码上，目前只适配 Coopanion 0.2.23，装完要整个重启才生效；Coo 升级后补丁会被覆盖，重装本插件或让桌宠调 interrupt_patch 就能重打。这个补丁是抛砖引玉——打断本来就该长在桌宠里，欢迎官方吸收。\n\n打断当前轮：桌宠上多一个「停」，这一轮说停就停。",
+      "locales": {
+        "zh": {
+          "displayName": "打断当前轮",
+          "description": "打断当前轮：桌宠上多一个「停」，这一轮说停就停。\n\n给 Coo 补上「打断/取消思考」入口：她说错话、工具跑偏时点一下就能停，不用等一整轮跑完。装好之后桌宠上会多一个停止按钮，点了就把这一轮掐掉，模型和在途工具都随叫随停。\n\n改动落在 Coo 框架与桌宠源码上，所以**只适配 Coopanion 0.2.23**，装完必须整个程序重启一次（只重启 World 不算）。Coo 升级后这两个目录会被覆盖、补丁就没了：重装本插件，或者让桌宠调一下 `interrupt_patch` 的 `repair` 就能贴回去；插件启动时也会自己检查一遍。\n\n这个补丁是抛砖引玉——打断本来就该长在桌宠里，欢迎作者吸收进正式版，这个包随时可以退休。\n\n打断当前轮：桌宠上多一个「停」，这一轮说停就停。"
+        }
+      },
+      "author": "suxiaojun",
+      "maintainers": [
+        "suxiaojun"
+      ],
+      "license": "AGPL-3.0-or-later",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "interrupt",
+        "companion"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-interrupt-turn"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-11-23T07:13:30.884Z",
+      "published": "2026-11-23T07:22:34.276Z",
+      "versionCount": 4,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "local",
+        "companion",
+        "experimental"
+      ],
+      "tags": [
+        "companion",
+        "local",
+        "experimental"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.3",
+          "0.1.2",
+          "0.1.1"
+        ],
+        "url": "https://unpkg.com/cortico-world-interrupt-turn@0.1.3/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1103,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1103",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -20025,6 +20092,107 @@
         "comments": 1
       }
     },
+    "cortico-world-pawn": {
+      "kind": "world",
+      "version": "1.8.5",
+      "displayName": "赛博当铺·大肥鱼现场开搓",
+      "description": "赛博当铺：一句话现搓神器，边开店边攒算力。\n\nCortico World 里的一局单机沙盒当铺游戏，接给 bot 一起玩：算力探险、每日客人、基建与终局、现搓台、202 个成就。玩家在 WebUI 页面里点，bot 用工具做同样的事，两边共用一份存档。\n\n赛博当铺：一句话现搓神器，边开店边攒算力。",
+      "locales": {
+        "zh": {
+          "displayName": "赛博当铺·大肥鱼现场开搓",
+          "description": "赛博当铺：一句话现搓神器，边开店边攒算力。\n\n一个 Cortico World：把一局单机沙盒当铺游戏接给 bot。玩家在 WebUI 的「赛博当铺·大肥鱼现场开搓」页里点，bot 用工具做同样的事，两边共用一份存档。\n\n- 算力探险：装备显卡、CPU、电池，算力越高去得越久、越费电、带回来的东西越好。\n- 每日客人：采购商、供货商、黑市（30%~300%）、盲盒、扩容商人，每天换一批。\n- 基建与终局：太阳能板、发电机、核反应堆；反应堆建成进无尽模式。\n- 现搓台：写一句话，bot 写成 JSON 进 `mods/`，校验通过就热加载。\n- 成就：202 个普通成就 + 25 个隐藏彩蛋成就；全解锁后全属性 +10%。\n\n赛博当铺：一句话现搓神器，边开店边攒算力。"
+        }
+      },
+      "author": "suxiaojun",
+      "maintainers": [
+        "suxiaojun"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "game",
+        "sandbox",
+        "pawnshop"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-pawn",
+        "homepage": "https://space.bilibili.com/16666966"
+      },
+      "created": "2026-11-23T07:40:06.367Z",
+      "published": "2026-11-23T07:42:43.067Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "game",
+        "experimental"
+      ],
+      "tags": [
+        "game",
+        "experimental"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 12,
+        "events": 9,
+        "toolTokens": 2920,
+        "envPromptTokens": 753
+      },
+      "changelog": {
+        "versions": [
+          "1.8.5",
+          "1.8.4",
+          "1.8.3",
+          "1.8.2",
+          "1.8.1",
+          "1.8.0",
+          "1.7.1",
+          "1.7.0",
+          "1.6.1",
+          "1.6.0",
+          "1.5.2",
+          "1.5.1",
+          "1.5.0",
+          "1.4.5",
+          "1.4.4",
+          "1.4.3",
+          "1.4.2",
+          "1.4.1",
+          "1.4.0",
+          "1.3.0",
+          "1.2.0",
+          "1.1.0",
+          "1.0.2",
+          "1.0.1",
+          "1.0.0",
+          "0.3.9",
+          "0.3.8",
+          "0.3.7",
+          "0.3.6",
+          "0.3.5",
+          "0.3.4",
+          "0.3.3",
+          "0.3.2",
+          "0.3.1",
+          "0.3.0",
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-world-pawn@1.8.5/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1104,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1104",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-perch": {
       "kind": "world",
       "version": "0.2.8",
@@ -23020,9 +23188,15 @@
     },
     "cortico-world-remote-panel": {
       "kind": "world",
-      "version": "0.2.2",
+      "version": "0.2.4",
       "displayName": "遥控器面板",
-      "description": "把一批工具收编成一个 remote 入口：这些工具的定义不再每轮进前缀，改成按 action 转发。",
+      "description": "遥控器面板：把一堆工具收成一个入口，前缀不再被工具定义撑满。\n\n把一批工具收编成一个 remote 入口：这些工具的定义不再每轮进前缀，改成按 action 转发，装的插件越多省得越多（Coopanion 自带桌宠那套最划算）。装的时候自动给 Coo 核心打补丁，目前只适配 Coopanion 0.2.23，装完要整个重启；Coo 升级后补丁被覆盖，重装本插件就能贴回去。\n\n遥控器面板：把一堆工具收成一个入口，前缀不再被工具定义撑满。",
+      "locales": {
+        "zh": {
+          "displayName": "遥控器面板",
+          "description": "遥控器面板：把一堆工具收成一个入口，前缀不再被工具定义撑满。\n\n把一批工具收编成一个 remote 入口：这些工具的定义不再每轮进前缀，改成按 action 转发。工具越多、插件装得越多，省下来的前缀越可观——Coopanion 自带的桌宠那套工具最划算。\n\n安装时会自动给 Coo 核心打补丁（改前留 `.bak-remote-panel` 备份），所以**只适配 Coopanion 0.2.23**，装完必须整个程序重启一次（只重启 World 不算）。Coo 升级后补丁会被覆盖、面板会提示先重启：重装本插件就能贴回去。\n\n打开世界的 WebUI 页，看到工具清单后勾上想收编的、保存、重启，下一次对话里它们就只以一个 `remote` 入口出现。\n\n遥控器面板：把一堆工具收成一个入口，前缀不再被工具定义撑满。"
+        }
+      },
       "author": "suxiaojun",
       "maintainers": [
         "suxiaojun"
@@ -23039,8 +23213,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-remote-panel"
       },
       "created": "2026-11-23T06:39:30.864Z",
-      "published": "2026-11-23T06:45:58.523Z",
-      "versionCount": 3,
+      "published": "2026-11-23T07:22:37.429Z",
+      "versionCount": 5,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -23060,11 +23234,13 @@
       },
       "changelog": {
         "versions": [
+          "0.2.4",
+          "0.2.3",
           "0.2.2",
           "0.2.1",
           "0.2.0"
         ],
-        "url": "https://unpkg.com/cortico-world-remote-panel@0.2.2/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-remote-panel@0.2.4/CHANGELOG.md"
       },
       "discussion": {
         "number": 1095,

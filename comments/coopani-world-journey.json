@@ -2,8 +2,22 @@
   "schema": 1,
   "name": "coopani-world-journey",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/586",
-  "total": 47,
+  "total": 49,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BLoYA",
+      "author": "fateSSD",
+      "avatar": "https://avatars.githubusercontent.com/u/120785478?s=64&v=4",
+      "body": "关于你问的千问 Token Plan 生图接口 —— 目前**不支持**，而且不是「地址填错了」那种不支持，是两套格式。\r\n\r\n扩展的云端生图只走一种协议：`POST {你填的地址}/images/generations`（OpenAI 兼容）。你给的那条跟它差在三处：\r\n\r\n**1. 路径**\r\n\r\n千问那条是 `/api/v1/services/aigc/multimodal-generation/generation`。不管你地址栏填完整接口、还是截到 `/aigc`，代码都会在后面再补一层 `/images/generations`，直接 404。\r\n\r\n顺带一句：地址栏该填的是**到 `/v1` 为止**，`/images/generations` 由程序自己补。\r\n\r\n**2. 请求体**\r\n\r\n我们发的是：\r\n\r\n```json\r\n{\"model\":\"...\",\"prompt\":\"...\",\"size\":\"1664x928\",\"n\":1,\"response_format\":\"b64_json\"}\r\n```\r\n\r\n千问要的是：\r\n\r\n```json\r\n{\"model\":\"qwen-image-3.0-pro\",\"input\":{\"messages\":[{\"role\":\"user\",\"content\":[{\"text\":\"...\"}]}]},\"parameters\":{\"size\":\"1024*1024\"}}\r\n```\r\n\r\n提示词在 `messages` 里，尺寸在 `parameters` 里，而且写成 `1024*1024`（星号），不是 `1024x1024`。\r\n\r\n**3. 返回**\r\n\r\n千问把图放在 `output.choices[0].message.content[0].image`，是个**带时效的 URL，要再下载一次**。我们只认 `data[]` / `images[]`（顶层直接给 `url` 也认）。撞上这个形状会报「返回格式不对：既没有 b64_json 也没有 url」—— 图生成好了、钱也扣了，这边当失败。\r\n\r\n认证那层倒是一样的（`Authorization: Bearer sk-...`），所以不是密钥的问题。\r\n\r\n**现在能用的三条路**\r\n\r\n- 云端 + 服务商选 **豆包 Seedream** 或 **OpenAI**：地址、模型、合规尺寸都预填好，只贴密钥；\r\n- 后端选**本地 ComfyUI**（你现在用的 Z-Image 那套）：不花云端额度，最稳；\r\n- 云端 + **自定义**：地址填到 `/v1` 为止，但必须是 OpenAI 兼容的 `/images/generations`（硅基流动这类）。千问那条填进去不行。\r\n\r\n**千问这条会接，排下一版。** 不是改个地址的事：要在后端那里加一种协议（路径拼接、请求体、返回解析三处分支），外加一条「URL 二次下载」—— 千问回的是链接不是 base64，链接有时效。做完我在这个讨论里说一声。",
+      "createdAt": "2026-11-23T07:55:21Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BLoOH",
+      "author": "lyb-ai",
+      "avatar": "https://avatars.githubusercontent.com/u/62984198?s=64&v=4",
+      "body": "关于生图设置的 千问api格式：\r\nhttps://token-plan.maas.qianwenaiapi.com/api/v1/services/aigc/multimodal-generation/generation\r\n这个格式不支持吗？文档地址https://platform.qianwenai.com/docs/token-plan/best-practices/image-generation",
+      "createdAt": "2026-11-23T07:10:10Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BLlu9",
       "author": "chloveln",

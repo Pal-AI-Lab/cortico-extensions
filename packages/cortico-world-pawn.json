@@ -1,0 +1,675 @@
+{
+  "schema": 1,
+  "name": "cortico-world-pawn",
+  "version": "1.8.5",
+  "describe": {
+    "tools": [
+      {
+        "name": "pawn_status",
+        "description": "Read this save: day, tokens, battery, inventory, equipment, compute and the current expedition. Stacks with different enhancement levels are listed separately as +N; they never merge.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读当前存档：日、钱、电、背包、装备、算力与探险进度。",
+          "en": "Reads the current save: day, money, battery, inventory, equipment, compute and the running expedition."
+        }
+      },
+      {
+        "name": "pawn_achievements",
+        "description": "Read achievements with progress and reward: what an unlocked one gave and what a locked one will give. Hidden egg achievements stay ？？？ with no name until they unlock.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "filter": {
+              "type": "string",
+              "enum": [
+                "all",
+                "done",
+                "locked",
+                "hidden"
+              ],
+              "description": "done = unlocked; locked = visible but not yet; hidden = egg achievements."
+            },
+            "limit": {
+              "type": "number",
+              "description": "How many to list, default 40, max 200."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ]
+      },
+      {
+        "name": "pawn_expedition",
+        "description": "Start a compute expedition, or settle the finished one. Output quality and count grow with compute; low battery only makes it slower.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "start",
+                "settle",
+                "cancel"
+              ],
+              "description": "start, settle or cancel the run."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "出发或结算一次算力探险。",
+          "en": "Starts or settles a compute expedition."
+        }
+      },
+      {
+        "name": "pawn_next_day",
+        "description": "Skip to the next day: charge upkeep, refresh visitors, charge the battery and empty the trash.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "直接进入下一天：扣维护费、刷新客人、补电、倒垃圾。",
+          "en": "Skips to the next day: upkeep, new visitors, charging and trash emptying."
+        }
+      },
+      {
+        "name": "pawn_gear",
+        "description": "Read or change equipment: equip owned gear, buy new gear (it equips on purchase), upgrade one gear by a level for tokens plus materials, or list gear. Gear decides compute and power draw; upgrades add compute (gpu/cpu) or battery cap and charge (battery).",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "equip",
+                "buy",
+                "upgrade",
+                "list"
+              ]
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "gpu",
+                "cpu",
+                "battery"
+              ]
+            },
+            "id": {
+              "type": "string",
+              "description": "Gear id, e.g. pro or xeon. For upgrade, the gear to raise by one level."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "读、换或买装备（决定算力与耗电）。",
+          "en": "Lists, equips or buys gear that sets compute and power draw."
+        }
+      },
+      {
+        "name": "pawn_settings",
+        "description": "Change theme, audio volumes, expedition automation, or bind an existing image asset to an item. Expedition automation: sellWhite sells white gear after each settlement, restart starts the next run by itself and reports the chain in one event. Use asset_list to see available asset ids.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "theme",
+                "audio",
+                "auto",
+                "asset_list",
+                "asset_bind"
+              ]
+            },
+            "name": {
+              "type": "string",
+              "description": "Theme name, for theme."
+            },
+            "assetKind": {
+              "type": "string",
+              "enum": [
+                "items",
+                "characters",
+                "audio"
+              ]
+            },
+            "itemId": {
+              "type": "string",
+              "description": "Target item, for asset_bind."
+            },
+            "assetId": {
+              "type": "string",
+              "description": "Source asset id, for asset_bind."
+            },
+            "master": {
+              "type": "number"
+            },
+            "bgm": {
+              "type": "number"
+            },
+            "sfx": {
+              "type": "number"
+            },
+            "bgmOn": {
+              "type": "boolean"
+            },
+            "sfxOn": {
+              "type": "boolean"
+            },
+            "sellWhite": {
+              "type": "boolean",
+              "description": "For action auto: sell white items after each settlement."
+            },
+            "restart": {
+              "type": "boolean",
+              "description": "For action auto: start the next expedition by itself."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "换主题、调音量、把已有素材绑到物品上。",
+          "en": "Changes theme, audio volumes, or binds an existing asset to an item."
+        }
+      },
+      {
+        "name": "pawn_market",
+        "description": "Read today's visitors: buyers with their balance, suppliers with stock, black market with its 30-300% rate, box and expansion merchants.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "buyer",
+                "supplier",
+                "black",
+                "box",
+                "expand"
+              ],
+              "description": "Only show this kind of visitor."
+            },
+            "itemId": {
+              "type": "string",
+              "description": "Pass an item to get today's quotes for it: which buyer pays what, with conditions applied (cyberware needs a ripperdoc, expired food half, black decay)."
+            },
+            "plus": {
+              "type": "number",
+              "description": "Enhancement level of the item to quote, default 0."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读今日客人与报价。",
+          "en": "Reads today's visitors and their prices."
+        }
+      },
+      {
+        "name": "pawn_trade",
+        "description": "Trade with one visitor, or spend money on the shop itself: sell to a buyer or the black market, buy from a supplier, open a mystery box, buy extra cells, enhance a single-piece stack (a stack with 2+ pieces is refused: split it first; pass plus or stackId to pick which one), split a stack, or upgrade the shop. itemId accepts an item id or its displayed name. For a supplier with several price tiers, buy without price takes the cheapest first; pass price to buy that exact tier.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "sell",
+                "buy",
+                "box",
+                "expand",
+                "enhance",
+                "shopUpgrade",
+                "upgradeGear",
+                "merge",
+                "split"
+              ],
+              "description": "What to do. enhance, shopUpgrade, upgradeGear, merge and split need no npcId."
+            },
+            "npcId": {
+              "type": "string",
+              "description": "Visitor id from pawn_market or pawn_status. Not needed for enhance or shopUpgrade."
+            },
+            "itemId": {
+              "type": "string",
+              "description": "Item id or name, for sell, buy and enhance."
+            },
+            "count": {
+              "type": "number",
+              "description": "How many, default 1."
+            },
+            "price": {
+              "type": "number",
+              "description": "Buy only this price tier, for buy."
+            },
+            "quality": {
+              "type": "string",
+              "enum": [
+                "white",
+                "blue",
+                "purple",
+                "orange",
+                "red"
+              ],
+              "description": "Box quality, for box."
+            },
+            "from": {
+              "type": "string",
+              "enum": [
+                "bag",
+                "store"
+              ],
+              "description": "Which container to take the item from, for enhance; default bag first."
+            },
+            "guard": {
+              "type": "number",
+              "description": "Whale tickets spent on protection, for enhance: 0 none, 1 no level loss, 2 no destruction. Default 0."
+            },
+            "plus": {
+              "type": "number",
+              "description": "Which enhancement level: for enhance the stack to upgrade (one piece is taken from it), for sell the level to sell, for split the level to split. Omit to let the game pick."
+            },
+            "stale": {
+              "type": "boolean",
+              "description": "For sell: true sells only expired food (half price), false only fresh; omit to sell expired first."
+            },
+            "stackId": {
+              "type": "string",
+              "description": "Instance id of one stack, from pawn_status/panel: pick exactly that one for sell, enhance, split, transfer, trash or restore."
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "与客人做一笔交易：卖、买、开盲盒、买扩容。",
+          "en": "Trades with one visitor: sell, buy, open a box or buy capacity."
+        }
+      },
+      {
+        "name": "pawn_batch",
+        "description": "Run a chain of actions in one wake: trade (including enhance/merge/split), expedition start/settle, build, trash, restore, transfer, sellAllWhite. Use it to buy and sell several things, or start and settle, without waking the model once per step.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "actions": {
+              "type": "array",
+              "description": "Up to 12 steps, each an object with action and its fields (npcId, itemId, count, price, mode, kind, from, to, page).",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "enum": [
+                      "sell",
+                      "buy",
+                      "box",
+                      "expand",
+                      "enhance",
+                      "shopUpgrade",
+                      "upgradeGear",
+                      "merge",
+                      "split",
+                      "expedition",
+                      "build",
+                      "trash",
+                      "restore",
+                      "transfer",
+                      "sellAllWhite",
+                      "cancel",
+                      "nextDay",
+                      "equip",
+                      "buyGear"
+                    ]
+                  },
+                  "npcId": {
+                    "type": "string"
+                  },
+                  "itemId": {
+                    "type": "string"
+                  },
+                  "count": {
+                    "type": "number"
+                  },
+                  "price": {
+                    "type": "number"
+                  },
+                  "quality": {
+                    "type": "string",
+                    "enum": [
+                      "white",
+                      "blue",
+                      "purple",
+                      "orange",
+                      "red"
+                    ]
+                  },
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "start",
+                      "settle"
+                    ]
+                  },
+                  "kind": {
+                    "type": "string",
+                    "description": "For build: solar, generator or reactor."
+                  },
+                  "guard": {
+                    "type": "number",
+                    "description": "For enhance: 0 none, 1 no level loss, 2 no destruction."
+                  },
+                  "from": {
+                    "type": "string",
+                    "enum": [
+                      "bag",
+                      "store"
+                    ]
+                  },
+                  "to": {
+                    "type": "string",
+                    "enum": [
+                      "bag",
+                      "store"
+                    ]
+                  },
+                  "page": {
+                    "type": "number"
+                  },
+                  "plus": {
+                    "type": "number",
+                    "description": "Enhancement level of the stack to move or sell; 0 is plain."
+                  },
+                  "stale": {
+                    "type": "boolean",
+                    "description": "For sell: expired stack (half price)."
+                  },
+                  "stackId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "action"
+                ]
+              }
+            }
+          },
+          "required": [
+            "actions"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "一次唤醒连做一串动作：买卖、探险、建造、扔垃圾、转移。",
+          "en": "Runs a chain of actions in one wake: trades, expeditions, builds, trash and transfers."
+        }
+      },
+      {
+        "name": "pawn_build",
+        "description": "Build a power plant (solar, generator or reactor) or preview one. The receipt always says what it cost and what changed: tokens spent, charge per day, compute, power cap. Pass preview to see the numbers before spending.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "solar",
+                "generator",
+                "reactor"
+              ],
+              "description": "Which plant."
+            },
+            "preview": {
+              "type": "boolean",
+              "description": "Only report what it would cost and change; nothing is spent."
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "造太阳能、发电机或核反应堆。",
+          "en": "Builds a solar panel, generator or reactor."
+        }
+      },
+      {
+        "name": "pawn_forge",
+        "description": "Create content: write one JSON bundle into mods/. kind is items, gear, base, npcs, events or theme; content is the payload. One call writes one kind — when the player asks for several things at once, call it once per kind. Gear and base show up in their markets immediately; a forged visitor joins today; a forged event fires on the spot. Invalid entries are dropped with reasons instead of corrupting the game.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "items",
+                "gear",
+                "base",
+                "npcs",
+                "events",
+                "theme"
+              ],
+              "description": "Which kind of bundle."
+            },
+            "content": {
+              "type": "object",
+              "description": "The payload: items[], gear[], base[], npcs[], events[] or theme{}. gear needs id/name/kind/compute/draw/price; base needs kind (solar/generator/reactor)/name/price/charge/compute."
+            }
+          },
+          "required": [
+            "kind",
+            "content"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "把一份内容 JSON 写进 mods 并热加载。",
+          "en": "Writes one content bundle into mods/ and reloads it."
+        }
+      },
+      {
+        "name": "pawn_save",
+        "description": "Save to slot 1, 2 or 3, or load one back. Slot auto is written by the game itself.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "save",
+                "load"
+              ],
+              "description": "save or load."
+            },
+            "slot": {
+              "type": "string",
+              "enum": [
+                "1",
+                "2",
+                "3"
+              ],
+              "description": "Which slot."
+            }
+          },
+          "required": [
+            "action",
+            "slot"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "存到或读回一个存档位。",
+          "en": "Saves to or loads from one save slot."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "pawn.ready",
+        "description": {
+          "zh": "引擎起来，附当前存档摘要与今日行情。",
+          "en": "The engine started, with the current save and today's visitors."
+        }
+      },
+      {
+        "type": "pawn.expedition",
+        "description": {
+          "zh": "探险出发或结算；结算写带回的件数与品质。",
+          "en": "An expedition started or settled, with what came back."
+        }
+      },
+      {
+        "type": "pawn.trade",
+        "description": {
+          "zh": "一笔交易：谁、做了什么、进出多少钱。",
+          "en": "A trade: who, what, and how much money moved."
+        }
+      },
+      {
+        "type": "pawn.build",
+        "description": {
+          "zh": "一栋基建建成，电与算力随之变化。",
+          "en": "A plant was built; charge and compute changed."
+        }
+      },
+      {
+        "type": "pawn.forge",
+        "description": {
+          "zh": "造物主工坊收到需求或写完一份内容。",
+          "en": "The workshop received a request or wrote a bundle."
+        }
+      },
+      {
+        "type": "pawn.day",
+        "description": {
+          "zh": "换日：维护费、补电与今日客人。",
+          "en": "A new day: upkeep, charging and today's visitors."
+        }
+      },
+      {
+        "type": "pawn.load",
+        "description": {
+          "zh": "读回了一个存档位。",
+          "en": "A save slot was loaded."
+        }
+      },
+      {
+        "type": "pawn.gear",
+        "description": {
+          "zh": "装备升级一级：实扣多少、哪项属性涨了、下一级要多少。",
+          "en": "Gear went up one level: what it cost, what improved and what the next level costs."
+        }
+      },
+      {
+        "type": "pawn.batch",
+        "description": {
+          "zh": "一次批量动作全部成功，附每一步的回执。",
+          "en": "A batch finished successfully, with one line per step."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.pawn.envPrompt",
+        "title": "赛博当铺·大肥鱼现场开搓 · 环境提示词",
+        "role": "envPrompt",
+        "content": "你在「赛博当铺」里当掌柜。这局游戏挂在你身上，玩家是他，他也在同一个面板里点。\n\n现在这副牌：\n\n{{pawn.state}}\n\n规则只说一遍：\n\n- 每天开门先扣维护费，扣不起就欠着，余额为负时事件里会写。\n- 货是探险带回来的。算力越高，去得越久、越费电，带回来的东西越多越好；电不够只拖时间，不会失败。\n- 客人每天换一批：采购商头上写着余额和他收的品类，供货商有货架，黑市按当日行情 30%~300% 收也卖，盲盒分同品质、升一档、双份、空，扩容商人给背包或仓库加格子。\n- 基建只有三样：太阳能板、发电机、核反应堆。前两个每天补电，反应堆建成即进无尽模式。\n\n用工具时：\n\n- 先 `pawn_status` 或 `pawn_market` 看清楚再动手，价格和余额都在回执里。\n- 卖东西要 `npcId` 和 `itemId`；黑市什么都收，采购商只收他列的品类。\n- 每次醒来都很贵。`pawn_status` 末尾直接给了「建议」，能一次做完的就用 `pawn_batch` 串起来\n  （买卖多件、出发再结算、清白装、扔垃圾、转移）；它先在存档副本上跑一遍，哪一步不成整批不动。\n  其它零散动作：`pawn_expedition` 能 cancel、`pawn_next_day` 直接跨天、`pawn_gear` 换/买装备、\n  `pawn_settings` 换主题 / 调音量 / 把已有素材绑到物品上。\n- 强化与店铺也走 `pawn_trade`：`action: 'enhance'`（itemId、from、guard 0/1/2）与\n  `action: 'shopUpgrade'`；`pawn_batch` 里同样能用，方便串成一条链。\n- 工具里的 `itemId` 可以写 id，也可以直接写面板上看到的中文名；同一件货有多个价位时，\n  不传 `price` 从最便宜的开始扣，传 `price` 就只买那一档。\n- 玩家在工坊里写一句话时，你会收到一条带原话的事件。先看那句话里有几件事：提到道具就交 `items`，\n  提到装备/显卡/CPU/电池就交 `gear`，提到太阳能/发电机/反应堆就交 `base`，提到客人/NPC 就交 `npcs`，\n  提到下雨/事件就交 `events`；一句话里几样都有，就分几次调用 `pawn_forge`，每样各一份 JSON，别只交一份就完事。\n  每个道具的 `type` 必填，只能取\n  material / food / device / chip / cyberware / power / optics / weapon / anomaly / robot / misc。\n  `gear` 每条要 `id`、`name`、`kind`（gpu/cpu/battery）、`compute`、`draw`、`price`；\n  `base` 每条要 `kind`（solar/generator/reactor）、`name`、`price`、`charge`、`compute`，可选 `cap`（-1 = 无限）、`icon`、`desc`。\n  搓出来的道具进背包、装备上架装备市场、基建立刻替换对应条目、客人当场到店、事件当场触发一次。\n  校验不过的条目会被丢掉并告诉你原因；别重试同一份坏内容，改完再交。\n- 玩家上传图片时，事件会带一张图。照着图内容搓一件道具，`image` 字段必须填事件里给的那个名字\n  （形如 `craft-xxxx`），这样卡片和背包会直接显示这张图；`icon` 只作 emoji 兜底。\n- 存档位 1、2、3 归玩家，`auto` 由游戏自己写，别手动覆盖。\n\n你可以送钱、可以坑人、可以把价格谈成任何样子——这局没有平衡性要守，只有玩家自己的读档。工具的失败回执只陈述事实，不替你决定该不该继续。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "1.8.5": "- 上架 npm（`cortico-world-pawn`），Coopanion 市场里能搜到、点一下就装。\n- README / INSTALL 的安装说明改成以市场和 npm 为主，本地 `link:` 退到「开发者」一节；离线 tgz 保留为装法三。\n- 作者署名统一为 suxiaojun（B 站 16666966）。\n- 文档里的路径统一写成占位符，不再出现具体机器路径。",
+    "1.8.4": "- **义体买价提示**：货架上义体的买价旁标「今天没义体医生，卖出只值三成」；`pawn_market` 的供应商行同样写。\n- **卖前看报价**：物品详情列出「今天谁收这件、各自单价」（含买家系数、过期半价、义体三成、黑市衰减）；工具侧 `pawn_market itemId` 给同一份报价。\n- **批量不再整批回滚**：`pawn_batch` 跳过失败的步骤、其余照做，回执按步列 ✓/✗，末尾汇总「完成 N/M 步」。\n- **版本号可见**：设置页显示版本与面板构建时间（后端读 package.json 与 dist/webui.js 的 mtime）。\n- **背包排序**：按品质→品名→强化等级排，同名的排在一起。\n- **鲸圆卷来源**：状态行券的悬停提示写「每天 +1 · 开盲盒必给 1 张」。",
+    "1.8.3": "- **多件堆不再自动拆一件强化**：一堆 ≥2 件直接拦下，回执写「这一堆还有 ×N 件：先拆开（split）再强化」；界面上强化按钮置灰并给出同一句提示。只有单独一件能强化。",
+    "1.8.2": "- **按实例选中**：每一堆都有 `uid`，背包里点哪一颗就只选那一颗（不再按品名把背包+仓库同类全点亮）；`pawn_status` 的背包/仓库行末尾带 `[uid]`。\n- **按实例操作**：`pawn_trade` / `pawn_batch` 新增 `stackId`——卖、强化、拆分、搬运、丢弃、捞回都能只动指定的那一堆；不传才回退到按 id+plus 挑。\n- **强化只动一件**：回执写明「从 ×N 里拆出 1 件」与 `+N→+N`，不会再出现“看着全选、其实只升一颗还扣钱”的歧义。",
+    "1.8.1": "- **强化一次只升一件**：堆里多于一件时先拆一件出来再掷，绝不整堆一起升级。\n- **强化能指定哪一档**：`pawn_trade action='enhance'` / `pawn_batch` 的 `plus` 现在也用来选强化目标（不传才回退）。\n- **拆分**：`pawn_trade action='split'`（itemId + plus + count）把一堆拆成两堆，回执写清各有几件、都还是 +N；物品详情里加了「拆出 1 件」按钮。\n- 回执与 `pawn_status` 里强化堆一律带 +N（背包与仓库两侧同一套写法）。",
+    "1.8.0": "玩家反馈的 11 条一次落地：\n\n- **强化件不再并堆**：`plus` 进了物品身份——+2 和 +0 各占一格、各写 +N；搬运/丢弃/捞回/卖货全程带着 `plus`，货单与状态行分档显示（`pawn_trade` / `pawn_batch` 新增 `plus`）。\n- **装备升级线**：`pawn_gear action='upgrade'`（或 `pawn_trade action='upgradeGear'`），5k / 2 万 / 8 万 + 材料 1/3/6 件；显卡与 CPU 每级加算力，电池每级 +30 上限、+15 补电；回执写实扣、涨了什么、下一级多少。\n- **建造预览**：`pawn_build` 带 `preview` 只报数不扣钱；建成回执写实扣金额、余额、以及建成后的上限/算力/补电。\n- **成就写奖励**：面板与新的 `pawn_achievements` 工具都能读到每条的奖励与进度（已拿到 / 解锁可得）。\n- **彩蛋藏名**：隐藏成就未解锁时名字是「？？？」，工具层同样不吐真名。\n- **电不足写时长**：出发回执写「≈X 分 Y 秒」，面板预计时长改用后端同一个数。\n- **探险自动化**：`pawn_settings action='auto'`（`sellWhite` / `restart`）——结算后自动卖白装、自动再出发；连跑的几趟合成一条事件，省唤醒。\n- **三合一合成台**：`pawn_trade action='merge'`（3 件同款未强化 → 1 件高一档）。\n- **条件物品**：义体只在义体医生那儿全价（别人三成）、吃的过夜半价、带病毒芯片卖得贵但可能被罚款；条件写进 `pawn_status` 背包行与卖货回执。\n- **数值**：大客户 1.4~1.5（压过黑市 131%）、采购商余额随天数涨到 2 万；矿卡 760→700，A3/A4 阶梯对齐。",
+    "1.7.1": "- `pawn_trade` 加 `enhance`（itemId、from、guard 0/1/2）与 `shopUpgrade`：回执写成功率、手续费、\n  结果、扣的 Token 与鲸圆卷；钱/券不够直接拒，不扣一半。\n- `pawn_batch` 的 action 同步支持这两个动作，可串「卖货→强化→升级店铺→出发」。\n- `pawn_status` 加店铺等级与每日客人数。",
+    "1.7.0": "- 店铺：`save.shop.level`（0~3），客人 3-5 / 5-10 / 10-15 / 15-20；升级 3 万 / 12 万 / 40 万；\n  每日固定维护 0 / 200 / 800 / 2500，和身家抽成分两行写。\n- 强化：每件物品带 `plus`；成功率 90→35、大成功 4%（+3 级）；+7 起失败掉 1 级、+10 起失败消失；\n  手续费 5/8/12/18%；鲸圆卷 1 张免掉级、2 张免消失（先扣不退）；价值 ×(1+0.08×plus)。\n- 手动跳天后 `save.day` 跟着天数走，客人 id 不再停在同一天。",
+    "1.6.1": "- 探险用鲸圆卷：每天第 1 趟免费，第 2、3 趟各扣 1 张；没卷不让出发，建议行写清现有张数。\n  发放口没动（跨天 +1、开盲盒 +1）。\n- 黑市改成每 3 天开一次：非黑市日把 black 从掷骰里拿掉，黑市日保底一位；收价一点没动。\n- 时间晶体 4200→900，并在红池里压到 30% 的出场率；它仍是反应堆材料。\n- 戴森碎片、反物质电容标成「材料·不回收」，买家和黑市都不收，详情页有标签。\n- 电量收口：老档读入时夹回上限；换日回执改用引擎自己的上限并写现有电量。",
+    "1.6.0": "第一批（A/B/C/D/F 的主要部分）：\n\n- 反应堆改材料造：3 戴森碎片 + 5 反物质电容 + 1 时间晶体 + 8000 Token；建造回执带实扣金额与产出。\n- 电池从算力里摘出去：只给电力上限和每日补电；三列价格按 25→45→80→130 的边际价重排，\n  量子 U 5220→2280、量子卡 4320；每槽补一档 400~460 的中档货。\n- 黑市回执改成「买 X ／ 卖 Y」，X 是真正会扣的价（×1.6）。\n- 探险按钮显示预计时长，电不足会标出来。\n- `pawn_batch` 的 buyGear 改读 `itemId`（兼容旧 `id`）。\n- 节奏：戴森 3200→1100、神谕 5600→1900；每天 3 趟（配置只能往下调）；\n  发电机 +60 电/日、上限 +80、第二台起 ×1.2；电力上限总封顶 400；开局背包 24 格。\n- 探险件数上限 8→12；算力 ≥50 每趟保底一件紫或更好。\n- 采购商余额随天数涨；每天一位余额 2 万的「大客户」收红货，系数 1.1~1.3。\n- 高阶装备要材料：量子卡/量子 U 各要 1 戴森碎片，反应堆电池要 2 反物质电容。",
+    "1.5.2": "- 现场开搓补齐剩下两类：`kind: 'base'`（太阳能/发电机/反应堆，字段 price/charge/cap/compute），\n  搓完立刻替换对应市场条目；补电与电力上限改成按 `BaseDef` 由引擎算好再交给换日结算，\n  官方三样数值不变。\n- 客人当场到店：`kind: 'npcs'` 搓完直接进「今日客人」，不用等换日。\n- 事件当场生效：`kind: 'events'` 搓完立刻结算一次（文本进日志，tokens / item 立即到账），\n  之后仍进 mods 的每日事件池。\n- 现场开搓页加了两行说明：一句话能要哪几类、搓出来各自落到哪里。",
+    "1.5.1": "- 「进入下一天」改到页签行最右端、紧挨「设置」右边（`margin-left: auto`），只动位置；\n  冷却置灰、「冷却 Ns」、文案键全部照旧。",
+    "1.5.0": "- 现场开搓支持 `kind: 'gear'`：`pawn_forge` 写 `mods/forge-*-<name>.json`，字段沿用 `GearDef`\n  （id / name / kind=gpu|cpu|battery / compute / draw / price，可选 icon、desc）。\n- 搓出来的装备在 `reloadMods()` 里并入装备表，直接上架「基建 · 装备市场」，能买、能装、\n  算力与探险耗电都算它；id 撞官方件会覆盖并在回执 warning 里点名。\n- 坏条目按原有规则逐条丢弃并给原因，不会拖垮整包。",
+    "1.4.5": "- 客人列表与装备/基建市场改成固定高度滚动区（约 10 行），超出用滚轮，`overscroll-behavior: contain`\n  不会带动整个面板；客人标题带计数「今日客人 N · 买家/供应商/黑市/盲盒/扩容」。\n- 供应商货架把「黑市可得」降成第二行小字，主行只留名字和价，窄屏不折行。",
+    "1.4.4": "- 「进入下一天」从探险面板挪到顶栏最右（设置页签的右上角），不再和「取消探险」同一横排；\n  冷却置灰与「冷却 Ns」照旧，文案键还是 `ui_next_day` / `ui_next_day_wait`。\n- 「取消探险」留在探险卡片里，改成两步确认：第一次点变「放弃收益，确定？」，4 秒内再点才真的取消。",
+    "1.4.3": "- 更正跳天冷却：`SKIP_DAY_COOLDOWN_MS` 从 60 000 改为 **600 000**（10 分钟），其余逻辑不变。",
+    "1.4.2": "- 手动「进入下一天」加 60 秒冷却（`SKIP_DAY_COOLDOWN_MS`）：存档记 `skipDayAt`，没到点回\n  「下一天冷却中，还有 N 秒。」且不动存档；自动换日（`tick()`）不受影响。\n- 面板按钮冷却时置灰并显示剩余秒数，每秒刷新；`pawn_next_day` 在冷却中会如实报失败。",
+    "1.4.1": "- 鲸圆卷每天补一张：在 `advanceDays()` 里与扣维护费、补电同一段执行，跨几天补几张，`nextDay` 也算；\n  换日日志写「今日鲸圆卷 +N」。先只发不花，等用途定了再加消耗点。",
+    "1.4.0": "经济重做，按六条反馈：\n\n- 黑市收卖分离：收你按 factor，从他手里买回来 ×1.6；同一天同一件货重复卖，单价 ×0.9^n，最低五折。\n- 黑市 factor 改偏斜分布（0.5~1.8，集中在 1.0 附近），6% 概率爆到 2.2~3.0。\n- 供货商进价按品质抬：白 1.2 / 蓝 1.4 / 紫 1.6 / 橙 1.8 / 红 2.0，最便宜那档也没白捡的肉。\n- 采购商 1.3~1.8 倍，去掉恒定的 1.15 加成；黑市退回 0.5~1.8 的赌行情线。\n- 维护费改按身家抽成：0.3% 起、逐日涨到 1%，20 Token 保底，取消 200 上限。\n- 探险：时长改 45s + 算力×4s（上限 10 分钟），耗电 = 10 + 算力×2 + 装备 draw，draw 终于是活的；\n  高品级权重上调（橙/红更早出现）。",
+    "1.3.0": "- 补上「面板能做、工具做不到」的动作：pawn_expedition 加 cancel；新增 pawn_next_day、\n  pawn_gear（装备列表/换上/购买）、pawn_settings（主题、音量、素材绑定与列表）。\n- pawn_batch 改成沙盘预演：整条先在存档副本上跑完，任一步失败就整批回滚，回执指出第几步差什么。\n- 探险到点主动推 pawn.expedition 事件，不用再靠醒着去问；status 里也会写「可以结算了」。\n- pawn_market 每行带 id 与「买价 X ／ 黑市可得 Y（差价）」，一眼挑货。",
+    "1.2.0": "按一轮真实试玩反馈改的：\n\n- `pawn_trade` 的 `itemId` 现在认 id，也认面板上的中文名（义体义眼 / 固态盘都行）。\n- 同一件货多个价位时：不传 `price` 从最便宜的一档开始扣，传 `price` 只买那一档；\n  那档卖完了会回「这个价位没货，今天能买到的价：…」，不再静默换档。\n- 新增 `pawn_batch`：一次唤醒连做最多 12 步（买卖、探险、建造、扔垃圾、转移、清白装）。\n- `pawn_status` 的背包/仓库/客人全部带 id，末尾直接给三条「建议」，按少唤醒排。\n- 详情面板加「黑市现价」，交易面板按档报价；探险耗电与补电都在日志里写清楚，\n  跨天会记「补电 +X（太阳能/发电机/反应堆）」，太阳能不再看起来像没生效。",
+    "1.1.0": "- 顶部迷你终端：状态栏右侧实时滚动最近 3 条日志，12px 亮色、无滚动条、不挡点击。\n- 赛博垃圾桶：114 格独立网格，详情面板「送入垃圾桶」，桶内「放回仓库」；\n  满了提示「垃圾桶已满，请等待明天清理」；跨天自动清空并写日志\n  「新的一天开始了，赛博垃圾桶已自动倾倒清理！」。",
+    "1.0.2": "- 修「游戏里没声音」：AudioContext 挂起时主动 resume；所有按钮改由根节点统一发点击音，\n  漏挂 onclick 的按钮也会响；合成电子音兜底仍在（没有自定义文件时不会静音）。\n- 设置页音频区补齐：📂 打开本地音频文件夹、🔄 刷新音频列表、已有音频逐条 ▶ 试听，\n  并列支持的文件名（click / coin / forge / achievement / bgm）。\n- 标题右边加 🔊 / 🔇 一键静音，记住静音前的音量。",
+    "1.0.1": "- 看大图的弹窗改成抽卡式弹入：`scale(0.78) → 1.04 → 1` 的回弹曲线。\n- 弹窗按品质发光：白普通阴影、蓝淡蓝、紫洋红、橙橘黄、红强光并持续脉动；\n  弹窗底部加「收入背包」按钮（关闭用）。\n- 现场开搓的结果卡片可点开大图，卡片与现搓历史都加了「重新观看」；关掉弹窗后卡片仍在，\n  可以反复打开品鉴文案。",
+    "1.0.0": "正式版。\n\n- 音频：新增「设置」页——总音量 / BGM / 音效三条滑杆、BGM 与音效开关。自定义音效放\n  `assets/audio/`，文件名 `click` / `coin` / `forge` / `achievement` / `bgm` 即覆盖默认；\n  没有文件时用 WebAudio 合成电子音兜底。电量低于 20% 时电表变红闪烁。\n- 极简模式：右上角一键切换，只留悬浮条「🐟 天 / Token / 探险中剩余」，探险回来弹大肥鱼气泡。\n- 交易：一键卖出所有白装；采购商余额不够时按钮置灰并提示；黑市面板显示保底进度 n/50。\n- 容错：现搓 JSON 出错捕获成一句「大肥鱼卡壳了，请重试」；面板渲染异常降级成错误卡片，不白屏。\n- 自动存档：换日、探险结算、现搓成功都会静默写 auto 存档。",
+    "0.3.9": "- 背包/仓库转移三通道：详情面板的「存入仓库 / 放入背包」、拖到顶部「背包 / 仓库」按钮、\n  网格里双击。目标满了拦下并提示「目标空间容量不足，请清理后再试！」。\n- 仓库分页：最多 9 页、每页 64 格，顶部页码 [1]…[9]，未解锁显示锁；只能在扩容商人处买\n  「仓库扩容凭证」解锁，价格阶梯 1 万 / 5 万 / 10 万 / 20 万 / 30 万 / 50 万 / 80 万 / 120 万。\n  转向未解锁页会被拦下并提示去集市找扩容商人。\n- 存档新增 `storePages`，仓库物品带 `page`；老存档自动补齐到第 1 页。",
+    "0.3.8": "背包质感三件套：悬停 0.2 秒弹出半透明卡片（大图、品质色名字、类型、占格、简介）；\n点右侧详情里的物品图弹出居中大黑框看大图（点背景或 Esc 关闭）；网格图标悬停放大 1.12 倍，\n当前选中的物品在网格里以粉色描边发光。",
+    "0.3.7": "- 现搓台文案改长：输入框提示写明「打字 / Ctrl+V 粘贴图片」，下方说明补上上传与粘贴两条路，\n  并删掉过时的「下次换日生效」（现在直接进背包）。输入框支持 Ctrl+V 粘贴截图/网图直接开搓。\n- 结果卡片补上物品类型标签；背包详情、交易货架也统一显示类型。\n- 给大肥鱼的现搓提示词把 `type` 列为必填，并列出可选值；环境提示词同步。",
+    "0.3.6": "- 导航「工坊」改名「现场开搓」，做成高亮大按钮（霓虹描边 + 发光），视觉优先级高于普通页签。\n- 现场开搓支持图片：`📷 上传图片开搓` 把图作为附件推给 bot（多模态），提示词要求她照着图\n  生成 name/quality/value/cells/type/desc，并把 `image` 指向服务端存下的那张图；结果卡片与背包\n  直接显示玩家上传的图。\n- 素材库上传改为「选图 → 从物品列表里选替换目标」，服务端自动存成 `<物品id>.<扩展名>`，\n  不再要求玩家手改文件名；「打开本地素材文件夹」保留给高阶玩家。\n- 物品新增可选 `image` 字段（mods 可直接写）。",
+    "0.3.5": "三个面板补齐：\n\n- 成就：列表固定高度（约 10 条）内部滚动，赛博风细滚动条；四个筛选（全部 / 已解锁 / 未解锁 / 彩蛋），\n  前端即时切换，筛掉的当前项会自动换成新列表第一项。\n- 基建：详情加「电力上限」一行。太阳能只补电；发电机 +200 上限；反应堆上限 ∞。\n  顶部电力实时显示 `x/300` 或 `x/∞`，充得上去。\n- 素材库（新页签）：一键打开本地素材文件夹、按「道具图标 / 角色表情」网格预览（悬停放大）、\n  刷新素材、网页上传兜底（写进 assets/images），带命名提示。",
+    "0.3.4": "玩法闭环与展示修补：\n\n- 装备必须先买。存档新增 `ownedGear`，没买的装备不能装、下拉与列表里标「未拥有」。\n- 探险可取消：清空收益、扣 10 点电。\n- 时间会走了：一天 `dayMinutes`（默认 20 分钟），到点自动跨天；探险页有「进入下一天」，\n  跨天扣维护费、刷新客人、按基建补电。\n- 每日探险上限（默认 5 次），顶部与探险页显示剩余次数。\n- 反应堆建成后探险不再耗电（电费显示 ∞）；发电机/太阳能/反应堆的上限与算力加成照旧生效。\n- 物品新增 `type`（材料/食物/设备/芯片/义体/能源/光学/武器/异常/机械），采购商按类型收货，\n  详情与列表都显示类型标签。\n- 商店与货架按品质上色，显示占格与「剩余 N 件」；黑市买价按当日系数现算。\n- 修成就 0/0：成就表改从包目录加载，老部署也不会空。\n- 修现搓道具没进背包：大肥鱼交的 `items` 落盘后直接进背包；面板在历史变化时自动重绘。",
+    "0.3.3": "现搓台出结果能看到东西了：生成后按道具 / 客人 / 事件各弹一张卡片（名字、品质、价值、格数、描述），\n卡片底部给一句去处指引（背包 / 明天刷新 / 下次换日）。新增现搓历史（时间、原话、生成物，最多 50 条），\n点一条能回看它的卡片。一句话多意图：请求事件会先拆出「道具 / 客人 / 事件」，逐类要 bot 各交一份，\n`pawn_forge` 说明与环境提示词同步改了。",
+    "0.3.2": "修颜色：面板从来没有把主题变量写进 DOM，`var(--pg-text)` 全落空，文字继承宿主的暗色。\n现在快照里的 `theme` 直接 `setProperty` 到面板根节点，CSS 里也有一份同值兜底。\n正文 `#eef4ff`、次要文字 `#b7c7de`、数值霓虹 `#6ff7e4`，正文对比度 12:1 以上、次要 7:1 以上；\n去掉成就列表的 `opacity: 0.7`；装备槽 / 客人 / 货品悬停改亮色底 + 描边。",
+    "0.3.1": "多语言彻底兜底：引擎按「代码内中文 → 包内 data/lang → 部署 data/lang」三层合并，\n宿主传错 packageDir 或部署里没有语言包时界面仍是中文。前端 `t()` 拿不到文案时留空并\n在控制台报 key，绝不把 `ui_xxx` 画到界面上；左上角改成大标题「赛博当铺」+ Slogan；\n打开背包/交易自动选中第一项，右侧详情弹窗立即可见；整体文字对比度调亮。",
+    "0.3.0": "界面重做：深色赛博底 + 霓虹青/紫/粉，顶部电子仪表、页签、右侧详情弹窗、64px 网格背包、\n探险双栏与现搓台生成区。文案空白的根因修掉：语言包现在总是先读包里那份，再叠玩家改的那份，\n数据目录没铺成功也不会整屏 `ui_xxx`。",
+    "0.2.0": "改名「赛博当铺：只要一句话，大肥鱼给你现搓神器」。新增：\n\n- 现搓台（原造物主工坊）：25 条多语言彩蛋词库、异常输入拦截（空、超长、脏话、乱码）、\n  连续 5 次触发后显卡冒烟暂停 1 分钟。\n- 成就：202 个普通成就计入总进度，25 个隐藏彩蛋成就不计分母；每个成就带大肥鱼的吐槽，\n  奖励分 Token、道具、格数、电池与百分比加成；普通成就全解锁后全属性 +10%，并打出终极字幕。\n- 保底：连续 100 次探险没出红，第 101 次强制出红；连续 50 次黑市没打折，第 51 次强制打折。\n- 文案：界面、物品、装备、基建、成就、彩蛋全走 `data/lang/` 的 key，缺 key 退中文、再退英文。",
+    "0.1.0": "首个版本。World `pawn`：算力探险、每日五类客人、基建与无尽模式、造物主工坊写入 `mods/`、\n四个存档位、CSS 变量换肤与素材热替换、多语言框架（`data/lang/`，缺失 key 退中文再退英文）。\n七个工具：`pawn_status`、`pawn_expedition`、`pawn_market`、`pawn_trade`、`pawn_build`、\n`pawn_forge`、`pawn_save`。"
+  }
+}
