@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-idle-abyss",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "describe": {
     "tools": [
       {
@@ -676,6 +676,7 @@
     ]
   },
   "changelog": {
+    "0.3.2": "- 市场标签加「实验性」（`cortico.tags` 里的 `experimental`）：功能和兼容性还会随版本调整。无代码改动。",
     "0.3.1": "- 图标改成浅紫渐变圆角底：大肥鱼趴在薇拉头顶的抠图放进圆角瓷砖里，纯白底在白色界面里会糊成一片。\n\n- 事件推送挡位可配置：设置页新增「事件推送挡位」组，进度（换层/解锁新层/首领）、阵亡、卡关、掉落传奇/套装、升级各一挡，off（只记 abyss_events）/ piggyback（搭车）/ debounce（合批）/ flush（立即）四挡可选，改完即生效不用重启。剧情、断桥、背包接近满不受挡位控制。",
     "0.3.0": "- 新增 `abyss_claim`：冒险手记领奖，传奇/套装自选要带 `legend`。\n- `abyss_forge` 新增打孔、镶/取宝石、三颗同品质合成。\n- 新增 `abyss_rift`：秘境进入/退出/自动模式；秘境里拒绝主线改层和暂停。\n- 新增 `abyss_bag`：背包/个人仓库分页、单件分解、批量分解普通装备、存取个人仓库、锁定。\n- `abyss_gacha` 新增许愿和心愿列表。\n- 新增 `abyss_camp`：营地 read / 领取已归来的队伍。\n- 通知瘦身：换层、解锁新层、首领出现/击杀只记进 `abyss_events`，不主动唤醒；阵亡照常通知；15 分钟内没解锁新层又连死 3 次推一次「卡关」。\n- 109 条测试；`describe.json` 由 `scripts/gen-describe.mjs` 生成。",
     "0.2.0": "- 正式版 v3.1.4 改用游戏内官方 mod 文件桥（`coo_bridge`），不再依赖调试口。\n- 新增剧情 read/next/choose/skip/defer、启动游戏并继续存档、技能形态/技能栏、扭蛋、强化/附魔。",
