@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-postcard",
-  "version": "0.8.13",
+  "version": "0.8.14",
   "describe": {
     "tools": [
       {
@@ -54,7 +54,7 @@
       },
       {
         "name": "postcard_status",
-        "description": "Read the current trip and availability. awaiting_service means a generator is not connected; do not claim a postcard exists.",
+        "description": "Read the current trip and availability. awaiting_service means a generator is not connected; do not claim a postcard exists. When the last trip failed it also returns localRecovery, a read-only audit of saved work: localModelCalls is always 0, verdict reusable only means a candidate exists for the blocking stage, and unblocks marks findings that can actually release it. It never proves the stage will pass.",
         "parameters": {
           "type": "object",
           "properties": {},
@@ -295,7 +295,7 @@
       },
       {
         "name": "postcard_retry",
-        "description": "Manually retry a failed trip only after the user requests it. For an uncertain image outcome, set confirmUnknownOutcome only after the user has explicitly confirmed checking the previous result and possible charge.",
+        "description": "Manually retry a failed trip only after the user requests it. Prefer localOnly first: it re-reads only saved work, spends no budget and makes no network call. A paid retry of an exhausted stage needs a separately confirmed grant; this tool cannot grant one. For an uncertain image outcome, set confirmUnknownOutcome only after the user has explicitly confirmed checking the previous result and possible charge.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -307,6 +307,10 @@
             "confirmUnknownOutcome": {
               "type": "boolean",
               "description": "True only after the user explicitly confirms the uncertain previous request and possible charge."
+            },
+            "localOnly": {
+              "type": "boolean",
+              "description": "True to only re-read saved results: no model call, no image request, no budget consumed. Use before asking for any paid retry."
             }
           },
           "required": [
@@ -423,6 +427,10 @@
     ]
   },
   "changelog": {
+    "0.8.14": "- 修复故事结构输出偶发多一个 `}` 或 grounding 放错层导致整趟失败的问题：有界解析只接受根值之后恰好一个多余的闭合符，根级 grounding 只在严格条件满足时搬入 `plan`；无法确定时仍按原契约拒绝，不猜、不补齐。\n- 已保存的结果不再因一次解析失败作废：旧提交、旧 `rejectedResponse` 与宿主任务结果会按当前契约重新校验并复用，不新增提交、不调用模型。\n- 失败分型并阻断无意义重试：瞬时、额度耗尽、内容不合规、策略拦截、远端未知分别处理；额度耗尽时不再直接空转。\n- 新增一次性追加重试授权（文字与图片同一张表）：只在额度耗尽时开放，必须明确确认，授权持久化、可重启恢复、不可重复或跨旅行使用；图片额度按 tripId 隔离。\n- 新增零调用本地修复：失败卡可先“先试本地修复（不产生调用）”，只重读已保存结果，不出网、不生图、不增计数、不消费授权。\n- 有底线的降级交付：伪造来源、无依据知识、连续性不成立等结构硬错误仍阻断；只有评分偏低或三节点表现重复时按“普通成品”交付，并在卡面与返回字段逐项注明降级原因，不改写原审核记录。\n- 失败态界面改为“这次旅行没走完”，按类别解释原因，提供“重试本阶段 / 重新核查本地结果 / 结束本次旅行”；旧任务可只读核查本地可复用成品。\n- 456 项测试、两端类型、构建与官方扩展检查通过；真实失败任务与收费追加链路尚未复验，详见发布说明。",
+    "0.8.13-issue5.4": "- 派发对账不再只看宿主任务目录：生成器的文字/生图请求记录、故事检查点都写入授权编号（`grant`），重启时按授权编号认领，而不是按时间猜。真实生成目录（含 `contentId` 续写映射）、`pendingImage`、请求/响应/诊断文件都纳入扫描。\n- 三种结论分开：有本授权的记录=已派发（按可能已计费处理，不重发）；目录可读且没有本授权的记录=确未派发（退回可复用的授权）；目录读不出来、记录无法归属、或遇旧版未打标的近期记录=无法确认（不退回、不重发）。「没有文件」不再单独作为「没有调用」的证明。\n- 只扫本次旅行自己的目录（`trips/<contentId \\|\\| id>`、`journey-tasks/<owner>`）并按阶段名归属，无关任务或其他阶段的近期文件既不能让授权作废，也不会保住一次未使用的授权。\n- 修 `tests/scenes.test.ts` 旧场景夹具的相对路径：此前默认路径少了一层，导致「旧版三场景收藏按原始字节读取」在本工作区被静默跳过；现在真实执行。\n- 新增 7 项用例（生图请求、`pendingImage`、独立文字请求、`contentId` 映射、读目录失败、无关近期文件、旧版未打标记录），共 456 项测试、两端类型、构建与官方检查通过。",
+    "0.8.13-issue5.3": "- 零调用修复不再按共享的 owner 猜当前行程：故事引擎接收显式执行上下文（tripId + localOnly），并保留保守兜底——同一系列只有一趟标记本地修复才认定，多趟歧义或读不到状态时**阻断**而不是退化成收费调用；所有模型请求前统一过零调用闸门，缺 `cacheOnly` 的请求一律拦下。\n- 制作文字的本地修复会先尝试回放已保存的宿主任务：`label.json` 缺失时按原请求快照（`label-request.json` 的冻结提示）定位同一任务，`cacheOnly` 不新建任务、不增计数；确实没有任务才报「无法本地恢复」。外部文字接口仍然禁止请求。\n- 开始生成的记录先落盘、再标记授权为已派发：开始记录写不进去或授权派发记录写失败时都不派发、不静默继续，授权保持 `reserved` 可复用。重启时按磁盘痕迹对账：没有痕迹的 `running` 退回 `reserved`（不重复计费），有痕迹的按「可能已计费、不自动重发」处理，需要重新确认一次追加。\n- 新增 10 项用例（长途第二/三段零调用端到端、歧义与无状态阻断、宿主缓存回放、开始/派发写失败、崩溃后对账与结果不明），共 449 项测试、两端类型、构建与官方检查通过。",
+    "0.8.13-issue5.2": "- 修复追加授权后仍被旧上限拦住：宿主任务在耗尽判断**之前**按已落盘的授权算出本轮上限，read / submit / 等待循环共用同一额度；只传 `extraAttempts` 而授权未落盘不再能扩大额度。\n- 新增零调用本地修复入口：失败卡片可先点「先试本地修复（不产生调用）」，只重读已保存的故事、候选图和文字；任何需要出网或生图的步骤直接返回额度耗尽，且不增加计数、不消费授权。\n- 授权消费顺序改为「全部只读检查通过后再预占」：生成未退出、已有收藏、确认钩子抛错都不再吃掉许可；预占记为 `reserved`，真正开始生成才转 `running`，中断的预占可复用一次，已开始的视为已用。\n- 资格重查区分「有本地候选」与「当前失败阶段可通过」：新增 `blockingStage` 与逐项 `unblocks`，其他阶段的缓存不再让整趟显示可复用；长途宿主任务按 journey owner 匹配。\n- 新增 8 项用例（含真实 Bridge 两次拒绝→追加授权→再次激活→有效提交→StoryEngine 保存 response 的长途/短途各一条），共 439 项测试、两端类型、构建与官方检查通过。",
     "0.8.13": "- 修复第三张明信片详情可能显示其他旅程总结的问题：总结统一按该卡 `series.id` 归属，全局快照仅在 `journey.id` 严格一致时采用，否则按 id 查询并校验回包 id。\n- 明确 ready / running / failed / empty / missing / error 六种状态；查不到时显示这趟自己的状态，不回退到其他旅程的总结，空正文不冒充已有总结。\n- 详情请求增加代次校验：切卡、收起、翻面或卸载后到达的迟到响应，不再改写正文、错误提示或滚动位置。\n- 总结刷新独立于卡片列表变化，30 秒缓存且合并同 id 请求，无变化轮询不会形成请求风暴；恢复成功后主动失效该 id 缓存。\n- 「恢复总结文字」始终使用该卡 `series.id`，沿用原有明确计费确认；阅读本身只调用读取接口。\n- 新增 12 项用例，共 398 项测试、两端类型、构建及官方扩展检查通过；真实宿主验证修复前后归属与一次 running→ready 自动刷新。历史总结列表未在本版实现。",
     "0.8.12": "- 修复Gemini原生生图异常被统一覆盖为UNKNOWN的问题；具体错误码、HTTP状态及诊断编号可贯穿生成器、检查点恢复和制作验证。\n- 原生响应在归一化前保存脱敏结构摘要及可解码原图，记录MIME、实际格式、大小、结束原因和哈希；不保存密钥、请求头或响应文字。\n- 有效JPEG/静态WebP保留原图后本地转PNG，覆盖现有生图通道；保留透明度、处理EXIF朝向，拒绝动画/多帧、损坏及尺寸越界输入，继续原有PNG与图文审核。\n- 使用固定sharp@0.35.5及平台预编译依赖；转换结果缓存复用，不自动重发生图或恢复旧失败任务，不改变每趟120分钟等待。\n- 386项离线测试、两端类型/构建与官方检查通过；Windows独立生产依赖转换验证通过。真实Gemini及issue报告者环境仍待复验。",
     "0.8.12-issue4.2": "- 单张有效JPEG/静态WebP在本地安全转为PNG，覆盖现有生图通道；保留原始字节、原始及转换后哈希，继续原有尺寸/PNG完整性/图文审核。\n- 保留透明度并应用EXIF朝向，去除元数据；不缩放不裁切，拒绝动画、多帧、损坏或尺寸越界输入。\n- 转换不新增生图请求；原PNG和已缓存候选图不重编码，旧失败任务不自动恢复。\n- 新增固定sharp@0.35.5依赖；本版为离线验证候选，未进行真实Gemini付费复验或公开发布。",
