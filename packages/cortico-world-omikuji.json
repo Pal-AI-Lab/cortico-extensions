@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "name": "cortico-world-omikuji",
+  "version": "0.1.3",
+  "describe": {
+    "tools": [
+      {
+        "name": "omikuji_draw",
+        "description": "Draw the daily fortune slip. With no arguments it returns today's slip; pass date (YYYY-MM-DD) to read the slip of another day. The slip for a date is fixed on this machine, so drawing it again never changes it. In built-in wording mode the reply is the finished slip: lot number, grade, score, verse, reading, what to favour, what to avoid and a lucky colour. In pet wording mode the reply is the facts plus writing constraints instead, and omikuji_record stores the slip you write.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "date": {
+              "type": "string",
+              "description": "Calendar date in YYYY-MM-DD. Omit for today in the deployment timezone."
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "取某一天的签；不传日期就是今天。同一天在同一台机器上永远是同一张。",
+          "en": "Returns the slip for a date, today by default. The same date is the same slip on this machine."
+        }
+      },
+      {
+        "name": "omikuji_record",
+        "description": "Store the slip you wrote for a date, in pet wording mode only. The first text stored for a date is kept and every later draw returns it unchanged, so record once and do not rewrite it. Returns the stored text.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "The slip itself: two short lines, 14–18 characters in total, no predictions stated as fact."
+            },
+            "date": {
+              "type": "string",
+              "description": "Calendar date in YYYY-MM-DD. Omit for today in the deployment timezone."
+            }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "把桌宠自己写好的那一签记下来；同一天只认第一份。",
+          "en": "Stores the slip the pet wrote; the first text for a date is the one kept."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "omikuji.started",
+        "description": {
+          "zh": "World 挂载完成，附今天这一签的档位与分数。",
+          "en": "The World was mounted, with today's grade and score."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.omikuji.envPrompt",
+        "title": "精灵日签 · 环境提示词",
+        "role": "envPrompt",
+        "content": "Omikuji gives the bot one fortune slip per day: lot number, grade and score, plus a verse, a one-line reading, something to favour, something to avoid and a lucky colour. The receipt writes the score as a plain number with 分 after it.\n\n{{omikuji.mode}}\n\nWhen the operator asks about today's fortune in any wording — 「今日气运」「今天运势怎么样」「测测我今天」「今天顺不顺」, or plainly how the day looks — draw the slip once and answer as yourself, in your own words. Do not paste the receipt unless they ask for the slip itself. Keep the grade and score exactly as returned; the tone is yours to set.\n\nThe slip for a date is fixed on this machine. Drawing the same date again returns identical text, so calling omikuji_draw twice for one day wastes a turn. Apart from those questions, draw today's slip when the operator greets you for the first time in a day; do not draw it unprompted on every turn.\n\nToday: {{omikuji.hint}}\n\nThe verse and grade are entertainment and nothing else. Read them as a tone for the day and speak in your own voice; never report a grade or score other than the ones the tool returned. A 凶 result is a joke about the day, not a warning: keep it light, never frighten the operator, and never suggest they change plans because of it. The World page already shows that the slip is for fun, so do not append a disclaimer to your replies — repeated every time it becomes noise. The operator may ask about another date — pass it as date (YYYY-MM-DD) instead of guessing.\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.3": "- **措辞默认改成桌宠自己写**（`wording: \"pet\"`）：默认装好就是她按约束现写、当天首次落盘。想省模型、要绝对稳定的文字，在设置里切成「内置文案」。\n- 设置里的下拉顺序也跟着换了，默认项排在最前。\n- `tools/preview.ts` 默认打印 pet 模式的 brief，加 `--builtin` 看内置成句版。",
+    "0.1.2": "- 加上包图标 `assets/icon.png`（256×256，16.9 kB），给市场卡片与详情页当头像。源图的棋盘格是画进图里的伪透明，已抠成真透明底，深浅主题都能用。\n- 源图与处理脚本留在工程目录（`鲸海少女抽取上上签.png` + `make-icon.py`），换图或改尺寸重跑一次即可。",
+    "0.1.1": "- **免责声明只留在界面上。** 工具回执不再带「相信科学，仅供娱乐参考。」——回执每轮都进上下文，重复的免责句只会变成噪音。面板牌面上仍然固定带这一句。\n- pet 模式的写作约束里改成「别在每句回话后面再带一遍」，凶档照样不许吓人、不许劝人改计划。\n- 环境提示词同步：不再要求桌宠每次交签都说一遍免责，改为说明界面已经写着。",
+    "0.1.0": "首个公开发布。\n\n**签**\n\n- 种子 = `SplitMix64(FNV-1a(\"omikuji/v1|本机盐|YYYY-MM-DD\"))`；引擎自带，取数用拒绝采样，不读时间、不碰 `Math.random`。\n- 八档（上上签、大吉、中吉、小吉、平、末吉、小凶、大凶）完整覆盖 0–100，加载签库时校验不许有缝。\n- 内置签库：每档 5 句签文、3 句解语，宜与忌各 24 条，幸运色 16 种，意象池 24 个。\n- 本机盐首次使用时生成并落盘，同一天在同一台机器上恒定，换机器则不同；`worlds.omikuji.salt` 可覆盖，用于在别的机器上复现同一批签。\n\n**工具**\n\n- `omikuji_draw({ date? })`：取某一天的签，不传日期即今天；日期必须真实存在，`2026-02-30` 直接报错。同一天重复调用返回同一份内容。\n- 回执的分数只写「N 分」，不写分母。\n- 每张签末尾都带一句「相信科学，仅供娱乐参考。」，面板牌面同样带。\n- 环境段每轮两行：今天的签号档位与分数，以及措辞归谁写。常用问法（「今日气运」「测测今天」这类）写进了提示词：取一次签、用自己的话答，不贴回执原文；凶档只是纸面玩笑，不许吓人。\n- 挂载时推 `omikuji.started`。\n\n**措辞**\n\n- `worlds.omikuji.wording`：`builtin`（默认，签库成句）或 `pet`（桌宠自己写）；下拉选择，热改即生效。\n- pet 模式下 `omikuji_draw` 只回事实与写作约束，不成句；新增 `omikuji_record` 把写好的正文落盘，同一天只认第一份，之后原样返回。\n- 分寸只定约束不定口吻：每档一句写作界限，两句、14–18 字、不作断言；语气底线写明「只当玩笑话，凶档也不许吓人」，并要求把免责句一起说出来。\n\n**面板**\n\n- World 页「今日一签」：牌扣着，按「抽今天的签」翻开；七天横排可点开回看，回看的牌虚线边、带「回到今天」。\n- 面板与服务端走同一条逻辑，只读——按钮不产生新的随机，也不替桌宠写正文。\n- 浏览器产物 `dist/webui.js` 是手写原生 ES module（宿主按 URL import），无需打包步骤；`dist/webui.css` 只用宿主 CSS 变量，跟着主题走。\n\n**发布状态**\n\n- 带 `experimental` 标签：还没在真的 Coopanion 实例里加载过，只在干装载、假 DOM 与单元测试下验证过。\n- 19 个文件、约 25 kB；无网络、无密钥、无第三方运行时依赖。"
+  }
+}

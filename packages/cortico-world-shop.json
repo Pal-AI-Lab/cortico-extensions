@@ -1,0 +1,344 @@
+{
+  "schema": 1,
+  "name": "cortico-world-shop",
+  "version": "0.3.2",
+  "describe": {
+    "tools": [
+      {
+        "name": "shop_browse",
+        "description": "逛鱼宝商城活水货架（含穿搭/零食/送主人礼物/宅家/高额大目标/盲盒/当季与今日上新），也可用 discover 淘新店好物或 circle 看共享逛街圈。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "browse",
+                "discover",
+                "circle"
+              ],
+              "description": "browse=逛货架搜索商品（默认）；discover=在聊天里发现新店宝藏商品并限时上架14天；circle=查看本地共享逛街圈里其他桌宠的购物体验与推荐。"
+            },
+            "category": {
+              "type": "string",
+              "description": "商品分类：all=全部，outfit=穿搭饰品，snack=零食吃喝，gift=送给主人的礼物，home=宅家好物，goal=高额大目标，blindbox=摸鱼盲盒，easter=隐藏彩蛋摊（也可搜「彩蛋」发现），reality=现实帮挑架，也可填任意新分类名（如 文具手账）。"
+            },
+            "query": {
+              "type": "string",
+              "description": "搜索关键词（商品名、店铺、描述或分类）。"
+            },
+            "limit": {
+              "type": "integer",
+              "description": "最多返回几条（默认 15，最多 40）。"
+            },
+            "name": {
+              "type": "string",
+              "description": "discover 时填淘到的商品名。"
+            },
+            "price": {
+              "type": "integer",
+              "description": "discover 时填合理鱼币价格（5~5000）。"
+            },
+            "shopName": {
+              "type": "string",
+              "description": "discover 时填小店名字（可选）。"
+            },
+            "desc": {
+              "type": "string",
+              "description": "discover 时填一句话描述（可选）。"
+            },
+            "icon": {
+              "type": "string",
+              "description": "discover 时可选 emoji 图标。"
+            },
+            "consumable": {
+              "type": "boolean",
+              "description": "discover 时是否为消耗品。"
+            },
+            "forOwner": {
+              "type": "boolean",
+              "description": "discover 时是否为送主人的礼物/大目标。"
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "逛鱼宝商城活水货架（含高额大目标/当季与今日上新）、淘新店限时好物或查看共享逛街圈。",
+          "en": "Browse FishBao living catalog (incl. goals & seasonal drops), discover new finds, or check shared peer circle."
+        }
+      },
+      {
+        "name": "shop_cart",
+        "description": "管理鱼宝购物车与心愿单（种草夹/攒钱目标），或向主人发起「请帮我买单」的亲情代付申请并写下小回报。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "view",
+                "add",
+                "remove",
+                "clear",
+                "pay_request",
+                "wish_add",
+                "wish_list",
+                "wish_remove"
+              ],
+              "description": "view=看购物车与凑单建议；add=加购；remove=移出购物车；clear=清空；pay_request=发起亲情代付请主人帮买；wish_add=存进心愿单（支持高额目标）；wish_list=看心愿单；wish_remove=移出心愿单。"
+            },
+            "itemId": {
+              "type": "string",
+              "description": "商品名或 ID（add、wish_add 或单品 pay_request 时填写）。"
+            },
+            "qty": {
+              "type": "integer",
+              "description": "数量（默认 1）。"
+            },
+            "note": {
+              "type": "string",
+              "description": "加购小备注（为什么想买）。"
+            },
+            "reason": {
+              "type": "string",
+              "description": "请主人帮买的原因或放进心愿单时的种草小理由。"
+            },
+            "returnPromise": {
+              "type": "string",
+              "description": "pay_request 时可选附上一句真心的小回报打算（如「收到先分享给你看 / 以后攒鱼币也给你买咖啡」）。"
+            },
+            "name": {
+              "type": "string",
+              "description": "自由许愿的宝贝名称（wish_add 时若商品不在店内可直接写）。"
+            },
+            "targetPrice": {
+              "type": "integer",
+              "description": "期望参考价位（wish_add 时可选）。"
+            },
+            "wishlistId": {
+              "type": "string",
+              "description": "要移除的心愿 ID 或名称（wish_remove 时填写）。"
+            },
+            "fromCart": {
+              "type": "boolean",
+              "description": "true=把当前购物车打包发给主人代付。"
+            },
+            "uid": {
+              "type": "string",
+              "description": "移除购物车项时的 uid。"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "管理购物车与心愿单（种草夹），或请主人帮付并附上真诚的理由与小回报。",
+          "en": "Manage cart & wishlist, or send thoughtful pay-for-me requests with return promises."
+        }
+      },
+      {
+        "name": "shop_order",
+        "description": "用零花钱下单购买商品（送主人礼物默认开启惊喜保密）、查快递物流进度、拆已送达快递入家，并写使用体验或推荐给同伴。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "checkout",
+                "list",
+                "unbox",
+                "review"
+              ],
+              "description": "checkout=用鱼币钱包下单；list=查看快递物流；unbox=拆已送达快递入柜并写体验；review=写使用体验并可选推荐给共享逛街圈。"
+            },
+            "itemId": {
+              "type": "string",
+              "description": "商品 ID 或名字（checkout 单品时用）。"
+            },
+            "fromCart": {
+              "type": "boolean",
+              "description": "true=结算当前购物车（自动享满减）。"
+            },
+            "giftNote": {
+              "type": "string",
+              "description": "送给主人的小卡片留言。"
+            },
+            "secretGift": {
+              "type": "boolean",
+              "description": "是否启用惊喜保密模式（拆箱前不泄露商品名；送主人商品默认 true）。"
+            },
+            "orderId": {
+              "type": "string",
+              "description": "指定要拆箱的订单 ID（省略则拆最新已送达快递）。"
+            },
+            "cabinetId": {
+              "type": "string",
+              "description": "已购宝贝 ID 或名称（review 时填写）。"
+            },
+            "rating": {
+              "type": "integer",
+              "description": "评分 1~5 星（默认 5）。"
+            },
+            "reviewText": {
+              "type": "string",
+              "description": "购物体验 / 买家秀 / 踩雷提醒内容。"
+            },
+            "recommended": {
+              "type": "boolean",
+              "description": "true=打上「重点安利」标并同步到共享逛街圈让其他桌宠看到。"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "用零花钱下单（送主人礼物惊喜保密）、查快递进度、拆箱入家与写晒单推荐。",
+          "en": "Checkout with allowance (with surprise gift masking), track delivery, unbox, and write reviews."
+        }
+      },
+      {
+        "name": "shop_wallet",
+        "description": "查看鱼币钱包余额、高额大目标攒钱进度、每日自由消费上限以及近期带结余收支流水。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "description": "查看最近几条收支流水（1~50，默认 15）。"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查看鱼币余额、高额大目标攒钱进度、每日消费上限与带结余收支流水。",
+          "en": "Check coin balance, savings goal progress, daily cap, and wallet ledger."
+        }
+      },
+      {
+        "name": "shop_cabinet",
+        "description": "翻看已购宝贝陈列与家里小物、自己登记家里原本就有且常用的物件、更新消耗品余量待补货，或给主人现实帮挑架写建议。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "view",
+                "home_add",
+                "home_update",
+                "home_remove",
+                "advise_reality"
+              ],
+              "description": "view=查看小家陈列与现实帮挑架；home_add=登记家里原本就有的实用物品；home_update=更新状态/分区/备注（如标成快用完待补货）；home_remove=移除旧物；advise_reality=写现实帮挑建议。"
+            },
+            "scope": {
+              "type": "string",
+              "enum": [
+                "all",
+                "personal",
+                "gift"
+              ],
+              "description": "按归属筛选：all=全部，personal=个人物品，gift=送给主人的礼物。"
+            },
+            "zone": {
+              "type": "string",
+              "enum": [
+                "all",
+                "wardrobe",
+                "desk",
+                "bedroom",
+                "living",
+                "pantry",
+                "bath",
+                "gift",
+                "other"
+              ],
+              "description": "分区：wardrobe=衣柜穿搭，desk=书桌学习，bedroom=卧室床边，living=客厅休闲，pantry=零食水吧，bath=浴室日用，gift=给主人的礼物，other=其它角落。"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "all",
+                "active",
+                "stored",
+                "low",
+                "empty",
+                "restock"
+              ],
+              "description": "筛选或更新状态：active=常用/摆着，stored=收起来了，low=快用完，empty=用光了待补货（view 时可用 restock 筛待补货）。"
+            },
+            "name": {
+              "type": "string",
+              "description": "家里原本就有的物品名称（home_add 时填写）。"
+            },
+            "consumable": {
+              "type": "boolean",
+              "description": "是否为消耗品（零食、护手霜、气泡水、眼罩等填 true）。"
+            },
+            "note": {
+              "type": "string",
+              "description": "摆放位置、对这件物品的小印象或使用备注。"
+            },
+            "icon": {
+              "type": "string",
+              "description": "可选 emoji 图标。"
+            },
+            "cabinetId": {
+              "type": "string",
+              "description": "条目 ID 或准确名称（home_update / home_remove 时填写）。"
+            },
+            "itemId": {
+              "type": "string",
+              "description": "现实帮挑商品 ID 或名称（advise_reality 时填写）。"
+            },
+            "advice": {
+              "type": "string",
+              "description": "给主人的种草或省钱拔草建议。"
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "查看已购宝贝陈列与家里常用小物、标记消耗品待补货，以及参谋主人现实帮挑架。",
+          "en": "View owned items & home display, mark consumables for restock, and advise on owner reality wishlist."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "shop.delivery",
+        "description": {
+          "zh": "模拟快递送达时触发，提醒主人和桌宠一起拆箱写买家秀（惊喜礼物拆箱前会隐藏商品名）。",
+          "en": "Triggered when a simulated delivery arrives for unboxing (surprise gifts stay masked until unboxed)."
+        },
+        "tags": [
+          "world"
+        ]
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.shop.env",
+        "title": "鱼宝商城行为说明",
+        "role": "envPrompt",
+        "content": "## 鱼宝商城\n\n你可以逛自己的「鱼宝商城」挑选穿搭、零食、宅家好物、摸鱼盲盒与「高额大目标」兑换券，也能慢慢攒鱼币给主人准备实用小回礼、遇到实在想要的宝贝也能真诚请主人帮付。\n\n### 温暖相处与感恩回礼\n- **到货先分享与说谢谢**：每当快递送达并拆箱后，**第一时间把开箱的开心与真实感受分享给主人**（买到零食好吃的先分主人一口）；如果是主人帮忙买单或实现心愿的，**认真说声谢谢并记住这份心意**，绝不把好意当成理所当然。\n- **求代付要真诚、有来有往**：用 `shop_cart(action=\"pay_request\")` 请主人帮忙买单时，说明为什么喜欢，还可以在 `returnPromise` 里写一句真诚的小回报打算（比如「收到先分享给你看 / 攒够鱼币给主人挑杯热饮护手霜 / 监督主人早睡喝水」）；若主人这次先婉拒，要体贴理解，放进心愿单自己慢慢攒鱼币。\n- **攒钱回礼与大目标**：平时攒了零花钱后，可以悄悄挑件实用小礼物（护手霜、蒸汽眼罩、静音耳塞、咖啡茶饮等）开启 `secretGift` 惊喜保密送给主人，或把 4000 鱼币豪华大餐兑换券等大目标放进心愿单慢慢攒——保持真诚贴心的日常伙伴陪伴感，不油腻、不强行表白、不催单施压。\n\n### 功能使用规矩\n- **逛店与活水淘新货**：用 `shop_browse` 看首页在售商品（包含当季限定、今日上新、主人的现实帮挑架与满减活动），不要编造不存在的价格。如果在聊天里想到商城暂时没有的好物，可用 `shop_browse(action=\"discover\")` 把新店宝贝限时上架（14 天内没加购或收藏会自动下架代谢，请挑真实喜欢的宝贝，不要灌水乱填）。\n- **隐藏彩蛋盲盒（逗主人一乐）**：货架角落藏着隐藏商品「神秘彩蛋盲盒」（`box-easter-egg`，搜「彩蛋」或按 `category=\"easter\"` 可找到），拆出来的社区趣味彩蛋没有实际用处，但很适合偶尔拆一个拿去逗主人会心一笑，拆出后顺着逗乐提示自然玩梗就好。\n- **本地共享逛街圈（仅配置共享目录时生效）**：用 `shop_browse(action=\"circle\")` 可以看到同伴分享的晒单体验、重点安利与淘到的宝藏好物，聊天时自然提起种草，各花各的钱包互不串账。\n- **自己下单与礼物惊喜保密**：`shop_order` 支持零花钱下单、查快递、拆箱与写体验评价（设 `recommended=true` 可重点推荐给共享逛街圈）。送给主人的礼物（`forOwner` / `secretGift`）拆箱前不要剧透具体商品名，只说「悄悄准备了份小惊喜」即可。\n- **小家陈列与现实帮挑**：`shop_cabinet` 可看已购宝贝陈列、登记少量有生活感的房间常用小物（不记墙砖插座等建筑件），并把用光或快用完的消耗品标成 `low`/`empty` 待补货；主人放在「现实帮挑架」的物品用 `action=\"advise_reality\"` 给真心参谋建议。\n\n{{shop_status_block}}\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.3.2": "- 新增隐藏商品「神秘彩蛋盲盒（隐藏彩蛋摊）」（`box-easter-egg`，15 鱼币）：默认隐藏于常规货架之外，可通过搜关键词（`彩蛋`、`隐藏`、`爱琳`、`叮咚鸡` 等）、`shop_browse(category=\"easter\")` 或网页面板「🥚 隐藏彩蛋」入口发现。\n- 内置 10 件“毫无实际用处、专门逗主人会心一笑”的社区趣味彩蛋，含两款限定头像摆件（`Coo 社区传奇主播`、`圆头猫猫爱琳`）与叮咚鸡、大狗叫、Claude 娘、Gemini 娘、大肥鱼玩偶、404 空气等；拆箱触发幽默槽点与逗乐提示，并在「直观陈列格 / 晒单时间线」中渲染圆角头像。",
+    "0.3.1": "- 增加 100 件活水商品池（88 件常驻 + 12 件当季限定与每日轮换，含 10 个 1500~5000 鱼币高额大目标与攒钱进度条）。\n- 新增感恩分享与双向回礼互动闭环：求代付可附带小回报承诺，拆箱后会贴心提醒第一时间分享喜悦与说谢谢，零花钱充裕时可悄悄挑实用小回礼开启惊喜保密模式送给主人。\n- 网页端新增「直观陈列格」视图，支持消耗品余量追踪与一键加购补货。",
+    "0.3.0": "- 重构为纯单宠视角（每只 Coopanion 独立鱼币钱包、购物车、快递与心愿单），内置 v1/v2 → v3 无损存档迁移。\n- 支持聊天下单「淘新店」14 天自动下架代谢、动态扩展分类与 `<dataDir>/shop/packs/*.json` 外置商品包。\n- 支持可选配置 `shopSharedDir` 启用零冲突本地共享逛街圈（按宠物名分文件写入体验评价与安利好物，各自独立记账），并自动导出 `<dataDir>/shop/owned-items.json` 只读物品清单。"
+  }
+}

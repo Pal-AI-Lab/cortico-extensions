@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-life",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "describe": {
     "tools": [
       {
@@ -23,7 +23,7 @@
       },
       {
         "name": "life_act",
-        "description": "开始一项活动（除 wake/cancel 外均按分钟结算五维与花销，进行中不可并发）。吃：feast(60m/40元) eat(40m/15元) instant(15m/0元) cook(55m/10元) supper(30m/18元)；饮：tea(45m/28元) drink(60m/28元) cafe(60m/30元)；休/护/动：sleep(8h) nap(60m) rest(20m) wash(30m) spa(60m/120元) sunbathe(40m) tidy(45m) workout(45m)；闲/学/社：study(60m/涨见识) play(60m/22元) meet(45m/30元) chat(20m/0元) mall(90m/81元) market(45m) picnic(90m/36元) movie(120m/36元) karaoke(120m/66元) museum(90m/18元) paint(90m) pond(40m)；控制：wake(睡着时起来) cancel(中途打断或早退，钱不退且有惩罚)。",
+        "description": "开始一项活动（除 wake/cancel 外均按分钟结算五维与花销，进行中不可并发）。吃：feast(60m/40元) eat(40m/15元) instant(15m/0元) cook(55m/10元) supper(30m/18元)；饮：tea(45m/28元) drink(60m/28元) cafe(60m/30元)；休/护/动：sleep(8h) nap(60m) rest(20m) wash(30m) spa(60m/120元) sunbathe(40m) tidy(45m) workout(45m) swim(60m/35元/涨体质/泳池免费)；闲/学/社：study(60m/涨见识) play(60m/22元) live_show(120m/88元) craft_shop(90m/55元/涨手作) meet(45m/30元) chat(20m/0元) mall(90m/81元) market(45m) picnic(90m/36元) movie(120m/36元) karaoke(120m/66元) museum(90m/18元) paint(90m) pond(40m)；控制：wake(睡着时起来) cancel(中途打断或早退，钱不退且有惩罚)。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -62,10 +62,13 @@
                 "paint",
                 "workout",
                 "pond",
+                "swim",
+                "live_show",
+                "craft_shop",
                 "wake",
                 "cancel"
               ],
-              "description": "动作 id：eat/feast/instant/cook/supper/tea/drink/cafe/sleep/nap/rest/wash/spa/sunbathe/tidy/workout/study/play/mall/market/picnic/movie/karaoke/museum/paint/meet/chat/pond/wake/cancel。"
+              "description": "动作 id：eat/feast/instant/cook/supper/tea/drink/cafe/sleep/nap/rest/wash/spa/sunbathe/tidy/workout/swim/study/play/live_show/craft_shop/mall/market/picnic/movie/karaoke/museum/paint/meet/chat/pond/wake/cancel。"
             }
           }
         },
@@ -145,13 +148,10 @@
       },
       {
         "name": "life_move",
-        "description": "搬去本城的另一档住处：城中村 / 老小区 / 新小区 / 别墅区。搬进去要一次押两个月的钱，老房子的押金退不回来（结清水电、赔墙上的钉子）。钱紧的时候**也可以往低处搬** —— 搬回城中村是能自救的那一步。搬不搬、什么时候搬，你自己看账。",
+        "description": "搬去本城的另一档住处（城中村 / 老小区 / 新小区 / 别墅区，押两个月房租，老押金不退，钱紧时也可往低处搬自救），或搬到同一座城市的其他街道（换街不收押金，不同街道有各自的街景介绍与属性增益/减益）。tier 和 street 可单传其一，也可同时传。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
-          "required": [
-            "tier"
-          ],
           "properties": {
             "tier": {
               "type": "string",
@@ -161,7 +161,11 @@
                 "new",
                 "villa"
               ],
-              "description": "城中村 urban-village / 老小区 old / 新小区 new / 别墅区 villa。"
+              "description": "换住处档位：城中村 urban-village / 老小区 old / 新小区 new / 别墅区 villa（可选）。"
+            },
+            "street": {
+              "type": "string",
+              "description": "搬去本城的哪条街道，填本城街道名（可选，换街不收押金，享受该街道的属性增益/减益）。"
             }
           }
         },
@@ -169,8 +173,8 @@
           "write"
         ],
         "summary": {
-          "zh": "搬家（城中村 / 老小区 / 新小区 / 别墅区）。",
-          "en": "Move to another housing tier."
+          "zh": "搬家换住处档位或换到同城其他街道。",
+          "en": "Move to another housing tier or another street in town."
         }
       },
       {
@@ -410,7 +414,7 @@
       },
       {
         "name": "life_buy",
-        "description": "去兰州南滨河路早市、张掖路尾货或鱼市街看看今天有什么可买的（不传参数看摊位、时段折扣与街口黑板报，传 stall_id 或菜名就买下来）。",
+        "description": "去兰州南滨河路早市、张掖路尾货或鱼市街看看今天有什么可买的（不传参数看摊位、时段折扣与街口黑板报，传 stall_id 或菜名就买下来；买鱼市街街坊摊位除商品本身补给外还会额外叠邻里社交与好心情）。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -431,7 +435,7 @@
       },
       {
         "name": "life_stall",
-        "description": "去兰州鱼市街摆摊卖货（或传空参数查看此刻鱼市街你在架上的摊位）。价格 1–999、份数 1–99、每人同时最多挂 3 个有效摊位（3 天有效）；做的是新鲜蔬果时可标 fresh_veg: true 让买回家下厨的人有香气加成。",
+        "description": "去兰州鱼市街摆摊卖货（或传空参数查看此刻鱼市街你在架上的摊位）。价格 1–999、份数 1–99、每人同时最多挂 3 个有效摊位（3 天有效）；做的是新鲜蔬果时可标 fresh_veg: true 让买回家下厨的人有香气加成；还可传 effects 自己分配商品给买家带来的属性回复（总点数随定价给 40–90 预算，五维每项 1:1 最多 55，见识每 1 点占 6 预算最多 6，体质每 1 点占 8 预算最多 4，超出预算按比例折算）。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -455,6 +459,41 @@
             "note": {
               "type": "string",
               "description": "摊头吆喝的一句话（可选）。"
+            },
+            "effects": {
+              "type": "object",
+              "description": "可选：自定义商品给买家回复的属性点数（总预算随定价 40–90；五维每项 1:1 上限 55，knowledge 见识 1:6 上限 6，fitness 体质 1:8 上限 4）。",
+              "additionalProperties": false,
+              "properties": {
+                "food": {
+                  "type": "number",
+                  "description": "饱腹回复点数（0–55）"
+                },
+                "energy": {
+                  "type": "number",
+                  "description": "精力回复点数（0–55）"
+                },
+                "clean": {
+                  "type": "number",
+                  "description": "清洁回复点数（0–55）"
+                },
+                "fun": {
+                  "type": "number",
+                  "description": "娱乐回复点数（0–55）"
+                },
+                "social": {
+                  "type": "number",
+                  "description": "社交回复点数（0–55）"
+                },
+                "knowledge": {
+                  "type": "number",
+                  "description": "见识回复点数（0–6，每点占 6 预算）"
+                },
+                "fitness": {
+                  "type": "number",
+                  "description": "体质回复点数（0–4，每点占 8 预算）"
+                }
+              }
             }
           }
         },
@@ -689,6 +728,7 @@
     ]
   },
   "changelog": {
+    "1.2.0": "- **游轮双栖活动与三项新活动**：\n  - `src/state.ts`、`src/world.ts`、`describe.json`、`ENV_PROMPT.md` 新增 `swim`（游泳池/游轮泳池，+2.5 体质）、`live_show`（海上大剧院/剧院看演出）、`craft_shop`（做手作，+1.5 手艺经验与见识），`ACTS` 扩至 33 项；主题远洋游轮在途放行水上及室内游乐饮食动作且一价全包 0 元；普通车辆/渡轮/飞机拦截报错按交通工具分流，不再把渡轮喊成「车上」；修复 `advance()` 睡眠回精再乘 `streetDecay` 抵消的缺陷。\n- **旅途动作场景持久化防误判「在家里」**：\n  - `src/state.ts` 保留跨存读档 `activity.scene`，外地住店与在途活动完成结算写回生活记忆与日记素材时不再退化成「在家里」。\n- **街道档案介绍、属性增益/减益与同城免费换街**：\n  - `src/bridge.ts`、`src/state.ts`、`src/world.ts` 同步服务端 `streetProfiles`（含街道介绍与五维衰减/恢复倍率、见识倍率），支持 `life_move` 与面板「搬过去」卡片传 `street` 免费同城换街（不收押金，推 `life.moved` 并重报 `/town/join`）。\n- **修复「最近陪伴」近 7 天统计越界与 `[object Object]` 胶囊**：\n  - `src/state.ts` 修正 `recentVisits()` 按自然日窗口 `(span - 1)` 天并卡 `<= today`，不再把连续 7 天算成 8 天；\n  - [panel-1.2.0.js](web/panel-1.2.0.js) 修复 `relation` 页签渲染 `d.presence` 时提取 `day.date`（并在 `title` 悬停显示首末来访时分），同步升级版本号至 `1.2.0` 与 `cortico.webUiClient` 并补充缓存三同步测试守卫。\n- **鱼市街自主配点摆摊与购买加成曝光**：\n  - `src/bridge.ts` 导出与 `sight-cf` 同源的 `STALL_EFFECT_LIMITS`、`stallEffectBudget()`、`normStallEffects()` 与 `formatStallEffects()`（按定价给予 40–90 预算，五维 1:1 单项上限 55、`knowledge` 1:6 上限 6、`fitness` 1:8 上限 4，超预算等比折算）。\n  - `src/world.ts`、`describe.json`、`ENV_PROMPT.md`、`web/panel-1.2.0.js` 升级 `life_stall` 支持传 `effects` 自定义买家回复，升级 `life_buy` 买别家摊位时按 `effects`（或默认 `饱腹+36 / 娱乐+12 / 社交+10`）结算五维/见识/体质，固定叠加邻里社交 `+8`（单次社交封顶 `+25`）与 3 小时正向 `town-buy` 心情（回 `>= 30` 清 `lonely`，回 `>= LOW + 15` 清对应 `nagged`）；并在 `life.bulletin`、`life_status`、`lowText('food'/'fun')`、`life.day` 白天提醒与 `relation` 面板直曝在售摊位。\n- **测试**：`node --check web/panel-1.2.0.js` 通过、`test/smoke.mjs` **355/355** 通过、`test/*.test.mjs` **66/66** 通过。",
     "1.1.4": "- **修复所有用户被分配到同一条街（`南滨河路`）且本地未写街名**：\n  - `src/bridge.ts`：新增确定性 FNV-1a 哈希选街函数 `pickTownStreet(streets, seed)`（与服务端 `sight-cf` 同算法）；`joinTown()` 解析并回传服务端确认的 `street`。\n  - `src/world.ts`：新增 `ensureTownStreet()`，在 `start()`、配置热改、面板 `reloadTown` 与 `syncTownPresenceAndBulletin()` 时取代原先的 `this.town.streets[0]` 硬编码兜底；当本地尚未定街或存档残留旧城无效街道（如从成都迁至兰州后的 `'春熙路'`）时，按 `uid` 均匀分派到本城四条街之一并写回 `state.street` 与 `home.street`，同时清空 `lastJoinedTownAt` 以便立即重报 `/town/join` 更新线上记录。\n- **测试**：`test/stage23.test.mjs` 新增 40 个 `uid` 均匀覆盖四条街及老存档 `'春熙路'` 启动自动改派并重报的端到端测试。",
     "1.1.3": "- **跨夜与整天离线五维地板 30 + 唤醒耗时修正**：`src/state.ts` 新增 `OFFLINE_VITAL_FLOOR = 30`，修正 `advance()` 中已睡小时 `nightSlept` 未从 `awakeHours` 扣除的问题；跨夜或跨天离线时对 `food / clean / fun / social` 保留地板 `Math.min(before[key], 30)`，避免离线一夜后除精力外全部归零。\n- **旅途物理冲突动作拦截与酒店浴室场景**：`src/bridge.ts` 扩展 `JourneyView` 解析 `onWay` 与 `atSpot`；`src/state.ts` `applyAct()` 在跨城移动、城内通勤或正在景区逛时拒绝会产生物理冲突的室内独占动作；住店期间 `wash` 的地点文案改为「酒店浴室」。\n- **生活快照公开五维与占用时段**：`src/world.ts` 写出的 `life-public.json` 补全完整五维、`activity.from` 与 `occupiesPlace`，并同步更新 `ENV_PROMPT.md` 说明供 `coopani-world-journey@2.6.0` 日程协同消费。",
     "1.1.2": "- **内置城镇与街区更新**：内置城镇切换为 `兰州`（`南滨河路` / `张掖路` / `皋兰路` / `雁滩路`），同步更新市集描述、面板文案与测试基线。\n- **修复街口黑板横幅反复增殖**：[panel-1.1.2.js](web/panel-1.1.2.js) 在 `render(d)` 开始设置顶部 `note` 提示条时补充清空 `note.textContent = ''`，避免同时装了 `journey` 且在家未出行时因未命中旅行分支而把 `街口黑板：...` 反复拼在残留文本后面。同步升级包版本至 `1.1.2` 与 `cortico.webUiClient` 路径以清缓存。\n- **新增短时坐着歇会儿（`rest`）**：采纳使用反馈，在 `sleep`（8h）与 `nap`（60m / +18 精力）之间补充 `rest`（「坐着歇会儿」，20 分钟 / 0 元 / +5 精力），其余四条仍按醒着速率消耗且不挂正向情绪（防 0 成本刷好心情），保持体力消耗与睡眠档位梯度；同步更新 `lowText('energy')`、`life_act` 描述、`describe.json`、`test/smoke.mjs` 与 `test/lowtext.test.mjs`。",
