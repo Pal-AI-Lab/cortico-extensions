@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "name": "cortico-world-rssnews",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "rss_fetch",
+        "description": "Pull the RSS/Atom feeds right now and return their newest items. Without arguments it pulls every enabled feed that allows model pulls; pass \"feeds\" (ids, titles or URLs) to pull only those. Each feed returns at most that feed's own \"max new items\" count, newest first; when nothing is new you get its latest items marked as already read. Hits the network: a slow feed can take tens of seconds, so do not call it repeatedly to poll.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "feeds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Feed ids, titles or URLs. Omit to pull every enabled feed that allows model pulls."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "立刻拉一轮订阅源，新消息优先，每个源给到它自己设定的条数。",
+          "en": "Pulls the feeds right now, newest first, up to each feed's own item count."
+        }
+      },
+      {
+        "name": "rss_index",
+        "description": "Search the subscribed feeds by keyword. Fetches the newest entries of the given feeds (up to 50 per feed), matches every keyword against title, body and time, and returns the matches newest first, at most 5 per page. Pass page (1-based) to read further pages; the receipt reports how many matches remain.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "feeds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "description": "Feeds to search: ids, titles or URLs."
+            },
+            "keywords": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "description": "Keywords; each is matched against title, body and time. Default mode matches any keyword."
+            },
+            "page": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "1-based page of matches. Defaults to 1."
+            },
+            "mode": {
+              "type": "string",
+              "enum": [
+                "any",
+                "all"
+              ],
+              "description": "any (default): at least one keyword matches. all: every keyword matches."
+            }
+          },
+          "required": [
+            "feeds",
+            "keywords"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "按关键词翻订阅源，每页最多 5 条，可翻页。",
+          "en": "Searches the feeds by keyword, at most 5 matches per page, with paging."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "rss.new_items",
+        "description": {
+          "zh": "某个订阅源到了拉取时间、抓到了新消息；正文里有标题、时间、摘要和链接，每个源一次最多给几条是它自己的设置。",
+          "en": "A feed came round and had new items; the text carries titles, times, summaries and links, up to that feed's own per-pull limit."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.rss.envPrompt",
+        "title": "RSS / Atom 订阅 · 环境提示词",
+        "role": "envPrompt",
+        "content": "你的世界里有一份 RSS / Atom 订阅，它和你正在过的这一段对话是分开的两件事：源自己更新，按各自的时间表被拉下来；拉到的消息或者以事件递到你面前，或者等你主动去取。\n\n现在的订阅源（id 后面括号里是它的 id，工具里可以拿 id、名字或网址指它）：\n\n{{rss.feeds}}\n\n整体状态：{{rss.state}}\n消息存档：{{rss.archive}}\n\n来源给的时间按 {{rss.timezone}} 显示。正文是网页正文去标签后的纯文本，可能被截断，原始地址在每条消息末尾。\n\n两种消息到达的方式：\n\n- **事件**：某个源到了拉取时间，抓到新消息，就把最近几条写成一条 `rss.new_items` 事件递给你。正文里带标题、时间、一段摘要和链接；「一次最多递几条」是每个源自己的设置，超出的那些不会追着补发。事件是事实，不是请求：要不要因为一条新闻开口、用什么样的语气，由你按自己的人设和你们此刻的关系决定，也可以什么都不做。\n- **工具**：你需要的时候自己去取。\n\n`rss_fetch` 是立即拉取。不带参数就拉所有「启用且允许模型拉取」的源；参数 `feeds` 给一个名字/id/网址的数组就只拉这几个。每个源给你它「一次最多递几条」那么多条（新消息优先；这一轮没有新的就给你最近的几条，并标明已读过）。它走的是真网络，慢的源要十几秒，所以不要连着调它催更新；刚拉过的源在十几秒内会直接复用上次结果。\n\n`rss_index` 是按关键词翻订阅源。参数是 `feeds`（必填，至少一个源）、`keywords`（必填，至少一个词；分别拿去匹配标题、正文、时间，默认命中任一即可，`mode: \"all\"` 要求全中）、`page`（从 1 起）。它会把每个源最新的几十条（上限 50）翻一遍，命中结果按时间从新到旧排，一页最多 5 条，回执末尾会告诉你还有几条、下一页传几。关键词用短的实词比整句好使；一个词都没命中的常见原因是词太长或被换了说法。\n\n几条边界，省得白试：不允许模型拉取的源，这两个工具都不会碰它，回执里会说明跳过了哪个；停用的源同理；拉取失败会写明原因（超时、HTTP 状态、返回的是网页而不是 XML），同一个源失败后不要立刻重试第二次，换个源或者等下一轮定时拉取更划算。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "首个版本。\n\n- **两个页签**：「Rss/Atom 管理」（订阅源增删改、立即拉取、启停、测试地址）与「Rss/Atom 源的消息」\n  （按源筛、按关键词搜、翻页、点开看正文）。\n- **多源订阅**：每个源独立设置间隔、定时时刻（`HH:MM`）、超时（默认 20 秒）、一次最多递几条（默认 3）、\n  是否启用、允不允许模型主动拉取。\n- **工具**：`rss_fetch`（立即拉取，按每个源自己的条数上限）与 `rss_index`（多关键词匹配标题/正文/时间，\n  单源最多翻 50 条，每页 5 条，可翻页）。\n- **事件**：`rss.new_items`，默认攒批投递，可配置成叫醒她。\n- **解析**：自带 XML 解析（无第三方运行时依赖），支持 RSS 2.0 / Atom / RSS 1.0（RDF）、CDATA、实体、\n  `content:encoded`、`dc:creator`、`dc:date`。\n- **去重与存档**：按 `guid` / `id` / 链接去重，每个源记最近 400 个键；消息存档默认 500 条。\n- **网络**：内建超时、体积上限、`ETag` / `Last-Modified` 条件请求（304 时不重复下载）、\n  HTML / JSON 响应的明确报错。\n- **包名**：`cortico-world-rssnews`，显示名「RSS 新闻 / RSS News」——GitHub 上已有别人的同名仓库，\n  换个名字避开。world id 仍是 `rss`，所以 `worlds.rss` 配置段、`rss_fetch` / `rss_index`、\n  `rss.new_items` 与已有订阅数据都不受影响。"
+  }
+}
