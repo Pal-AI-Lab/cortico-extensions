@@ -2728,17 +2728,17 @@
     },
     "coopani-world-music": {
       "kind": "world",
-      "version": "1.0.2",
+      "version": "1.1.0",
       "displayName": "一起听歌",
-      "description": "一起听歌（Windows 10/11，需 Coopani 0.2.16+）· 桌宠陪你一起听歌的小伴侣：实时知道 QQ 音乐和网易云在放哪首歌，跟着真实鼓点摇摆、聊刚唱过的歌词、记住你的听歌口味，还能听出调性和乐器。",
+      "description": "一起听歌（Windows 10/11 与 macOS，需 Coopani 0.2.16+）· 桌宠陪你一起听歌的小伴侣：实时知道 QQ 音乐和网易云在放哪首歌，跟着真实鼓点摇摆、聊刚唱过的歌词、记住你的听歌口味，还能听出调性和乐器。macOS 上目前支持认歌、暂停切歌与聊歌词。",
       "locales": {
         "zh": {
           "displayName": "一起听歌",
-          "description": "支持 Windows 10/11，需要 Coopani 0.2.16+。\n\n让桌宠坐在桌角陪你一起听歌，而不是各听各的。\n\n- **切歌就搭话，不吵不闹**：在 QQ 音乐或网易云按下播放，她几秒后就能认出歌名与歌手，结合刚唱过的歌词和你随口聊几句；你回她就接着聊，不回也不催。\n- **踩着真鼓点跳舞**：她不是按固定节拍瞎晃，而是跟着歌曲副歌真实的鼓点起伏律动（自带「律动版大肥鱼」形象包，装完去换装页选一下即可）。\n- **真的听得懂曲子**：支持云端（填 API 密钥即可）或本地模型两种深听方式，能听出调性、和弦、旋律走向与主要乐器。\n- **记住你的品味**：帮你记下每日听歌记录、常听歌手与她自己的听歌口味档案，也可以由她帮你挑一首想听的歌、或在你说「暂停/切歌」时搭把手。\n- **和旅行联动**：装了「大肥鱼环游世界」时，歌名里带的地名（比如《成都》）会被她放进「想去」清单里，哪天说不定就照着歌单出发去旅行啦。"
+          "description": "支持 Windows 10/11 与 macOS（Apple 芯片 / Intel），需要 Coopani 0.2.16+。\n\n让桌宠坐在桌角陪你一起听歌，而不是各听各的。\n\n- **切歌就搭话，不吵不闹**：在 QQ 音乐或网易云按下播放，她几秒后就能认出歌名与歌手，结合刚唱过的歌词和你随口聊几句；你回她就接着聊，不回也不催。\n- **踩着真鼓点跳舞**：她不是按固定节拍瞎晃，而是跟着歌曲副歌真实的鼓点起伏律动（自带「律动版大肥鱼」形象包，装完去换装页选一下即可）。\n- **真的听得懂曲子**：支持云端（填 API 密钥即可）或本地模型两种深听方式，能听出调性、和弦、旋律走向与主要乐器。\n- **记住你的品味**：帮你记下每日听歌记录、常听歌手与她自己的听歌口味档案，也可以由她帮你挑一首想听的歌、或在你说「暂停/切歌」时搭把手。\n- **和旅行联动**：装了「大肥鱼环游世界」时，歌名里带的地名（比如《成都》）会被她放进「想去」清单里，哪天说不定就照着歌单出发去旅行啦。\n- **macOS 现状**：认歌、暂停/切歌、聊歌词已经能用；跟着真鼓点跳舞（要抓系统音频）和本地深听还在做，mac 上先按云端深听用。"
         },
         "en": {
           "displayName": "Listen With Me",
-          "description": "Windows 10/11, needs Coopani 0.2.16+.\n\nA cozy companion who listens to music right beside you.\n\n- **Natural song chats**: automatically detects tracks in QQ Music and NetEase Cloud Music, chats about the lines just sung, and never nags if you stay quiet.\n- **Moves to the real beat**: dances in sync with the actual drums and chorus energy (includes a grooved Big Fish figure pack—just select it on the dress-up page).\n- **Truly hears the music**: optional cloud or local deep listening picks up keys, chords, melodies, and instruments.\n- **Remembers your taste**: keeps your listening history, favorite artists, and her own music notes.\n- **Travel tie-in**: with Big Fish World Tour installed, place names in your songs quietly inspire her next travel destination."
+          "description": "Windows 10/11 and macOS (Apple silicon / Intel), needs Coopani 0.2.16+.\n\nA cozy companion who listens to music right beside you.\n\n- **Natural song chats**: automatically detects tracks in QQ Music and NetEase Cloud Music, chats about the lines just sung, and never nags if you stay quiet.\n- **Moves to the real beat**: dances in sync with the actual drums and chorus energy (includes a grooved Big Fish figure pack—just select it on the dress-up page).\n- **Truly hears the music**: optional cloud or local deep listening picks up keys, chords, melodies, and instruments.\n- **Remembers your taste**: keeps your listening history, favorite artists, and her own music notes.\n- **Travel tie-in**: with Big Fish World Tour installed, place names in your songs quietly inspire her next travel destination.\n- **On macOS**: song detection, play/pause/skip and lyric chats work today; beat-synced dancing (needs system audio capture) and local deep listening are still in progress—use cloud deep listening for now."
         }
       },
       "author": "Mr.Q",
@@ -2763,11 +2763,12 @@
         "bugs": "https://github.com/fateSSD/coopani-world-music/issues"
       },
       "os": [
-        "win32"
+        "win32",
+        "darwin"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-11-24T05:38:52.427Z",
-      "versionCount": 65,
+      "published": "2026-11-24T10:51:57.394Z",
+      "versionCount": 66,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2801,6 +2802,7 @@
       },
       "changelog": {
         "versions": [
+          "1.1.0",
           "1.0.2",
           "1.0.1",
           "1.0.0",
