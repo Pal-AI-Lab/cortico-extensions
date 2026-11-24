@@ -2309,7 +2309,7 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "2.8.0",
+      "version": "2.8.1",
       "displayName": "大肥鱼环游世界",
       "description": "大肥鱼环游世界 · 193 座真城市旅行体验：真实赶路耗时、当地作息天气、旅途打工与月底手账，支持同城偶遇、互留名片及与「模拟鱼生」双扩展同步。（需 Coopani 0.2.17+）",
       "locales": {
@@ -2347,8 +2347,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-23T14:59:51.151Z",
-      "versionCount": 206,
+      "published": "2026-11-24T01:45:07.089Z",
+      "versionCount": 207,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2378,6 +2378,7 @@
       },
       "changelog": {
         "versions": [
+          "2.8.1",
           "2.8.0",
           "2.7.1",
           "2.7.0",
@@ -2611,7 +2612,7 @@
     },
     "coopani-world-life": {
       "kind": "world",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "displayName": "模拟鱼生",
       "description": "模拟鱼生 · 给桌宠过日子的真实小生活：五条需求、节气早晚市、手艺夜校、轻载具跑单、鱼市街买卖摆摊与第一人称日记。（需 Coopani 0.2.17+）",
       "locales": {
@@ -2647,8 +2648,8 @@
         "bugs": "https://github.com/fateSSD/coopani-world-life/issues"
       },
       "created": "2026-11-15T03:01:26.063Z",
-      "published": "2026-11-23T14:59:45.112Z",
-      "versionCount": 45,
+      "published": "2026-11-24T01:46:30.082Z",
+      "versionCount": 46,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2668,11 +2669,12 @@
       "summary": {
         "tools": 19,
         "events": 7,
-        "toolTokens": 3950,
+        "toolTokens": 3965,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.2.1",
           "1.2.0",
           "1.1.4",
           "1.1.3",
@@ -6945,7 +6947,7 @@
     },
     "cortico-world-bottle": {
       "kind": "world",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "displayName": "漂流瓶",
       "description": "桌宠起草漂流瓶与小纸条，伙伴确认寄出；共读、回信与星笺记忆分别授权。",
       "locales": {
@@ -6977,11 +6979,16 @@
         "bugs": "https://github.com/Unnori/cortico-world-bottle-client/issues"
       },
       "created": "2026-10-28T20:41:06.331Z",
-      "published": "2026-11-19T12:40:40.731Z",
-      "versionCount": 26,
+      "published": "2026-11-24T01:32:23.576Z",
+      "versionCount": 27,
       "official": false,
       "isNew": false,
-      "tags": [],
+      "declaredTags": [
+        "companion"
+      ],
+      "tags": [
+        "companion"
+      ],
       "icon": "assets/cortico-world-bottle/icon.png",
       "downloads": {
         "total": 7660,
@@ -6996,6 +7003,7 @@
       },
       "changelog": {
         "versions": [
+          "1.0.2",
           "1.0.1",
           "1.0.0",
           "0.9.3",
@@ -14491,7 +14499,7 @@
       "discussion": {
         "number": 1083,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1083",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -19772,17 +19780,17 @@
     },
     "cortico-world-opencode-quota": {
       "kind": "world",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "displayName": "OpenCode 额度",
-      "description": "OpenCode Go 订阅额度监控：按独立 API Key 去重合并、支持已用/剩余双模式一键切换、内置月度本地记录趋势与虚线预测图、默认 piggyback 低打扰事件投递。",
+      "description": "OpenCode Go 订阅额度监控：通过框架密钥隔离安全管理单/多把 API Key、支持已用/剩余双模式一键切换、内置可缩放月度趋势与虚线预测图、默认 piggyback 低打扰事件投递。",
       "locales": {
         "zh": {
           "displayName": "OpenCode 额度",
-          "description": "OpenCode Go 订阅额度监控面板与查询工具：实时展示每 5 小时 / 每周 / 每月额度与重置倒计时，支持「剩余额度 / 已用额度」一键切换、按独立 API Key 自动去重合并、基于本地记录的月度趋势与虚线预测图，以及默认 piggyback 低打扰（五模式可配）事件投递。"
+          "description": "OpenCode Go 订阅额度监控面板与查询工具：通过 Cortico 框架安全存储（部署 .env）独立管理一把或多把 API Key 并自动去重，实时展示每 5 小时 / 每周 / 每月额度与重置倒计时，支持「剩余额度 / 已用额度」一键切换、可缩放月度趋势与虚线预测图，以及默认 piggyback 低打扰（五模式可配）事件投递。"
         },
         "en": {
           "displayName": "OpenCode Quota",
-          "description": "OpenCode Go subscription allowance monitor: live 5-hour, weekly, and monthly quota cards with one-click Remaining/Used display toggle, automatic deduplication per unique API key, local monthly usage/remaining trend & dashed forecast charts, and quiet piggyback event delivery (all 5 Cortico trigger modes configurable)."
+          "description": "OpenCode Go subscription allowance monitor: manages one or more API keys securely via Cortico deployment secrets (.env) with automatic deduplication, live 5-hour/weekly/monthly quota cards, one-click Remaining/Used display toggle, zoomable local monthly trend & dashed forecast charts, and quiet piggyback event delivery (all 5 Cortico trigger modes configurable)."
         }
       },
       "author": "云纪",
@@ -19805,8 +19813,8 @@
         "bugs": "https://github.com/Unnori/cortico-world-opencode-quota/issues"
       },
       "created": "2026-10-28T07:40:48.146Z",
-      "published": "2026-11-22T15:12:05.159Z",
-      "versionCount": 6,
+      "published": "2026-11-24T01:53:03.462Z",
+      "versionCount": 7,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -19829,6 +19837,7 @@
       },
       "changelog": {
         "versions": [
+          "0.3.1",
           "0.3.0",
           "0.2.4",
           "0.2.3",
@@ -21202,7 +21211,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/482",
         "up": 4,
         "down": 0,
-        "comments": 17
+        "comments": 18
       }
     },
     "cortico-world-private-companion-kpect": {
