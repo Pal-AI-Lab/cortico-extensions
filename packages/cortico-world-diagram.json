@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-diagram",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "describe": {
     "tools": [
       {
@@ -61,6 +61,7 @@
     ]
   },
   "changelog": {
+    "0.3.3": "- 新增 `cortico.icon` 静态头像：`assets/icon.webp`（512×512 WebP，quality 85）。`files` 加入 `assets`，确保 npm 包携带该文件，头像不会指向空路径。\n- 无代码与渲染行为改动；头像不进自描述三段，`describe.json` 无需重生成。",
     "0.3.2": "- package.json 补 `author`、`homepage`、`bugs` 三个字段。写法与 `cortico-world-web-search-multi` 逐字对齐。npm 页面此前只显示仓库链接，不显示维护者与反馈入口。\n- 代码与渲染行为无改动。`describe.json` 无需重生成。",
     "0.3.1": "- 显示名改为「图表绘制」：新增 `cortico.displayName` 与 `cortico.locales`（zh 图表绘制 / en Diagram），`WorldDefinition.label` 与 `webUi().label` 同步取该值（新增常量 `DIAGRAM_LABEL`）。市场卡片与宿主 World 列表不再显示包名。\n- 代码与渲染行为无改动。",
     "0.3.0": "- 图型从 2 种扩到 archify 全量 10 种：architecture / workflow / dataflow / sequence / lifecycle / erd / class / tree / timeline / waterfall（sequence 参与者+生命线布局，timeline/waterfall 横排泳道）。\n- 节点富属性：type 语义着色（8 档，对齐 archify CSS 变量族）、sublabel、tag 徽标、fields 列表（erd/class）、date（timeline）。\n- regions：上游 boundaries 移植，architecture/dataflow 虚线分区框。\n- IR 级样式：subtitle、animation（trace 描线动画/static）、theme（light/dark/auto + prefers-color-scheme）、preset（signal/mono/blueprint）、locale（zh/en 界面词）。\n- 渲染层拆到 `src/render.ts`；节点宽度按标签实测自适应（修文字溢出）；同层多边散开路由（修边束重叠）；边标签带白底板（修压字）；PNG 视口高度含页脚余量（修裁切）。\n- HTML 产物自带主题切换与「导出 PNG」按钮（archify template.html 的 export 位）。\n- 节点上限 40→60；标签上限 60→80。\n- dashed 边不再被 trace 动画的 stroke-dasharray 覆盖（修返回消息显示为实线）\n- 安全审计：`a.download` 命中按点位声明豁免（AUDIT.md#sec-4-png-export），总分回 100/100。",
