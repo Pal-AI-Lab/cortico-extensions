@@ -1,0 +1,144 @@
+{
+  "schema": 1,
+  "name": "cortico-world-self-checkup",
+  "version": "1.0.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "self_checkup_quiz",
+        "description": "Get one batch of the personality checkup. Batches 1 and 2 each contain 12 situations and 2 anchors with hidden scoring. Optional batch 3 has four free-form prompts and does not change the four-letter type.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "batch": {
+              "type": "integer",
+              "enum": [
+                1,
+                2,
+                3
+              ],
+              "description": "1/2 are scored situations; 3 is an optional creative side quest."
+            }
+          },
+          "required": [
+            "batch"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "取一批人格测验题（不含计分信息）。",
+          "en": "Fetches one batch of personality checkup items, without scoring hints."
+        }
+      },
+      {
+        "name": "self_checkup_quiz_submit",
+        "description": "Submit answers for one quiz batch. For batches 1/2 use the option key from self_checkup_quiz; for batch 3 use response. Partial answers are allowed.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "batch": {
+              "type": "integer",
+              "enum": [
+                1,
+                2,
+                3
+              ]
+            },
+            "answers": {
+              "type": "array",
+              "description": "One entry per answered item.",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Item id from the quiz batch."
+                  },
+                  "option": {
+                    "type": "string",
+                    "description": "Option key from the batch."
+                  },
+                  "response": {
+                    "type": "string",
+                    "description": "Free-form response for a creative item."
+                  }
+                },
+                "required": [
+                  "id"
+                ]
+              }
+            }
+          },
+          "required": [
+            "batch",
+            "answers"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "交一批人格测验答案，回执给本批摘要。",
+          "en": "Submits one batch of quiz answers and returns that batch's summary."
+        }
+      },
+      {
+        "name": "self_checkup_report",
+        "description": "Read the current checkup report. Default mode=brief returns a short spoken-style summary you can paraphrase to the user (no raw counts, no dates, no formulas). mode=detail returns the full six dimensions with evidence. area=hardware / personality narrows it to one half.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "area": {
+              "type": "string",
+              "enum": [
+                "hardware",
+                "personality"
+              ],
+              "description": "Which half to read."
+            },
+            "mode": {
+              "type": "string",
+              "enum": [
+                "brief",
+                "detail"
+              ],
+              "description": "brief = spoken-style summary; detail = full evidence."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读当前的体检报告，默认给口语版便于转述。",
+          "en": "Reads the current checkup report; brief mode is written to be paraphrased."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "checkup.quiz-request",
+        "description": {
+          "zh": "人格页发起主测验或小鱼彩蛋后，提示她只取对应批次。",
+          "en": "Invites her to fetch the corresponding standard or creative batch."
+        },
+        "tags": [
+          "system"
+        ]
+      }
+    ]
+  },
+  "changelog": {
+    "1.0.0": "GitHub 首发版本，在 0.2.8 基础上整理为可公开发布的包。\n\n- 硬件健康：稳定性、速度、缓存、上下文、交接、记忆六维，带趋势与判断依据。\n- 趣味人格：自评 + 行为侧写，给出称号、短标签、近期观察与可选 AI 名片。\n- 两份报告分开呈现，只观察与解释，不自动改配置。\n- 记忆与部署路径按实际安装位置与 Bot 配置读取；只有 Coo 基础记忆时也能出报告。\n- 市场标签按官方词表写作 `diagnostics` + `companion`；发布包用 `files` 白名单收窄，不含测试与本机临时文件。",
+    "0.2.8": "- 基础记忆复核：只有 Coo 基础记忆的部署可运行冒烟；记忆健康显示工作区、基础设定与日常文本抽查依据。",
+    "0.2.7": "- 路径复核：解包后可直接跑冒烟；只读检查自己的部署用 `npm run preview -- --bot \"<部署目录>\"`。",
+    "0.2.6": "- 兼容只覆盖少量字段的部署配置；记忆工作区与统计日志放在自定义位置时按实际位置读取。",
+    "0.2.5": "- 群友试用构建。"
+  }
+}

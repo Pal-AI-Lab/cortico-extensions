@@ -1,0 +1,523 @@
+{
+  "schema": 1,
+  "name": "cortico-world-qq2",
+  "version": "0.1.3",
+  "describe": {
+    "tools": [
+      {
+        "name": "qq2_mode",
+        "description": "Choose how group-chat QQ messages reach you. \"batch\": hold group messages and hand them over as one batch once the room goes quiet; a direct @mention still comes through at once (the default). \"focus\": hand over every group message immediately — use it while you want to answer without waiting. \"digest\": keep group messages in a window and hand over one compact summary per window (default 10 minutes); a direct @mention still wakes you at once. \"sleep\": keep recording group messages but stop waking you, and do not pile them up for later; read them back with qq2_read_history when you want. Group chats only: private messages are unaffected either way. The setting is written back to config and survives a restart.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "batch",
+                "focus",
+                "digest",
+                "sleep"
+              ],
+              "description": "batch=攒批(默认)、focus=专注、digest=压缩、sleep=睡眠。"
+            },
+            "minutes": {
+              "type": "number",
+              "minimum": 0.1,
+              "maximum": 1440,
+              "description": "Only for \"digest\": how long one window lasts, in minutes (default 10). Omit to keep the current value. Written back to config, so it survives a restart."
+            }
+          },
+          "required": [
+            "mode"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "选群聊消息怎么到你手上:攒批(默认)、专注、压缩、睡眠四档;压缩还能顺手改窗口分钟数。写回配置,重启仍在这一档。",
+          "en": "Chooses how group-chat messages reach you — batch (default), focus, digest or sleep; for digest also sets the window in minutes. Written back to config and kept across a restart."
+        }
+      },
+      {
+        "name": "qq2_draft",
+        "description": "Stage a QQ message without sending. This ends the current tool sequence so you can review the draft and any newly arrived user events once before calling confirm (send or cancel). An unconfirmed draft is discarded at end of turn.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "to": {
+              "type": "string",
+              "description": "Target conversation: \"group:<id>\" or \"private:<id>\" (numeric QQ group/user id, not a name). Optional when reply_to is given (taken from the quoted message)."
+            },
+            "text": {
+              "type": "string",
+              "description": "Message text. Optional if image is given."
+            },
+            "image": {
+              "type": "string",
+              "description": "Optional. An image to send, given by IMG-N (e.g. IMG-3, for one that came through QQ even if you did not keep it), a log: handle from a [blob ...] line you saw, or a mem: handle of one kept in your workspace. Prefer mem: for pictures you want to keep sending; IMG-N stops working when the image cache is cleared."
+            },
+            "reply_to": {
+              "type": "string",
+              "description": "Optional. The QQ message id to quote-reply — the `#<id>` shown at the start of that message line."
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "起草一条 QQ 消息(文字、图片或引用回复),先暂存不发;本轮结束还没确认就作废。",
+          "en": "Drafts a QQ message (text, image or quote reply) and holds it unsent; an unconfirmed draft is dropped at end of turn."
+        }
+      },
+      {
+        "name": "qq2_confirm",
+        "description": "Act on the last draft: decision=\"send\" sends it, decision=\"cancel\" discards it. Receipts distinguish queued, bridge-confirmed (not a read receipt), and unknown. Never resend queued or unknown messages; timeout does not mean failure. Only a failure known to precede sending or a definite rejection keeps the draft for retry.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "decision": {
+              "type": "string",
+              "enum": [
+                "send",
+                "cancel"
+              ],
+              "description": "\"send\" or \"cancel\"."
+            }
+          },
+          "required": [
+            "decision"
+          ]
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "处理最近一份草稿:发出去,或者作废。",
+          "en": "Sends or discards the most recent draft."
+        }
+      },
+      {
+        "name": "qq2_say",
+        "description": "Say it out loud: send a **QQ voice bar** (your own voice) to one conversation (\"group:<id>\" or \"private:<id>\"). A voice bar is a message of its own — it carries no text, no image and no quote-reply. Keep it short: what you would actually say out loud is one or two sentences. Longer text is spoken as at most a couple of bars, and if it still does not fit you are told to send text instead. Private chats always work; in groups it only works when the owner has switched it on. Queued or unknown receipts may already have been delivered: do not repeat them or send the same content as text.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "to": {
+              "type": "string",
+              "description": "Target conversation: \"group:<id>\" or \"private:<id>\" (numeric QQ group/user id, not a name)."
+            },
+            "text": {
+              "type": "string",
+              "description": "What to say. Short — one or two sentences, like a person speaking."
+            }
+          },
+          "required": [
+            "to",
+            "text"
+          ]
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "把一段话念成语音条发到一个会话;私聊一直可用,群里要他在控制台开过。",
+          "en": "Speaks a short text as a QQ voice bar to one conversation; private chats always work, groups only when the owner switched it on."
+        }
+      },
+      {
+        "name": "qq2_read_history",
+        "description": "Read QQ history: the neighborhood of one message (around / around_time), or a time range. Optional conversation and sender filters.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "around": {
+              "type": "string",
+              "description": "A QQ message id — the `#<id>` at the start of a message line. Reads the messages around it."
+            },
+            "around_time": {
+              "type": "string",
+              "description": "ISO 8601 time: reads around the first message at or after it. Use when you have no message id."
+            },
+            "before": {
+              "type": "number",
+              "description": "With around/around_time: how many earlier messages (default 20)."
+            },
+            "after": {
+              "type": "number",
+              "description": "With around/around_time: how many later messages (default 20)."
+            },
+            "from_time": {
+              "type": "string",
+              "description": "Start time, ISO 8601."
+            },
+            "to_time": {
+              "type": "string",
+              "description": "End time, ISO 8601."
+            },
+            "sender": {
+              "type": "string",
+              "description": "Filter by QQ number."
+            },
+            "conversation": {
+              "type": "string",
+              "description": "Filter by conversation: \"group:<id>\" or \"private:<id>\" (numeric QQ group/user id, not a name)."
+            },
+            "limit": {
+              "type": "number",
+              "description": "Max results, default 50."
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读监听会话的历史消息:某条消息前后,或一段时间内,可按会话与发言人过滤。",
+          "en": "Reads past QQ messages, around one message or within a time range, optionally filtered by conversation and sender."
+        }
+      },
+      {
+        "name": "qq2_grep_history",
+        "description": "Keyword search over QQ history; each hit includes 3 messages of context on each side. Optional conversation and sender filters.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "keyword": {
+              "type": "string",
+              "description": "Keyword (plain substring match)."
+            },
+            "sender": {
+              "type": "string",
+              "description": "Filter by QQ number."
+            },
+            "conversation": {
+              "type": "string",
+              "description": "Filter by conversation: \"group:<id>\" or \"private:<id>\" (numeric QQ group/user id, not a name)."
+            },
+            "from_time": {
+              "type": "string",
+              "description": "Start time, ISO 8601."
+            },
+            "to_time": {
+              "type": "string",
+              "description": "End time, ISO 8601."
+            },
+            "limit": {
+              "type": "number",
+              "description": "Max hit groups, default 5."
+            }
+          },
+          "required": [
+            "keyword"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "按关键词搜监听会话的历史消息,每处命中带前后三条。",
+          "en": "Searches past QQ messages by keyword, with three messages of context around each hit."
+        }
+      },
+      {
+        "name": "qq2_view_image",
+        "description": "Ask the auxiliary vision model a specific question about an image.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "image_id": {
+              "type": "string",
+              "description": "Image id, e.g. IMG-3."
+            },
+            "prompt": {
+              "type": "string",
+              "description": "Your question about the image."
+            }
+          },
+          "required": [
+            "image_id",
+            "prompt"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "就一张图向辅助视觉模型追问;配好辅助视觉才有。",
+          "en": "Asks the auxiliary vision model a question about an image; present only when auxiliary vision is set up."
+        }
+      },
+      {
+        "name": "qq2_get_image",
+        "description": "Bring back a QQ image by its IMG-N id, using the local copy when available. GIFs return a nine-frame PNG preview when possible. Set original=true for the original GIF bytes. The image comes back as an ordinary attachment with a fresh log: handle. If you want to keep it, save_blob it: this only puts the picture back within reach, and an attachment you do not save is out of reach again once this leaves your context.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "image_id": {
+              "type": "string",
+              "description": "Image id from a \"[图片 IMG-N …]\" line, e.g. IMG-3 (img3 and 3 work too)."
+            },
+            "original": {
+              "type": "boolean",
+              "description": "Return the original GIF instead of the PNG preview."
+            }
+          },
+          "required": [
+            "image_id"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "按 IMG 编号取图，GIF 默认挂九宫图，设 original=true 取原件。盘上有就不联网。",
+          "en": "Fetch an image by its IMG id. GIFs default to a nine-frame preview. Set original=true for the GIF file. Uses the local copy when available."
+        }
+      },
+      {
+        "name": "qq2_image_tag",
+        "description": "Give an image that came through QQ a name of your own and one fixed kind, so later copies of the same picture arrive as text you can recognize instead of bytes. The label is keyed by content: every copy with identical bytes shares it. Use it for stickers you want to find again, and for photos/letters/screenshots worth remembering. If you saved the picture with save_blob, pass the mem: handle as saved so the album can point at your copy.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "image_id": {
+              "type": "string",
+              "description": "Image id from a \"[图片 IMG-N …]\" line, e.g. IMG-3."
+            },
+            "label": {
+              "type": "string",
+              "description": "One short name of your own, e.g. \"无语猫\" (max 80 characters)."
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "sticker",
+                "photo",
+                "letter",
+                "screenshot",
+                "other"
+              ],
+              "description": "sticker=表情包, photo=合影, letter=信, screenshot=截图, other=其他."
+            },
+            "saved": {
+              "type": "string",
+              "description": "Optional mem: handle of the copy you kept in your workspace (from save_blob)."
+            }
+          },
+          "required": [
+            "image_id",
+            "label",
+            "kind"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "给一张来过的图起个自己的名字和固定类别(表情包/合影/信/截图/其他);同内容的图共用一条标签。",
+          "en": "Names an image that came through QQ and gives it one fixed kind; identical copies share the label."
+        }
+      },
+      {
+        "name": "qq2_images",
+        "description": "List the images you have named, newest label first; filter with a word or a kind. With format=\"md\" you get the lines to write into note/library/表情包.md (the label store stays the source of truth, so regenerate that file instead of editing it by hand). An image you have not named will not be listed; bring it back by its IMG-N with qq2_get_image first.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "Match the label, kind, IMG-N or saved path. Omit for all."
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "sticker",
+                "photo",
+                "letter",
+                "screenshot",
+                "other"
+              ],
+              "description": "Only this kind: sticker=表情包, photo=合影, letter=信, screenshot=截图, other=其他."
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "description": "How many to return. Default 50."
+            },
+            "format": {
+              "type": "string",
+              "enum": [
+                "text",
+                "md"
+              ],
+              "description": "text (default): one line per image; md: ready to write into note/library/表情包.md."
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "列已命名的图片,可按词或类别筛;format=\"md\" 给出可写进 note/library/表情包.md 的清单。",
+          "en": "Lists named images, optionally filtered by word or kind; format=\"md\" returns lines ready for note/library/表情包.md."
+        }
+      },
+      {
+        "name": "qq2_read_file",
+        "description": "Read a text file that came through QQ, by its FILE-N id, one stretch at a time. Small files already reach you in full inside the message; this is for the bigger ones, where the message only showed the first few lines. offset/limit count LINES and offset starts at 1. You get the text only — never raw bytes.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "file_id": {
+              "type": "string",
+              "description": "File id from a \"[文件 … FILE-3]\" line, e.g. FILE-3 (file3 and 3 work too)."
+            },
+            "offset": {
+              "type": "integer",
+              "description": "First line to read, 1-based. Defaults to 1."
+            },
+            "limit": {
+              "type": "integer",
+              "description": "How many lines to read. Defaults to 200."
+            }
+          },
+          "required": [
+            "file_id"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "按行读一个从 QQ 收到的文本文件,一次一段(只给文字,不给字节)。",
+          "en": "Reads a text file received over QQ one stretch of lines at a time (text only, never raw bytes)."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "qq.message",
+        "description": {
+          "zh": "监听的群或私聊里来了消息;群里被@时立即投递。",
+          "en": "A message in a watched group or private chat; delivered at once when the bot is mentioned in a group."
+        }
+      },
+      {
+        "type": "qq.digest",
+        "description": {
+          "zh": "压缩挡到点结账:这一窗的群消息折成一份摘要,每个群几行、只留开头;被@ 与私聊不在这里。",
+          "en": "A digest settled at the end of a compression window: the window's group messages folded into a few lines per group (beginnings only); @mentions and private chats are not included."
+        }
+      },
+      {
+        "type": "qq.image",
+        "description": {
+          "zh": "取图库里没赶在时限内取回的图,稍后补发的正文与附件。",
+          "en": "An image from a message, sent once the image library finishes fetching it."
+        }
+      },
+      {
+        "type": "qq.vision",
+        "description": {
+          "zh": "辅助视觉模型对一张图的描述(理解闭合后补发,带图字节)。",
+          "en": "The auxiliary vision model's description of an image, sent once it finishes."
+        }
+      },
+      {
+        "type": "qq.file",
+        "description": {
+          "zh": "QQ 收到的文件:正文(小文件全给、大文件只给头几行),或取不回的原因。",
+          "en": "A file received over QQ — its text (whole for small files, first lines for large ones), or why it could not be fetched."
+        }
+      },
+      {
+        "type": "qq.transcript",
+        "description": {
+          "zh": "一条语音消息的转写结果,或没转成的原因。",
+          "en": "The transcript of a voice message, or why transcription failed."
+        }
+      },
+      {
+        "type": "qq.reply.uncaptured",
+        "description": {
+          "zh": "被引用的消息不在记录里时,向协议端查到的原文或查询失败的原因。",
+          "en": "For a quoted message missing from the record: the original fetched from the protocol end, or why the fetch failed."
+        }
+      },
+      {
+        "type": "qq.forward",
+        "description": {
+          "zh": "转发的聊天记录展开后的内容(取不到时说明为什么)。",
+          "en": "The contents of a forwarded chat record, or why it could not be expanded."
+        }
+      },
+      {
+        "type": "qq.recall",
+        "description": {
+          "zh": "群里有人撤回了一条消息。",
+          "en": "Someone in a group recalled a message."
+        }
+      },
+      {
+        "type": "qq.member",
+        "description": {
+          "zh": "有人加入或退出了群。",
+          "en": "Someone joined or left a group."
+        }
+      },
+      {
+        "type": "qq.emoji",
+        "description": {
+          "zh": "群里有人给一条消息贴了表情。",
+          "en": "Someone in a group reacted to a message with an emoji."
+        }
+      },
+      {
+        "type": "qq.poke",
+        "description": {
+          "zh": "群里有人戳了戳某人。",
+          "en": "Someone in a group poked someone."
+        }
+      },
+      {
+        "type": "qq.watch",
+        "description": {
+          "zh": "监听名单加入或移除了一个会话。",
+          "en": "A conversation was added to or removed from the watch list."
+        }
+      },
+      {
+        "type": "qq.self",
+        "description": {
+          "zh": "bot 自己发出的 QQ 消息(按条回录,带平台消息号),只记录,不唤醒。",
+          "en": "One of the bot's own sent QQ messages, recorded per message; never wakes her."
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.qq2.envPrompt",
+        "title": "QQ · 环境提示词",
+        "role": "envPrompt",
+        "content": "你在QQ上。\n\n下面是你正在参与的会话:\n{{qq.conversations | (还没有配置任何监听的群或私聊。)}}\n{{qq.identity | (与QQ的连接尚未建立,群名和你的账号信息暂时未知。)}}\n\n现在你的群聊模式是「{{qq.mode}}」:\n- 攒批:群里的消息攒成一批再给你;有人直接@你时立刻给你。这是默认档。\n- 专注:群里的消息每条都立刻给你。你想马上接话的时候用这一档。\n- 压缩:群里的消息先攒着,每过一个窗口折成**一份摘要**给你一次(摘要里每条只留开头,\n  列不全时会写「还有 N 条没列出」)。**有人直接@你、以及私聊,仍然立刻叫醒你。**\n  这一档用在「想少被打断、又不想错过群里的动静」的时候。窗口长度默认 {{qq.digest}} 分钟,\n  可以在控制台改,也可以 `qq2_mode(mode=\"digest\", minutes=…)` 自己改。\n- 睡眠:群里的消息照常记进事件库,但不叫醒你,也不攒着等你醒来;想补看用 qq2_read_history\n  自己翻。**有人直接@你时仍然叫醒你。** 这一档用在「什么都不想听」的时候。\n\n用 qq2_mode 切换,切完当场告诉他在哪一档,别默默切。私聊不受这个模式影响;睡眠里被@ 叫醒的那条\n也照常带@你的人的名字和号码。压缩挡只给你摘要 —— 想接话但摘要里只有半句时,先用\n`qq2_read_history` 把那个群这十分钟的消息翻出来,别凭半句猜。\n\n## 发送:拆句由 World 做,你不用自己拆\n\n你写的一条草稿会**自动按句子拆成几条**分批发出:换行处、以及 `。！？` 这类句末标点处断开,\n条与条之间留一点间隔;写得很长的草稿,超出的部分并进最后一条。所以\n\n- 一条草稿把话**写完整、写自然**就行,不必为了「分批发」自己把一句话切成几段;\n- 反过来也别指望用换行数控制气泡数——**断句是机械执行的,不看你的意图**;\n- 「已入队」只说明正在处理或桥已受理，尚未确认完成；「桥确认」带各条消息号，但不代表对方已读。\n- 「未知」表示超时、断线等使结果无法确认，**可能已经送达**。别再次确认、重新起草同样内容，\n  也别把语音换成文字补发；先核对 QQ 实际聊天记录。本地历史查不到，不能证明没送达。\n- 回执会列出桥确认的编号、当前条的状态与后续未提交数量。分条途中停下时，别重发整段。\n- 明确拒绝或发送前未连接才是可重试的失败；草稿暂存本身还没入发送队列。\n\n## 语音(qq2_say):你能说话,但发不发由你\n\n你手上有 `qq2_say(text, to)`:它把你的话**念成语音条**发出去(你的声音,和桌面上那副嗓子同一个)。\n语音条是一条独立的消息,不带文字、图片或引用;**调用即发出**,不用再确认。四条边界:\n\n- **发不发由你决定**——没有「自动念」,你不调它就不出声。\n- **私聊随时可以;群里要他在控制台打开那道闸**(「QQ · 语音 → 允许在群聊里发语音」,默认关)。\n  群聊关着时你会被回绝,**别反复试**,用 qq2_draft 发文字。\n- **尽量用短句**——这是他特意要的:两三句、十几秒,像真的在说话。上限按字符算(一个汉字算 2 个),\n  超了会先按句子分成最多两条;再长就直接回绝。所以整段汇报、带数字或清单的内容、代码,**都用文字**,\n  别想着念出来。\n- 群里没什么要紧事**不要**发语音:一条语音比一行字显眼得多。\n\n值得念的场合:他在私聊、话短、有温度(道晚安、认一件事、开个玩笑)。回执里给你每条语音的消息号\n(`#123`)与音频句柄(`[blob log:…]`)——要再发同一条就用那个句柄。\n\n## 群图:新的看得见,重复的只给文字\n\n**新图**(这个群没关自动看图)会作为附件挂上来,长这样:\n`[图片 IMG-3 42KB]`\n下一行是 `[blob log:1a2b3c4d image/jpeg IMG-3] 图片 IMG-3` —— 那个 `log:` 句柄就是这张图本身。\n想留着就用 `save_blob(handle=\"log:1a2b3c4d\", path=\"表情-无语猫.png\")` 存进你的工作区。\n不写目录时,名字会落进 `external/qq/images/`;回执给你一个 `mem:` 句柄,以后照它取。\n取不回时会写明原因(太大、地址过期、下载失败),那种情况下 IMG-N 只是个编号,没有字节。\n\n**已经见过的图**(同一份字节再来一次)不再挂图片,只给一行文字:\n`[图片 IMG-7;与 IMG-3 是同一份文件,取图库里已有;标签:无语猫;类别:表情包;要看用 qq2_get_image(\"IMG-7\")]`\n没贴过标签时那句是「还没贴标签」。重复图**没有** `[blob ...]` 行;要保存或再看,先按编号取回。\n判同只看字节是否完全一样;看着像但字节不同的图不会被标成同一份。\n\n**这个群关了自动看图**时,连新图也只给文字:\n`[图片 IMG-8 …;本群自动看图已关,要看用 qq2_get_image(\"IMG-8\")]`\n图仍然会下载、判同、能打标签;只是不占你的上下文。\n\n### 给图起名字\n\n看到值得记的图,用 `qq2_image_tag(image_id=\"IMG-8\", label=\"无语猫\", kind=\"sticker\")`。\n类别只有五个:`sticker`(表情包)、`photo`(合影)、`letter`(信)、`screenshot`(截图)、`other`(其他)。\n标签按**内容**存:同一张图换了个 IMG-N 再来,仍是同一条标签,重复图的文字里会直接带出来。\n\n珍贵的图:先 `save_blob` 存进 `external/qq/images/`,再\n`qq2_image_tag(..., saved=\"mem:external/qq/images/…\")`。`saved` 只是让清单能指到你保存的那份;\n不存也能贴标签。\n\n要整理成文档:`qq2_images(format=\"md\")` 拿一份清单,写进 `note/library/表情包.md`。\n标签库是唯一真源,手改 md 不会回写;要改标签用 `qq2_image_tag`,再重新生成一次。\n按词/类别找:`qq2_images(query=\"无语\")` 或 `qq2_images(kind=\"sticker\")`。\n\n### 发图\n\n`qq2_draft` 的 `image` 可以填 `IMG-N`、`log:` 或 `mem:`。近期图直接填 `IMG-N`;\n相册里长期留的优先 `mem:`——清空取图库后 IMG-N 会失效,`mem:` 不会。\n\n**过去了的图想再看、或当时没存下来想补**:用 `qq2_get_image(image_id=\"IMG-7\")` 按编号取回来。\nWorld 自己存着一份字节,取回来会再挂一个新鲜的 `log:` 句柄,想留照样 `save_blob`。\n**你的文件工具够不到那个目录**——只有这条工具能把旧图重新递到你手边;不存的,它只在取图库里,\n下次仍可按编号取,但不会自动出现在上下文里。编号不记得就让 `qq2_grep_history` 按 `IMG-` 搜一遍。\n一句提醒:附件会随上下文**每轮重发**,所以别把大图当收藏夹反复取——要留就存进工作区,那才是你的。\n\n## 收到的文件与语音\n\n别人发给你的**文件**会当场读成文字交给你,长这样:\n\n- **小文本**(几 KB 以内):`[文件 备注.txt · 12 B · FILE-1]`,下一行就是**全文**,你直接读;\n  Windows 记事本存的旧文件可能标着 `· gbk` —— 那是它的编码,内容照样是内容;\n- **大文本**:正文只给**前若干行**,末尾一句写着「共 N 行」;其余用\n  `qq2_read_file(file_id=\"FILE-1\", offset=31, limit=200)` 按**行**取(offset 从 1 数,一次默认 200 行)。\n  **别一次要光**,先看几段判断这份文件值不值得细读;\n- **二进制、或超过大小上限的**:`[文件 安装包.apk · 60.7 MB · 超过上限 20 MB,没有下载]`\n  —— 这种情况**只有说明、没有内容**,别试着读它,也别猜里面有什么。\n\n**语音**会转成文字交给你,长这样:`[语音转写 · 可能有错] 明天下午三点开会`。\n那是**机器听出来的**,不是你亲耳听到的 —— 人名、数字、专有名词尤其容易错。拿不准就照你的理解\n再问他一句,别把转写的内容当成他的原话去引用或写进记忆。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.3": "- `qq2_get_image` 默认给 GIF 返回九宫图。旧缓存可以离线补生成预览，传 `original: true` 可取原 GIF。",
+    "0.1.2": "- 收到 GIF 时按原图帧序取九帧，拼成 PNG 九宫图投递。九宫图和原 GIF 一同保存在本地，原图仍按 SHA-256 去重并可按 IMG 编号取回。",
+    "0.1.1": "- 「QQ 2 → 语音」可保存或更换 MiniMax API Key。面板仅显示配置状态，下一次语音合成使用保存的 Key。",
+    "0.1.0": "- 将工作台的 QQ 2 打包成独立的 World 扩展，沿用 `qq2` 配置和工具前缀。\n- 包内自带 OneBot 11 驱动、消息解析、历史与视觉组件，并声明 WebSocket 运行依赖。\n- 随包提供构建好的 WebUI 面板及扩展自描述。"
+  }
+}

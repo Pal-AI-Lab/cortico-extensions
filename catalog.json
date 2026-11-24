@@ -2608,7 +2608,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/586",
         "up": 14,
         "down": 0,
-        "comments": 53
+        "comments": 55
       }
     },
     "coopani-world-life": {
@@ -13456,7 +13456,7 @@
     },
     "cortico-world-fun": {
       "kind": "world",
-      "version": "0.8.7",
+      "version": "0.8.8",
       "displayName": "从0开始的肥鱼大冒险",
       "description": "从0开始的肥鱼大冒险：四个面板（家、故事手账、自己去逛、回忆手账），15 个工具（默认可用 14 个），自由故事、地点探索与本地回忆。",
       "locales": {
@@ -13490,8 +13490,8 @@
         "bugs": "https://github.com/bailuhanyi/cortico-world-fun/issues"
       },
       "created": "2026-11-15T06:36:15.951Z",
-      "published": "2026-11-24T13:39:41.229Z",
-      "versionCount": 17,
+      "published": "2026-11-24T13:58:30.304Z",
+      "versionCount": 18,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -13514,6 +13514,7 @@
       },
       "changelog": {
         "versions": [
+          "0.8.8",
           "0.8.7",
           "0.8.6",
           "0.8.1",
@@ -22966,6 +22967,64 @@
         "comments": 0
       }
     },
+    "cortico-world-qq2": {
+      "kind": "world",
+      "version": "0.1.3",
+      "description": "Coopanion / Cortico 的 QQ World，连接 NapCat OneBot 11，支持群聊四档、历史查找、图片与发送回执。",
+      "author": "筆離嘢",
+      "maintainers": [
+        "biliye"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-qq2",
+        "repository": "https://github.com/biliye/cortico-world-qq2",
+        "homepage": "https://github.com/biliye/cortico-world-qq2#readme",
+        "bugs": "https://github.com/biliye/cortico-world-qq2/issues"
+      },
+      "created": "2026-11-24T13:58:12.534Z",
+      "published": "2026-11-24T13:59:50.729Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "external-setup"
+      ],
+      "tags": [
+        "external-setup"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 11,
+        "events": 14,
+        "toolTokens": 2991,
+        "envPromptTokens": 1717
+      },
+      "changelog": {
+        "versions": [
+          "0.1.3",
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/biliye/cortico-world-qq2/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1140,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1140",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-qqbot": {
       "kind": "world",
       "version": "0.4.2",
@@ -24560,6 +24619,77 @@
       "discussion": {
         "number": 958,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/958",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-self-checkup": {
+      "kind": "world",
+      "version": "1.0.1",
+      "displayName": "体检报告",
+      "description": "> 看看她最近运行得顺不顺，也发现她有哪些可爱的性格小特点。",
+      "locales": {
+        "zh": {
+          "displayName": "体检报告",
+          "description": "实用运行体检 + 趣味人格画像：查看稳定性、速度、缓存、上下文、交接和记忆，发现值得留意的变化；再收集称号、标签、近期观察与趣味名片。两份报告分开呈现，不自动修改配置。读取范围、写入位置与可选 AI 名片行为见 README。"
+        },
+        "en": {
+          "displayName": "Checkup",
+          "description": "A practical runtime checkup with a playful personality profile. Review stability, latency, cache, context, handoffs and memory, then explore nicknames, labels, recent observations and an optional profile card. Reports stay separate and settings are not changed automatically. See the README for data access, storage and optional AI-card details."
+        }
+      },
+      "maintainers": [
+        "zaocan"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "health",
+        "personality",
+        "checkup"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-self-checkup"
+      },
+      "created": "2026-11-24T14:24:38.349Z",
+      "published": "2026-11-24T14:35:23.258Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "diagnostics",
+        "companion"
+      ],
+      "tags": [
+        "companion",
+        "diagnostics"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 3,
+        "events": 1,
+        "toolTokens": 571,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "1.0.0",
+          "0.2.8",
+          "0.2.7",
+          "0.2.6",
+          "0.2.5"
+        ],
+        "url": "https://unpkg.com/cortico-world-self-checkup@1.0.1/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1141,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1141",
         "up": 0,
         "down": 0,
         "comments": 0
