@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-journey",
-  "version": "2.8.2",
+  "version": "2.9.0",
   "describe": {
     "tools": [
       {
@@ -143,7 +143,7 @@
       },
       {
         "name": "journey_photo",
-        "description": "Take a photo from where you are (or out the window on the road) and show it in chat — never tell the user to press a UI button instead. Any hour is valid; one photo per call. Set describe (what is in frame) and focus (camera angle) when specific details are requested; location, time and light are handled automatically. Set view=\"sky\" to tilt up at the real sky right now: stars show only at night and only when it is not overcast; never invent sky details you cannot see.",
+        "description": "Take a photo from where you are (or out the window on the road) and show it in chat — never tell the user to press a UI button instead. Any hour is valid; one photo per call. Prefer writing `prompt` yourself (matching `journey.imageLang` and ground facts: daylight vs night, real temperature outfit, indoor vs outdoor, companion/refs) so you directly compose the whole scene without rigid templates; otherwise pass describe (what is in frame) and focus (camera angle) as light hints. Set view=\"sky\" to tilt up at the real sky right now: stars show only at night and only when it is not overcast; never invent sky details you cannot see.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -175,6 +175,10 @@
             "focus": {
               "type": "string",
               "description": "Optional framing/angle note (<=40 chars), e.g. low angle or back row; never add absent items."
+            },
+            "prompt": {
+              "type": "string",
+              "description": "Optional complete scene prompt (<=300 chars) in the language set by `journey.imageLang`. When set, drives generation directly without rigid template rules. Must strictly match actual daylight/night, weather temperature outfit, indoor/outdoor setting and refs; never add absent flowers, snow or extra people."
             }
           }
         },
@@ -182,8 +186,8 @@
           "write"
         ],
         "summary": {
-          "zh": "现在拍一张照片发出来（路上拍窗外，看天则抬头）。",
-          "en": "Takes a photo right now and shows it."
+          "zh": "现在拍一张照片发出来（支持自写完整画面 prompt，路上拍窗外，看天则抬头）。",
+          "en": "Takes a photo right now (supports full authored prompt, road view, or overhead sky)."
         }
       },
       {
@@ -258,7 +262,7 @@
             },
             "mode": {
               "type": "string",
-              "description": "Transport mode: 高铁 / 火车 / 飞机 / 自驾 / 大巴 / 轮船 / 游轮 / 摩托车 / 自行车 / 步行 (omit to pick automatically)."
+              "description": "Transport mode: 高铁 / 火车 / 观光专列 / 飞机 / 自驾 / 房车 / 大巴 / 轮船 / 游轮 / 河轮 / 摩托车 / 自行车 / 步行 (omit to pick automatically)."
             }
           },
           "required": [
@@ -879,7 +883,8 @@
     ]
   },
   "changelog": {
-    "2.8.2": "- **视觉更新**：更新扩展图标为「大肥鱼」清新水彩旅行手账风圆形透明头像（\u0007ssets/icon.png，512×512）。",
+    "2.9.0": "- **慢旅行二期（全景观光专列 / 房车自驾 / 内河游轮）与驾照联机门控**（`src/geo/modes.ts`、`src/plan/journey.ts`、`src/plan/lodging.ts`、`src/plan/leisure.ts`、`src/plan/dayplan.ts`、`src/helpers.ts`、`src/world-plan.ts`、`src/world-purse.ts`）：\n  - `MODES` 火车长途档新增 `全景观光专列`（3.6x），自驾 ≥ 300km 新增 `普通自驾` / `房车自驾`（1.5x），轮船短途与长途依据内河航线支持 `内河游轮` 区分与在途专属取景/途中文案；\n  - 房车自驾接入跨扩展驾照门控（优先读 `life-public.json.certs` 中的「驾照」，旧版广播缺 `certs` 时回退只读 `life-state.json.job.certs`），到站走 `camperLodging()` 营地露营过夜省房费，并与酒店设施隔离、独立出「营地看星空 / 车里煮面 / 营地散步」三项夜间活动；\n- **`sight-cf` 鱼市街服务端零表迁移升级**（`cloud/sight-cf/src/worker.js`）：\n  - 不改 D1 表结构：利用既有 `stalls.note` JSON 透明扩展 `c` 字段持久化与校验五赛道 `category`（`produce` / `food` / `craft` / `writing` / `photo`）并在 `/town/stalls` 与 `/town/buy` 透出；\n  - 基于既有 `rate` 表新增买卖双方每日同买 2 单防互刷限频（超限回 `429 pair limit`）；`/town/deals` 通过 `LEFT JOIN stalls` 返回 `unitPrice` 供客户端真金白银结算；\n\n- **白昼天色与昼夜气温同源校准**（`src/photo.ts`、`src/helpers.ts`、`src/photo-facts.ts`、`src/geo/season.ts`）：\n  - 修正日光充足时段光照词汇与 `sceneSun` / 天空基线，解决大白天被误画成黄昏、夜景与路灯的问题；\n  - `weatherLine()` 补全 `白天 X℃ / 夜里 Y℃`，使主会话能看见白天气温穿衣依据；\n  - `phaseWeather()` 统一改用天文 `daylitAt` / `sun.daylit` 判昼夜，消除冬季 17:30 日落后「白天天气 + 夜间温度」的错位。\n- **拍照内核化（方案 A + 方案 B）与护栏拆分**（`src/photo-facts.ts`、`src/world-photo.ts`、`src/world-plan.ts`、`src/world.ts`、`src/world-purse.ts`、`src/world-webui.ts`、`src/config.ts`、`src/describe.ts`、`describe.json`、`ENV_PROMPT.md`）：\n  - 新增 `src/photo-facts.ts` 硬事实层，计算太阳高度、昼夜边界、气温穿衣温区、室内外与参考图状态；`buildCognitionPromptBrief()` 向后台 `cognition` 传递防黄昏/不亮路灯、气温着装与同伴简报约束，`compileDirectorPrompt()` 在底层保留画风前缀、参考图五官锁定与去可读文字/去水印最小技术护栏（主会话自写 `prompt` 需按实况自行遵循光线与着装约定），不再把括号规则参数与管道符混进事件正文与 `nowSummary`；\n  - 修正 `imageDirector` 默认 `template` 模式也走 `cognition` 的跳过条件，房车营地露营过夜独立出「营地看星空 / 车里煮面 / 营地散步」夜间项，规整在途载具/舱位表达与前半程「出发地出发前往目的地途中」，同行同伴标签改用「他（叙事同行）」，驾照判据兼容回退读取 `life-state.json`，移除事件正文祈使句并消除 `photo.ts` 与 `photo-facts.ts` 循环引用；\n  - `journey_photo` 工具新增第 5 个可选参数 `prompt`，允许主会话在了解实况后直接写出完整画面提示词并跳过规则模板；新增配置项 `worlds.journey.imageDirector`（默认保持 **`template`** 后台稳出图不漏拍，支持切换 **`auto`** 优先走宿主 `World…",
+    "2.8.2": "- **视觉更新**：更新扩展图标为「大肥鱼」清新水彩旅行手账风圆形透明头像（`assets/icon.png`，512×512）。\n- **出发地（家）不再随日记漂**（`src/world.ts`）：没填「从哪儿出发」时，原来每次启动都拿日记里最近那座城当出发地，于是家一路跟着旅行跑，回到哪座城哪座城就成了「老家」（读者反馈：「从天水出发回到天水说在这里长大，到汉中又说自己是汉中长大的」）。现在只在第一次推断，之后钉住 `homeId`；`start()` 读盘后重认一次，避免搬家逻辑被日记推断值覆盖。面板那句提示也改成「这个值定下来就不随旅行变了」。\n- **回访要有由头**（`src/plan/journey.ts`）：`visited` 原来只有「没去过 ×3」，去过的不减 —— 而方向系数能把回访抬到 1.6，侧后方的新城只有 1.5，「顺着走」比「没去过」更值钱。现在**没有由头**（不是当地节日、也不是上回没逛完）的回访 ×0.55，仍然只是降权、不排除。\n- **「去过的地方」进每回合上下文**（`src/world-purse.ts`）：`nowSummary` 新增一行「去过的地方（近的在前）：西安、昆明…一共 N 个地方」，在家和停留两支都有 —— 原来这件事只写在 state 和面板里，她挑下一站时手上根本没有，只能说成「第一次来」。`journey_go_to` 撞到去过的城，回执同步点一句「以前到过 —— 这是「又来」」。\n- **日记写过的城补进「去过」**（`src/world.ts`）：挑目的地只读 `st.everVisited`，从没读过日记。启动时把日记里写过、状态里缺的城并进去（只增不减），两份分叉（重装 / 换机 / 状态被重置）时不会再回访老地方。\n- **提示词把「出发地」和「出生地」分开**（`ENV_PROMPT.md`、`src/world-webui.ts`）：出发地只是拿来对照体感的参照点，**不是她的出生地或老家**；没人给过她这段事实，被问就说不知道，不许拿它编来历。硬约束 3 同时补了反面：「去过的也不许说成头一回」。\n- **测试**：全量 `test/*.test.mjs` **1282/1282**、`ui-smoke` **25/25**、`home-e2e` **39/39**、`home-reason` **8/8**、`clock-sync` **8/8**；`longrun 144 money` / `144 invite` 不变量全过。新增 7 条断言，反向验证（撤掉实现）全红。",
     "2.8.1": "- **`sight-cf` 鱼市街摊位属性预算与步进升级**（`cloud/sight-cf/src/worker.js`）：\n  - `stallEffectBudget(price)` 改为 `1–150 元` 按 `price * 2` 线性增长（`> 150 元` 渐进至 `450`）；\n  - `STALL_EFFECT_LIMITS` 调整为五维 `1:1`（上限 `80`）、`knowledge` 见识 `0.1` 占 `2` 预算（上限 `10`）、`fitness` 体质 `0.05` 占 `2` 预算（上限 `5`）；`normStallEffects()` 新增 `quantizeEffect()` 步进量化与超预算保底防归零逻辑。\n- **测试**：`test/sight-cf-market.test.mjs` 补充 `1 元` 精确 `+2 精力 / +0.05 体质 / +0.1 见识`、`50 元` 组合小数及超预算防归零回归断言，`sight-cf-*.test.mjs` + `pets-page.test.mjs` **54/54** 全过。",
     "2.8.0": "- **轮船扩展 5 档舱位与跨扩展主题游轮联动**（`src/geo/modes.ts`、`src/plan/journey.ts`、`src/plan/timetable.ts`、`src/bridge.ts`、`src/ui.ts`、`src/world.ts`、`src/world-purse.ts`、`src/world-webui.ts`、`src/helpers.ts`、`src/describe.ts`、`describe.json`、`dist/webui.js`）：\n  - `MODES` 中轮船按航程分为短途 2 档（普通渡轮 / 观光游船）与长途 3 档（客轮内舱房 / 海景阳台房 / 主题远洋游轮）；`journey_go_to` 支持直接点名「游轮」，`publicSnapshot()` 与 `uiSnapshot().leg` / `dist/webui.js` 全链路透出 `seatId / seat / seatMult / fare`，抵岸后依舱位反哺五维与心情，修正 `poor` 档轮船权重保底并补齐 3.2x 预算测算。\n- **`sight-cf` 服务端与 `/pets` 管鱼页新增街道档案管理**（`cloud/sight-cf/src/worker.js`、`site/pets.html`、`cloud/sight-cf/src/pets-page.js`）：\n  - `/admin/town` 与 `/town/info` 新增并校验 `streetProfiles`（每条街的介绍与五维/见识属性增益减益），`/pets` 「本城」页签支持城主可视编辑各街介绍与属性倍率并钳位落盘。\n- **`sight-cf` 鱼市街零表迁移支持自定义摊位 `effects`**（`cloud/sight-cf/src/worker.js`）：\n  - 在不改动 D1 表结构的前提下，于 `stalls.note` 透明打包/解包 `{ t, e }` 并向下兼容纯文本老数据；`POST /town/stalls`、`GET /town/stalls`、`POST /town/buy` 统一校验与透传 `effects`（定价浮动预算 `40–90` 点，五维 1:1 上限 `55`、`knowledge` 1:6 上限 `6`、`fitness` 1:8 上限 `4`，超预算等比折算）。\n- **测试**：`node --check dist/webui.js` 通过；全量 `test/*.test.mjs` **1276/1276**（含 `sight-cf-*.test.mjs` + `pets-page.test.mjs` **54/54**）、`ui-smoke` **25/25**、`home-e2e` **37/37**、`home-reason` **8/8**、`clock-sync` **8/8** 全过。",
     "2.7.1": "- **千问原生多图参考支持**（`src/photo.ts`、`src/world-photo.ts`、`src/config.ts`）：\n  - `qwen-image-3.0-pro` 在同一 `/api/v1/services/aigc/multimodal-generation/generation` 接口的 `input.messages[0].content` 中原生支持 1–3 张 `{\"image\": dataUri}`（排在 `{ text }` 之前）。`shootPhoto()` 放开千问携带最多 3 张参考图，`refsAllowedBackend()` 同步放行 `qwen` 协议。\n  - 若配了早期纯文生图模型导致服务端 400 拒收 `image`，`shootPhoto()` 会自动摘除参考图重发并置 `refsDropped: true`。\n- **千问全官方域名防串**（`src/image-backend.ts`、`dist/webui.js`）：\n  - 补全 `QWEN_OFFICIAL_APIS`（含 `dashscope.aliyuncs.com`、`token-plan.maas.qianwenaiapi.com`、`dashscope-intl.aliyuncs.com`、`token-plan.ap-southeast-1.maas.aliyuncs.com`），前后端 `isForeignPresetValue()` / `foreignPreset()` 均支持当前预设白名单数组：千问自用保留，切回豆包等别家预设时正确拦截。\n- **`custom` 档粘入千问完整路径自动识别**（`src/image-backend.ts`）：\n  - 仅当 `imagePreset === 'custom'` 且地址后缀匹配 `/services/aigc/multimodal-generation/generation` 时自动切到 `qwen` 协议；`/compatible-mode/v1` 依然保持 `openai`。\n- **千问 400 尺寸报错优先按比例保构图 & 自检语义补全**（`src/photo.ts`、`src/world-photo.ts`）：\n  - `nearestSize()` 兼容无冒号的 `must be one of [...]`；千问报 `must be one of` 时优先挑相近宽高比枚举重试，挑不到或泛泛报尺寸错再整段删掉 `parameters.size`。\n  - `photoConfigProblem()` 从 `backend.protocol === 'openai'` 改为 `backend.protocol !== 'comfyui'`。\n- **测试**：`test/photo-qwen.test.mjs`、`test/photo-refs.test.mjs`、`test/image-backend.test.mjs` 补齐上述回归用例；全量 **1271/1271**、冒烟与端到端 **78/78** 全过。",
