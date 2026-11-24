@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-music",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "describe": {
     "tools": [
       {
@@ -376,6 +376,7 @@
     ]
   },
   "changelog": {
+    "1.1.1": "- **反馈栏多一行「QQ 群：284525159」**：跟在「仓库」下面，报 bug 走 issue、问一句进群，两条路都摆着。\n- **市场简介写上群号**；宿主门槛从 `0.2.16+` 改为 `0.2.22+` —— 0.2.22 是内核 `cortico v0.2.17` 最后一次变动的那一版，0.2.23 只改应用层，内核没动。",
     "1.1.0": "macOS 上第一次能用了。**不是把 Windows 那套搬过去**——那边读的是系统媒体会话（SMTC），\nmac 走的是另一条通道，所以另写了一层实现，业务代码一行未动。\n\n- **新增 `src/darwin-media.ts`（mac 读侧）**：借系统自带的 `/usr/bin/osascript`\n  （Apple 签名、带 ObjC 桥）加载 MediaRemote，用 `MRNowPlayingRequest` 这个类读\n  「正在播放」。**为什么不能直接调 C 函数**：macOS 15.4 起 MediaRemote 只把播放信息\n  交给 Apple 签名的进程，第三方进程直调返回空字典且不报错——查证时这一点推翻了原方案。\n- **新增 `src/media.ts`（桥工厂）**：业务层只调 `createMediaBridge()`，按平台挑实现。\n  两个实现同形状（start / stop / snapshot / health），所以 world / tools / webui 的调用点\n  一处没改。\n- **控制播放接上了**：`runControl()` 在 mac 上走 `MRNowPlayingController` 发\n  play / pause / next / prev（0 / 1 / 4 / 5），**发完必须回读一次才算成功**——\n  命令发出去是不报错的，不回读就等于撒谎。\n- **修：mac 上播放器会被当成「不认识的播放器」整场丢掉。** `players.ts` 原来只认\n  `/qqmusic/i`、`/cloudmusic|netease/i`，而 mac 给的是本地化显示名（「QQ音乐」\n  「网易云音乐」），中文字匹配不上。表现是**读得到歌、却挑不出会话**。\n  `lyrics.ts` 的曲库偏好（在网易云听的优先用网易云的词）同理，一并补上。\n- **修：控制回执会把 `playing` 这种英文小写原样甩出来。** mac 的状态是小写枚举，\n  回执出口 `statusText()` 按 SMTC 的写法映射，所以在边界上转成 `Playing` / `Paused`。\n- **`os` 字段加 `darwin`**，mac 用户能在扩展市场装上了；简介三处（npm / 中文 / English）\n  都改成「Windows 10/11 与 macOS」，并写明 mac 上还没有什么。\n- **mac 上暂时没有的**：跟着真鼓点跳舞（要抓系统音频，`channels().systemAudio` 仍是\n  false）与本地深听（`localHearing` 仍是 false，可先用云端深听）。这两块是下一步。\n- **实测记录（2026-11-24，macOS 26.6.2 / 25G83 / Apple M4，用户 qlc5201314-blip 跑的）**：\n  `MRNowPlayingRequest` 读到了歌名；`sendCommandOptionsCompletion(2, …)` 发出去之后\n  播放器**真的暂停了**（他看界面的，不是「命令没报错」）。同机 `ps` 里两个播放器的进程名是\n  `NeteaseMusic` 与 `QQ`（后者极短，且同机还有 `QQEXDOC` 和一堆 `QQ Helper`，\n  所以比的是末段整名，不是子串）。\n- 测试 **234 条全过**（新增 4 条：mac 显示名、曲库偏好、中文名挑会话、状态映射）。\n  Windows 侧真机复验：仍走 SMTC 桥，读到 QQ音乐当前曲目，行为与 1.0.2 一致。",
     "1.0.2": "- **视觉更新**：更新扩展图标为「大肥鱼」潮流霓虹赛博波普风圆形透明头像（\u0007ssets/icon.png，512×512）。",
     "1.0.1": "对外行为与 1.0.0 一致，Windows 上跑起来看不出差别。发这一版是为了把平台耦合先收口，\n后面接 mac 的媒体通道时不用再动业务代码。\n\n- **新增 `src/platform.ts`（平台层）**：数据根目录、深听路径与解释器、列进程的命令、\n  进程名归一与匹配、杀进程树、本版通道清单（`channels()`）、不可用提示。\n  每个函数第一个参数是 `platform`，默认 `process.platform` —— 测试传 `'darwin'`\n  就能在 Windows 上验 mac 分支。\n- **六处接线改走平台层**：`constants.ts`（`HEARING_HOME` / `HEARING_PYTHON`）、\n  `peer.ts`（`tasklist` → `peerProbeCommand` + `matchesPeerNames`）、\n  `world-hearing.ts`（收尸命令）、`world.ts`（音频跟拍判断）、`world-tools.ts` /\n  `world-webui.ts`（「找不到 powershell」这类提示按平台说话）。\n- **Windows 行为按原值钉死**：`tasklist /FO CSV` 仍按「带引号整名」匹配（`QQ.exe` 不会\n  命中 `QQMusic.exe`），`LOCALAPPDATA` 缺失仍回落 `homedir()`，深听路径与旧版逐字一致。\n  新增 `test/platform.test.mjs`（11 条）与 `test/control.test.mjs`（2 条）。\n- **修：状态文案漏了两档。** SMTC 的枚举是 Closed / Opened / Changing / Stopped /\n  Playing / Paused，原来只译了四档。真机上按「继续」时回执是 `Opened`，于是工具回执里\n  会出现「现在《Reach Out To The Truth》，Opened。」——模型会把这句英文原样说出口。\n- **修：面板版本号一直显示 0.7.0。** 1.0.0 发版时漏改 `PANEL_VERSION`（该常量上方注释\n  自己写着「发版时跟 package.json 一起改」），`music_status` 与诊断回执里带的都是错版本，\n  拿着错版本报障最难查。现与 `package.json` 对齐为 1.0.1，`BUILD_TAG` 同步更新。\n- **实测记录（2026-11-20，QQ音乐 22.76 / Windows）**：读侧识别到曲目与进度；控制侧\n  `pause` / `resume` / `next` 均生效；`prev` 在 QQ音乐上表现为「回到本曲开头」而不是切上一首\n  （播放器自身行为，系统媒体面板上按同一个键也一样，非本扩展缺陷）。",

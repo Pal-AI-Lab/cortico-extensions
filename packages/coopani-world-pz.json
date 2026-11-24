@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-pz",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "describe": {
     "tools": [
       {
@@ -373,6 +373,7 @@
     ]
   },
   "changelog": {
+    "1.0.2": "- **面板页脚多一项「QQ 群 284525159」**：这个面板原来没有任何反馈入口，现在群号挂在页脚，点一下复制。报 bug、问「模组装没装对」，都可以进群说。\n- **市场简介写上群号**；宿主门槛从 `0.2.17+` 改为 `0.2.22+` —— 0.2.22 是内核 `cortico v0.2.17` 最后一次变动的那一版，0.2.23 只改应用层，内核没动。",
     "1.0.1": "- **视觉更新**：更新扩展图标为「大肥鱼」美式末日求生漫画墨线风圆形透明头像（\u0007ssets/icon.png，512×512）。",
     "1.0.0": "- **前缀大瘦身（12,561 → ≤2,800 字）**：`ENV_PROMPT.md` 聚焦观察边界、响应分寸与核心操作门禁；将 23 verb 详表、新手成长路线与武器评级按需下沉到开局提示与 `pz_tips` / `pz_recipes` / `pz_play` 工具说明及回执；未开局时 `pz.now` / `pz.journal` 精简展示（常驻不返回 null）。\n- **摘除废弃词表调用与人称清洗**：移除启动与回合中已废弃的 `readVocab()` 调用及冗余 warn；收敛 `PERSONA_TEXT` 为仅调节陪玩提醒敏感度；全量消除 `describe.json` 与工具描述第三人称并从源码重构生成同步 `describe.json`（补全 `pz_play` / `pz_recipes` 的 `parameters` 与 `tags`）。\n- **Cortico API v6 对齐**：非紧急状态提醒事件（`pz.nudge`、`pz.tv`）接入两参 `host.pushDeferred` + `['snapshot']` 标签并在投递时校验 `link === 'ok'` 与刷新当前局内时刻/血量，一次性历史事实（`pz.kill`、`pz.day.start`）保持即时 `pushEvent` 不丢失；新增同步 `onHandoffEnded()`（独立 `pz.handoff` 事件，`piggyback` + `['snapshot']`，严格区分 `link === 'ok'` 与 `'stale'`）及 `webUi().storage`（`pz-journal.md`、`pz-judge.json`）；修正 `package.json` 关于实验性自主操作配置项 `worlds.pz.allowPlay` 的说明。",
     "0.7.8": "- 两个工具的 `tags` 去掉非法的 `'game'`（`ToolTag` 只有 read / write / speak / act / flow / snapshot；\n  `game` 是**扩展分类**，不能写在工具声明上）。\n- `TOOL_DECLS` 补上 `pz_play` / `pz_recipes` —— 宿主校验的是这个 JS 对象，漏两条就一直报 WARN。\n- `test/lua-syntax.test.mjs` 改用 `import.meta.url` 定位，不再依赖 CWD（之前从别处跑会 ENOENT）。\n- `ENV_PROMPT.md` 的动作数从「十个」改成**实际 23 个**（表里保留常用十个，其余点名，不编语义）。\n- 测试 **176/176**（原来 175/176）。",
