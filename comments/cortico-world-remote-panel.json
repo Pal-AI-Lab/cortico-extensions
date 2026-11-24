@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "name": "cortico-world-remote-panel",
+  "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1095",
+  "total": 1,
+  "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BLs0t",
+      "author": "Phantivia",
+      "avatar": "https://avatars.githubusercontent.com/u/52902663?s=64&u=b8112156729a498140249512d16689e738ea0e5f&v=4",
+      "body": "你好，我们是 Cortico 扩展市场([Pal-AI-Lab/cortico-extensions](https://github.com/Pal-AI-Lab/cortico-extensions))的维护者。cortico-world-remote-panel 的 package.json 没写仓库，只能在这里留言。读了 0.2.4 的源码(只读，没有执行)。\n\n安装时 `postinstall.mjs` 用包里的整份文件覆盖 Coopanion 安装目录里 Cortico 核心的 `core.ts`、`loop.ts`、`types.ts`,并新增 `hidden-tools.ts`(`postinstall.mjs:80`、`:113-114`)。市场的规则是改宿主的包一律拉黑，核对 SHA、留备份也一样，所以这个包已拉黑([索引仓#1118](https://github.com/Pal-AI-Lab/cortico-extensions/pull/1118))。作者账号和你的其他包不受影响。\n\n解封的办法：去掉补丁，发新版后在 [cortico-extensions](https://github.com/Pal-AI-Lab/cortico-extensions/issues/new/choose) 开 `[appeal] cortico-world-remote-panel`。\n\nPal AI Lab 扩展市场",
+      "createdAt": "2026-11-24T00:46:38Z"
+    }
+  ]
+}
