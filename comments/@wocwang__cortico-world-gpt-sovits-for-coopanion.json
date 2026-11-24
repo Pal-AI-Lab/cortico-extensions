@@ -2,14 +2,23 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-  "total": 88,
+  "total": 89,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BLqvp",
       "author": "Hy210220",
       "avatar": "https://avatars.githubusercontent.com/u/223194212?s=64&v=4",
       "body": "能不能支持Kitta Audio，求求了，谢谢",
-      "createdAt": "2026-11-23T16:27:21Z"
+      "createdAt": "2026-11-23T16:27:21Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BLtJN",
+          "author": "wocwang",
+          "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+          "body": "已支持，0.9.11 起云端语音里已经有「Kitta Audio」了，谢谢反馈！\n\n使用方式：\n1. 语音引擎选「云端」，服务商选 **Kitta Audio**；\n2. 默认地址是 `https://kittaaudio.com/v1`（`kittaai.com` 也通），默认模型 `fishaudio-s21pro-flash`；\n3. 到 Kitta 开发者页面创建 API Key，粘贴到「云端密钥」并保存；\n4. 内置了一个公开测试音色，点「从服务商拉取清单」可以换成自己的音色。\n\n目前是按官方文档接入，标为实验（还没用真实密钥完整跑过合成）。更新到 0.9.11 后如果遇到报错，把面板上的错误信息或 `core.log` 里带 `gpt-sovits` 的行贴回来，我继续修。",
+          "createdAt": "2026-11-24T02:11:43Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BLXLz",

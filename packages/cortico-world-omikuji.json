@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-omikuji",
-  "version": "0.1.3",
+  "version": "0.4.2",
   "describe": {
     "tools": [
       {
@@ -28,14 +28,18 @@
       },
       {
         "name": "omikuji_record",
-        "description": "Store the slip you wrote for a date, in pet wording mode only. The first text stored for a date is kept and every later draw returns it unchanged, so record once and do not rewrite it. Returns the stored text.",
+        "description": "Store the slip you wrote for a date, in pet wording mode only: the verse and, optionally, your own reading of it. The first record for a date is kept and every later draw returns it unchanged, so record once and do not rewrite it. Returns what was stored.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "text": {
               "type": "string",
-              "description": "The slip itself: two short lines, 14–18 characters in total, no predictions stated as fact."
+              "description": "The verse: two short lines, 14–18 characters in total, no predictions stated as fact."
+            },
+            "reading": {
+              "type": "string",
+              "description": "Your reading of the slip: two or three sentences, 40–120 characters, about how to spend the day — what to do and what not to do. Do not restate the star numbers and do not turn it into a prediction."
             },
             "date": {
               "type": "string",
@@ -74,6 +78,11 @@
     ]
   },
   "changelog": {
+    "0.4.2": "真机事故修复：0.4.1 装进 Coopanion 后**抽签动画、动态背景、作者头像三样全都不出现**，面板退成灰底、字也发糊。\n\n- **根因**：素材路径拼在了 `ctx.packageDir` 上，而框架文档写明这个字段是「**bot** 代码包目录」——真宿主传进来的是 bot（fatfish）的包，本 World 的 `assets/` 根本不在那下面，于是 `video` 回 absent、快照里 `background`/`avatar` 都是 false，三样一起哑火。\n- **修法**：新增 `src/assets.ts`，用本模块位置反推本包根目录（`import.meta.url`），`ctx.packageDir` 只作离线自检的兜底。pnpm 软链会解析到 `.pnpm/...` 下的真实包目录，那里照样带着 `assets/`。\n- **配色自带**：这一页铺着动态壁纸，不再跟宿主主题走。整套色板写在 `.om-shell` 上（暖墨底 + 米白字 + 金色点缀），浅字加一层投影，牌面改成半透明玻璃卡（`rgba(23,25,30,.74)` + `backdrop-filter`），遮罩加重；主按钮改金色实心、深棕字，星条与幸运四项用金色。之前用的 `var(--ink, inherit)` / `var(--paper-2)` 在浅色主题或没有这些变量的宿主里就是「灰底 + 看不清」。\n- **兜底背景有设计**：没有素材、还没取到、或解码失败时，露出暖墨渐变（灯下宣纸的感觉），不再是失败的灰色块；背景视频加载失败会自己撤掉节点。\n- **揭晓动效**：卡片翻开时加 320ms 淡入上浮（`om-reveal`），动画钩子仍是那个类。\n- **日志不再刷屏**：缺素材的提醒只报一次，并带上实际查的包目录，方便下次一眼定位。\n- 新增 4 项回归测试（`test/assets.test.ts`）：本包目录存在三个素材、宿主给 bot 目录时仍用自己的包目录。测试 47 项全过。",
+    "0.4.1": "面板这一版基本换了张脸。\n\n- **动态视频背景**：`assets/panel-bg.mp4`（1908×910、16.9 秒、静音自动循环 + 压暗遮罩）当底图；没有视频时退回 `panel-bg.gif`，都没有就纯色。牌面半透明叠在视频上，不挡字。\n- **页脚落款**：作者头像（`assets/avatar.jpg`）＋ `奶糖_net` ＋「作者寄语：wish you a happy day（愿你天天开心）」。\n- **字体可选**：`worlds.omikuji.fontFamily` 六档（楷/手写/宋/隶/黑/圆，纯本地字体栈，不联网）；另有一档「霞鹜文楷」走 jsDelivr CDN，默认关、选了才加载。\n- **排版定死**：14px 基准 + em 层级（标题 17/600、签文 15/500、正文 14），中文不做斜体，只有拉丁文用 `<em>`。字号/字重/斜体都不开放配置——用户只需要选字体。\n- **「再看一眼」重放抽签动画**：点它就把 `assets/draw.mp4` 再放一遍，签本身不变（只重放，不重抽）。忙碌文案也分开了：重放显示「再放一次…」，不借「抽签中…」。\n- 面板顶上加一句长引子；牌翻开后补一句「愿你今天顺手抽到的那一签，刚好对上此刻的心情。」\n- 面板冒烟里那条「重看一次不带动画钩子」的断言原来是假通过（动画播着时它等的条件自然成立），已改成验真：重放会出现 video、播完卡面照样带 `om-reveal`、签的分数前后一致。\n- 文案/排版/免责句做了离线审计（`tools/copy-audit.ts`）：免责句只留在牌面上，回执里不带；分数不带 `/100`。",
+    "0.3.2": "- pet 模式下**解签也归桌宠写**——整张牌的话都是它的。\n\n- `omikuji_record({ text, reading?, date? })` 新增 `reading`（解签）：两三句、40–120 字，说清这一天该怎么过。`text` 仍是签文（两句 14–18 字）。只给 `text` 也能记，`reading` 缺席就不显示。\n- brief 里分开写清两种写法的要求，并把星级、宜忌、幸运四项当「既成事实」交给它——这些数字它不能改。\n- 存储升级：`omikuji-wording-*.json` 的一条记录变成 `{ text, reading?, createdAt }`，老记录（只有 `text`）照样能读。\n- 面板：pet 模式写过的牌面显示「签文 + 它写的解签」；`PanelSnapshot` 多一个 `writtenReading`。\n- 元数据：署名 `author.name = 奶糖_net`（npm 账号仍是 `net_ang`），补上 `repository` / `homepage` / `bugs` 指向 GitHub 仓库，LICENSE 版权人改成本人。\n- 测试 43 项、面板冒烟 32 项全过。",
+    "0.3.0": "解签加厚，签面从「一句话」变成一张卡。\n\n- **详批**：每档 3 段、每天轮换，比解语长一段，说清这一签落在哪件事上。\n- **六项运势**：恋爱运、事业运、财运、健康运、社交运、摸鱼运，各 1–5 颗星。星级由档位定基线（上上签 5★、大凶 1★），每项再浮动一颗，所以同档不同天也不一样。回执里用 `★★★☆☆` 画，面板里是两列星条。\n- **幸运物 / 幸运数字 / 幸运方位**：连同原有的幸运色，凑成四项。\n- **节气与月相**：签面加一行时令（如「小雪 · 雪还没积起来，先试试　月相·望月 · 最亮的一夜，适合被看见　还有 13 天到大雪」）。节气取常年日期表、月相按朔望月平均长度推算，都是**近似**，个别年份节气会差一天。\n- pet 模式把星级、宜忌、幸运四项当「事实」一并交给桌宠，句子仍由它写。\n- 测试 42 项、面板冒烟 31 项全过；`copy-audit` 与 `preview` 跟着更新。",
+    "0.2.0": "- **面板有了自己的语气**：顶部一段引言（「在桌宠与世界交汇的日常里……」），牌底一句收束（「愿你今天顺手抽到的那一签，刚好对上此刻的心情。」）。免责句仍在最下面。\n- **封着的状态更明确**：抽签前是虚线牌 + 一枚淡「封」字印，翻开后「封」印消失、收束句出现。\n- **抽签动画钩子**：卡片只在「刚抽出来」那一次渲染带 `om-reveal`，其余状态不带；关键帧留在 `dist/webui.css` 末尾，改样式即可，不用动 js。\n- **抽签动画**：点「抽今天的签」先播 `assets/draw.mp4`（720×720 / 5.06 秒 / 静音），播完再揭晓；拿不到素材或播不完都直接揭晓。素材经面板方法 `video` 用 `$file` 流式送出。包体因此从 49 kB 涨到约 1.1 MB。\n- 离线预览：`make-panel-preview.mjs` 生成 `panel-preview.html`（内联了视频），双击就能反复按「抽今天的签」调动画，不用装进 Coopanion。\n\n- **换成每日真随机盐**：只有**真抽签**（工具 `omikuji_draw`、面板「抽今天的签」按钮）才会用 `crypto.randomBytes` 摇一个 64 位盐并落盘 `omikuji-days.json`。同一天同一台机器仍只有一张签，但明天是另一张、两台机器各摇各的——不再是「日期加一个装好就不变的盐」那样固定。\n- **读不产生随机**：系统前缀那一行、打开面板、七天回看都只读（面板方法拆成 `snapshot` / `draw`）。**没抽过的日子，事后回看就是「日期 + 固定盐」**，跟 0.1.3 算出来的一致。\n- **只留七天**：每次落盘自动删掉七天前的条目，面板那七天横排正好是这份数据的窗口。\n- **七天以外回落**：那些日期没有当日盐了，改用固定的本机盐（`omikuji-salt.json`）去算，仍然确定、跨机器一致。`worlds.omikuji.salt` 现在只管这条回落路径。\n- 新增 `src/daysalt.ts`；签到算法与取数顺序没动（种子串仍是 `omikuji/v1|<盐>|<日期>`）。\n- 测试 41 项：新增 11 项覆盖「读不摇盐 / 抽才摇盐」、当日盐复用、跨机器不同、重启后从盘上读回、补抽过去的日子不摇盐、七天裁剪、回落确定性、清空重建。",
     "0.1.3": "- **措辞默认改成桌宠自己写**（`wording: \"pet\"`）：默认装好就是她按约束现写、当天首次落盘。想省模型、要绝对稳定的文字，在设置里切成「内置文案」。\n- 设置里的下拉顺序也跟着换了，默认项排在最前。\n- `tools/preview.ts` 默认打印 pet 模式的 brief，加 `--builtin` 看内置成句版。",
     "0.1.2": "- 加上包图标 `assets/icon.png`（256×256，16.9 kB），给市场卡片与详情页当头像。源图的棋盘格是画进图里的伪透明，已抠成真透明底，深浅主题都能用。\n- 源图与处理脚本留在工程目录（`鲸海少女抽取上上签.png` + `make-icon.py`），换图或改尺寸重跑一次即可。",
     "0.1.1": "- **免责声明只留在界面上。** 工具回执不再带「相信科学，仅供娱乐参考。」——回执每轮都进上下文，重复的免责句只会变成噪音。面板牌面上仍然固定带这一句。\n- pet 模式的写作约束里改成「别在每句回话后面再带一遍」，凶档照样不许吓人、不许劝人改计划。\n- 环境提示词同步：不再要求桌宠每次交签都说一遍免责，改为说明界面已经写着。",
