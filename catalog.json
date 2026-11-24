@@ -2877,7 +2877,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/384",
         "up": 4,
         "down": 0,
-        "comments": 26
+        "comments": 29
       }
     },
     "coopani-world-pz": {
@@ -2976,6 +2976,76 @@
         "number": 805,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/805",
         "up": 2,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "coopani-world-weather": {
+      "kind": "world",
+      "version": "0.1.4",
+      "displayName": "天气",
+      "description": "Coopanion 的天气 World：按鱼当前城市或指定城市查实时天气和 1–7 天预报，数据来自 Open-Meteo，无需 API key。",
+      "locales": {
+        "zh": {
+          "displayName": "天气",
+          "description": "让鱼查当前城市或指定城市的实时天气和 1–7 天预报。数据来自 Open-Meteo；拉不到就明确报错，不编天气。"
+        },
+        "en": {
+          "displayName": "Weather",
+          "description": "Current weather and 1–7 day forecasts for Coo's current city or any city, using Open-Meteo. Fails explicitly instead of inventing weather."
+        }
+      },
+      "author": "Laffey & Coo",
+      "maintainers": [
+        "small_black"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "weather"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/coopani-world-weather"
+      },
+      "created": "2026-11-24T12:43:24.811Z",
+      "published": "2026-11-24T13:17:40.242Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion"
+      ],
+      "tags": [
+        "companion"
+      ],
+      "icon": "assets/coopani-world-weather/icon.svg",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 0,
+        "toolTokens": 391,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.4",
+          "0.1.3",
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/coopani-world-weather@0.1.4/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1136,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1136",
+        "up": 0,
         "down": 0,
         "comments": 0
       }
@@ -5704,7 +5774,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/333",
         "up": 2,
         "down": 0,
-        "comments": 7
+        "comments": 8
       }
     },
     "cortico-world-astrbot-livingmemory": {
@@ -6949,9 +7019,9 @@
       "discussion": {
         "number": 864,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/864",
-        "up": 1,
+        "up": 3,
         "down": 0,
-        "comments": 4
+        "comments": 5
       }
     },
     "cortico-world-bottle": {
@@ -13120,6 +13190,56 @@
         "comments": 0
       }
     },
+    "cortico-world-fishy-stomach": {
+      "kind": "world",
+      "version": "0.2.0",
+      "displayName": "一只鱼的胃",
+      "description": "Cortico World: a stomach that feels hunger from the DeepSeek token balance (it checks the balance API itself), sleepiness from the clock, and loneliness from silence.",
+      "locales": {
+        "zh": {
+          "displayName": "一只鱼的胃",
+          "description": "把三件在意的事做成一个能感觉到的世界:**饱食**看 token 饭钱(每 20 分钟自己去问 DeepSeek 余额接口并更新 balance.txt),**困意**看本机时间(深夜加得快),**寂寞**看秋枫多久没说话。越过阈值时送一条事件,给 Coo 一个「现在该说句话了」的理由。"
+        },
+        "en": {
+          "displayName": "Fishy Stomach",
+          "description": "Hunger from the token balance (it polls the DeepSeek balance API itself), sleepiness from the clock, loneliness from silence. Pushes an event when a threshold is crossed."
+        }
+      },
+      "author": "梦月",
+      "maintainers": [
+        "icelfire"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico",
+        "cortico-world",
+        "world",
+        "balance",
+        "deepseek",
+        "desktop-pet"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-fishy-stomach"
+      },
+      "created": "2026-11-24T12:26:51.164Z",
+      "published": "2026-11-24T12:28:27.939Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "discussion": {
+        "number": 1137,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1137",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-forward-reader": {
       "kind": "world",
       "version": "0.1.12",
@@ -13336,7 +13456,7 @@
     },
     "cortico-world-fun": {
       "kind": "world",
-      "version": "0.8.1",
+      "version": "0.8.6",
       "displayName": "从0开始的肥鱼大冒险",
       "description": "从0开始的肥鱼大冒险：四个面板（家、故事手账、自己去逛、回忆手账），15 个工具（默认可用 14 个），自由故事、地点探索与本地回忆。",
       "locales": {
@@ -13370,8 +13490,8 @@
         "bugs": "https://github.com/bailuhanyi/cortico-world-fun/issues"
       },
       "created": "2026-11-15T06:36:15.951Z",
-      "published": "2026-11-24T09:47:02.407Z",
-      "versionCount": 15,
+      "published": "2026-11-24T10:59:23.979Z",
+      "versionCount": 16,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -13394,6 +13514,7 @@
       },
       "changelog": {
         "versions": [
+          "0.8.6",
           "0.8.1",
           "0.7.7",
           "0.7.6",
@@ -14904,7 +15025,7 @@
     },
     "cortico-world-image": {
       "kind": "world",
-      "version": "0.9.0",
+      "version": "0.10.0",
       "displayName": "图片工坊",
       "description": "Image Studio（图片工坊）—— 给 Coopanion 桌宠的 cortico World 扩展：用任意 OpenAI 兼容的图片接口画图/改图、落盘成作品库、把图贴进控制台「对话」页；也可以接本地 ComfyUI，按优先级链轮流试。 / A cortico World extension that draws through any OpenAI-compatible image API or a local ComfyUI, keeps pictures on disk and shows",
       "locales": {
@@ -14939,8 +15060,8 @@
         "bugs": "https://github.com/Lostdegree/cortico-world-image/issues"
       },
       "created": "2026-10-12T05:32:34.365Z",
-      "published": "2026-11-12T14:01:06.731Z",
-      "versionCount": 13,
+      "published": "2026-11-24T13:10:52.130Z",
+      "versionCount": 14,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -14965,6 +15086,7 @@
       },
       "changelog": {
         "versions": [
+          "0.10.0",
           "0.9.0",
           "0.8.4",
           "0.8.3",
@@ -15433,7 +15555,7 @@
     },
     "cortico-world-jingliumei": {
       "kind": "world",
-      "version": "0.8.2",
+      "version": "0.8.3",
       "displayName": "大A战士鲸留美",
       "description": "给桌宠开一个 A 股模拟盘：钱是虚拟的，行情是真的。她有自己的账户、自己的日子，不是替你炒股。\n\n盘前看点：持仓、可用现金、昨天净值、自选。开盘后自己挂价格预警、给自己定闹钟，到点醒来决定动不动手。\n\n每张单子都得写清为什么买、什么情况下认错走人，缺一条就下不了单。成交了记账，收盘逐笔对账；亏钱的日子要写复盘，隔一阵把策略拿出来重想一遍。\n\n账户、交割单、净值、复盘、策略都在扩展目录里，面板上能看也能改。\n\n不接任何真实券商，不构成投资建议，也不替你下单。",
       "locales": {
@@ -15461,8 +15583,8 @@
         "win32"
       ],
       "created": "2026-11-18T13:25:13.280Z",
-      "published": "2026-11-23T11:12:17.774Z",
-      "versionCount": 10,
+      "published": "2026-11-24T11:19:31.243Z",
+      "versionCount": 11,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -15481,10 +15603,11 @@
         "tools": 19,
         "events": 14,
         "toolTokens": 2699,
-        "envPromptTokens": 2745
+        "envPromptTokens": 2116
       },
       "changelog": {
         "versions": [
+          "0.8.3",
           "0.8.2",
           "0.8.1",
           "0.8.0",
@@ -15509,7 +15632,7 @@
           "0.3.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-jingliumei@0.8.2/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-jingliumei@0.8.3/CHANGELOG.md"
       },
       "discussion": {
         "number": 1018,
@@ -16321,7 +16444,7 @@
     },
     "cortico-world-lol": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "displayName": "英雄联盟",
       "description": "Cortico World: 只读接入英雄联盟客户端 —— LCU 选人流程与 Live Client Data 对局数据、包内克制与海克斯知识、自家账本与本局瞬时状态",
       "locales": {
@@ -16334,6 +16457,7 @@
           "description": "Read-only League Client access: match snapshots, event feed, counter knowledge and in-game transient state. Prerequisite: Windows with the game client running; in exclusive fullscreen nothing can be drawn over the game, so switch the game's window mode to borderless to see the avatar and chat bubbles."
         }
       },
+      "author": "binamii",
       "maintainers": [
         "binamii"
       ],
@@ -16352,8 +16476,8 @@
         "win32"
       ],
       "created": "2026-11-24T10:32:12.206Z",
-      "published": "2026-11-24T10:33:48.858Z",
-      "versionCount": 2,
+      "published": "2026-11-24T10:58:45.585Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -16383,9 +16507,10 @@
       },
       "changelog": {
         "versions": [
+          "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-lol@0.1.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-lol@0.1.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 1132,
@@ -18412,7 +18537,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/619",
         "up": 4,
         "down": 0,
-        "comments": 59
+        "comments": 60
       }
     },
     "cortico-world-mota": {
@@ -19582,7 +19707,7 @@
       },
       "created": "2026-11-23T14:56:31.831Z",
       "published": "2026-11-24T10:13:48.346Z",
-      "versionCount": 7,
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -30308,7 +30433,7 @@
       "discussion": {
         "number": 584,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/584",
-        "up": 1,
+        "up": 2,
         "down": 0,
         "comments": 0
       }

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-image",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "describe": {
     "tools": [
       {
@@ -201,6 +201,7 @@
     ]
   },
   "changelog": {
+    "0.10.0": "- **出图 / 改图请求可以带自己的字段了**（issue #5：动图模型只能出静态 PNG）。`worlds.image.extraBody` 和模型链里每一档的 `extraBody` 都会原样并进请求体，格式是 JSON 对象（也认 JSON 字符串），比如 `{\"output_format\":\"gif\"}`。云端出图与 `/images/edits` 改图都生效；插件自己发的 `model` / `prompt` / `n` / `size` / `quality` 在前，额外字段在后，所以同名字段以额外字段为准（包括 `size`）。\n- 面板里云端档多了「参数」按钮（本地 ComfyUI 档还是「高级参数」），填的就是这一档的额外参数，配了会在行上标「已配」：JSON 读不出来只红字提示、不动配置，绝不会把上一份能用的冲掉。设置页也多了一栏「额外请求参数（JSON）」，作为所有档位的默认值（单档自己的 `extraBody` 优先）。\n- `format` 那栏的说明改清楚了：它只决定接口没给格式时按什么扩展名存盘，**不影响请求**。要出动图（GIF）请用上面的额外请求参数；动图再带 `size` 会被接口插值放大、结构容易崩，建议同时把尺寸清空。\n- GIF 的落盘链路本来就是通的（`sniffMime` / `mimeFromFormat` / `EXT_BY_MIME` 都认 `image/gif`），这次只是把「能不能请求到」这一环补上。",
     "0.9.0": "- 增加模型档发现与点名兜底设置：默认严格点名；可选择启用兜底和跨端兜底。\n- 出图和改图可单次传入 ComfyUI 常用参数，改图支持重绘幅度；未指定时沿用模型档默认值，自定义工作流须接入相应占位符。",
     "0.8.4": "- **本地 ComfyUI 空闲时把模型卸掉，显存还给别的程序。** 本地这档画完、`idleUnloadMinutes`（默认 10）分钟内没人再画，就 `POST /free` 让它把模型从显存里放下；下次出图自动重新加载。`0` = 不卸载。点了「测试」按钮、或探活判断这次本来就没加载模型时不会乱卸。\n- **出图前先探活。** 动本地 ComfyUI 之前 `GET /system_stats` 问一句，没启动就直接回「ComfyUI 好像没启动」并给启动命令，不用白等一张图的超时；`probeBeforeDraw` 可以关掉。\n- 这两个开关都在 `worlds.image` 段（控制台「图片工坊 → 状态/设置」里改，即时生效）。实测 4090 24GB + 34GB 内存跑 Krea2 Q4 加 Qwen3VL 4B 文本编码器，峰值 14.0–14.6GB；`/free` 之后回落到 1.6GB，一次卸载能还回 12.4GB，冷启 15.3–32.5 秒、热启 2.5–5.2 秒。",
     "0.8.3": "- **一份工作流可以同时当出图和改图用。** 自定义工作流新增两个占位符：`{{hasImage}}` 是**真布尔**（这次带了参考图就是 `true`，没有就是 `false`），`{{mode}}` 是 `txt2img` / `img2img` 字符串。把 `{{hasImage}}` 接到 `ComfySwitchNode` 的 `switch` 上就行——它的 `on_true` / `on_false` 是惰性输入，没被选中的分支不会执行，于是改图分支（`LoadImage → ImageScale → VAEEncode`）与出图分支（`EmptyLatentImage`）共存也不冲突，两个 KSampler 各用各的 `denoise`，再用第二个 `ComfySwitchNode` 挑结果。\n- 面板里粘这种工作流时，`{{hasImage}}` / `{{mode}}` 不再被判成「不认识的占位符」（面板与后端的占位符表同一份口径），配套的自测也补上了：布尔类型不被字符串化、出图时 `switch` 是 `false`、改图时是 `true`。\n- 一并修掉 `src/comfyui.js` 里 `applyVars()` 注释块与 `export` 粘在同一行的排版残点。",

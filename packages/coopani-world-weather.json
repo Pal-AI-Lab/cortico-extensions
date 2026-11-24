@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "name": "coopani-world-weather",
+  "version": "0.1.4",
+  "describe": {
+    "tools": [
+      {
+        "name": "weather_now",
+        "description": "查某座城市当前的天气和今天的温度范围。优先使用中国天气网（中国气象局公共气象服务中心）实时数据，预报由 Open-Meteo 补；城市不填时读她当前城市。拉不到就报错，不编天气。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "city": {
+              "type": "string",
+              "description": "城市名或 journey 城市 id，例如 洛阳、北京、luoyang。不填就用她当前城市。"
+            },
+            "latitude": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90,
+              "description": "纬度；和 longitude 一起传时按坐标查天气，优先于 city。"
+            },
+            "longitude": {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180,
+              "description": "经度；和 latitude 一起传时按坐标查天气。"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查当前天气和今天温度范围。",
+          "en": "查当前天气和今天温度范围。"
+        }
+      },
+      {
+        "name": "weather_forecast",
+        "description": "查某座城市未来 1–7 天的天气预报。城市不填时，优先读她当前所在城市。只返回接口真实数据。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "city": {
+              "type": "string",
+              "description": "城市名或 journey 城市 id；不填就用她当前城市。"
+            },
+            "latitude": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90,
+              "description": "纬度；和 longitude 一起传时按坐标查。"
+            },
+            "longitude": {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180,
+              "description": "经度；和 latitude 一起传时按坐标查。"
+            },
+            "days": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 7,
+              "description": "预报天数，默认 3。"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查未来 1–7 天天气预报。",
+          "en": "查未来 1–7 天天气预报。"
+        }
+      }
+    ],
+    "events": []
+  },
+  "changelog": {
+    "0.1.4": "- 增加「配置与反馈」面板：反馈 BUG 或建议，点击「邮箱」自动复制 liyiming0501@163.com 并提示已复制。",
+    "0.1.3": "- 支持按经纬度查天气：工具 `latitude/longitude`，服务 `/now?lat=&lon=`、`/forecast?lat=&lon=`。\n- 坐标查询只使用 Open-Meteo；中国天气网只支持城市名。",
+    "0.1.2": "- 增加本机只读 HTTP 服务 `127.0.0.1:7791`，供其它 Coopani 插件复用天气。\n- 端点：`/health`、`/now`、`/forecast`。\n- 仅监听回环地址，不对外网卡开放。",
+    "0.1.1": "- 当前天气优先使用中国天气网（中国气象局公共气象服务中心）公开实时数据。\n- 今日温度范围和未来预报仍由 Open-Meteo 提供。\n- 中国天气网不可用时自动回退 Open-Meteo；两边都失败才报错。",
+    "0.1.0": "- 天气 World：`weather_now`、`weather_forecast`。\n- 使用 Open-Meteo，无需 API key；10 分钟缓存。\n- 优先使用《大肥鱼环游世界》城市坐标，避免中文重名城市解析错误。\n- 接口失败、字段缺失时明确报错，不编天气。"
+  }
+}
