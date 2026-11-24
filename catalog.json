@@ -2728,7 +2728,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/940",
         "up": 1,
         "down": 0,
-        "comments": 1
+        "comments": 3
       }
     },
     "coopani-world-music": {
@@ -6863,7 +6863,7 @@
     },
     "cortico-world-bookfish": {
       "kind": "world",
-      "version": "0.66.1",
+      "version": "0.66.7",
       "displayName": "看书吧！大肥鱼",
       "description": "你负责安利，大肥鱼负责上头！把喜欢的小说推荐给大肥鱼，让她认真读、尽情吐槽、和你讨论每一个精彩瞬间！反馈 QQ 群：1135570183。",
       "author": "oceanxuhaiao",
@@ -6882,10 +6882,10 @@
         "bugs": "https://github.com/oceanxuhaiao/bookfish/issues"
       },
       "created": "2026-11-10T16:54:53.268Z",
-      "published": "2026-11-23T13:23:39.288Z",
-      "versionCount": 30,
+      "published": "2026-11-24T16:40:35.109Z",
+      "versionCount": 31,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "companion",
         "creative",
@@ -6913,6 +6913,7 @@
       },
       "changelog": {
         "versions": [
+          "0.66.7",
           "0.66.1",
           "0.66.0",
           "0.65.1",
@@ -7652,6 +7653,62 @@
       "discussion": {
         "number": 670,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/670",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-byted-web-search": {
+      "kind": "world",
+      "version": "0.1.1",
+      "description": "豆包搜索（火山引擎联网搜索）World 扩展：给 Coopanion 的桌宠接入带来源的实时网页与图片搜索",
+      "maintainers": [
+        "gc-12"
+      ],
+      "license": "Apache-2.0",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "web-search",
+        "doubao",
+        "volcengine"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-byted-web-search"
+      },
+      "created": "2026-11-24T16:37:04.573Z",
+      "published": "2026-11-24T16:44:40.390Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "internet",
+        "requires-key"
+      ],
+      "tags": [
+        "internet",
+        "requires-key"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 1,
+        "events": 0,
+        "toolTokens": 489,
+        "envPromptTokens": 212
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1"
+        ],
+        "url": "https://unpkg.com/cortico-world-byted-web-search@0.1.1/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1153,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1153",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -14306,17 +14363,17 @@
     },
     "cortico-world-hearthstone": {
       "kind": "world",
-      "version": "1.0.5",
+      "version": "1.0.6",
       "displayName": "炉石陪打",
-      "description": "陪打炉石（需 Coopani 0.2.17+）:读对局日志,就知道双方血量、场面、手牌和水晶。该开口时开口:该解场还是该压、费够不够上那张大牌、对面有没有斩杀。只看不动手,不代打;第一次启动会替你把 Power 日志打开。打完能陪你复盘:哪一手走了岔路、她当时建议什么,也记得住最近几十局的战绩。她自己还有一份打法档案——信哪一套、看不惯什么,边打边写,越打越像她;但算出的斩杀她照样得喊,风格盖不住账。竞技场也认。",
+      "description": "陪打炉石（需 Coopani 0.2.22+｜QQ 群 284525159）:读对局日志,就知道双方血量、场面、手牌和水晶。该开口时开口:该解场还是该压、费够不够上那张大牌、对面有没有斩杀。只看不动手,不代打;第一次启动会替你把 Power 日志打开。打完能陪你复盘:哪一手走了岔路、她当时建议什么,也记得住最近几十局的战绩。她自己还有一份打法档案——信哪一套、看不惯什么,边打边写,越打越像她;但算出的斩杀她照样得喊,风格盖不住账。竞技场也认。",
       "locales": {
         "zh": {
           "displayName": "炉石陪打",
-          "description": "陪打炉石（需 Coopani 0.2.17 以上）：她读的是游戏自己写的对局日志，不是屏幕。\n\n**她看得到什么。** 双方职业与英雄、生命值与护甲、场上每个随从的攻击力与生命和关键词、两边手牌与牌库张数、水晶、回合数、谁打了什么牌。**开局换牌阶段还看得到起手那几张的牌名和费用。**\n\n**她看不到什么。** 对手手牌具体是哪几张、卡牌的文字效果、动画和演出。日志比画面晚几百毫秒，极快的一瞬间可能漏掉。信息没跟上时她会直说没看到，不会用推测把场面补完整。\n\n**该开口的时候开口。** 轮到你了她说这回合打什么；残血、被铺场、牌库见底、进入斩杀线时她会提醒；打出意料之外的牌（跨职业的、比水晶还贵的、8/8 以上的）她会愣一下。开局换牌只来一次，过时不补——那是唯一能改起手的机会。\n\n**算得清的账。** 斩杀线把场面、武器、英雄攻击力、过墙和手牌里的直伤一起算进去，并说明哪些没算（光环、潜行、免疫、战吼伤害不在数里，所以那个数是下界）。对手有嘲讽时，过墙用掉多少攻击力会写清楚——9 攻打 2 血嘲讽，剩的是 0 不是 7。硬币算进预算了，被加价时会提醒你「打了也换不到水晶」。\n\n**她拦得住几种常见的错。** 血厚没嘲讽不是墙；带前提的战吼没满足就只是个随从；狂怒、复生、亡语这些打下去还有后续；同一张牌连劝四个回合就不是牌友了，是催命的。\n\n**她有自己的打法档案。** 信哪一套、话多话少、看到臭手会不会直接说——边打边写，越打越像她。但有一条她不能拿风格当理由：**算出的斩杀必须喊，建议里点出的风险必须转告。**\n\n**按谁的思路打，你说了算。** 面板上一个按钮：默认按她自己的立场，也能切到「你的」——那份不是猜的，是从你的对局记录里数出来的：你多久听一次建议、哪个回合段开始自己拿主意、没听的时候先打了哪几张。每打完一局自动重算。切到「你的」之后她照样会反驳你，**算出来的斩杀和风险一样必须说** —— 立场换的是措辞和先推哪条，不是数字。\n\n**打完能复盘。** 逐回合的双方血量、手牌数、场面，加上全部出牌与攻击。她说得出「第 13 回合你场攻 11，对面 14 血，那回合已经进斩杀窗口了」，而不是「你打得不错」。\n\n**竞技场也认。** 三张候选牌念给她，她给解析和分数，选完记进牌组曲线；开局前先看她有没有这个职业的赢法。\n\n**她不动手。** 不模拟点击、不操作游戏。给的是判断和建议，鼠标在你手上——不听也是你的牌。\n\n**第一次启动会替你把 Power 日志的上限打开**（改的是炉石自己 client.config 里的 FileSizeLimit.Int），否则日志写到 10MB 就停笔，后面全是残影。如果哪天日志又断了，多半是游戏更新把配置覆盖回去了，她会明说数据停在几点。\n\n**已知限制**：看不到对手手牌，也就猜不准对面手里有没有解；卡牌效果只认卡表摘要，遇到生僻牌她会说「这张具体效果我得看牌面」。\n\n---\n\n桌面宠在旁边时，她说话走气泡，还会跟着局面的松紧换表情。\n\n**动作要靠形象包。** 蹦迪、律动这类原地动作不在宿主里 —— 宿主认不出的名字会被静默丢掉（脸变、人不动、不报错）。所以这个扩展自带一个带 12 个动作的形象包 —— 在扩展面板里点一下即可装进 data/figures/，装完去换装页选一次：装和用是两步。它只写你自己的 data 目录，不碰宿主安装目录。\n\n**她会自己让开。** 对局版形象包现在盯着屏幕：只要有窗口盖住屏幕底部中央（打牌、看视频），她就站到牌区两侧，不挡手牌也不抢点击；桌面上没东西被她挡着就照常走。想让她去指定一侧也行 —— 叫 `pet_move_to` 的 off-hand-left / off-hand-right，带 run 就一蹦一蹦跑过去。"
+          "description": "陪打炉石（需 Coopani 0.2.22 以上，反馈 QQ 群 284525159）：她读的是游戏自己写的对局日志，不是屏幕。\n\n**她看得到什么。** 双方职业与英雄、生命值与护甲、场上每个随从的攻击力与生命和关键词、两边手牌与牌库张数、水晶、回合数、谁打了什么牌。**开局换牌阶段还看得到起手那几张的牌名和费用。**\n\n**她看不到什么。** 对手手牌具体是哪几张、卡牌的文字效果、动画和演出。日志比画面晚几百毫秒，极快的一瞬间可能漏掉。信息没跟上时她会直说没看到，不会用推测把场面补完整。\n\n**该开口的时候开口。** 轮到你了她说这回合打什么；残血、被铺场、牌库见底、进入斩杀线时她会提醒；打出意料之外的牌（跨职业的、比水晶还贵的、8/8 以上的）她会愣一下。开局换牌只来一次，过时不补——那是唯一能改起手的机会。\n\n**算得清的账。** 斩杀线把场面、武器、英雄攻击力、过墙和手牌里的直伤一起算进去，并说明哪些没算（光环、潜行、免疫、战吼伤害不在数里，所以那个数是下界）。对手有嘲讽时，过墙用掉多少攻击力会写清楚——9 攻打 2 血嘲讽，剩的是 0 不是 7。硬币算进预算了，被加价时会提醒你「打了也换不到水晶」。\n\n**她拦得住几种常见的错。** 血厚没嘲讽不是墙；带前提的战吼没满足就只是个随从；狂怒、复生、亡语这些打下去还有后续；同一张牌连劝四个回合就不是牌友了，是催命的。\n\n**她有自己的打法档案。** 信哪一套、话多话少、看到臭手会不会直接说——边打边写，越打越像她。但有一条她不能拿风格当理由：**算出的斩杀必须喊，建议里点出的风险必须转告。**\n\n**按谁的思路打，你说了算。** 面板上一个按钮：默认按她自己的立场，也能切到「你的」——那份不是猜的，是从你的对局记录里数出来的：你多久听一次建议、哪个回合段开始自己拿主意、没听的时候先打了哪几张。每打完一局自动重算。切到「你的」之后她照样会反驳你，**算出来的斩杀和风险一样必须说** —— 立场换的是措辞和先推哪条，不是数字。\n\n**打完能复盘。** 逐回合的双方血量、手牌数、场面，加上全部出牌与攻击。她说得出「第 13 回合你场攻 11，对面 14 血，那回合已经进斩杀窗口了」，而不是「你打得不错」。\n\n**竞技场也认。** 三张候选牌念给她，她给解析和分数，选完记进牌组曲线；开局前先看她有没有这个职业的赢法。\n\n**她不动手。** 不模拟点击、不操作游戏。给的是判断和建议，鼠标在你手上——不听也是你的牌。\n\n**第一次启动会替你把 Power 日志的上限打开**（改的是炉石自己 client.config 里的 FileSizeLimit.Int），否则日志写到 10MB 就停笔，后面全是残影。如果哪天日志又断了，多半是游戏更新把配置覆盖回去了，她会明说数据停在几点。\n\n**已知限制**：看不到对手手牌，也就猜不准对面手里有没有解；卡牌效果只认卡表摘要，遇到生僻牌她会说「这张具体效果我得看牌面」。\n\n---\n\n桌面宠在旁边时，她说话走气泡，还会跟着局面的松紧换表情。\n\n**动作要靠形象包。** 蹦迪、律动这类原地动作不在宿主里 —— 宿主认不出的名字会被静默丢掉（脸变、人不动、不报错）。所以这个扩展自带一个带 12 个动作的形象包 —— 在扩展面板里点一下即可装进 data/figures/，装完去换装页选一次：装和用是两步。它只写你自己的 data 目录，不碰宿主安装目录。\n\n**她会自己让开。** 对局版形象包现在盯着屏幕：只要有窗口盖住屏幕底部中央（打牌、看视频），她就站到牌区两侧，不挡手牌也不抢点击；桌面上没东西被她挡着就照常走。想让她去指定一侧也行 —— 叫 `pet_move_to` 的 off-hand-left / off-hand-right，带 run 就一蹦一蹦跑过去。"
         },
         "en": {
           "displayName": "Hearthstone Companion",
-          "description": "Hearthstone Companion (needs Coopani 0.2.17+): reads your match from the Power log — heroes, board, hand, mana. Speaks up when it matters: clear or push, afford that card, lethal. Read-only; sets up the log. Reviews the game and remembers your last few dozen results. She also keeps her own play-style file in her own words — what she believes in, what she cannot stand, written as she plays. A lethal she sees is still a lethal she calls.\n\n**Whose read you get is your call.** One button on the panel: her own stance by default, or yours — and yours is not guessed, it is counted from your own match archive: how often you follow the advice, which stretch of the game you stop following it, what you played first when you did not. Recounted after every match. Switching to yours does not turn her into a yes-man: a lethal she sees is still called, and so are the risks the advice names — the stance changes the wording and which line comes first, never the numbers. Arena too. The game figure pack now watches the screen: while a window covers the bottom middle of it (a game, a video) she keeps clear of that band on her own, and walks as usual when nothing is behind her. You can still send her to one side by name (off-hand-left / off-hand-right), and she bounds over when you ask for a run.\n\n**Motions need a figure pack.** Bounce and groove are not in the host - a name it does not know is silently dropped (the face changes, the body does not move, no error). So this extension ships a figure pack with twelve of them — click once in the extension panel to install it into data/figures/, then pick it on the dress page; installing and wearing are two steps. It writes only inside your own data folder, never into the host's install directory."
+          "description": "Hearthstone Companion (needs Coopani 0.2.22+ · QQ group 284525159): reads your match from the Power log — heroes, board, hand, mana. Speaks up when it matters: clear or push, afford that card, lethal. Read-only; sets up the log. Reviews the game and remembers your last few dozen results. She also keeps her own play-style file in her own words — what she believes in, what she cannot stand, written as she plays. A lethal she sees is still a lethal she calls.\n\n**Whose read you get is your call.** One button on the panel: her own stance by default, or yours — and yours is not guessed, it is counted from your own match archive: how often you follow the advice, which stretch of the game you stop following it, what you played first when you did not. Recounted after every match. Switching to yours does not turn her into a yes-man: a lethal she sees is still called, and so are the risks the advice names — the stance changes the wording and which line comes first, never the numbers. Arena too. The game figure pack now watches the screen: while a window covers the bottom middle of it (a game, a video) she keeps clear of that band on her own, and walks as usual when nothing is behind her. You can still send her to one side by name (off-hand-left / off-hand-right), and she bounds over when you ask for a run.\n\n**Motions need a figure pack.** Bounce and groove are not in the host - a name it does not know is silently dropped (the face changes, the body does not move, no error). So this extension ships a figure pack with twelve of them — click once in the extension panel to install it into data/figures/, then pick it on the dress page; installing and wearing are two steps. It writes only inside your own data folder, never into the host's install directory."
         }
       },
       "author": "Mr.Q",
@@ -14342,8 +14399,8 @@
         "darwin"
       ],
       "created": "2026-10-27T13:42:43.161Z",
-      "published": "2026-11-24T05:39:03.793Z",
-      "versionCount": 47,
+      "published": "2026-11-24T16:45:05.144Z",
+      "versionCount": 48,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -14370,6 +14427,7 @@
       },
       "changelog": {
         "versions": [
+          "1.0.6",
           "1.0.5",
           "1.0.4",
           "1.0.3",
@@ -24707,17 +24765,17 @@
     },
     "cortico-world-self-checkup": {
       "kind": "world",
-      "version": "1.0.6",
+      "version": "1.0.7",
       "displayName": "鱼鱼体检",
-      "description": "她最近是跑得慢了，还是心思变了？先别急着重装，做一次体检。硬件健康看六项：稳定性、响应速度、缓存与成本、上下文配置、交接健康、记忆健康，每项都有分数、趋势和判断依据——是哪次交接拖慢的、哪段记忆在漏，都指给你看。另一份是性格侧写：28 道情境题她自己答，再拿真实行为痕迹反查，开口习惯、记忆线索、情绪起伏、日常节奏，最后给一张名片，带称号、四个短标签和一段近期观察。两份报告分开算、不合并总分，全程只读不改配置。",
+      "description": "她最近是跑得慢了，还是心思变了？先别急着重装，做一次体检。硬件半边看六项：稳定性、响应速度、缓存与成本、上下文配置、交接健康、记忆健康，每项有分数、趋势和判断依据——哪次交接拖慢的、哪段记忆在漏，都指给你看。另一边是性格侧写：近期名片、能展开逐条看的情境依据、五项指标图，还能邀她做一次奇遇小测。两份报告分开算、不合并总分，只读不改配置，明暗主题跟着 Coo 走。",
       "locales": {
         "zh": {
           "displayName": "鱼鱼体检",
-          "description": "她最近是跑得慢了，还是心思变了？先别急着重装，做一次体检。硬件健康看六项：稳定性、响应速度、缓存与成本、上下文配置、交接健康、记忆健康，每项都有分数、趋势和判断依据——是哪次交接拖慢的、哪段记忆在漏，都指给你看。另一份是性格侧写：28 道情境题她自己答，再拿真实行为痕迹反查，开口习惯、记忆线索、情绪起伏、日常节奏，最后给一张名片，带称号、四个短标签和一段近期观察。两份报告分开算、不合并总分，全程只读不改配置。"
+          "description": "她最近是跑得慢了，还是心思变了？先别急着重装，做一次体检。硬件半边看六项：稳定性、响应速度、缓存与成本、上下文配置、交接健康、记忆健康，每项有分数、趋势和判断依据——哪次交接拖慢的、哪段记忆在漏，都指给你看。另一边是性格侧写：近期名片、能展开逐条看的情境依据、五项指标图，还能邀她做一次奇遇小测。两份报告分开算、不合并总分，只读不改配置，明暗主题跟着 Coo 走。"
         },
         "en": {
           "displayName": "Fish Checkup",
-          "description": "Is she slowing down, or has something about her changed? Run a checkup before you reinstall. The hardware half scores six dimensions — stability, latency, cache and cost, context config, handoff health, memory health — each with a trend and the evidence behind it, so you can see which handoff dragged or where memory is leaking. The other half is playful: 28 situational questions she answers herself, cross-checked against real behavioural traces (opening habits, memory cues, mood swings, daily rhythm) and turned into a card with a title, four labels and a recent observation. Two separate reports, never merged into one score, read-only throughout."
+          "description": "Review six operational health indicators alongside an illustrated personality card, expandable situational evidence, five wellbeing charts, and changes since your last visit. The optional Curiosity Quiz is available separately. The report follows Coo’s light or dark theme."
         }
       },
       "maintainers": [
@@ -24735,8 +24793,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-self-checkup"
       },
       "created": "2026-11-24T14:24:38.349Z",
-      "published": "2026-11-24T15:41:26.923Z",
-      "versionCount": 8,
+      "published": "2026-11-24T18:15:24.327Z",
+      "versionCount": 9,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -24767,6 +24825,7 @@
       },
       "changelog": {
         "versions": [
+          "1.0.7",
           "1.0.6",
           "1.0.5",
           "1.0.4",
@@ -24778,7 +24837,7 @@
           "0.2.6",
           "0.2.5"
         ],
-        "url": "https://unpkg.com/cortico-world-self-checkup@1.0.6/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-self-checkup@1.0.7/CHANGELOG.md"
       },
       "discussion": {
         "number": 1141,
@@ -31893,7 +31952,7 @@
       "published": "2026-11-10T17:08:07.447Z",
       "versionCount": 2,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "internet",
         "requires-key",

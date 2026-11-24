@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "name": "cortico-world-byted-web-search",
+  "version": "0.1.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "byted_web_search",
+        "description": "Search the live Chinese web through Doubao Search (Volcengine). Returns numbered results with site name, publish date, URL and a summary. Use it when the answer depends on facts after your training cutoff, on things that change (prices, policies, schedules, weather), or when the user asks for sources. Prefer one focused query at a time; search again with different wording only if the results are poor. With type=image the pictures are downloaded to this machine and attached to the result.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "q": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "description": "Focused search query, 1-100 characters. Keep names, dates and platforms; do not paste chat logs, addresses, keys or other private data."
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "web",
+                "image"
+              ],
+              "default": "web",
+              "description": "web = pages with summaries; image = pictures plus their source pages."
+            },
+            "n": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10,
+              "description": "How many results to return. web allows up to 50; image is capped at 5."
+            },
+            "timeRange": {
+              "type": "string",
+              "description": "Only results published in this window: OneDay, OneWeek, OneMonth, OneYear, or an explicit \"YYYY-MM-DD..YYYY-MM-DD\" range."
+            },
+            "authLevel": {
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ],
+              "default": 0,
+              "description": "0 = all results; 1 = only highly authoritative sources (fewer results)."
+            },
+            "rewrite": {
+              "type": "boolean",
+              "default": false,
+              "description": "Let the service rewrite a conversational question into a search-style query. Adds latency."
+            }
+          },
+          "required": [
+            "q"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "用豆包搜索实时网页或图片，拿回带来源、可引用的结果。",
+          "en": "Searches the live web or images through Doubao Search and returns sourced, citable results."
+        }
+      }
+    ],
+    "events": [],
+    "prompts": [
+      {
+        "key": "worlds.byted-web-search.envPrompt",
+        "title": "豆包搜索 · 环境提示词",
+        "role": "envPrompt",
+        "content": "豆包搜索（byted-web-search）是这台机器上的实时互联网入口，工具是 `byted_web_search`。\n\n该搜的时候：问题依赖训练截止之后的事实、正在变的价格/政策/赛程/天气、需要出处或链接，或者你对某个事实的把握不到九成。纯计算、语法、常识、创作和闲聊不必搜。\n\n怎么搜：\n- 一次一条具体查询，保留人名、时间、平台名；绝不把聊天记录、住址、密钥这类私密信息拼进查询。\n- 结果不对就换同义词或简称，或用 timeRange 收窄时间再试；两三次仍不理想就直说证据不足，不要编。\n- 「只要权威来源」传 authLevel 1；「今天/最近」传 timeRange OneDay / OneWeek；口语化长问题加 rewrite。\n\n怎么读回执：每条结果带站点、发布时间、链接和摘要，回答里标出来源；来源互相矛盾时说明分歧。type=image 时图片会下载到本机，回执里有路径和附件，可以据此描述画面。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.1": "首个发布版本。0.1.0 在上传收尾时网络中断，npm 留下了一条 `0.0.0-stage` 暂存记录，同版本无法重发，\n而清理它需要带二次验证的操作，因此直接以 0.1.1 发布；除版本号外与 0.1.0 完全一致。\n\n- `byted_web_search`：豆包搜索（火山引擎联网搜索）的 web 与 image 搜索，支持条数、时间范围、\n  权威度过滤与 Query 改写。参数与错误码语义对齐 `byted-web-search` skill v1.3.4。\n- image 结果下载到 `<部署数据目录>/byted-web-search-images/<日期>/`，并以附件随回执返回；\n  单张 8MB 上限，失败只记原因。\n- WebUI 的 API Key 面板：`state` / `setKey` / `test`；密钥只写部署 `.env` 的\n  `BYTED_WEB_SEARCH_API_KEY`，界面只显示打码后的样子。没有 `clearKey`：`ctx.storeSecret()`\n  拒收空值，撤销密钥请手动删 `.env` 里那一行。\n- 面板带浏览器端产物 `dist/webui.js`（`cortico.webUiClient`），由 `pnpm build:webui` 生成；\n  没有它 World 页会报「缺少面板构建产物」。\n- 配置段 `worlds.byted-web-search.*` 全部热改；不推事件、不写 Memory。"
+  }
+}
