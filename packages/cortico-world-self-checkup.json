@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-self-checkup",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "describe": {
     "tools": [
       {
@@ -135,6 +135,7 @@
     ]
   },
   "changelog": {
+    "1.0.3": "上游 0.2.11 并入。版本号规则：常规迭代走 1.0.x，只有大改动才起 2.0。\n\n- 新增 `src/behavior.mjs`、`src/card-profile.mjs`、`src/card-voice-details.mjs`、`src/fish-topics.mjs`、`src/fish-voice.mjs`：行为痕迹交叉验证与趣味名片、语音细节。\n- 人格测试扩到 28 题，四字母类型与标签分开统计；重复邀请有节流窗口，重载后不重复触发。\n- `assets/personality/` 新增四张状态插画（curious / happy / shy / sleepy）。\n- 市场标签固定为 `diagnostics` + `companion`；测试同步改为断言 `diagnostics`。\n- 212 项测试全绿，装配层冒烟通过。",
     "1.0.2": "- 市场显示名改为「鱼鱼体检」/ Fish Checkup。\n- 新增市场图标 `assets/icon.png`（512×512、382 KB，符合索引仓 512 KB 上限）与截图 `assets/screenshot-1.png`。\n- README 封面改为绝对地址，npm 页面不再破图。",
     "1.0.0": "GitHub 首发版本，在 0.2.8 基础上整理为可公开发布的包。\n\n- 硬件健康：稳定性、速度、缓存、上下文、交接、记忆六维，带趋势与判断依据。\n- 趣味人格：自评 + 行为侧写，给出称号、短标签、近期观察与可选 AI 名片。\n- 两份报告分开呈现，只观察与解释，不自动改配置。\n- 记忆与部署路径按实际安装位置与 Bot 配置读取；只有 Coo 基础记忆时也能出报告。\n- 市场标签按官方词表写作 `diagnostics` + `companion`；发布包用 `files` 白名单收窄，不含测试与本机临时文件。",
     "0.2.8": "- 基础记忆复核：只有 Coo 基础记忆的部署可运行冒烟；记忆健康显示工作区、基础设定与日常文本抽查依据。",
