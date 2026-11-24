@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-life",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "describe": {
     "tools": [
       {
@@ -786,6 +786,7 @@
     ]
   },
   "changelog": {
+    "1.3.1": "- **外部真实天气源接入**（`src/config.ts`、`src/bridge.ts`、`src/state.ts`、`src/world.ts`、`web/panel-1.3.1.js`）：\n  - 新增热更新配置项 `worlds.life.weatherMode`（`auto` / `external` / `builtin`，默认 `auto`）、`worlds.life.weatherUrl`（默认留空不发请求，自动剥尾 `/now`）与 `worlds.life.weatherTimeoutMs`（默认 `2500`，上限 `3000` 毫秒）；\n  - 在 `LifeWorld` 实例上按 10 分钟节流异步拉取 `GET {weatherUrl}/now?city=<真城名>`，以 `skyFromExternal()` 映射回四枚举 `晴` / `多云` / `小雨` / `起风` 并透传可选 `temperature`/`source`/`rawWeather`，`seasonNote` 保持本地二十四节气文案；无论 `auto` 或 `external` 模式失联均由内置天气兜底、永不抛空值，仅在状态灯第 4 盏「外部天气」标红/写明原因。\n- **修复管理页保存街道属性后 Life UI 不同步**（`src/bridge.ts`、`src/world.ts`）：\n  - `readTown()` 补上 `cache: 'no-store'`；新增 `refreshTownInfo()`，在 `tick()` / 邻里同步每 15 分钟重拉 `/town/info`，并在打开或轮询「她此刻」面板（`snapshot`）时按 30 秒冷却同步、`reloadTown` 强刷；自动刷新遇临时 500/断网保留原服务端街道档案不闪烁回默认。\n- **「你和它」页签精简**（`web/panel-1.3.1.js`）：\n  - 移除 `relation` 页签重复的鱼市街黑板与摊位卡片，鱼市街统一收口至 `market`（「菜园与鱼市街」）页签；完成 `1.3.1` / `web/panel-1.3.1.js` 三同步。\n- **测试**：`node --check web/panel-1.3.1.js` 通过、`test/smoke.mjs` **394/394** 通过、`test/*.test.mjs` **75/75** 通过。",
     "1.3.0": "- **节气标注消歧**：`statusText`、面板与相关摘要统一标注为「二十四节气·<节气>」，避免「小雪」等节气词被误读为实时降雪预报。\n- **二期活动与环游世界慢旅行联动**（`src/state.ts`、`src/world.ts`、`describe.json`、`ENV_PROMPT.md`）：\n  - 新增 `glamping`（城郊精致露营）与 `miniature`（拼微缩模型），补齐全景观光专列、房车自驾、内河游轮在途场景映射与动作门控（内河游轮严守鱼不吃鱼，不误走主题远洋游轮 0 元免单）；\n  - `broadcastLife()` 写入 `life-public.json` 透出 `certs` 持证列表，供旅行侧识别「驾照」解锁房车/自驾。\n- **种菜租地、储物篮与五赛道摆摊真实成本闭环**（`src/farm.ts`、`src/state.ts`、`src/bridge.ts`、`src/world.ts`、`describe.json`、`ENV_PROMPT.md`）：\n  - **种植槽与租地**：住处自带 1 / 2 / 4 / 8 种植槽，新增 `life_farm` 工具支持签约城郊菜地（4 槽，起租费 100 元 + 月租 150 元按天折算 5 元/天）；\n  - **4–9 天慢节奏节气果蔬（严守鱼不吃鱼）**：支持 8 种果蔬粮豆，每天每块地限浇水 1 次（耗 3 精力，浇满 2 次与当季好节气各自增产 +1 份），收成与购买鲜蔬统一进入本地储物篮 `pantry`；做饭与料理摆摊优先消耗储物篮鲜蔬减免早市原料费（仅扣 3 元/份油盐燃料费）；\n  - **五赛道真实本钱、门槛与幂等成交入账**：`鲜蔬农产 / 料理熟食 / 手作文创 / 写作出版 / 影像周边` 均实扣对应纸笔印刷/耗材/冲印/包装费用与精力，中高价位校验技能、证书与设备门槛，3 天未售出过期真压货亏本；`settleTownDeals()` 在后台刷新与 `life_deals` 双入口按成交单号幂等进账现金并记账。\n- **只读「菜园与鱼市街」页签与面板缓存三同步**（`web/panel-1.3.0.js`、`package.json`）：\n  - 新增只读 `market` 页签（四步图解、五赛道门槛本钱折叠表、常用对话示范、种植槽实时进度网格、节气种子表、储物篮清单、摊位赛道徽标与 `+¥XX` 入账），同步升级 `now` 概览芯片/搬家槽位数与 `relation` 鱼市街引导，并完成 `1.3.0` / `web/panel-1.3.0.js` 三同步。\n- **测试**：`node --check web/panel-1.3.0.js` 通过、`test/smoke.mjs` **394/394** 通过、`test/*.test.mjs` **72/72** 通过、`verify-world.mjs` **37/37** 通过。",
     "1.2.3": "- **视觉更新**：更新扩展图标为「大肥鱼」暖调彩铅水粉绘本风圆形透明头像（\u0007ssets/icon.png，512×512）。",
     "1.2.2": "- **修复冷启动或拉取失败后 UI 不显示摊位**：\n  - `src/world.ts` 抽出 `refreshTownMarket()`：仅当 `/town/stalls` 返回 `ok: true` 时写入完整 15 分钟冷却，失败时仅退避 1 分钟后允许自动重试；\n  - `panelInvoke('relation', 'snapshot' | 'list' | '')` 增加按需刷新：若 `townUrl` 已配置且（本地黑板/摊位缓存全空 或 距上次成功拉取已满 60 秒），当场 `await this.refreshTownMarket()` 拉取最新在售摊位。\n- **补充鱼市街玩法与配点指引**：\n  - [panel-1.2.2.js](web/panel-1.2.2.js) 在「鱼市街」卡片顶部增加一行常驻引导（说明面板只读、在对话里对小家伙说即可买货或挂摊）及可折叠「怎么买卖与配点 ▾」说明，并同步升级 `1.2.2` 清缓存。\n- **测试**：`node --check web/panel-1.2.2.js` 通过、`test/smoke.mjs` **355/355** 通过、`test/*.test.mjs` **70/70** 通过。",
