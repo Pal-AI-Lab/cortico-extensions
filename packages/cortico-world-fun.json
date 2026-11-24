@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-fun",
-  "version": "0.7.7",
+  "version": "0.8.0",
   "describe": {
     "tools": [
       {
         "name": "fun_places",
-        "description": "查询地点、当前可逛项目及心愿的合适时段。",
+        "description": "查询地点、当前开放状态与可逛项目。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -22,7 +22,11 @@
             },
             "all": {
               "type": "boolean",
-              "description": "true = 列全部二十处（按开放排序），忽略 count。"
+              "description": "true = 列全部地点，忽略 count。"
+            },
+            "now": {
+              "type": "boolean",
+              "description": "true = 查看此刻推荐的五处地点。"
             }
           },
           "additionalProperties": false
@@ -38,7 +42,7 @@
       },
       {
         "name": "fun_go",
-        "description": "开始一趟出游，返回当下描写与可逛项目。place 用 fun_places 给的地点名或别名。",
+        "description": "开始一趟出游，返回当下描写与可逛项目；续走未完行程时改填 tripId。place 用 fun_places 给的地点名或别名。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -49,24 +53,25 @@
             "company": {
               "type": "string",
               "description": "同行人，可选；一个人不填。"
+            },
+            "tripId": {
+              "type": "string",
+              "description": "继续这趟未完行程时填 fun_journal 返回的行程 ID。"
             }
           },
-          "required": [
-            "place"
-          ],
           "additionalProperties": false
         },
         "tags": [
           "write"
         ],
         "summary": {
-          "zh": "进门开始行程，返回当前时段描写和可逛项目。",
-          "en": "Start a trip and return the current-time description and available areas."
+          "zh": "只进门开始行程，或用 tripId 继续未完行程。",
+          "en": "Enter a place without exploring it, or resume an unfinished trip with tripId."
         }
       },
       {
         "name": "fun_wander",
-        "description": "在当前地点逛一处；可记录本次真实收获。回执带 choiceId 时先用 fun_choice。",
+        "description": "在当前地点逛一处；可记录本次真实收获。选项式故事的待选项请在故事手账里处理。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -97,61 +102,8 @@
           "write"
         ],
         "summary": {
-          "zh": "逛一个项目，可记录本次购买、拍照或吃喝；待选择事件按回执处理。",
-          "en": "Wander one spot and optionally record a purchase, photo or food; resolve pending choices from the receipt."
-        }
-      },
-      {
-        "name": "fun_choice",
-        "description": "按待选回执的选项处理当前事件，也可略过。",
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "choiceId": {
-              "type": "string",
-              "description": "回执的 choiceId。"
-            },
-            "optionId": {
-              "type": "string",
-              "description": "回执的 optionId，或 skip。"
-            }
-          },
-          "required": [
-            "choiceId",
-            "optionId"
-          ],
-          "additionalProperties": false
-        },
-        "tags": [
-          "write"
-        ],
-        "summary": {
-          "zh": "处理待选择事件，可按回执选择或略过。",
-          "en": "Resolve or skip a pending event choice."
-        }
-      },
-      {
-        "name": "fun_resume",
-        "description": "继续未逛完的行程，返回进度和待选事件。",
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string",
-              "description": "fun_view 的未完行程 ID。"
-            }
-          },
-          "required": [
-            "id"
-          ],
-          "additionalProperties": false
-        },
-        "tags": [
-          "write"
-        ],
-        "summary": {
-          "zh": "继续一趟未逛完的行程。",
-          "en": "Resume an unfinished outing."
+          "zh": "逛一个项目，可记录本次购买、拍照或吃喝。",
+          "en": "Wander one spot and optionally record a purchase, photo or food."
         }
       },
       {
@@ -166,7 +118,7 @@
             },
             "draftId": {
               "type": "string",
-              "description": "按已有记录结束未完行程时填 fun_view 的 ID；结束正在逛的不填。"
+              "description": "按已有记录结束未完行程时填 fun_journal 返回的行程 ID；结束正在逛的不填。"
             }
           },
           "additionalProperties": false
@@ -180,272 +132,39 @@
         }
       },
       {
-        "name": "fun_home_state",
-        "description": "查看房间状态：活动、备注、今天想做什么、待记一条、住所、是否在外。只读，不含图片。",
-        "parameters": {
-          "type": "object",
-          "properties": {},
-          "additionalProperties": false
-        },
-        "tags": [
-          "read",
-          "snapshot"
-        ],
-        "summary": {
-          "zh": "只读查看房间状态与可复制的「待记一条」；不含图片，不写盘。",
-          "en": "Read the room state and a copyable \"one line to log\"; no images, no writes."
-        }
-      },
-      {
-        "name": "fun_home_activity",
-        "description": "切换她在家的活动（十个固定 id），可附一句备注。expectedRevision 不一致时返回原因，不自动重试。",
+        "name": "fun_home_room",
+        "description": "读取房间状态；可切换活动并写备注或今天计划，不会写入出游经历。",
         "parameters": {
           "type": "object",
           "properties": {
             "activity": {
               "type": "string",
-              "description": "idle / reading / watching / cards / gaming / painting / cooking / looking_outside / sleeping / chatting。"
+              "description": "可选：idle / reading / watching / cards / gaming / painting / cooking / looking_outside / sleeping / chatting。"
             },
             "note": {
               "type": "string",
-              "description": "房间备注，≤120 字，可选。"
+              "description": "可选房间备注。"
             },
-            "expectedRevision": {
-              "type": "integer",
-              "minimum": 0,
-              "description": "fun_home_state 的 revision。"
-            }
-          },
-          "required": [
-            "activity",
-            "expectedRevision"
-          ],
-          "additionalProperties": false
-        },
-        "tags": [
-          "write"
-        ],
-        "summary": {
-          "zh": "切换她在家的十个固定活动之一，可附备注；revision 冲突不自动重试。",
-          "en": "Switch one of her ten fixed home activities, optionally with a note; no retry on revision conflicts."
-        }
-      },
-      {
-        "name": "fun_start",
-        "description": "查看当前推荐地点；详细筛选用 fun_places。",
-        "parameters": {
-          "type": "object",
-          "properties": {}
-        },
-        "tags": [
-          "read"
-        ],
-        "summary": {
-          "zh": "查看当前推荐地点；详细筛选用 fun_places。",
-          "en": "Show current place recommendations; use fun_places for filters."
-        }
-      },
-      {
-        "name": "fun_route",
-        "description": "规划两站出门、前往下一站、改下一站或取消后续；不自动移动。",
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "action": {
+            "pose": {
               "type": "string",
-              "enum": [
-                "plan",
-                "status",
-                "next",
-                "change",
-                "cancel"
-              ]
-            },
-            "places": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "minItems": 2,
-              "maxItems": 2,
-              "description": "plan：两个不同地点。"
-            },
-            "id": {
-              "type": "string",
-              "description": "next/change/cancel：路线 ID。"
-            },
-            "place": {
-              "type": "string",
-              "description": "change：新下一站（只改未去的）。"
-            },
-            "company": {
-              "type": "string",
-              "description": "plan：同行人，可选。"
-            }
-          },
-          "required": [
-            "action"
-          ],
-          "additionalProperties": false
-        },
-        "tags": [
-          "write"
-        ],
-        "summary": {
-          "zh": "规划和管理最多两站的出门路线，明确前往下一站或提前结束。",
-          "en": "Plan and manage a two-stop outing, explicitly move on or end early."
-        }
-      },
-      {
-        "name": "fun_view",
-        "description": "查询行程，可按地点、同行人、日期或关键词检索。",
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "count": {
-              "type": "integer",
-              "description": "最近几趟，默认 5。",
-              "minimum": 1,
-              "maximum": 20
-            },
-            "query": {
-              "type": "string",
-              "description": "搜地点、项目、备注、小事、纪念品。"
-            },
-            "place": {
-              "type": "string",
-              "description": "只看这处，正名或别名。"
-            },
-            "company": {
-              "type": "string",
-              "description": "只看这位同行人。"
-            },
-            "from": {
-              "type": "string",
-              "description": "YYYY-MM-DD，含当天。"
-            },
-            "to": {
-              "type": "string",
-              "description": "YYYY-MM-DD，含当天。"
-            },
-            "id": {
-              "type": "string",
-              "description": "精确看一趟。"
+              "description": "activity 的兼容别名。"
             }
           },
           "additionalProperties": false
         },
         "tags": [
           "read",
+          "write",
           "snapshot"
         ],
         "summary": {
-          "zh": "查看正在逛、未逛完或已回家的行程。",
-          "en": "View active, unfinished, or finished outings."
-        }
-      },
-      {
-        "name": "fun_wishes",
-        "description": "查看出游心愿及状态；只记明确说过的，不催促。",
-        "parameters": {
-          "type": "object",
-          "properties": {},
-          "additionalProperties": false
-        },
-        "tags": [
-          "read",
-          "snapshot"
-        ],
-        "summary": {
-          "zh": "查看明确记下的出游心愿和状态，不催促。",
-          "en": "View outing wishes and their status without reminders."
-        }
-      },
-      {
-        "name": "fun_wish",
-        "description": "记录明确表达的出游心愿，或暂缓、恢复、取消。项目/时段/纪念品须填真实正名；不替你出游、不按旧行程补完成。",
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "action": {
-              "type": "string",
-              "enum": [
-                "add",
-                "pause",
-                "resume",
-                "cancel"
-              ]
-            },
-            "id": {
-              "type": "string",
-              "description": "fun_wishes 的心愿 ID。"
-            },
-            "place": {
-              "type": "string",
-              "description": "地点名，别名也认。"
-            },
-            "type": {
-              "type": "string",
-              "enum": [
-                "visit",
-                "area",
-                "phase",
-                "souvenir"
-              ]
-            },
-            "target": {
-              "type": "string",
-              "description": "项目/时段/纪念品正名；visit 不填。"
-            },
-            "reason": {
-              "type": "string",
-              "description": "你明确说过的缘由，可选。"
-            }
-          },
-          "required": [
-            "action"
-          ],
-          "additionalProperties": false
-        },
-        "tags": [
-          "write"
-        ],
-        "summary": {
-          "zh": "记录、暂缓、恢复或取消一个出游心愿。",
-          "en": "Add, pause, resume or cancel an outing wish."
-        }
-      },
-      {
-        "name": "fun_keepsake",
-        "description": "珍藏或取消珍藏一趟已回家的行程；不影响收藏账本。",
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string",
-              "description": "fun_view 的行程 ID。"
-            },
-            "keep": {
-              "type": "boolean",
-              "description": "true 珍藏，false 取消。"
-            }
-          },
-          "required": [
-            "id"
-          ],
-          "additionalProperties": false
-        },
-        "tags": [
-          "write"
-        ],
-        "summary": {
-          "zh": "珍藏或取消珍藏一趟行程，不影响纪念册近期列表和长期收藏。",
-          "en": "Keep or unkeep a trip without changing the recent trip book or permanent collection."
+          "zh": "查看房间状态，可切换活动或写备注，不会写入经历。",
+          "en": "Read the room, change an activity, or add a note without recording an outing."
         }
       },
       {
         "name": "fun_story",
-        "description": "管理本地故事工坊：校验/预览只读，导入、启停、删除要指定 action。需打开「聊天里也能管故事」才挂。",
+        "description": "管理本地故事工坊：校验/预览只读，导入、改绑地点、启停、删除要指定 action。需打开「聊天里也能管故事」才挂。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -459,6 +178,7 @@
                 "playtest",
                 "export",
                 "import",
+                "rebind",
                 "enable",
                 "disable",
                 "remove"
@@ -474,7 +194,11 @@
             },
             "placeId": {
               "type": "string",
-              "description": "template 绑定的地点 ID（list 可查）。"
+              "description": "template 绑定的地点 ID；rebind 要绑到的新地点 ID（list 可查）。"
+            },
+            "bindPlaceId": {
+              "type": "string",
+              "description": "import 时把包里不存在的地点改绑到这处已有地点。"
             },
             "mode": {
               "type": "string",
@@ -517,28 +241,6 @@
         "summary": {
           "zh": "管理、校验与预览本地故事工坊，支持自填地点。",
           "en": "Manage, validate, and preview local story packs, including custom places."
-        }
-      },
-      {
-        "name": "fun_shelf",
-        "description": "按地点查询长期纪念品收藏和收集进度。",
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "place": {
-              "type": "string",
-              "description": "只看这处；不填看全部。"
-            }
-          },
-          "additionalProperties": false
-        },
-        "tags": [
-          "read",
-          "snapshot"
-        ],
-        "summary": {
-          "zh": "按地点查询长期纪念品收藏和收集进度。",
-          "en": "Query long-term souvenirs and collection progress by place."
         }
       },
       {
@@ -693,8 +395,47 @@
         }
       },
       {
+        "name": "fun_journal",
+        "description": "查看行程、纪念品或珍藏；也可珍藏或取消珍藏行程。故事回顾请用 fun_story_recap。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "view": {
+              "type": "string",
+              "enum": [
+                "trips",
+                "shelf",
+                "keepsake"
+              ],
+              "description": "查看行程、纪念品展示柜或珍藏列表。"
+            },
+            "id": {
+              "type": "string",
+              "description": "行程 ID。"
+            },
+            "keep": {
+              "type": "boolean",
+              "description": "配合 id 珍藏或取消珍藏。"
+            }
+          },
+          "required": [
+            "view"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "read",
+          "write",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "查看行程、纪念品或珍藏，也可珍藏或取消珍藏行程。",
+          "en": "Browse trips, souvenirs, or keepsakes; keep or unkeep a trip."
+        }
+      },
+      {
         "name": "fun_story_start",
-        "description": "在聊天里开始一段故事（需开「文字通道也能玩故事」）。先从 fun_story_candidates / detail 取 packId、revision，从 fun_story_current 取 startStamp；开始前会重校验。用户明确说要开始才填 confirm:true。",
+        "description": "在聊天里开始一段故事（需开「文字通道也能玩故事」）。先从 fun_story_candidates / detail 取 packId、revision，从 fun_story_current 取 startStamp；开始前会重校验。自由故事可传 party 群聊名单；选项式故事不接受 party。用户明确说要开始才填 confirm:true。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -713,6 +454,28 @@
             "confirm": {
               "type": "boolean",
               "description": "用户明确说要开始时填 true。"
+            },
+            "party": {
+              "type": "array",
+              "maxItems": 20,
+              "description": "自由故事群聊参与者；省略时沿用常驻名单。",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "who": {
+                    "type": "string",
+                    "maxLength": 40
+                  },
+                  "tag": {
+                    "type": "string",
+                    "maxLength": 100
+                  }
+                },
+                "required": [
+                  "who"
+                ],
+                "additionalProperties": false
+              }
             }
           },
           "required": [
@@ -733,7 +496,7 @@
       },
       {
         "name": "fun_story_act",
-        "description": "在聊天里推进当前故事，把用户原话交给它，不替用户编选择。选项式按回合身份提交：用户回合记 owner，鱼回合由鱼决定；原话对不上先返回 proposalId，确认后再带 proposalId+optionId。自由模式每句一回合；结束用 intent:close + confirm:true。",
+        "description": "在聊天里推进当前故事。自由故事可用 say（≤1500 字）或 actions 一次汇总多人发言（每人≤500 字、合计≤1500 字），一组只推进一回合；早提交用 redo 重跑。选项式按回合身份提交：用户回合记 owner，鱼回合由鱼决定；原话对不上先返回 proposalId，确认后再带 proposalId+optionId。close 需 confirm:true。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -749,13 +512,37 @@
               "type": "string",
               "enum": [
                 "say",
-                "close"
+                "close",
+                "redo"
               ],
-              "description": "say 说一句；close 结束并保存回忆。"
+              "description": "say 推进；close 结束；redo 重跑当前回合。"
             },
             "say": {
               "type": "string",
-              "description": "用户原话，≤200 字。"
+              "description": "用户原话。"
+            },
+            "actions": {
+              "type": "array",
+              "maxItems": 20,
+              "description": "多人动作一次性汇总提交；每条 say ≤500 字，合计 ≤1500 字。",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "who": {
+                    "type": "string",
+                    "maxLength": 40
+                  },
+                  "say": {
+                    "type": "string",
+                    "maxLength": 500
+                  }
+                },
+                "required": [
+                  "who",
+                  "say"
+                ],
+                "additionalProperties": false
+              }
             },
             "proposalId": {
               "type": "string",
@@ -796,11 +583,12 @@
         "key": "worlds.fun.env",
         "title": "从0开始的肥鱼大冒险",
         "role": "envPrompt",
-        "content": "## 从0开始的肥鱼大冒险\n\n出游：`fun_places` 查地点 → `fun_go` 进门 → `fun_wander` 逐处逛 → `fun_home` 回家；也能用 `fun_start` 现在出门。地点、项目、纪念品、拍照点名称以回执为准；吃喝只填当前地点真有的品类。历史与收藏按需查 `fun_view`、`fun_shelf`。\n\n- 连逛两处用 `fun_route`：每站自己进门、回家，再决定下一站、换一站或提前结束，不自动移动。中断后用 `fun_view` 找未完行程；待选事件按回执处理。\n- 房间状态是画面，不是经历；切姿势用 `fun_home_activity`，只读看房间用 `fun_home_state`；`pendingLine` 只是可复制文本。\n- 明确表达想去或想做时用 `fun_wish` 记录、`fun_wishes` 查询；不催促、不从旧行程推断完成。\n- 配图：想画就自己画（`imggen_draw`），不想画不用管；`scene` / `outfits` 用正名，只画真实发生过的样子，库里没找到的不要填。\n- 吃喝只记品类。允许且实际用「鱼的每一天」的 `feast_menu` → `feast_eat` 后才形容味道；否则只说吃喝了什么，别形容味道。本插件不会探测别的扩展装没装，不依赖其他 World。\n- 时段会改变氛围和可逛项目；重复到访有效。历史只按需查，不编造未发生的经历。\n- 用户自填地点通常没有素材库场景；地点清单与详情用 `fun_places`。预设删不掉，只能恢复；故事库随包四篇，也能自己写。\n- 出门前可用 `feast_life_now` 对齐日程，用 `feast_life_adjust` 写进当天；回家后按回执用 `feast_life_play` 记录。自己出门不限次数：到时段会收到提醒，去不去、去哪儿由你和主对话按日程定。\n- 故事只读查询同一参数 10 分钟内只回「没变化」：看到 `unchanged` 就停；上下文断了才加 `full:true`。\n\n{{fun_places_block}}"
+        "content": "## 从0开始的肥鱼大冒险\n\n出游：`fun_places` 查地点 → `fun_go` 进门（续逛填 tripId）→ `fun_wander` 逐处逛 → `fun_home` 回家；`fun_places` 可用 now:true 看此刻推荐。地点、项目、纪念品、拍照点名称以回执为准；吃喝只填当前地点真有的品类。行程与珍藏按需查 `fun_journal`（view 为 trips / shelf / keepsake）。\n\n- 房间状态是画面，不是经历；切姿势用 `fun_home_room`，只读看房间用 `fun_home_room`；`pendingLine` 只是可复制文本。\n- 配图：想画就自己画（`imggen_draw`），不想画不用管；`scene` / `outfits` 用正名，只画真实发生过的样子，库里没找到的不要填。\n- 吃喝只记品类。允许且实际用「鱼的每一天」的 `feast_menu` → `feast_eat` 后才形容味道；否则只说吃喝了什么，别形容味道。本插件不会探测别的扩展装没装，不依赖其他 World。\n- 时段会改变氛围和可逛项目；重复到访有效。历史只按需查，不编造未发生的经历。\n- 用户自填地点通常没有素材库场景；地点清单与详情用 `fun_places`。预设删不掉，只能恢复；故事手账优先推荐四篇内置自由故事，也能自己写。\n- 出门前可用 `feast_life_now` 对齐日程，用 `feast_life_adjust` 写进当天；回家后按回执用 `feast_life_play` 记录。自己出门不限次数：到时段会收到提醒，去不去、去哪儿由你和主对话按日程定。\n- 故事只读查询同一参数 10 分钟内只回「没变化」：看到 `unchanged` 就停；上下文断了才加 `full:true`。\n\n- 故事可用 fun_story_places / fun_story_candidates / fun_story_detail / fun_story_current / fun_story_recap / fun_story_schedule 查询；按实际回执行动。\n- 群聊多人同时发言时不要每看到一句就调用 `fun_story_act`。等大家表态完或主人说「好了 / 就这么办 / 推进」，再把动作一次性用 `actions:[{who,say}]` 提交，一次只推进一回合；过早提交可用 `intent:\"redo\"` 带补充内容重跑。\n\n{{fun_places_block}}"
       }
     ]
   },
   "changelog": {
+    "0.8.0": "一次原地收拢：四个面板、15 个声明工具（默认可用 14 个），自由故事默认开启。新增字段只补充能力；旧存档的心愿、路线和时间线数据继续读取并写回。仅对已下线的普通游逛旧岔路做清理并提示；选项式故事自己的待选项仍可继续。\n\n### 面板：7 → 4\n\n- 面板为「家」「自己去逛」「故事手账」「回忆手账」。story 的面板 ID 保持不变，标题为「故事手账 / Story Journal」。\n- 「自己去逛」合并此刻推荐与地点册；「回忆手账」合并行程与珍藏柜；故事手账首屏优先展示四张自由故事卡，选项式故事与作者工具收在「更多故事」里。\n- 宿主不再打开旧面板深链：`places` / `locations` 改用 `outing`，`book` / `shelf` 改用 `journal`，`stories` 改用 `story`。\n- 心愿管理与路线管理界面下线；历史行程仍能逐趟检索，旧联程数据保留。已有联程可用 fun_go 前往下一站；改去别处会停止后续联程，但不会删除原记录。\n\n### 工具：24 → 15（默认 14）\n\n- 保留 13 个跨插件契约名；fun_story 仍保留声明、默认隐藏；describe.json 展示全部 15 个。\n- fun_go 只进门，也可用 tripId 续逛；fun_wander 不再处理普通游逛的旧分支选项。选项式故事仍通过正式故事流程推进。\n- fun_journal 接住行程、纪念品与珍藏查询；外接 DM 与 ComfyUI 直连保留为可选来源。\n- fun_route、fun_wish、fun_wishes 不再声明；心愿不再新增、更新、参与地点推荐，旧 wishes 字段不丢。\n\n### 配置与故事\n\n- 配置页有 3 项常用设置；宿主没有可用的高级分组，另外 15 项仍在宿主配置页，标题加「高级 ·」区分。宿主默认/外接 DM 与关闭/委派/ComfyUI 直连分别由选择器控制。\n- DPAPI 密钥改为按需加载；不开启外接 DM 时不读取密钥。外接失败仍回退宿主主持并在回执说明，不擅自改配置。\n- 自由故事默认开启，单段默认 200 回合软上限；四张内置自由故事卡置顶。多人 actions 汇总一轮一次推进，纯文本兜底上限 1500 字，redo 与故事检查点、幂等保护保留。\n- 故事包绑定的地点不存在时会在导入前报出，可当场改绑到现有地点；已入库的作品也可以从作者区改绑，不需要手改 JSON。\n\n### 旧存档兼容\n\n- 启动时清除没有对应选项式故事进度的旧 pendingChoice，并记录「这一趟的岔路已跳过」；与故事包版本和进度匹配的正式故事待选项继续保留。\n- wishes、route/routes、timeline 继续归一化、读写；移除路线与心愿入口不等于删除这些字段。place-transfer.js、wishes.js、journeys.js 和 story-venue-migration.js 保留。\n- 仅删除 aquarium.js、branches.js、choices.js 三个模块及其对应测试；story-reliability 保留并扩展（redo 幂等键与 report 回执），#rewindFreeTurn 与 #forkStory 保留。\n\n### 验收\n\n- 新增旧存档兼容回归：升级后清理旧普通岔路、继续旧联程并保留 wishes/timeline；再由历史 World 读取、续玩和收尾。\n- npm test 除 DPAPI 用例外全绿（该用例依赖 Windows 用户上下文，隔离环境下与 0.7.8 基线同样失败，不是本次改动引入）。npm run verify、npm run build:webui、npm run describe（15 个工具）及 npm run check:publish 通过。\n- 未发布或推送本版本。",
     "0.7.7": "两处面板体验修复：**从回忆开分支后直接落到「出游」**、**对话式出游的 4 个选项不再被裁成 3 个**。没有数据迁移，故事包格式、存储键与面板 id 都不变。\n\n- **修：开分支后停在回忆页**。点「从最近可继续检查点开分支」原来只建出新 runId 并留一条提示，还得自己切到「出游」找这一趟；现在分支建好就直接跳到「出游」，没建出来（错误 / 回放拦截）才留在原地看提示，分支说明仍在顶部。\n- **修：4 个选项只显示 3 个，而且不能下滑**。对话式出游底部选项区原来是 `flex:none`，卡片又是 `overflow:hidden`：4 个选项时整块溢出被裁掉，能滚的只有上面的正文区。现在选项区可收缩并在内部滚动，正文区让位（`flex:1 1 0`），卡片固定为 `min(74vh, 780px)`；窗口高度 ≤860px 时收起装饰性场景条与「此刻 · …」元信息行，优先保选项和正文。\n- 测试：`webui/story/webui.test.mjs` 新增「开分支后直接落到出游」；布局用 headless Edge 在 905 / 805 / 705 / 605 / 505 五档视口实测——4 个选项在 ≥705px 全部可见，更矮时可滚动到第 4 个，卡片不再有被裁掉的内容。\n- 版本号升到 0.7.7。",
     "0.7.6": "共同决定（两席同票）的修复：**异票不再吞掉对方那一票**。没有数据迁移，故事包格式、存储键与面板 id 都不变。\n\n- **行为变更：空票面时两席都能先投**。以前共同决定刚出现、还没有任何票时，聊天通道默认把这一票记成 `owner`，鱼先开口也会落到主人名下；现在空票面两席都能先投，`fun_story_act` 带 `as: \"fish\"` 就把那一票记在鱼名下。只剩一席没投时仍由那一席自己投，两票不同时两席都能改自己那一票——规则收窄成一句：**先投不限先后；一票在面时等缺的那一席；两票不同时各自可改；一致才前进**。\n- **收口：规则只有一份实现**。新增 `src/joint.js`（阶段 / 该谁投 / 谁能投 / 文案的纯函数），世界、面板、`fun_story_current` 与文字通道都只从它取；规格写在 `docs/JOINT-DECISION-SPEC.md`。除上一条外没有行为变化。\n- 测试：`test/story-text.test.mjs` 新增表驱动矩阵（3 种 `jointResolution` × 主人/鱼先投 × 第二票同/不同）与「被拒必须是纯拒绝」「三个入口一个答案」「面板文案跟阶段走」三组一致性用例。\n\n- **修：两边票不一样时会静默删掉一票**。原来的异票分支「只保留后投的那一票」：主人投 A、鱼投 B 之后，主人那一票被删；主人再投，鱼的又被删——两个人只能互相清票，永远凑不出「两边一致」，面板就一直停在「现在轮到你 / 轮到鱼」，看着像卡死。现在异票时**两票都留在票面上**，谁都可以改自己那一票，改成一致才递交。\n- **文字通道可以显式声明这一票是谁的**：`fun_story_act` 支持 `as: \"fish\"` / `\"owner\"`，鱼改自己那一票时不会被记到主人名下；只差一席时仍按「缺哪一席」把关，声明错了会被明确拒绝。\n- **面板文案**：提示改成「两边票不一样（你：… / 鱼：…）：这一轮不前进，也不清掉任何一席的票。谁都可以改自己那一票，两边一致才递交；也可以先回家。」异票时标题旁的小字显示「两边票不一样」。\n- **回家仍然可用**：异票僵住时点「先回家」按已发生的片段收尾（有回归测试钉住）。\n- 测试：`test/story-text.test.mjs` 新增三条——异票不吞任何一席、鱼改自己那一票不会顶掉主人、异票僵住时回得了家。\n- 版本号升到 0.7.6；简介重写成产品介绍（不再逐版罗列历史，版本细节看本文件）。",
     "0.7.5": "故事工坊版式收口：**一个创建入口 + 三个起点**，导入支持选文件。没有数据迁移，故事包格式、校验、隔离试玩、草稿保护与 `describe.json` 都不变。\n\n- **去掉重复入口**：标题条只留「＋ 编写故事」（点它展开创作区并停在「选项式故事」）；右侧「从一个小片段开始」栏删除——它与「编写故事」和创作区里的模式页签一一对应，而窄屏本来就被 CSS 收掉，等于窄屏少两个入口。\n- **三个起点并进创作区**：`选项式故事 / 自由场景包 / 从文件导入` 三个按钮排在「编写故事」下面，替换原来的两个页签 + 藏在 details 里的 JSON；同一时间只显示一个起点。\n- **折叠降级**：原来的「展开 / 收起」按钮改成标题旁的小箭头，只负责折叠创作区，不再像第三个创建入口；折叠状态仍记在浏览器里。\n- **导入改成先选文件**：`选择 JSON 文件…` 只收 `.json`、单个 ≤ 32 KB，读完去掉 BOM 再填进原文本框并显示文件名与大小；超过上限、不是有效 JSON、读不出来都在原处提示，**不清空**已经粘好的内容。粘贴保留，选文件只是更快的入口。\n- **版式**：去掉右栏后内容列收窄到 1040 并居中，作品卡仍为「封面 + 文字 + 操作」；窄屏三个起点与表单照常可达。\n- 测试：`panels.test` 补三个起点 / 窄屏可达 / 选文件读入 / 超 32 KB 与坏 JSON 不清空；`webui/story` 的作者视图模式数同步为 3；全链与 `npm run verify` 全绿。\n- **新图标**：`assets/icon.png` 换成新的 512×512 立绘（取自用户提供的原图，黑底补成正方形、不裁切，256 色调色板压到 111 KB）。\n- **简介**：中英文简介都写明「鱼的小世界」（`cortico-world-map`）已并入——地点与房间就是本插件的「地点册」与「家」，旧备份可从「地点册 → 整理与设置 → 从小世界迁入」搬过来。\n- 版本号升到 0.7.5；已打包到 `story-world\\artifacts\\release-0.7.5`（tgz 1,718,106 B / `71470950…FEC95A9` + 群友测试包 1,744,851 B / `3CBB04A6…C16C14DA`；换图标与补简介后于 16:0x 重打，旧产物在 `_prev-20261123-1600`），并已装进本机 Coo（vendor 0.7.5、`/api/extensions` `0.7.5 / loaded`、asset 452,497 B 与 `dist/webui.js` 同哈希；装前备份 `vendor\\cortico-world-fun.bak-20261123-155013`）。",

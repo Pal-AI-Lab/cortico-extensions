@@ -13328,17 +13328,17 @@
     },
     "cortico-world-fun": {
       "kind": "world",
-      "version": "0.7.7",
+      "version": "0.8.0",
       "displayName": "从0开始的肥鱼大冒险",
-      "description": "从0开始的肥鱼大冒险 —— 给 Coopanion 桌宠二十处真能去逛的地方：游乐场、海洋馆、庙会、漫展、电影院、动物园、公园、电玩城、KTV、博物馆、猫咖、爬山、咖啡店、奶茶店、餐厅、图书馆、夜市、澡堂、旧货市场、江边。进门、逛摊位、买纪念品、拍张照、吃喝点什么，回家记一笔。\n\n七个面板：家（2D 房间、十个活动）、去哪儿（此刻推荐）、地点册（唯一的编辑器）、出游（当前这一趟与故事）、纪念册、纪念品架、故事工坊。故事可以自己写：选项式一步一选，自由场景包交给主持即兴演；双人故事里的共同决定要两席同票才前",
+      "description": "从0开始的肥鱼大冒险：四个面板（家、故事手账、自己去逛、回忆手账），15 个工具（默认可用 14 个），自由故事、地点探索与本地回忆。",
       "locales": {
         "zh": {
           "displayName": "从0开始的肥鱼大冒险",
-          "description": "给 Coo 二十处能真去逛的地方：游乐场、海洋馆、庙会、漫展、电影院、动物园、公园、电玩城、KTV、博物馆、猫咖、爬山、咖啡店、奶茶店、餐厅、图书馆、夜市、澡堂、旧货市场、江边。她说一声进门，一处一处地逛项目、抽个签、买点纪念品、拍张照、喝杯奶茶，回家时回执把这一趟收成一句话，接着去记进自己的日程。\n\n七个面板各管一段：**家**是一张 2D 房间、十个活动，能换背景、能摆她买回来的东西；**去哪儿**推荐此刻能去的地方；**地点册**是唯一的编辑器，场所、画风、关联、封面都在这里改；**出游**管当前这一趟、故事与进度；**纪念册**把每一趟收成一张票笺；**纪念品架**排成展示柜；**故事工坊**写故事。\n\n故事有两种写法：**选项式**一步一选，像翻分支小说；**自由场景包**只写大方向、正史、人物与收尾条件，每一回合交给主持即兴演。可以在面板里玩，也可以在聊天里开局推进。双人故事里的共同决定要两席各投一票、两边一致才前进，分歧不替任何一席作主。\n\n「鱼的小世界」（cortico-world-map）已经并入：它原来的地点与房间就是这里的「地点册」与「家」，不必再装两个包；旧版导出的备份可以在「地点册 → 整理与设置 → 从小世界迁入」一次性搬进来。\n\n能和别的插件联动，但都不依赖：装了「鱼的每一天」时，日程叫醒里会顺手提到这块、回家回执也会提醒她去 feast_life_play 记一笔；咖啡店、奶茶店、餐厅、夜市吃的东西去「鱼的每一天」点一道，那里才有九维口感、香气和余韵——没装就只知道喝了杯奶茶，不编味道。装了「生图工作室」时，回家回执会告诉她发图该填哪个 scene、哪身衣服；素材库里没有的那几处会明说不用填，绝不替她编一个不存在的场景名。这些插件一个都不装也照样能逛，库挪走了也不影响。"
+          "description": "从0开始的肥鱼大冒险：四个面板（家、故事手账、自己去逛、回忆手账），15 个工具（默认可用 14 个），自由故事、地点探索与本地回忆。 可联动鱼的每一天与生图工作室，但不依赖其他插件；数据保存在本机 fun/ 目录。"
         },
         "en": {
           "displayName": "Adventures of Fat Fish from Scratch",
-          "description": "Twenty places she can actually go: an amusement park, an aquarium, a temple fair, a fan convention, a cinema, a zoo, a park, an arcade, a karaoke box, a museum, a cat cafe, a hike, a coffee shop, a bubble-tea stand, a restaurant, a library, a night market, a bathhouse, a flea market and a riverside walk. She says the word, wanders one spot at a time, buys a souvenir, takes a photo, has something to eat or drink, and the closing receipt sums the trip up in one line she can log into her own day.\n\nSeven panels: Home (a 2D room with ten activities), Where to (what is open right now), Place Book (the only editor for places, styles, links and covers), Outing (this trip and its story), Trip Book, Souvenir Shelf, and the Story Workshop. Stories are authored here too: choice stories go one step at a time like a branching novel, free scene packs hand every turn to a DM to improvise, and a duo story only moves on when both seats vote the same. 24 tools, 0 events, everything stored locally under fun/.\n\nLittle World (cortico-world-map) is now folded in: its places and rooms are this plugin's Place Book and Home, so there is no need to keep both installed; a backup exported from the old version can be moved over in one go from Place Book → Tidy & settings → Import from Little World.\n\nWorks alongside other plugins but depends on none: with Fish Every Day the own-time menu points here and the closing receipt reminds her to log the trip with feast_life_play, and food is ordered there where the nine-axis flavour profile lives; with the image studio the receipt names the scene and outfit to draw. None of them are required."
+          "description": "Four panels and 15 tools (14 enabled by default) for free-form stories, place exploration, and local memories. Optional integrations do not create dependencies."
         }
       },
       "author": "青",
@@ -13362,8 +13362,8 @@
         "bugs": "https://github.com/bailuhanyi/cortico-world-fun/issues"
       },
       "created": "2026-11-15T06:36:15.951Z",
-      "published": "2026-11-23T13:50:08.937Z",
-      "versionCount": 13,
+      "published": "2026-11-24T07:11:42.875Z",
+      "versionCount": 14,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -13379,13 +13379,14 @@
         "week": 1138
       },
       "summary": {
-        "tools": 24,
+        "tools": 15,
         "events": 0,
-        "toolTokens": 3258,
-        "envPromptTokens": 418
+        "toolTokens": 2536,
+        "envPromptTokens": 478
       },
       "changelog": {
         "versions": [
+          "0.8.0",
           "0.7.7",
           "0.7.6",
           "0.7.5",
