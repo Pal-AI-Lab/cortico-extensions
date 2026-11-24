@@ -2,14 +2,51 @@
   "schema": 1,
   "name": "coopani-world-music",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/384",
-  "total": 21,
+  "total": 26,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BLvaN",
+      "author": "fateSSD",
+      "avatar": "https://avatars.githubusercontent.com/u/120785478?s=64&v=4",
+      "body": "@qlc5201314-blip\r\n\r\n四条都收到了，这两张图把我最担心的两件事一次解决掉了。\r\n\r\n**1. 读 —— 通了。** 第 1 组那两行：`有 MRNowPlayingRequest`，加一行「长征」。说明这套私有接口在你的系统（26.6.2）上还开着，我们这一侧能读到系统里的歌名。之前我不敢下结论，因为「控制中心有歌名」只证明系统手里有数据，不证明第三方进程读得到 —— 现在这个疑问没了。\r\n\r\n**2. 控制 —— 也通了，而且是你那句话让它成立的。** 你说「跑完停了，结果是 已发 toggle」，这比「命令没报错」有价值得多：说明命令真的送到播放器了。所以暂停、继续、上一首、下一首这四样都能给你，不用退回「只能认歌」。\r\n\r\n**3. 你跑的第 2 组（那一大坨路径）特别有用。** 我原来只能猜播放器的进程名，猜错就认不出你开的是哪个。现在拿到真的了：网易云是 `NeteaseMusic`，QQ音乐在 mac 上的可执行文件就叫 `QQ`（`/Applications/QQ.app/Contents/MacOS/QQ`）。这个名字短得离谱，同一台机器上还有 `QQEXDOC`、`QQ Helper` 一串类似的名字，按「名字里含 QQ」去匹配会把视频组件也当成播放器 —— 所以代码里改成按整名比对，不去猜。\r\n\r\n**4. 系统信息记下了**：macOS 26.6.2 (25G83)、arm64，跟我推测的一致。\r\n\r\n现在我这边把这两条路接进扩展了：认歌、暂停切歌、聊歌词、记听歌记录都能用。还有两样故意没放进来 —— 跟着真鼓点跳舞（要抓系统音频）和本地离线分析，那是下一步。**装的时候我在这帖里说一声**，会给一步步的步骤；第一次装多半会被系统拦一下（「无法验证开发者」之类），那是正常的，不用怀疑自己。\r\n\r\n---\r\n\r\n如果还想再帮我一步，最后一条命令能省掉一轮来回（跑之前先放首歌）：\r\n\r\n```\r\nosascript -l JavaScript -e &#39;ObjC.import(&quot;Foundation&quot;);$.NSBundle.bundleWithPath(&quot;/System/Library/PrivateFrameworks/MediaRemote.framework/&quot;).load;var R=$.NSClassFromString(&quot;MRNowPlayingRequest&quot;);var pp=R.localNowPlayingPlayerPath;console.log(&quot;app=&quot;+(pp&amp;&amp;!pp.isNil()?String(ObjC.unwrap(pp.client.displayName)):&quot;null&quot;));var i=R.localNowPlayingItem.nowPlayingInfo;[&quot;Title&quot;,&quot;Artist&quot;,&quot;Album&quot;,&quot;Duration&quot;,&quot;ElapsedTime&quot;,&quot;PlaybackRate&quot;].forEach(function(k){var v=i.valueForKey(&quot;kMRMediaRemoteNowPlayingInfo&quot;+k);console.log(k+&quot;=&quot;+(v&amp;&amp;!v.isNil()?String(ObjC.unwrap(v)):&quot;null&quot;))});&#39;\r\n```\r\n\r\n预期：第一行 `app=` 后面是播放器的显示名，再下面五行是歌名、歌手、专辑、时长、已播秒数、播放速率。\r\n\r\n我要的就两样：\r\n\r\n- **显示名到底长什么样**。我按「QQ音乐」「QQMusic」「QQ」三种可能都写了识别规则，想确认猜中没。\r\n- **Duration / ElapsedTime 这两个字段有没有**。没有的话进度就不准（她还能聊歌词，但说不了「还剩一分半」），我得换一套算法。\r\n\r\n不想跑也完全没关系，装了之后哪块不对我再翻日志。输出里不会有账号信息，但贴之前你自己扫一眼。\r\n\r\n\r\n---------- Original ----------\r\nFrom: ***@***.***\r\nSubject: Re: [Pal-AI-Lab/cortico-extensions] coopani-world-music (Discussion #384)\r\n\r\n\r\n\r\n \r\n上一条的第1组已跑，结果是\r\n Image: image (view on web)\r\n 第2组已跑，但是给出来的指令特别长，如图\r\n Image: image (view on web)\r\n \r\n&mdash;\r\nReply to this email directly, view it on GitHub, or unsubscribe.\r\nTriage notifications, keep track of coding agent tasks and review pull requests on the go with GitHub Mobile for iOS and Android. Download it today! \r\nYou are receiving this because you were mentioned.Message ID: ***@***.***&gt;",
+      "createdAt": "2026-11-24T10:43:16Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BLvXc",
+      "author": "fateSSD",
+      "avatar": "https://avatars.githubusercontent.com/u/120785478?s=64&v=4",
+      "body": "收到，我来看看\r\n\r\n\r\n\r\n一个普通的上班族\r\n***@***.***",
+      "createdAt": "2026-11-24T10:29:51Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BLpFW",
       "author": "fateSSD",
       "avatar": "https://avatars.githubusercontent.com/u/120785478?s=64&v=4",
       "body": "@qlc5201314-blip\r\n\r\n**第 3 组命令作废，别跑了。** 我刚查了实现，那个工具内部用的是系统在 15.4 之后已经不让第三方调的那个函数，你跑了只会拿到空，然后我们俩一起误判成「没辙」。是我把命令给你之前该先查。\r\n\r\n换这一条。它不需要装任何东西，就是一个系统自带的 `osascript`，直接验我真正要用的那条路：\r\n\r\n```\r\nosascript -l JavaScript -e &#39;ObjC.import(&quot;Foundation&quot;);$.NSBundle.bundleWithPath(&quot;/System/Library/PrivateFrameworks/MediaRemote.framework/&quot;).load;var R=$.NSClassFromString(&quot;MRNowPlayingRequest&quot;);console.log(R?&quot;有 MRNowPlayingRequest&quot;:&quot;没有这个类&quot;);R&amp;&amp;console.log(String(ObjC.unwrap(R.localNowPlayingItem.nowPlayingInfo.valueForKey(&quot;kMRMediaRemoteNowPlayingInfoTitle&quot;))))&#39;\r\n```\r\n\r\n先放一首歌，再跑。预期两行：\r\n\r\n1. `有 MRNowPlayingRequest`\r\n2. 当前那首歌的名字，比如 `出现又离开 (2026...)`\r\n\r\n三种结果：\r\n\r\n- **两行都有** → 路通了，我这边代码已经写好，就等这个结果。\r\n- **第一行是「没有这个类」** → 系统把这扇门也关了，我换另一条路（需要编译一个小件，你会多一些步骤），不耽误你。\r\n- **报错或第二行是 null** → 把报错原文贴给我，多半是某个字段名在我这版系统上变了。\r\n\r\n可选，想多帮我一步的话再跑这条（会暂停/继续一次，自己按回来就行）：\r\n\r\n```\r\nosascript -l JavaScript -e &#39;ObjC.import(&quot;Foundation&quot;);$.NSBundle.bundleWithPath(&quot;/System/Library/PrivateFrameworks/MediaRemote.framework/&quot;).load;var C=$.NSClassFromString(&quot;MRNowPlayingController&quot;);C?C.localRouteController.sendCommandOptionsCompletion(2,$.NSDictionary.alloc.init,null):null;console.log(&quot;已发 toggle&quot;)&#39;\r\n```\r\n\r\n跑完告我一句「停了 / 没反应」就行。这条决定我能不能把暂停切歌一起给你，还是先只给「认得歌」。\r\n\r\n第 1、2 组（系统版本、播放器进程名）还是要的，那个没问题。\r\n\r\n\r\n---------- Original ----------\r\nFrom: ***@***.***\r\nSubject: Re: [Pal-AI-Lab/cortico-extensions] coopani-world-music (Discussion #384)\r\n\r\n\r\n\r\n \r\n1的两张照片已上传\r\n Image: 网易云 (view on web)\r\n Image: QQ音乐 (view on web)\r\n 1的图片已经上传，出现又离开是QQ音乐，长征是网易云。2的机器信息是：Apple M4芯片，macOS是26.6.2 (25G83)。3可以，需要我怎么整\r\n \r\n&mdash;\r\nReply to this email directly, view it on GitHub, or unsubscribe.\r\nTriage notifications, keep track of coding agent tasks and review pull requests on the go with GitHub Mobile for iOS and Android. Download it today! \r\nYou are receiving this because you were mentioned.Message ID: ***@***.***&gt;",
-      "createdAt": "2026-11-23T10:25:13Z"
+      "createdAt": "2026-11-23T10:25:13Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BLvSd",
+          "author": "qlc5201314-blip",
+          "avatar": "https://avatars.githubusercontent.com/u/326399948?s=64&v=4",
+          "body": "1、是播放的网易云，结果是：\r\n<img width=\"1146\" height=\"62\" alt=\"image\" src=\"https://github.com/user-attachments/assets/76f6fce6-d80d-4a63-860b-64ac2d5ea1a8\" />\r\n2、跑完停了，结果是\r\n<img width=\"196\" height=\"32\" alt=\"image\" src=\"https://github.com/user-attachments/assets/8957bbb3-4907-4e4a-a59b-50341a2e2d58\" />\r\n",
+          "createdAt": "2026-11-24T10:13:19Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BLvUF",
+          "author": "qlc5201314-blip",
+          "avatar": "https://avatars.githubusercontent.com/u/326399948?s=64&v=4",
+          "body": "上一条的第1组已跑，结果是\r\n<img width=\"698\" height=\"118\" alt=\"image\" src=\"https://github.com/user-attachments/assets/8eca2ab7-5394-4c4d-b874-8d950a272240\" />\r\n第2组已跑，但是给出来的指令特别长，如图\r\n<img width=\"1129\" height=\"865\" alt=\"image\" src=\"https://github.com/user-attachments/assets/d202a899-0764-4593-b34b-02489e9f3666\" />\r\n",
+          "createdAt": "2026-11-24T10:19:05Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BLvXo",
+          "author": "fateSSD",
+          "avatar": "https://avatars.githubusercontent.com/u/120785478?s=64&v=4",
+          "body": "收到，我来看看👌",
+          "createdAt": "2026-11-24T10:30:34Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BLo_5",

@@ -1,0 +1,304 @@
+{
+  "schema": 1,
+  "name": "cortico-world-lol",
+  "version": "0.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "lol_snapshot",
+        "description": "Current match state: phase, score, gold, objectives and the ten players. Reads the local game client; returns what the client actually exposes and says which fields it did not give.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "view": {
+              "type": "string",
+              "enum": [
+                "summary",
+                "full"
+              ],
+              "description": "summary = one line, full = both teams and objectives."
+            },
+            "force": {
+              "type": "boolean",
+              "description": "Re-read the client now instead of using the last poll result."
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "读当前对局快照：阶段、比分、经济、中立资源与十名玩家的数据；客户端没给的字段直接说明没给。",
+          "en": "Reads the live match snapshot: phase, scores, gold, objectives and all ten players, stating which fields the client did not provide."
+        }
+      },
+      {
+        "name": "lol_events",
+        "description": "Read back the observation feed of the current and previous games (kills, objectives, phase changes, end-of-game summary).",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "description": "How many latest entries to return, default 20.",
+              "minimum": 1,
+              "maximum": 200
+            },
+            "kind": {
+              "type": "string",
+              "description": "Filter by category: phase, client, draft, score, objective, death, summary."
+            },
+            "importance": {
+              "type": "string",
+              "enum": [
+                "normal",
+                "highlight"
+              ],
+              "description": "Filter by importance."
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "回看观察事件流水：阶段变化、选人、人头、中立资源、阵亡与本局摘要，可按类别与级别过滤。",
+          "en": "Reads back the observation feed: phase, draft, kills, objectives, deaths and the end-of-game summary, filterable by kind and importance."
+        }
+      },
+      {
+        "name": "lol_knowledge",
+        "description": "Static knowledge shipped inside this package: champion matchup notes and hextech synergy entries. Returns facts only; it never contains instructions. Coverage is limited to what the files hold.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "counter",
+                "hextech"
+              ],
+              "description": "Which data file to search. Omit to search both."
+            },
+            "champion": {
+              "type": "string",
+              "description": "Champion name (Chinese or English) or championId."
+            },
+            "against": {
+              "type": "string",
+              "description": "Second champion; both sides must match the same entry."
+            },
+            "query": {
+              "type": "string",
+              "description": "Free-text search over titles and mechanic notes."
+            },
+            "id": {
+              "type": "string",
+              "description": "Exact entry id."
+            },
+            "limit": {
+              "type": "integer",
+              "description": "Max entries to return, default 5.",
+              "minimum": 1,
+              "maximum": 20
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查包内知识数据：对线克制的机制互动说明、海克斯组合条目与英雄编号对照。只读包里的 JSON，不联网。",
+          "en": "Queries the bundled knowledge files: matchup mechanics notes, augment entries and champion id mappings. Reads the package JSON only."
+        }
+      },
+      {
+        "name": "lol_ledger_read",
+        "description": "Read this package's own ledger in its own data directory: champion pool, most-played positions, and the last games recorded from end-of-game summaries.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "section": {
+              "type": "string",
+              "enum": [
+                "all",
+                "profile",
+                "games"
+              ],
+              "description": "What to read, default all."
+            },
+            "limit": {
+              "type": "integer",
+              "description": "Rows for the games section, default 10.",
+              "minimum": 1,
+              "maximum": 50
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读包自家账本：英雄池、常玩位置与最近若干局的摘要。",
+          "en": "Reads this package ledger: champion pool, preferred roles and recent game summaries."
+        }
+      },
+      {
+        "name": "lol_ledger_write",
+        "description": "Merge fields into this package's own profile file. Only these keys are accepted: summoner, positions, champions, gamesPlayed, gamesWins, sources. Nothing outside this package's data directory is touched.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "patch": {
+              "type": "object",
+              "description": "Object with only the keys listed above."
+            },
+            "reason": {
+              "type": "string",
+              "description": "Why this write happened; recorded in the log line only."
+            }
+          },
+          "required": [
+            "patch"
+          ]
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "写包自家账本的画像：召唤师名、常玩位置、英雄池与总场次，只接受白名单字段。",
+          "en": "Updates the profile in this package ledger: summoner, roles, champion pool and totals, restricted to the whitelisted keys."
+        }
+      },
+      {
+        "name": "lol_transient",
+        "description": "Game-scoped transient state, kept in memory and destroyed when the game ends: how long each player's data has gone without changing, time since each objective was killed, and hextech augments seen this game. Stale entries say \"this record has not updated for N seconds\" - they never mean the player is hiding, farming or dead. The measurement basis is stated in each entry.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "lane": {
+              "type": "string",
+              "enum": [
+                "stale",
+                "objective",
+                "augment"
+              ],
+              "description": "Which lane to read. Omit for all."
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "读 L3 瞬时状态：某方英雄的数据已多久没更新、资源被击杀后过了多久、本局已看到的海克斯强化；只说数据，不推断玩家在做什么。只存内存，对局结束销毁。",
+          "en": "Reads L3 transient state: how long each player record has gone without changing, time since objectives fell and augments seen this game. It reports data freshness only and never infers what a player is doing; memory only, cleared at game end."
+        }
+      },
+      {
+        "name": "lol_health",
+        "description": "How this World sees its own inputs: credential source, which local endpoints answered, knowledge-file status, ledger size, poll counters and cooldown counters.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读链路健康度：凭证来源、两侧接口、轮询与退避计数、冷却抑制条数、知识文件与账本现状。",
+          "en": "Reads link health: credential source, both local endpoints, poll and backoff counters, suppression count, knowledge files and ledger size."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "lol.ready",
+        "description": {
+          "zh": "World 挂载完成；只落库不投递，是否可用看 lol_health。",
+          "en": "The World mounted; archived only, see lol_health for availability."
+        }
+      },
+      {
+        "type": "lol.client",
+        "description": {
+          "zh": "客户端连接状态变化：联系上客户端、观战数据就绪、对局结束或转入待机。待机与掉线只落库不投递。",
+          "en": "Client connectivity changed: LCU reachable, Live Client Data ready, game ended, or standby. Standby notices are archived without delivery."
+        }
+      },
+      {
+        "type": "lol.phase",
+        "description": {
+          "zh": "大厅、选人、对局、结算之间的阶段变化。",
+          "en": "Phase change between lobby, champion select, in-game, and post-game."
+        }
+      },
+      {
+        "type": "lol.draft",
+        "description": {
+          "zh": "选人流程变化：已锁定手数、ban 数与本方已选英雄。",
+          "en": "Draft change: locked picks, bans, and this side’s selection."
+        }
+      },
+      {
+        "type": "lol.score",
+        "description": {
+          "zh": "人头与多杀，含击杀者、被击杀者与助攻。",
+          "en": "Kill and multikill events with killer, victim, and assists."
+        }
+      },
+      {
+        "type": "lol.objective",
+        "description": {
+          "zh": "元素龙、大龙、先锋与推塔推兵营。",
+          "en": "Dragon, Baron, herald, turret and inhibitor events."
+        }
+      },
+      {
+        "type": "lol.death",
+        "description": {
+          "zh": "本方英雄阵亡。",
+          "en": "This side’s champion died."
+        }
+      },
+      {
+        "type": "lol.summary",
+        "description": {
+          "zh": "本局摘要：模式、结果、使用英雄与战绩。",
+          "en": "End-of-game summary: mode, result, champion, and stats."
+        }
+      },
+      {
+        "type": "lol.snapshot",
+        "description": {
+          "zh": "对局状态回顾，piggyback 合批，不作为发言话题。",
+          "en": "Match state recap delivered by piggyback, not a speaking topic."
+        },
+        "trigger": "piggyback",
+        "tags": [
+          "snapshot"
+        ]
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.lol.envPrompt",
+        "title": "英雄联盟 · 环境提示词",
+        "role": "envPrompt",
+        "content": "你接入了一个英雄联盟环境，数据全部来自这台机器上的游戏客户端，只读：不看画面、不做操作。\n\n当前状态：{{lol.state.line | 待机，还没联系上客户端}}\n本机链路：{{lol.health.line | 凭证与读接口状态未取到}}\n自家账本：{{lol.ledger.line | 账本里还没有记录}}\n\n下面这几行随 system 前缀重建而更新，只包含客户端确实给得出的字段：\n{{lol.match.summary | （没在对局中）}}\n\n- 大厅、选人、对局、结算四个阶段的现场数据现读现取，用 `lol_snapshot`；被冷却压住的观察也在这里，只是没单独推送。\n- 刚才发生了什么按时间顺序看 `lol_events`；`lol_transient` 是本局内存态（数据多久没变、资源被击杀后过了多久、本局见到的海克斯强化），对局结束即销毁。\n  其中「这条数据已 N 秒没更新」只说明客户端字段多久没变过，**不代表那个人不在、在埋伏或在打野**；没有目击到的事别说成发生过。\n- `lol_knowledge` 只查包内 JSON，覆盖范围与数据说明在回执里；查不到就说查不到，不要凭印象补。\n- 长期偏好和战绩走 `lol_ledger_read` / `lol_ledger_write`，写在包自家 dataDir，与 Memory 无关。\n\n读不出的字段回执会直接写明\"客户端没给\"，这时按缺失处理：不知道就不说，也别提\"小地图\"\"画面\"\"OCR\"这类这个环境没有的能力。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0": "### 署名与适用条款\n\ncortico-world-lol isn't endorsed by Riot Games and doesn't reflect the views or opinions of\nRiot Games or anyone officially involved in producing or managing Riot Games properties.\nRiot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.\n\n这一段是 Riot 要求第三方应用挂的固定署名。它写在第一个版本的第一节，是因为市场页面上玩家读到的就是这一节：\n挂在别处的署名不算数。\n\n- **国服与 WeGame 环境**：在中国大陆，《英雄联盟》由腾讯发行，账号使用受当地运营商的服务条款约束；\n  那一套条款与 Riot 的第三方应用政策是两份文本，互不豁免，任何一方都不为另一方放行。\n- 本包的全部数据请求只指向你自己这台机器上客户端开出的本地接口，只读、不发送任何操作、不上传对局信息，\n  也不使用任何线上接口；同时它是**未经腾讯授权**的第三方程序——这不是本包能替自己补上的资格。\n- 因此是否在自己的服务器上使用，请自行评估风险并自己做判断。这条说明从第一个版本起就放在这里，\n  不等到事后才告知。\n\n### 这个版本包含什么\n\n这是第一个版本，它只做一件事：**在你自己这台机器上只读地接英雄联盟客户端**，把客户端本来就给出的东西整理好交给 bot，让它知道你这一局的情况。\n\n- 读的是客户端在自己机器上开出的本地接口：大厅与选人阶段问客户端本身，对局中读客户端开出的观战数据。\n  双方阵容与英雄机制那类**静态对位参考改在开局第一帧给出**——它读的是观战数据里的名单，不再等选人阶段，\n  所以客户端接口接不上的那种安装也照样说得出这一句。\n  一局打完，记账用的是这一局里最后一次读到的观战数据；客户端的结算面板能用时再额外补上，\n  用不上也不影响这一局进账本。全程只读，不发任何操作。\n- 前提是游戏客户端开着。客户端没开时它停在待机，自己按间隔重试，不报错，也不催你。\n- 随包装好一份静态知识资料：英雄编号表、少量英雄之间的机制相互作用、少量强化符文摘要。另外它自己记一本账。\n- 这个包本身没有画面能力，也没有操作能力。你在屏幕上看到的形象与气泡是 Cortico 画的，它只负责把读到的信息交出去。\n\n这一版还没有正式发布过，所以迄今所有的修正都记在这一节里。\n\n### 对局陪伴与提醒\n\n- **会主动说的时机**：对局阶段变化（大厅、选人、进行中、已结束）、开局第一帧的静态对位参考（同一局只说一次，换局才再说）、击杀与多杀（客户端给的这一局全部人头）、团灭、防御塔与元素亚龙／大龙／先锋被击杀、本方成员阵亡，以及一局打完之后的本局总结。\n- **静态对位参考只讲机制，不讲怎么办**：说的是「你的英雄与对面这位的技能机制碰到一起会怎样」，来自包内静态资料；不含出装、符文与打法建议，也不指挥走位。名单里认不出的英雄直接跳过这一句。\n- **不占屏**：每次启动都会重说一遍的那类变化（处于待机、刚联系上客户端）只记在里面，不单独冒一条。普通观察默认至少隔 45 秒才说一次，上面那些值得说的时刻不受这个间隔限制；被间隔压住的也没有丢，仍进本局的快照与事件流水，问一句就拿得到。\n- **局与局不串**：同一局不会因为被反复读取就当成新的一局重来一遍；连着打两局也不会因为号相同被吞掉。一局打完才是取战绩的时机，取的是这一局里最后一次读到的观战数据，客户端结算面板能用时再对一遍。\n- **两分半内结束的排位与匹配按重开处理**：这种局系统会退回排队，客户端记下的时长也就几十秒到两分半。它不写进账本，也不出那一条本局总结——写进去就等于把一场没打成的局算进你的场次。\n  时长读不出来时不当重开处理，照常入账：宁可多记一条让你看见，也不吞掉一局真局。其他玩法（海克斯大乱斗、无限火力、自定义）没有重开机制，多短都照常记。\n- **说法是中文的**：阶段与状态一律给中文说法，时长写「秒」。本方与对方按你自己所在的队标注，认不出你在哪一队时会说明「这是按名单前后半段标注的」。带 #标签 的召唤师名也认得出是你。\n  客户端给的英文阶段名不再念给你听：认得出的换成中文（如「空闲」「正在关闭」「结算面板」），认不出的只说「未识别」；\n  停在待机时那句说明用的就是这份中文对照。局号也一样，整形之后才写进对局结束的说明、快照与账本，纯数字的真号逐字不变。\n- **客户端没给的就说没给**：击杀、死…"
+  }
+}

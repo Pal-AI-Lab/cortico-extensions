@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-omikuji",
-  "version": "0.4.2",
+  "version": "0.4.4",
   "describe": {
     "tools": [
       {
         "name": "omikuji_draw",
-        "description": "Draw the daily fortune slip. With no arguments it returns today's slip; pass date (YYYY-MM-DD) to read the slip of another day. The slip for a date is fixed on this machine, so drawing it again never changes it. In built-in wording mode the reply is the finished slip: lot number, grade, score, verse, reading, what to favour, what to avoid and a lucky colour. In pet wording mode the reply is the facts plus writing constraints instead, and omikuji_record stores the slip you write.",
+        "description": "Draw the daily fortune slip. With no arguments it returns today's slip; pass date (YYYY-MM-DD) to read the slip of another day. The slip for a date is fixed on this machine, so drawing it again never changes it. In built-in wording mode the reply is the finished slip: lot number, grade, score, verse, reading, what to favour, what to avoid and a lucky colour. In pet wording mode the reply is the facts plus writing constraints instead, and omikuji_record stores the slip you write. Pass peek: true to find out whether today's slip has been drawn yet without drawing it.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -14,6 +14,10 @@
             "date": {
               "type": "string",
               "description": "Calendar date in YYYY-MM-DD. Omit for today in the deployment timezone."
+            },
+            "peek": {
+              "type": "boolean",
+              "description": "Only ask about the state: returns whether today's slip exists already, without drawing one. Use it to decide whether to offer a draw."
             }
           },
           "required": []
@@ -22,13 +26,13 @@
           "read"
         ],
         "summary": {
-          "zh": "取某一天的签；不传日期就是今天。同一天在同一台机器上永远是同一张。",
-          "en": "Returns the slip for a date, today by default. The same date is the same slip on this machine."
+          "zh": "取某一天的签；不传日期就是今天。同一天在同一台机器上永远是同一张。带 peek 时只问「今天抽了没有」，不抽。",
+          "en": "Returns the slip for a date, today by default. The same date is the same slip on this machine. With peek it only reports whether today has been drawn."
         }
       },
       {
         "name": "omikuji_record",
-        "description": "Store the slip you wrote for a date, in pet wording mode only: the verse and, optionally, your own reading of it. The first record for a date is kept and every later draw returns it unchanged, so record once and do not rewrite it. Returns what was stored.",
+        "description": "Store the slip you wrote for a date: the verse and, optionally, your own reading of it. The first record for a date is kept and every later draw returns it unchanged, so record once and do not rewrite it. Returns what was stored. Built-in wording mode keeps its own verses, so the call only answers with a note there.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -54,8 +58,8 @@
           "write"
         ],
         "summary": {
-          "zh": "把桌宠自己写好的那一签记下来；同一天只认第一份。",
-          "en": "Stores the slip the pet wrote; the first text for a date is the one kept."
+          "zh": "把桌宠自己写好的那一签记下来；同一天只认第一份。内置文案模式下只回一句说明。",
+          "en": "Stores the slip the pet wrote; the first text for a date is the one kept. In built-in wording mode it just answers with a note."
         }
       }
     ],
@@ -63,8 +67,15 @@
       {
         "type": "omikuji.started",
         "description": {
-          "zh": "World 挂载完成，附今天这一签的档位与分数。",
-          "en": "The World was mounted, with today's grade and score."
+          "zh": "World 挂载完成：今天抽过就带上档位与分数，没抽过只说还没抽（不带分数）。",
+          "en": "The World was mounted: with today's grade and score when it was already drawn, and a plain note when it was not."
+        }
+      },
+      {
+        "type": "omikuji.reminder",
+        "description": {
+          "zh": "九点之后今天还没抽签时提醒一次（每天最多一次，随下一批消息捎带）。",
+          "en": "A once-a-day nudge after 9am when the day is still undrawn (delivered with the next batch)."
         }
       }
     ],
@@ -73,11 +84,13 @@
         "key": "worlds.omikuji.envPrompt",
         "title": "精灵日签 · 环境提示词",
         "role": "envPrompt",
-        "content": "Omikuji gives the bot one fortune slip per day: lot number, grade and score, plus a verse, a one-line reading, something to favour, something to avoid and a lucky colour. The receipt writes the score as a plain number with 分 after it.\n\n{{omikuji.mode}}\n\nWhen the operator asks about today's fortune in any wording — 「今日气运」「今天运势怎么样」「测测我今天」「今天顺不顺」, or plainly how the day looks — draw the slip once and answer as yourself, in your own words. Do not paste the receipt unless they ask for the slip itself. Keep the grade and score exactly as returned; the tone is yours to set.\n\nThe slip for a date is fixed on this machine. Drawing the same date again returns identical text, so calling omikuji_draw twice for one day wastes a turn. Apart from those questions, draw today's slip when the operator greets you for the first time in a day; do not draw it unprompted on every turn.\n\nToday: {{omikuji.hint}}\n\nThe verse and grade are entertainment and nothing else. Read them as a tone for the day and speak in your own voice; never report a grade or score other than the ones the tool returned. A 凶 result is a joke about the day, not a warning: keep it light, never frighten the operator, and never suggest they change plans because of it. The World page already shows that the slip is for fun, so do not append a disclaimer to your replies — repeated every time it becomes noise. The operator may ask about another date — pass it as date (YYYY-MM-DD) instead of guessing.\n"
+        "content": "Omikuji gives the bot one fortune slip per day: lot number, grade and score, plus a verse, a one-line reading, something to favour, something to avoid and a lucky colour. The receipt writes the score as a plain number with 分 after it.\n\n{{omikuji.hint}}\n\nWhen the operator asks about today's fortune in any wording — 「今日气运」「今天运势怎么样」「测测我今天」「今天顺不顺」, or plainly how the day looks — draw the slip once and answer as yourself, in your own words. Do not paste the receipt unless they ask for the slip itself. Keep the grade and score exactly as returned; the tone is yours to set.\n\nThe slip for a date is fixed on this machine. Drawing the same date again returns identical text, so calling omikuji_draw twice for one day wastes a turn. Apart from those questions, draw today's slip when the operator greets you for the first time in a day; do not draw it unprompted on every turn.\n\nWho writes the wording is decided by the mode, and the receipt from omikuji_draw tells you which one you are in. If the receipt hands you facts and writing constraints, compose the verse and the reading yourself and call omikuji_record once, so the rest of the day reuses your text. If it hands you a finished slip, use it as written and do not rewrite the verse.\n\nNever state a grade or score for a day that has not been drawn yet: the number is only settled at the moment of drawing, and before that there is nothing to quote. To ask whether today's slip exists without drawing one, call omikuji_draw with peek: true — that call is read-only and safe whenever you are unsure.\n\nThe verse and grade are entertainment and nothing else. Read them as a tone for the day and speak in your own voice; never report a grade or score other than the ones the tool returned. A 凶 result is a joke about the day, not a warning: keep it light, never frighten the operator, and never suggest they change plans because of it. The World page already shows that the slip is for fun, so do not append a disclaimer to your replies — repeated every time it becomes noise. The operator may ask about another date — pass it as date (YYYY-MM-DD) instead of guessing.\n"
       }
     ]
   },
   "changelog": {
+    "0.4.4": "**「没抽就一个数字都没有」** 与 **「第二天回头用固定盐补录」** 这一版补齐。\n\n- **不抽就不给任何数**：`PanelSnapshot.sign` 改成可空——今天还没抽签时它不是「一张预览的签」，而是 `null`；七天横排里今天那一格 `lot`/`score`/`tierLabel` 全是 `null`，面板上只写「未抽」。工具侧同样：`omikuji_draw({ peek: true })` 在今天没抽时一个字不提分数。也就是说，抽签之前**任何地方都不存在那天的数字**，客户端拿到的 JSON 里也没有。\n- **第二天补录**：挂载时（以及那个每 10 分钟的状态巡检里）检查七天窗口内「已经过去、却没有记录」的日子，用「日期 + 固定本机盐」把它们定下来并落盘，`source: \"fallback\"`。之后这一天就冻结了：换配置里的盐也不变，永远同一张。这就是作者定的规则——当天没抽，第二天用固定盐生成一个。\n  - 真抽过的日子一个字节都不改（`source: \"draw\"`）。\n  - 今天永远不补：今天没抽就是没抽。\n  - 补录出来的签与 0.1.3 的口径逐字一致（日期 + 固定盐）。\n- `omikuji_days.json` 的每条记录多了 `source` 字段（老记录没有这个字段，仍然按「当天抽的」读，向后兼容）。\n- `peek` 的状态话术分开说：抽过的报签与分数；补录的会注明「那天没抽，第二天按日期 + 固定盐补录的」；今天没抽就说「还没有签可报，分数是抽的那一刻才定下来的」。\n- **新增「更多…」**：七天横排最后多一个虚线格，点开是一层暗幕弹窗，只写一句「过去的事无可挽回，你能做的只有着眼当下和期待未来」。点「好」、点暗幕、按 Esc 都能关；重复点不会叠出第二层。它是往前翻到头之后的收束——再往前没有日签可看。\n- 面板七天横排的 `title` 对补录的那天会标出「当时没抽，按固定盐补录。」\n- 测试 56 项（新增 6 项专测补录：作用域、不改已抽、冻结后不随配置变、挂载即补、与 0.1.3 一致、幂等）；面板冒烟 83 项（新增 13 项专测「更多…」弹窗与开屏）。\n- 说明：0.4.3 未曾发布，内容并入本版（本地 0.4.3 产物已删除，避免「同号不同内容」）。",
+    "0.4.3": "> **未发布，已作废**：内容并入 0.4.4。留这一节是为了说明它本来要改什么。\n\n按一份 Linux 真机反馈（EndeavourOS · Node 24 · Cortico 0.2.17）修的四件事，外加一个建议里的功能。\n\n- **「同一天先报 89 分、抽完变 0 分」的突变治好了——种子规则一点没动**。规则仍是：当天第一次真抽签才摇随机盐，没抽过的日期按「日期 + 固定盐」算。问题不在种子，在于**抽之前就把分数说出去了**：系统前缀只在挂载/卸载 World、改可见性、手动「重载前缀」和重启时重建，抽签不会让它刷新，所以前缀里那个分数抽完就成了旧值，模型上下文里出现两套说法。现在分数**只出现在工具回执里**——抽签就是定签，定签之前哪里都不报数：\n  - `envPromptVars()` 只给一段静态约定（不含分数、不含措辞模式），抽签前后一字不变。\n  - 挂载事件：今天抽过才带分数（盐已落盘，这张不会再变）；没抽过只说「还没抽」，一个字不提分数。\n  - 面板与七天横排：今天没抽时中间是扣着的封牌，横排上那一格写「未抽」，不显示会变的数字。\n  - 新增 `omikuji_draw({ peek: true })`：只问「今天抽了没有」，不摇盐、不报分数，用来决定要不要提醒。\n- **开屏不再空白**：以前 `mount()` 在没抽过时直接画封牌、**根本没取快照**，于是动态背景、作者头像、字体、日期、「这七天」横排全都不出现，必须点一次抽签才一起蹦出来。现在开屏一律先取快照：除了中间那张牌，其余立刻到位；今天已经抽过（比如在对话里抽的）就直接给牌面，不再扣着。\n- **`omikuji_record` 恒挂**：工具表跟着系统前缀走，而改配置不重建前缀，所以从「内置文案」热切到「桌宠自己写」后，提示词要求它调 `omikuji_record`，工具表里却没有这个工具。现在两个工具始终都在，内置模式下调用 `omikuji_record` 会得到一句「内置文案模式不需要记」的说明。另外 `omikuji_record` 会**先把当天的盐摇定再落盘**，免得签文记在按固定盐算的那张上、跟真抽到的牌面对不上。\n- **挂载事件改 `piggyback`**：内部事件的默认 trigger 是 `flush`，等于每次开机立刻唤醒主模型白跑一轮完整上下文。现在只入队，随下一批正常消息捎带。\n- **新增：今天没抽签会提醒**（来自「功能建议」）。每 10 分钟看一眼，一天最多提醒一次、且只在该天 9 点之后：判断的是当下状态，抽过就永不提醒，跨零点自动重置；提醒同样走 piggyback，不会自己唤醒模型。\n- **静态媒体哈希按 mtime + size 缓存**：背景那个 mp4 有 16 MB，每次面板请求都同步读一遍整块文件算 SHA-256 是白做功。\n- 背景视频 16 MB 的体积**保持不动**：那是有意选择（不转码、就用这一段素材），市场包大一点换画质。\n- 测试 49 项、面板冒烟 71 项全过；`dom-smoke` 现在用可注入的假时钟，抽签会真的摇盐（以前面板的 TODAY 与 World 的真实今天对不上，冒烟里其实从没摇过盐）。",
     "0.4.2": "真机事故修复：0.4.1 装进 Coopanion 后**抽签动画、动态背景、作者头像三样全都不出现**，面板退成灰底、字也发糊。\n\n- **根因**：素材路径拼在了 `ctx.packageDir` 上，而框架文档写明这个字段是「**bot** 代码包目录」——真宿主传进来的是 bot（fatfish）的包，本 World 的 `assets/` 根本不在那下面，于是 `video` 回 absent、快照里 `background`/`avatar` 都是 false，三样一起哑火。\n- **修法**：新增 `src/assets.ts`，用本模块位置反推本包根目录（`import.meta.url`），`ctx.packageDir` 只作离线自检的兜底。pnpm 软链会解析到 `.pnpm/...` 下的真实包目录，那里照样带着 `assets/`。\n- **配色自带**：这一页铺着动态壁纸，不再跟宿主主题走。整套色板写在 `.om-shell` 上（暖墨底 + 米白字 + 金色点缀），浅字加一层投影，牌面改成半透明玻璃卡（`rgba(23,25,30,.74)` + `backdrop-filter`），遮罩加重；主按钮改金色实心、深棕字，星条与幸运四项用金色。之前用的 `var(--ink, inherit)` / `var(--paper-2)` 在浅色主题或没有这些变量的宿主里就是「灰底 + 看不清」。\n- **兜底背景有设计**：没有素材、还没取到、或解码失败时，露出暖墨渐变（灯下宣纸的感觉），不再是失败的灰色块；背景视频加载失败会自己撤掉节点。\n- **揭晓动效**：卡片翻开时加 320ms 淡入上浮（`om-reveal`），动画钩子仍是那个类。\n- **日志不再刷屏**：缺素材的提醒只报一次，并带上实际查的包目录，方便下次一眼定位。\n- 新增 4 项回归测试（`test/assets.test.ts`）：本包目录存在三个素材、宿主给 bot 目录时仍用自己的包目录。测试 47 项全过。",
     "0.4.1": "面板这一版基本换了张脸。\n\n- **动态视频背景**：`assets/panel-bg.mp4`（1908×910、16.9 秒、静音自动循环 + 压暗遮罩）当底图；没有视频时退回 `panel-bg.gif`，都没有就纯色。牌面半透明叠在视频上，不挡字。\n- **页脚落款**：作者头像（`assets/avatar.jpg`）＋ `奶糖_net` ＋「作者寄语：wish you a happy day（愿你天天开心）」。\n- **字体可选**：`worlds.omikuji.fontFamily` 六档（楷/手写/宋/隶/黑/圆，纯本地字体栈，不联网）；另有一档「霞鹜文楷」走 jsDelivr CDN，默认关、选了才加载。\n- **排版定死**：14px 基准 + em 层级（标题 17/600、签文 15/500、正文 14），中文不做斜体，只有拉丁文用 `<em>`。字号/字重/斜体都不开放配置——用户只需要选字体。\n- **「再看一眼」重放抽签动画**：点它就把 `assets/draw.mp4` 再放一遍，签本身不变（只重放，不重抽）。忙碌文案也分开了：重放显示「再放一次…」，不借「抽签中…」。\n- 面板顶上加一句长引子；牌翻开后补一句「愿你今天顺手抽到的那一签，刚好对上此刻的心情。」\n- 面板冒烟里那条「重看一次不带动画钩子」的断言原来是假通过（动画播着时它等的条件自然成立），已改成验真：重放会出现 video、播完卡面照样带 `om-reveal`、签的分数前后一致。\n- 文案/排版/免责句做了离线审计（`tools/copy-audit.ts`）：免责句只留在牌面上，回执里不带；分数不带 `/100`。",
     "0.3.2": "- pet 模式下**解签也归桌宠写**——整张牌的话都是它的。\n\n- `omikuji_record({ text, reading?, date? })` 新增 `reading`（解签）：两三句、40–120 字，说清这一天该怎么过。`text` 仍是签文（两句 14–18 字）。只给 `text` 也能记，`reading` 缺席就不显示。\n- brief 里分开写清两种写法的要求，并把星级、宜忌、幸运四项当「既成事实」交给它——这些数字它不能改。\n- 存储升级：`omikuji-wording-*.json` 的一条记录变成 `{ text, reading?, createdAt }`，老记录（只有 `text`）照样能读。\n- 面板：pet 模式写过的牌面显示「签文 + 它写的解签」；`PanelSnapshot` 多一个 `writtenReading`。\n- 元数据：署名 `author.name = 奶糖_net`（npm 账号仍是 `net_ang`），补上 `repository` / `homepage` / `bugs` 指向 GitHub 仓库，LICENSE 版权人改成本人。\n- 测试 43 项、面板冒烟 32 项全过。",
