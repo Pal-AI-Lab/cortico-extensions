@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "name": "cortico-world-shadow",
+  "version": "1.0.1",
+  "describe": {
+    "tools": [
+      {
+        "name": "pet_shadow",
+        "description": "Poke the small shadow that follows you. It plays one random expression or motion and the receipt names it. The person poking the shadow themselves never reaches you and costs no turn.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": []
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "戳一下跟着你的影子，它会随机做一个表情或动作，回执写明它做了什么。",
+          "en": "Pokes the shadow that follows you; it plays one random expression or motion and the receipt names it."
+        }
+      }
+    ],
+    "events": []
+  },
+  "changelog": {
+    "1.0.1": "First public release. (1.0.0 was left in npm as a staged record and cannot be published as a stable version, so the first release ships as 1.0.1; the contents are the same.)",
+    "1.0.0": "First release.\n\n- A second, smaller body (0.45×) that follows the desktop pet and stands 130 px beside it; walks when the gap is small, runs when it is large, glides when the height differs.\n- Takes pokes only: no grab cursor, no dragging, no patting, no throw. Poking it never reaches the model and costs no tokens.\n- Copies the pet's sit, sleep, dance and dizzy states; startles when the pet is picked up or thrown; replays `pet_act` / `pet_say` motions.\n- One tool, `pet_shadow`: the pet pokes the shadow once, the shadow plays one random motion, the receipt names it (`影子做了：转圈`).\n- Shadow sound effects play at 20% of the pet's volume.\n- Settings: size 0.2–1, follow gap 40–400 px, speed 0.3–2, volume 0–1, figure pack (dropdown of installed packs), reply timeout 500–8000 ms.\n- Turning the extension off removes the shadow within 8 seconds: the rendering patch polls this extension and lets go when it stops answering."
+  }
+}
