@@ -871,6 +871,7 @@
     "better-cortico-world-netease-companion",
     "cortico-bot-continuity",
     "cortico-provider-deepseek",
+    "cortico-provider-opencode",
     "cortico-world-astrbot",
     "cortico-world-astrbot-livingmemory",
     "cortico-world-bili-video-pro",
@@ -885,7 +886,8 @@
     "cortico-world-simple-trpg-check",
     "cortico-world-starpost",
     "cortico-world-surfing",
-    "cortico-world-terrarium"
+    "cortico-world-terrarium",
+    "cortico-world-wechat-claw"
   ],
   "newDays": 14,
   "blocked": {
@@ -961,6 +963,14 @@
       "cortico-world-humanize": {
         "zh": "作者已停止维护并申请下架",
         "en": "Withdrawn at the author's request; no longer maintained"
+      },
+      "cortico-world-interrupt-turn": {
+        "zh": "安装时和模型调用补丁工具时，用包里的整份文件覆盖 Coopanion 安装目录里 Cortico 核心的 core.ts、loop.ts、types.ts,桌宠 World 的 5 个文件，以及 cortico-world-fatfish 的 world.ts",
+        "en": "On install, and whenever the model calls its patch tool, it overwrites whole files inside the Coopanion install with copies from the package: core.ts, loop.ts and types.ts of the Cortico core, 5 files of the desktop pet World, and world.ts of cortico-world-fatfish"
+      },
+      "cortico-world-remote-panel": {
+        "zh": "安装时用包里的整份文件覆盖 Coopanion 安装目录里 Cortico 核心的 core.ts、loop.ts、types.ts,并新增 hidden-tools.ts",
+        "en": "On install it overwrites core.ts, loop.ts and types.ts of the Cortico core inside the Coopanion install with whole files from the package, and adds hidden-tools.ts"
       }
     },
     "publishers": {}
@@ -2138,6 +2148,15 @@
         "diagnostics",
         "high-cost"
       ]
+    },
+    "cortico-world-hearing": {
+      "addTags": [
+        "sensitive-data"
+      ],
+      "note": {
+        "zh": "默认允许模型自己开始监听系统或指定应用的声音，切段送进对话",
+        "en": "By default the model can start listening to system or app audio on its own; the audio is segmented and fed into the conversation"
+      }
     }
   }
 }
