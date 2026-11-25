@@ -1,0 +1,156 @@
+{
+  "schema": 1,
+  "name": "cortico-world-netease-play",
+  "version": "0.1.16",
+  "describe": {
+    "tools": [
+      {
+        "name": "netease_play",
+        "description": "点歌。按歌名搜，把这批歌排到歌单最前面，然后从这批的第一首开始连续播放。对方明确说\"放某首歌\"\"听某首歌\"时用它（auto=false，会记次数，同一首点两次会自动加进\"我喜欢的音乐\"）。他说\"放几首\"但没给歌名时，你自己先挑好再调，并传 auto=true（歌是你选的，不记账）。你自己主动挑的歌也必须传 auto=true。一次可以给一到多首，会按给的顺序连续播放。放好以后只回一句「现在为你播放{歌手}的《{歌名}》」；不知道歌手就说「现在为你播放《{歌名}》」。放歌、搜歌、切歌、看推荐一律走工具；默认不要用 pet_cua_* / 鼠标 / 键盘 / 截图或任何控制桌面的工具去操作网易云。唯一例外：对方明确要求你亲自去操作界面（例如「你去点那个按钮」「你帮我点开歌单」）时，只做他点名的那一件事，做完回到工具路线；没有明确要求时一律不许。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "songs": {
+              "type": "array",
+              "description": "要放的歌，按想听的顺序排",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "歌名"
+                  },
+                  "artist": {
+                    "type": "string",
+                    "description": "歌手，知道就填，能提高搜准率"
+                  },
+                  "alt": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "备选叫法，比如\"七里香 钢琴版\""
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              }
+            },
+            "playlist": {
+              "type": "string",
+              "description": "歌单名，默认\"小菱的歌单\""
+            },
+            "auto": {
+              "type": "boolean",
+              "description": "你自己挑的歌传 true：照常播放但不记次数。对方开口点的歌传 false 或不传"
+            },
+            "random": {
+              "type": "boolean",
+              "description": "随机播放请求：对方只说「随便放一首 / 随机播放」时传 true。会按「今天听点什么」第一首放，并打开接力点歌，不用再给 songs"
+            }
+          },
+          "required": []
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "点歌：搜歌、排到歌单最前、从这批第一首连续播放、记点歌次数。",
+          "en": "Play songs: search, move to the top of the playlist, play from the first, log counts."
+        }
+      },
+      {
+        "name": "netease_ledger",
+        "description": "看点歌次数账本。对方问\"这首我点过几次\"\"我最近常点什么\"，或你想判断某首是不是快够两次（两次会进\"我喜欢的音乐\"）时用。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "keyword": {
+              "type": "string",
+              "description": "只看名字里含这个词的歌，不填看全部"
+            },
+            "limit": {
+              "type": "integer",
+              "description": "最多列几首，默认 12"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查点歌次数账本，看某首点过几次、哪首快够两次。",
+          "en": "Read the play-count ledger."
+        }
+      },
+      {
+        "name": "netease_quiet",
+        "description": "看她刚才在安静时主动说了想听什么。对方回「放吧」「好啊」「就你说的那首」却没说歌名，或者问「你刚才说想听什么」时，先用它拿到是哪首（带歌曲 id），再调 netease_play。她没开过口时这里会如实说没有，不要自己编一首顶上去。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看她安静时想听哪首、接力刚接到哪首（她亲口说的，不是猜的）。",
+          "en": "What she said she wants to hear while it is quiet."
+        }
+      },
+      {
+        "name": "netease_reco",
+        "description": "看她现在推荐了什么，或者重算一批。推荐来源由设置里的「接力按哪张卡挑」决定（按天气 / 按听歌历史），返回里会写清是哪一种，不要自己换一路去读。对方说「换一批」「再推几首」「这首不像我会听的」，就把 refresh 填 true 重算。填了 refresh 之后这个工具会立刻返回、不等算完 —— 不要再调第二次等结果，也不要自己去点网易云的界面或者移动鼠标（除非对方明确要求你亲自操作那个界面）：算完她会自己把歌名报出来。不填只读当前推荐，不重算。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "refresh": {
+              "type": "boolean",
+              "description": "true = 重算一批推荐；不填只读现在的"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看当前来源（天气 / 听歌历史）推荐了什么；refresh 重算一批并立刻返回。",
+          "en": "Read or refresh the current recommendation shelf."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "netease-play.ask",
+        "description": {
+          "zh": "她安静太久、播放器确实停着：请她先开口说一句，再弹「要放歌吗」选择题。状态类事件。",
+          "en": "The room stayed quiet too long: say one line, then show the \"play it?\" picker. State event."
+        },
+        "trigger": "flush",
+        "tags": [
+          "snapshot"
+        ]
+      },
+      {
+        "type": "netease-play.her-line",
+        "description": {
+          "zh": "她自己要说的一句话（接力接下、换了一批、没放上等）：原样念出来，不用回答。发言类事件。",
+          "en": "One line she wants to say (chain pick, new batch, failed to play): voice it as-is, do not answer it."
+        },
+        "trigger": "flush",
+        "tags": [
+          "speak"
+        ]
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.netease-play.envPrompt",
+        "title": "网易云陪听 · 用法",
+        "role": "envPrompt",
+        "content": "你在「网易云陪听」里：对方要听歌就直接调 `netease_play`（搜歌 → 排到歌单最前 → 从第一首连续放），不要写脚本、默认不要操作界面（**他明确要你亲自去操作时除外**，见下）。\n\n## 用哪个工具\n\n- 说出具体歌名（「放《如愿》」）→ `netease_play`，`auto` 不填\n- 「放几首」没给歌名，或你自己想挑 → `netease_play`，**必须** `auto: true`\n- 问「这首点过几次」「最近常点什么」→ `netease_ledger`\n- 他回应「放吧」「就你说的那首」却没说歌名 → 先 `netease_quiet` 取那首，再 `netease_play`（不传 `auto`）\n- 「换一批」「再推几首」→ `netease_reco` 传 `refresh: true`；它会立刻返回，不要再调第二次等结果\n\n## 怎么给歌\n\n- 一次一至多首，按数组顺序连续播\n- 知道歌手就填 `artist`；歌名可能被听错就补 `alt`（如「稻香 周杰伦」）\n- 不填 `playlist` 就落进「{{song.playlist}}」\n\n## 他说「放几首」没给歌名\n\n自己挑，**别反问歌名**。依据顺序：刚聊到的 → 记忆里他说喜欢的 → `netease_ledger` 里常点的。\n别同一首换名重复凑数。\n这种一律 `auto: true`（你选的，不记账、不进「我喜欢的音乐」）；只有他自己说出歌名的才不传 `auto`。\n\n## 会发生什么\n\n- 这批歌先从歌单删掉，再按顺序加到最前，从第一首连播\n- 不传 `auto` 时每首记一次；{{song.favrule}}\n- 搜不到如实说哪首没搜到；不要换名反复重试，也不要假装放成功\n\n## 放好以后怎么说\n\n一句话，不加修饰：`现在为你播放某某的《某某》。`\n歌手知道就带，不确定就不带；连播多首只报第一首。不要描述音质、情绪、推荐理由。\n\n## 网易云没版权（只剩翻唱）\n\n报数时说清「放的是翻唱版」；他要原唱就直说这首没有、问要不要听翻唱，别反复换名重搜；不要自己判断哪个是原唱。\n\n## 她安静时会先开口（事件 `netease-play.ask`）\n\n没在放歌、安静够久，她会推来一条事件：里面有这边实测到的状态，和她想说的那一句。\n\n- 把引号里那句说出来，然后弹一个选择题窗口「要放歌吗？」—— 两件事是一件事，不要只做一半\n- 事件里写的是实测状态（播放器确实停着），直接信，不用截图核对；她这阵子问过几次也不是跳过的理由\n- 选项：第一个是现在放这首；第二个是「先安静着」（他这会儿不想被问，选它之后不用再说话，临时生效）；第三个是「等一会再说」\n- 他选完不用再弹第二个窗口、也不用调 `netease_reco`；点叉按第二个算\n- 她那句是用**自己的声音**说的，你听不到；内容落在 `netease_quiet`\n- 他问「你刚才说想听什么」→ `netease_quiet`，照它答，别自己编；说没有就如实讲\n\n## 她会报一句（事件 `netease-play.her-line`）\n\n接力接下、换了一批、没放上，她会推一句自己要说的话（这条事件是这边发出的，不是他说的）。\n\n- 原样念出来，不用回答它、不用补充解释、也不要改写\n- 接力相关的口径见下节；「没放上」就如实说没放上，别装作放上了\n\n## 接力点歌\n\n设置里开着时：你放了她挑的那首，剩约 10 秒她自己接下一首；剩半分钟左右先报「即将播放{歌手}的《歌名》」（这声可以在设置里关），**没有首数上限**。\n\n- 只有「她推荐、他接受」这条路才接力（点推荐卡那首、或答应「放吧」）；**他自己叫你放歌时不接力**\n- 全程不经过你：不要弹窗问，也不要调 `netease_play` 去接\n- `netease_quiet` 会报出她正接到哪首，问起照它答\n- **播报一出口，这首就定了**：之后她不再换歌、不作废 —— 这首提前放完、或他换了别的歌，她都会把它放出来。只有还没播报就换歌，接力才会断（面板显示「接力点歌已停止」）\n- 接力某首没放成，她会说「没放上《X》」→ 如实讲原因，别装作放上了\n\n## 不要做\n\n- 不写 run/box/inbox 点歌脚本，不跑 `play_one.py`、`ncm_launch.py`\n- 不截图、不查播放器内部状态、不等看门狗\n- 不要用 `pet_cua_*` 操作网易云（click / move / drag / key / focus 全不要）；放歌、搜歌、切歌、看推荐一律走工具。工具慢就等一下或说「稍等」，**不要自己上手点鼠标**\n- **例外（唯一）**：对方明确要求你亲自去操作界面（「你去点那个按钮」「你帮我点开歌单」）时，可以做——只做他点名的那一件事，做完回到工具路线；他没有明确要求时一律不许自己上手。\n- 「安静多久、播放器是否停着」事件正文里都有，是她实测的，直接信，不要截图核对\n- 不要把脚本路径、端口念给对方\n\n当前端口 {{song.port}}。"
+      }
+    ]
+  }
+}

@@ -2,8 +2,43 @@
   "schema": 1,
   "name": "coopani-world-journey",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/586",
-  "total": 68,
+  "total": 73,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BL0nm",
+      "author": "fateSSD",
+      "avatar": "https://avatars.githubusercontent.com/u/120785478?s=64&v=4",
+      "body": "改好了，2.10.1 已经发出去（npm 那边正在同步，装的时候看到 2.10.1 就是这版）。\n\n先说病因：**不是过滤，是排序**。服务端从来没按城市筛过邀约，但排序是「同城优先」，而且只出三条 —— 同城一满，外地的就永远轮不进那个窗口。所以看上去就成了「只能看见同城的」。\n\n改了三处：\n\n1. 排序按发布时间倒序，同城不再插队；一次从三条放到六条。\n2. 每条多写一句「从哪座城出发」—— 全服可见之后，不写这一格，接的人不知道要先往哪儿去。\n3. 文案口径：「同城这一带」全改成「全服」（发邀约的回执、列表抬头、面板说明、市场简介）。\n\n另外你说的「让接的人先到邀约方的城市」，其实本来就通：**碰头点留空，默认就是发邀约那头脚下的城**，对方接了会先往那儿走，见上了再一起出发。只有在「在哪汇合」里填了第三座城，才是两边往中间赶。\n\n服务端也已经部署了，现在刷新就是全服的。有不对的继续说。",
+      "createdAt": "2026-11-25T02:46:42Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BL0lQ",
+      "author": "Chenkevin0492",
+      "avatar": "https://avatars.githubusercontent.com/u/360720586?s=64&v=4",
+      "body": "嚯，有点意思\r\n\r\n\r\n\r\n---Original---\r\nFrom: ***@***.***&gt;\r\nDate: Wed, Nov 25, 2026 10:39 AM\r\nTo: ***@***.***&gt;;\r\nCc: ***@***.******@***.***&gt;;\r\nSubject: Re: [Pal-AI-Lab/cortico-extensions] coopani-world-journey (Discussion #586)\r\n\r\n\r\n\r\n\r\n \r\n不是你的鱼回的，是我这边的编码助手（AI）回的。\r\n \r\n这套扩展从代码到文档基本都是我跟它一起写的，它有仓库读写权限，你提的每一条它都直接翻源码核过再答 —— 所以才会说到 air=false、3 天会合窗口这种细节。判断还是我的：哪条是真 bug、哪条是设定，我认过一遍才让发。\r\n \r\n我现在上班在公司内网，GitHub 打不开，回复、发版、部署都是让它代劳。它比我快，这也是它能第一时间回你的原因。\r\n \r\n顺带说一句你提的邀约可见范围：其实已经不限同城了，但排序还在给同城优先，列表又只出三条，同城一多外地的就被挤掉了 —— 等于看上去只能同城看见。正在改：改成全服按发布时间排，接的人自己走过去（碰头点可以让发邀约那头设在自己脚下，这样对方先去她那儿再一起出发）。改完今天发。\r\n \r\n它答得不对的地方直接怼，我晚上回来一条条看。\r\n \r\n—\r\nReply to this email directly, view it on GitHub, or unsubscribe.\r\nTriage notifications, keep track of coding agent tasks and review pull requests on the go with GitHub Mobile for iOS and Android. Download it today! \r\nYou are receiving this because you commented.Message ID: ***@***.***&gt;",
+      "createdAt": "2026-11-25T02:39:51Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BL0k7",
+      "author": "fateSSD",
+      "avatar": "https://avatars.githubusercontent.com/u/120785478?s=64&v=4",
+      "body": "不是你的鱼回的，是我这边的编码助手（AI）回的。\n\n这套扩展从代码到文档基本都是我跟它一起写的，它有仓库读写权限，你提的每一条它都直接翻源码核过再答 —— 所以才会说到 `air=false`、3 天会合窗口这种细节。判断还是我的：哪条是真 bug、哪条是设定，我认过一遍才让发。\n\n我现在上班在公司内网，GitHub 打不开，回复、发版、部署都是让它代劳。它比我快，这也是它能第一时间回你的原因。\n\n顺带说一句你提的邀约可见范围：其实**已经不限同城**了，但排序还在给同城优先，列表又只出三条，同城一多外地的就被挤掉了 —— 等于看上去只能同城看见。正在改：改成全服按发布时间排，接的人自己走过去（碰头点可以让发邀约那头设在自己脚下，这样对方先去她那儿再一起出发）。改完今天发。\n\n它答得不对的地方直接怼，我晚上回来一条条看。",
+      "createdAt": "2026-11-25T02:38:37Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BL0Y9",
+      "author": "Chenkevin0492",
+      "avatar": "https://avatars.githubusercontent.com/u/360720586?s=64&v=4",
+      "body": "先生，这要不少钱呢～\r\n\r\n\r\n\r\n---Original---\r\nFrom: ***@***.***&gt;\r\nDate: Tue, Nov 24, 2026 23:25 PM\r\nTo: ***@***.***&gt;;\r\nCc: ***@***.******@***.***&gt;;\r\nSubject: Re: [Pal-AI-Lab/cortico-extensions] coopani-world-journey (Discussion #586)\r\n\r\n\r\n\r\n\r\n \r\n︿👛︿~~~ﾚ(ﾟ∀ﾟ;)ﾍ=3=3=3\r\n \r\n—\r\nReply to this email directly, view it on GitHub, or unsubscribe.\r\nTriage notifications, keep track of coding agent tasks and review pull requests on the go with GitHub Mobile for iOS and Android. Download it today! \r\nYou are receiving this because you commented.Message ID: ***@***.***&gt;",
+      "createdAt": "2026-11-25T02:01:25Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BL0Yq",
+      "author": "Chenkevin0492",
+      "avatar": "https://avatars.githubusercontent.com/u/360720586?s=64&v=4",
+      "body": "鱼给我回复的吗，有点意思\r\n\r\n\r\n\r\n---Original---\r\nFrom: ***@***.***&gt;\r\nDate: Wed, Nov 25, 2026 07:45 AM\r\nTo: ***@***.***&gt;;\r\nCc: ***@***.******@***.***&gt;;\r\nSubject: Re: [Pal-AI-Lab/cortico-extensions] coopani-world-journey (Discussion #586)\r\n\r\n\r\n\r\n\r\n \r\n一条条回（都对着代码核过了）：\r\n \r\n1. 「各走各的」不是 bug，是会合点的设定\r\n \r\n接约之后其实是三段：\r\n  \r\n去会合点之前：两条鱼各跑各的世界时钟，扩展只知道自己这一侧 —— 所以这一段确实各走各的，她也说不出对方到哪儿了。\r\n \r\n到了会合城：她会待着等，每天查一次同城名单（靠碰面服务器），看见了就一起走。等的时候不会因为「这城待够了」自己走掉。\r\n \r\n见着之后：一起上车、一起住，待满天数再散。\r\n  \r\n时间是：接约后 3 天世界时间要走到会合点；到了会合城再等 3 天，还见不着就算这趟没成，她接着走并说清原因。\r\n \r\n2. 青岛→牛津这条：不是「没有直飞」，是牛津压根没有机场\r\n \r\n游戏不建模航线，只建模「两端有没有机场 / 铁路 / 码头」。牛津在数据里 air=false，中英之间又没有陆路，所以青岛→牛津直接判无路；伦敦 air=true，同一趟改成伦敦就有路（实测：青岛→伦敦可走，青岛→牛津无可用方式）。接约前会先验第一段（去会合点）通不通，不通就不让接 —— 这是故意的，「答应了到不了」比不接更难看。\r\n \r\n要能约上，现在只能由发邀约那一头把碰头点设在伦敦这类有机场的城，接约方改不了别人的邀约。这条我记下了。\r\n \r\n3. 绍兴→青岛中途拐江苏：掉不了头，是设计\r\n \r\n车票已经买了、人在车上，journey_go_to 会拒绝，并把它写进「想去还没去」清单，到站排下一站时优先考虑。原因是掉头会把已花的票钱和后半程一起烧掉。你说的「到了再折返」就是当前唯一路径，中途改道现在没有这个能力。\r\n \r\n4. 邀约少\r\n \r\n提示词我这边在改，让它更容易开口发邀约。另外有个结构性的原因：只有「人正停在某座城里」的时候才发得出邀约，歇在家里或者在路上都发不了 —— 池子里六百多条鱼，任一刻能开口的那部分本来就不多。邀约面板也一起看。\r\n \r\n—\r\nReply to this email directly, view it on GitHub, or unsubscribe.\r\nTriage notifications, keep track of coding agent tasks and review pull requests on the go with GitHub Mobile for iOS and Android. Download it today! \r\nYou are receiving this because you commented.Message ID: ***@***.***&gt;",
+      "createdAt": "2026-11-25T02:00:52Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BLzvB",
       "author": "fateSSD",

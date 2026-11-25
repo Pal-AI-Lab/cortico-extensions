@@ -158,6 +158,9 @@
     "cortico-world-netease-companion": [
       "sensitive-data"
     ],
+    "cortico-world-netease-play": [
+      "sensitive-data"
+    ],
     "cortico-world-ops": [
       "unsafe"
     ],
@@ -2309,7 +2312,7 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "2.9.1",
+      "version": "2.10.1",
       "displayName": "大肥鱼环游世界",
       "description": "大肥鱼环游世界 · 193 座真城市旅行体验：真实赶路耗时、当地作息天气、旅途打工与月底手账，支持同城偶遇、互留名片及与「模拟鱼生」双扩展同步。（需 Coopani 0.2.22+｜QQ 群 284525159）",
       "locales": {
@@ -2347,8 +2350,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-24T16:37:03.524Z",
-      "versionCount": 210,
+      "published": "2026-11-25T02:48:03.459Z",
+      "versionCount": 212,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2378,6 +2381,8 @@
       },
       "changelog": {
         "versions": [
+          "2.10.1",
+          "2.10.0",
           "2.9.1",
           "2.9.0",
           "2.8.2",
@@ -2610,7 +2615,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/586",
         "up": 14,
         "down": 0,
-        "comments": 68
+        "comments": 73
       }
     },
     "coopani-world-life": {
@@ -13521,7 +13526,7 @@
     },
     "cortico-world-fun": {
       "kind": "world",
-      "version": "0.8.8",
+      "version": "0.8.14",
       "displayName": "从0开始的肥鱼大冒险",
       "description": "从0开始的肥鱼大冒险：四个面板（家、故事手账、自己去逛、回忆手账），15 个工具（默认可用 14 个），自由故事、地点探索与本地回忆。",
       "locales": {
@@ -13555,8 +13560,8 @@
         "bugs": "https://github.com/bailuhanyi/cortico-world-fun/issues"
       },
       "created": "2026-11-15T06:36:15.951Z",
-      "published": "2026-11-24T13:58:30.304Z",
-      "versionCount": 18,
+      "published": "2026-11-25T01:34:39.899Z",
+      "versionCount": 19,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -13579,6 +13584,12 @@
       },
       "changelog": {
         "versions": [
+          "0.8.14",
+          "0.8.13",
+          "0.8.12",
+          "0.8.11",
+          "0.8.10",
+          "0.8.9",
           "0.8.8",
           "0.8.7",
           "0.8.6",
@@ -14639,17 +14650,17 @@
     },
     "cortico-world-hippocampus": {
       "kind": "world",
-      "version": "1.0.0",
+      "version": "1.4.0",
       "displayName": "海马体 · 记忆",
-      "description": "Coopanion World: 类人长期记忆，只当旧事库。本地优先，整理可选 OpenAI 兼容云端；原话只增不改、按线索浮现、会忘也会想起，细节要了才给；整理错了可在卷宗里改正文。日程数据与到点提醒归 home。",
+      "description": "Coopanion World: 类人长期记忆，只当旧事库。本地优先，整理可选 OpenAI 兼容云端；原话只增不改、按线索浮现、会忘也会想起，细节要了才给；整理错了可在卷宗里改正文。日程数据与到点提醒归 home。可选的通用习惯层、走神引擎和事件簇联想（含原话下一拍）默认关闭，不内置任何个人内容。",
       "locales": {
         "zh": {
           "displayName": "海马体 · 记忆",
-          "description": "给桌宠一套类人的长期记忆：原话只增不改、按当前话题自动浮起旧事、强度随时间衰减、被想起就变牢。线索每轮最多三行，细节要用工具翻原话。默认全部本地；整理记忆时可接本地 Ollama，也可选接 OpenAI 兼容云端模型（仅在打开开关并填好 Key 后联网）。"
+          "description": "给桌宠一套类人的长期记忆：原话只增不改、按当前话题自动浮起旧事、强度随时间衰减、被想起就变牢。线索每轮最多三行，细节要用工具翻原话。默认全部本地；整理记忆时可接本地 Ollama，也可选接 OpenAI 兼容云端模型（仅在打开开关并填好 Key 后联网）。另有默认关闭的通用习惯层与走神引擎，不内置任何个人内容。"
         },
         "en": {
           "displayName": "Hippocampus memory",
-          "description": "Human-like long-term memory for the desktop pet: append-only verbatim records, topic-driven reminiscence, strength decay and rehearsal. At most three short cues per turn, with verbatim details available on demand. Local by default; distillation can use local Ollama or an optional OpenAI-compatible cloud model (network is used only after you enable it and set a key)."
+          "description": "Human-like long-term memory for the desktop pet: append-only verbatim records, topic-driven reminiscence, strength decay and rehearsal. At most three short cues per turn, with verbatim details available on demand. Local by default; distillation can use local Ollama or an optional OpenAI-compatible cloud model (network is used only after you enable it and set a key). Also ships an optional habit layer and wandering engine, both off by default and containing no personal content."
         }
       },
       "author": "早油",
@@ -14668,8 +14679,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-hippocampus"
       },
       "created": "2026-11-22T12:02:46.393Z",
-      "published": "2026-11-23T14:30:33.394Z",
-      "versionCount": 3,
+      "published": "2026-11-25T02:40:43.259Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -14688,20 +14699,26 @@
         "week": 480
       },
       "summary": {
-        "tools": 7,
-        "events": 4,
-        "toolTokens": 1987,
+        "tools": 8,
+        "events": 5,
+        "toolTokens": 2795,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.4.0",
+          "1.3.3",
+          "1.3.2",
+          "1.3.1",
+          "1.3.0",
+          "1.2.0",
           "1.0.0",
           "0.2.1",
           "0.2.0",
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-hippocampus@1.0.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-hippocampus@1.4.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 1083,
@@ -19418,6 +19435,74 @@
         "number": 183,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/183",
         "up": 2,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-netease-play": {
+      "kind": "world",
+      "version": "0.1.16",
+      "displayName": "网易云陪听",
+      "description": "让大肥鱼帮你点歌，不用动鼠标键盘：说出歌名就搜、排到歌单最前连续播放。仅支持网易云音乐，仅限 Windows 系统。",
+      "author": "ailing",
+      "maintainers": [
+        "begood7912"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "coopanion",
+        "cortico-world",
+        "netease",
+        "music",
+        "tts",
+        "网易云",
+        "点歌"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-netease-play",
+        "repository": "https://github.com/begood7912/cortico-world-netease-play",
+        "homepage": "https://github.com/begood7912/cortico-world-netease-play#readme",
+        "bugs": "https://github.com/begood7912/cortico-world-netease-play/issues"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-11-25T02:10:22.230Z",
+      "published": "2026-11-25T02:48:01.837Z",
+      "versionCount": 4,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "apps",
+        "companion",
+        "memory",
+        "voice",
+        "sensitive-data",
+        "unofficial-api"
+      ],
+      "tags": [
+        "voice",
+        "apps",
+        "memory",
+        "companion",
+        "sensitive-data",
+        "unofficial-api"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 4,
+        "events": 2,
+        "toolTokens": 857,
+        "envPromptTokens": 1062
+      },
+      "discussion": {
+        "number": 1155,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1155",
+        "up": 0,
         "down": 0,
         "comments": 0
       }
