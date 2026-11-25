@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-self-checkup",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "describe": {
     "tools": [
       {
@@ -89,7 +89,7 @@
       },
       {
         "name": "self_checkup_report",
-        "description": "Read the current checkup report. Default mode=brief returns a short spoken-style summary you can paraphrase to the user (no raw counts, no dates, no formulas). mode=detail returns the full six dimensions with evidence. area=hardware / personality narrows it to one half.",
+        "description": "Read the current checkup report. In default brief mode, explain the overall situation, the first thing worth checking, and one next step in plain language. State when observations are missing and keep any uncertainty in the report. Use detail mode for scores, dates or evidence when asked. area=hardware / personality narrows it to one half.",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -135,9 +135,10 @@
     ]
   },
   "changelog": {
+    "1.0.8": "- 日志窗口按事件时间采样并排除未来记录，修复 20,000 行以内长日志漏读。\n- 稳定性和响应速度排除诊断、非主会话、已丢弃及无效耗时记录。\n- 缓存缺报显示样本不足，明确上报的 0 仍参与计算。前缀变化仅在同一模型和会话内比较。\n- 交接按 Coo 原生秒级 UTC 时间筛选，报告可核验间隔。近况按事件时间采样，排除无日期检索并读取视频回执标题。\n- 性格分析用一句结论说明她近期表现出来的性格，展开可查来源。「最近的她」新增消息中的口头禅和语气、话题、记忆、娱乐插件、可识别的视频播放和游戏记录。\n- 心理页双栏按内容排布，五项指标移到下方。\n- 硬件六项新增白话结论、趋势状态及分项建议。页面下方和 Coo 简报共用简单总结，评分细则放在页底。\n- 小幅收紧展示分曲线，总分暂以 99 为上限。配置和基础记忆通过范围单独展示。\n\n- 市场侧：显示名保持「鱼鱼体检」/ Fish Checkup，标签 `diagnostics` + `memory` + `companion`；简介换成「先勾人，再讲清六维与性格侧写」的版本。\n- README 增加 `ERR_PNPM_UNEXPECTED_STORE` 排障小节：Coo 换过 pnpm 缓存目录后，任何扩展的装卸都会报这个错，按新 store 重建一次依赖即可。\n- 测试适配 1.0.8 的新口径：稳定性惩罚收紧、长尾延迟改判 `bad`、上下文阈值上移、口语版收成两段（运行近况 + 性格近况）、口头禅带跨天天数。全量 230 项：229 通过、1 跳过。",
     "1.0.7": "- 心理健康名片加入 20 幅情境插画，按已有性格线索选图，完整左图逐渐融入右侧文字区。\n- 性格分析先呈现近期表现，展开可查发言、互动判断或小测依据。五项指标直接显示各自刻度，记录不足时标明。\n- 「最近的她」增加跨天新线索提醒、前后对照与已读记录。\n- 硬件和心理健康跟随 Coo 明暗主题。",
     "1.0.6": "- 1.0.5 发早了，带上的是旧简介与两个标签；本版把「性格侧写」文案与 `diagnostics`/`memory`/`companion` 三个标签一次落齐。",
-    "1.0.5": "- 市场标签补到三个：`diagnostics`（诊断框架本身）、`memory`（记忆健康检查）、`companion`（情绪与节奏观察）。\n- 市场简介重写：开头先勾人（跑得慢还是心变了），后面把六维硬件与性格侧写讲清楚。\n- 「性格侧写」统一改称「性格侧写」，README 与历史条目同步。",
+    "1.0.5": "- 市场标签补到三个：`diagnostics`（诊断框架本身）、`memory`（记忆健康检查）、`companion`（情绪与节奏观察）。\n- 市场简介重写：开头先勾人（跑得慢还是心变了），后面把六维硬件与性格侧写讲清楚。\n- 「趣味人格」统一改称「性格侧写」，README 与历史条目同步。",
     "1.0.4": "- 市场「简介」改用正式描述（原来取的是 README 首行引用，只有一句话）。\n- 截图换成真实界面两张：硬件健康总分与六维图、心理健康名片与最近观察。",
     "1.0.3": "上游 0.2.11 并入。版本号规则：常规迭代走 1.0.x，只有大改动才起 2.0。\n\n- 新增 `src/behavior.mjs`、`src/card-profile.mjs`、`src/card-voice-details.mjs`、`src/fish-topics.mjs`、`src/fish-voice.mjs`：行为痕迹交叉验证与趣味名片、语音细节。\n- 人格测试扩到 28 题，四字母类型与标签分开统计；重复邀请有节流窗口，重载后不重复触发。\n- `assets/personality/` 新增四张状态插画（curious / happy / shy / sleepy）。\n- 市场标签固定为 `diagnostics` + `companion`；测试同步改为断言 `diagnostics`。\n- 212 项测试全绿，装配层冒烟通过。",
     "1.0.2": "- 市场显示名改为「鱼鱼体检」/ Fish Checkup。\n- 新增市场图标 `assets/icon.png`（512×512、382 KB，符合索引仓 512 KB 上限）与截图 `assets/screenshot-1.png`。\n- README 封面改为绝对地址，npm 页面不再破图。",

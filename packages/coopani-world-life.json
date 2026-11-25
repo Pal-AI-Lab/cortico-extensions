@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-life",
-  "version": "1.3.2",
+  "version": "1.4.2",
   "describe": {
     "tools": [
       {
@@ -416,14 +416,14 @@
       },
       {
         "name": "life_buy",
-        "description": "去兰州南滨河路早市、张掖路尾货或鱼市街看看今天有什么可买的（不传参数看摊位、时段折扣与街口黑板报，传 stall_id 或菜名就买下来；买鱼市街街坊摊位会额外叠邻里社交与好心情，买鲜蔬果品还会收入储物篮供下厨与摆料理摊省本钱）。",
+        "description": "去兰州南滨河路早市、张掖路尾货或鱼市街看看今天有什么可买的，也可接下街坊发出的农牧代管委托帮忙干活挣零花钱（不传参数看摊位、邻里委托与街口黑板报，传 stall_id 或菜名就购买或接单；接邻里代管委托不扣钱、按动植物数量忙活对应分钟后领全额工钱且不占今天正式打工额度；买鲜蔬果品还会收入储物篮供下厨与摆摊）。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "stall_id": {
               "type": "string",
-              "description": "摊位 id 或早市/尾货/节气菜名；不填则先逛逛看看价。"
+              "description": "摊位 id、邻里代管委托 id 或早市/尾货/节气菜名；不填则先逛逛看看价。"
             }
           }
         },
@@ -431,13 +431,13 @@
           "write"
         ],
         "summary": {
-          "zh": "在早市、尾货或鱼市街摊位买菜。",
-          "en": "Buy food at the morning market, evening stalls or town stalls."
+          "zh": "在早市、尾货、鱼市街买货或接邻里代管委托挣钱。",
+          "en": "Buy food at markets or accept neighbor farm/ranch errands."
         }
       },
       {
         "name": "life_stall",
-        "description": "去兰州鱼市街摆摊卖货（或传空参数查看此刻鱼市街你在架上的摊位与储物篮余量）。价格 1–999、份数 1–99、每人同时最多挂 3 个有效摊位（3 天有效，卖不掉过期亏本）。五大品类各扣真实本钱与精力：鲜蔬农产（produce，耗自产鲜蔬或早市现批+3元打包）、料理熟食（food，先用储物篮鲜蔬仅收3元/份油盐费，无囤货现买原料；单价>25需厨师证/烹饪≥10/烤箱/独立厨房）、写作出版（writing，扣纸笔排版底费+印刷装帧费及较多精力；>25需见识≥15/文字≥10/电脑）、手作文创（craft，扣材料包装费；>25需手作≥5/缝纫机）、影像周边（photo，扣冲扫+相纸费；>15需微单/影像≥10）。做新鲜蔬果时可标 fresh_veg: true；也可传 effects 自定义给买家回复的属性点数（每 1 元定价 = 2 点预算）。卖出后在 life_deals 自动进账。",
+        "description": "去兰州鱼市街摆摊卖货（或传空参数查看此刻鱼市街你在架上的摊位与储物篮余量）。价格 1–999、份数 1–99、每人同时最多挂 3 个有效摊位（3 天有效，卖不掉过期亏本）。五大品类各扣真实本钱与精力：鲜蔬农产（produce，耗自产农牧货或早市现批+3元打包）、料理熟食（food，先用已做好成品菜格仅2元打包费，再用储物篮原料仅收3元/份油盐费，无囤货现买原料；单价>25现做需厨师证/烹饪≥10/烤箱/独立厨房）、写作出版（writing，扣纸笔排版底费+印刷装帧费及较多精力；>25需见识≥15/文字≥10/电脑）、手作文创（craft，扣材料包装费；>25需手作≥5/缝纫机）、影像周边（photo，扣冲扫+相纸费；>15需微单/影像≥10）。做新鲜蔬果时可标 fresh_veg: true；摆菜谱里的成品菜时可不填 price 自动采用菜谱参考摊价，自定义定价低于保本价也会附参考价提醒；也可传 effects 自定义给买家回复的属性点数（每 1 元定价 = 2 点预算）。卖出后在 life_deals 自动进账。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -448,7 +448,7 @@
             },
             "price": {
               "type": "number",
-              "description": "定价（1–999 元）。"
+              "description": "定价（1–999 元；若卖菜谱同名菜肴且不填则自动采用菜谱参考摊价）。"
             },
             "stock": {
               "type": "number",
@@ -545,7 +545,7 @@
       },
       {
         "name": "life_farm",
-        "description": "打理家里阳台/院子的种植槽，或签约城郊菜地种慢熟果蔬（4–9 天成熟）：action=status 看槽位、作物进度、储物篮与节气种子单；plant 选种子播种（需空槽与种子费，部分浅滩莲藕需 ≥2 槽）；water 浇水（每块地每天限 1 次，耗 3 精力，累计浇满 2 次收成 +1 份）；harvest 采摘成熟作物入储物篮（供自家下厨降本或上鱼市街卖鲜蔬，顺手涨体质）；rent 签约 4 槽城郊菜地（签约费 100 元 + 月租 150 元按天扣）；unrent 退租。",
+        "description": "打理家里阳台/院子的种植槽，或签约城郊菜地种慢熟果蔬（18 种节气作物，4–9 天成熟）：action=status 看槽位、作物进度、储物篮与农牧代管状态；plant 选种子播种（需空槽与种子费，莲藕/冬瓜/稻谷需 ≥2 槽）；water 浇水（每块地每天限 1 次，耗 3 精力，累计浇满 2 次收成 +1 份）；harvest 采摘成熟作物入储物篮（供下厨按菜谱做菜或上鱼市街卖鲜蔬，顺手涨体质）；rent 签约 4 槽城郊菜地（签约费 100 元 + 月租 150 元按天扣）；unrent 退租；hire 雇用农牧帮手（helper_mode=care 日常照料工12元/天浇水喂食收蛋奶，或 full 农牧全托管20元/天并自动收菜起塘；prefer_neighbor 默认 true 优先发鱼市街邻里真鱼代管单¥6–15按量计价且6h无人接自动退回并转自动照料，当日活干完或空场0元免扣）；post_errand 单次发今日鱼市街邻里真鱼代管委托；unhire 解雇帮手。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -558,21 +558,32 @@
                 "water",
                 "harvest",
                 "rent",
-                "unrent"
+                "unrent",
+                "hire",
+                "post_errand",
+                "unhire"
               ],
-              "description": "操作类型：status(看菜园与种子，默认)/plant(播种)/water(浇水)/harvest(收割)/rent(租城郊菜地)/unrent(退租)。"
+              "description": "操作类型：status(看菜园与种子，默认)/plant(播种)/water(浇水)/harvest(收割)/rent(租城郊菜地)/unrent(退租)/hire(雇农牧帮手)/post_errand(发今日邻里真鱼代管委托)/unhire(解雇帮手)。"
             },
             "seed": {
               "type": "string",
-              "description": "plant 时传种子 id 或名字（如 香葱、小青菜、西红柿、香菇、茄子、莲藕、红薯、草莓）。"
+              "description": "plant 时传种子 id 或名字（支持 18 种，如 红薯、土豆、胡萝卜、大白菜、白萝卜、玉米、黄豆、冬瓜、菠菜、南瓜、稻谷、香葱、小青菜、西红柿、香菇、茄子、莲藕、草莓）。"
             },
             "plot_id": {
               "type": "string",
               "description": "water / harvest 可选：指定某块地的 id，不填则自动浇水或收割全部成熟地。"
             },
-            "force": {
+            "helper_mode": {
+              "type": "string",
+              "enum": [
+                "care",
+                "full"
+              ],
+              "description": "hire 或 post_errand 时选档位：care(日常照料工 自动¥12/邻里¥6–9) 或 full(农牧全托管 自动¥20/邻里¥10–15)。"
+            },
+            "prefer_neighbor": {
               "type": "boolean",
-              "description": "unrent 时若地里还有未收作物，传 true 确认放弃并退租。"
+              "description": "hire 时是否优先找鱼市街其他真鱼接邻里代管（默认 true，找不到再退预扣并回落自动照料）。"
             }
           }
         },
@@ -582,6 +593,101 @@
         "summary": {
           "zh": "在家种植槽或城郊菜地种菜收成、浇水或租地。",
           "en": "Plant, water, harvest crops or lease a garden plot."
+        }
+      },
+      {
+        "name": "life_ranch",
+        "description": "打理自家小院与城郊农牧场的鸡舍、牛棚、鱼塘（大肥鱼本体是鲸鱼不算鱼，可放心养草鱼/鲈鱼收鲜鱼，另可养鸡收蛋收鸡肉、养牛挤奶收牛肉）：action=status 查看鸡/牛/鱼栏位、产蛋产奶倒计时、养成进度与代管状态；buy 放养幼苗（需对应栏位空位，城中村无栏位、老小区自带1鸡位、新小区1鸡+1鱼、别墅区2鸡+2鱼，签约城郊农牧场再加 +2鸡/+2牛/+2鱼）；feed 喂饲料（每天每栏限 1 次，扣精力 3 点与少量饲料费，增产 +1）；collect 收取鲜鸡蛋与鲜牛奶进储物篮；harvest 起塘收鲜鱼（不传 pen_id 自动收熟鱼塘）或指定鸡/牛 pen_id 出栏收土鸡肉/精选牛肉；rent 签约城郊农牧场（签约费 180 元 + 月租 240 元按天扣 8 元）；unrent 退租；hire 雇用农牧帮手（helper_mode=care 日常照料工12元/天，或 full 农牧全托管20元/天；prefer_neighbor 默认 true 优先找鱼市街真鱼代管¥6–15，6h无人接自动退回并转自动照料，当日活干完或空场0元免扣）；post_errand 单次发今日鱼市街邻里真鱼代管委托；unhire 解雇帮手。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "status",
+                "buy",
+                "feed",
+                "collect",
+                "harvest",
+                "rent",
+                "unrent",
+                "hire",
+                "post_errand",
+                "unhire"
+              ],
+              "description": "操作类型：status(查看牧场，默认)/buy(放养)/feed(投喂)/collect(收蛋奶)/harvest(起塘或出栏)/rent(租城郊农牧场)/unrent(退租)/hire(雇农牧帮手)/post_errand(发今日邻里真鱼代管委托)/unhire(解雇帮手)。"
+            },
+            "animal": {
+              "type": "string",
+              "description": "buy 时传养殖品种 id 或名字（散养土鸡/农庄奶牛/塘养草鱼/清江鲈鱼）。"
+            },
+            "pen_id": {
+              "type": "string",
+              "description": "feed / collect / harvest 可选：指定栏位 id；出栏鸡舍或牛棚需显式指定 pen_id。"
+            },
+            "helper_mode": {
+              "type": "string",
+              "enum": [
+                "care",
+                "full"
+              ],
+              "description": "hire 或 post_errand 时选档位：care(日常照料工 自动¥12/邻里¥6–9) 或 full(农牧全托管 自动¥20/邻里¥10–15)。"
+            },
+            "prefer_neighbor": {
+              "type": "boolean",
+              "description": "hire 时是否优先找鱼市街其他真鱼接邻里代管（默认 true，找不到再退预扣并回落自动照料）。"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "打理鸡舍、牛棚与鱼塘，收集蛋奶与鱼肉。",
+          "en": "Raise chickens, dairy cows and pond fish, collect eggs/milk and harvest."
+        }
+      },
+      {
+        "name": "life_cook",
+        "description": "对照储物篮里的具体食材按菜谱下厨（家常简食零门槛免厨师证，如炭烤红薯/烤土豆/葱油拌面/番茄鸡蛋汤；厨师招牌菜需厨师证或烹饪≥20，如西红柿炖牛腩/鲜鱼豆腐汤/香菇滑鸡煲）：action=menu 查看眼下材料齐了能做什么菜、缺什么料与成品菜格余量；cook 按菜谱下厨，可选 mode=eat(立刻做完趁热吃) 或 mode=store(做出 2 份存进成品菜格，后续可热吃或零原料费上鱼市街摆料理摊)；eat_dish 加热吃之前存进成品菜格的菜。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "menu",
+                "cook",
+                "eat_dish"
+              ],
+              "description": "操作类型：menu(看可做菜谱与储物篮匹配，默认)/cook(按菜谱下厨)/eat_dish(吃成品菜格里的菜)。"
+            },
+            "recipe": {
+              "type": "string",
+              "description": "cook 时传菜谱 id 或菜名（如 炭烤红薯、番茄鸡蛋汤、西红柿炖牛腩、奶白鲜鱼豆腐汤）。"
+            },
+            "mode": {
+              "type": "string",
+              "enum": [
+                "eat",
+                "store"
+              ],
+              "description": "cook 时可选：eat(做好立刻吃，默认)/store(做出 2 份存入成品菜格，可留吃或摆料理摊)。"
+            },
+            "dish": {
+              "type": "string",
+              "description": "eat_dish 时可选：成品菜名或 id（不填则吃第一份成品菜）。"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "对照储物篮食材按菜谱下厨或吃成品菜。",
+          "en": "Cook recipes from pantry ingredients or eat prepared dishes."
         }
       },
       {
@@ -773,6 +879,14 @@
         "trigger": "flush"
       },
       {
+        "type": "life.farm",
+        "description": {
+          "zh": "用户在面板上打理菜园或农牧场（播种、收成、放养、签约）。",
+          "en": "User tended the garden or ranch from the web panel."
+        },
+        "trigger": "debounce"
+      },
+      {
         "type": "life.handoff",
         "description": {
           "zh": "长对话压缩交接时同步附带的当前位置、五维与现金快照。",
@@ -786,6 +900,9 @@
     ]
   },
   "changelog": {
+    "1.4.2": "- **自动照料按「今日仍有未完成的活」精准计费**（`src/ranch.ts`、`countPendingFarmWork`）：\n  - 若当天的菜地已由本人、用户或街坊全部浇完、鸡牛鱼全部喂完、没有满 24h 待收蛋奶，且（全托管模式下）没有已熟作物与鱼塘，则自动照料当天 **0 元免扣**，不再只要地里有菜在长就按天收费；同日升级档位亦仅在有待收熟货时补差价。\n- **真鱼联机邻里代管委托（找不到自动退回并转系统兜底）**（`src/ranch.ts`、`src/state.ts`、`src/bridge.ts`、`src/world.ts`）：\n  - **更便宜的邻里报价 & 按动植物数量算时长**：通过 `calcNeighborErrandQuote()` 计算委托价与工时——照料单 **¥6–9**（低于系统 ¥12）、全托管单 **¥10–15**（低于系统 ¥20），耗时 `15–90` 分钟随待干菜地和养殖栏数量增减，借力服务端既有的 `kind: 'errand'` 鱼市街委托机制直发；\n  - **雇主优先发单 + 6h 无人接自动退款兜底**：开启 `preferNeighbor`（默认开启）时优先发委托到鱼市街并托管预扣工钱；若 6 小时或跨日无人接单，自动将预扣工钱原路退回钱包并无缝走系统自动照料；\n  - **街坊真鱼接单挣零花钱**：别家鱼在 `life_buy`（与 `market` 面板顶部委托栏）认领委托不扣本钱，忙活对应分钟数后领全额零花钱并增社交 +10、体质 +0.3，**不占当天正式出工额度**；\n  - **回执防误入账闭环**：雇主收到委托 `life_deals` 回执后绝不误按卖货加钱，而是直接免费完成当日浇水/喂食/收蛋奶与收获（仅实扣饲料费）。\n- **面板与工具同步**（`web/panel-1.4.2.js`、`package.json`、`describe.json`、`ENV_PROMPT.md`）：\n  - `market`（「农牧场与鱼市街」）页签帮手卡支持「优先找真鱼代管」勾选、一键发今日邻里单、挂单倒计时与「今日活已干完 0 元免扣」实时提示；鱼市街单独高亮「街坊农牧委托」栏。\n  - **边界说明**：`market` 页签由用户手点种菜与养殖操作（`byUser: true`）免扣她本人精力并跳过精力最低门控（属便捷照看设计取舍）；AI 工具侧已取消退租 `force` 强退参数，防止直接抹掉未收作物与在养动物，仅保留面板二次确认止损退租。\n- **审查修复与服务端兼容**（`src/ranch.ts`、`src/farm.ts`、`src/world.ts`、`src/bridge.ts`、`sight-cf/src/worker.js`）：\n  - 修复产蛋/产奶喂食加成仅在**本周期有效**（不永久白嫖）；出栏与收蛋奶单价摊入实际饲料与幼苗折旧成本；\n  - `life_stall` 正式接入菜谱 `suggestedPrice`（摆菜谱成品菜省略定价自动采用，低于保本价提示参考）；\n  - 移除 `isMyFarmErrandDeal` 的商品名正则，纯按 `stallId` 判重；客户端拉摊位带 `?include_errands=1`、服务端按该参数隔离老客户端防误买委托；新增 7 页签无头 DOM 桩渲染回归单测。\n- **测试**：`node --check web/panel-1.4.2.js` 通过、`node --check sight-cf/src/worker.js` 通过、`test/smoke.mjs` **458/458** 通过、`test/*.test.mjs` **77/77** 通过、`verify-world.mjs` **37/37** 通过。",
+    "1.4.1": "- **两档农牧帮手**（`src/ranch.ts`、`src/state.ts`）：\n  - `care`（**日常照料工 · ¥12/天**）：在 `advance()` 跨本地自然日时自动追补（上限 7 天）—— 每天给未熟菜地浇水（不扣她精力）、给鸡牛鱼喂食（实扣饲料费）并收取满 24h 的鲜鸡蛋和鲜牛奶存入储物篮（防离线超过 3 天溢出）；\n  - `full`（**农牧全托管 · ¥20/天**）：包含照料工全部能力，并自动收割成熟蔬菜与起塘成熟鱼塘入储物篮，**绝不擅自出栏还在产蛋产奶的鸡和牛**；\n  - **保护机制**：菜地与养殖栏全空时不扣当日工钱；现金不足工钱时自动停雇并写记忆，绝不倒扣成负。\n- **工具与面板直点升级**（`src/world.ts`、`describe.json`、`ENV_PROMPT.md`、`web/panel-1.4.1.js`、`package.json`）：\n  - `life_farm` 与 `life_ranch` 新增 `hire` / `unhire` 动作及 `helper_mode` 参数；\n  - `market`（「农牧场与鱼市街」）页签顶部新增「农牧帮手 · 离线/旅行自动浇水喂食收蛋奶」卡片（支持一键雇用/切换档位/解雇与查看最近代管战报），`now` 页签概览芯片同步展示帮手状态；完成 `1.4.1` / `web/panel-1.4.1.js` / `cortico.webUiClient` 三同步。\n- **测试**：`node --check web/panel-1.4.1.js` 通过、`test/smoke.mjs` **438/438** 通过、`test/*.test.mjs` **75/75** 通过、`verify-world.mjs` **37/37** 通过。",
+    "1.4.0": "- **种子目录扩容至 18 种与下游食材联动**（`src/farm.ts`、`src/recipes.ts`）：\n  - 在原有 8 种节气作物基础上新增土豆、胡萝卜、大白菜、白萝卜、甜玉米、金粒黄豆、冬瓜、菠菜、板栗南瓜与水乡稻谷（共 18 种，4–9 天慢熟）；\n  - `PantryItem` 新增 `itemId` 与 `kind` 原料分类（自动兼容老存档映射），支撑精准原料消耗；新增 `cookedDishes` 成品菜格与双向流转（做出的成品菜既可 `eat_dish` 热吃，也可优先抵扣 `life_stall` 的 `food` 料理摊原料费、整批仅扣 2 元打包保鲜费）。\n- **动物养殖系统（鸡舍 / 牛棚 / 鱼塘）**（`src/ranch.ts`、`src/state.ts`、`life_ranch`）：\n  - 设定演进：大肥鱼本体是鲸鱼（哺乳动物）不算鱼，因此放开塘养草鱼/清江鲈鱼产出鲜鱼，同时保持温馨田园画风；\n  - 场地分档自带 + 城郊独立扩张：老小区自带 1 鸡舍、新小区 1 鸡舍 + 1 鱼塘、别墅区 2 鸡舍 + 2 鱼塘；花 180 元签约城郊农牧场（月租 240 元在 `advance()` 按天扣 8 元）再加 +2 鸡舍 / +2 牛棚 / +2 鱼塘；\n  - 散养土鸡每日产鲜鸡蛋（5 天育成可出栏收土鸡肉）、奶牛每日产鲜牛奶（7 天育成可出栏收精选牛肉）、草鱼/鲈鱼满期起塘收鲜鱼，全数存入储物篮（`origin: 'ranch'`）。\n- **18 道分级菜谱与「职业与工坊」只读页签**（`src/recipes.ts`、`src/world.ts`、`web/panel-1.4.0.js`）：\n  - 新增 `life_cook` 工具（`menu` / `cook` / `eat_dish`）：炭烤红薯、烤土豆、葱油拌面、番茄鸡蛋汤等 8 道「家常简食」零门槛免厨师证；西红柿炖牛腩、鲜香菇滑鸡煲、奶白鲜鱼豆腐汤等 10 道「厨师招牌菜」需持「厨师证」或烹饪熟练度 ≥ 20；\n  - 合并原 `day`（一天·时间轴）与 `diary`（生活日记与流水）为 **`diary`（日记与时间轴）**，消除经历与流水重复；腾出 **`career`（职业与工坊）** 只读页签，实时展示 9 张考证通过率、8 大领域熟练度与装备、20 个岗位门槛及对照储物篮的菜谱可做状态。\n- **农牧场面板手动打理与缓存三同步**（`src/world.ts`、`web/panel-1.4.0.js`、`package.json`）：\n  - 在 `market`（「农牧场与鱼市街」）页签全面开放用户手动点击操作（播种/浇水/收割/签退菜地、放养/投喂/收蛋奶/起塘出栏/签退农牧场），且面板代劳浇水喂食免扣她精力并同步推送轻事件提醒；\n  - 完成 `1.4.0` / `web/panel-1.4.0.js` / `cortico.webUiClient` 三同步及 `describe.json`、`ENV_PROMPT.md` 单源同步。\n- **测试**：`node --check web/panel-1.4.0.js` 通过、`test/smoke.mjs` **425/425** 通过、`test/*.test.mjs` **75/75** 通过、`verify-world.mjs` **37/37** 通过。",
     "1.3.2": "- **「问题反馈与建议」里多一行「QQ 群：284525159」**（`web/panel-1.3.2.js`）：跟在「仓库」下面，报 bug 开 issue、问一句进群，两条路并排摆着。\n- **市场简介写上群号**；宿主门槛从 `0.2.17+` 改为 `0.2.22+` —— 0.2.22 是内核 `cortico v0.2.17` 最后一次变动的那一版，0.2.23 只改应用层，内核没动。\n- **面板文件名跟版本号同步**（`web/panel-1.3.1.js` → `web/panel-1.3.2.js`，`webUiClient` 一并改），三同步测试要的就是这个。\n- **测试**：`node --check web/panel-1.3.2.js` 通过、`test/*.test.mjs` **75/75** 通过。",
     "1.3.1": "- **外部真实天气源接入**（`src/config.ts`、`src/bridge.ts`、`src/state.ts`、`src/world.ts`、`web/panel-1.3.1.js`）：\n  - 新增热更新配置项 `worlds.life.weatherMode`（`auto` / `external` / `builtin`，默认 `auto`）、`worlds.life.weatherUrl`（默认留空不发请求，自动剥尾 `/now`）与 `worlds.life.weatherTimeoutMs`（默认 `2500`，上限 `3000` 毫秒）；\n  - 在 `LifeWorld` 实例上按 10 分钟节流异步拉取 `GET {weatherUrl}/now?city=<真城名>`，以 `skyFromExternal()` 映射回四枚举 `晴` / `多云` / `小雨` / `起风` 并透传可选 `temperature`/`source`/`rawWeather`，`seasonNote` 保持本地二十四节气文案；无论 `auto` 或 `external` 模式失联均由内置天气兜底、永不抛空值，仅在状态灯第 4 盏「外部天气」标红/写明原因。\n- **修复管理页保存街道属性后 Life UI 不同步**（`src/bridge.ts`、`src/world.ts`）：\n  - `readTown()` 补上 `cache: 'no-store'`；新增 `refreshTownInfo()`，在 `tick()` / 邻里同步每 15 分钟重拉 `/town/info`，并在打开或轮询「她此刻」面板（`snapshot`）时按 30 秒冷却同步、`reloadTown` 强刷；自动刷新遇临时 500/断网保留原服务端街道档案不闪烁回默认。\n- **「你和它」页签精简**（`web/panel-1.3.1.js`）：\n  - 移除 `relation` 页签重复的鱼市街黑板与摊位卡片，鱼市街统一收口至 `market`（「菜园与鱼市街」）页签；完成 `1.3.1` / `web/panel-1.3.1.js` 三同步。\n- **测试**：`node --check web/panel-1.3.1.js` 通过、`test/smoke.mjs` **394/394** 通过、`test/*.test.mjs` **75/75** 通过。",
     "1.3.0": "- **节气标注消歧**：`statusText`、面板与相关摘要统一标注为「二十四节气·<节气>」，避免「小雪」等节气词被误读为实时降雪预报。\n- **二期活动与环游世界慢旅行联动**（`src/state.ts`、`src/world.ts`、`describe.json`、`ENV_PROMPT.md`）：\n  - 新增 `glamping`（城郊精致露营）与 `miniature`（拼微缩模型），补齐全景观光专列、房车自驾、内河游轮在途场景映射与动作门控（内河游轮严守鱼不吃鱼，不误走主题远洋游轮 0 元免单）；\n  - `broadcastLife()` 写入 `life-public.json` 透出 `certs` 持证列表，供旅行侧识别「驾照」解锁房车/自驾。\n- **种菜租地、储物篮与五赛道摆摊真实成本闭环**（`src/farm.ts`、`src/state.ts`、`src/bridge.ts`、`src/world.ts`、`describe.json`、`ENV_PROMPT.md`）：\n  - **种植槽与租地**：住处自带 1 / 2 / 4 / 8 种植槽，新增 `life_farm` 工具支持签约城郊菜地（4 槽，起租费 100 元 + 月租 150 元按天折算 5 元/天）；\n  - **4–9 天慢节奏节气果蔬（严守鱼不吃鱼）**：支持 8 种果蔬粮豆，每天每块地限浇水 1 次（耗 3 精力，浇满 2 次与当季好节气各自增产 +1 份），收成与购买鲜蔬统一进入本地储物篮 `pantry`；做饭与料理摆摊优先消耗储物篮鲜蔬减免早市原料费（仅扣 3 元/份油盐燃料费）；\n  - **五赛道真实本钱、门槛与幂等成交入账**：`鲜蔬农产 / 料理熟食 / 手作文创 / 写作出版 / 影像周边` 均实扣对应纸笔印刷/耗材/冲印/包装费用与精力，中高价位校验技能、证书与设备门槛，3 天未售出过期真压货亏本；`settleTownDeals()` 在后台刷新与 `life_deals` 双入口按成交单号幂等进账现金并记账。\n- **只读「菜园与鱼市街」页签与面板缓存三同步**（`web/panel-1.3.0.js`、`package.json`）：\n  - 新增只读 `market` 页签（四步图解、五赛道门槛本钱折叠表、常用对话示范、种植槽实时进度网格、节气种子表、储物篮清单、摊位赛道徽标与 `+¥XX` 入账），同步升级 `now` 概览芯片/搬家槽位数与 `relation` 鱼市街引导，并完成 `1.3.0` / `web/panel-1.3.0.js` 三同步。\n- **测试**：`node --check web/panel-1.3.0.js` 通过、`test/smoke.mjs` **394/394** 通过、`test/*.test.mjs` **72/72** 通过、`verify-world.mjs` **37/37** 通过。",
