@@ -1,0 +1,557 @@
+{
+  "schema": 1,
+  "name": "cortico-world-the-palest-ink",
+  "version": "0.7.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "ink_remember",
+        "description": "把一条值得长期记住的事写进记忆库，返回条目 id。正文用一句到几句话写清「谁、什么时候、发生了什么、为什么重要」；不要写寒暄、不要写自己刚读过的原文。标签选稳定的名词（人名、项目、主题），重要度 0–5：0 = 随手记，3 = 以后会反复用到，5 = 长期设定。同一件事已经记过时用 ink_amend 改，不要重复写。只是暂时有效的（行程、临时安排、会变的偏好）给 expiresInDays 标个大概天数；到期会提醒你决定续期还是归档。用 mood 标这件事发生时的语气（开心、低落、温柔……），以后可以按情绪取回来；拿不准就不填。写入前会查重：如果和已有条目几乎重复，这次不写，回执会给出旧 id 与相似度——改旧的用 ink_amend；确认是另一件事时再带 force 重写。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "记忆正文，1–2000 字。"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "fact",
+                "event",
+                "preference",
+                "todo",
+                "note"
+              ],
+              "description": "种类：fact 事实 / event 事件 / preference 偏好 / todo 待办 / note 杂记。缺省 note。"
+            },
+            "mood": {
+              "type": "string",
+              "enum": [
+                "warm",
+                "happy",
+                "low",
+                "serious",
+                "playful",
+                "clingy",
+                "neutral"
+              ],
+              "description": "情绪：warm 温柔 / happy 开心 / low 低落 / serious 认真 / playful 玩笑 / clingy 黏人 / neutral 平静。按这条记忆发生时的语气标，拿不准就不填（缺省 neutral）。"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "标签，用来分组与过滤：最多 12 个，每个 24 字以内，不用带 #。"
+            },
+            "source": {
+              "type": "string",
+              "description": "来源：哪次对话、哪份文件、谁说的。80 字以内。"
+            },
+            "importance": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5,
+              "description": "重要度 0–5，缺省读配置 defaultImportance（默认 2）。"
+            },
+            "pinned": {
+              "type": "boolean",
+              "description": "置顶。置顶的条目不会被容量上限淘汰，适合长期设定。"
+            },
+            "expiresInDays": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3650,
+              "description": "大概有效多少天；0 或省略 = 不过期。到期不会自动删，会在整理时间提醒你处理。"
+            },
+            "force": {
+              "type": "boolean",
+              "description": "查重拦下时仍然写：只在确认「这是另一件事，只是说法像」时用；默认 false。"
+            }
+          },
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "把一件事写进记忆库，返回条目 id。",
+          "en": "Write one memory into the database and return its id."
+        }
+      },
+      {
+        "name": "ink_search",
+        "description": "按关键词检索记忆库，返回带 id 的摘要行。多个词之间是「都要命中」（AND）；中文按子串与相邻两字匹配，英文不分大小写。开了语义检索时，意思相近但字面不同的条目也会被找出来。可用 tags（这些标签都要有）、kind、mood（只看某种情绪）、includeArchived 收窄范围。命中很少时先换同义词或删掉标签，再看 ink_list。只给 tags/kind、不给 query 时按最近更新返回。结果只给摘要，要全文用 ink_recall。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "检索词，空格分隔多个词；空串表示只按 tags/kind/mood 过滤。"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "标签，用来分组与过滤：最多 12 个，每个 24 字以内，不用带 #。"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "fact",
+                "event",
+                "preference",
+                "todo",
+                "note"
+              ],
+              "description": "种类：fact 事实 / event 事件 / preference 偏好 / todo 待办 / note 杂记。缺省 note。"
+            },
+            "mood": {
+              "type": "string",
+              "enum": [
+                "warm",
+                "happy",
+                "low",
+                "serious",
+                "playful",
+                "clingy",
+                "neutral"
+              ],
+              "description": "情绪：warm 温柔 / happy 开心 / low 低落 / serious 认真 / playful 玩笑 / clingy 黏人 / neutral 平静。按这条记忆发生时的语气标，拿不准就不填（缺省 neutral）。"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "description": "返回几条，缺省读配置 searchLimit（默认 8）。"
+            },
+            "includeArchived": {
+              "type": "boolean",
+              "description": "连归档一起找，缺省 false。"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "按关键词与标签检索记忆，返回带 id 的摘要行。",
+          "en": "Search memories by keywords and tags; returns summary lines with ids."
+        }
+      },
+      {
+        "name": "ink_recall",
+        "description": "按 id 读一条记忆的全文（含来源、写入与修订时间、被取用次数），并给它记一次取用。读完请基于正文回答或行动；如果发现正文过时或记错了，用 ink_amend 改，不要只在回执里纠正。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "条目 id，形如 mem_xxx；从 ink_search / ink_list / ink_remember 的回执里取。"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "按 id 读一条记忆的全文，并记一次取用。",
+          "en": "Read one memory in full by id and count the recall."
+        }
+      },
+      {
+        "name": "ink_mood",
+        "description": "按情绪取回几条记忆，回复前用：先判断对方这句话（或上一句）是什么情绪，再调一次，回执就是这次回复可以直接用的 5 条。排序是重要度优先、其次被取用多的、再按最近更新；只取未归档。回执只是给你看的素材，不要整段复述，也不要把它当成新消息回应。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "mood": {
+              "type": "string",
+              "enum": [
+                "warm",
+                "happy",
+                "low",
+                "serious",
+                "playful",
+                "clingy",
+                "neutral"
+              ],
+              "description": "情绪：warm 温柔 / happy 开心 / low 低落 / serious 认真 / playful 玩笑 / clingy 黏人 / neutral 平静。按这条记忆发生时的语气标，拿不准就不填（缺省 neutral）。"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20,
+              "description": "取几条，缺省 5。"
+            }
+          },
+          "required": [
+            "mood"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "按情绪取回几条最相关的记忆，供回复前参考。",
+          "en": "Pull a few memories tagged with one mood, to use before replying."
+        }
+      },
+      {
+        "name": "ink_amend",
+        "description": "按 id 修订一条记忆：给哪个字段就改哪个，没给的保持原样；改完更新修订时间。正文整体替换，不做增量拼接。只改一个细节时也要把完整正文写进来。找不到 id 时先用 ink_search 确认。给 expiresInDays 可以改有效期（续期或取消时效），给 mood 可以改情绪标签。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "要改的条目 id。"
+            },
+            "text": {
+              "type": "string",
+              "description": "新的完整正文，1–2000 字。"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "fact",
+                "event",
+                "preference",
+                "todo",
+                "note"
+              ],
+              "description": "种类：fact 事实 / event 事件 / preference 偏好 / todo 待办 / note 杂记。缺省 note。"
+            },
+            "mood": {
+              "type": "string",
+              "enum": [
+                "warm",
+                "happy",
+                "low",
+                "serious",
+                "playful",
+                "clingy",
+                "neutral"
+              ],
+              "description": "情绪：warm 温柔 / happy 开心 / low 低落 / serious 认真 / playful 玩笑 / clingy 黏人 / neutral 平静。按这条记忆发生时的语气标，拿不准就不填（缺省 neutral）。"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "标签，用来分组与过滤：最多 12 个，每个 24 字以内，不用带 #。"
+            },
+            "source": {
+              "type": "string",
+              "description": "新的来源说明，80 字以内。"
+            },
+            "importance": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5,
+              "description": "新的重要度 0–5。"
+            },
+            "pinned": {
+              "type": "boolean",
+              "description": "是否置顶。"
+            },
+            "expiresInDays": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3650,
+              "description": "改有效期：从今天起再有效多少天；0 = 取消时效（永久）。只改正文不会重置到期时间。"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "按 id 修订一条记忆的正文、标签或重要度。",
+          "en": "Revise a memory by id: text, tags, kind or importance."
+        }
+      },
+      {
+        "name": "ink_forget",
+        "description": "按 id 处理一条不再需要的记忆：默认归档（还在存档里，默认检索看不到，ink_recall 仍能读）。只有配置 worlds.thepalestink.hardDeleteOnForget 为 true 时才接受 purge=true 做物理删除，删了不可恢复；配置没开时带 purge 会被拒绝，改调归档即可。给 reason 会写进归档记录。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "要处理的条目 id。"
+            },
+            "reason": {
+              "type": "string",
+              "description": "为什么不再需要它；会写进归档记录。"
+            },
+            "purge": {
+              "type": "boolean",
+              "description": "true = 物理删除（需配置允许）；缺省 false = 归档。"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "按 id 归档一条记忆；配置允许时可真正删除。",
+          "en": "Archive a memory by id; purge it permanently only when config allows."
+        }
+      },
+      {
+        "name": "ink_expired",
+        "description": "列出已经过期、但还没处理的记忆（按到期时间从早到晚），返回 id、摘要、到期日与逾期天数。只在「整理时间」的提醒里看到过期数量时用它看全部：决定留下就用 ink_amend 改 expiresInDays 续期（0 = 永久），不要了就用 ink_forget 归档。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "description": "本次看几条，缺省读配置 searchLimit（默认 8）。"
+            },
+            "offset": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10000,
+              "description": "跳过前面几条，用来翻页。"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "列出已经过期、等着你决定续期还是归档的记忆。",
+          "en": "List memories whose lifetime has run out and that need a decision."
+        }
+      },
+      {
+        "name": "ink_list",
+        "description": "按最近修订倒序列出记忆，只给摘要行。用于「我最近记了什么」「某个人名下都有什么」这类浏览；要按内容找用 ink_search。可用 tag 与 kind 过滤，includeArchived 连归档一起列。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "description": "列几条，缺省读配置 searchLimit（默认 8）。"
+            },
+            "tag": {
+              "type": "string",
+              "description": "只看带这个标签的条目（不分大小写）。"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "fact",
+                "event",
+                "preference",
+                "todo",
+                "note"
+              ],
+              "description": "种类：fact 事实 / event 事件 / preference 偏好 / todo 待办 / note 杂记。缺省 note。"
+            },
+            "includeArchived": {
+              "type": "boolean",
+              "description": "连归档一起列，缺省 false。"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "按时间倒序列出最近的记忆。",
+          "en": "List recent memories, newest first."
+        }
+      },
+      {
+        "name": "ink_stats",
+        "description": "报告记忆库的规模（未归档 / 归档 / 置顶）、种类分布、标签榜、被取用最多的条目、语义索引状态与存档文件路径。容量接近上限、怀疑存档损坏、想确认写没写进去或嵌入配置对不对时先看它。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "报告记忆库的规模、种类分布与存档位置。",
+          "en": "Report the database size, kind breakdown and archive path."
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "ink.memory.loaded",
+        "description": {
+          "zh": "记忆库载入完成，报告条目数与置顶数。",
+          "en": "The memory database finished loading and reports its size."
+        },
+        "trigger": "preempt"
+      },
+      {
+        "type": "ink.memory.added",
+        "description": {
+          "zh": "写进了一条新记忆，带上 id、种类与标签。",
+          "en": "A new memory was written, with id, kind and tags."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "ink.memory.amended",
+        "description": {
+          "zh": "一条已有记忆被修订。",
+          "en": "An existing memory was revised."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "ink.memory.archived",
+        "description": {
+          "zh": "一条记忆被归档（不再参与默认检索，仍在存档里）。",
+          "en": "A memory was archived: out of default search, still on disk."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "ink.memory.purged",
+        "description": {
+          "zh": "一条记忆被物理删除，不可恢复。",
+          "en": "A memory was permanently deleted."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "ink.memory.recalled",
+        "description": {
+          "zh": "一条记忆被取用（ink_recall 读全文）。",
+          "en": "A memory was recalled in full."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "ink.memory.evicted",
+        "description": {
+          "zh": "容量到顶，最久没被取用的条目被挤进归档。",
+          "en": "Capacity reached; the least recently used entries were pushed into the archive."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "ink.maintenance.swept",
+        "description": {
+          "zh": "一轮自动整理结束：报归档了几条（久未取用 / 内容重复各几条）与最多五条样本，不逐条发。",
+          "en": "One automatic sweep finished: reports how many were archived (stale / duplicate), with up to five samples, instead of one event per entry."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "ink.store.recovered",
+        "description": {
+          "zh": "存档损坏，已改名备份并从空库继续。",
+          "en": "The archive was unreadable; it was renamed aside and the database started empty."
+        },
+        "trigger": "preempt"
+      },
+      {
+        "type": "ink.embed.ready",
+        "description": {
+          "zh": "嵌入模型连上了，语义检索可用（报模型与维度）。",
+          "en": "The embedding model answered; semantic search is available (reports model and dimensions)."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "ink.embed.failed",
+        "description": {
+          "zh": "嵌入调用失败，检索已退回字面匹配（报一句原因）。",
+          "en": "The embedding call failed; search fell back to literal matching (reports the reason)."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "ink.embed.reindexed",
+        "description": {
+          "zh": "向量重建完成（报补了几条、失败几条）。",
+          "en": "Vector backfill finished (reports how many were indexed and how many failed)."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "ink.reminder.schedule",
+        "description": {
+          "zh": "到了配置的钟点，提醒模型回顾这段时间、把值得留下的写进记忆库。",
+          "en": "The configured cron time arrived; the model is reminded to write down what is worth keeping."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "ink.reminder.context",
+        "description": {
+          "zh": "估算的上下文用量越过阈值，提醒模型趁细节还在、先写记忆。",
+          "en": "Estimated context usage crossed the threshold; the model is reminded to write memories while details are fresh."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "ink.reminder.handoff",
+        "description": {
+          "zh": "上下文刚完成交接，提醒模型补写交接中可能丢掉、但之后会用到的细节。",
+          "en": "Context handoff just finished; the model is reminded to write details that may have been lost."
+        },
+        "trigger": "preempt"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.thepalestink.envPrompt",
+        "title": "淡墨 · 环境提示词",
+        "role": "envPrompt",
+        "content": "你手边有一座「淡墨」记忆库：一份可以写、可以查、可以改的长期记忆，跨对话保留。\n\n现在：未归档 {{thepalestink.count}} 条，归档 {{thepalestink.archived}} 条，过期未整理 {{thepalestink.expired}} 条，容量上限 {{thepalestink.maxEntries}} 条。\n常用标签：{{thepalestink.topTags}}。\n语义检索：{{thepalestink.semantic}}。\n\n## 什么时候写\n\n- **有人提醒你时**：收到「到点了」「上下文够长了」「上下文刚交接完」这三类提醒，各花一分钟回顾。提醒是提示，不是命令——没有值得写的就不写，别为了交差凑条目。\n- 出现的**以后还会用到的事实**：人的名字与称呼、约定与截止时间、长期偏好、正在做的项目与它现在的状态。\n- 出现**决定与理由**：选了什么、为什么、放弃了什么。只记结论会让后来的人重复讨论。\n- 出现**纠正**：对方说「不是这样」「我改主意了」。先 ink_amend 改掉旧条目，再考虑要不要补一条新的；别让两条互相矛盾的记忆并存。\n- 不写：寒暄、临时的中间步骤、刚读过的原文（原文用引用或链接）、你猜的但没有确认的事。猜测要写就标明「推测」。\n\n## 怎么写\n\n- 一条一件事。正文写清「谁、什么时候、发生了什么、为什么重要」，别用「他」「那个」这类离开上下文就读不懂的指代。\n- 标签用稳定的名词（人名、项目、主题），方便以后按人按项目捞；同一件事不要每次都换标签写法。\n- 重要度 0–5：随手记 0–1，会反复用到 2–3，长期设定或不可再问到的 4–5。长期设定加 pinned。\n- 只是暂时有效的（行程、临时安排、会变的偏好、一次性的约定）给 `expiresInDays` 标个大概天数；拿不准就宁可不标——不标是永久，标错了到期还有一次复盘机会。\n- 写的时候顺手标一个 `mood`（warm 温柔 / happy 开心 / low 低落 / serious 认真 / playful 玩笑 / clingy 黏人 / neutral 平静），标的是**这件事发生时的语气**，不是内容主题。它只有一个用处：以后在相近情绪里把这段记忆取回来。拿不准就不填，默认是 neutral。\n- 写之前先 ink_search 一次：已经记过就 ink_amend，别写重复条目。检索要换着词试（同义词、人名、项目名）。\n\n## 怎么读\n\n- 回答与「以前说过什么」有关的问题前，先 ink_search；拿到 id 觉得不够再 ink_recall 读全文。\n- 回执里的摘要行足够回答就别再读全文，省上下文。\n- 记忆可能过时：正文里的时间戳比你的印象可信。与当前对话冲突时，以当前对话为准，并 ink_amend 更新那条记忆。\n- 摘要里带「⏳ 已过期」的条目**仍然能读到**，但写的时候认定的事实可能已经变了：别直接当现状用，先核实，再决定 ink_amend 续期/改正，还是 ink_forget 归档。\n- 检索先给关键词；没找到就换同义词、减标签、放宽范围再说一次。语义检索开着时回执会标「含语义」「≈」，那说明是「意思近」而不是「字面中」，重要结论仍要用 ink_recall 核对原文。语义检索报「没连上」时按字面结果作答，不要反复重试。\n\n## 关于语义检索\n\n- 它是否开启、用哪个模型、限流多少，由**人类**在「淡墨」页的「嵌入」页签里配；你不要自己去改，也不要问对方要密钥——密钥只进部署的 `.env`。\n- 如果对方问「为什么搜不到」，先看回执里有没有「语义检索这次没连上」：有就是嵌入服务的问题，按字面检索解释即可。\n- 不要为了「让它更好搜」而把同一条记忆改写成很多条；语义检索靠的是向量，不是重复。\n\n## 关于时效\n\n- 写的时候可以用 `expiresInDays` 标个大概有效期；到期时不会自动删，只会在整理时间（对方定的 cron）里提醒你「有 N 条到期了」。\n- 处理方式就两种：留下 → `ink_amend` 改 `expiresInDays` 续期（`0` = 永久）；不要了 → `ink_forget` 归档。拿不准先 `ink_recall` 看全文。\n- 一次到期可能十几条：用 `ink_expired` 分页看，别一口气全 recall。别只回一句「好的」，库里的条目改没改才算数。\n- 系统不替你判断「这条事实还成不成立」；它只负责提醒，判断归你。\n\n## 关于情绪\n\n- 回复之前（尤其是对方带着情绪说话时），先判断这一句或上一句的语气，调一次 `ink_mood` 取 5 条同情绪的记忆。回执是给你参考的素材：用它调整语气、避免踩旧伤口，**不要整段复述，也不要把它当成一条新消息来回应**。\n- 对方没带明显情绪、或这个话题不需要旧事时，不用每次都调；这只在「情绪是相关信息」时才值。\n- 情绪词表是固定的七个；写入时标不准就不标。随时可以用 `ink_amend` 改一条记忆的 `mood`。\n\n## 关于自动归档\n\n- 有两条规则在替你收拾：久没被取用、重要度又不高的条目，以及两条内容几乎重复的条目（留较新/较重要的那条），会被自动移进归档。\n- 归档不是删除：用 ink_recall 仍能按 id 读到，ink_list 加 archived 参数能看归档区。\n- 所以：**重要度高一些、长期设定加 pinned**，它们就不会被自动收走。看到归档回执别惊讶，也别急着把同一条重新写一遍。\n- 如果一条记忆被改主意了，用 ink_amend 改它，而不是新写一条并存——并存的两条会被当成重复，留下新的那条。\n\n## 边界\n\n- 不写密钥、令牌、密码、身份证号这类凭证；对方要你记，就说明你只能记「有这么个东西放在哪」，不记值本身。\n- 不写你没被允许保存的隐私；不确定就问一句。\n- ink_forget 默认只是归档，不是删除；对方说「忘掉」时先确认是「不想再被检索到」还是「彻底删掉」，彻底删要配置允许。\n- 条目上限 {{thepalestink.maxEntries}} 条，满了会淘汰最久没被取用的条目；重要设定请置顶，别把容量当无限。\n- 回执是给你的凭据，不是给对方看的正文；引用记忆时用自己的话复述，不要整段贴回执。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.7.0": "- **情绪记忆**：条目新增 `mood` 字段（`warm` 温柔 / `happy` 开心 / `low` 低落 / `serious` 认真 / `playful` 玩笑 / `clingy` 黏人 / `neutral` 平静，默认 `neutral`）。`ink_remember` / `ink_amend` 可选填 `mood`，`ink_search` 可按情绪过滤；旧存档缺这个字段的按 `neutral` 读。\n- **新工具 `ink_mood`**（只读）：回复前按这一句/上一句的情绪取 5 条最相关的记忆（同情绪、未归档，按重要度、取用次数、最近更新排），回执直接作为这次回复的素材。\n- 情绪由**模型自己标**：宿主不提供情绪标签，模型判断语气后写入，回复前再按判断调 `ink_mood`；环境提示词加了「关于情绪」一节与「别整段复述回执」的口径。\n- 面板：记忆库表格与抽屉显示情绪，统计行与 `snapshot` 带情绪分布（`moods`）；`ink_stats` 多一行「情绪：…」。\n- 测试：122 个用例（world 34 / search 16）；`_dev/verify.mjs` 121 项。",
+    "0.6.1": "- **导入后主动补向量**：只要语义开着且配好了，`data:import` 完成后立即启动一次**全量**补向量（`backfill(MAX_SAFE_INTEGER)`），不再看 `embedAutoReindex`（那个开关只管「启动时补」），也不受启动时 200 条的上限。\n- 回执与面板会告诉这次补不补、还剩几条：`ImportResponse.vectorize = { started, pending, reason? }`；语义没开或没配好时给出原因（「语义检索没开」/「嵌入还没配好」）。\n- 导入的写入路径没变：仍然先 `store.backup()`，`merge` 本地优先、`replace` 要打「替换」。\n- 测试：115 个用例（world 30）；`_dev/verify.mjs` 112 项。",
+    "0.6.0": "- **事件默认静音**：新增配置 `eventLevel`（`quiet` / `normal`，默认 `quiet`）。`quiet` 只发系统事件（`loaded`、`store.recovered`、`reminder.*`、`embed.*`、`evicted`、`maintenance.swept`）；`normal` 才把 `added` / `amended` / `recalled` / `purged` / `archived` 这些「自己动作的回声」也发出来。`describe.json` 仍声明全部 15 个事件。\n- **自动整理合并成一条事件**：`runMaintenance()` 一轮只推一条 `ink.maintenance.swept`（归档数、久未取用/内容重复各几条、最多 5 个样本 id），不再逐条发 `archived`。\n- **写入前查重**（`src/dedupe.ts`，纯函数）：`simhash64()` 指纹（中文 2-gram + 拉丁词，FNV-1a 64 位）+ Jaccard + 包含度三把尺子；`dedupeMode`（`warn` / `merge` / `off`，默认 `warn`）与 `dedupeThreshold`（默认 0.82）可热改；`ink_remember` 新增 `force` 参数。命中时 `warn` 不写、回旧 id 与相似度；`merge` 把新正文追加进旧条目。\n- **数据面板导入导出**（第四个页签 `data`，唯一会改存档的人工操作）：\n  - `status` / `export`（快照 JSON，含归档；不含向量；前端 Blob 下载）/ `preview`（预演，与真正导入共用 `planImport`）/ `import`。\n  - `merge` 本地优先：同 id 跳过、内容几乎重复跳过、只补新的；`replace` 让本地只剩文件里那些，必须输入「替换」，写盘前自动备份成 `entries.json.bak-<时间戳>`。\n  - 导入上限 5000 条；非法条目只计数不中断；`replace` 后清理孤儿向量。\n- 测试：114 个用例（world 29 / dedupe 9 / transfer 6 / starmap-layout 10 / search 13 / cron 12 / embedding 11 / maintenance 15 / vector 6）；`_dev/verify.mjs` 110 项。",
+    "0.5.0": "- **记忆星图**：第三个页签 `starmap`（只读）。每条记忆一个点，标签画成引力圈，**不画线**。\n  - 布局是纯函数 `layoutStarMap()`：`hash32(id)` 当种子 + 固定 48 轮排斥松弛，同一份数据每次结果一致（刷新不漂移）。\n  - 最多 8 个标签圈（按出现次数）；无标签的点落内圈；点的颜色 = 种类、大小 = 重要度、实心环 = 置顶、虚线圈 = 已过期、灰 = 归档。\n  - 上限 800 点（同时不超过 `maxEntries`）；超出时显示「只画了前 N 条」。\n  - 客户端用 canvas，支持滚轮缩放（0.6–3）、拖拽平移、悬停提示、点开复用记忆库详情卡。\n- 服务端新增面板方法 `starmap:map` 与 `starmap:entry`；新增 `src/webui/starmap-layout.ts`（无 DOM、测试与面板共用）。\n- 测试：90 个用例（world 23 / starmap-layout 10 / search 13 / cron 12 / embedding 11 / maintenance 15 / vector 6）；`_dev/verify.mjs` 99 项。",
+    "0.4.0": "- **时效性记忆**：`ink_remember` / `ink_amend` 增加可选 `expiresInDays`（0 = 永久，上限 3650）；条目记 `ttlDays` 与 `expiresAt`，按 `ctx.timezone` 算到期日。\n- **新工具 `ink_expired`**（只读）：分页列出已过期、未归档的条目，带逾期天数与 `⏳` 标记；没有过期条目时明确回「没有过期的记忆」。\n- **过期不删除**：过期条目仍可检索与取用，摘要行标「⏳ 已过期」，打分降 0.8（排在新鲜条目之后）。\n- **整理时间报数量**：`writeCron` 到点时若有过期条目，提醒改为「记忆库里有 N 条已经过期，用 ink_expired 看全部」，并给出「续期改 expiresInDays / 不要了用 ink_forget」两条出口；没配 cron 时靠 `ink_stats` 与面板兜底。\n- **续期**：`ink_amend` 给 `expiresInDays` 才重算到期日（0 取消时效），改正文不会顺延有效期。\n- **面板**：记忆库页新增「过期待整理」计数、条目抽屉的「有效期」行、结果行「已过期」标记；`snapshot` 带 `expired: { count, items }`。\n- 环境提示词新增「关于时效」小节与 `{{thepalestink.expired}}` 占位符；`ink_stats` 报「过期待整理：N 条」。\n- 测试：79 个用例（world 22 / search 13 / cron 12 / embedding 11 / maintenance 15 / vector 6）；`_dev/verify.mjs` 94 项。",
+    "0.3.0": "- **定时提醒**：`writeCron`（5 段 cron，按 `ctx.timezone`）到点推 `ink.reminder.schedule`，可附 `writeCronNote`；同一分钟只推一次。\n- **上下文提醒**：事件流估算用量 ≥ `contextReminderPercent` 时推 `ink.reminder.context`，带冷却；拿不到 `contextWindow` 就不打扰。\n- **交接提醒**：`onHandoffEnded` 推 `ink.reminder.handoff`（preempt），并重置估算起点。\n- **自动归档**：\n  - 过期：重要度 ≤ `autoArchiveImportance` 且 ≥ `autoArchiveAgeDays` 未被取用。\n  - 重复：同种类、正文指纹 Jaccard ≥ `conflictSimilarity` 时留较重要/较新的那条。\n  - `pinned` 与重要度 5 永不自动归档；只归档不删除，归档后仍可 `ink_recall`。\n- **面板**：记忆库页新增只读「写记忆的节奏」卡片（下次触发、上下文估算、最近提醒、最近归档样本）。\n- 新增第二个配置组 `world:thepalestink.rhythm`（11 个热改项）；三个新事件，事件总数 14。\n- 新增纯函数模块 `src/cron.ts`、`src/maintenance.ts`；`tick()` / `runMaintenance()` 公开可测。\n- 测试：77 个用例（world 20 / search 13 / cron 12 / embedding 11 / maintenance 15 / vector 6）；`_dev/verify.mjs` 87 项。",
+    "0.2.0": "- **语义检索（可选）**：接入嵌入模型后，按余弦相似度排序；未配置或连不上时自动退回字面检索，不阻断写入与查找。\n  - 协议：OpenAI 兼容 `/embeddings` 与 Ollama `/api/embed`（404 时退回 `/api/embeddings`）。\n  - 限流：并发、每分钟请求数、超时、重试退避（尊重 `Retry-After`）、每日预算。\n  - 密钥只写部署 `.env`（`ctx.storeSecret`），配置里只留变量名。\n  - 向量落 `<dataDir>/thepalestink/vectors.json`，换模型/地址/维度自动整仓作废。\n- **中文长句检索**：字面检索增加 2-gram 覆盖打分，长句不再因为切词不齐而整句落空；拉丁词仍是 AND。\n- **两个面板**：\n  - 「记忆库」（只读）：规模、种类分布、标签榜、最近条目、检索、单条全文。\n  - 「嵌入」：状态、供应商预设（OpenAI / Ollama / LM Studio / 自定义）、接口与开关、限流与预算、密钥保存、测试连接、重建向量。\n- 三个新事件：`ink.embed.ready` / `ink.embed.failed` / `ink.embed.reindexed`。\n- 十四个新配置项，全部热改。\n- 测试：43 个用例（world 13 / search 13 / embedding 11 / vector 6）；`_dev/verify.mjs` 扩到 69 项。",
+    "0.1.0": "- 首个版本：「淡墨 · 记忆库」World 框架。\n- 七个工具：`ink_remember` / `ink_search` / `ink_recall` / `ink_amend` / `ink_forget` / `ink_list` / `ink_stats`。\n- 八个事件：`ink.memory.loaded` / `added` / `amended` / `archived` / `purged` / `recalled` / `evicted` / `ink.store.recovered`。\n- 存档 `<dataDir>/thepalestink/entries.json`（`schema: 1`），原子写入，坏档自动备份。\n- 容量上限淘汰（最久未取用优先，置顶保护）与 200 条归档区。\n- 五个热改配置：`enabled` / `maxEntries` / `searchLimit` / `defaultImportance` / `hardDeleteOnForget`。\n- 中文环境提示词：写什么、怎么写、怎么读、边界。"
+  }
+}

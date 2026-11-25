@@ -79,9 +79,6 @@
       "sensitive-data",
       "unsafe"
     ],
-    "cortico-world-delta": [
-      "sensitive-data"
-    ],
     "cortico-world-diary-alont1": [
       "sensitive-data"
     ],
@@ -1595,7 +1592,7 @@
     },
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.9.12",
+      "version": "0.9.13",
       "displayName": "大肥鱼语音全能包",
       "description": "大肥鱼语音全能包（原 GPTSovits 语音，cortico-world-gpt-sovits-for-coopanion）：给 Coopanion 桌宠用的语音插件，现已全面支持本地 / 云端双引擎与 NVIDIA / AMD（ROCm，实验性）/ CPU 三种方案。本地默认全程本机合成；云端支持自定义 OpenAI 兼容与多家厂商接口（填自己的 Key）。内置大肥鱼、星落落音色，支持自备权重与自定义音色、QQ 语音与唱歌联动；CPU / 核显档可开播放预缓冲（默认关闭）。",
       "locales": {
@@ -1631,8 +1628,8 @@
         "darwin"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-11-25T12:03:45.355Z",
-      "versionCount": 56,
+      "published": "2026-11-25T14:46:15.724Z",
+      "versionCount": 57,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -1659,6 +1656,7 @@
       },
       "changelog": {
         "versions": [
+          "0.9.13",
           "0.9.12",
           "0.9.11",
           "0.9.10",
@@ -1755,7 +1753,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
         "up": 28,
         "down": 0,
-        "comments": 90
+        "comments": 92
       }
     },
     "@wocwang/cortico-world-rvc-for-coopanion": {
@@ -9836,73 +9834,6 @@
         "comments": 2
       }
     },
-    "cortico-world-delta": {
-      "kind": "world",
-      "version": "1.2.0",
-      "displayName": "三角洲观察",
-      "description": "让 Coo 可以按固定频率观察三角洲的击杀和保险箱。",
-      "locales": {
-        "zh": {
-          "displayName": "三角洲观察",
-          "description": "让 Coo 可以按固定频率观察三角洲的击杀和保险箱。"
-        },
-        "en": {
-          "displayName": "Game observer",
-          "description": "Let Coo check kill notifications and the safe box in Delta Force at regular intervals."
-        }
-      },
-      "maintainers": [
-        "kyrsi"
-      ],
-      "license": "AGPL-3.0-or-later",
-      "keywords": [
-        "cortico-world",
-        "delta-force",
-        "三角洲观察"
-      ],
-      "links": {
-        "npm": "https://www.npmjs.com/package/cortico-world-delta",
-        "repository": "https://github.com/kyrsi/cortico-world-delta",
-        "homepage": "https://github.com/kyrsi/cortico-world-delta#readme",
-        "bugs": "https://github.com/kyrsi/cortico-world-delta/issues"
-      },
-      "os": [
-        "win32"
-      ],
-      "created": "2026-11-23T14:18:30.338Z",
-      "published": "2026-11-25T13:16:58.986Z",
-      "versionCount": 2,
-      "official": false,
-      "isNew": true,
-      "declaredTags": [
-        "game",
-        "external-setup",
-        "sensitive-data"
-      ],
-      "tags": [
-        "game",
-        "external-setup",
-        "sensitive-data"
-      ],
-      "downloads": {
-        "total": 306,
-        "month": 306,
-        "week": 306
-      },
-      "summary": {
-        "tools": 2,
-        "events": 1,
-        "toolTokens": 251,
-        "envPromptTokens": 0
-      },
-      "discussion": {
-        "number": 1161,
-        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1161",
-        "up": 0,
-        "down": 0,
-        "comments": 0
-      }
-    },
     "cortico-world-devtools": {
       "kind": "world",
       "version": "0.0.5",
@@ -14222,7 +14153,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/915",
         "up": 0,
         "down": 0,
-        "comments": 2
+        "comments": 3
       }
     },
     "cortico-world-gengku": {
@@ -14626,7 +14557,7 @@
       "discussion": {
         "number": 192,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/192",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }
@@ -15549,7 +15480,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/23",
         "up": 1,
         "down": 0,
-        "comments": 6
+        "comments": 7
       }
     },
     "cortico-world-image-attach": {
@@ -18958,7 +18889,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/619",
         "up": 4,
         "down": 0,
-        "comments": 60
+        "comments": 61
       }
     },
     "cortico-world-mota": {
@@ -20161,7 +20092,7 @@
     },
     "cortico-world-omikuji": {
       "kind": "world",
-      "version": "0.4.12",
+      "version": "0.4.13",
       "displayName": "精灵日签",
       "description": "精灵日签：每天一张签。种子由日期与本机盐合成，同机同日恒定，换机器就不同。措辞可用内置签库，也可以让桌宠自己写并落盘。",
       "locales": {
@@ -20195,8 +20126,8 @@
         "bugs": "https://github.com/Net-ang/cortico-world-omikuji/issues"
       },
       "created": "2026-11-23T14:56:31.831Z",
-      "published": "2026-11-24T14:58:05.291Z",
-      "versionCount": 9,
+      "published": "2026-11-25T16:17:42.294Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -20215,12 +20146,13 @@
       },
       "summary": {
         "tools": 2,
-        "events": 2,
+        "events": 3,
         "toolTokens": 657,
-        "envPromptTokens": 921
+        "envPromptTokens": 1063
       },
       "changelog": {
         "versions": [
+          "0.4.13",
           "0.4.12",
           "0.4.11",
           "0.4.10",
@@ -28683,6 +28615,76 @@
         "comments": 15
       }
     },
+    "cortico-world-the-palest-ink": {
+      "kind": "world",
+      "version": "0.7.0",
+      "displayName": "淡墨 · 记忆库",
+      "description": "淡墨 · 记忆库：给 Agent 一个可以写下、检索、修订与归档的长期记忆数据库；可选语义检索，带时效性记忆、情绪标签与按情绪取回、定时与上下文提醒、自动归档、写入前查重、事件静音、JSON 导入导出，以及一张 2D 记忆星图。",
+      "author": "Nami-Mizu",
+      "maintainers": [
+        "nami_mizu"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "world",
+        "memory",
+        "database",
+        "semantic-search",
+        "embeddings"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-the-palest-ink",
+        "repository": "https://github.com/Nami-Mizu/cortico-world-the-palest-ink",
+        "homepage": "https://github.com/Nami-Mizu/cortico-world-the-palest-ink#readme",
+        "bugs": "https://github.com/Nami-Mizu/cortico-world-the-palest-ink/issues"
+      },
+      "created": "2026-11-25T17:19:21.973Z",
+      "published": "2026-11-25T17:20:38.375Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "memory",
+        "experimental"
+      ],
+      "tags": [
+        "memory",
+        "experimental"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 9,
+        "events": 15,
+        "toolTokens": 2526,
+        "envPromptTokens": 1345
+      },
+      "changelog": {
+        "versions": [
+          "0.7.0",
+          "0.6.1",
+          "0.6.0",
+          "0.5.0",
+          "0.4.0",
+          "0.3.0",
+          "0.2.0",
+          "0.1.0"
+        ],
+        "url": "https://github.com/Nami-Mizu/cortico-world-the-palest-ink/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1164,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1164",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-time": {
       "kind": "world",
       "version": "0.1.0",
@@ -30967,7 +30969,7 @@
     },
     "cortico-world-wechat-claw": {
       "kind": "world",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "displayName": "微信 ClawBot",
       "description": "在微信里和桌宠一对一聊天：文字、图片、文件双向收发，按 Provider 能力传入原生音视频，不支持视频时抽帧理解。",
       "locales": {
@@ -31003,8 +31005,8 @@
         "bugs": "https://github.com/Unnori/cortico-world-wechat-claw/issues"
       },
       "created": "2026-10-27T12:04:10.102Z",
-      "published": "2026-11-22T05:59:32.401Z",
-      "versionCount": 12,
+      "published": "2026-11-25T15:05:09.394Z",
+      "versionCount": 13,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -31029,6 +31031,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.1",
           "0.2.0",
           "0.1.10",
           "0.1.9",
