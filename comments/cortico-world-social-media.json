@@ -2,28 +2,55 @@
   "schema": 1,
   "name": "cortico-world-social-media",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/204",
-  "total": 24,
+  "total": 27,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BLtJl",
       "author": "SWeeTvT",
       "avatar": "https://avatars.githubusercontent.com/u/97084756?s=64&u=cf30744738347f1c079dbb178101e8487ce1c4c9&v=4",
       "body": "大佬大佬，每日最多回应通知里，普通渠道一人每天最多五条，这包含了主人在别的视频下@他的次数，能否提高一下对主人/特别关注的次数上限呀",
-      "createdAt": "2026-11-24T02:13:38Z"
+      "createdAt": "2026-11-24T02:13:38Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BL4AL",
+          "author": "PeiKun123",
+          "avatar": "https://avatars.githubusercontent.com/u/200584930?s=64&v=4",
+          "body": "你说的这个场景确认了：主人在其他 UP 的视频下 @ 它，会走普通通知的单人五条限额。本地开发版已给 B 站特别关注加了单独设置，默认 5 条，可调到 100 条，只按绑定的账号识别。其他用户仍是五条，普通发布和通知的每日总额度也继续生效。等补丁发布后就能用。",
+          "createdAt": "2026-11-25T13:08:49Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BLq19",
       "author": "SWeeTvT",
       "avatar": "https://avatars.githubusercontent.com/u/97084756?s=64&u=cf30744738347f1c079dbb178101e8487ce1c4c9&v=4",
       "body": "感谢大佬，想请问一下能否看到空闲累计时长吗？主要我后台还挂了监听QQ群聊等功能，这样我好排查这些其他事件会不会影响重置空闲时长。",
-      "createdAt": "2026-11-23T16:44:18Z"
+      "createdAt": "2026-11-23T16:44:18Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BL4AO",
+          "author": "PeiKun123",
+          "avatar": "https://avatars.githubusercontent.com/u/200584930?s=64&v=4",
+          "body": "后台挂着 QQ 监听本身不影响空闲时长。Bot 从忙转为空闲时开始重新计时，冲浪通知实际交给 Bot 处理也会重置。最近有 QQ 或 Dungeon 外部消息时，闲逛还会等这一段安静下来。本地开发版已在闲逛设置里加了本轮已空闲几分几秒，忙碌时也会标出来，随下一次补丁提供。",
+          "createdAt": "2026-11-25T13:08:51Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BLoqe",
       "author": "ht849",
       "avatar": "https://avatars.githubusercontent.com/u/201377295?s=64&v=4",
       "body": "抖音的网页端是不是找错了？我这个网页没法发评论和关注任何人",
-      "createdAt": "2026-11-23T09:08:08Z"
+      "createdAt": "2026-11-23T09:08:08Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BL4AP",
+          "author": "PeiKun123",
+          "avatar": "https://avatars.githubusercontent.com/u/200584930?s=64&v=4",
+          "body": "扩展用的是 douyin.com 官网，精选页也是官网入口，会按作品编号打开对应视频。扩展里的「特别关注」是本地优先查看指定账号的作品；给账号点平台上的关注是另一项操作。麻烦确认一下：在「配置 → 抖音」打开专用窗口，用同一账号手动打开一条普通视频时，是没有评论框，还是点发送后出现提示？如果手动可以、只有扩展发不了，请贴扩展版本和「最近一次失败」的提示文字。如果官网提示人工验证，可以在专用窗口处理。无需提供账号凭据。",
+          "createdAt": "2026-11-25T13:08:52Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BKDGF",

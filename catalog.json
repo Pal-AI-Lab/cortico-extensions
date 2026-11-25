@@ -79,6 +79,9 @@
       "sensitive-data",
       "unsafe"
     ],
+    "cortico-world-delta": [
+      "sensitive-data"
+    ],
     "cortico-world-diary-alont1": [
       "sensitive-data"
     ],
@@ -100,6 +103,10 @@
       "unsafe"
     ],
     "cortico-world-figure-scape": [
+      "sensitive-data"
+    ],
+    "cortico-world-gamebuddy": [
+      "injection-risk",
       "sensitive-data"
     ],
     "cortico-world-gaming-alont1": [
@@ -959,9 +966,9 @@
         "sensitive-data"
       ],
       "downloads": {
-        "total": 1941,
-        "month": 1941,
-        "week": 60
+        "total": 1951,
+        "month": 1951,
+        "week": 63
       },
       "summary": {
         "worlds": 4,
@@ -1050,9 +1057,9 @@
         "experimental"
       ],
       "downloads": {
-        "total": 2690,
-        "month": 2690,
-        "week": 155
+        "total": 2721,
+        "month": 2721,
+        "week": 159
       },
       "summary": {
         "tools": 0,
@@ -1145,9 +1152,9 @@
         "requires-extension"
       ],
       "downloads": {
-        "total": 2284,
-        "month": 2284,
-        "week": 248
+        "total": 2318,
+        "month": 2318,
+        "week": 246
       },
       "summary": {
         "tools": 2,
@@ -1236,9 +1243,9 @@
       ],
       "icon": "assets/@lily-cooperative__custom-farm/icon.png",
       "downloads": {
-        "total": 7514,
-        "month": 7514,
-        "week": 1262
+        "total": 7644,
+        "month": 7644,
+        "week": 1116
       },
       "summary": {
         "tools": 13,
@@ -1302,9 +1309,9 @@
       ],
       "icon": "assets/@niuzhi__cortico-world-bili-video-pro/icon.png",
       "downloads": {
-        "total": 1048,
-        "month": 1048,
-        "week": 196
+        "total": 1068,
+        "month": 1068,
+        "week": 178
       },
       "summary": {
         "tools": 18,
@@ -1396,9 +1403,9 @@
       ],
       "icon": "assets/@niuzhi__cortico-world-bubble-emotes/icon.svg",
       "downloads": {
-        "total": 542,
-        "month": 542,
-        "week": 177
+        "total": 562,
+        "month": 562,
+        "week": 166
       },
       "summary": {
         "tools": 3,
@@ -1520,9 +1527,9 @@
       ],
       "icon": "assets/@niuzhi__cortico-world-listening-companion/icon.png",
       "downloads": {
-        "total": 361,
-        "month": 361,
-        "week": 97
+        "total": 372,
+        "month": 372,
+        "week": 92
       },
       "summary": {
         "tools": 15,
@@ -1640,9 +1647,9 @@
         "experimental"
       ],
       "downloads": {
-        "total": 48652,
-        "month": 45160,
-        "week": 9468
+        "total": 49894,
+        "month": 42837,
+        "week": 9487
       },
       "summary": {
         "tools": 2,
@@ -1803,9 +1810,9 @@
         "experimental"
       ],
       "downloads": {
-        "total": 10100,
-        "month": 10100,
-        "week": 4773
+        "total": 10355,
+        "month": 10355,
+        "week": 3639
       },
       "summary": {
         "tools": 6,
@@ -1878,9 +1885,9 @@
         "experimental"
       ],
       "downloads": {
-        "total": 5417,
-        "month": 5417,
-        "week": 1757
+        "total": 5504,
+        "month": 5504,
+        "week": 1467
       },
       "summary": {
         "tools": 1,
@@ -9361,7 +9368,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1159",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-coocowork": {
@@ -9827,6 +9834,73 @@
         "up": 2,
         "down": 0,
         "comments": 2
+      }
+    },
+    "cortico-world-delta": {
+      "kind": "world",
+      "version": "1.2.0",
+      "displayName": "三角洲观察",
+      "description": "让 Coo 可以按固定频率观察三角洲的击杀和保险箱。",
+      "locales": {
+        "zh": {
+          "displayName": "三角洲观察",
+          "description": "让 Coo 可以按固定频率观察三角洲的击杀和保险箱。"
+        },
+        "en": {
+          "displayName": "Game observer",
+          "description": "Let Coo check kill notifications and the safe box in Delta Force at regular intervals."
+        }
+      },
+      "maintainers": [
+        "kyrsi"
+      ],
+      "license": "AGPL-3.0-or-later",
+      "keywords": [
+        "cortico-world",
+        "delta-force",
+        "三角洲观察"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-delta",
+        "repository": "https://github.com/kyrsi/cortico-world-delta",
+        "homepage": "https://github.com/kyrsi/cortico-world-delta#readme",
+        "bugs": "https://github.com/kyrsi/cortico-world-delta/issues"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-11-23T14:18:30.338Z",
+      "published": "2026-11-25T13:16:58.986Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "game",
+        "external-setup",
+        "sensitive-data"
+      ],
+      "tags": [
+        "game",
+        "external-setup",
+        "sensitive-data"
+      ],
+      "downloads": {
+        "total": 306,
+        "month": 306,
+        "week": 306
+      },
+      "summary": {
+        "tools": 2,
+        "events": 1,
+        "toolTokens": 251,
+        "envPromptTokens": 0
+      },
+      "discussion": {
+        "number": 1161,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1161",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-devtools": {
@@ -13793,6 +13867,98 @@
         "up": 0,
         "down": 0,
         "comments": 2
+      }
+    },
+    "cortico-world-gamebuddy": {
+      "kind": "world",
+      "version": "0.1.1",
+      "displayName": "陪玩搭子-三国杀",
+      "description": "Cortico World: a Sanguosha (三国杀) play-along companion — watches your match, roasts the board now and then, keeps a local general/skill book and a slang book the pet can query in a millisecond, and quietly learns new terms from live danmaku.",
+      "locales": {
+        "en": {
+          "displayName": "Play-along Buddy · Sanguosha",
+          "description": "Watches your Sanguosha match, roasts the board, answers 'what should I play' with concrete rules, and keeps two editable local databases: general skills and slang."
+        }
+      },
+      "author": "Draco795",
+      "maintainers": [
+        "qsyk"
+      ],
+      "license": "AGPL-3.0-or-later",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "game",
+        "sanguosha",
+        "companion",
+        "play-along",
+        "三国杀"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-gamebuddy",
+        "repository": "https://github.com/Draco795/cortico-world-gamebuddy",
+        "homepage": "https://github.com/Draco795/cortico-world-gamebuddy#readme",
+        "bugs": "https://github.com/Draco795/cortico-world-gamebuddy/issues"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-11-25T13:50:55.431Z",
+      "published": "2026-11-25T14:03:24.898Z",
+      "versionCount": 3,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "game",
+        "streaming",
+        "internet",
+        "companion",
+        "external-setup",
+        "experimental",
+        "high-cost",
+        "sensitive-data",
+        "injection-risk"
+      ],
+      "tags": [
+        "streaming",
+        "game",
+        "internet",
+        "companion",
+        "external-setup",
+        "experimental",
+        "high-cost",
+        "sensitive-data",
+        "injection-risk"
+      ],
+      "icon": "assets/cortico-world-gamebuddy/icon.svg",
+      "screenshots": [
+        "assets/cortico-world-gamebuddy/screenshot-1.png",
+        "assets/cortico-world-gamebuddy/screenshot-2.png"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 8,
+        "events": 4,
+        "toolTokens": 883,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/Draco795/cortico-world-gamebuddy/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1162,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1162",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-gaming-alont1": {
@@ -26546,7 +26712,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/204",
         "up": 0,
         "down": 0,
-        "comments": 24
+        "comments": 27
       }
     },
     "cortico-world-soft-voice": {
