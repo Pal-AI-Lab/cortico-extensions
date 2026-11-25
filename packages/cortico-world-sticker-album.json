@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "name": "cortico-world-sticker-album",
-  "version": "0.6.8",
+  "version": "0.7.5",
   "describe": {
     "tools": [
       {
         "name": "stickers_pick",
-        "description": "想主动发一张表情时用。按 move（动作：夸/哄/陪/玩/喂/看/拒/收）和 tone（口气）找图；也可以给 cue 一句话描述你想接什么。回执是 `image=log:…（画面词；动作，方向，口气）`，把句柄填进 qqbot_send_message 的 image，和文字同一条发出。一轮最多一张；不想发就不发，不用解释。画面描述和标签是内部资料，不要复述。",
+        "description": "想主动发一张表情时用。按 move（动作）和 tone（语气）找，也可以给 cue 一句想接的话。回执是 `image=log:…（动作，语气）`，只把 `log:…` 到扩展名填进 qqbot_send_message 的 image（别带括号标签），和文字同一条发出。一轮最多一张；不想发就不发。画面描述和标签是内部资料，不要复述。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -42,13 +42,13 @@
                 "乖",
                 "平"
               ],
-              "title": "口气",
+              "title": "语气",
               "description": "想用什么调子；留空不限制。"
             },
             "cue": {
               "type": "string",
               "title": "想接的话",
-              "description": "准备接的那句话或场合，如「下班了」「别乱猜」。"
+              "description": "准备接的那句话或场合。"
             },
             "avoid": {
               "type": "array",
@@ -56,7 +56,7 @@
                 "type": "string"
               },
               "title": "避开的表情",
-              "description": "需要临时避开的 rel 或文件名列表。"
+              "description": "临时避开的 rel 或文件名。"
             },
             "force": {
               "type": "boolean",
@@ -69,13 +69,13 @@
           "read"
         ],
         "summary": {
-          "zh": "主动要图：按动作/口气/一句话挑一张，回执给 log: 句柄（不带图）。",
+          "zh": "主动要图：按动作/语气/一句话挑一张，回执给 log: 句柄（不带图）。",
           "en": "Pick a sticker by move/tone/cue; returns a log: handle, no image."
         }
       },
       {
         "name": "stickers_file",
-        "description": "精确取一张表情：主人点名要某张时用 rel（从工具回执抄，不要臆造）；或给 move/tone/cue 检索一张。不占冷却。回执是 `image=log:…（画面词；动作，方向，口气）`，填进 qqbot_send_message 的 image，图文同一条发出。",
+        "description": "精确取一张：主人点名用 rel（从回执抄，不要臆造），或给 move/tone/cue 检索。不占冷却。回执 `image=log:…（动作，语气）`，只把 `log:…` 到扩展名填进 qqbot_send_message 的 image（别带括号标签）。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -83,7 +83,7 @@
             "rel": {
               "type": "string",
               "title": "图片路径",
-              "description": "表情库相对路径，如「懵/睁大眼愣住_呆.jpg」，必须来自工具回执。"
+              "description": "库内相对路径，必须来自回执。"
             },
             "move": {
               "type": "string",
@@ -115,12 +115,12 @@
                 "乖",
                 "平"
               ],
-              "title": "口气"
+              "title": "语气"
             },
             "cue": {
               "type": "string",
               "title": "想接的话",
-              "description": "不给 rel 时按这句话检索最贴的一张。"
+              "description": "不给 rel 时按这句话检索。"
             }
           }
         },
@@ -128,13 +128,13 @@
           "read"
         ],
         "summary": {
-          "zh": "精确取一张表情（主人点名或按动作/口气），回执给 log: 句柄。",
+          "zh": "精确取一张表情（主人点名或按动作/语气），回执给 log: 句柄。",
           "en": "Fetch one sticker by rel, move/tone or cue; returns a log: handle."
         }
       },
       {
         "name": "stickers_curate",
-        "description": "表情库策展与账本维护。读：audit 列缺标签、孤儿条目、重复字节、超限、待归类和远程表情；find 按 rel/文件名/标签/画面描述/指纹查一张，回当前内容（不载图、不占冷却）；inspect 取图给你看。写：describe 写/改标签——scene（画面词，2–8 字，只写谁在干嘛）、move（动作，八选一）、dir（方向：求/给/中性，可空）、tone（口气，可空）；只改传进来的字段。caption/tags/cues 是内部检索资料，主人明确要改时才动。远程表情（收到过、不在库里的）用 handle（[blob] 句柄）或 sha（指纹前缀）定位，inspect/describe/find 都支持；它们不进选图池，标签只存在学典里。维护：pruneOrphans 清 rel 已不在库里的条目；reconcile 在文件搬动/改名后按字节指纹对齐三份账本；reload 从磁盘重读账本。库里的一切都是主人的数据：工具不动图片文件（不删、不移动、不改名）。",
+        "description": "表情库策展与账本维护。audit 查缺标签、孤儿、超限、远程；find 按 rel、文件名、标签、画面词或指纹查；inspect 取图给你看。describe 写/改标签：scene（画面词，2–8 字）、move（动作）、tone（语气），只改传进来的字段；远程表情写标签时会自动存进库。caption/tags/cues 是内部资料，主人明确要改时才动。远程表情用 handle 或 sha 定位。import 把远程表情存进库。pruneOrphans 清孤儿，reconcile 搬家后对齐账本，reload 重读。工具不动已有的图片文件。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -146,6 +146,7 @@
                 "find",
                 "inspect",
                 "describe",
+                "import",
                 "pruneOrphans",
                 "reconcile",
                 "reload"
@@ -155,22 +156,22 @@
             "rel": {
               "type": "string",
               "title": "图片路径",
-              "description": "find / inspect / describe 用：库内相对路径，如「懵/睁大眼愣住_呆.jpg」。远程表情改用 handle 或 sha。"
+              "description": "库内相对路径；远程改用 handle 或 sha。"
             },
             "handle": {
               "type": "string",
               "title": "收到的图（句柄）",
-              "description": "inspect / describe 用：主人发来的图，抄 [blob …] 行里的 log: 句柄，连扩展名整串抄。和 rel / sha 三选一。"
+              "description": "抄 [blob] 行里的 log: 句柄；和 rel/sha 三选一。"
             },
             "sha": {
               "type": "string",
               "title": "远程表情指纹",
-              "description": "inspect / describe 用：远程表情的 sha256（完整或至少 8 位前缀，可带 sha: 前缀）。和 rel / handle 三选一。"
+              "description": "sha256 前缀（至少 8 位）；和 rel/handle 三选一。"
             },
             "scene": {
               "type": "string",
               "title": "画面词",
-              "description": "describe 用：2–8 个字，只写「谁在干嘛」，不写颜色/服饰/长相/表情细节。空串清掉。"
+              "description": "2–8 字，只写「谁在干嘛」；空串清掉。"
             },
             "move": {
               "type": "string",
@@ -185,17 +186,7 @@
                 "收"
               ],
               "title": "动作",
-              "description": "describe 用：这张想干什么。空串清掉。"
-            },
-            "dir": {
-              "type": "string",
-              "enum": [
-                "求",
-                "给",
-                "中性"
-              ],
-              "title": "方向",
-              "description": "describe 用：求 / 给 / 中性；不确定就留空。"
+              "description": "这张想干什么；空串清掉。"
             },
             "tone": {
               "type": "string",
@@ -213,13 +204,13 @@
                 "乖",
                 "平"
               ],
-              "title": "口气",
-              "description": "describe 用：这张用什么调子说；不确定就选「平」。"
+              "title": "语气",
+              "description": "什么调子说；不确定选「平」。"
             },
             "caption": {
               "type": "string",
               "title": "画面描述（内部）",
-              "description": "内部检索资料；主人明确要改时才传。"
+              "description": "内部资料，主人明确要改时才传。"
             },
             "tags": {
               "type": "array",
@@ -227,7 +218,7 @@
                 "type": "string"
               },
               "title": "标签（内部）",
-              "description": "内部检索资料，如 端枪、女仆鱼；主人明确要改时才传。"
+              "description": "内部资料，如 女仆鱼、白饭；要改才传。"
             },
             "cues": {
               "type": "array",
@@ -235,7 +226,7 @@
                 "type": "string"
               },
               "title": "接话词（内部）",
-              "description": "内部检索资料，如 下班了、别乱猜；主人明确要改时才传。"
+              "description": "内部资料，如 下班了、别乱猜；要改才传。"
             },
             "tagsMode": {
               "type": "string",
@@ -244,7 +235,7 @@
                 "add",
                 "remove"
               ],
-              "description": "改 tags 的方式，默认 replace。"
+              "description": "replace / add / remove，默认 replace。"
             },
             "cuesMode": {
               "type": "string",
@@ -253,22 +244,22 @@
                 "add",
                 "remove"
               ],
-              "description": "改 cues 的方式，默认 replace。"
+              "description": "replace / add / remove，默认 replace。"
             },
             "query": {
               "type": "string",
               "title": "查找词",
-              "description": "find 用：rel、文件名、标签、画面描述、接话词或指纹里的词；留空列全部。"
+              "description": "find 用：rel、文件名、标签、画面词或指纹。"
             },
             "limit": {
               "type": "number",
               "title": "清单条数",
-              "description": "audit / find 最多列多少条（默认 8）。"
+              "description": "audit/find 最多列几条（默认 8）。"
             },
             "confirm": {
               "type": "boolean",
               "title": "确认执行",
-              "description": "pruneOrphans / reconcile 用：确认按返回的清单执行。"
+              "description": "pruneOrphans/reconcile 确认执行。"
             }
           },
           "required": [
@@ -279,8 +270,8 @@
           "act"
         ],
         "summary": {
-          "zh": "策展与账本：audit/find 查、inspect 看图、describe 写 scene/move/dir/tone、pruneOrphans 清孤儿、reconcile 搬家对齐；远程表情用 handle/sha 定位。",
-          "en": "Curate: audit/find, inspect, describe scene/move/dir/tone, prune orphans, reconcile after moves; remote stickers via handle/sha."
+          "zh": "策展与账本：audit/find/inspect/describe/import/pruneOrphans/reconcile/reload；远程表情用 handle/sha。",
+          "en": "Curate: audit/find/inspect/describe/import, prune orphans, reconcile, reload; remote via handle/sha."
         }
       }
     ],
@@ -296,8 +287,16 @@
       {
         "type": "sticker-album.relay",
         "description": {
-          "zh": "表情包换信：取走原消息、信封逐字保留；见过的删附件行并标签，第一次见的保留原图并净化假表情标记",
-          "en": "Sticker relay: envelope kept; seen stickers drop blobs and carry the label line, first-seen keep the image with the fake face tag neutralized"
+          "zh": "表情包换信：取走原消息、信封逐字保留；删附件行，有标签的并标签、没标签的只写（还没标签），图一律不进上下文",
+          "en": "Sticker relay: envelope kept, blob lines dropped; labeled stickers carry the label line, unlabeled ones a placeholder, never the image"
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "sticker-album.label",
+        "description": {
+          "zh": "打标任务：她这一轮结束后，把已投递的没标签表情带图单独递给她写标签",
+          "en": "Label task: after her turn, hand delivered unlabeled stickers to her with images so she can tag them"
         },
         "trigger": "debounce"
       },
@@ -311,15 +310,23 @@
     ]
   },
   "changelog": {
+    "0.7.5": "修 0.7.4 的打标任务会吞掉来信：\n\n- **真机现场**：他的文字消息和未标签表情的打标任务落在同一批；任务写着「不回消息」，她打完标签直接 `end_turn`，把他的话吞了。\n- **打标任务延后**：`onTurnEnded` 现在查从收到那张表情之后有没有他的来信（QQ / 桌宠 / 控制台）；有就这一轮不递打标任务，让他单独成批、她回完，下一轮再递。同一批只延一次，不会一直拖。\n- **任务文案**：`不回消息` 改成「这条任务本身不用发消息、不评论图；如果他同一批还发了话，先正常回他，再打标」；ENV_PROMPT 同步。\n- 测试 138 → 139：同批有他的新消息时打标任务延后到下一轮；同一张连发两次仍只排一条打标。\n- **发布**：0.7.5 发 npm 后立即标记 deprecated（打磨中）；简介写明「目前仅在 qqbot 端测试过」。",
+    "0.7.4": "设置页「标签」面板加删除（year 需求：原来只能改标签，不能删）：\n\n- **库内表情**：点卡片展开 → 「删除」→ 二次确认。文件移到表情库**外**的\n  `blobs/sticker-trash/<时间戳>/`（可恢复），同时清掉 `descriptions.json` 里的条目和\n  `learned.json` 里指向它的指纹；写前备份三份账本。删完刷新列表和覆盖矩阵。\n- **远程表情**：只清学典记录，不动 media 里已经收到的字节；同一份字节再收到会重新按新图走。\n- 删除按钮用宿主的 `ui.confirm` 二次确认，库内/远程的提示文案分开写；失败回 toast，\n  文件已移走但账本没清干净时也会明说。\n- 测试 137 → 138：新增面板删除用例（库内文件移走、账本清掉、列表消失；远程只清学典；\n  不存在/错 kind 返回 error）。",
+    "0.7.3": "真机事故修复（新表情收到后她问「怎么了」，后来把行尾候选当成了他发的图，发错图还改了它的标签）：\n\n- **行尾候选标明不是他这张**：没标签的换信行原来只有一个候选句柄，她容易把它当成他发的图。现在写成\n  `回一张（库里的，不是他这张；他这张还没句柄）：image=…`；有标签的换信和兜底提示卡也写\n  `回一张（库里的，不是他这张）`。ENV_PROMPT 同步改了两处措辞。\n- **打标任务带来源消息号、只标本次的图**：任务正文加进 `他 #N 发的那张`（一批多张时列全），\n  并明确「只标下面 blob 行的这几张，别动别的图」。这次她打完新图两分钟后把上下文里的候选也\n  describe 了，任务本身没有来源、也没划边界。\n- **库内改标签回执带旧值**：`describe` 改库内条目时回执写 `原：旧标签。`，误改能当场看见。\n- **例子改掉教坏源**：ENV_PROMPT 最后一条「他发来一个『哄』的表情 → 接一句『怎么了』」和\n  「没话回一张」相反，换成「没带标签、没带话 → 回行尾那张图」。\n- 探针加两个场景：`bare-unlabeled-question`（刚问完一句、裸表情紧跟）和\n  `label-task-decoy`（打标任务旁边挂着候选句柄）；新 ENV_PROMPT 下前者 5/5 用候选、后者\n  5/5 只 describe 本次 blob（其中 1 次 move 写成「乖」被闭集拦下，4/5 标签合法）。\n- 测试 137 条全绿（新增库内改标签旧值断言、打标任务来源号断言）。",
+    "0.7.2": "发版前修复批次，四件事：\n\n- **修复打标签落库的扩展名**：她照 blob 行抄句柄时经常不带扩展名。0.7.1 按句柄取扩展名、\n  取不到就当 `.gif`，jpg 和 png 会被存成 `.gif`——之后发 QQ、看图时 mime 都报错，同一份字节\n  在 media 库里还会多出一份扩展名不同的副本。现在按图片字节头认格式，认不出再看宿主 media\n  库里的文件名和 mime，句柄放最后；都认不出就明说存不了，不猜。\n- **设置页给远程表情改标签也落库**：和 `describe` 工具走同一条路，在面板上补完标签同样能\n  挑到。字节不在 media 库时标签照写，并提示没存进库。\n- **修一条会丢消息的竞态**：附件恰好在「查表之后、取走之前」那几毫秒到时，原消息已经被\n  取走，后面的换信再取一次取到空。有标签的只剩一张没有信封的提示卡、他带的字丢了；没标签\n  的整条消息消失。现在换信知道消息已经取走，直接补上；认不出图时也推一条不带图的原文。\n- **探针**：打标任务多两条判分——句柄要能对上 blob 行（整串，或至少 8 位的唯一前缀），\n  另列「句柄逐字」抄对了几次。原来只查标签，句柄丢了扩展名也全过。\n\n另外：\n\n- `tools/doctor.mjs`：「最近几条换信」改成真的取最近 6 条（原来列的是最早的 6 条带候选的）；\n  「她的笔记」补上另外三处和现在用法冲突的旧规矩。\n- `stickers_curate` 认不出操作时列出的可用清单补上 `import`。\n- 测试 131 → 137。",
+    "0.7.1": "- **修复收图不落库**：新收到的表情（QQ 转码版）原来只记进学典、不写表情库，打上标签也进不了\n  选图池，主人要她主动发时挑不到。现在 `describe` 写到标签时自动把字节存进 `incoming/`\n  （文件名按 sha 前 20 位 + 扩展名），登记 sha256 并把标签写进正式条目；没标签的图不落库，\n  避免未标图进池。\n- `incoming/` 从「不可见暂存区」改成正常收纳夹，参与选图。**升级注意**：如果你以前把\n  `incoming/` 当暂存区放图，升级后里面的图会进选图池（不带条件取图时可能被选中），\n  先挪走或打好标签。\n- 新增 `stickers_curate import`：按 handle/sha 把远程表情存进库、带上已有标签。\n  **升级前已经打好标签的远程表情不会自动入库**，要用 `import` 补存才进选图池。\n- 回执措辞：句柄只抄 `log:…` 到扩展名为止，别把后面的「（动作，语气）」一起填进 `image`；\n  打标任务写明 `scene 2–8 字`。探针 bare-unlabeled 5/5 用候选、label-task 5/5 标签合法。\n- 测试 128 → 131：自动落库、只写 caption 不落库、无字节时存库失败、import 幂等。",
+    "0.7.0": "这一版连同下面 0.6.9 / 0.6.10 两节（只在本地装过的止血修复）一并发布，npm 上从 0.6.8 直接升上来。\n\n- **没标签的表情不再抢回话**：来信只换一行 `[表情]（还没标签）`，不带图；行尾递一张已标签的\n  库内图（没带话就回这张）。她回完这一轮，扩展再单独递带图的打标任务（一次最多 3 张、\n  同一张最多 2 次），打标那轮只写标签、不发消息。\n- **设置页「标签」面板**：设置 → 表情相册 → 标签。按动作/语气筛选、只看待标、动作×语气\n  覆盖矩阵；点卡片改 `scene / move / tone`，保存即时刷新。库内的图只动账本。\n- **方向和语气词定稿**：方向字段 `dir`（求/给/中性）移除；聊天标签变成\n  `[表情]（动作，语气）`。`describe`、设置页和 `tools/labels.mjs` 不再接受 `dir`，\n  旧账本里残留的 `dir` 读取时忽略、不报错。\n- **「口气」统一改名「语气」**：界面、提示词、工具说明、回执和文档全部改词；\n  12 个语气词本身不变。\n- **提示词与工具声明瘦身**：`ENV_PROMPT` 63 行 / 2,073 字 → 46 行 / 1,843 字；\n  三个工具声明 4,183 → 3,656 字。保留全部参数、枚举和打标/改标签用法，压的是重复说明。\n  改后用影子探针比基线：念画面 0、说图没到 0、追问 0，候选 5/5。",
+    "0.6.10": "- 修 0.6.9 首轮真机抽检第 5 步发现的漏网：引用回复的事件有时**没有** `meta.data.attachments`\n  字段（不是空数组，真机 `#5589`）。0.6.9 在这种形状下回退到文本正则，被引文里的 `[图片]`\n  骗着白等 2000ms、多写一条「等附件超时」。现在回退前先剥掉 `[回复「…」]` 引文段，\n  正文里真有 `[图片]` 的照样等。\n- 测试 +3：以真机 `#5589` 为样本的回放；watcher 单测「正文里的 [图片] 照样等、引文里的不算」。",
+    "0.6.9": "第一批止血，内部体检单的阶段 1–5。\n\n- **找图不再死路**：`stickers_pick` / `stickers_file`（不带 rel）改成按档位取候选——\n  动作、语气是硬条件，`cue` 只参与排序：动作语气都对 → 只看动作 → 只看语气；\n  只有 cue 才按检索命中。回执写明用的是哪一档，一次最多列 3 张（各给句柄，只有第一张\n  记冷却和使用记录）；「最近发过」只提醒不换图，显式 avoid 仍生效。\n  「库里没有某语气」的错回执（把句子检索和语气取交集、交集空就报没有）不再出现；\n  真没有这个标签时回执会给现有动作/语气清单。\n- **入站兜底**：要不要等附件改看 `meta.data.attachments`（引用回复的引文里带 `[图片]`、\n  小黄脸写成 `[表情:名字]` 都不再白等 2000ms，也不再写「等附件超时」日志）。\n  附件真等到超时：取走原消息、推一条无图克隆 `[表情]（图下载慢，到了会补一行；先接他的话）`，\n  记进待补表（上限 50 条）；附件随后到了再补一行 `[#N 的表情] [表情]（动作，方向，语气）`\n  （能挑到候选就挂行尾），两次都不带图。交接中、取不走原消息、或不像表情的照片保持原样。\n- **候选**：递出/没递出都写一行日志（`表情相册：候选 rel=…（回 cursor=N 的表情）`）；\n  候选排序不再读心头好账本（账本照记、代码留着）。\n- 新增 `tools/doctor.mjs`：一条命令一页体检（安装一致性、单测、账本与覆盖矩阵、配置、\n  日志故障、最近使用与候选命中、前缀占比、她笔记里的旧工具名），纯只读。\n- `test/replay.test.js`：10 个真机事件回放（#4945/#4999/#5015/#5024/#5026/#5048/#5049/#5051/#5053/#2257）\n  钉住换信形状；`test/helpers.js` 抽出共用假件。测试 115 条（含文件条目）。\n- README 修掉「从 0.5.x 升级跑 tools/migrate-labels-20261121.mjs」（脚本是内部一次性工具，\n  不随包发；用 audit/describe 或 labels.mjs 改）。",
     "0.6.8": "- 图标换成人鱼女仆欢快展示贴纸：背景由近黑改为浅紫→浅蓝对角渐变，\n  与紫描边/蓝发同色系、不抢黄色贴纸；512 与 128 都是 11% 圆角，与旧版一致。\n- `design/icon-source.png` 同步 1024 源图（design 不进公开仓库）。其余无改动。",
-    "0.6.7": "- 修：World 类缺 `envPromptVars()`，宿主 0.2.23 构建前缀时无条件调用，抛\n  `mod.envPromptVars is not a function` 后把表情相册整个卸载并重载前缀；重载回来又变一次前缀。\n  0.1.0/0.4.0 都有这个方法（空库返回 null、否则注入心头好变量），0.6.6 重构时丢了。\n  历史共 11 次（11-21 5 次、11-22 4 次、11-23 2 次，首次 11-21 13:53 即 0.6.6 装上后第一次前缀重载），\n  每次卸载后首个请求都是冷前缀（miss 63K–152K），仅首条合计 ≈176 积分（¥1.76）；11-23 当晚\n  20:46/21:35/21:38 三次 ≈80 积分。\n  现在返回 `{}`（0.6.6 的 ENV_PROMPT 无模板变量），与 dota2-GSI/pack-light 等一致。\n- 发布：npm 包的文件清单补上 `tools/labels.mjs`（0.6.6 只列了 src/assets/文档，CLI 不会随包走）；\n  `cortico.tags` 加 `experimental`。`labels.mjs` 的配置默认位置改为按安装结构推导\n  （不再硬编码本机路径），仍可用 `--config` 或 `COOPANION_CONFIG` 覆盖。\n- 一次性数据脚本（migrate/repair，含本机路径与私人库内容）移入 `notes/tools/`，不进公开仓库。\n- 测试 82/82。",
+    "0.6.7": "- 修：World 类缺 `envPromptVars()`，宿主 0.2.23 构建前缀时无条件调用，抛\n  `mod.envPromptVars is not a function` 后把表情相册整个卸载并重载前缀；重载回来又变一次前缀。\n  0.1.0/0.4.0 都有这个方法（空库返回 null、否则注入心头好变量），0.6.6 重构时丢了。\n  历史共 11 次（11-21 5 次、11-22 4 次、11-23 2 次，首次 11-21 13:53 即 0.6.6 装上后第一次前缀重载），\n  每次卸载后首个请求都是冷前缀（miss 63K–152K），仅首条合计 ≈176 积分（¥1.76）；11-23 当晚\n  20:46/21:35/21:38 三次 ≈80 积分。\n  现在返回 `{}`（0.6.6 的 ENV_PROMPT 无模板变量），与 dota2-GSI/pack-light 等一致。\n- 发布：npm 包的文件清单补上 `tools/labels.mjs`（0.6.6 只列了 src/assets/文档，CLI 不会随包走）；\n  `cortico.tags` 加 `experimental`。`labels.mjs` 的配置默认位置改为按安装结构推导\n  （不再硬编码本机路径），仍可用 `--config` 或 `COOPANION_CONFIG` 覆盖。\n- 一次性数据脚本（migrate/repair）是内部工具，不进公开包。\n- 测试 82/82。",
     "0.6.6": "- 新增 `tools/labels.mjs`：不用发图给谁、也不用打开 `learned.json` 找 sha 键。\n  - `list`：一张一行，列库内 + 远程的全部标签；\n  - `sheet`：生成带图检查页（浏览器打开，图、标签、改标签命令并排）；\n  - `show <编号|rel|sha:前缀>`：打印图片路径，直接打开看；\n  - `set <编号|rel|sha:前缀> scene=… move=… dir=… tone=…`：和扩展同一套闭集校验，\n    写前备份 `*.bak-cli-*`，只动账本不动图片。\n- `ensureStores` 每次调用时也会重读 `learned.json`（以前只重读 descriptions），\n  所以 CLI 的外部修改下次调用即生效，不用重启。\n- 测试 82/82。",
     "0.6.5": "0.6.4 真机反馈：她把你发过的同一张「粉发蚊香眼」又评论了一遍（「眼睛转成蚊香了」13:17 说过，\n14:48 又说）。查事件库发现同一张图在 14:48 这一批进了两遍：\n\n- `cursor 50900`：晚到的附件事件 `[#5048 的附件]`，带图；\n- `cursor 50901`：扩展的换信，也带同一张图。\n\n换信只 `drain` 了消息本体，没取走它的附件事件——图片于是跟着附件事件又投了一次。\n现在换信（三种路径：一行标签 / 第一次见 / 还没标签）都把消息和它的附件事件一起取走，\n同一张图只留换信里那一份。测试加了一条守卫：晚到附件的换信必须同时取走两个 cursor。\n- 测试 82/82。",
     "0.6.4": "0.6.3 真机验收抓到的两个问题，都属于「入站可靠性」，和 scene 无关：\n\n- **附件晚到导致整条表情漏换信**：QQ 的图片附件可能比消息本体晚 1 秒以上到，\n  作为独立的 `*.attachment` 事件进来。watcher 在 400ms 就结算，读到 `blobs=0`\n  直接判成非表情，原图 + 假 `[表情:惊讶]` 就进了上下文（真机：库内「瘫床」\n  本该换信成一行，结果她看图说了「摊平这一下」）。\n  现在消息带 `[图片]`/`[表情]` 却没图时，合批等到 2 秒（宿主合批 2.5 秒内），\n  结算时按 `#消息号` 把 `[#N 的附件]` 事件里的图接回来再判表情；等不到就按\n  普通消息跳过，并打「等附件超时」日志，方便下次归因。\n- **没标签的死锁**：唯一一次看图机会是第一次收到；那一轮没写标签，以后就永远\n  只收到「还没标签」，她自己也说「图也没到」。现在学典条目加 `views` 计数：\n  没标签的图**前两次都带图**（第二次信封写 `[表情]（还没标签）`，专门补标签），\n  第三次起才只报一行；提示词补了「看过两次后想看清就 `find` 拿 `sha:` 再 `inspect`」。\n- **候选挪到整条消息行尾**：0.6.3 候选拼在标签后面，会插进他的话中间\n  （实测 `[表情]（哄，求，委屈） ｜ 回一张：… 很慢`）。现在挂在整条消息末尾。\n- **提示词**：删掉「这一轮不想写就跳过」（实测三次都没写，这个出口就是原因）；\n  补「他发表情还带话：回应他的话，表情不是新话题」；小黄脸那条不再和\n  「不想回就不回」打架；去掉「学典」这个内部词。\n- 测试 82/82。",
-    "0.6.3": "真机第三轮：Coo 把 18 张远程表情都标上之后，聊天里描述画面的回复反而变多——\n原因是 `scene`（画面词）本身进了换信行和候选行，她看到「裹毛巾哭 / 圆眼发呆 / 装盒」\n就顺口复述。\n\n- **聊天里的行只给动作/方向/口气**：`[表情]（哄，求，赖）`、`候选 image=…（哄，求，软）`、\n  `pick`/`file` 回执都不再带 `scene`。\n- `scene` 仍留在数据里，只给 `audit` / `find` / `inspect` / 策展定位用。\n- 提示词明确：「这行里只有动作、方向、口气，没有画面；别猜画的是什么，\n  也别把动作词当画面描述」；`scene` 只写进 `describe`，聊天里不要提。\n- 测试 76/76。",
+    "0.6.3": "真机第三轮：Coo 把 18 张远程表情都标上之后，聊天里描述画面的回复反而变多——\n原因是 `scene`（画面词）本身进了换信行和候选行，她看到「裹毛巾哭 / 圆眼发呆 / 装盒」\n就顺口复述。\n\n- **聊天里的行只给动作/方向/语气**：`[表情]（哄，求，赖）`、`候选 image=…（哄，求，软）`、\n  `pick`/`file` 回执都不再带 `scene`。\n- `scene` 仍留在数据里，只给 `audit` / `find` / `inspect` / 策展定位用。\n- 提示词明确：「这行里只有动作、方向、语气，没有画面；别猜画的是什么，\n  也别把动作词当画面描述」；`scene` 只写进 `describe`，聊天里不要提。\n- 测试 76/76。",
     "0.6.2": "真机第二轮：0.6.1 把没标签的远程图放进来后，她开始描述画面（「裹进绿毛巾里」「裹着毛巾在哭」）。\n改成三分法：\n\n- **第一次见**（学典里没有这份字节）：保留原图，看一眼、话照常接、顺手写标签。\n- **见过且有标签**：换信成一行 `[表情]（守饭盆；喂，求，赖）`。\n- **见过但没标签**：换信成一行 `[表情]（还没标签）`，不展开图；照常接话，别问图；\n  闲时用 `stickers_curate` 补标签。\n- 这样既不会「图没到 / 占位符」，也不会被一张没标签的图带着描述画面。\n- 测试 76/76。",
     "0.6.1": "真机首轮反馈的两处修复：\n\n- **换信不再两行**：标签就地替换信封里的 `[表情]`，变成一行\n  `[表情]（守饭盆；喂，求，赖）`；她不再把它读成「占位符 / 图没到」。\n- **没标签的远程表情保留原图**：不再只剩一个空 `[表情]`。提示词明确\n  「带图来的是还没标签的（新图或没打标的旧图），看一眼、话照常接、顺手写标签」\n  以及「`[表情]（…）` 就是他的表情包本身，不是占位符、不是图没到」。\n- 首次换信去掉重复的 `[图片]`，宿主追加的 blob 行 fallback 改成「表情包」。\n- 测试 76/76。",
-    "0.6.0": "本版把表情包从「一张需要认知的图」改成「一个说话动作」：不告诉她见过/没见过，不给她看画面描述，\n候选也不再作为独立消息插进对话。设计稿在 `sandbox/sticker-research/DESIGN-v2.md`。\n\n- **标签**：`descriptions.json` / `learned.json` 新增 `scene`（2–8 字画面词）、\n  `move`（夸/哄/陪/玩/喂/看/拒/收）、`dir`（求/给/中性，可选）、`tone`（12 选一，可选）。\n  `describe` 闭集校验，非法值直接拒绝；21 张现有图用\n  `tools/migrate-labels-20261121.mjs` 预填（写前备份）。\n- **收到的表情**：见过的换信成一行 `[表情]（画面词；动作，方向，口气）`，不再出现\n  rel / caption / tags / sha /「见过 / 第一次见」。第一次见保留原图，只把 QQ 渲染层给的\n  假 `[表情:惊讶]` 净化为 `[表情]`；不写「第一次见」，标签由她在这一轮顺手写。\n- **候选**：删掉独立的 `sticker-album.offer` 事件；收到表情时按同一 `move` 挑一张，\n  句柄并进换信那一行的行尾（`｜ 回一张：image=…（…）`）。一批最多一张；\n  没有同意图就不推。纯文字时机 v1a 不推（等 v1b 的档位）。\n- **工具**：删 `stickers_match`；`stickers_pick` / `stickers_file` 改为按 `move/tone/cue`\n  选图，回执只给句柄 + 标签；`stickers_curate` 的 `describe` 写标签，`audit` 报\n  标签覆盖/缺标签，`find` 可按标签查。\n- **环境提示词**：重写为「表情是你说话方式的一部分」+ 第一次见现场写标签 +\n  三个 few-shot；移除 `{{stickers.album.library}}` / `{{stickers.album.favorites}}`\n  变量和心头好段。\n- **看图上限**：4MB → 10MB（百炼单图 10MB、部分模型 20MB、base64 Data URI 20MB；\n  旧的 4MB 是 opencode 时代 413 的经验值，那批 413 的真因是会话攒图总量，不是单图字节）。\n- **识别**：改用 `event.meta.data.content` 的 `<faceType=6` 判 QQ 大表情，\n  `[表情:]` 正则只做兜底；不再依赖 qqbot 渲染层的假「惊讶」。\n- **延后到 v2**：心头好 / 前缀手边名单 / 防连发 / 发送归因 / 纯文字时机推送。\n- 测试 75/75。",
+    "0.6.0": "本版把表情包从「一张需要认知的图」改成「一个说话动作」：不告诉她见过/没见过，不给她看画面描述，\n候选也不再作为独立消息插进对话。设计稿在 `sandbox/sticker-research/DESIGN-v2.md`。\n\n- **标签**：`descriptions.json` / `learned.json` 新增 `scene`（2–8 字画面词）、\n  `move`（夸/哄/陪/玩/喂/看/拒/收）、`dir`（求/给/中性，可选）、`tone`（12 选一，可选）。\n  `describe` 闭集校验，非法值直接拒绝；21 张现有图用\n  `tools/migrate-labels-20261121.mjs` 预填（写前备份）。\n- **收到的表情**：见过的换信成一行 `[表情]（画面词；动作，方向，语气）`，不再出现\n  rel / caption / tags / sha /「见过 / 第一次见」。第一次见保留原图，只把 QQ 渲染层给的\n  假 `[表情:惊讶]` 净化为 `[表情]`；不写「第一次见」，标签由她在这一轮顺手写。\n- **候选**：删掉独立的 `sticker-album.offer` 事件；收到表情时按同一 `move` 挑一张，\n  句柄并进换信那一行的行尾（`｜ 回一张：image=…（…）`）。一批最多一张；\n  没有同意图就不推。纯文字时机 v1a 不推（等 v1b 的档位）。\n- **工具**：删 `stickers_match`；`stickers_pick` / `stickers_file` 改为按 `move/tone/cue`\n  选图，回执只给句柄 + 标签；`stickers_curate` 的 `describe` 写标签，`audit` 报\n  标签覆盖/缺标签，`find` 可按标签查。\n- **环境提示词**：重写为「表情是你说话方式的一部分」+ 第一次见现场写标签 +\n  三个 few-shot；移除 `{{stickers.album.library}}` / `{{stickers.album.favorites}}`\n  变量和心头好段。\n- **看图上限**：4MB → 10MB（百炼单图 10MB、部分模型 20MB、base64 Data URI 20MB；\n  旧的 4MB 是 opencode 时代 413 的经验值，那批 413 的真因是会话攒图总量，不是单图字节）。\n- **识别**：改用 `event.meta.data.content` 的 `<faceType=6` 判 QQ 大表情，\n  `[表情:]` 正则只做兜底；不再依赖 qqbot 渲染层的假「惊讶」。\n- **延后到 v2**：心头好 / 前缀手边名单 / 防连发 / 发送归因 / 纯文字时机推送。\n- 测试 75/75。",
     "0.5.1": "本版解决「QQ 转码过的大图永远没有描述」：收图指纹作为独立身份，描述挂在 `learned[sha]` 上，\n不再强求匹配库内原件。库内 21 张原图一个字节不动，也不做自动导入/压缩替换。\n\n- **远程表情**：`learned.json` 条目扩成 `{ rel, at, caption?, tags?, cues? }`；`rel:null`\n  也能带描述、标签、接话词。旧条目（只有 `rel`/`at`）完全兼容，读出来元数据按空处理。\n- **curate 支持 handle/sha**：`inspect` / `describe` 三选一（`rel` / `handle` / `sha`；\n  sha 至少 8 位前缀、可带 `sha:`）。`inspect` 用 `host.blob` 读句柄；只有 sha 时按\n  media 库的「sha 前 20 位」文件名取字节。`describe` 的字段级合并规则和库内条目一致\n  （replace/add/remove），也能用 handle 直接新建远程条目。`find` 合并库内与远程结果；\n  `audit` 单列「收到过、不在库」的远程条目，并点出缺描述/缺接话词的；`reload` 统计远程条数。\n- **认图行**：远程条目带 `指纹 sha:…`；有描述时把 caption/标签/接话词并进\n  `[表情] 见过（不在库里）…`，互动候选按远程 cues 挑库内图。库内字节命中仍然优先\n  （同一份字节后来入库，描述跟着 rel 走，学典顺手升级）。\n- **match 回执**：远程条目也带上她写过的描述；`confirmRel` 关联库内时远程描述保留作回退。\n- **ENV_PROMPT / 工具声明**：补远程表情的定位和补描述用法（`[blob]` 句柄或 `sha:…`），\n  `describe.json` 从运行时声明重新生成。\n- **修 0.5.0 遗留**：`Catalog` 缺 `reload()` 实现，`curate reload` 调用会抛\n  「reload is not a function」——已补。\n- **数据安全**：学典写前检查盘上 mtime（同 Catalog），外部改过先重读；描述/学典仍然每次\n  原子落盘，stop 不整份回写。\n- 测试 78/78；新增 `remote.test.js` 覆盖元数据 round-trip、handle/sha 描述、find/audit、\n  库内 hash 优先、旧学典条目兼容。",
     "0.5.0": "本版把「心情分类」从语义链路里摘掉，标签和推送改成「接话词（cues）优先」，并把账本维护补齐。\n不涉及分类体系本身——具体怎么分类等 year 定；这版先保证标签、推送、改描述和搬文件都不会再拧巴。\n\n- **cues 一等公民**：描述条目新增 `cues`（主人说什么话时这张接得上）。检索排序改成\n  cues 精确 +4 / 子串 +2 > tags 精确 +3 / 子串 +1.5 > caption +1.2；分类名不再加分，\n  文件夹只做收纳和显式筛选。\n- **分类退出推送门**：删除 `CATEGORY_SYNONYMS` 和 `resolveMood`（76 条里 59 条是死映射，\n  「累了/哭了/想睡」这类自然话根本推不动）；文字候选只在 cue/tag 真命中时推。\n  `categoryCooldownSeconds` / 同类冷却一并删除，只剩全局冷却 + 防连发。\n- **互动候选按接什么话挑**：`fitQuery` 从「tags + caption + 分类 + 角色」改成「cues，没 cues 才用 tags」，\n  不再按长得像挑；收到的那张本身永不作为候选——唯一语义命中被避开时换全库另一张，全被避开才报 none。\n- **改描述工具链**：`stickers_curate` 新增 `find`（只读查找，回 rel + 当前 caption/tags/cues + 状态）、\n  `pruneOrphans`、`reconcile`、`reload`；`describe` 改成字段级合并——只改传进来的字段，\n  `tags`/`cues` 支持 `replace`/`add`/`remove`，只改文字不用 `inspect`。允许只有 tags/cues 没有 caption 的条目。\n- **账本维护**：`audit` 新增缺接话词、孤儿条目清单；`pruneOrphans` 清 rel 已不在库的条目\n  （先给清单、`confirm=true` 才执行，scan 为空时拒绝）；`reconcile` 在文件搬动/改名后按 sha256\n  对齐 descriptions/usage/learned 三份账本，只动账本不动图片；清账/搬账前自动备份 `*.bak-*`。\n- **防回滚**：`Catalog` 写之前检查盘上 mtime，发现外部改过就先重读，避免 11-18「运行实例旧内存整份覆盖」再发生；\n  `reload` 可以从磁盘重读三份账本。\n- **修遗留 bug（0.4.0 遗留 + 0.5.0 测试中发现）**：\n  - 学典命中 `rel:null` 就提前返回，会永久遮住后来入库的同一张（代码路径上的洞；线上当前 13 条 null 都没有对应库内文件，尚未实际触发）——现在先按字节查现库，命中就升级学典；\n  - 一次连发多张表情只认最后一张——现在逐条认/换信，互动候选只推一张；\n  - 显式 `mood`/`keyword` 没命中时静默全库随机——现在明确报「没找到」；\n  - 心头好先截 top N 再过滤可用图，孤儿占掉名额——现在先过滤再截；\n  - 分类冷却/覆盖率把孤儿算进去（31/21）——现在覆盖率只算当前库里的图，启动日志会报孤儿数；\n  - 卡片待定只记最后一张，提示卡漏撤回——现在逐张跟踪、逐张撤回；\n  - 事件水位读失败退 0 会重放旧事件——现在跳过本轮，等水位恢复。\n  - **World 停止时无条件保存 catalog**：2026-11-20 20:24 重启 World，内存里的旧描述把刚修好的盘上账本整份盖回去。现在 stop 只在心头好账本 dirty 时收尾保存；描述/学典的每次修改本来就已经原子落盘。\n- **可观测性**：INFO 日志把 `type`/`rel` 放进正文（宿主 echo 只在 warn/error 打结构化字段），\n  `relay` 日志带 rel，换信/候选/真发能在 `core.log` 直接看出是哪张。",
     "0.4.0": "本版的纲领：扩展的初衷是**减少**模型看图、用图、决策表情包的开销，0.3.0 实测反着\n（一小时推 22 张候选她 0 次用、永远推同一张、8 张带图预算被一张图吃光）；0.4.0 把\n「图」从扩展的全部出口撤掉，只留文字引用——认图行、候选行、工具回执都是「文字 +\nlog: 句柄」，图片只剩三个合法来源：主人第一次发的新表情、照片/截图、策展 inspect。\n\n- **已存图不进上下文（换信 relay）**：见过的表情包，watcher 用\n  `drainPendingEvents` 取走尚未投递的原消息，推一条无图克隆——信封逐字保留\n  （时间、编号、名字都在），删附件行和 `[图片]` 标记，认图行并进正文（含原图句柄，\n  想原样回这张就抄，零轮次）。没取走（批次已投走、群消息 flush 即投）就退回\n  0.3.0 的「原图照进 + 提示卡」形态，永远不会更糟。交接中不换信。\n- **出图全文字化**：`stickers_pick` / `stickers_file` / `[表情候选]` 一律回文字 +\n  行内 `log:` 句柄，不再带图。句柄用 `pushEvent({deliver:false})` 后台铸造\n  （字节入 media 库、模型不见图），按「大小 + mtime」内存缓存，同一张只铸一次。\n  候选带图预算机制（每 session 8 张）整个删除——不再有需要预算的东西。\n- **互动必推**：主人发**任何**表情包（第一次见、见过、带没带字）必推一张互动候选，\n  不掷骰、不看冷却门槛；按**他那张自己的情绪**挑（它写过的 caption/tags/分类当\n  检索词），不在库里没语义就心头好轮换。收到的那张本身排除（想原样回它用认图行\n  里的句柄）。\n- **掷骰退役**：`defaultChance` / 软硬保底删除。文字消息只在情绪词或描述检索真命中\n  时推（0.3.0 无命中也拿心头好兜底硬推，22 推 0 用全是噪音）；频控只剩冷却 +\n  防连发。`stickers_pick` 手动调用同理只走冷却。\n- **修「永远推同一张」**：`markOffered` 把推过的 rel 记进防连发窗口——0.3.0 只占\n  冷却不进窗口，她不接候选时排序永不变化，同一张被无限重复推。心头好名单（环境\n  提示词）只列真拿得到的：文件不在、超过 4MB 的不列（选图池本来就会把它们滤掉，\n  名单和池子现在一致了）。\n- ENV_PROMPT 按新形态重写：见过=一行文字（无图可看）、互动候选可用可不用、\n  **没有贴切候选就正常接话别硬发**（修 11-18「咋啦」事故的第三层根因）、句柄怎么用。\n- 事件声明新增 `sticker-album.relay`（debounce）与 `sticker-album.handle`（只落库）。",
