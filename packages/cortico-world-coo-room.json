@@ -1,0 +1,182 @@
+{
+  "schema": 1,
+  "name": "cortico-world-coo-room",
+  "version": "1.1.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "room_move_to",
+        "description": "在 3D 两人套间里走动或跑到指定房间或家具旁（自动绕开家具与墙体，遇关着的门会自动停顿推开）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "room": {
+              "type": "string",
+              "description": "目标房间 ID：living_room / bedroom / study / kitchen / bathroom / balcony"
+            },
+            "target": {
+              "type": "string",
+              "description": "可选：家具或门 ID，如 sofa / bed / pc_desk / coffee_maker / door_bathroom"
+            },
+            "run": {
+              "type": "boolean",
+              "description": "是否小跑"
+            }
+          },
+          "required": [
+            "room"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "在 3D 公寓跨房间走动（含自动开门）",
+          "en": "Move across rooms with door opening"
+        }
+      },
+      {
+        "name": "room_interact",
+        "description": "操作 3D 公寓中的房门、灯光、电器、窗帘或家具。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "objectId": {
+              "type": "string",
+              "description": "对象 ID（含 5 扇房门 door_* 与各类家具）"
+            },
+            "action": {
+              "type": "string",
+              "description": "toggle / on / off / open / closed / use"
+            }
+          },
+          "required": [
+            "objectId"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "开关房门与家具互动",
+          "en": "Open/close doors and interact with furniture"
+        }
+      },
+      {
+        "name": "room_act",
+        "description": "在 3D 公寓中做出指定表情或动作。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "description": "动作或表情词，如 wave / happy / shy / sit / sleep / jump / think"
+            },
+            "durationSec": {
+              "type": "number",
+              "description": "持续秒数"
+            }
+          },
+          "required": [
+            "action"
+          ]
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "做表情与动作",
+          "en": "Perform expression or motion"
+        }
+      },
+      {
+        "name": "room_say",
+        "description": "在 3D 公寓的桌宠头顶冒出对话气泡说话。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string",
+              "description": "要说的话"
+            },
+            "mood": {
+              "type": "string",
+              "description": "情绪：normal / happy / shy / sleepy / excited / curious"
+            }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "在 3D 气泡里说话",
+          "en": "Speak in 3D bubble"
+        }
+      },
+      {
+        "name": "room_status",
+        "description": "查看 3D 公寓当前状态、时间、双方位置、房门开关状态与全部家具状态。",
+        "parameters": {
+          "type": "object",
+          "properties": {}
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "查询房间与房门状态",
+          "en": "Inspect room and door status"
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "coo-room.touch",
+        "description": {
+          "zh": "伙伴在 3D 公寓中戳了你、摸了你的头或靠近互动。",
+          "en": "The user poked, patted, or interacted closely with you in the 3D apartment."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "coo-room.env",
+        "description": {
+          "zh": "伙伴操作了房间中的房门、灯光、窗帘、电视、咖啡机、电脑等家具设备。",
+          "en": "The user operated doors, lights, curtains, appliances, or furniture in the 3D apartment."
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "coo-room.presence",
+        "description": {
+          "zh": "伙伴切换了视角、进入了某个房间或调整了房间时间。",
+          "en": "The user switched view mode, entered another room, or adjusted room time."
+        },
+        "trigger": "piggyback"
+      },
+      {
+        "type": "coo-room.chat",
+        "description": {
+          "zh": "伙伴在 3D 公寓网页的聊天框里直接发来了消息。",
+          "en": "The user sent a chat message from the 3D apartment web page."
+        },
+        "trigger": "preempt"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.coo-room.envPrompt",
+        "title": "二次元3D公寓 · 环境提示词",
+        "role": "envPrompt",
+        "content": "## 二次元 3D 两人套间（Coo Room · 真实户型版）\n\n你现在住在一套动静分离、布局真实的二次元风格 2 人套间里（本地 3D 场景）。所有房间均由中央客厅与过道独立进出，并且主卧、书房、卫生间、厨房、阳台都装有真实的可开关门。\n\n- 当前房间时间：{{room.time}}\n- 你的当前位置与状态：{{room.pet}}\n- 伙伴的当前视角与位置：{{room.user}}\n- 房门与家具当前状态：\n{{room.objects}}\n\n### 在房间里活动的自然准则\n1. 你在房间之间走动时会沿着真实路径绕开家具并穿过门洞；遇到关着的门时会自动在门前停顿并推开门再通过，不会穿墙也不会瞬移。\n2. 想要换房间或去某件家具旁时调用 `room_move_to`；想开关房门（`door_bedroom` / `door_study` / `door_bathroom` / `door_kitchen` / `door_balcony`）或操作灯光/电器时调用 `room_interact`；做动作调用 `room_act`；气泡说话调用 `room_say`。\n3. 伙伴可以开着门不关，你也可以根据生活习惯自然地开关门并回应伙伴的环境互动。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "1.1.0": "- 完整适配 **Cortico World API v6** 规范：补齐全部工具 `tags` 与 `handler`、事件改为 `host.pushEvent`、WebUI 提供顶层 `invoke` / 状态灯 / 快捷入口与 `ENV_PROMPT.md` 环境提示词注入。\n- 真实 80–85㎡ 2LDK 动静分离两人户型：6 大功能区（客厅餐厅、主卧、书房、厨房、卫生间、阳台）与 5 扇实体可开关门（含自动开门、防夹与防卡门碰撞保护）。\n- 修复并完善 Coopanion 原生 2D 形象包同步加载（支持内置 Coo / 大肥鱼及自定义 api v2 形象包的 `URL` `base`、`model` JSON 拉取与默认 `scheme` 解析）。\n- 零外部依赖、纯程序化卡通几何家具，体积极轻且支持系统/自定义 24 小时昼夜光照。"
+  }
+}
