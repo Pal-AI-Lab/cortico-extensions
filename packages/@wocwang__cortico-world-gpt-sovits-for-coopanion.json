@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
-  "version": "0.9.13",
+  "version": "0.9.14",
   "describe": {
     "tools": [
       {
@@ -78,6 +78,7 @@
     ]
   },
   "changelog": {
+    "0.9.14": "- Breeze Blue 的鉴权错误直接带排查步骤：401 说明是密钥缺失/格式不对/被删除/被禁用\n  （浏览器登录会话也会 401），给出 API keys 页面和 `GET /v1/api-keys/current` 自查\n  地址；403 提示检查套餐、音色归属和 key 访问范围；402 提示是 API Key 的额度上限，\n  不是账户余额。\n- 验证：416 个单测、`tsc --noEmit`、`npm run build`。",
     "0.9.13": "- 云端音色选择处补充说明：**发音语种由所选音色本身决定**；English / 日本語（先翻译）\n  会把台词翻译成目标语言再合成，中文 / 粤语 / 自动识别按气泡原文送；拉取清单按当前\n  语种过滤，语种本身在「台词与翻译」卡里改。\n- 验证：415 个单测、`tsc --noEmit`、`npm run build`。",
     "0.9.12": "- **语音语言新增「粤语（直接照读）」**：合成时发 `text_lang=yue`，走运行时自带的\n  Cantonese / Jyutping 前端（`唔該晒` → `m4 goi1 saai3`）。内置预设没有粤语参考，\n  粤语档回退到中文参考；想要地道粤语口音，建议做一条粤语自定义音色。\n- **「跟随原文」支持粤语识别**：`唔 / 咗 / 嘅 / 冇 / 佢 / 哋 / 喺 / 嚟 / 睇 / 嗰 /\n  乜 / 嘢 / 咁 / 咩 / 㗎` 等粤语特征字命中时发 `yue`，其余汉字仍是 `zh`；参考台本\n  的语言判断也支持粤语。\n- 提示词明确粤语档要用粤语口语写台词；配置说明、README、云端音色语种显示同步。\n- 验证：415 个单测、`tsc --noEmit`、`npm run build`。",
     "0.9.11": "- **云端语音新增 Kitta Audio（实验）**：走 OpenAI 兼容端点\n  `https://kittaaudio.com/v1/audio/speech`（`kittaai.com` 同样可用），默认模型\n  `fishaudio-s21pro-flash`，内置文档里的公开测试音色；支持从 `/audio/voices`\n  拉取音色清单，语速按文档夹到 0.5–2，`response_format` 固定请求 `wav`。\n- 接口文档已核对，但还没用真实密钥实测，面板标为实验；401/402/429 沿用现有的\n  鉴权 / 额度 / 限流错误分类。\n- 验证：410 个单测、`tsc --noEmit`、`npm run build`。",

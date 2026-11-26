@@ -1592,7 +1592,7 @@
     },
     "@wocwang/cortico-world-gpt-sovits-for-coopanion": {
       "kind": "world",
-      "version": "0.9.13",
+      "version": "0.9.14",
       "displayName": "大肥鱼语音全能包",
       "description": "大肥鱼语音全能包（原 GPTSovits 语音，cortico-world-gpt-sovits-for-coopanion）：给 Coopanion 桌宠用的语音插件，现已全面支持本地 / 云端双引擎与 NVIDIA / AMD（ROCm，实验性）/ CPU 三种方案。本地默认全程本机合成；云端支持自定义 OpenAI 兼容与多家厂商接口（填自己的 Key）。内置大肥鱼、星落落音色，支持自备权重与自定义音色、QQ 语音与唱歌联动；CPU / 核显档可开播放预缓冲（默认关闭）。",
       "locales": {
@@ -1628,8 +1628,8 @@
         "darwin"
       ],
       "created": "2026-10-24T03:43:35.086Z",
-      "published": "2026-11-25T14:46:15.724Z",
-      "versionCount": 57,
+      "published": "2026-11-26T00:51:10.273Z",
+      "versionCount": 58,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -1656,6 +1656,7 @@
       },
       "changelog": {
         "versions": [
+          "0.9.14",
           "0.9.13",
           "0.9.12",
           "0.9.11",
@@ -1753,7 +1754,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
         "up": 28,
         "down": 0,
-        "comments": 92
+        "comments": 94
       }
     },
     "@wocwang/cortico-world-rvc-for-coopanion": {
@@ -3045,6 +3046,7 @@
         "companion"
       ],
       "tags": [
+        "internet",
         "companion"
       ],
       "icon": "assets/coopani-world-weather/icon.svg",
@@ -4467,7 +4469,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/5",
         "up": 0,
         "down": 0,
-        "comments": 11
+        "comments": 12
       }
     },
     "cortico-provider-deepseek-web": {
@@ -6543,7 +6545,7 @@
     },
     "cortico-world-bilibili": {
       "kind": "world",
-      "version": "0.2.17",
+      "version": "0.2.18",
       "displayName": "B 站直播间",
       "description": "Cortico World: read-only Bilibili live room — danmaku, gifts, super chats and guard events, with a local transparent overlay",
       "author": "Pal AI Lab",
@@ -6564,8 +6566,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:39.729Z",
-      "published": "2026-11-19T06:02:15.850Z",
-      "versionCount": 29,
+      "published": "2026-11-26T01:18:14.827Z",
+      "versionCount": 30,
       "official": true,
       "isNew": false,
       "tags": [
@@ -6580,7 +6582,7 @@
       },
       "summary": {
         "tools": 2,
-        "events": 12,
+        "events": 13,
         "toolTokens": 472,
         "envPromptTokens": 164
       },
@@ -6884,7 +6886,7 @@
     },
     "cortico-world-bookfish": {
       "kind": "world",
-      "version": "0.66.7",
+      "version": "0.67.0",
       "displayName": "看书吧！大肥鱼",
       "description": "你负责安利，大肥鱼负责上头！把喜欢的小说推荐给大肥鱼，让她认真读、尽情吐槽、和你讨论每一个精彩瞬间！反馈 QQ 群：1135570183。",
       "author": "oceanxuhaiao",
@@ -6903,8 +6905,8 @@
         "bugs": "https://github.com/oceanxuhaiao/bookfish/issues"
       },
       "created": "2026-11-10T16:54:53.268Z",
-      "published": "2026-11-24T16:40:35.109Z",
-      "versionCount": 31,
+      "published": "2026-11-26T04:05:05.973Z",
+      "versionCount": 32,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -6934,6 +6936,7 @@
       },
       "changelog": {
         "versions": [
+          "0.67.0",
           "0.66.7",
           "0.66.1",
           "0.66.0",
@@ -8051,13 +8054,13 @@
     },
     "cortico-world-casino": {
       "kind": "world",
-      "version": "0.7.1",
+      "version": "1.0.2",
       "displayName": "月下牌桌",
-      "description": "你的 AI 到底会不会打牌?装上就知道了。月下牌桌是一张藏在电脑里的绿呢牌桌,AI 坐你对面——不是念稿,是真打:看牌、算牌、诈唬,赢了一手还会嘴硬。三个游戏:21 点(庄家按死规则出牌,你可以放心使坏)、抽鬼牌(开局偷偷藏一张,终局揭晓谁揣着鬼牌,心理战拉满)、两人德州扑克(单挑限注,庄位轮转;劝一句:白扔盲注最亏,打宽点)。筹码按游戏分开记账,输了不用心疼——破产有救济金,离开自动挂起,回来接着打,终局当场喊「再来一局」。大厅能搜,发牌有动画,筹码按面额叠成小山。打开「AI 主动邀约」,它还会主动凑过",
+      "description": "你的 AI 到底会不会打牌?装上就知道了。月下牌桌是一张藏在电脑里的绿呢牌桌,AI 坐你对面——不是念稿,是真打:看牌、算牌、诈唬,赢了一手还会嘴硬。三个游戏:21 点(庄家按死规则出牌,你可以放心使坏)、抽鬼牌(开局偷偷藏一张,终局揭晓谁揣着鬼牌,心理战拉满)、两人德州扑克(单挑限注,庄位轮转;劝一句:白扔盲注最亏,打宽点)。这套牌桌还能联机:启用星邮客户端,你的 AI 就能跨机器邀好友的 AI 来一场——三个游戏全部支持,庄家每手轮换、筹码账本随庄交接;你在面板上实时观战整张牌桌,想看全知视角还是玩家",
       "locales": {
         "en": {
           "displayName": "Moonlit Table",
-          "description": "Does your AI actually know how to play cards? Install this and find out. Moonlit Table is a green-felt table hiding inside your computer, with your AI sitting across it — not a narrator, an actual opponent. It reads the board, counts chips, bluffs, and definitely talks trash after winning a hand. Three games: Blackjack (the house plays by fixed rules, so cheat responsibly), Old Maid (one card secretly hidden at the deal; a mind game that ends with a dramatic reveal), and heads-up Texas Hold'em (rotating button, capped-limit streets; pro tip: folding every blind is how you lose). Chips are tracked per game, going broke comes with relief funds, leaving suspends the game instead of vaporizing it, and Play Again sits right on the table. Searchable lobby, deal animations, chips piled into tiny mountains. Flip on AI invitations and it will slide into your chat: one game? Chips are in-game numbers — your wallet is perfectly safe; only egos get hurt."
+          "description": "Does your AI actually know how to play cards? Install this and find out. Moonlit Table is a green-felt table hiding inside your computer, with your AI sitting across it — not a narrator, an actual opponent. It reads the board, counts chips, bluffs, and definitely talks trash after winning a hand. Three games: Blackjack (the house plays by fixed rules, so cheat responsibly), Old Maid (one card secretly hidden at the deal; a mind game that ends with a dramatic reveal), and heads-up Texas Hold'em (rotating button, capped-limit streets; pro tip: folding every blind is how you lose). Chips are tracked per game, going broke comes with relief funds, leaving suspends the game instead of vaporizing it, and Play Again sits right on the table. Searchable lobby, deal animations, chips piled into tiny mountains. Flip on AI invitations and it will slide into your chat: one game? This table also goes online: enable the Starpost client and your AI can invite a friend AI across machines — all three games supported, the dealer seat rotates every hand with the chip ledger handed over, and the panel spectates the whole table live (god view or player view, auto-returning to the lobby when a game ends). Invite collisions, dropped messages, flaky links? The system arbitrates, retries, and resends automatically — you just watch the cards. Chips are in-game numbers — your wallet is perfectly safe; only egos get hurt. For any questions, join group 1135333756 and give feedback — your feedback is how this table gets better."
         }
       },
       "author": "Flerish",
@@ -8081,8 +8084,8 @@
         "bugs": "https://github.com/Flerish/cortico-world-casino/issues"
       },
       "created": "2026-11-21T15:37:24.697Z",
-      "published": "2026-11-24T09:55:33.960Z",
-      "versionCount": 7,
+      "published": "2026-11-26T03:43:18.462Z",
+      "versionCount": 9,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -8101,10 +8104,10 @@
         "week": 1129
       },
       "summary": {
-        "tools": 5,
-        "events": 9,
-        "toolTokens": 764,
-        "envPromptTokens": 1444
+        "tools": 7,
+        "events": 16,
+        "toolTokens": 1542,
+        "envPromptTokens": 1671
       },
       "changelog": {
         "versions": [
@@ -9265,7 +9268,8 @@
         "companion"
       ],
       "tags": [
-        "companion"
+        "companion",
+        "unsafe"
       ],
       "downloads": {
         "total": 0,
@@ -9342,7 +9346,8 @@
         "companion"
       ],
       "tags": [
-        "companion"
+        "companion",
+        "unsafe"
       ],
       "downloads": {
         "total": 0,
@@ -11237,7 +11242,7 @@
     },
     "cortico-world-ego": {
       "kind": "world",
-      "version": "0.1.15",
+      "version": "0.1.16",
       "displayName": "Ego 浏览器",
       "description": "Ego 浏览器 —— 让你家的小肥鱼上网、查梗、传文件、看图和看视频。Cortico 与 Coopanion 共用官方 ego-browser 接口，在独立 Space 里浏览网页、上传与下载文件、截图，观看 HTML5 / B 站视频的画面、字幕与弹幕。需先安装 Ego Lite。",
       "locales": {
@@ -11263,16 +11268,15 @@
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-ego",
         "repository": "https://github.com/biliye/cortico-world-ego",
-        "homepage": "https://github.com/biliye/cortico-world-ego#readme",
-        "bugs": "https://github.com/biliye/cortico-world-ego/issues"
+        "homepage": "https://github.com/biliye/cortico-world-ego#readme"
       },
       "os": [
         "win32",
         "darwin"
       ],
       "created": "2026-10-21T11:07:12.898Z",
-      "published": "2026-11-23T03:15:58.987Z",
-      "versionCount": 8,
+      "published": "2026-11-26T01:14:30.037Z",
+      "versionCount": 9,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -11303,6 +11307,7 @@
       },
       "changelog": {
         "versions": [
+          "0.1.16",
           "0.1.15",
           "0.1.14",
           "0.1.13",
@@ -13465,7 +13470,9 @@
       "versionCount": 3,
       "official": false,
       "isNew": true,
-      "tags": [],
+      "tags": [
+        "companion"
+      ],
       "downloads": {
         "total": 434,
         "month": 434,
@@ -15072,7 +15079,7 @@
     },
     "cortico-world-homestead": {
       "kind": "world",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "displayName": "田园烟火",
       "description": "田园烟火，我要给她完整的鱼生！\n\n🌱 作物种植：播种、浇水、收获，体验农耕乐趣。\n🐄 动物养殖：饲养动物，获取各类农产品。\n🍳 烹饪料理：使用食材制作丰富美食。\n🏡 家园经营：管理物资，打造温馨家园。\n🛒 自由交易：买卖商品，积累财富。\n🎒 物品储存：管理背包与仓库资源。\n💚 角色护理：关注角色状态与日常需求。",
       "author": "VodkaDL",
@@ -15093,8 +15100,8 @@
         "bugs": "https://github.com/VodkaDL/cortico-world-homestead/issues"
       },
       "created": "2026-11-23T13:13:35.149Z",
-      "published": "2026-11-23T13:22:22.394Z",
-      "versionCount": 3,
+      "published": "2026-11-26T02:31:33.221Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -15124,14 +15131,22 @@
         "tools": 12,
         "events": 16,
         "toolTokens": 2198,
-        "envPromptTokens": 794
+        "envPromptTokens": 872
+      },
+      "changelog": {
+        "versions": [
+          "1.0.2",
+          "1.0.1",
+          "1.0.0"
+        ],
+        "url": "https://github.com/VodkaDL/cortico-world-homestead/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 1112,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1112",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-humanize": {
@@ -18407,7 +18422,7 @@
     },
     "cortico-world-minecraft": {
       "kind": "world",
-      "version": "0.2.17",
+      "version": "0.2.18",
       "displayName": "Minecraft",
       "description": "Cortico World: Minecraft Java Edition through a Mineflayer player — observation text, movement, building, combat and an observer client",
       "author": "Pal AI Lab",
@@ -18428,8 +18443,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:42.066Z",
-      "published": "2026-11-19T06:03:54.403Z",
-      "versionCount": 28,
+      "published": "2026-11-26T01:17:36.249Z",
+      "versionCount": 29,
       "official": true,
       "isNew": false,
       "tags": [
@@ -18448,7 +18463,7 @@
       "summary": {
         "tools": 13,
         "events": 6,
-        "toolTokens": 15282,
+        "toolTokens": 15353,
         "envPromptTokens": 562
       },
       "discussion": {
@@ -19752,6 +19767,7 @@
         "apps",
         "memory",
         "companion",
+        "external-setup",
         "sensitive-data",
         "unofficial-api"
       ],
@@ -22355,7 +22371,7 @@
     },
     "cortico-world-qq": {
       "kind": "world",
-      "version": "0.2.17",
+      "version": "0.2.18",
       "displayName": "QQ",
       "description": "Cortico World: QQ group and private chats through a OneBot v11 forward WebSocket, with a draft-and-confirm gate on replies",
       "author": "Pal AI Lab",
@@ -22376,8 +22392,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:41:03.758Z",
-      "published": "2026-11-19T06:02:57.518Z",
-      "versionCount": 27,
+      "published": "2026-11-26T01:16:39.363Z",
+      "versionCount": 28,
       "official": true,
       "isNew": false,
       "tags": [
@@ -23422,7 +23438,10 @@
         "external-setup"
       ],
       "tags": [
-        "external-setup"
+        "im",
+        "qq",
+        "external-setup",
+        "unofficial-api"
       ],
       "downloads": {
         "total": 232,
@@ -24597,7 +24616,9 @@
       "versionCount": 2,
       "official": false,
       "isNew": true,
-      "tags": [],
+      "tags": [
+        "internet"
+      ],
       "downloads": {
         "total": 274,
         "month": 274,
@@ -25443,7 +25464,7 @@
       "published": "2026-11-24T08:09:06.627Z",
       "versionCount": 3,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "creative",
         "experimental"
@@ -26514,17 +26535,17 @@
     },
     "cortico-world-social-media": {
       "kind": "world",
-      "version": "0.6.12",
+      "version": "0.6.13",
       "displayName": "小鲸鱼爱冲浪",
-      "description": "小鲸鱼爱冲浪：B站视频、动态读写与评论，实验接入抖音、快手与 Gemini 网页陪练；按作品归档互动，分平台设置特别关注与闲逛，B站可选主动@关注、抖音可监听指定群。快手暂不支持图文发评与群聊。沿用现有模型。",
+      "description": "小鲸鱼爱冲浪：在 B 站、抖音、小红书和贴吧读作品、看评论并特别关注主人。按平台设置闲逛和评论权限，可选语料学习与 Gemini 网页陪练。百度贴吧为实验接入。",
       "locales": {
         "zh": {
           "displayName": "小鲸鱼爱冲浪",
-          "description": "小鲸鱼爱冲浪：B站视频、动态读写与评论，实验接入抖音、快手与 Gemini 网页陪练；按作品归档互动，分平台设置特别关注与闲逛，B站可选主动@关注、抖音可监听指定群。快手暂不支持图文发评与群聊。沿用现有模型。"
+          "description": "小鲸鱼爱冲浪：在 B 站、抖音、小红书和贴吧读作品、看评论并特别关注主人。按平台设置闲逛和评论权限，可选语料学习与 Gemini 网页陪练。百度贴吧为实验接入。"
         },
         "en": {
           "displayName": "Little Whale Loves Surfing",
-          "description": "Little Whale Loves Surfing: Bilibili videos, text dynamics and comments, with experimental Douyin and Kuaishou adapters and Gemini web coaching. Per-work records, owner focus and roaming; opt-in Bilibili focus mentions and allowlisted Douyin groups. No Kuaishou image-post comments or group chats. Uses your existing model."
+          "description": "Browse works and comments on Bilibili, Douyin, Xiaohongshu and Tieba. Configure owner focus, browsing and comment permissions by platform. Includes optional expression learning and Gemini web coaching. Tieba is experimental."
         }
       },
       "author": "peikun123",
@@ -26541,7 +26562,8 @@
         "comments",
         "companion",
         "douyin",
-        "kuaishou"
+        "xiaohongshu",
+        "tieba"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-social-media",
@@ -26550,8 +26572,8 @@
         "bugs": "https://github.com/PeiKun123/cortico-world-social-media/issues"
       },
       "created": "2026-10-23T02:10:56.290Z",
-      "published": "2026-11-16T00:11:41.068Z",
-      "versionCount": 7,
+      "published": "2026-11-26T01:59:13.370Z",
+      "versionCount": 8,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -26559,7 +26581,6 @@
         "browser",
         "internet",
         "external-setup",
-        "experimental",
         "high-cost",
         "unofficial-api"
       ],
@@ -26569,16 +26590,10 @@
         "video",
         "companion",
         "external-setup",
-        "experimental",
         "high-cost",
         "unofficial-api"
       ],
       "icon": "assets/cortico-world-social-media/icon.png",
-      "screenshots": [
-        "assets/cortico-world-social-media/screenshot-1.png",
-        "assets/cortico-world-social-media/screenshot-2.png",
-        "assets/cortico-world-social-media/screenshot-3.png"
-      ],
       "downloads": {
         "total": 7321,
         "month": 5110,
@@ -26587,11 +26602,12 @@
       "summary": {
         "tools": 14,
         "events": 9,
-        "toolTokens": 6737,
-        "envPromptTokens": 3702
+        "toolTokens": 6928,
+        "envPromptTokens": 4063
       },
       "changelog": {
         "versions": [
+          "0.6.13",
           "0.6.12",
           "0.6.11",
           "0.6.10",
@@ -26642,9 +26658,9 @@
       "discussion": {
         "number": 204,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/204",
-        "up": 0,
+        "up": 1,
         "down": 0,
-        "comments": 27
+        "comments": 31
       }
     },
     "cortico-world-soft-voice": {
@@ -30839,7 +30855,7 @@
     },
     "cortico-world-websearch": {
       "kind": "world",
-      "version": "0.2.17",
+      "version": "0.2.18",
       "displayName": "WebSearch",
       "description": "Cortico World: a web_search tool backed by the Brave Search API or the DeepSeek Search API",
       "author": "Pal AI Lab",
@@ -30861,8 +30877,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:50.954Z",
-      "published": "2026-11-19T06:02:20.034Z",
-      "versionCount": 29,
+      "published": "2026-11-26T01:16:27.782Z",
+      "versionCount": 30,
       "official": true,
       "isNew": false,
       "tags": [
@@ -31226,7 +31242,7 @@
       "discussion": {
         "number": 1165,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1165",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 0
       }

@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "cortico-world-social-media",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/204",
-  "total": 27,
+  "total": 31,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BL8kc",
+      "author": "SWeeTvT",
+      "avatar": "https://avatars.githubusercontent.com/u/97084756?s=64&u=cf30744738347f1c079dbb178101e8487ce1c4c9&v=4",
+      "body": "作者大大，能否再加一个睡眠/活跃时间之类的功能，可以让大肥鱼每天只在指定时间去闲逛、回复消息之类的？比如现在每日的闲逛次数，基本在半夜的时候就自己触发完了，而且触发后肥鱼都会因为时间在凌晨而选择不去闲逛。",
+      "createdAt": "2026-11-26T02:33:39Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BLtJl",
       "author": "SWeeTvT",
@@ -17,6 +24,20 @@
           "avatar": "https://avatars.githubusercontent.com/u/200584930?s=64&v=4",
           "body": "你说的这个场景确认了：主人在其他 UP 的视频下 @ 它，会走普通通知的单人五条限额。本地开发版已给 B 站特别关注加了单独设置，默认 5 条，可调到 100 条，只按绑定的账号识别。其他用户仍是五条，普通发布和通知的每日总额度也继续生效。等补丁发布后就能用。",
           "createdAt": "2026-11-25T13:08:49Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BL8Z3",
+          "author": "PeiKun123",
+          "avatar": "https://avatars.githubusercontent.com/u/200584930?s=64&v=4",
+          "body": "0.6.13 已发布。升级后打开「配置 → 哔哩哔哩 → 主人 @ 我的回复额度」，就能调整绑定主人在其他作品下 @ 它或回复它的上限，默认每天 5 条，最高 100 条。「回应与发布额度」里的每日通知总额也要留够。",
+          "createdAt": "2026-11-26T02:00:35Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BL8em",
+          "author": "SWeeTvT",
+          "avatar": "https://avatars.githubusercontent.com/u/97084756?s=64&u=cf30744738347f1c079dbb178101e8487ce1c4c9&v=4",
+          "body": "@PeiKun123 赞赞赞",
+          "createdAt": "2026-11-26T02:13:33Z"
         }
       ]
     },
@@ -33,6 +54,13 @@
           "avatar": "https://avatars.githubusercontent.com/u/200584930?s=64&v=4",
           "body": "后台挂着 QQ 监听本身不影响空闲时长。Bot 从忙转为空闲时开始重新计时，冲浪通知实际交给 Bot 处理也会重置。最近有 QQ 或 Dungeon 外部消息时，闲逛还会等这一段安静下来。本地开发版已在闲逛设置里加了本轮已空闲几分几秒，忙碌时也会标出来，随下一次补丁提供。",
           "createdAt": "2026-11-25T13:08:51Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BL8Z2",
+          "author": "PeiKun123",
+          "avatar": "https://avatars.githubusercontent.com/u/200584930?s=64&v=4",
+          "body": "0.6.13 已发布。打开「互动记录」或「配置」，标题栏右侧就能看到本轮空闲计时，留在页面上也会更新。Bot 开始处理事件时会显示「忙碌中」，恢复空闲后重新计时，方便你对照 QQ 事件排查。",
+          "createdAt": "2026-11-26T02:00:33Z"
         }
       ]
     },

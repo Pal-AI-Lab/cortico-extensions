@@ -2,7 +2,7 @@
   "schema": 1,
   "name": "@wocwang/cortico-world-gpt-sovits-for-coopanion",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-  "total": 92,
+  "total": 94,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BL45O",
@@ -24,6 +24,20 @@
           "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
           "body": "你好，新版本已实现，欢迎使用！",
           "createdAt": "2026-11-25T15:29:02Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BL8ka",
+          "author": "homanho1124",
+          "avatar": "https://avatars.githubusercontent.com/u/360966317?s=64&v=4",
+          "body": "@wocwang 感謝，用了也沒有問題。但會不會開放文字輸入會更好? 方便輸入其他語言",
+          "createdAt": "2026-11-26T02:33:35Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BL8qa",
+          "author": "wocwang",
+          "avatar": "https://avatars.githubusercontent.com/u/305288250?s=64&u=143b316d72b685c92a836323a9d6d784550684c1&v=4",
+          "body": "感謝建議！評估後暫時不做自由輸入語言，原因是：\n\n1. 本地 GPT-SoVITS 只支援固定語言集（中文、粵語、英文、日文、韓文等），輸入其他代碼（法語、西班牙語）不會真的會說，只會報錯。\n2. 雲端發音是由「音色」決定的，不是由語言文字控制；自由輸入容易讓人以為選了就會說，實際還需要匹配的音色。\n3. 任意語言還牽涉翻譯、參考音頻、語言檢測和測試，單加一個輸入框會把除錯成本轉給使用者。\n\n如果只是想要本地已支援、但還沒放進下拉的語言（例如韓語），我可以再補選項；法語、西班牙語這類建議直接用雲端對應語言的音色。有具體語言需求也歡迎直接說，我會按支援情況加。",
+          "createdAt": "2026-11-26T02:53:18Z"
         }
       ]
     },
