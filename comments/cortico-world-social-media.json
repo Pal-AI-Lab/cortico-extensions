@@ -2,14 +2,37 @@
   "schema": 1,
   "name": "cortico-world-social-media",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/204",
-  "total": 31,
+  "total": 34,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BL8kc",
       "author": "SWeeTvT",
       "avatar": "https://avatars.githubusercontent.com/u/97084756?s=64&u=cf30744738347f1c079dbb178101e8487ce1c4c9&v=4",
       "body": "作者大大，能否再加一个睡眠/活跃时间之类的功能，可以让大肥鱼每天只在指定时间去闲逛、回复消息之类的？比如现在每日的闲逛次数，基本在半夜的时候就自己触发完了，而且触发后肥鱼都会因为时间在凌晨而选择不去闲逛。",
-      "createdAt": "2026-11-26T02:33:39Z"
+      "createdAt": "2026-11-26T02:33:39Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BL-2h",
+          "author": "PeiKun123",
+          "avatar": "https://avatars.githubusercontent.com/u/200584930?s=64&v=4",
+          "body": "采纳！会在「配置」里加一个全平台共用的活跃时段，开始和结束时间都能自己设，也支持跨午夜。休息时段不发起新的闲逛、不占闲逛次数，待回应的留言留到活跃时段再处理。默认保持全天，已有配置可以照常用。这项刚开始做，还没发布。",
+          "createdAt": "2026-11-26T10:17:54Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BL_0Q",
+          "author": "PeiKun123",
+          "avatar": "https://avatars.githubusercontent.com/u/200584930?s=64&v=4",
+          "body": "@SWeeTvT 你提的两个设置在 0.6.14 里都能调了，谢谢建议！\n\n**活跃时段**：打开「小鲸鱼爱冲浪 → 配置 → 哔哩哔哩 → 活跃度」，展开「全平台活跃时段」，勾选「限制自动社交时段」，填好开始、结束时间后点「保存时段」。比如设成 09:00–23:00，夜里就不会消耗闲逛次数，待回复的评论会留到白天。这个时段对所有平台生效，只用设一次，也支持跨午夜。\n\n**主人 @ 回复次数**：在同一页切到「特别关注 → 主人 @ 我的回复额度」，调好后点「保存B站设置」。它按绑定的主人账号识别，适用于你在别人作品下 @ 它或回复它。默认每天 5 次，填 0 关闭，1–100 自定每天次数；填 -1 可以不限次数，也不占普通通知和发布的每日额度。其他用户仍是每人每天最多 5 条。",
+          "createdAt": "2026-11-26T12:53:16Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BL_16",
+          "author": "SWeeTvT",
+          "avatar": "https://avatars.githubusercontent.com/u/97084756?s=64&u=cf30744738347f1c079dbb178101e8487ce1c4c9&v=4",
+          "body": "@PeiKun123 效率杠杠的",
+          "createdAt": "2026-11-26T12:56:37Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BLtJl",

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-coo-room-3d",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "describe": {
     "tools": [
       {
@@ -177,6 +177,7 @@
     ]
   },
   "changelog": {
+    "1.2.1": "- 安全加固：`/ws` WebSocket 升级握手严格校验 `Origin`，仅放行与当前实际监听端口同源的 `http://127.0.0.1:<port>` 请求，缺失或不匹配一律返回 `403 Forbidden` 并关闭连接。\n- 安全加固：移除 `/pet-proxy/` 响应中的 `access-control-allow-origin: *` 头部，禁止外部站点跨域读取桌宠状态与形象包。",
     "1.2.0": "- 作为独立 World 扩展（`coo-room-3d`，工具前缀 `room3d_*`，默认端口 `7900`）发布，与轻量几何版 `cortico-world-coo-room` 完全隔离、可共存不冲突。\n- 内置 39 个 Kenney Furniture Kit（CC0 1.0）开源 `.glb` 3D 家具模型，加载时自动居中落地并转换为统一二次元 3 阶卡通着色与深紫描边。\n- 补齐 `web/utils/BufferGeometryUtils.js`（`toTrianglesDrawMode`），彻底修复离线 `GLTFLoader.js` 模块导入问题。\n- 完整适配 **Cortico World API v6** 规范：全部工具具备 `tags` 与 `handler`、事件走 `host.pushEvent`、WebUI 提供顶层 `invoke` / 状态灯 / 快捷入口与 `ENV_PROMPT.md` 环境提示词注入。\n- 完善 Coopanion 原生 2D 形象包同步加载，停服时主动关闭空闲 HTTP 连接避免重启卡顿。"
   }
 }

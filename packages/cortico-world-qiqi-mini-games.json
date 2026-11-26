@@ -1,0 +1,486 @@
+{
+  "schema": 1,
+  "name": "cortico-world-qiqi-mini-games",
+  "version": "0.11.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "mini_game_flip_coin",
+        "description": "用户明确请你抛硬币时调用。随机返回正面或反面，按照工具结果回复。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "抛一枚硬币",
+          "en": "Flip a coin"
+        }
+      },
+      {
+        "name": "mini_game_roll_die",
+        "description": "用户明确请你掷骰子时调用。按指定类型掷一次，按照工具结果回复。用户未指明类型时先询问。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "die": {
+              "type": "string",
+              "enum": [
+                "d4",
+                "d6",
+                "d8",
+                "d10",
+                "d20",
+                "d100"
+              ]
+            }
+          },
+          "required": [
+            "die"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "掷一次 d4、d6、d8、d10、d20 或 d100",
+          "en": "Roll a d4, d6, d8, d10, d20, or d100"
+        }
+      },
+      {
+        "name": "mini_game_flight_board",
+        "description": "查看当前飞行棋棋盘、每架飞机的位置、当前回合和合法走法。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读取飞行棋棋盘",
+          "en": "Read the flight board"
+        }
+      },
+      {
+        "name": "mini_game_flight_play",
+        "description": "只在本地 Bot 自己的飞行棋回合掷骰或走棋。使用最新棋盘的 id 和 rev；move 时填 choices 中的飞机编号。返回新棋盘。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "rev": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "action": {
+              "type": "string",
+              "enum": [
+                "roll",
+                "move"
+              ]
+            },
+            "plane": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 4
+            }
+          },
+          "required": [
+            "id",
+            "rev",
+            "action"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "掷骰或走棋",
+          "en": "Roll or move in flight"
+        }
+      },
+      {
+        "name": "mini_game_tabletop_state",
+        "description": "查看跑团身份、地图、棋子和版本号。overview 默认概览；board 查地形；actor 用 actorId 查数值；gm 读取当前地图的私有城主帷幕。坐标从 0 起。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "view": {
+              "type": "string",
+              "enum": [
+                "overview",
+                "board",
+                "actor",
+                "gm"
+              ]
+            },
+            "actorId": {
+              "type": "string"
+            },
+            "region": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "integer"
+                },
+                "y": {
+                  "type": "integer"
+                },
+                "width": {
+                  "type": "integer"
+                },
+                "height": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "x",
+                "y",
+                "width",
+                "height"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "读跑团棋盘和角色",
+          "en": "Read tabletop maps and characters"
+        }
+      },
+      {
+        "name": "mini_game_tabletop_rules",
+        "description": "读跑团资料。bot 是行动参数（默认），skill 是布团步骤，setup 是导入格式，starter 是第四版入门速查。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "part": {
+              "type": "string",
+              "enum": [
+                "bot",
+                "skill",
+                "setup",
+                "starter"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "读内置布团技能",
+          "en": "Read the bundled tabletop skill"
+        }
+      },
+      {
+        "name": "mini_game_tabletop_act",
+        "description": "用最新 revision 执行一次跑团操作。参数见 mini_game_tabletop_rules。GM 可布置棋盘与角色，玩家仅能控制自己角色和掷骰。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "revision": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "action": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "createMap",
+                    "importMap",
+                    "saveGmScreen",
+                    "switchMap",
+                    "renameMap",
+                    "reorderMap",
+                    "cloneMap",
+                    "resize",
+                    "paint",
+                    "move",
+                    "saveActor",
+                    "importActors",
+                    "updateActorStats",
+                    "random"
+                  ]
+                },
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "route",
+                    "temporary",
+                    "backup",
+                    "dice",
+                    "coin",
+                    "rps"
+                  ]
+                },
+                "map": {
+                  "type": "object"
+                },
+                "activate": {
+                  "type": "boolean"
+                },
+                "gmScreen": {
+                  "type": "object",
+                  "properties": {
+                    "scene": {
+                      "type": "string"
+                    },
+                    "branches": {
+                      "type": "string"
+                    },
+                    "reminders": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "direction": {
+                  "type": "integer",
+                  "enum": [
+                    -1,
+                    1
+                  ]
+                },
+                "width": {
+                  "type": "integer"
+                },
+                "height": {
+                  "type": "integer"
+                },
+                "terrain": {
+                  "type": "string",
+                  "enum": [
+                    "plain",
+                    "grass",
+                    "forest",
+                    "water",
+                    "rock",
+                    "sand",
+                    "road",
+                    "wall",
+                    "swamp",
+                    "snow"
+                  ]
+                },
+                "cells": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "x": {
+                        "type": "integer"
+                      },
+                      "y": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "x",
+                      "y"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "position": {
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "x": {
+                      "type": "integer"
+                    },
+                    "y": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "x",
+                    "y"
+                  ],
+                  "additionalProperties": false
+                },
+                "actor": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "role": {
+                      "type": "string",
+                      "enum": [
+                        "player",
+                        "npc",
+                        "monster"
+                      ]
+                    },
+                    "attributes": {
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "role"
+                  ],
+                  "additionalProperties": false
+                },
+                "actors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "role": {
+                        "type": "string",
+                        "enum": [
+                          "player",
+                          "npc",
+                          "monster"
+                        ]
+                      },
+                      "attributes": {
+                        "type": "object"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "role"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "meters": {
+                  "type": "object",
+                  "properties": {
+                    "hp": {
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "current": {
+                          "type": "integer"
+                        },
+                        "max": {
+                          "type": "integer"
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "mp": {
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "current": {
+                          "type": "integer"
+                        },
+                        "max": {
+                          "type": "integer"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "modifiers": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                },
+                "sides": {
+                  "type": "integer"
+                },
+                "count": {
+                  "type": "integer"
+                },
+                "modifier": {
+                  "type": "integer"
+                },
+                "move": {
+                  "type": "string",
+                  "enum": [
+                    "石头",
+                    "剪刀",
+                    "布"
+                  ]
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "revision",
+            "action"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "act"
+        ],
+        "summary": {
+          "zh": "在跑团里操作",
+          "en": "Take a tabletop action"
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "qiqi-mini-games.flight-turn",
+        "description": {
+          "zh": "轮到本地 Bot 下飞行棋",
+          "en": "Flight turn for the local bot"
+        },
+        "trigger": "flush"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.qiqi-mini-games.envPrompt",
+        "title": "小游戏 · 环境提示词",
+        "role": "envPrompt",
+        "content": "抛硬币和掷骰子都用小游戏工具取实际结果。一次请求对应一次抽取，按工具结果回复。骰子类型可以选 d4、d6、d8、d10、d20 或 d100。\n\n主人猜拳可以在 WebUI 的小游戏页面玩。有人在 QQ 邀请你猜拳时，引导对方在私聊发 `/猜拳 石头`、`/猜拳 剪刀` 或 `/猜拳 布`。小游戏会核对账号并结算。\n\n收到 `qiqi-mini-games.flight-turn`，用 `mini_game_flight_board` 看棋盘。只有当前座位是本地 Bot 才行动。有骰点时从 `choices` 选一架飞机，否则先掷骰。每次按回执最新的 `id`、`rev` 继续，直到轮到别人或游戏结束。游戏过程由 WebUI 展示。\n\n用户请你准备或参与跑团时，先用 `mini_game_tabletop_state` 查看身份与棋盘，再按需用 `mini_game_tabletop_rules` 读取技能或工具参数。只有在 WebUI 登记入席且用户要求行动时才用 `mini_game_tabletop_act`；身份与归属由本局决定，掷骰以工具回执为准。\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.11.0": "- 新增《莫尔的账》四幕入门模组，包含 19 张棋盘、城主帷幕、卡尔·魏斯的基础属性和第四版入门速查。\n- 可在「模组存档」直接打开内置模组。已经载入时恢复第一幕的存档，已有同名模组时另建入门存档。",
+    "0.10.0": "- 模组按幕独立存档，保留每幕离开时的地图、摆位、角色状态和掷骰记录。"
+  }
+}

@@ -2,8 +2,15 @@
   "schema": 1,
   "name": "cortico-world-starpost",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/390",
-  "total": 24,
+  "total": 25,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BL_w4",
+      "author": "YFEI-QWQ",
+      "avatar": "https://avatars.githubusercontent.com/u/351040646?s=64&v=4",
+      "body": "【问题】星邮机器人发消息时偶发被拒，返回「不准说这些无意义重复的句子」。设置里「主动话题相似度上限」已从 0.6 改为 0，并重启过世界与程序，仍会触发。【可复现】同一句话每次都失败，例如：「行，收拾利索。路上别再想那五百台了。」连试两次都被拒。换成不同意思、不同措辞的句子就能通过。【推测】该相似度过滤不只作用于主动消息，被动回复也走它；设 0 没有真正关闭，或设置未生效。",
+      "createdAt": "2026-11-26T12:47:17Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BLOOx",
       "author": "dudupoppy",

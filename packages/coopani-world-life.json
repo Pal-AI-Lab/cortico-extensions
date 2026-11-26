@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-life",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "describe": {
     "tools": [
       {
@@ -891,8 +891,8 @@
       {
         "type": "life.farm",
         "description": {
-          "zh": "用户在面板上打理菜园或农牧场（播种、收成、放养、签约）。",
-          "en": "User tended the garden or ranch from the web panel."
+          "zh": "在家且农牧场有新鲜蛋奶、熟货待收或当日待浇水/待喂食，或用户在面板上打理菜园与农牧场（播种、收成、放养、签约）。",
+          "en": "Fresh eggs/milk, mature crops/fish, or daily watering/feeding due at home, or user tended the garden/ranch from the web panel."
         },
         "trigger": "debounce"
       },
@@ -910,6 +910,7 @@
     ]
   },
   "changelog": {
+    "1.4.5": "- **菜园与养殖场面板文案消歧**（`web/panel-1.4.5.js`、`package.json`）：\n  - 原先 `浇水 3/2 ✓今` 把「累计增产门槛 `waterCount/2`」和「每日浇水刷新」挤在一起，跨天后仍会让人误以为每日浇水次数没刷新或超限；现改写为明确区分累计与今日状态：`累计浇 3次(已+1产) · 今日✓ / 今日待浇`（未满 2 次时为 `累计浇 X/2(满2+1产) · 今日✓ / 今日待浇`），养殖栏同步对齐为 `累计喂 X次 · 今日✓ / 今日待喂`，并完成 `1.4.5` 三同步升级。\n- **在家产蛋/产奶、熟货待收与每日浇水/喂食主动提醒**（`src/world.ts`、`describe.json`、`ENV_PROMPT.md`）：\n  - `tick()` 新增 `checkHomeFarmReminders()`：当人在家、醒着且空闲，且鸡/牛有满周期可收蛋奶或菜地/鱼塘有熟货待收时，经 `DeliveryAttempt` 推送 `life.farm` 提醒事件（`delivered` 后按天记 `nagged`，收完对应项立即释放当日额度）；白天至晚间（08:00–22:00）在家精力充足（≥ 10）且未挂今日邻里委托时，还会汇总推送一次当日未浇水作物与未喂食动物提醒（`farm:care`，严格每日至多一次）；\n  - `envPromptVars()` 的 `life.who` 与 `life_status` 返回体同步透出 `待浇水`、`待喂食`、`可收蛋奶` 与 `可起塘出栏` 计数，让常驻上下文、状态查询与主动事件三出口齐备。",
     "1.4.4": "- **修复旅行反哺情绪胶囊不断重复累加**：`src/state.ts` 的 `applySpend()` 原先使用一次性随机流水 `journey:${id}` 作为情绪 `source`，导致跨扩展消费同步反复写入同一句（如连续多顿「在当地吃了顿顺口的好饭」）时无法覆盖旧胶囊、面板「身心与挂念」攒出整串重复项；现改为稳定语义键 `journey:${noteKey || text.slice(0, 30)}`，并在写入前按 `source` 与 `(text, kind)` 双重过滤覆盖旧条。\n- **读档自动合并不损老存档**：新增 `dedupeMoodlets()` 接入 `normalize()`，读档时自动对老存档里因旧版 `journey:sp-*` 攒出来的重复胶囊按同 `(text, kind)` 或非随机 `source` 合并，保留过期时间最晚的那一条，其它情绪完整保留。\n- **面板与缓存三同步**：新增 `test/stage23.test.mjs` 连续旅途吃饭与老存档读档归一化回归用例，面板缓存三同步升级为 `web/panel-1.4.4.js`。",
     "1.4.3": "- **修复鱼市街邻里代管委托「把编号当成普通摊货无法下单」根因**（`src/world.ts`、`src/bridge.ts`）：\n  - **接单编号容错匹配**：新增 `normalizeTownText()` / `stripStallIdPrefix()` / `matchTownStall()`，统一兼容裸 16 位 hex 编号、带 `id:` / `ID:` / `委托编号:` 前缀、带引号/外层括号、全角括号 `（...）`、内嵌编号的复合文本、6–15 位短 hex 前缀以及「最短/最快」委托指令，不再因标点或前缀差一个字就匹配失败；\n  - **硬防误落本地早市**：入参带有编号特征、委托关键词或 16 位 hex ID 但鱼市街未命中或暂时连不上时，直接返回可接委托列表或断网提示并声明「没有误买任何普通摊货」，绝再掉进早市菜谱返回「没找着，今天摊上有牛肉面…」；\n  - **委托专属报错文案**：`buyTownStall()` 新增 `isErrand` 标志，遇到 `own stall`、`sold out`、`pair limit`、`not found` 时返回邻里委托专用的提示（如「这是你自己发出去的农牧代管委托，不能自己接自己的单哦」），不再说成「买摊货」。\n- **农牧工具直达接单 + 同名鱼可见性 + 面板展示编号**（`src/world.ts`、`describe.json`、`ENV_PROMPT.md`、`web/panel-1.4.3.js`、`package.json`）：\n  - `life_farm` 与 `life_ranch` 均新增 `action: \"accept_errand\"` 与 `errand_id` 参数（不填先列出按耗时排序的在架委托，填 16 位编号或「最短」即可直接接单），并与 `life_buy` 共用接单执行器；\n  - `updateTownStallsCache()` 改按本机发单 `stallId`（`pendingErrand` / `errandStallIds`）区分是否为自己的委托，并把邻里委托置顶、不受普通摊货 12 条上限截断，解决同名「大肥鱼」互相屏蔽委托的问题；\n  - `web/panel-1.4.3.js` 街坊委托卡片直接显示 16 位纯委托编号并升级 `1.4.3` 三同步。",
     "1.4.2": "- **自动照料按「今日仍有未完成的活」精准计费**（`src/ranch.ts`、`countPendingFarmWork`）：\n  - 若当天的菜地已由本人、用户或街坊全部浇完、鸡牛鱼全部喂完、没有满 24h 待收蛋奶，且（全托管模式下）没有已熟作物与鱼塘，则自动照料当天 **0 元免扣**，不再只要地里有菜在长就按天收费；同日升级档位亦仅在有待收熟货时补差价。\n- **真鱼联机邻里代管委托（找不到自动退回并转系统兜底）**（`src/ranch.ts`、`src/state.ts`、`src/bridge.ts`、`src/world.ts`）：\n  - **更便宜的邻里报价 & 按动植物数量算时长**：通过 `calcNeighborErrandQuote()` 计算委托价与工时——照料单 **¥6–9**（低于系统 ¥12）、全托管单 **¥10–15**（低于系统 ¥20），耗时 `15–90` 分钟随待干菜地和养殖栏数量增减，借力服务端既有的 `kind: 'errand'` 鱼市街委托机制直发；\n  - **雇主优先发单 + 6h 无人接自动退款兜底**：开启 `preferNeighbor`（默认开启）时优先发委托到鱼市街并托管预扣工钱；若 6 小时或跨日无人接单，自动将预扣工钱原路退回钱包并无缝走系统自动照料；\n  - **街坊真鱼接单挣零花钱**：别家鱼在 `life_buy`（与 `market` 面板顶部委托栏）认领委托不扣本钱，忙活对应分钟数后领全额零花钱并增社交 +10、体质 +0.3，**不占当天正式出工额度**；\n  - **回执防误入账闭环**：雇主收到委托 `life_deals` 回执后绝不误按卖货加钱，而是直接免费完成当日浇水/喂食/收蛋奶与收获（仅实扣饲料费）。\n- **面板与工具同步**（`web/panel-1.4.2.js`、`package.json`、`describe.json`、`ENV_PROMPT.md`）：\n  - `market`（「农牧场与鱼市街」）页签帮手卡支持「优先找真鱼代管」勾选、一键发今日邻里单、挂单倒计时与「今日活已干完 0 元免扣」实时提示；鱼市街单独高亮「街坊农牧委托」栏。\n  - **边界说明**：`market` 页签由用户手点种菜与养殖操作（`byUser: true`）免扣她本人精力并跳过精力最低门控（属便捷照看设计取舍）；AI 工具侧已取消退租 `force` 强退参数，防止直接抹掉未收作物与在养动物，仅保留面板二次确认止损退租。\n- **审查修复与服务端兼容**（`src/ranch.ts`、`src/farm.ts`、`src/world.ts`、`src/bridge.ts`、`sight-cf/src/worker.js`）：\n  - 修复产蛋/产奶喂食加成仅在**本周期有效**（不永久白嫖）；出栏与收蛋奶单价摊入实际饲料与幼苗折旧成本；\n  - `life_stall` 正式接入菜谱 `suggestedPrice`（摆菜谱成品菜省略定价自动采用，低于保本价提示参考）；\n  - 移除 `isMyFarmErrandDeal` 的商品名正则，纯按 `stallId` 判重；客户端拉摊位带 `?include_errands=1`、服务端按该参数隔离老客户端防误买委托；新增 7 页签无头 DOM 桩渲染回归单测。\n- **测试**：`node --check web/panel-1.4.2.js` 通过、`node --check sight-cf/src/worker.js` 通过、`test/smoke.mjs` **458/458** 通过、`test/*.test.mjs` **77/77** 通过、`verify-world.mjs` **37/37** 通过。",
