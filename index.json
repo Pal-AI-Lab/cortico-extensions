@@ -1743,6 +1743,10 @@
     "cortico-world-astrbot": {
       "addTags": [
         "im"
+      ],
+      "removeTags": [
+        "unsafe",
+        "injection-risk"
       ]
     },
     "cortico-world-ets2-dafeiyu": {
@@ -2161,24 +2165,6 @@
       "note": {
         "zh": "默认允许模型自己开始监听系统或指定应用的声音，切段送进对话",
         "en": "By default the model can start listening to system or app audio on its own; the audio is segmented and fed into the conversation"
-      }
-    },
-    "cortico-world-coo-room": {
-      "addTags": [
-        "unsafe"
-      ],
-      "note": {
-        "zh": "本机 WebSocket 不校验来源，World 开着时本机任意网页都能以用户的名义给 Coo 发话，并读到 Coo 在公寓里说的话",
-        "en": "Its local WebSocket does not check the request origin; while the World runs, any web page on the machine can send Coo messages as the user and read what Coo says in the room"
-      }
-    },
-    "cortico-world-coo-room-3d": {
-      "addTags": [
-        "unsafe"
-      ],
-      "note": {
-        "zh": "本机 WebSocket 不校验来源，World 开着时本机任意网页都能以用户的名义给 Coo 发话，并读到 Coo 在公寓里说的话",
-        "en": "Its local WebSocket does not check the request origin; while the World runs, any web page on the machine can send Coo messages as the user and read what Coo says in the room"
       }
     },
     "cortico-world-qq2": {
