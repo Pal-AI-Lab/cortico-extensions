@@ -2,8 +2,22 @@
   "schema": 1,
   "name": "cortico-world-mosey",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/619",
-  "total": 61,
+  "total": 64,
   "comments": [
+    {
+      "id": "DC_kwDOVLPtGM4BMAkp",
+      "author": "lanyuQAQ",
+      "avatar": "https://avatars.githubusercontent.com/u/361602990?s=64&v=4",
+      "body": "大佬，希望B站和抖音功能可以独立启停，未启用平台不要注入提示词和工具",
+      "createdAt": "2026-11-26T14:58:17Z"
+    },
+    {
+      "id": "DC_kwDOVLPtGM4BMAkP",
+      "author": "lanyuQAQ",
+      "avatar": "https://avatars.githubusercontent.com/u/361602990?s=64&v=4",
+      "body": "大佬你好，我遇到一个可复现的 B站重复回复问题。\n\n- Coopanion + cortico-world-mosey 2.13.0版本打开 B站，`douyin=false`，开自主出门（outing）\n\nCoo 已经回复过某条 B站评论后，过一段时间自主出门调用 `stroll action=brief`，brief 又把同一楼的旧评论列进 inbox。Coo 没注意时间，把它当成新消息，又生成了一条重复回复草稿。\n\n1. B站评论区有人回复，Coo 用 `stroll_act action=reply` 回一次。\n2. 等下一次自主出门，触发：\n   [stroll] stroll outing counted ...\n   [stroll] stroll tool { name: 'stroll', action: 'brief' }\n3. brief 里再次出现同一条旧评论。\n4. Coo 再次 `stroll_act action=reply`，生成重复草稿：\n   draft_xxx",
+      "createdAt": "2026-11-26T14:57:13Z"
+    },
     {
       "id": "DC_kwDOVLPtGM4BL4iB",
       "author": "hfahfhsi",
@@ -44,7 +58,16 @@
       "author": "FFA0C4",
       "avatar": "https://avatars.githubusercontent.com/u/347876131?s=64&v=4",
       "body": "老大我再请问一下，我的鱼好像不能楼中楼@回复，是哪个权限没开启吗？",
-      "createdAt": "2026-11-21T12:27:00Z"
+      "createdAt": "2026-11-21T12:27:00Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BMBAy",
+          "author": "liqin1018",
+          "avatar": "https://avatars.githubusercontent.com/u/125418196?s=64&v=4",
+          "body": "是抖音吗，抖音楼中楼还不行，抱歉",
+          "createdAt": "2026-11-26T16:13:50Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BLgi9",
