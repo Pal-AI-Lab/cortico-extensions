@@ -2350,13 +2350,13 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "2.12.0",
+      "version": "2.13.0",
       "displayName": "大肥鱼环游世界",
       "description": "大肥鱼环游世界 · 194 座真城市旅行体验，集成 Hub v1.2 多城总服、多模型生图提示词编辑器（原作者 frost77r）、旅费双开关持久化记忆与昼夜生图光线校准，与模拟鱼生账本双向联动。（需 Coopani 0.2.22+｜QQ 群 284525159）",
       "locales": {
         "zh": {
           "displayName": "大肥鱼环游世界",
-          "description": "让桌宠从你所在城市出发，背上包出门旅行（需 Coopani 0.2.22+｜QQ 群 284525159）。\n\n- **Coopanion Hub v1.2 二期双轨联机**：新增 `hubUrl` 热配置（推荐 `https://hub.cooppetsjourney.top`），与「模拟鱼生」共用同一份 `<dataDir>/coopanion-hub-auth.json` 身份并自动认领老服 `meet-uid`，支持全时段同城查重、显式认领回执、云端足迹、路标与手写名片；一起结伴同行过的两只鱼可直接在「模拟鱼生」鱼间信箱互寄明信片。留空 `hubUrl` 时 100% 兼容老服 `meetUrl` 或纯单机运行。\n- **多模型生图提示词编辑器（原作者：frost77r）**：内置「提示词」管理页签与模型画像，支持随生图模型切换自动套用对应方案、双向版本对比、草稿防漂移校验与历史快照一键回滚。\n- **自主出行、旅费账本与昼夜生图校准**：194 座真城市自定目的地与 9 种交通方式（含主题游轮与全景观光专列），支持「记花销」与「旅行花她的钱」双开关联动、偏好持久化记住用户选择以及白昼生图光线防误黄昏护栏。\n- **多扩展联动**：对接「模拟鱼生」同步城市位置、休整期、旅途打工、花销账本与参考素材留影策略；支持「一起听歌」种草城市与「鱼鱼出行」打车记账。"
+          "description": "让桌宠从你所在城市出发，背上包出门旅行（需 Coopani 0.2.22+｜QQ 群 284525159）。\n\n- **Coopanion Hub v1.2 二期双轨联机**：新增 `hubUrl` 热配置（推荐 `https://hub.cooppetsjourney.top`），与「模拟鱼生」共用同一份 `<dataDir>/coopanion-hub-auth.json` 身份并自动认领老服 `meet-uid`，支持全时段同城查重、显式认领回执、云端足迹、路标与手写名片；一起结伴同行过的两只鱼可直接在「模拟鱼生」鱼间信箱互寄明信片。留空 `hubUrl` 时 100% 兼容老服 `meetUrl` 或纯单机运行。\n- **景区特色体验、游轮玩法与凌晨当晚入住**：支持高空热气球、敞篷双层缆车、登山齿轨小火车及城市夜游船/乌篷船/复古叮叮车（覆盖 194 城真实景点筛选与排除规则）；凌晨下车按真实到站时刻当晚直接定好酒店休整。\n- **双开驾照与生病静养真时钟联动**：同时启用「模拟鱼生」时自动读取其驾照考取与生病静养状态——无驾照不可自驾，生病静养期依真实时钟暂缓出门赴约。\n- **多模型生图提示词编辑器（原作者：frost77r）**：内置「提示词」管理页签与模型画像，支持随生图模型切换自动套用对应方案、双向版本对比、草稿防漂移校验与历史快照一键回滚。\n- **多扩展联动与旅费账本**：194 座真城市自定目的地与 9 种交通方式，支持「记花销」与「旅行花她的钱」双开关联动、偏好持久化记住用户选择、白昼生图光线防误黄昏护栏，并对接「一起听歌」种草城市与「鱼鱼出行」打车记账。"
         },
         "en": {
           "displayName": "Big Fish World Tour",
@@ -2388,8 +2388,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-27T11:56:34.744Z",
-      "versionCount": 218,
+      "published": "2026-11-27T17:17:27.507Z",
+      "versionCount": 219,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2414,11 +2414,12 @@
       "summary": {
         "tools": 34,
         "events": 21,
-        "toolTokens": 6700,
+        "toolTokens": 6762,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "2.13.0",
           "2.12.0",
           "2.11.0",
           "2.10.5",
@@ -2664,7 +2665,7 @@
     },
     "coopani-world-life": {
       "kind": "world",
-      "version": "1.6.2",
+      "version": "1.6.3",
       "displayName": "模拟鱼生",
       "description": "模拟鱼生 · 桌面伴侣的真实人生与多城联机：芦花塘信用社微息借贷、零花钱赠与、Hub v1 多城迁居与跨城鱼市街、18种菜园与鸡牛鱼批量照料及七页签手账 UI。（需 Coopani 0.2.22+｜QQ 群 284525159）",
       "locales": {
@@ -2674,7 +2675,7 @@
         },
         "en": {
           "displayName": "Simulated Fish Life",
-          "description": "A real everyday life simulation for your desktop companion (Needs Coopani 0.2.22+ · QQ group 284525159).\n\n- **Reedpond Credit Union & Pocket Money Gifts**: Adds 3 micro-interest loan tiers (7d/14d/30d) with dynamic credit limits up to 5000 RMB, an 80 RMB living-cash floor on maturity, 50% overdue income garnishment, and strictly read-only UI keeping borrowing autonomous; plus a collapsible Pocket Money gift bar (500 RMB daily soft cap, configurable) tracked separately from earned income.\n- **Coopanion Hub v1.1 Multi-City Online (Dual-Track)**: Optional `hubUrl` and `hubTownId` hot settings enable cross-town relocation (e.g. Lanzhou Reedpond <-> Beijing), town notices and domain buffs, cross-town stalls with specialty tags and transparent shipping breakdown, same-town neighbor errands, and 24 tools total. Leaving `hubUrl` empty keeps 100% compatibility with legacy `townUrl` or offline mode.\n- **Revamped 7-Tab Journal UI**: Refreshed layout and controls across Live Status, Career & Workshop, Wants, Companionship & Mail, Farm & Market, Diary & Timeline, and Reference Library—with town switching, batch/direct farm & ranch controls, specialty/local filters, order cancellation, and read-only fish-to-fish mailbox view.\n- **Daily Rhythm, Career & Farm Workshop**: Real-time five needs with 24 solar terms, 4 job tiers, 8 skill domains, 9 certs, 18 recipes, 18 crops, and poultry/dairy/pond farming (Big Fish is a whale, not a fish!)."
+          "description": "A real everyday life simulation for your desktop companion (Needs Coopani 0.2.22+ · QQ group 284525159).\n\n- **Reedpond Credit Union & Pocket Money Gifts**: Adds 3 micro-interest loan tiers (7d/14d/30d) with dynamic credit limits up to 5000 RMB, an 80 RMB living-cash floor on maturity, 50% overdue income garnishment, and strictly read-only UI keeping borrowing autonomous; plus a collapsible Pocket Money gift bar (500 RMB daily soft cap, configurable) tracked separately from earned income.\n- **Coopanion Hub v1.1 Multi-City Online (Dual-Track)**: Optional `hubUrl` and `hubTownId` hot settings enable cross-town relocation (e.g. Lanzhou Reedpond <-> Beijing), town notices and domain buffs, cross-town stalls with specialty tags and transparent shipping breakdown, same-town neighbor errands, and 24 tools total. Leaving `hubUrl` empty keeps 100% compatibility with legacy `townUrl` or offline mode.\n- **Revamped 7-Tab Journal UI**: Refreshed layout and controls across Live Status, Career & 5 Craft Studios (Cooking, Photo, Craft, Writing, Driving), Wants, Companionship & Mail, Farm & Market, Diary & Timeline, and Reference Library—with town switching, batch/direct farm & ranch controls, daily sick care, specialty/local filters, order cancellation, and read-only fish-to-fish mailbox view.\n- **Daily Rhythm, Career & Farm Workshop**: Real-time five needs with 24 solar terms, 30 jobs across 4 tiers with proficiency pay scaling & 4-tier output quality, 10 certs, overwork/cold sick rest & daily care, 18 recipes, 18 crops, and poultry/dairy/pond farming (Big Fish is a whale, not a fish!)."
         }
       },
       "author": "Mr.Q",
@@ -2700,8 +2701,8 @@
         "bugs": "https://github.com/fateSSD/coopani-world-life/issues"
       },
       "created": "2026-11-15T03:01:26.063Z",
-      "published": "2026-11-27T14:24:08.962Z",
-      "versionCount": 59,
+      "published": "2026-11-27T17:14:49.036Z",
+      "versionCount": 60,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2720,12 +2721,13 @@
       },
       "summary": {
         "tools": 24,
-        "events": 11,
-        "toolTokens": 6852,
+        "events": 12,
+        "toolTokens": 6876,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.6.3",
           "1.6.2",
           "1.6.1",
           "1.6.0",
@@ -5136,9 +5138,9 @@
     },
     "cortico-world-absolute-solver": {
       "kind": "world",
-      "version": "0.3.1",
-      "displayName": "Absolute Solver 服务目录",
-      "description": "在局域网打开 Coo 原版桌宠网页，查看服务状态并申请一次性 TTS/ASR 访问许可。",
+      "version": "0.4.0",
+      "displayName": "Absolute Solver",
+      "description": "Coo 的 Absolute Solver World：持有设备 hub 与传输，以 profile 复用协议、审批和回执，并提供服务目录与网页投影工具。",
       "maintainers": [
         "zhzaill"
       ],
@@ -5153,12 +5155,12 @@
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-absolute-solver",
         "repository": "https://github.com/zhzaill/absolute-solver",
-        "homepage": "https://github.com/zhzaill/absolute-solver#readme",
+        "homepage": "https://github.com/zhzaill/absolute-solver/tree/main/packages/cortico-world-absolute-solver#readme",
         "bugs": "https://github.com/zhzaill/absolute-solver/issues"
       },
       "created": "2026-10-28T06:18:34.033Z",
-      "published": "2026-11-09T02:45:24.451Z",
-      "versionCount": 6,
+      "published": "2026-11-27T16:26:14.355Z",
+      "versionCount": 7,
       "official": false,
       "isNew": false,
       "tags": [],
@@ -7985,6 +7987,7 @@
       "created": "2026-10-25T05:49:24.267Z",
       "published": "2026-10-25T05:50:20.085Z",
       "versionCount": 2,
+      "deprecated": "Deprecated: 眼睛 World 已停止维护；相机与观察能力请使用 cortico-world-xuegeros。",
       "official": false,
       "isNew": false,
       "tags": [
@@ -11899,7 +11902,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/485",
         "up": 5,
         "down": 0,
-        "comments": 9
+        "comments": 10
       }
     },
     "cortico-world-extra-actions": {
@@ -14766,7 +14769,7 @@
     },
     "cortico-world-hands": {
       "kind": "world",
-      "version": "0.20.84",
+      "version": "0.20.90",
       "displayName": "手",
       "description": "Cortico World: hands for the desktop pet — looks at the phone screen, then taps, swipes, pinches, drags, types and presses keys through whatever actuator the device actually has",
       "maintainers": [
@@ -14784,8 +14787,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-hands"
       },
       "created": "2026-10-22T14:40:37.506Z",
-      "published": "2026-11-27T00:09:23.367Z",
-      "versionCount": 122,
+      "published": "2026-11-27T20:28:28.531Z",
+      "versionCount": 128,
       "official": false,
       "isNew": false,
       "tags": [
@@ -17144,7 +17147,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1132",
         "up": 0,
         "down": 0,
-        "comments": 2
+        "comments": 3
       }
     },
     "cortico-world-lulu": {
@@ -18976,7 +18979,7 @@
     },
     "cortico-world-mosey": {
       "kind": "world",
-      "version": "2.16.0",
+      "version": "2.17.0",
       "displayName": "摸鱼",
       "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。评论和私信都能收能回；能一起看视频（B站带字幕弹幕，抖音可自动连刷）；关注流、周报、本地书库；按额度点赞、评论、关注、发动态。默认人审，三把工具、少 token。\n\nQQ 交流群：745879632",
       "locales": {
@@ -19013,8 +19016,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-mosey/issues"
       },
       "created": "2026-11-01T08:17:38.660Z",
-      "published": "2026-11-27T13:24:33.964Z",
-      "versionCount": 70,
+      "published": "2026-11-27T16:46:51.507Z",
+      "versionCount": 71,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -19051,6 +19054,7 @@
       },
       "changelog": {
         "versions": [
+          "2.17.0",
           "2.16.0",
           "2.15.1",
           "2.15.0",
@@ -19990,7 +19994,7 @@
     },
     "cortico-world-netease-play": {
       "kind": "world",
-      "version": "0.1.29",
+      "version": "0.1.31",
       "displayName": "网易云陪听",
       "description": "让大肥鱼帮你点歌，不用动鼠标键盘：说出歌名就搜、排到歌单最前连续播放。仅支持网易云音乐，仅限 Windows 系统。",
       "author": "ailing",
@@ -20017,8 +20021,8 @@
         "win32"
       ],
       "created": "2026-11-25T02:10:22.230Z",
-      "published": "2026-11-27T03:05:50.022Z",
-      "versionCount": 9,
+      "published": "2026-11-27T20:06:41.540Z",
+      "versionCount": 10,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -20054,6 +20058,8 @@
       },
       "changelog": {
         "versions": [
+          "0.1.31",
+          "0.1.30",
           "0.1.29",
           "0.1.28",
           "0.1.27",
@@ -20306,7 +20312,7 @@
       "published": "2026-11-13T18:06:15.038Z",
       "versionCount": 2,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "apps"
       ],
@@ -23766,7 +23772,7 @@
     },
     "cortico-world-qq2": {
       "kind": "world",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "description": "Coopanion / Cortico 的 QQ World，连接 NapCat OneBot 11，支持群聊四档、历史查找、图片与发送回执。",
       "author": "筆離嘢",
       "maintainers": [
@@ -23784,8 +23790,8 @@
         "bugs": "https://github.com/biliye/cortico-world-qq2/issues"
       },
       "created": "2026-11-24T13:58:12.534Z",
-      "published": "2026-11-24T13:59:50.729Z",
-      "versionCount": 2,
+      "published": "2026-11-27T17:45:12.108Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -23803,13 +23809,14 @@
         "week": 281
       },
       "summary": {
-        "tools": 11,
+        "tools": 12,
         "events": 14,
-        "toolTokens": 2991,
-        "envPromptTokens": 1717
+        "toolTokens": 3197,
+        "envPromptTokens": 1832
       },
       "changelog": {
         "versions": [
+          "0.1.4",
           "0.1.3",
           "0.1.2",
           "0.1.1",
@@ -27577,7 +27584,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/298",
         "up": 0,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-sticker-album": {

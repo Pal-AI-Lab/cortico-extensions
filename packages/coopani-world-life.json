@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-life",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "describe": {
     "tools": [
       {
@@ -84,7 +84,7 @@
       },
       {
         "name": "life_work",
-        "description": "去上班/出工挣钱。**一天一次**，按你本地的自然日算，**而且需要占用一段完整工时** —— 零工约 3–4 小时（80–95 元）、熟练活约 4.5–5 小时（130–150 元，需满 30 天或自备轻载具）、有证岗 6 小时（210–240 元，需考证，部分需电脑或电动车）、专业岗 7–8 小时（300–340 元，需考证+年头）。部分手艺与跑单活受该领域熟练度、精力与心情影响，收工会评五档完成度（砸了会少拿甚至亏本钱，漂亮多拿）；干活期间社交不会掉，但精力、清爽、饱腹和少量娱乐（5–6 点）会消耗；干完收工才发全薪。中途可用 `life_act` 的 `cancel` 早退：干满 30 分钟按比例打六折、不满 30 分钟白干，都不涨工龄且当天不能重接。精力低于 20 或正在做别的事时去不了。",
+        "description": "去上班/出工挣钱。**一天一次**，按你本地的自然日算，**而且需要占用一段完整工时** —— 零工约 3–4 小时（80–95 元）、熟练活约 4.5–5 小时（130–150 元，需满 30 天或自备轻载具）、有证岗 5.5–6 小时（210–240 元，需考证或装备）、专业岗 7–8 小时（300–340 元，需考证+出工积累）。对应领域熟练度越高日薪加成越高（最高 +50%），且摄影/手艺/写作/烹饪/跑单类活在熟练度、心情加持下可产出四档品质作品（普通/良品/精品/臻品）；干活期间社交不会掉，但精力、清爽、饱腹和少量娱乐（5–6 点）会消耗；干完收工才发全薪。感冒或过劳静养期间出不了家门干活。中途可用 `life_act` 的 `cancel` 早退：干满 30 分钟按比例打六折、不满 30 分钟白干，都不涨工龄且当天不能重接。精力低于 20 或正在做别的事时去不了。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -105,7 +105,7 @@
       },
       {
         "name": "life_cert",
-        "description": "去考一张证。花钱、花精力，**考不考得过看你见识够不够**。健康证 80（要见识 10）/ 护工证 400（20）/ 电工证 450（30）/ 驾照 600（30）/ 厨师证 500（40）/ 社工证 550（45）/ 教师资格证 700（55）/ 护士执业证 800（60）/ 会计证 750（65）。**报名费先交，考不过不退**；见识越高，过的概率越大（见识 0 时只有一成半，够了就到九成）。见识靠两样涨：`life_act` 的 study（看书，一次 6 点）和出工（越高级的活长得越多）；**不学不看会退**，一天掉一点二。钱不够就考不了，先攒。同一张证不用考两遍，一天也只考一次。",
+        "description": "去考一张证。花钱、花精力，**考不考得过看你见识够不够**。健康证 80（要见识 10）/ 护工证 400（20）/ 摄影证 380（25）/ 电工证 450（30）/ 驾照 600（30）/ 厨师证 500（40）/ 社工证 550（45）/ 教师资格证 700（55）/ 护士执业证 800（60）/ 会计证 750（65）。**报名费先交，考不过不退**；见识越高，过的概率越大（见识 0 时只有一成半，够了就到九成）。见识靠两样涨：`life_act` 的 study（看书，一次 6 点）和出工（越高级的活长得越多）；**不学不看会退**，一天掉一点二。钱不够就考不了，先攒。同一张证不用考两遍，一天也只考一次。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -987,6 +987,14 @@
         "trigger": "debounce"
       },
       {
+        "type": "life.care",
+        "description": {
+          "zh": "用户在面板上给你买药、熬热姜枣粥或温毛巾照料，缩短静养病程并回复状态。",
+          "en": "User provided daily care from the panel while sick."
+        },
+        "trigger": "flush"
+      },
+      {
         "type": "life.moved",
         "description": {
           "zh": "用户在面板上帮你搬到新住处。",
@@ -1040,6 +1048,7 @@
     ]
   },
   "changelog": {
+    "1.6.3": "- **好心情/坏心情与她惦记的内容显性化**（`src/state.ts`、`src/town-life.ts`、`src/world.ts`、`web/panel-1.6.3.js`）：\n  - `moodSummary()` 收口为心情效果唯一真源（清除未消费的死字段），混合好坏心情时统一按净权重计算倍率与文案说明：正向（`1.04x` / `1.08x`）提高工作报酬、学习效率与休息回复，负向降低社交/动作回复效率；在工作结薪、学习、休息与面板中直出心情影响标签。\n  - 扩充「她惦记的」常态与意向表达密度，合并展示主动留意事项、想买/想办目标、想去城市（接 `journey-public.json`）、悬着未决与已约定事项。\n- **30 职业扩容、熟练度倍率与四档产出品质**（`src/jobs.ts`、`src/town-life.ts`、`src/farm.ts`、`src/recipes.ts`、`src/state.ts`、`describe.json`）：\n  - 职业表由 20 扩至 30 个（零鱼/海鲜词守卫），考证目录新增「摄影证」（共 10 张证），同步更新 `describe.json` 与 `ENV_PROMPT.md`。\n  - 工作引入熟练度倍率 `skillPayMultiplier()`（`1.0x → 1.5x`）与四档产出品质（`普通 / 良品 / 精品 / 臻品`）：高熟练度提高时薪与高品阶概率，摆摊与存菜按品质折价/增益；下厨 `applyCookRecipe()` 与存菜 `CookedDishItem` 同步品质分级并优先取用高品质菜肴。\n  - 「职业与工坊」面板（`web/panel-1.6.3.js`）升级为 5 个只读工坊子页签（`烹饪 / 摄影 / 手作 / 写作 / 驾驶与执照`），统一展示熟练度、倍率与最近高品质产出。\n- **生病静养系统与每日照料闭环**（`src/state.ts`、`src/world.ts`、`web/panel-1.6.3.js`、`test/stage23.test.mjs`）：\n  - 新增 `overwork`（连续高强度劳累触发，36 小时）与 `cold`（受凉，72 小时）生病静养状态，与 `injury` 等共同接入统一 `sickRefusal()` 门禁：生病期间禁止出工、考证、出门与逛集市，仅允许在家照料菜园/牧场或休养；离线追补期间触发并走完的 `overwork` 会记入 `pendingNotices` 提醒。\n  - 新增 `applyUserCare()` 与「此刻」面板每日照料卡片（每日 1 次：吃药 / 炖汤 / 陪护，加速恢复；多病症并存时仅当全部清空才宣告痊愈），广播 `life-public.json` 增加 `sickUntil` / `sickReason` 供 `journey` 联动拦截；修复照料按钮回调误写 `apply(res)` 导致 `ReferenceError` 的 P0 缺陷，并用无头 DOM 真点击守卫。\n- **跨城与发版校验修复**（`src/bridge.ts`、`web/panel-1.6.3.js`、`test/hub-v1.test.mjs`、`test/smoke.mjs`）：\n  - 面板 `web/panel-1.6.3.js` 与 `package.json` / `cortico.webUiClient` 完成 1.6.3 三同步，补齐 8 街加权平衡与全量回归用例。",
     "1.6.2": "- **兰州街道扩容至 8 条并按加权预算平衡**（`src/bridge.ts`、`test/stage23.test.mjs`、`sight-cf/src/worker.js`）：\n  - 保留张掖路（社交主页 `+15%`）、皋兰路（见识主页 `+15%`），将南滨河路转为体质主场（`fit +15% / energy +5% / clean -10%`），雁滩路调整为精力主场（`energy +15% / food +5% / work -10%`），新增正宁路（饱腹主场 `food +15% / fun +10% / clean -10% / fit -5%`）、庆阳路（工钱主场）、甘南路（娱乐主场）与安宁西路（清爽主场），实现 8 条街 × 8 项属性一对一主场分工，加权净分全部收敛在 `12.0 ~ 14.5` 走廊且无 `work > 0 && energy > 0` 组合。\n- **街道 `fit`（体质）双边倍率接入与防切街套利快照**（`src/bridge.ts`、`src/state.ts`、`src/world.ts`）：\n  - `STREET_MOD_KEYS` 新增 `fit`（体质），`advance()` 中锻炼、体力工作与邻里代管涨体质同步乘 `streetGainFactor(sMods, 'fit')`，日常体质缓慢退化同步乘 `streetDecayFactor(sMods, 'fit')`。\n  - `applyWork()` 在本地居家开工时将当时街道倍率快照写入 `state.activity.workStreetMods`，防止收工前瞬切高薪街套利。\n- **面板缓存三同步与回归验证**（`package.json`、`web/panel-1.6.2.js`、`test/hub-v1.test.mjs`）：\n  - `web/panel-1.6.2.js` 补齐 `fit` 中英文缩写/全称标签并完成版本三同步升级；`stage23.test.mjs` 新增 8 街加权净分守卫、`fit` 双边倍率及开工快照防套利单测。",
     "1.6.1": "- **城市房价倍率 `rent_mult` 热调控**（`src/state.ts`、`src/world.ts`、`test/hub-v1.test.mjs`）：\n  - 以现有四档基准月租（`450 / 1200 / 2600 / 7800`，押二）为基准新增 `rent_mult` 倍率（区间 `0.3`–`5`，实际月租最低 `50` 元），在启动、刷新城镇信息、心跳热更新与迁城时同步当前月租及未完成的攒房租目标，并接入 `life_move`、面板搬家与 `moveQuotes`。\n- **原 7 项 `_bonus` 城市 Buff 真实接入数值结算**（`src/town-life.ts`、`src/farm.ts`、`src/ranch.ts`、`src/recipes.ts`、`src/world.ts`）：\n  - 产出类：`crop_yield_bonus`、`ranch_yield_bonus`、`fish_yield_bonus` 与 `noodle_craft_bonus`（面食饱腹/娱乐倍率与囤货增产）接入对应农牧收获、挤奶捡蛋与下厨流程。\n  - 心情类：`food_mood_bonus`、`craft_mood_bonus` 与 `writing_mood_bonus` 接入下厨/吃喝、手作、学习、写作/手作打工与日记流程。\n- **16 项 Buff 全量汉化与面板三同步**（`web/panel-1.6.1.js`、`package.json`、`README.md`）：\n  - 补齐 `rent_mult` 与后 5 项职业倍率（`labor_pay_mult`、`social_pay_mult`、`admin_pay_mult`、`driving_pay_mult`、`photo_pay_mult`）的中文标签，并三同步升级面板至 `web/panel-1.6.1.js`。",
     "1.6.0": "- **芦花塘信用社单机微息借贷闭环**（`src/loan.ts`、`src/state.ts`、`src/world.ts`、`describe.json`、`ENV_PROMPT.md`、`web/panel-1.6.0.js`）：\n  - 新增 `life_loan` 工具（`status` / `borrow` / `repay`，全扩展增至 24 个工具）与三档产品：7 天小额应急金（`0.15%/天`）、14 天进修农牧贷（`0.12%/天`）、30 天置业安居贷（`0.10%/天`）；引入 `interestCarry` 零头结转精确按天算息，小额借款不会虚高扣成至少 1 元/天。\n  - 动态授信随住处基数（`300 / 800 / 1800 / 3000`）+ 持证（每证 `+250`）+ 累计工龄（`min(1200, days×30)`）成长，硬封顶 `5000` 元，最多同时背 `2` 笔；`normLoans()` 截断保留 40 笔时优先剔除最早的已结清记录，绝不切掉仍在背的未结清欠条。\n  - 到期自动划扣保留 `80` 元生活底钱；不够转 `overdue` 并冻结新借、`travelAllowance` 归 0，此后打工与鱼市街卖摊进账自动抽 `50%` 先抵债直至清零解冻；主动 `repay` 省略 `amount` 且不够清零时同样预留 `80` 元生活底钱尽量先还（显式传 `amount` 则尊重指令按手头现金上限实扣）。\n  - 防套利联动：`broadcastLife()` 向 `life-public.json` 写入 `travelAllowance` 时先扣除未还本息；面板保持「芦花塘信用社（只读）」，借还全由她自主决策。\n- **用户现金赠与（「给点零花钱」）**（`src/config.ts`、`src/loan.ts`、`src/world.ts`、`web/panel-1.6.0.js`）：\n  - 新增热配置 `worlds.life.dailyGiftCap`（默认每日软上限 `500` 元，`0` 不限）与面板 `now` 页签可折叠「给点零花钱」快捷栏；只递钱和留言、绝不代花，单独记入 `money.giftedTotal` 与 `life-ledger.jsonl`（`source: 'user_gift'`），不混入自己挣的 `earned`。\n- **农牧场省略 `id` 一键批量照料与傍晚提醒**（`src/farm.ts`、`src/ranch.ts`、`src/world.ts`、`test/stage23.test.mjs`）：\n  - `life_farm(action=\"water\")` 与 `life_ranch(action=\"feed\")` 省略 `plot_id` / `pen_id` 时依次为所有待照料地块/栏舍批量浇水喂食；新增傍晚 `farm:care:pm` 兜底提醒与 `life.day` 白天农牧待办提示；同步三同步升级至 `web/panel-1.6.0.js`。",
