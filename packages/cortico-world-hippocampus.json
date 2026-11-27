@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-hippocampus",
-  "version": "1.6.3",
+  "version": "1.8.0",
   "describe": {
     "tools": [
       {
@@ -359,7 +359,7 @@
           "zh": "按当前话题自动浮起的旧事线索，最多三行；不是指令也不是新消息",
           "en": "Up to three lines of reminiscence cues triggered by the current topic; not instructions and not a new message"
         },
-        "trigger": "debounce"
+        "trigger": "piggyback"
       },
       {
         "type": "hippocampus.proactive",
@@ -383,7 +383,7 @@
           "zh": "心情跨档时浮起的一句自我状态，一天最多一次；不是对方的消息，也不是指令",
           "en": "One short self-state note when the mood band changes, at most once a day; not a message or an instruction"
         },
-        "trigger": "debounce"
+        "trigger": "piggyback"
       },
       {
         "type": "hippocampus.wander",
@@ -416,12 +416,19 @@
           {
             "name": "hippo.people",
             "description": "群聊里谁在说话、以前说过什么"
+          },
+          {
+            "name": "hippo.recent",
+            "description": "近 48 小时刚记住的要点（短期工作记忆，按时间自动滚出）"
           }
         ]
       }
     ]
   },
   "changelog": {
+    "1.8.0": "**支持复用 Coopanion 上游主模型作为整理保底（minor）**\n\n- **三层整理回退链（`src/host-adapter.js` / `src/world.js`）**：\n  - 新增 `readUpstreamProvider(ctx)`：只读解析宿主 `activeProvider` 及其 OpenAI 兼容地址、模型名与 `.env` 密钥（Key 只在内存使用，绝不落盘、不进日志、不回传面板）。\n  - `#pickBackend()` 与 `#distill()` 升级为 **本地 Ollama 优先 → 独立云端 → 上游主模型保底** 三层链路。\n- **配置与面板可视化（`src/config.js` / `src/webui/client.js`）**：\n  - 新增热配置键 `upstreamFallback`（默认 `false`，不偷偷消耗主模型额度；`hippo-advanced` 组第 25 键，可配键 80→81，含 `enabled` 82）。\n  - 整理页「整理用的模型」新增「上游主模型保底」一键开关（`distill.setUpstreamFallback`）及检测状态显示；整理历史标注 `· 上游保底`。\n- **文档同步**：同步更新 `README.md`、`CHANGELOG.md`、`package.json` 与 `00-现状速查.md`。",
+    "1.7.0": "**近 48 小时短期记忆层（`hippo.recent`）+ 蒸馏弹性配额（minor）**\n\n- **近 48 小时短期工作记忆（新增前缀变量 `hippo.recent`，4→5 前缀变量）**：\n  - 自动把最近 `recentMemoryHours`（默认 48）小时内刚记下的非 `rule` 派生记忆（优先排人物/待办，最多 `recentMemoryLimit=6` 条，≤ 380 字）常驻进系统前缀，随时间自动滚出；内容未变时缓存命中一字不改，不打掉 KV cache，彻底解决「昨天刚说的事隔天第一拍就忘」。\n  - 新增 2 个热配置键（`hippo-memory` 组，可配键 78→80，含 `enabled` 81）：`recentMemoryHours`（默认 48，0 为关）、`recentMemoryLimit`（默认 6，0 为关）。\n- **蒸馏名额按对话量弹性放宽（`src/distill.js` / `src/world.js`）**：\n  - 新增 `distillQuota(pieceCount)`：素材 <35 条最多 3 条，35–59 条放宽至 4 条，≥60 条放宽至 6 条；提示词明确优先保留人物/绰号、待办提醒与纠偏规矩，不再让短小关键信息被长闲聊挤掉。\n- **契约与文档同步**：`describe.json` 已重生（`hippo.recent` + `hippocampus.cue/mood` 标注 `piggyback`）；同步更新 `README.md` 与 `00-现状速查.md`。",
+    "1.6.4": "**实时人物/绰号定义捕获 + 放宽人名召回门槛 + 先查再问硬纪律（patch）**\n\n- **实时人物定义捕获（`src/learning.js` / `src/world.js`）**：新增 `extractPersonDefinitions()`，在 `tick()` 收到「X 是群主/绰号/朋友/室友…」等明确认人句（排除疑问/否定句）时，自动落一条 `kind='person'` 记忆，不再被夜间蒸馏 3 条名额挤掉。\n- **放宽人名与单次短专名召回门槛（`src/world.js` / `src/memory-store.js`）**：大库主召回硬门槛对 `person` 记忆放宽为命中 1 个稀有词即可放行；`rareChineseTerms()` 放宽至 `df >= 1`，只教过一次的新人名也能走短专名补召回。\n- **强化「先查再问」提示词（`src/ENV_PROMPT.md`）**：明确要求说出「XXX 是谁 / 不认识 XXX」之前必须先调一次 `hippo_recall('XXX')` 翻记忆与原话库。",
     "1.6.3": "**「星图观测台」面板 UI 全面改版与 1.4–1.6 新功能可视化补齐（patch）**\n\n- **视觉与布局统一（`src/webui/client.js`）**：\n  - 延续星图微光 + 左侧 3px 主题光带，收敛间距与圆角标尺（组外间距 > 组内间距），去除层层重框与空消息占位条，每页保留唯一主操作，100% 映射宿主明暗双主题 Token。\n  - 修复常驻页 `.hp-panel .hp-edit` 缺失隐藏规则导致编辑区默认展开的样式 bug；修复 420px 窄屏 `.hp-metrics` 溢出。\n- **三面板功能升级（`src/world.js` 只读字段增量 + `src/webui/client.js`）**：\n  - **记忆页**：卷宗新增「活跃 / 已结案 / 全部 / 已归档」服务端状态筛选；行内轻量展示 `✓ 已结案`、情绪标签、白浮降权状态；抽屉新增自动结案依据（`completedBy`）与引用块样式，待办项支持「标为已完成并归档」。\n  - **常驻页**：「记一条新规矩」改为顶部可折叠入口，第一屏直达「行为学习与常驻规矩」（支持 全部 / 学习闭环 / 底线 / 场合 筛选 + 5 格光点连对进度条 `N/5`），并新增「习惯槽位」只读展示区。\n  - **整理页**：独立「性能与硬件负载卡」（智能避让 / 防卡顿(eco) / 全速分段切换 + GPU / VRAM / CPU 条形读数 + 宿主目录自检灯）；本地模型就绪时默认折叠云端备选表单。",
     "1.6.2": "**已完成事项自动结案归档（patch）**\n\n- **自动结案归档闭环**：\n  - `src/learning.js` 新增纯函数 `isCompletionText()` 与 `matchCompletedMemories()`：识别外部消息中的完结信号（`完成了 / 做完了 / 写完了 / 交了 / 提交了 / 搞定了 / 不用再提醒了` 等），同时排除「还没完成 / 快写完了 / 打算写完」等未完表述。\n  - `src/memory-store.js` 扩展 `forget(id, meta)` 支持记录 `archivedReason` / `completedBy`，并新增 `completeMemories()` 批量归档已完成事项（只归档 L2 派生记忆，L0 原话不动）。\n  - `src/world.js` 在 `tick()` 中于 `#ingest()` 后、`#cueText()` 前即时触发结案匹配：命中未归档的 `thread` 或带提醒/待办语素的记忆时立刻自动归档，同一拍即不再浮进【想起】；若归档了 `rule` 同步清前缀缓存并重载；绝不误杀普通回忆/知识与人工锁定的 `identity` 底线。\n- **一次性提醒分层与提示词防线**：\n  - `src/rule-scope.js` 将「提醒/催/别忘了做写交/截止/待办」归入 `scene`，避免一次性提醒误入永久 `identity`。\n  - `src/ENV_PROMPT.md` 与 `src/distill.js` 明确一次性提醒写 `kind='thread'`（不写 `rule`），对方说完成后立刻 `hippo_forget` 归档，蒸馏亦不再重复生成已完结提醒。",
     "1.6.1": "**常驻面板学习规则可视化配置（patch）**\n\n- 常驻面板新增 `when`（情境触发词）与 `avoid`（出站反例检测）输入框及每条规矩的「学习触发 / 反例」编辑入口（`pinned.setLearning`），补齐彩色学习状态标签条。",
