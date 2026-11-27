@@ -5282,13 +5282,13 @@
     },
     "cortico-world-agent-speed": {
       "kind": "world",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "displayName": "Agent Speed",
-      "description": "Agent Speed activity events for Cortico and Coopanion",
+      "description": "An independent Coopanion desktop pet driven by local Agent Speed activity",
       "maintainers": [
         "yooztech"
       ],
-      "license": "MIT",
+      "license": "AGPL-3.0-or-later",
       "keywords": [
         "cortico-world",
         "cortico",
@@ -5302,8 +5302,8 @@
         "win32"
       ],
       "created": "2026-11-26T05:37:12.825Z",
-      "published": "2026-11-26T05:38:29.734Z",
-      "versionCount": 2,
+      "published": "2026-11-27T02:03:26.582Z",
+      "versionCount": 3,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -6603,7 +6603,7 @@
     },
     "cortico-world-bilibili": {
       "kind": "world",
-      "version": "0.2.18",
+      "version": "0.2.19",
       "displayName": "B 站直播间",
       "description": "Cortico World: read-only Bilibili live room — danmaku, gifts, super chats and guard events, with a local transparent overlay",
       "author": "Pal AI Lab",
@@ -6624,8 +6624,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:39.729Z",
-      "published": "2026-11-26T01:18:14.827Z",
-      "versionCount": 30,
+      "published": "2026-11-27T00:12:40.325Z",
+      "versionCount": 31,
       "official": true,
       "isNew": false,
       "tags": [
@@ -14599,7 +14599,7 @@
     },
     "cortico-world-hands": {
       "kind": "world",
-      "version": "0.20.79",
+      "version": "0.20.84",
       "displayName": "手",
       "description": "Cortico World: hands for the desktop pet — looks at the phone screen, then taps, swipes, pinches, drags, types and presses keys through whatever actuator the device actually has",
       "maintainers": [
@@ -14617,8 +14617,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-hands"
       },
       "created": "2026-10-22T14:40:37.506Z",
-      "published": "2026-11-23T12:48:29.615Z",
-      "versionCount": 117,
+      "published": "2026-11-27T00:09:23.367Z",
+      "versionCount": 122,
       "official": false,
       "isNew": false,
       "tags": [
@@ -18499,7 +18499,7 @@
     },
     "cortico-world-minecraft": {
       "kind": "world",
-      "version": "0.2.18",
+      "version": "0.2.19",
       "displayName": "Minecraft",
       "description": "Cortico World: Minecraft Java Edition through a Mineflayer player — observation text, movement, building, combat and an observer client",
       "author": "Pal AI Lab",
@@ -18520,8 +18520,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:42.066Z",
-      "published": "2026-11-26T01:17:36.249Z",
-      "versionCount": 29,
+      "published": "2026-11-27T00:13:23.541Z",
+      "versionCount": 30,
       "official": true,
       "isNew": false,
       "tags": [
@@ -19800,7 +19800,7 @@
     },
     "cortico-world-netease-play": {
       "kind": "world",
-      "version": "0.1.17",
+      "version": "0.1.29",
       "displayName": "网易云陪听",
       "description": "让大肥鱼帮你点歌，不用动鼠标键盘：说出歌名就搜、排到歌单最前连续播放。仅支持网易云音乐，仅限 Windows 系统。",
       "author": "ailing",
@@ -19827,24 +19827,27 @@
         "win32"
       ],
       "created": "2026-11-25T02:10:22.230Z",
-      "published": "2026-11-25T10:43:56.533Z",
-      "versionCount": 5,
+      "published": "2026-11-27T03:05:50.022Z",
+      "versionCount": 9,
       "official": false,
       "isNew": true,
       "declaredTags": [
-        "apps",
         "companion",
-        "memory",
         "voice",
+        "local",
+        "apps",
+        "external-setup",
+        "requires-key",
         "sensitive-data",
         "unofficial-api"
       ],
       "tags": [
         "voice",
         "apps",
-        "memory",
         "companion",
+        "local",
         "external-setup",
+        "requires-key",
         "sensitive-data",
         "unofficial-api"
       ],
@@ -19856,8 +19859,17 @@
       "summary": {
         "tools": 4,
         "events": 2,
-        "toolTokens": 857,
-        "envPromptTokens": 1062
+        "toolTokens": 966,
+        "envPromptTokens": 1346
+      },
+      "changelog": {
+        "versions": [
+          "0.1.29",
+          "0.1.28",
+          "0.1.27",
+          "0.1.22"
+        ],
+        "url": "https://github.com/begood7912/cortico-world-netease-play/blob/HEAD/CHANGELOG.md"
       },
       "discussion": {
         "number": 1155,
@@ -22521,7 +22533,7 @@
     },
     "cortico-world-qq": {
       "kind": "world",
-      "version": "0.2.18",
+      "version": "0.2.19",
       "displayName": "QQ",
       "description": "Cortico World: QQ group and private chats through a OneBot v11 forward WebSocket, with a draft-and-confirm gate on replies",
       "author": "Pal AI Lab",
@@ -22542,8 +22554,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:41:03.758Z",
-      "published": "2026-11-26T01:16:39.363Z",
-      "versionCount": 28,
+      "published": "2026-11-27T00:12:36.543Z",
+      "versionCount": 29,
       "official": true,
       "isNew": false,
       "tags": [
@@ -31011,7 +31023,7 @@
     },
     "cortico-world-websearch": {
       "kind": "world",
-      "version": "0.2.18",
+      "version": "0.2.19",
       "displayName": "WebSearch",
       "description": "Cortico World: a web_search tool backed by the Brave Search API or the DeepSeek Search API",
       "author": "Pal AI Lab",
@@ -31033,8 +31045,8 @@
         "bugs": "https://github.com/Pal-AI-Lab/Cortico/issues"
       },
       "created": "2026-09-30T16:40:50.954Z",
-      "published": "2026-11-26T01:16:27.782Z",
-      "versionCount": 30,
+      "published": "2026-11-27T00:12:44.554Z",
+      "versionCount": 31,
       "official": true,
       "isNew": false,
       "tags": [
@@ -31589,7 +31601,7 @@
       "published": "2026-11-13T02:21:46.534Z",
       "versionCount": 6,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "diagnostics",
         "sensitive-data"
@@ -32252,6 +32264,7 @@
       "created": "2026-11-02T13:01:21.490Z",
       "published": "2026-11-13T12:19:00.979Z",
       "versionCount": 6,
+      "deprecated": "桌宠系列已停止维护，源码仓库已删除（2026-11-27）",
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -32345,7 +32358,7 @@
       "created": "2026-11-01T02:35:27.234Z",
       "published": "2026-11-01T09:29:26.390Z",
       "versionCount": 3,
-      "deprecated": "已改名为 glutton-balance（新包：https://www.npmjs.com/package/glutton-balance），请安装新包",
+      "deprecated": "旧包名，桌宠系列已停止维护，源码仓库已删除（2026-11-27）",
       "official": false,
       "isNew": false,
       "declaredTags": [
