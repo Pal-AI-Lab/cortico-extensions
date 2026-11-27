@@ -102,6 +102,9 @@
     "cortico-world-figure-scape": [
       "sensitive-data"
     ],
+    "cortico-world-gamebook": [
+      "sensitive-data"
+    ],
     "cortico-world-gamebuddy": [
       "injection-risk",
       "sensitive-data"
@@ -5899,7 +5902,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/333",
         "up": 2,
         "down": 0,
-        "comments": 8
+        "comments": 9
       }
     },
     "cortico-world-astrbot-livingmemory": {
@@ -13412,6 +13415,80 @@
         "comments": 7
       }
     },
+    "cortico-world-fishdaily": {
+      "kind": "world",
+      "version": "0.1.0-beta.4",
+      "displayName": "肥鱼和你的日常",
+      "description": "「肥鱼和你的日常」Coopanion 融合版：00:00-24:00 日程表与每晚写明天 × 时段切换/自由报备主动投送 × 做事/拆箱/做饭配图提醒（含生图衣柜只读联动）× 冰箱保质期做饭与主人实时投送 × 活跃度产币与跨扩展统一鱼币钱包（零依赖/零 Key）。",
+      "locales": {
+        "zh": {
+          "displayName": "肥鱼和你的日常",
+          "description": "把「00:00-24:00 日程系统、主动投送报备与配图、买菜做饭、逛鱼宝、攒统一鱼币」拧成一条有生活感的时间线！每晚请她自己写明天，切入新清醒时段或到自由/报备档位时主动投送近况并按开关顺手配图（支持只读联动生图衣柜，睡觉永不打扰）；支持主人面板实时端吃的/点菜/寄食材投送、带保质期的冰箱与菜场买菜、7 天防复读、跨扩展统一 `<dataDir>/economy/wallet.json` 账本与隐藏彩蛋。纯本地零依赖、零额外 Key。"
+        },
+        "en": {
+          "displayName": "Fat Fish Daily",
+          "description": "Unified daily-life schedule, proactive updates, kitchen & shopping world for Coopanion: full 00:00-24:00 schedule with nightly planning, proactive segment & check-in pushes with photo reminders (plus optional read-only wardrobe sync, never waking sleep), real-time owner treat/dish/ingredient deliveries, expiry-tracked fridge & dynamic cooking, activity-driven shared FishCoin ledger (<dataDir>/economy/wallet.json), anti-repeat sparks, and Easter Egg blindboxes. Zero dependencies, zero extra keys."
+        }
+      },
+      "author": "八云",
+      "maintainers": [
+        "bayund"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "daily",
+        "kitchen",
+        "shop",
+        "companion"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-fishdaily"
+      },
+      "created": "2026-11-27T15:57:38.094Z",
+      "published": "2026-11-27T16:02:47.601Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "companion",
+        "experimental"
+      ],
+      "tags": [
+        "companion",
+        "experimental"
+      ],
+      "icon": "assets/cortico-world-fishdaily/icon.png",
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 7,
+        "events": 4,
+        "toolTokens": 2637,
+        "envPromptTokens": 305
+      },
+      "changelog": {
+        "versions": [
+          "0.1.0-beta.4",
+          "0.1.0-beta.3",
+          "0.1.0-beta.2",
+          "0.1.0-beta.1"
+        ],
+        "url": "https://unpkg.com/cortico-world-fishdaily@0.1.0-beta.4/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1185,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1185",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
     "cortico-world-fishing": {
       "kind": "world",
       "version": "0.4.1",
@@ -13907,6 +13984,54 @@
         "up": 1,
         "down": 0,
         "comments": 2
+      }
+    },
+    "cortico-world-gamebook": {
+      "kind": "world",
+      "version": "0.1.0",
+      "displayName": "游戏本 · 陪玩知识书架",
+      "description": "低唤醒、分层检索的通用游戏陪玩知识书架 World",
+      "maintainers": [
+        "bayund"
+      ],
+      "license": "MIT",
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-gamebook"
+      },
+      "created": "2026-11-27T15:57:42.804Z",
+      "published": "2026-11-27T15:58:58.524Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "game",
+        "companion",
+        "internal-state",
+        "sensitive-data"
+      ],
+      "tags": [
+        "game",
+        "companion",
+        "internal-state",
+        "sensitive-data"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 6,
+        "events": 1,
+        "toolTokens": 711,
+        "envPromptTokens": 215
+      },
+      "discussion": {
+        "number": 1186,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1186",
+        "up": 0,
+        "down": 0,
+        "comments": 0
       }
     },
     "cortico-world-gamebuddy": {

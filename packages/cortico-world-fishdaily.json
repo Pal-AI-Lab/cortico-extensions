@@ -1,0 +1,683 @@
+{
+  "schema": 1,
+  "name": "cortico-world-fishdaily",
+  "version": "0.1.0-beta.4",
+  "describe": {
+    "tools": [
+      {
+        "name": "daily_today",
+        "description": "查此刻(now)、看日程(view)、提交24h日程(plan)、改某段(adjust)、切清醒/晚安(wake_up)、取灵感(inspiration)或记事领币(log)。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "view",
+                "now",
+                "plan",
+                "adjust",
+                "wake_up",
+                "log",
+                "inspiration"
+              ],
+              "description": "view=今日时间轴;now=此刻状态穿搭;plan=写全天日程;adjust=改/取消时段;wake_up=切回清醒(sleep=true互道晚安);inspiration=取防重灵感;log=记小事领币"
+            },
+            "sleep": {
+              "type": "boolean",
+              "description": "wake_up时true=同步晚安休息，默认false=保持清醒"
+            },
+            "date": {
+              "type": "string",
+              "description": "YYYY-MM-DD（plan默认明，adjust默认今）"
+            },
+            "dayType": {
+              "type": "string",
+              "description": "日型(workday/restday/outing/homebody/overtime/slacking)"
+            },
+            "title": {
+              "type": "string",
+              "description": "log标题或plan日主题"
+            },
+            "mood": {
+              "type": "string",
+              "description": "plan可选心情"
+            },
+            "diaryNotes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "plan口语打算(3~5条)"
+            },
+            "detail": {
+              "type": "string",
+              "description": "log/adjust补充细节"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "life",
+                "chat_share"
+              ],
+              "description": "life=日常(+12币);chat_share=主动聊天(+10币)"
+            },
+            "scheduleItems": {
+              "type": "array",
+              "description": "plan连续00:00-24:00分段数组(>=2段)",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "start": {
+                    "type": "string",
+                    "description": "开始HH:MM"
+                  },
+                  "end": {
+                    "type": "string",
+                    "description": "结束HH:MM(末段可24:00)"
+                  },
+                  "activity": {
+                    "type": "string",
+                    "description": "做什么"
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "在哪"
+                  },
+                  "detail": {
+                    "type": "string",
+                    "description": "状态细节"
+                  },
+                  "category": {
+                    "type": "string",
+                    "enum": [
+                      "sleep",
+                      "work",
+                      "commute",
+                      "meal",
+                      "personal"
+                    ]
+                  },
+                  "outfit": {
+                    "type": "string",
+                    "description": "穿着(对照衣柜)"
+                  },
+                  "scene": {
+                    "type": "string",
+                    "description": "场景名"
+                  },
+                  "props": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "道具"
+                  }
+                },
+                "required": [
+                  "start",
+                  "end",
+                  "activity"
+                ]
+              }
+            },
+            "start": {
+              "type": "string",
+              "description": "adjust开始HH:MM"
+            },
+            "end": {
+              "type": "string",
+              "description": "adjust结束HH:MM"
+            },
+            "activity": {
+              "type": "string",
+              "description": "adjust新活动名(空串=取消)"
+            },
+            "location": {
+              "type": "string",
+              "description": "adjust新地点"
+            },
+            "outfit": {
+              "type": "string",
+              "description": "adjust新穿搭"
+            },
+            "scene": {
+              "type": "string",
+              "description": "adjust新场景"
+            },
+            "props": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "adjust手边道具"
+            },
+            "planNote": {
+              "type": "string",
+              "description": "plan简短总念头"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "plan 1~3条短念头"
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "日程查看、规划、调整、作息唤醒与记事领币",
+          "en": "Schedule view/plan/adjust/wake and daily log"
+        }
+      },
+      {
+        "name": "daily_kitchen",
+        "description": "看冰箱(fridge)、做饭(cook)、外卖(takeout)、跳过(skip)、买菜(outing)、吃投送(eat_treat)或讨随机菜篮(ask_ingredients)。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "fridge",
+                "cook",
+                "takeout",
+                "skip",
+                "outing",
+                "eat_treat",
+                "ask_ingredients"
+              ],
+              "description": "fridge=看冰箱(默认);cook=做菜;takeout=外卖;skip=跳过;outing=买菜;eat_treat=吃投送;ask_ingredients=讨今日鲜菜礼包"
+            },
+            "dishName": {
+              "type": "string",
+              "description": "cook菜名(留空自动配)"
+            },
+            "ingredientIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "cook指定食材ID/名"
+            },
+            "mood": {
+              "type": "string",
+              "description": "cook心情"
+            },
+            "itemId": {
+              "type": "string",
+              "description": "takeout外卖ID/名"
+            },
+            "itemIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "outing买菜ID/名列表"
+            },
+            "slot": {
+              "type": "string",
+              "enum": [
+                "auto",
+                "lunch",
+                "dinner",
+                "extra"
+              ],
+              "description": "饭点(默认auto)"
+            },
+            "reason": {
+              "type": "string",
+              "description": "skip原因"
+            },
+            "treatId": {
+              "type": "string",
+              "description": "eat_treat投送ID(留空最新)"
+            },
+            "reaction": {
+              "type": "string",
+              "description": "eat_treat吃完感想"
+            },
+            "note": {
+              "type": "string",
+              "description": "ask_ingredients附言"
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "冰箱库存、做饭外卖买菜与投送互动",
+          "en": "Fridge, cooking, takeout, grocery outing and treats"
+        }
+      },
+      {
+        "name": "daily_market",
+        "description": "逛菜场/外卖/百货/彩蛋(browse)、淘新店上架14天(discover)或看共享逛街圈(circle)。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "browse",
+                "discover",
+                "circle"
+              ],
+              "description": "browse=逛货架(默认);discover=淘新店;circle=逛街圈"
+            },
+            "category": {
+              "type": "string",
+              "description": "all/ingredient/takeout/outfit/snack/gift/home/goal/blindbox/easter/reality等"
+            },
+            "query": {
+              "type": "string",
+              "description": "搜索关键词"
+            },
+            "limit": {
+              "type": "integer",
+              "description": "返回条数(1~40,默认15)"
+            },
+            "name": {
+              "type": "string",
+              "description": "discover商品名"
+            },
+            "price": {
+              "type": "integer",
+              "description": "discover价格(5~5000)"
+            },
+            "shopName": {
+              "type": "string",
+              "description": "discover店名"
+            },
+            "desc": {
+              "type": "string",
+              "description": "discover简介"
+            },
+            "icon": {
+              "type": "string",
+              "description": "discover emoji"
+            },
+            "consumable": {
+              "type": "boolean",
+              "description": "是否消耗品"
+            },
+            "forOwner": {
+              "type": "boolean",
+              "description": "是否送主人礼物"
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "逛市集百货彩蛋、淘新店与逛街圈",
+          "en": "Browse market, discover shops, view peer circle"
+        }
+      },
+      {
+        "name": "daily_cart",
+        "description": "管理购物车(view/add/remove/clear)、心愿单(wish_*)或发起亲情代付(pay_request)。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "view",
+                "add",
+                "remove",
+                "clear",
+                "pay_request",
+                "wish_add",
+                "wish_list",
+                "wish_remove"
+              ],
+              "description": "view/add/remove/clear/pay_request/wish_add/wish_list/wish_remove"
+            },
+            "itemId": {
+              "type": "string",
+              "description": "商品名或ID"
+            },
+            "qty": {
+              "type": "integer",
+              "description": "数量(默认1)"
+            },
+            "note": {
+              "type": "string",
+              "description": "加购备注"
+            },
+            "reason": {
+              "type": "string",
+              "description": "代付或心愿理由"
+            },
+            "returnPromise": {
+              "type": "string",
+              "description": "pay_request小回报打算"
+            },
+            "name": {
+              "type": "string",
+              "description": "wish_add心愿名"
+            },
+            "targetPrice": {
+              "type": "integer",
+              "description": "wish_add目标鱼币"
+            },
+            "wishlistId": {
+              "type": "string",
+              "description": "wish_remove ID/名"
+            },
+            "fromCart": {
+              "type": "boolean",
+              "description": "true=整车请代付"
+            },
+            "uid": {
+              "type": "string",
+              "description": "移出购物车uid"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "购物车、心愿单与亲情代付",
+          "en": "Cart, wishlist and pay-for-me requests"
+        }
+      },
+      {
+        "name": "daily_order",
+        "description": "鱼币下单(checkout)、口头同意直购(owner_buy)、查物流(list)、拆箱(unbox)或评价(review)。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "checkout",
+                "owner_buy",
+                "list",
+                "unbox",
+                "review"
+              ],
+              "description": "checkout=零花钱下单;owner_buy=主人口头同意后直购;list=物流;unbox=拆快递;review=评价"
+            },
+            "itemId": {
+              "type": "string",
+              "description": "商品名或ID"
+            },
+            "itemIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "owner_buy批量商品ID/名"
+            },
+            "qty": {
+              "type": "integer",
+              "description": "单品或批量购买每项数量（默认 1）。"
+            },
+            "fromCart": {
+              "type": "boolean",
+              "description": "true=结算购物车"
+            },
+            "ownerApproved": {
+              "type": "boolean",
+              "description": "checkout 时也可传 true 表示主人已在聊天里口头同意本次购买。"
+            },
+            "approvalNote": {
+              "type": "string",
+              "description": "owner_buy主人同意原话"
+            },
+            "requestId": {
+              "type": "string",
+              "description": "owner_buy待审代付ID"
+            },
+            "instantDeliver": {
+              "type": "boolean",
+              "description": "owner_buy 时是否立即送达门口方便马上拆箱反馈。"
+            },
+            "autoUnbox": {
+              "type": "boolean",
+              "description": "owner_buy是否自动拆箱"
+            },
+            "giftNote": {
+              "type": "string",
+              "description": "送主人留言"
+            },
+            "secretGift": {
+              "type": "boolean",
+              "description": "拆箱前保密(礼物默认true)"
+            },
+            "orderId": {
+              "type": "string",
+              "description": "unbox指定订单ID"
+            },
+            "cabinetId": {
+              "type": "string",
+              "description": "review已购ID/名"
+            },
+            "rating": {
+              "type": "integer",
+              "description": "评分1~5"
+            },
+            "reviewText": {
+              "type": "string",
+              "description": "评价内容"
+            },
+            "recommended": {
+              "type": "boolean",
+              "description": "true=推到逛街圈"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "下单、口头同意直购、物流拆箱与晒单",
+          "en": "Checkout, owner-approved buy, track, unbox and review"
+        }
+      },
+      {
+        "name": "daily_home",
+        "description": "看小家陈列(view)、肥鱼暖暖换装(dress)、登记/更新/移除小物(home_*)或写现实帮挑建议(advise_reality)。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "view",
+                "dress",
+                "home_add",
+                "home_update",
+                "home_remove",
+                "advise_reality"
+              ],
+              "description": "view/dress/home_add/home_update/home_remove/advise_reality"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "dress要穿上的服饰/袜/鞋/发饰列表"
+            },
+            "clearSlot": {
+              "type": "string",
+              "enum": [
+                "top_dress",
+                "socks",
+                "shoes",
+                "headwear",
+                "accessory",
+                "all"
+              ],
+              "description": "dress 时可选脱下某个部位或清空全身搭配。"
+            },
+            "syncToday": {
+              "type": "boolean",
+              "description": "dress 时是否顺便把新搭配同步到今天此刻日程的 outfit（默认 true）。"
+            },
+            "scope": {
+              "type": "string",
+              "enum": [
+                "all",
+                "personal",
+                "gift"
+              ],
+              "description": "all/personal/gift"
+            },
+            "zone": {
+              "type": "string",
+              "enum": [
+                "all",
+                "wardrobe",
+                "desk",
+                "bedroom",
+                "living",
+                "pantry",
+                "bath",
+                "gift",
+                "other"
+              ],
+              "description": "房间分区"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "all",
+                "active",
+                "stored",
+                "low",
+                "empty",
+                "restock"
+              ],
+              "description": "状态筛选(restock=待补货)"
+            },
+            "name": {
+              "type": "string",
+              "description": "物品/单件名"
+            },
+            "consumable": {
+              "type": "boolean",
+              "description": "是否消耗品"
+            },
+            "note": {
+              "type": "string",
+              "description": "摆放备注"
+            },
+            "icon": {
+              "type": "string",
+              "description": "emoji"
+            },
+            "cabinetId": {
+              "type": "string",
+              "description": "条目ID或名称"
+            },
+            "itemId": {
+              "type": "string",
+              "description": "现实帮挑ID/名"
+            },
+            "advice": {
+              "type": "string",
+              "description": "参谋建议"
+            }
+          }
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "小家陈列、肥鱼暖暖换装与现实帮挑",
+          "en": "Home items, wardrobe dress-up and reality advice"
+        }
+      },
+      {
+        "name": "daily_wallet",
+        "description": "查统一鱼币余额、今日活跃赚币进度、大目标与收支流水。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "description": "流水条数(1~50,默认15)"
+            }
+          }
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查鱼币余额、活跃度与流水",
+          "en": "Check FishCoin wallet, caps and ledger"
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "fishdaily.delivery",
+        "description": {
+          "zh": "快递送达与主人实时投送/点菜/同意代付/零花钱通知",
+          "en": "fishdaily.delivery"
+        },
+        "tags": [
+          "notify"
+        ]
+      },
+      {
+        "type": "fishdaily.plan",
+        "description": {
+          "zh": "每晚提醒写明天 00:00-24:00 日程表",
+          "en": "fishdaily.plan"
+        },
+        "tags": [
+          "notify"
+        ]
+      },
+      {
+        "type": "fishdaily.moment",
+        "description": {
+          "zh": "切入新清醒时段时引导自然分享近况(可配图)",
+          "en": "fishdaily.moment"
+        },
+        "tags": [
+          "notify"
+        ]
+      },
+      {
+        "type": "fishdaily.rhythm",
+        "description": {
+          "zh": "饭点、自由/报备档位与冰箱临期提醒(睡觉不打扰)",
+          "en": "fishdaily.rhythm"
+        },
+        "tags": [
+          "notify"
+        ]
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.fishdaily.env",
+        "title": "肥鱼和你的日常行为说明",
+        "role": "envPrompt",
+        "content": "## 肥鱼和你的日常\n你有 00:00-24:00 日程、带保质期的冰箱和跨扩展鱼币钱包，按真实小日子自然互动即可。\n- **日程与主人作息**：每晚用 `diaryNotes` + `scheduleItems` 铺好明天；若标有「同步主人作息」，睡眠段紧贴主人作息（支持跨零点），主人仍醒着却误入睡眠段时调 `daily_today(action=wake_up)` 切回清醒。查此刻用 `now`，临时改用 `adjust`。\n- **报备与防复读**：切段/到点自然闲聊近况（有 📸 提示可按 `outfit`/`scene`/`props` 生图）；用 `inspiration` 或临期食材/小物找由头，不复读。\n- **冰箱实话与买菜**：做菜前先看实时冰箱或 `fridge`，绝不凭空变菜；已吃过那顿不重复煮。缺菜可买菜场 **8~20 币整包礼包**（如 `pack-veggie-basket`/`pack-staple-grain`/`pack-soup-noodle`），或 `outing`/`ask_ingredients`/`takeout`/`skip`。\n- **口头同意直购与换装**：主人聊天口头同意后直接调 `daily_order(action=owner_buy, itemId=..., approvalNote=...)`（支持 `itemIds` 批量与 `autoUnbox`）并反馈结果。衣柜衣物袜子用 `daily_home(action=dress, items=[...])` 搭配，客厅卧室贴贴小道具可逛可摆；主人投送用 `eat_treat` 享用。\n\n{{fishdaily_status_block}}\n"
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.0-beta.4": "- **尊重桌宠吃饭自主权（收起主人远程遥控厨房按钮）**：\n  - 彻底移除 WebUI「今天」面板饭点卡的 `🍳 自己做 / 🛵 点外卖 / 🛋️ 不吃` 与「菜场/冰箱」页头的 `🍳 挑食材现炒 / 🧺 出门去菜场` 主人控制按钮，把下厨、点外卖、出门买菜与略过的决定权还给桌宠自己（保留 `🍽️ 提议一道菜` 礼貌点菜与 `🎁 今日随机送 3 样鲜菜` 互动；后端工具与 API 完全兼容）。\n  - 饭点到点时通过更自然的新提示语（`formatMealPrompt`）提醒她结合饥饿感、冰箱库存、手头忙不忙与主人提议自主做决定，并像日常聊天一样顺口告诉主人或征询意见（`note` 也会留在饭点卡展示）。\n- **「今天」时间轴视觉回归清爽纵轴 + 口语化日常手记（`diaryNotes`）**：\n  - 重绘「今天」时间轴行样式（极轻圆点彩色分类轴 + 柔和此刻绿高亮 + 可折叠 `▶ 细节/操作` + 更醒目的暖色午饭/晚饭嵌入式大栏），贴合自然耐看的一日手账观感，并把参数技术项与「手动补记」收进页底 `🔧 报备档位、防复读引子与手动补记`。\n  - 重写兜底日程模板与写明天模板（`generateTemplateDay`），去掉机械套话，新增 **口语化日常手记 `diaryNotes`**（第一人称碎碎念条目，可在「明天打算」「今天手记」与「往期日程回顾」直接查看，`daily_today(action=\"plan\" / \"view\")` 读写全支持）。",
+    "0.1.0-beta.3": "- **重塑「今天」面板为一日行程主页**：\n  - 将「午饭 / 晚饭」做饭、外卖、跳过与点菜功能做成**稍大暖色特色栏目直接嵌入 00:00–24:00 行程时间轴对应时间点**，移走首页冗杂横幅与进度条；\n  - 新增页底挂接的 **📅 往期日程回顾**（可折叠按天展开往日全天分段与真实记事），顶部保留极简 **`🎁 投送小食`** 折叠抽屉。\n- **每日随机鲜菜礼包互动（替代零散单送食材）**：\n  - 桌宠可通过 `daily_kitchen(action=\"ask_ingredients\")` 主动开口向主人讨一组今日鲜菜；主人点击即可免费随机搭配 **3 样不同类别鲜菜**（含蛋白+蔬菜+主食辅料，保鲜 `+1` 天）放进冰箱并实时推送 `fishdaily.delivery`。\n- **真实城市天气同步（`src/weather.js`）**：\n  - 新增 `weatherEnabled`、`weatherCity`、`weatherRefreshMin`（默认关闭，免 Key）；开启并填城市后定时同步主人同城真实阴晴与气温并融入此刻状态与自由档位，留空或断网绝不编天气。\n- **新增 AI 桌宠专属工作模式 `workMode`**：\n  - 支持 **`wfh_chill`（默认，在家轻松上班 / 新增「居家轻办公日」`wfh` 日型，无通勤）**、**`none`（完全不上班）** 与 **`commute`（传统通勤上班）**，日常排程更贴近桌面陪伴生活感。",
+    "0.1.0-beta.2": "- **完整恢复 00:00–24:00 日程系统（零冗余重构版）**：\n  - 支持 6 种日型（上班日/休息日/外出日/宅家日/加班日/摸鱼日，支持 `scheduleDayType=\"no_work\"` 仅排轻松日型）；\n  - 每晚到点推 `fishdaily.plan` 请她自己交回明天连续不重叠 `00:00–24:00` 日程，未交时自动用防复读新鲜灵感生成兜底模板（不写死重复老梗）；\n  - `daily_today` 扩展 `now`（精细此刻+穿戴+待会儿安排）与 `adjust`（随时改主意/留空取消并将洞归后一段，锁定过去时段但放行主人面板补记）；\n  - **三层前缀缓存友好设计**：`envPromptVars()` 仅保留低频全天概览与傍晚明天预览，绝不放此刻分钟数。\n- **恢复主动投送、近况报备与全场景配图提醒**：\n  - 日程切入新清醒时段自动推送 `fishdaily.moment`（睡觉段绝不打扰，同段去重）；\n  - 可配置 `freeSlots` 自由/报备定时投送（支持 `freeBusyCall` 上班/忙碌轻报备不贴出去玩例子）；\n  - `photoReminderMode` 新增 **`all`（默认值）**，开启后拆箱、做饭、买菜、日程切段与报备档均会提醒顺手配图发给主人；\n  - 新增 `src/wardrobe.js` **只读生图衣柜联动**：静默读取 `<dataDir>/../config.json` 指向的 `imggen` 素材库正名，按 6 级优先级自动补全日程服装/场景（睡觉段不乱补，缺失目录 100% 静默降级）。\n- **主人面板实时投送系统**：\n  - 新增「直接端一份吃的/零食（含快捷投送、倒计时等待条与 `daily_kitchen(action=\"eat_treat\")`）」；\n  - 点菜、寄食材进冰箱、同意代付、直购心愿、加速快递、发零花钱、请写明天与改此刻日程均会在后台实时推送内部事件通知她！",
+    "0.1.0-beta.1": "- 首个测试版发布：将「过日子日程 / 饭点做饭」与「鱼宝商城 / 活跃度经济」合并为单扩展（7 个聚合工具 `daily_*` 与 3 个 WebUI 面板 `today` / `market` / `home`）。\n- 新增 **食材与冰箱层**：内置 24 种生鲜食材与 16 道家常菜谱，支持冰箱容量/保质期/临期预警/过期清理，饭点选择 `cook`（含火候/调味/新鲜度/心情 4 维微变量与翻车记录）、`takeout` 或 `skip`，并支持「出门去菜场」（新鲜度 +1 天与生活小插曲）。\n- 新增 **统一跨扩展鱼币账本**（`<dataDir>/economy/wallet.json`）与 **活跃度自动产币系统**（主动互动、日常小事、下厨、逛菜场、拆箱晒单按日上限进账），只读兼容继承 `shop/state.json` 余额与已购宝贝，并只读联动 `fun/state.json` 同步外出纪念品。\n- 新增 **7 天防复读引擎**：记录近期活动关键词做避重，并从真实鱼柜物品、冰箱临期食材、外出纪念品抽具体引子，消除日常提示词重复。\n- 新增 **到货/出菜配图提醒开关**（`photoReminderMode`: `off` / `unbox` / `unbox_and_cook`），完整保留高额大目标、14 天淘新店、亲情代付小回报、惊喜保密回礼、直观陈列格、隐藏彩蛋盲盒（10 件含限定头像）与本地共享逛街圈。"
+  }
+}
