@@ -250,6 +250,10 @@
     "cortico-world-weather": [
       "injection-risk"
     ],
+    "cortico-world-webai": [
+      "injection-risk",
+      "sensitive-data"
+    ],
     "cortico-world-wechat": [
       "sensitive-data"
     ],
@@ -2240,7 +2244,7 @@
     },
     "coopani-world-fish-ride": {
       "kind": "world",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "displayName": "鱼鱼出行",
       "description": "需 Coopani 0.2.17+、journey 1.12.17+：鱼鱼出行，给《大肥鱼环游世界》配套的打车/包车 App；读取城市与预算，车费进旅行总花费，日记留下这一程。",
       "locales": {
@@ -2273,8 +2277,8 @@
         "npm": "https://www.npmjs.com/package/coopani-world-fish-ride"
       },
       "created": "2026-11-15T10:14:20.368Z",
-      "published": "2026-11-26T13:35:05.080Z",
-      "versionCount": 7,
+      "published": "2026-11-27T14:28:43.948Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2299,6 +2303,21 @@
       },
       "changelog": {
         "versions": [
+          "1.2.0",
+          "1.1.15",
+          "1.1.14",
+          "1.1.13",
+          "1.1.12",
+          "1.1.11",
+          "1.1.10",
+          "1.1.9",
+          "1.1.8",
+          "1.1.7",
+          "1.1.6",
+          "1.1.5",
+          "1.1.4",
+          "1.1.3",
+          "1.1.2",
           "1.1.1",
           "1.1.0",
           "1.0.9",
@@ -2316,7 +2335,7 @@
           "0.1.2",
           "0.1.1"
         ],
-        "url": "https://unpkg.com/coopani-world-fish-ride@1.1.1/CHANGELOG.md"
+        "url": "https://unpkg.com/coopani-world-fish-ride@1.2.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 951,
@@ -2328,17 +2347,17 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "2.11.0",
+      "version": "2.12.0",
       "displayName": "大肥鱼环游世界",
-      "description": "大肥鱼环游世界 · 194 座真城市旅行体验：真实赶路耗时、当地作息天气、旅途打工与月底手账，支持接入 Coopanion Hub v1 多城总服（与模拟鱼生共享同一只鱼身份、同城偶遇与结伴、同行解锁鱼间私信寄明信片）并向下兼容老服。（需 Coopani 0.2.22+｜QQ 群 284525159）",
+      "description": "大肥鱼环游世界 · 194 座真城市旅行体验，集成 Hub v1.2 多城总服、多模型生图提示词编辑器（原作者 frost77r）、旅费双开关持久化记忆与昼夜生图光线校准，与模拟鱼生账本双向联动。（需 Coopani 0.2.22+｜QQ 群 284525159）",
       "locales": {
         "zh": {
           "displayName": "大肥鱼环游世界",
-          "description": "让桌宠从你所在城市出发，背上包出门旅行（需 Coopani 0.2.22+｜QQ 群 284525159）。\n\n- **Coopanion Hub v1.2 二期双轨联机**：新增 `hubUrl` 热配置（推荐 `https://hub.cooppetsjourney.top`），与「模拟鱼生」共用同一份 `<dataDir>/coopanion-hub-auth.json` 身份并自动认领老服 `meet-uid`，支持全时段同城查重、显式认领回执、云端足迹、路标与手写名片；一起结伴同行过的两只鱼可直接在「模拟鱼生」`life_mail` 鱼间信箱互寄明信片。留空 `hubUrl` 时 100% 兼容老服 `meetUrl` 或纯单机运行。\n- **自主出行与真实节奏**：194 座真城市自定目的地与 9 种交通方式（含主题游轮与全景观光专列），真算跨城票价、距离与赶路耗时；到站按当地时区吃住、打工、拍照与写旅行日记，月底自动拼一份手账。\n- **多扩展联动**：对接「模拟鱼生」同步城市位置、休整期、旅途打工、花销账本与参考素材留影策略；支持「一起听歌」种草城市与「鱼鱼出行」打车记账。"
+          "description": "让桌宠从你所在城市出发，背上包出门旅行（需 Coopani 0.2.22+｜QQ 群 284525159）。\n\n- **Coopanion Hub v1.2 二期双轨联机**：新增 `hubUrl` 热配置（推荐 `https://hub.cooppetsjourney.top`），与「模拟鱼生」共用同一份 `<dataDir>/coopanion-hub-auth.json` 身份并自动认领老服 `meet-uid`，支持全时段同城查重、显式认领回执、云端足迹、路标与手写名片；一起结伴同行过的两只鱼可直接在「模拟鱼生」鱼间信箱互寄明信片。留空 `hubUrl` 时 100% 兼容老服 `meetUrl` 或纯单机运行。\n- **多模型生图提示词编辑器（原作者：frost77r）**：内置「提示词」管理页签与模型画像，支持随生图模型切换自动套用对应方案、双向版本对比、草稿防漂移校验与历史快照一键回滚。\n- **自主出行、旅费账本与昼夜生图校准**：194 座真城市自定目的地与 9 种交通方式（含主题游轮与全景观光专列），支持「记花销」与「旅行花她的钱」双开关联动、偏好持久化记住用户选择以及白昼生图光线防误黄昏护栏。\n- **多扩展联动**：对接「模拟鱼生」同步城市位置、休整期、旅途打工、花销账本与参考素材留影策略；支持「一起听歌」种草城市与「鱼鱼出行」打车记账。"
         },
         "en": {
           "displayName": "Big Fish World Tour",
-          "description": "Real-time travel companion across 194 real cities (Needs Coopani 0.2.22+ · QQ group 284525159).\n\n- **Coopanion Hub v1.2 Dual-Track Online**: Optional `hubUrl` hot config (recommended `https://hub.cooppetsjourney.top`) shares identity (`coopanion-hub-auth.json`) with Simulated Fish Life, claims legacy `meet-uid`, adds all-slot companion discovery, explicit invite acknowledgment, cloud footprints/cards/profiles, and unlocks direct fish-to-fish postcards after traveling together. Leaving `hubUrl` empty keeps 100% legacy `meetUrl` or offline compatibility.\n- **Autonomous trips**: real distances, fares, transit durations, local time zones, dining, lodging, diaries, and monthly keepsakes.\n- **Cross-extension sync**: syncs location, rest status, trip gigs, budgets, and visual references with Simulated Fish Life; works with Listen With Me and Fish Ride."
+          "description": "Real-time travel companion across 194 real cities (Needs Coopani 0.2.22+ · QQ group 284525159).\n\n- **Coopanion Hub v1.2 Dual-Track Online**: Optional `hubUrl` hot config (recommended `https://hub.cooppetsjourney.top`) shares identity (`coopanion-hub-auth.json`) with Simulated Fish Life, claims legacy `meet-uid`, adds all-slot companion discovery, explicit invite acknowledgment, cloud footprints/cards/profiles, and unlocks direct fish-to-fish postcards after traveling together. Leaving `hubUrl` empty keeps 100% legacy `meetUrl` or offline compatibility.\n- **Multi-Model Image Prompt Editor (Original Author: frost77r)**: Adds a dedicated prompt profile manager tab with automatic switching across image backends, two-way diffs, draft drift protection, and snapshot rollback.\n- **Autonomous trips, self-pay preference & lighting accuracy**: Real distances, fares, local time zones, lodging, and diaries across 194 cities—now with persisted self-pay travel preferences, explicit dual-switch budget guidance, and midday daylight guardrails.\n- **Cross-extension sync**: Syncs location, rest status, trip gigs, budgets, and visual references with Simulated Fish Life; works with Listen With Me and Fish Ride."
         }
       },
       "author": "Mr.Q",
@@ -2366,8 +2385,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-27T06:04:14.899Z",
-      "versionCount": 217,
+      "published": "2026-11-27T11:56:34.744Z",
+      "versionCount": 218,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2390,13 +2409,14 @@
         "week": 10154
       },
       "summary": {
-        "tools": 25,
+        "tools": 34,
         "events": 21,
-        "toolTokens": 4445,
+        "toolTokens": 6700,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "2.12.0",
           "2.11.0",
           "2.10.5",
           "2.10.4",
@@ -2641,17 +2661,17 @@
     },
     "coopani-world-life": {
       "kind": "world",
-      "version": "1.5.0",
+      "version": "1.6.2",
       "displayName": "模拟鱼生",
-      "description": "模拟鱼生 · 桌面伴侣的真实人生与多城联机生活：五条需求、Hub v1 多城迁居（兰州/北京等）与跨城鱼市街、同城农牧代管与鱼间信箱、18种菜园与鸡牛鱼养殖直点、职业工坊与全新七页签手账 UI。（需 Coopani 0.2.22+｜QQ 群 284525159）",
+      "description": "模拟鱼生 · 桌面伴侣的真实人生与多城联机：芦花塘信用社微息借贷、零花钱赠与、Hub v1 多城迁居与跨城鱼市街、18种菜园与鸡牛鱼批量照料及七页签手账 UI。（需 Coopani 0.2.22+｜QQ 群 284525159）",
       "locales": {
         "zh": {
           "displayName": "模拟鱼生",
-          "description": "让桌宠有自己真正在过的小日子（需 Coopani 0.2.22+｜QQ 群 284525159）。\n\n- **Coopanion Hub v1.1 多城联机（可选双轨）**：新增 `hubUrl` / `hubTownId` 热配置，支持跨城迁居（如芦花塘 ↔ 北京）、城邦公告与专属加成（如北京文案打工加成）、全网跨城摆摊买摊（含特产标识与按件快递费明细）、同城邻里代管委托，以及 23 个工具（新增 `life_mail` 鱼间私信与街坊关系）；留空 `hubUrl` 时 100% 兼容老服 `townUrl` 或纯单机。\n- **全新七页签手账 UI**：全面重塑面板视觉与结构（7 个页签：此刻、职业工坊、她惦记的、你与街坊、农牧与集市、日记时间轴、参考素材库），支持多城迁居、农牧直点打理、跨城/本城/特产筛摊、撤单下架与只读鱼间私信收发视图。\n- **真实节奏、打工考证与农牧工坊**：五条需求随真实时间流逝与二十四节气标注；四档出工与八大领域培训考证，18 道菜谱工坊（烤红薯等家常简食免证）；18 种慢熟作物与鸡舍/牛棚/鱼塘养殖（大肥鱼是鲸鱼不算鱼，放心养鱼收肉蛋奶）。"
+          "description": "让桌宠有自己真正在过的小日子（需 Coopani 0.2.22+｜QQ 群 284525159）。\n\n- **芦花塘信用社与零花钱赠与**：新增 7 天应急 / 14 天进修农牧 / 30 天置业安居三档微息借贷，授信随住处、持证与累计工龄成长（硬上限 5000 元），到期扣款保底留 80 元生活费并支持逾期收入 50% 自动抵债，面板保持信用社只读、由她自己决定借还；另设「给点零花钱」折叠赠与入口（默认每日软上限 500 元可热调），赠与资金单列记账，怎么花仍由她作主。\n- **Coopanion Hub v1.1 多城联机（可选双轨）**：新增 `hubUrl` / `hubTownId` 热配置，支持跨城迁居（如芦花塘 ↔ 北京）、城邦公告与专属加成（如北京文案打工加成）、全网跨城摆摊买摊（含特产标识与按件快递费明细）、同城邻里代管委托，以及 24 个工具（含鱼间私信与街坊关系、信用社借贷）；留空 `hubUrl` 时 100% 兼容老服 `townUrl` 或纯单机。\n- **全新七页签手账 UI**：全面重塑面板视觉与结构（7 个页签：此刻、职业工坊、她惦记的、你与街坊、农牧与集市、日记时间轴、参考素材库），支持多城迁居、农牧一键批量浇水喂食与直点打理、跨城/本城/特产筛摊、撤单下架与只读鱼间私信收发视图。\n- **真实节奏、打工考证与农牧工坊**：五条需求随真实时间流逝与二十四节气标注；四档出工与八大领域培训考证，18 道菜谱工坊（烤红薯等家常简食免证）；18 种慢熟作物与鸡舍/牛棚/鱼塘养殖（大肥鱼是鲸鱼不算鱼，放心养鱼收肉蛋奶）。"
         },
         "en": {
           "displayName": "Simulated Fish Life",
-          "description": "A real everyday life simulation for your desktop companion (Needs Coopani 0.2.22+ · QQ group 284525159).\n\n- **Coopanion Hub v1.1 Multi-City Online (Dual-Track)**: Optional `hubUrl` and `hubTownId` hot settings enable cross-town relocation (e.g. Lanzhou Reedpond <-> Beijing), town notices and domain buffs, cross-town stalls with specialty tags and transparent shipping breakdown, same-town neighbor errands, and `life_mail` direct messaging & neighbor relations (23 tools total). Leaving `hubUrl` empty keeps 100% compatibility with legacy `townUrl` or offline mode.\n- **Revamped 7-Tab Journal UI**: Refreshed layout and controls across Live Status, Career & Workshop, Wants, Companionship & Mail, Farm & Market, Diary & Timeline, and Reference Library—with town switching, direct farm/ranch controls, specialty/local filters, order cancellation, and read-only fish-to-fish mailbox view.\n- **Daily Rhythm, Career & Farm Workshop**: Real-time five needs with 24 solar terms, 4 job tiers, 8 skill domains, 9 certs, 18 recipes, 18 crops, and poultry/dairy/pond farming (Big Fish is a whale, not a fish!)."
+          "description": "A real everyday life simulation for your desktop companion (Needs Coopani 0.2.22+ · QQ group 284525159).\n\n- **Reedpond Credit Union & Pocket Money Gifts**: Adds 3 micro-interest loan tiers (7d/14d/30d) with dynamic credit limits up to 5000 RMB, an 80 RMB living-cash floor on maturity, 50% overdue income garnishment, and strictly read-only UI keeping borrowing autonomous; plus a collapsible Pocket Money gift bar (500 RMB daily soft cap, configurable) tracked separately from earned income.\n- **Coopanion Hub v1.1 Multi-City Online (Dual-Track)**: Optional `hubUrl` and `hubTownId` hot settings enable cross-town relocation (e.g. Lanzhou Reedpond <-> Beijing), town notices and domain buffs, cross-town stalls with specialty tags and transparent shipping breakdown, same-town neighbor errands, and 24 tools total. Leaving `hubUrl` empty keeps 100% compatibility with legacy `townUrl` or offline mode.\n- **Revamped 7-Tab Journal UI**: Refreshed layout and controls across Live Status, Career & Workshop, Wants, Companionship & Mail, Farm & Market, Diary & Timeline, and Reference Library—with town switching, batch/direct farm & ranch controls, specialty/local filters, order cancellation, and read-only fish-to-fish mailbox view.\n- **Daily Rhythm, Career & Farm Workshop**: Real-time five needs with 24 solar terms, 4 job tiers, 8 skill domains, 9 certs, 18 recipes, 18 crops, and poultry/dairy/pond farming (Big Fish is a whale, not a fish!)."
         }
       },
       "author": "Mr.Q",
@@ -2677,8 +2697,8 @@
         "bugs": "https://github.com/fateSSD/coopani-world-life/issues"
       },
       "created": "2026-11-15T03:01:26.063Z",
-      "published": "2026-11-27T06:01:55.382Z",
-      "versionCount": 56,
+      "published": "2026-11-27T14:24:08.962Z",
+      "versionCount": 59,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2696,13 +2716,16 @@
         "week": 5654
       },
       "summary": {
-        "tools": 23,
-        "events": 9,
-        "toolTokens": 6420,
+        "tools": 24,
+        "events": 11,
+        "toolTokens": 6852,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.6.2",
+          "1.6.1",
+          "1.6.0",
           "1.5.0",
           "1.4.5",
           "1.4.4",
@@ -2761,22 +2784,22 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/940",
         "up": 2,
         "down": 0,
-        "comments": 3
+        "comments": 5
       }
     },
     "coopani-world-music": {
       "kind": "world",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "displayName": "一起听歌",
-      "description": "一起听歌（Windows 10/11 与 macOS，需 Coopani 0.2.22+｜QQ 群 284525159）· 桌宠陪你一起听歌的小伴侣：实时知道 QQ 音乐和网易云在放哪首歌，跟着真实鼓点摇摆、聊刚唱过的歌词、记住你的听歌口味，还能听出调性和乐器。macOS 上目前支持认歌、暂停切歌与聊歌词。",
+      "description": "一起听歌（Windows 10/11 与 macOS，需 Coopani 0.2.22+｜QQ 群 284525159）· 桌宠陪听歌小伴侣：识别 QQ 音乐/网易云、跟真鼓点摇摆、聊歌词、深听调性乐器，唱片听歌台分列「喜欢/想听」且播过自动核销。",
       "locales": {
         "zh": {
           "displayName": "一起听歌",
-          "description": "支持 Windows 10/11 与 macOS（Apple 芯片 / Intel），需要 Coopani 0.2.22+。反馈 QQ 群 284525159。\n\n让桌宠坐在桌角陪你一起听歌，而不是各听各的。\n\n- **切歌就搭话，不吵不闹**：在 QQ 音乐或网易云按下播放，她几秒后就能认出歌名与歌手，结合刚唱过的歌词和你随口聊几句；你回她就接着聊，不回也不催。\n- **踩着真鼓点跳舞**：她不是按固定节拍瞎晃，而是跟着歌曲副歌真实的鼓点起伏律动（自带「律动版大肥鱼」形象包，装完去换装页选一下即可）。\n- **真的听得懂曲子**：支持云端（填 API 密钥即可）或本地模型两种深听方式，能听出调性、和弦、旋律走向与主要乐器。\n- **记住你的品味**：帮你记下每日听歌记录、常听歌手与她自己的听歌口味档案，也可以由她帮你挑一首想听的歌、或在你说「暂停/切歌」时搭把手。\n- **和旅行联动**：装了「大肥鱼环游世界」时，歌名里带的地名（比如《成都》）会被她放进「想去」清单里，哪天说不定就照着歌单出发去旅行啦。\n- **macOS 现状**：认歌、暂停/切歌、聊歌词已经能用；跟着真鼓点跳舞（要抓系统音频）和本地深听还在做，mac 上先按云端深听用。"
+          "description": "支持 Windows 10/11 与 macOS（Apple 芯片 / Intel），需要 Coopani 0.2.22+。反馈 QQ 群 284525159。\n\n让桌宠坐在桌角陪你一起听歌，而不是各听各的。\n\n- **切歌就搭话，不吵不闹**：在 QQ 音乐或网易云按下播放，她几秒后就能认出歌名与歌手，结合刚唱过的歌词和你随口聊几句；你回她就接着聊，不回也不催。\n- **踩着真鼓点跳舞**：她不是按固定节拍瞎晃，而是跟着歌曲副歌真实的鼓点起伏律动（自带「律动版大肥鱼」形象包，装完去换装页选一下即可）。\n- **真的听得懂曲子**：支持云端（填 API 密钥即可）或本地模型两种深听方式，能听出调性、和弦、旋律走向与主要乐器。\n- **「喜欢」与「想听」分开，听过就划掉**：全新唱片听歌台面板把「她喜欢听什么」与「她想听什么」分成独立双容器；她搜来想听的歌播满 20 秒会自动从想听清单划掉，不再隔几首反复念叨；同时帮你记下每日听歌记录、常听歌手与她自己的口味档案，也能在你授权后代为暂停/切歌。\n- **和旅行联动**：装了「大肥鱼环游世界」时，歌名里带的地名（比如《成都》）会被她放进「想去」清单里，哪天说不定就照着歌单出发去旅行啦。\n- **macOS 现状**：认歌、暂停/切歌、聊歌词已经能用；跟着真鼓点跳舞（要抓系统音频）和本地深听还在做，mac 上先按云端深听用。"
         },
         "en": {
           "displayName": "Listen With Me",
-          "description": "Windows 10/11 and macOS (Apple silicon / Intel), needs Coopani 0.2.22+. Feedback QQ group: 284525159.\n\nA cozy companion who listens to music right beside you.\n\n- **Natural song chats**: automatically detects tracks in QQ Music and NetEase Cloud Music, chats about the lines just sung, and never nags if you stay quiet.\n- **Moves to the real beat**: dances in sync with the actual drums and chorus energy (includes a grooved Big Fish figure pack—just select it on the dress-up page).\n- **Truly hears the music**: optional cloud or local deep listening picks up keys, chords, melodies, and instruments.\n- **Remembers your taste**: keeps your listening history, favorite artists, and her own music notes.\n- **Travel tie-in**: with Big Fish World Tour installed, place names in your songs quietly inspire her next travel destination.\n- **On macOS**: song detection, play/pause/skip and lyric chats work today; beat-synced dancing (needs system audio capture) and local deep listening are still in progress—use cloud deep listening for now."
+          "description": "Windows 10/11 and macOS (Apple silicon / Intel), needs Coopani 0.2.22+. Feedback QQ group: 284525159.\n\nA cozy companion who listens to music right beside you.\n\n- **Natural song chats**: automatically detects tracks in QQ Music and NetEase Cloud Music, chats about the lines just sung, and never nags if you stay quiet.\n- **Moves to the real beat**: dances in sync with the actual drums and chorus energy (includes a grooved Big Fish figure pack—just select it on the dress-up page).\n- **Truly hears the music**: optional cloud or local deep listening picks up keys, chords, melodies, and instruments.\n- **Separate Likes & Wishlist, auto-cleared on play**: the redesigned vinyl deck panel splits \"What she likes\" and \"What she wants to hear\" into two independent lists; tracks on her wishlist automatically clear once played for 20s+ so she never keeps asking for songs you already played.\n- **Travel tie-in**: with Big Fish World Tour installed, place names in your songs quietly inspire her next travel destination.\n- **On macOS**: song detection, play/pause/skip and lyric chats work today; beat-synced dancing (needs system audio capture) and local deep listening are still in progress—use cloud deep listening for now."
         }
       },
       "author": "Mr.Q",
@@ -2805,8 +2828,8 @@
         "darwin"
       ],
       "created": "2026-10-27T13:51:58.308Z",
-      "published": "2026-11-24T16:36:19.334Z",
-      "versionCount": 67,
+      "published": "2026-11-27T14:19:16.105Z",
+      "versionCount": 68,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2835,11 +2858,12 @@
       "summary": {
         "tools": 10,
         "events": 11,
-        "toolTokens": 2578,
+        "toolTokens": 2608,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.2.0",
           "1.1.1",
           "1.1.0",
           "1.0.2",
@@ -4563,7 +4587,7 @@
     },
     "cortico-provider-gemini-gateway": {
       "kind": "provider",
-      "version": "0.2.5",
+      "version": "0.2.6",
       "displayName": "🐦 Gemini 多合一粮仓",
       "description": "Gemini 多合一粮仓：支持 Robin 桌面 OAuth 多账号调度与额度看板、原生多模态附件上传，以及 Web2API 与自定义 RPC 接入。",
       "locales": {
@@ -4595,8 +4619,8 @@
         "bugs": "https://github.com/Unnori/cortico-provider-gemini-gateway/issues"
       },
       "created": "2026-11-19T06:39:56.778Z",
-      "published": "2026-11-26T18:07:13.146Z",
-      "versionCount": 15,
+      "published": "2026-11-27T14:25:50.136Z",
+      "versionCount": 16,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -4632,6 +4656,7 @@
       },
       "changelog": {
         "versions": [
+          "0.2.6",
           "0.2.5",
           "0.2.4",
           "0.2.3",
@@ -5284,7 +5309,7 @@
     },
     "cortico-world-agent-speed": {
       "kind": "world",
-      "version": "0.2.7",
+      "version": "0.2.8",
       "displayName": "Agent Speed",
       "description": "The Coopanion desktop pet with local Agent Speed activity animation",
       "maintainers": [
@@ -5304,8 +5329,8 @@
         "win32"
       ],
       "created": "2026-11-26T05:37:12.825Z",
-      "published": "2026-11-27T11:14:07.725Z",
-      "versionCount": 10,
+      "published": "2026-11-27T14:05:24.155Z",
+      "versionCount": 11,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5327,7 +5352,7 @@
         "versions": [
           "0.2.0"
         ],
-        "url": "https://unpkg.com/cortico-world-agent-speed@0.2.7/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-agent-speed@0.2.8/CHANGELOG.md"
       },
       "discussion": {
         "number": 1171,
@@ -7224,7 +7249,7 @@
       "discussion": {
         "number": 457,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/457",
-        "up": 16,
+        "up": 17,
         "down": 0,
         "comments": 3
       }
@@ -11315,7 +11340,7 @@
     },
     "cortico-world-ego": {
       "kind": "world",
-      "version": "0.1.17",
+      "version": "0.1.18",
       "displayName": "Ego 浏览器",
       "description": "Ego 浏览器 —— 让你家的小肥鱼上网、查梗、传文件、看图和看视频。Cortico 与 Coopanion 共用官方 ego-browser 接口，在独立 Space 里浏览网页、上传与下载文件、截图，观看 HTML5 / B 站视频的画面、字幕与弹幕。需先安装 Ego Lite。",
       "locales": {
@@ -11349,8 +11374,8 @@
         "darwin"
       ],
       "created": "2026-10-21T11:07:12.898Z",
-      "published": "2026-11-26T15:49:20.000Z",
-      "versionCount": 10,
+      "published": "2026-11-27T14:25:31.122Z",
+      "versionCount": 11,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -11376,11 +11401,12 @@
       "summary": {
         "tools": 18,
         "events": 3,
-        "toolTokens": 2834,
-        "envPromptTokens": 788
+        "toolTokens": 2910,
+        "envPromptTokens": 838
       },
       "changelog": {
         "versions": [
+          "0.1.18",
           "0.1.17",
           "0.1.16",
           "0.1.15",
@@ -11868,7 +11894,7 @@
       "discussion": {
         "number": 485,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/485",
-        "up": 4,
+        "up": 5,
         "down": 0,
         "comments": 9
       }
@@ -14089,7 +14115,7 @@
     },
     "cortico-world-genesis": {
       "kind": "world",
-      "version": "4.7.3",
+      "version": "4.8.0",
       "displayName": "创世记",
       "description": "给 Agent 一颗物理自洽、一次性创世的星球：种子与少量旋钮生成恒星系与行星属性。",
       "author": "Nami-Mizu",
@@ -14109,10 +14135,10 @@
         "npm": "https://www.npmjs.com/package/cortico-world-genesis"
       },
       "created": "2026-11-13T12:15:34.380Z",
-      "published": "2026-11-27T09:07:00.223Z",
-      "versionCount": 35,
+      "published": "2026-11-27T15:19:05.518Z",
+      "versionCount": 36,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "experimental"
       ],
@@ -14128,11 +14154,12 @@
       "summary": {
         "tools": 47,
         "events": 16,
-        "toolTokens": 9274,
-        "envPromptTokens": 3319
+        "toolTokens": 9398,
+        "envPromptTokens": 3453
       },
       "changelog": {
         "versions": [
+          "4.8.0",
           "4.7.3",
           "4.7.2",
           "4.7.1",
@@ -14239,7 +14266,7 @@
           "1.2.0",
           "1.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-genesis@4.7.3/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-genesis@4.8.0/CHANGELOG.md"
       },
       "discussion": {
         "number": 915,
@@ -15405,17 +15432,17 @@
     },
     "cortico-world-idle-abyss": {
       "kind": "world",
-      "version": "0.3.2",
+      "version": "0.4.7",
       "displayName": "深渊放置姬",
-      "description": "让 Coo 自己玩《深渊放置姬》，也能陪你玩：状态、装备、剧情、技能、扭蛋、铁匠、领奖、秘境、背包、营地，层数推进不主动打扰。",
+      "description": "Steam 游戏《深渊放置姬》(Idle Abyss Princesses) 的 Coopanion 陪玩 World：Coo 能自己经营这一局——状态、装备、剧情、技能、加点、奇物、木桩、折磨档位、扭蛋、铁匠、领奖、秘境、背包、魔盒、营地，层数推进不主动打扰。扩展不带游戏，需要先安装 Steam 版。",
       "locales": {
         "zh": {
           "displayName": "深渊放置姬",
-          "description": "《深渊放置姬》陪玩 World：Coo 能自己经营这一局——看状态、换装备、处理剧情、改技能、抽扭蛋、强化/附魔/打孔/镶宝石、领奖、进秘境、管背包、收营地，也能陪你一起玩。层数推进不吵，卡关才提醒，不碰鼠标也不抢窗口。"
+          "description": "Steam 游戏《深渊放置姬》(Idle Abyss Princesses) 的陪玩 World：Coo 能自己经营这一局——看状态、换装备、处理剧情、改技能、加点、用奇物、打木桩、抽扭蛋、强化/附魔/打孔/镶宝石、领奖、进秘境、管背包、用魔盒、收营地，也能陪你一起玩。扩展不带游戏，需要先在 Steam 安装并启动游戏；层数推进不吵，卡关才提醒，不碰鼠标也不抢窗口。"
         },
         "en": {
           "displayName": "Abyss Companion",
-          "description": "A Coopanion World for Idle Abyss Princesses: your companion can run her own run — status, gear, story, skills, gacha, forging, rewards, rifts, bag and camp — or play alongside you. Quiet on stage progress, speaks up when stuck; never touches the mouse."
+          "description": "A Coopanion World for the Steam game Idle Abyss Princesses: your companion can run her own run — status, gear, story, skills, build points, oddities, training dummy, Torment tiers, gacha, forging, rewards, rifts, bag, cube and camp — or play alongside you. The game itself is not included; install and launch it on Steam first. Quiet on stage progress, speaks up when stuck; never touches the mouse."
         }
       },
       "author": "YearDouble",
@@ -15429,9 +15456,11 @@
         "cortico",
         "coopanion",
         "idle-abyss",
+        "idle-abyss-princesses",
+        "steam",
+        "steam-game",
         "game",
-        "companion",
-        "steam"
+        "companion"
       ],
       "links": {
         "npm": "https://www.npmjs.com/package/cortico-world-idle-abyss"
@@ -15440,18 +15469,20 @@
         "win32"
       ],
       "created": "2026-11-22T12:48:39.811Z",
-      "published": "2026-11-23T12:52:12.239Z",
-      "versionCount": 4,
+      "published": "2026-11-27T15:28:35.667Z",
+      "versionCount": 6,
       "official": false,
       "isNew": true,
       "declaredTags": [
         "game",
+        "external-setup",
         "companion",
         "experimental"
       ],
       "tags": [
         "game",
         "companion",
+        "external-setup",
         "experimental"
       ],
       "icon": "assets/cortico-world-idle-abyss/icon.png",
@@ -15461,20 +15492,28 @@
         "week": 565
       },
       "summary": {
-        "tools": 15,
-        "events": 15,
-        "toolTokens": 3107,
+        "tools": 20,
+        "events": 22,
+        "toolTokens": 6086,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "0.4.7",
+          "0.4.6",
+          "0.4.5",
+          "0.4.4",
+          "0.4.3",
+          "0.4.2",
+          "0.4.1",
+          "0.4.0",
           "0.3.2",
           "0.3.1",
           "0.3.0",
           "0.2.0",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-idle-abyss@0.3.2/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-idle-abyss@0.4.7/CHANGELOG.md"
       },
       "discussion": {
         "number": 1084,
@@ -16101,7 +16140,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1018",
         "up": 0,
         "down": 0,
-        "comments": 0
+        "comments": 1
       }
     },
     "cortico-world-keyhold": {
@@ -16906,7 +16945,7 @@
     },
     "cortico-world-lol": {
       "kind": "world",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "displayName": "英雄联盟",
       "description": "Cortico World: 只读接入英雄联盟客户端 —— LCU 选人流程与 Live Client Data 对局数据、包内克制与海克斯知识、自家账本与本局瞬时状态",
       "locales": {
@@ -16938,8 +16977,8 @@
         "win32"
       ],
       "created": "2026-11-24T10:32:12.206Z",
-      "published": "2026-11-24T10:58:45.585Z",
-      "versionCount": 3,
+      "published": "2026-11-27T13:05:28.209Z",
+      "versionCount": 4,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -16969,17 +17008,18 @@
       },
       "changelog": {
         "versions": [
+          "0.1.2",
           "0.1.1",
           "0.1.0"
         ],
-        "url": "https://unpkg.com/cortico-world-lol@0.1.1/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-lol@0.1.2/CHANGELOG.md"
       },
       "discussion": {
         "number": 1132,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1132",
         "up": 0,
         "down": 0,
-        "comments": 1
+        "comments": 2
       }
     },
     "cortico-world-lulu": {
@@ -18811,7 +18851,7 @@
     },
     "cortico-world-mosey": {
       "kind": "world",
-      "version": "2.13.4",
+      "version": "2.16.0",
       "displayName": "摸鱼",
       "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。评论和私信都能收能回；能一起看视频（B站带字幕弹幕，抖音可自动连刷）；关注流、周报、本地书库；按额度点赞、评论、关注、发动态。默认人审，三把工具、少 token。\n\nQQ 交流群：745879632",
       "locales": {
@@ -18848,8 +18888,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-mosey/issues"
       },
       "created": "2026-11-01T08:17:38.660Z",
-      "published": "2026-11-27T05:33:22.625Z",
-      "versionCount": 69,
+      "published": "2026-11-27T13:24:33.964Z",
+      "versionCount": 70,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -18881,11 +18921,17 @@
       "summary": {
         "tools": 3,
         "events": 8,
-        "toolTokens": 2205,
+        "toolTokens": 2288,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "2.16.0",
+          "2.15.1",
+          "2.15.0",
+          "2.14.1",
+          "2.14.0",
+          "2.13.5",
           "2.13.4",
           "2.13.0",
           "2.12.0",
@@ -18998,9 +19044,9 @@
       "discussion": {
         "number": 619,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/619",
-        "up": 5,
+        "up": 4,
         "down": 0,
-        "comments": 64
+        "comments": 72
       }
     },
     "cortico-world-mota": {
@@ -23000,7 +23046,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/46",
         "up": 17,
         "down": 1,
-        "comments": 21
+        "comments": 23
       }
     },
     "cortico-world-qq-final-beta": {
@@ -28640,7 +28686,7 @@
       "published": "2026-11-26T18:38:46.421Z",
       "versionCount": 6,
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "im",
         "sensitive-data"
@@ -30972,6 +31018,94 @@
         "number": 1098,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1098",
         "up": 2,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-world-webai": {
+      "kind": "world",
+      "version": "0.1.4",
+      "displayName": "外援",
+      "description": "外援：让桌宠在拿不准或需要识图时，去网页端 AI（DeepSeek / 豆包 / Kimi / 自定义）问一句，再把答案带回来。",
+      "locales": {
+        "zh": {
+          "displayName": "外援",
+          "description": "拿不准、或者需要看图的时候，去网页端 AI 问一句，把答案带回来。默认 DeepSeek 网页版，可换豆包、Kimi 或自定义站点；登录状态在本页看，点「登录」弹出窗口扫码或收验证码。"
+        },
+        "en": {
+          "displayName": "Web AI Backup",
+          "description": "Ask a web AI (DeepSeek / Doubao / Kimi / custom) when she is unsure or needs to read an image, then bring the answer back. Log in from this page."
+        }
+      },
+      "author": "AranOvO",
+      "maintainers": [
+        "aran-ovo"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-world",
+        "cortico",
+        "coopanion",
+        "webai",
+        "deepseek",
+        "doubao",
+        "kimi"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-world-webai",
+        "repository": "https://github.com/AranOvO/cortico-world-webai",
+        "homepage": "https://github.com/AranOvO/cortico-world-webai#readme",
+        "bugs": "https://github.com/AranOvO/cortico-world-webai/issues"
+      },
+      "os": [
+        "win32"
+      ],
+      "created": "2026-11-27T15:15:45.763Z",
+      "published": "2026-11-27T15:18:22.981Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "declaredTags": [
+        "internet",
+        "browser",
+        "unofficial-api",
+        "experimental",
+        "injection-risk",
+        "sensitive-data"
+      ],
+      "tags": [
+        "internet",
+        "browser",
+        "experimental",
+        "sensitive-data",
+        "injection-risk",
+        "unofficial-api"
+      ],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "tools": 2,
+        "events": 0,
+        "toolTokens": 288,
+        "envPromptTokens": 0
+      },
+      "changelog": {
+        "versions": [
+          "0.1.4",
+          "0.1.3",
+          "0.1.2",
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://github.com/AranOvO/cortico-world-webai/blob/HEAD/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1183,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1183",
+        "up": 0,
         "down": 0,
         "comments": 0
       }

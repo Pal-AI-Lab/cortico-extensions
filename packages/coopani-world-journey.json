@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-journey",
-  "version": "2.11.0",
+  "version": "2.12.0",
   "describe": {
     "tools": [
       {
@@ -700,6 +700,334 @@
           "zh": "取消苦等的碰面约定，留在原地停止等待。",
           "en": "Stop waiting and cancel the pending meet-up."
         }
+      },
+      {
+        "name": "journey_prompt_read",
+        "description": "读取『大肥鱼环游世界』当前生效的生图提示词配置（imageStyle、imageCast、imageStyleCast）、当前使用的生图模型信息、命中的模型方案、待保存草稿状态以及最近一次备份快照 ID。",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "读取当前生效的三项生图提示词、当前生图模型与匹配方案状态。",
+          "en": "Read active Journey image prompts, current image model, and matched profile."
+        }
+      },
+      {
+        "name": "journey_prompt_preview",
+        "description": "修改并预览对比『大肥鱼环游世界』生图提示词（仅限 imageStyle、imageCast、imageStyleCast）。省略字段表示保持原值，传空字符串 \"\" 表示清空。默认将本次修改暂存为草稿（stage=true），便于主人确认后直接调用 journey_prompt_save 保存；不传字段时可查看当前待保存草稿的对比；传 discardDraft=true 可清空草稿。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "imageStyle": {
+              "type": "string",
+              "description": "默认画风提示词；省略保持原值，传 \"\" 清空。"
+            },
+            "imageCast": {
+              "type": "string",
+              "description": "出镜角色外貌描述；省略保持原值，传 \"\" 清空（画面不含出镜角色）。"
+            },
+            "imageStyleCast": {
+              "type": "string",
+              "description": "角色出镜时的专属画风；省略保持原值，传 \"\" 清空（回退到 imageStyle）。"
+            },
+            "reason": {
+              "type": "string",
+              "description": "本次修改的可选备注说明，保存时会写入备份历史。"
+            },
+            "stage": {
+              "type": "boolean",
+              "description": "是否将修改暂存为待保存草稿，默认 true；传 false 仅预览不改动草稿。"
+            },
+            "mergeWithDraft": {
+              "type": "boolean",
+              "description": "是否在已有草稿基础上增量修改，默认 false（以当前生效配置为基准）。"
+            },
+            "discardDraft": {
+              "type": "boolean",
+              "description": "传 true 时放弃并清空当前待保存草稿。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "read",
+          "write"
+        ],
+        "summary": {
+          "zh": "修改/暂存生图提示词草稿，并生成修改前后的逐字段预览对比。",
+          "en": "Modify/stage Journey image prompt changes and preview before/after diffs."
+        }
+      },
+      {
+        "name": "journey_prompt_save",
+        "description": "保存『大肥鱼环游世界』生图提示词修改到底层配置并立即热更新生效（同时持久化到 config.json），保存前会自动备份旧值供回滚。可直接保存之前用 journey_prompt_preview 暂存的草稿，也可直接传入 imageStyle、imageCast、imageStyleCast 一步修改并保存；支持 syncMatchedProfile=true 同步更新当前生图模型命中的方案。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "imageStyle": {
+              "type": "string",
+              "description": "直接保存的新默认画风；不传任何提示词字段时默认保存已暂存的草稿。"
+            },
+            "imageCast": {
+              "type": "string",
+              "description": "直接保存的新出镜角色描述；传 \"\" 表示清空。"
+            },
+            "imageStyleCast": {
+              "type": "string",
+              "description": "直接保存的新出镜专属画风；传 \"\" 表示清空（回退到 imageStyle）。"
+            },
+            "reason": {
+              "type": "string",
+              "description": "本次保存的变更备注（写入历史备份，方便日后识别回滚）。"
+            },
+            "expectedBaseHash": {
+              "type": "string",
+              "description": "可选防并发校验值（来自 read 或 preview 返回的 baseHash）；若当前配置已被外部改动则拒绝覆盖。"
+            },
+            "force": {
+              "type": "boolean",
+              "description": "当草稿基准与当前配置发生外部漂移时，传 true 强制覆盖保存；默认 false。"
+            },
+            "syncMatchedProfile": {
+              "type": "boolean",
+              "description": "传 true 且当前生图模型命中了某套已保存方案时，同步把新提示词写回该模型方案；默认 false。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "保存生图提示词修改并自动备份旧版本，热更新立即生效。",
+          "en": "Save image prompt changes with automatic backup and live hot-apply."
+        }
+      },
+      {
+        "name": "journey_prompt_history",
+        "description": "查看『大肥鱼环游世界』生图提示词的历史备份快照列表（含手动保存、方案切换、自动随模型切换与回滚记录），或按 snapshotId 查看某一条备份的完整内容及与当前生效配置的差异。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "description": "返回的最近备份条数，默认 10，最多 50。"
+            },
+            "snapshotId": {
+              "type": "string",
+              "description": "可选：指定某条快照 ID，返回该快照的完整三字段内容及与当前配置的对比。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "查询生图提示词的备份历史列表或指定快照详情。",
+          "en": "List backup snapshots or inspect a specific snapshot in detail."
+        }
+      },
+      {
+        "name": "journey_prompt_rollback",
+        "description": "将『大肥鱼环游世界』生图提示词回滚到历史备份版本。省略 snapshotId 时默认回滚到最近一次修改前的状态；支持 previewOnly=true 先预览回滚对比再执行。正式回滚前会自动把当前配置备份为一条新快照，确保回滚操作本身也可撤销。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "snapshotId": {
+              "type": "string",
+              "description": "要回滚的目标快照 ID（来自 journey_prompt_history）；省略时默认使用最新一条备份。"
+            },
+            "target": {
+              "type": "string",
+              "enum": [
+                "before",
+                "after"
+              ],
+              "description": "恢复该快照记录的修改前状态（before，默认）或修改后状态（after）。"
+            },
+            "previewOnly": {
+              "type": "boolean",
+              "description": "传 true 仅预览回滚对比，不写入配置；默认 false。"
+            },
+            "reason": {
+              "type": "string",
+              "description": "可选回滚备注说明。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "将生图提示词回滚到指定或上一份备份快照（支持仅预览对比）。",
+          "en": "Rollback Journey image prompts to a previous backup snapshot (with preview mode)."
+        }
+      },
+      {
+        "name": "journey_prompt_profiles",
+        "description": "查看为不同生图模型保存的提示词方案列表，展示当前『大肥鱼环游世界』正在使用的生图模型及其最佳匹配方案；传入 profileId 时返回该方案的完整提示词内容与当前生效配置的差异对比。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "profileId": {
+              "type": "string",
+              "description": "可选：查看指定方案 ID 的完整提示词内容及与当前生效配置的差异。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "read",
+          "snapshot"
+        ],
+        "summary": {
+          "zh": "列出所有多模型生图提示词方案或查看某套方案详情。",
+          "en": "List all per-model image prompt profiles or inspect one in detail."
+        }
+      },
+      {
+        "name": "journey_prompt_profile_save",
+        "description": "新增或更新一套绑定特定生图模型的提示词方案。可以传 bindCurrentModel=true 自动绑定当前生图模型、fromCurrent=true 从当前生效提示词复制三项内容，或直接指定 matchModel/matchPreset/matchProtocol 与三项提示词。开启自动切换后，切换生图模型时会自动套用匹配的方案。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "profileId": {
+              "type": "string",
+              "description": "方案唯一 ID（如 kolors、qwen、doubao、comfyui-anime）；新建时省略将自动生成。"
+            },
+            "name": {
+              "type": "string",
+              "description": "方案显示名称（如「Kolors 写实+二次元」「千问水彩风」）。"
+            },
+            "matchModel": {
+              "type": "string",
+              "description": "绑定的模型名匹配规则，支持精确名、子串或通配符 *（如 Kwai-Kolors/Kolors、qwen-image*、doubao-seedream*）；留空不限模型名。"
+            },
+            "matchPreset": {
+              "type": "string",
+              "enum": [
+                "",
+                "custom",
+                "doubao",
+                "openai",
+                "qwen"
+              ],
+              "description": "绑定的云端预设（doubao / openai / qwen / custom）；留空不限预设。"
+            },
+            "matchProtocol": {
+              "type": "string",
+              "enum": [
+                "",
+                "openai",
+                "comfyui"
+              ],
+              "description": "绑定的生图协议（openai 云端 / comfyui 本地）；留空不限协议。"
+            },
+            "matchApi": {
+              "type": "string",
+              "description": "可选：接口地址包含的域名或关键字（如 siliconflow.cn、dashscope.aliyuncs.com）。"
+            },
+            "bindCurrentModel": {
+              "type": "boolean",
+              "description": "传 true 时自动以当前生图模型的协议/预设/模型名作为绑定规则（显式传入的 match* 字段优先覆盖）。"
+            },
+            "fromCurrent": {
+              "type": "boolean",
+              "description": "传 true 时以当前生效的三项提示词作为底稿（显式传入的提示词字段优先覆盖）。"
+            },
+            "imageStyle": {
+              "type": "string",
+              "description": "该方案的默认画风提示词；传 \"\" 表示清空。"
+            },
+            "imageCast": {
+              "type": "string",
+              "description": "该方案的出镜角色描述；传 \"\" 表示清空。"
+            },
+            "imageStyleCast": {
+              "type": "string",
+              "description": "该方案的出镜专属画风；传 \"\" 表示清空（回退到 imageStyle）。"
+            },
+            "note": {
+              "type": "string",
+              "description": "可选方案说明备注。"
+            },
+            "applyNow": {
+              "type": "boolean",
+              "description": "保存方案后是否立即热更新应用到当前『大肥鱼环游世界』配置；默认 false。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "新建或更新指定生图模型的提示词方案（支持一键绑定当前模型）。",
+          "en": "Create or update a prompt profile bound to a specific image model."
+        }
+      },
+      {
+        "name": "journey_prompt_profile_apply",
+        "description": "将某套已保存的模型提示词方案应用到『大肥鱼环游世界』（省略 profileId 时自动匹配当前生图模型对应的方案）。支持 previewOnly=true 先查看切换前后对比；正式应用时热更新立即生效并自动备份旧值。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "profileId": {
+              "type": "string",
+              "description": "要应用的方案 ID；省略时自动按当前生图模型匹配最佳方案。"
+            },
+            "previewOnly": {
+              "type": "boolean",
+              "description": "传 true 仅预览应用后的差异对比，不写入配置；默认 false。"
+            },
+            "reason": {
+              "type": "string",
+              "description": "可选变更备注说明。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "应用指定或当前模型匹配的提示词方案（支持先预览对比）。",
+          "en": "Apply a saved prompt profile (or auto-match current model) with optional preview."
+        }
+      },
+      {
+        "name": "journey_prompt_profile_delete",
+        "description": "删除一套已保存的模型提示词方案（仅删除方案条目，不影响当前生效的生图提示词和历史备份快照）。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "profileId": {
+              "type": "string",
+              "description": "要删除的方案 ID。"
+            }
+          },
+          "required": [
+            "profileId"
+          ],
+          "additionalProperties": false
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "删除指定 ID 的模型提示词方案。",
+          "en": "Delete a saved per-model prompt profile by ID."
+        }
       }
     ],
     "events": [
@@ -883,6 +1211,7 @@
     ]
   },
   "changelog": {
+    "2.12.0": "- **整合多模型生图提示词编辑器（`原作者：frost77r`）**（`src/prompt-editor.ts`、`src/config.ts`、`src/describe.ts`、`describe.json`、`src/world.ts`、`src/world-webui.ts`、`src/world-purse.ts`、`dist/webui.js`、`dist/webui.css`、`ENV_PROMPT.md`）：\n  - 新增 9 个提示词管理与画像工具（`describe.json` 工具总计 34 个）与 WebUI「提示词」管理页签（页面内明示 `原作者：frost77r`），支持方案画像匹配与一键应用、原/改差异对比、草稿哈希防漂移、原子备份快照（默认上限 `promptMaxSnapshots = 30`）与一键回滚。\n  - 新增热配置 `promptAutoSwitch`（默认开启），在「生图设置」保存并切换模型或服务商时自动备份当前提示词并切换到匹配方案。\n- **修复「旅行花她的钱」默认值持久化、出发校验、在途提示与双开关 UI 说明**（`src/config.ts`、`src/definition.ts`、`src/world.ts`、`src/world-purse.ts`、`src/world-webui.ts`、`src/ui.ts`、`dist/webui.js`）：\n  - `payFromLife` 默认值设为 `false`（由你请客），同时引入 `<dataDir>/journey-prefs.json` 与 `hasExplicitConfigKey('payFromLife')` 同步机制，用户改过的开关选择会永久跟随存档保留，后续版本升级不会拉回默认。\n  - 补全 `homeDepartAffordable()` 在家自费出发预算校验，避免余额不够往返路费+三天基本住吃时直接动身；修复 `nowSummary()` 的 `traveling`（在途）分支漏调 `purseTravelLine()` 导致车上分不清自费还是请客的问题，并在双开关全开时显式标明「这一趟花你自己的钱（从「模拟鱼生」钱包扣）」。\n  - 设置说明、状态徽章与主面板页脚均明确提示需同时打开「记花销」和「旅行花她的钱」才会按她在「模拟鱼生」的经济情况决定出行与扣费；只开「旅行花她的钱」未开「记花销」时页面直接挂警示提示。\n- **修复生图密钥覆盖与白昼光线误偏黄昏问题**（`src/world-webui.ts`、`src/photo.ts`、`src/photo-facts.ts`、`test/secrets-migrate.test.mjs`、`test/photo-light.test.mjs`、`test/photo-director.test.mjs`）：\n  - 修复 WebUI 保存生图设置时原有密钥无法被新填写的密钥正确改写的问题；补全室内/餐饮白昼光线描述与 `compileDirectorPrompt()` 大白天明亮日光防误偏黄昏护栏。",
     "2.11.0": "- **Coopanion Hub v1.2 双轨联机接入**（`src/hub-client.ts`、`src/config.ts`、`src/meet.ts`、`src/world-social.ts`、`src/world-plan.ts`、`src/world.ts`）：\n  - 新增热配置 `worlds.journey.hubUrl`（推荐 `https://hub.cooppetsjourney.top`）；留空时 100% 退回老服 `meetUrl` 或纯单机运行。\n  - 新增 `src/hub-client.ts`，与 `coopani-world-life` 共用 `<dataDir>/coopanion-hub-auth.json` 原子凭据，首次只读探测 `meet-uid.txt` / `life-town-uid.txt` 认领历史 UID（遇 `409 LEGACY_UID_CLAIMED` 诚实报错防裂号，不静默新建账号）。\n  - 所有既有接口（上报位置、同城查重、足迹、路标、全服邀约、接约、留言卡、名片）在 `mode === 'hub'` 下透明对接 `/v1/journey/*`：修复服务端 `limit` 截断写死与 `slot=all` 全时段同伴查询，`claimTakenInvite` 改用显式 `POST /v1/journey/invites/ack` 确认不再靠 `GET` 吞认领，并周期上报 `PUT /v1/core/pets/me/ext/journey` 公开旅途切片；配合总服解锁「旅途同行过」之后的 `life_mail` 鱼间私信准入。\n- **面板与文档同步**（`src/ui.ts`、`src/world-webui.ts`、`dist/webui.js`、`package.json`、`README.md`、`test/hub-v1.test.mjs`）：\n  - `uiSnapshot().social` 透出 `hubMode`、`hubPetId` 与 `authError`，首页「此刻」面板清晰区分 Hub 总服共享身份、老服碰面地址与认领异常；无服务器引导更新至 `https://hub.cooppetsjourney.top`。\n  - 新增本地 mock 集成测试 `test/hub-v1.test.mjs`。",
     "2.10.5": "- **新增城市「宝鸡」（`baoji`，陕西，全城 193 → 194 座）**：按读者点名加入，暂无常规民航航班（`air: false, port: false`），往来走宝鸡南站高铁或从西安换乘。同步补齐全部 11 处城表项（`src/geo/cities.ts`）：\n  - `SPOTS` 9 处真景点：宝鸡青铜器博物院、石鼓阁（中华石鼓园）、金台观（金台区北坡）、西府老街（金台区胜利塬）、陈仓老街（渭滨区）、渭河公园、法门寺（扶风县）、太白山国家森林公园（眉县）、关山草原（陇县）；\n  - `SPOT_LOOK` 3 处画面锚点（青铜器博物院、石鼓阁、法门寺）与 42 字 `VISTA` 远景；\n  - `FOODS` 10 道荤素与形态均衡的地方真菜（岐山臊子面、宝鸡擀面皮、凤翔腊驴肉、岐山臊子排骨、豆花泡馍、千阳羊杂汤、西府蒸碗、岐山醋粉、宝鸡茶酥、宝鸡搅团），配合 `PRICE_IDX`（`0.8`）、`FEATURES`（西府海棠 / 宝鸡青铜器博物院 / 岐山臊子面）、`LORE`、`NIGHTS`、`FESTIVALS`（西府社火 1–3 月）及 `SHOWS`（宝鸡大剧院）。\n- **修复 `cityOfSpot()` 认不出带冒号描述与括号注的景点短名**（`src/geo/cities.ts`）：`cityOfSpot()` 原先拿整条含 `：` 描述和 `（县区）` 括号后缀的原始字符串去匹配，导致 `cityOfSpot('法门寺')`、`cityOfSpot('宝鸡青铜器博物院')` 落空。改为先剥冒号后描述及尾括号注后再做精确或包含匹配（继续严禁反向包含）。\n- **管鱼页城市表与文案同步**：运行 `tools/regen-city-table.mjs` 与 `cloud/sight-cf/build-pets.mjs`，同步更新 `site/pets.html` 与 `cloud/sight-cf/src/pets-page.js`（194 城全覆盖，`baoji → 宝鸡`），并把 `package.json` 介绍更新为 `194 座真城市` / `194 real cities`。",
     "2.10.4": "> 接着上一版那个来信问的：「还有哪些景点是这种需要坐船去但是没有船过不去的情况」。\n\n- **病根在市内交通只认距离**。`inCityMode()` 按公里挑走路 / 共享单车 / 电瓶车 / 地铁 / 公交 / 打车，\n  而 `act()` 里的距离是**种子生成的假数**（1.2–12 公里）—— 于是「去涠洲岛」会写成「坐地铁去涠洲岛」，\n  去鼓浪屿也可能「骑共享单车去」。岛和陆之间没有桥的时候，这句话一眼就是假的。\n- **新增 `ferryTo()` 与 `FERRY_SPOTS`（`src/geo/cities.ts`）**：26 处只能坐船的地方，一条条列，不按名字猜。\n  - 国内：涠洲岛、鼓浪屿、东极岛、桃花岛、嵊泗列岛、长岛、刘公岛、海驴岛、外伶仃岛、东澳岛、硇洲岛、特呈岛、蜈支洲岛、西岛、南丫岛、旗津岛、龟龄岛、观音湖（孝感）。\n  - 国外：恶魔岛、女人岛、火山岛、怀赫科岛、湖心岛、企鹅岛、伊夫堡、巴尔特拉斯岛。\n  - **不按名字猜的理由**：橘子洲有桥、太阳岛有桥有缆车、江心屿有桥、养马岛有跨海大桥、东海岛有海堤、淇澳岛有桥、棕榈岛有地铁 —— 名字带「岛」就判船会大面积误伤。\n- **票价与航程分三档**（往返）：`short` 35 元 / 15 分钟（城市近岛）、`mid` 80 元 / 55 分钟（要出海的）、`long` 140 元 / 100 分钟（东极岛、嵊泗、外伶仃这类远岛）。船票**不按「今天舍不舍得花钱」打折** —— 没有别的走法。\n- **排在包车和自驾前面**：有车也开不上岛，问「开什么车去」本身就不对。修之前开着房车去北海，会看到她「开车上涠洲岛」。\n- 行程里现在写的是：`坐渡船去涠洲岛（往返 80 元，单程约 55 分钟）`；同一天去陆地景点（银滩）照旧「打车去银滩」，互不影响。",

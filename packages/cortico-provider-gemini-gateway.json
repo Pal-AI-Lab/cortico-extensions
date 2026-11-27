@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-provider-gemini-gateway",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "describe": {
     "provider": {
       "protocols": [
@@ -54,6 +54,7 @@
     }
   },
   "changelog": {
+    "0.2.6": "🛠️ 修复账号卡片残留旧额度查询报错的状态更新问题、增加额度查询瞬时断连重试，并放宽 Robin 完成信号收尾窗口：\n- **放宽 Robin 完成信号自动收尾窗口至 1000ms 并支持尾帧增长重置**：将收到 `completed=1` 后的 `completedGraceMs` 宽限时间从 `500ms` 调整为 `1000ms`；若在宽限期内后续帧仍有新增正文或思考内容，则自动重置计时（空帧/心跳帧不重置；正常收到 HTTP/2 `END_STREAM` 时仍立即结束、不增加正常请求耗时），兼顾收尾速度与尾帧完整性。\n- **隔离额度查询错误与生成/冷却状态**：将 `AccountRuntimeState` 中的额度查询异常拆分为独立字段 `quotaError`（不再写入生成侧 `lastError`）；后续额度查询恢复成功（或完成服务条款确认）时自动清除旧的额度报错红字，同时保留真实的模型生成报错与冷却倒计时不被额度刷新冲掉。\n- **额度查询瞬时 TLS/断连自动重试 1 次**：在 `queryGatewayQuota()` 中识别 TLS 握手前断连、`ECONNRESET`、HTTP/2 连接/流异常等瞬时传输错误，短暂退避后自动重连一次（不触发多余的 OAuth Token 强刷），缓解多账号并发刷新额度时偶发握手中断导致的误报错。",
     "0.2.5": "🛡️ 新增 Robin 瞬间降级保护、付费模型账号权益优先排序，以及独立的「5 小时窗口余量优先」调度模式：\n- **Robin 瞬间降级保护（全调度模式生效）**：在流式响应尚未向下游吐出正文/工具块之前，依据上游返回的 `fallback`、`downgradeReason`、`resolvedModeCategory` 与归属文案（覆盖订阅到期导致 `4 Neon` 静默回落至 `Used 3.1 Pro model`、`Used auto model selection` 或 `4 Carbon` 回落等场景）识别模型降级；当账号池内存在其他候选账号时，无论当前采用主备故障转移、轮询均衡还是余量优先模式，都会中止当前降级流并在同一轮请求内无缝转移至下一个账号，同时将降级账号置入 5 分钟冷却并在后台节流刷新其 `GetUserStatus` 与 `GetUsageInfo`（若为池内最后一个候选账号，则放行完成回复并保留冷却标记，不再被成功回调清除）。\n- **扩展付费模型账号权益优先**：除 `4 Carbon` 优先匹配 Ultra 账号外，选择 `mode 3`（如 `4 Neon` / `Pro`）或 `mode 1`（如 `4 Hydrogen` / `Fast`）等付费档模型时，自动将已确认无对应权益的 Free 账号排在有权益的 Pro/Ultra 账号之后，避免免费档满额状态压过可用付费账号。\n- **新增「5 小时窗口余量优先（`least-used-5h`）」调度模式**：与原有「周额度余量优先（`least-used`）」清晰区分，按 5 小时窗口剩余额度从高到低排序（周额度余量 `≤ 5%` 的账号靠后，5 小时余量相同时按周余量决胜）；同步更新 WebUI 步骤 2 与步骤 3 的下拉选项、提示说明、排序高亮、主进度条与副标题展示。",
     "0.2.4": "🛠️ 修复未显式配置 `generationEndpoint` 时 Robin HTTPS 默认误退回 `$rpc/.../StreamGenerate` 的选路问题（Issue #1）：\n- **区分「Provider 注入代理 `fetch`」与「纯 `fetch` Mock 覆盖」**：`GatewayClient.resolveGenerationRoute()` 与 `queryGatewayQuota()` 在协议为 `robin` 且目标为 `https://` 时，若未提供 `fetch` 或同时注入了 `connectHttp2` 能力，默认选择原生 HTTP/2 gRPC 路由（`/assistant.mobile.robin.RobinService/ProcessQuery` 与 `/assistant.mobile.robin.RobinService/GetUsageInfo`），不再因 `src/index.ts` 注入了代理感知 `fetch` 而误切到 `$rpc/.../StreamGenerate`；同时继续保持显式 `generationEndpoint` / `quotaEndpoint` 的最高优先级，以及仅注入自定义 `fetch`、未注入 `connectHttp2` 时的向后兼容。\n- **补充无需 OAuth 的选路回归测试**：在 `tests/provider.test.ts` 与 `tests/quota.test.ts` 中覆盖 `provider.create(...)` 默认入口、同时注入 `fetch` 与 `connectHttp2` 下的默认 gRPC 选路及显式路由覆盖场景。",
     "0.2.3": "🖼️ 调整 Robin 媒体附件保留窗口为「最新一批输入」，并拦截 HTTP 200 安全/外审模板拒答与自动切号恢复：\n- **识别 Robin HTTP 200 安全/外审模板拒答并切号重试、连续失败回弹报错**：当上游在 HTTP 200 响应中未调用任何工具、仅返回外审拦截模板文本（含首帧 `I'm just a language model and can't help with that.` 被二帧整段替换为 `...go against my [guidelines](https://gemini.google/policy-guidelines/)...` 导致旧增量逻辑拼出乱码的情况，以及常见中英文语言模型/政策准则拒答模板）时，流式阶段会先拦截尚未落库的模板前缀并重置整段替换帧，在无工具调用的流尾判定为失败；多账号模式依次切换池内其他账号重试（最多连续切号 4 次且不冷却原号），单账号模式自动重试一次，若仍反复触发则返回 `422` 报错，避免外审拒答模板混入对话历史污染上下文（引用拒答文案后继续解释或附带工具调用的正常回复仍保持原样放行）。\n- **Robin 附件保留策略由「仅最新一条消息」升级为「最新一批未完成回复的输入」**：发送图片/音视频后若触发微信抢占（连续多条 `external_event_frame` 事件帧之间尚无真实模型回复）或语音/新事件打断（模型刚开口或刚发起工具调用即收到打断标记），新发起的请求会一并保留这一批输入中刚发送的媒体附件（上限仍遵循 Robin 单次 4 个 / 20 MiB 约束，超限时优先保留最新的 4 个，且同一附件继续命中本机 SHA-256 缓存免重复上传）；已完成回复的更早轮次与正常多步工具循环的旧媒体仍按原策略替换为轻量占位，避免无谓消耗额度。",

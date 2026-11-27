@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-idle-abyss",
-  "version": "0.3.2",
+  "version": "0.4.7",
   "describe": {
     "tools": [
       {
@@ -43,11 +43,16 @@
       },
       {
         "name": "abyss_items",
-        "summary": "看装备和背包",
-        "description": "看《深渊放置姬》身上穿的和背包里的装备：名称、部位、品质、装等、词条，以及背包里每件装备换上后每秒伤害和坚韧会变化多少。默认按换装收益排序返回前 20 件，用 limit/offset 翻页；满包 120 件不会一次全塞回来。要换装时，先从这里拿装备的 id。只读。",
+        "summary": "看装备、背包和单件特效",
+        "description": "看《深渊放置姬》身上穿的和背包里的装备：名称、部位、品质、装等、词条、传奇特效一行，以及背包里每件装备换上后每秒伤害和坚韧会变化多少。可按品质、装等范围、种类、流派、传奇关键词（默认「受益」）、词条筛选；关键词只对传奇生效，套装看流派，普通装备用词条。summary=true 只回背包体检（品质/种类/流派/保护原因/重复/可换装），不列条目。默认按换装收益排序返回前 20 件，用 limit/offset 翻页；想看某件全文传 itemId。筛选要用游戏内的桥现查。只读。",
         "parameters": {
           "type": "object",
           "properties": {
+            "itemId": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "单件详情：背包/身上/仓库里的装备 id；省略则看列表。"
+            },
             "slot": {
               "type": "string",
               "enum": [
@@ -65,6 +70,64 @@
                 "amulet"
               ],
               "description": "只看某个部位，例如 weapon、helm、ring1；省略则看全部。"
+            },
+            "rarityMin": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 8,
+              "description": "只看这个品质及以上：0 普通、1 魔法、2 稀有、3 传奇、4 套装、5 奇物、6 王庭、7 神话、8 灵器。"
+            },
+            "ilvlMin": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 999,
+              "description": "只看这个装等及以上。"
+            },
+            "ilvlMax": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 999,
+              "description": "只看这个装等及以下；和 ilvlMin 一起用就是装等区间。"
+            },
+            "kind": {
+              "type": "string",
+              "maxLength": 48,
+              "description": "只看种类，逗号组合：legend/set/odd/raid/myth/ling。"
+            },
+            "route": {
+              "type": "string",
+              "maxLength": 32,
+              "description": "只看流派：职业天赋分支的 key 或中文名；general/通用=无流派装备。"
+            },
+            "keyword": {
+              "type": "string",
+              "maxLength": 32,
+              "description": "只看传奇关键词（17 个闭集，key 或中文名），例如 pet/召唤物、burn/燃烧、shield/护盾。"
+            },
+            "kwMode": {
+              "type": "string",
+              "enum": [
+                "benefit",
+                "apply",
+                "all"
+              ],
+              "description": "关键词口径：benefit=受益（默认），apply=施加，all=全部。"
+            },
+            "aff": {
+              "type": "string",
+              "maxLength": 120,
+              "description": "只看带这些词条的装备，逗号分隔、全部命中；key 或中文名，例如 crit,cdr、poisonDmg。"
+            },
+            "only": {
+              "type": "string",
+              "enum": [
+                "up"
+              ],
+              "description": "up=只看比身上更好的装备。"
+            },
+            "summary": {
+              "type": "boolean",
+              "description": "true=只回背包体检摘要，不列条目。"
             },
             "limit": {
               "type": "integer",
@@ -87,7 +150,7 @@
       {
         "name": "abyss_equip",
         "summary": "换装",
-        "description": "把背包里的一件装备换上。itemId 来自 abyss_items 回执里的 id=。换完会读回当前装备确认，并告诉你换前换后的每秒伤害和坚韧。你正在操作游戏时会被拒绝。",
+        "description": "把背包里的一件装备换上。itemId 来自 abyss_items 回执里的 id=。换完会读回当前装备确认，并告诉你换前换后的每秒伤害和坚韧。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -127,7 +190,7 @@
       {
         "name": "abyss_stage",
         "summary": "改主线层数",
-        "description": "把当前阶段改到指定层。只能改到已经解锁的层（1 到当前最高层）；要解锁更深的层，得在最高层打掉关底首领。改层会把本层击杀数清零。在秘境/王庭/深渊等特殊玩法里会被拒绝。你正在操作游戏时会被拒绝。",
+        "description": "把当前阶段改到指定层。只能改到已经解锁的层（1 到当前最高层）；要解锁更深的层，得在最高层打掉关底首领。改层会把本层击杀数清零。在秘境/王庭/深渊等特殊玩法里会被拒绝。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -147,9 +210,36 @@
         ]
       },
       {
+        "name": "abyss_torment",
+        "summary": "折磨档位",
+        "description": "看和调《深渊放置姬》的折磨档位。read 看当前档位、最高已解锁档位、下一档倍率（生命/伤害/经验/金币/魔法寻获）、终章场景和怎么解锁下一档；set 切到已解锁的档位（0=关，只能选 0..最高）。档位只影响主线战斗，秘境/远征/团本不受影响。要解锁下一档：把档位设到当前最高，在第 101 层打掉终章首领；低档位打不会解锁。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "read",
+                "set"
+              ],
+              "description": "默认 read。"
+            },
+            "torment": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2000,
+              "description": "set 用：目标档位，0=关；不能超过已解锁的最高档。"
+            }
+          }
+        },
+        "tags": [
+          "act"
+        ]
+      },
+      {
         "name": "abyss_pause",
         "summary": "开关自动推进",
-        "description": "开关自动推进。paused 为 true 时暂停，为 false 时继续。暂停只停止自动往下一层推进，战斗和掉落还在继续。在秘境/王庭/深渊等特殊玩法里会被拒绝。你正在操作游戏时会被拒绝。",
+        "description": "开关自动推进。paused 为 true 时暂停，为 false 时继续。暂停只停止自动往下一层推进，战斗和掉落还在继续。在秘境/王庭/深渊等特殊玩法里会被拒绝。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -169,7 +259,7 @@
       {
         "name": "abyss_story",
         "summary": "处理剧情",
-        "description": "看和操作《深渊放置姬》正在播放的剧情。剧情会暂停战斗，必须有人点下一页、选选项或跳过。action=read 读当前页和选项；next 翻页（文字没显示完先显示完）；choose 选一个选项（会改羁绊和之后的对白）；skip 跳过整章（记已读、不写选择）；defer 收起演出、战斗继续，章节留在冒险手记里。你正在操作游戏时会被拒绝（read 不受影响）。",
+        "description": "看和操作《深渊放置姬》正在播放的剧情。剧情会暂停战斗，必须有人点下一页、选选项或跳过。action=read 读当前页和选项；next 翻页（文字没显示完先显示完）；choose 选一个选项（会改羁绊和之后的对白）；skip 跳过整章（记已读、不写选择）；defer 收起演出、战斗继续，章节留在冒险手记里。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -198,13 +288,13 @@
       {
         "name": "abyss_launch",
         "summary": "启动游戏",
-        "description": "启动《深渊放置姬》。已经在运行就直接返回；没运行就启动游戏的固定 exe，等桥上线，默认再自动点「继续冒险」进入当前存档。resume=false 只启动到标题页。只允许启动这一个游戏，不执行其他命令。",
+        "description": "启动《深渊放置姬》。已经在运行就直接返回；没运行就启动游戏的固定 exe，短等桥上线；Steam 拉起较慢时回「启动中」而不是失败，桥上线后会自动继续并推事件。resume=true 进当前存档，resume=false 只到标题页并通知你。到标题页/自动进入/启动超时都会推事件。只允许启动这一个游戏。",
         "parameters": {
           "type": "object",
           "properties": {
             "resume": {
               "type": "boolean",
-              "description": "启动后自动进当前存档，默认 true。"
+              "description": "启动后自动进当前存档，默认 true；false 只到标题页。"
             }
           }
         },
@@ -214,8 +304,8 @@
       },
       {
         "name": "abyss_skill",
-        "summary": "技能形态和栏位",
-        "description": "看和改《深渊放置姬》的技能：技能列表、技能栏、每个技能的形态（符文）。read 看全部或某个技能；rune 选形态（0=基础，1/2=变体，等级不够会被拒）；equip 把技能装进栏位；unequip 卸下。改形态不花资源，但会改战斗效果。",
+        "summary": "技能描述、形态和栏位",
+        "description": "看和改《深渊放置姬》的技能：默认只展开已装备的技能（基础描述、当前形态、其他形态），未装备的只列名字和等级；scope=all 才展开全部技能。skillId 可看单个技能的完整描述。rune 选形态（0=基础，1/2=变体，等级不够会被拒）；equip 把技能装进栏位；unequip 卸下。改形态不花资源，但会改战斗效果。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -229,10 +319,18 @@
               ],
               "description": "默认 read。"
             },
+            "scope": {
+              "type": "string",
+              "enum": [
+                "equipped",
+                "all"
+              ],
+              "description": "read 用：默认 equipped（只看已装备），all 展开全部技能。"
+            },
             "skillId": {
               "type": "string",
               "maxLength": 64,
-              "description": "技能 id，从 read 回执里拿。"
+              "description": "技能 id，从 read 回执里拿；read 时传它可看单个技能全文。"
             },
             "rune": {
               "type": "integer",
@@ -245,6 +343,184 @@
               "minimum": 0,
               "maximum": 2,
               "description": "equip/unequip 用：技能栏 0/1/2。"
+            }
+          }
+        },
+        "tags": [
+          "act"
+        ]
+      },
+      {
+        "name": "abyss_build",
+        "summary": "属性、天赋、巅峰加点",
+        "description": "看和改《深渊放置姬》的三套加点：属性点、天赋、巅峰。read 默认只回三块摘要（已分配/可用/自动开关/重置费用），用 area=attr|talent|paragon 再展开；spend 加点（属性 key+points；天赋 branch+node+points+choice；巅峰 node+points，可负）；reset 重置（属性/天赋扣金币，巅峰免费）；auto 开关自动分配。手动加点会自动关掉该块的自动分配。重置和花费不设上限、不额外确认，费用在 read 里写清。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "read",
+                "spend",
+                "reset",
+                "auto"
+              ],
+              "description": "默认 read。"
+            },
+            "area": {
+              "type": "string",
+              "enum": [
+                "attr",
+                "talent",
+                "paragon"
+              ],
+              "description": "attr 属性 / talent 天赋 / paragon 巅峰。"
+            },
+            "key": {
+              "type": "string",
+              "maxLength": 32,
+              "description": "attr 用：属性 key（例如 int/dex/vit）；paragon 用：节点 key（从 read 拿）。"
+            },
+            "branch": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5,
+              "description": "talent 用：流派下标 0/1/2。"
+            },
+            "node": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 20,
+              "description": "talent 用：节点下标 0-6；paragon 用 key。"
+            },
+            "points": {
+              "type": "integer",
+              "minimum": -1000,
+              "maximum": 1000,
+              "description": "spend 用：加/减多少点；巅峰可为负。"
+            },
+            "choice": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "talent 的 pick 节点：0/1 选哪一边；省略=1。"
+            },
+            "on": {
+              "type": "boolean",
+              "description": "auto 用：true 开自动分配，false 关。"
+            }
+          }
+        },
+        "tags": [
+          "act"
+        ]
+      },
+      {
+        "name": "abyss_odd",
+        "summary": "奇物收藏箱",
+        "description": "看和使用《深渊放置姬》的奇物。read 只列已拥有的奇物（收藏箱/身上/散落），带部位、效果和代价；take 从收藏箱取到背包（按当前职业换算）；equip 一调用取出并穿上（奇物只能手动穿，自动穿戴不会碰）；store 从身上/背包收回收藏箱；put_all 把散落的奇物收进收藏箱。奇物全账号唯一，别的角色持有或副手类型不合会拒绝。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "read",
+                "take",
+                "equip",
+                "store",
+                "put_all"
+              ],
+              "description": "默认 read。"
+            },
+            "odd": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "奇物 key 或 id，从 read 回执里拿。"
+            },
+            "slot": {
+              "type": "string",
+              "enum": [
+                "weapon",
+                "offhand",
+                "helm",
+                "shoulders",
+                "armor",
+                "gloves",
+                "belt",
+                "pants",
+                "boots",
+                "ring1",
+                "ring2",
+                "amulet"
+              ],
+              "description": "equip 用：指定哪个部位；省略由游戏挑。"
+            }
+          }
+        },
+        "tags": [
+          "act"
+        ]
+      },
+      {
+        "name": "abyss_dummy",
+        "summary": "木桩测伤",
+        "description": "看和用《深渊放置姬》的木桩。start 在当前阶段放木桩测实际秒伤（kind=mob/elite/boss，count=1/3/5，limit=30/60/180/0，fight=0/1 还手，para=0/1 去掉巅峰）；测试期间主线暂停，结束后自动复原。自动结束时如果没人操作会直接回结果事件，不弹游戏结果窗。read 看进行中或上次结果；stop 提前结束。结果只回数字摘要：平均秒伤、总伤害、击破、面板比、来源占比、前后半段倍率。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "read",
+                "start",
+                "stop"
+              ],
+              "description": "默认 read。"
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "mob",
+                "elite",
+                "boss"
+              ],
+              "description": "目标类型，默认 boss。"
+            },
+            "count": {
+              "type": "integer",
+              "enum": [
+                1,
+                3,
+                5
+              ],
+              "description": "木桩数量，默认 1。"
+            },
+            "limit": {
+              "type": "integer",
+              "enum": [
+                30,
+                60,
+                180,
+                0
+              ],
+              "description": "时长秒数，默认 60；0=不限时（要 stop）。"
+            },
+            "fight": {
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ],
+              "description": "0 不还手（默认）/ 1 还手，测荆棘格挡。"
+            },
+            "para": {
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ],
+              "description": "1 计入巅峰（默认）/ 0 去掉巅峰。"
             }
           }
         },
@@ -431,8 +707,8 @@
       },
       {
         "name": "abyss_rift",
-        "summary": "秘境进层和自动模式",
-        "description": "看和操作《深渊放置姬》的秘境。read 看钥匙、最高层、自动模式、选层和当前是否在秘境；enter 进指定层（floor 会被夹到 1..最高+1，可用 auto 设 0/1/2）；leave 退出本层（没有奖励、钥匙不退）；auto 改自动模式（0 关 / 1 重复本层 / 2 冲层）。秘境里主线的改层和暂停仍会被拒。",
+        "summary": "秘境、周常、钥匙和自动模式",
+        "description": "看和操作《深渊放置姬》的秘境。read 看钥匙/碎片/魂、最高层、自动模式、头铁、周常规则和本周最高、深层进度；enter 进指定层（floor 夹到 1..最高+1，可带 auto 0/1/2 和 stopAfter）；leave 退出本层（没有奖励、钥匙不退）；auto 改自动模式（0 关 / 1 重复本层 / 2 冲层）；weekly 从第 20 层起进周常（一把钥匙，失败即结束，本周到 25 层可领奖）；weekly_reward type=<部位> 领本周奖励（一件自选部位传奇+5 魂，每周一次）；buy [count] 用魂买钥匙（3 魂/把，上限 50）；autobuy on 改钥匙用完自动买；stop_after on 在自动秘境里设「打完这层再停」；rush on 改头铁冲层（全局：主线/秘境/深渊/幽冥都算）。秘境里主线的改层和暂停仍会被拒。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -442,7 +718,13 @@
                 "read",
                 "enter",
                 "leave",
-                "auto"
+                "auto",
+                "weekly",
+                "weekly_reward",
+                "buy",
+                "autobuy",
+                "stop_after",
+                "rush"
               ],
               "description": "默认 read。"
             },
@@ -463,6 +745,37 @@
               "minimum": 0,
               "maximum": 2,
               "description": "auto 用：0 关 / 1 重复本层 / 2 冲层。"
+            },
+            "stopAfter": {
+              "type": "boolean",
+              "description": "enter 用：进来后设「打完这层再停」。"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "weapon",
+                "offhand",
+                "helm",
+                "shoulders",
+                "armor",
+                "gloves",
+                "belt",
+                "pants",
+                "boots",
+                "ring",
+                "amulet"
+              ],
+              "description": "weekly_reward 用：奖励部位，必填。"
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10,
+              "description": "buy 用：买几把，默认 1。"
+            },
+            "on": {
+              "type": "boolean",
+              "description": "autobuy / stop_after / rush 用：开或关。"
             }
           }
         },
@@ -473,7 +786,7 @@
       {
         "name": "abyss_bag",
         "summary": "背包、仓库、分解、锁定",
-        "description": "看和管理《深渊放置姬》的背包与个人仓库。read 分页列背包（where=bag/stash/equip，默认 bag），每件带 id、锁定和保护原因；salvage 分解一件（锁定/强化/传奇/套装/更好的装备会被拒）；salvage_junk 只分解最普通的低品质装备（默认 10 件，最多 30，传奇/套装/锁定/强化/镶嵌过的都跳过）；stash/unstash 存进或取回个人仓库；lock 锁定/解锁。共用仓库只读。",
+        "description": "看和管理《深渊放置姬》的背包与个人仓库。read 分页列背包（where=bag/stash/equip，默认 bag），每件带 id、锁定、保护原因和传奇特效一行；salvage 分解一件（锁定/强化/传奇/套装/更好的装备会被拒）；salvage_junk 批量分解：可以按品质/装等范围/种类/部位筛选，用 open 取消游戏默认的保护（王庭/方案/上古/已强化/未萃取传奇/更好的装备），duplicates 只清重复件，dryRun 先预览；锁定/奇物/神话/灵器/信物/蚀刻永远保护，身上装备不进批量候选；stash/unstash 存进或取回个人仓库；lock 锁定/解锁。共用仓库只读。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -512,12 +825,155 @@
             "limit": {
               "type": "integer",
               "minimum": 1,
-              "maximum": 50,
-              "description": "read 每页件数；salvage_junk 最多分解几件。"
+              "maximum": 120,
+              "description": "read 每页件数（默认 20）；salvage_junk 一次最多分几件（默认 60，上限 120）。"
             },
             "on": {
               "type": "boolean",
               "description": "lock 用：true 锁定，false 解锁；省略等于 true。"
+            },
+            "rarityMax": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 6,
+              "description": "salvage_junk 用：只分这个品质及以下。省略时自动抬高：duplicates=6、kind 含王庭=6、含套装=4、含传奇=3；都没有则 2（稀有）。"
+            },
+            "ilvlMin": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 999,
+              "description": "salvage_junk 用：只分这个装等及以上。"
+            },
+            "ilvlMax": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 999,
+              "description": "salvage_junk 用：只分这个装等及以下；和 ilvlMin 一起用就是装等区间。"
+            },
+            "kind": {
+              "type": "string",
+              "maxLength": 32,
+              "description": "salvage_junk 用：只分这些种类，逗号组合 legend/set/raid；省略=全部。奇物/神话/灵器永远不可批量分解。"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "weapon",
+                "offhand",
+                "helm",
+                "shoulders",
+                "armor",
+                "gloves",
+                "belt",
+                "pants",
+                "boots",
+                "ring",
+                "amulet"
+              ],
+              "description": "salvage_junk 用：只分这个部位。"
+            },
+            "open": {
+              "type": "string",
+              "maxLength": 80,
+              "description": "salvage_junk 用：取消保护，逗号组合 court/preset/ancient/enhanced/cube/upgrade。锁定/奇物/神话/灵器/信物/蚀刻永远保护。"
+            },
+            "duplicates": {
+              "type": "boolean",
+              "description": "salvage_junk 用：只清重复件；同传奇 key / 同套装 key+部位保留最好的一件，身上穿的也参与比较。"
+            },
+            "dryRun": {
+              "type": "boolean",
+              "description": "salvage_junk 用：只预览会分哪些、收益、被什么保护挡住，不真分。"
+            },
+            "untilDone": {
+              "type": "boolean",
+              "description": "salvage_junk 用：一次分到没有符合条件为止（最多 120 件）；默认只分 limit 件。"
+            }
+          }
+        },
+        "tags": [
+          "act"
+        ]
+      },
+      {
+        "name": "abyss_cube",
+        "summary": "魔盒：萃取传奇、三槽装配",
+        "description": "看和操作《深渊放置姬》的魔盒。read 看是否解锁、费用、魂/魂晶、已收集数和三槽装配；list=candidates（默认）按传奇 key 分组列背包里可萃取的传奇：每个 key 一行（同款件数、最低/最高装等、最低装等的可取 id、特效全文、槽位、当前职业能不能装），group=item 改成逐件列（id/装等/锁定）；可按 slot、usable、ilvlMin/ilvlMax 筛；list=collected 列已收集特效（key、槽位、是否已装）。extract 可以传 itemId，也可以传 key 自动毁掉该特效装等最低的未锁定件（推荐，避免看串 id）：花 5 魂 + 50 魂晶，原装备永久毁掉，宝石退回，全账号共享；equip slot=weapon|armor|jewel key=<key> 把已收集特效装进武器/防具/首饰槽（免费，同款在身和槽里不叠加）；unequip slot=... 卸下。萃取不可逆、一次一件；先用 read 看清楚再动手。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "read",
+                "extract",
+                "equip",
+                "unequip"
+              ],
+              "description": "默认 read。"
+            },
+            "itemId": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "extract 用：背包里传奇的 id，从 read 拿；也可以改用 key。"
+            },
+            "slot": {
+              "type": "string",
+              "enum": [
+                "weapon",
+                "armor",
+                "jewel"
+              ],
+              "description": "read 用：按槽筛选；equip/unequip 用：武器/防具/首饰槽。"
+            },
+            "key": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "equip 用：已收集特效的 key；extract 用：也可以只传 key，自动毁掉这个特效装等最低的未锁定件（推荐，避免看串 id）。"
+            },
+            "list": {
+              "type": "string",
+              "enum": [
+                "candidates",
+                "collected"
+              ],
+              "description": "read 用：看背包可萃取（默认）还是已收集。"
+            },
+            "group": {
+              "type": "string",
+              "enum": [
+                "key",
+                "item"
+              ],
+              "description": "read candidates 用：key=按传奇分组（默认，同款一行），item=逐件列。"
+            },
+            "usable": {
+              "type": "boolean",
+              "description": "read 用：只看当前角色能用的。"
+            },
+            "ilvlMin": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 999,
+              "description": "read candidates 用：只看这个装等及以上。"
+            },
+            "ilvlMax": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 999,
+              "description": "read candidates 用：只看这个装等及以下；低装等（≤55）的传奇属性废，适合先萃取。"
+            },
+            "offset": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10000,
+              "description": "read 翻页起点。"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "description": "read 每页个数，默认 20，最大 50。"
             }
           }
         },
@@ -578,6 +1034,14 @@
         "trigger": "piggyback"
       },
       {
+        "type": "run.torment",
+        "description": {
+          "zh": "折磨档位解锁",
+          "en": "Torment tier unlocked"
+        },
+        "trigger": "debounce"
+      },
+      {
         "type": "run.stuck",
         "description": {
           "zh": "卡关：附近连续阵亡（挡位可在设置页调）",
@@ -626,6 +1090,22 @@
         "trigger": "piggyback"
       },
       {
+        "type": "rift.end",
+        "description": {
+          "zh": "秘境结束：成功/失败/主动退出（挡位可在设置页调）",
+          "en": "Rift ended"
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "rift.weekly_ready",
+        "description": {
+          "zh": "周常奖励可领（挡位可在设置页调）",
+          "en": "Weekly rift reward ready"
+        },
+        "trigger": "debounce"
+      },
+      {
         "type": "bag.near_full",
         "description": {
           "zh": "背包接近满",
@@ -658,6 +1138,38 @@
         "trigger": "flush"
       },
       {
+        "type": "game.title",
+        "description": {
+          "zh": "游戏到标题页/选角页",
+          "en": "Game reached title/pick screen"
+        },
+        "trigger": "debounce"
+      },
+      {
+        "type": "game.started",
+        "description": {
+          "zh": "自动进入存档位",
+          "en": "Auto-resumed into the save slot"
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "game.launch_failed",
+        "description": {
+          "zh": "启动后长时间没等到桥",
+          "en": "Launch did not reach the bridge"
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "dummy.result",
+        "description": {
+          "zh": "木桩测试结果",
+          "en": "Training dummy result"
+        },
+        "trigger": "flush"
+      },
+      {
         "type": "story.open",
         "description": {
           "zh": "剧情开始",
@@ -676,8 +1188,16 @@
     ]
   },
   "changelog": {
+    "0.4.7": "- 市场标签新增 `external-setup`（显示为「需额外安装」）：本扩展需要先安装 Steam 版《深渊放置姬》（appid `5335850`），扩展本身不带游戏。无代码改动。",
+    "0.4.6": "- `abyss_cube read` 的候选默认按传奇 key 分组：同款一行，带件数、装等列表、最低装等的可取 id、特效全文和槽位；`group=item` 仍可逐件列。新增 `ilvlMin` / `ilvlMax` 筛选。\n- `abyss_cube extract` 可以只传 `key`：自动毁掉这个特效装等最低的未锁定件，不用抄 id；传 `itemId` 仍然可以精确指定。\n- `abyss_items` 和 `abyss_bag read` 的背包列表每件带传奇特效一行，不用再逐件 `itemId` 点开。`abyss_items` 新增 `ilvlMin` / `ilvlMax` 筛选。\n- `abyss_bag salvage_junk` 新增 `ilvlMin` / `ilvlMax`：可以只清低装等的剩余件。\n- npm 简介和 README 写明这是 **Steam 游戏《深渊放置姬》（Idle Abyss Princesses，appid 5335850）** 的扩展，**扩展本身不带游戏**；安装前要先在 Steam 安装并启动游戏。\n- mod 1.9.1；测试 168 条。",
+    "0.4.5": "- 新增 `abyss_cube`：魔盒 read / extract / equip / unequip。`read` 看是否解锁、萃取费用、魂/魂晶、三槽装配；`list=candidates` 列背包里可萃取的传奇（特效全文、同款件数、锁定、当前职业能不能装），`list=collected` 列已收集特效。`extract itemId=<id>` 把一件传奇萃成账号特效：花 5 魂 + 50 魂晶，原装备永久毁掉，镶嵌宝石退回；`equip slot=weapon|armor|jewel key=<key>` 装进武器/防具/首饰槽；`unequip` 卸下。收集和特效全账号共享，三槽按角色独立；同款在身和槽里不叠加。萃取不可逆、一次一件，锁定/已收集/资源不够会拒绝并说明原因。\n- mod 1.9.0（新增 `caps.cube`，旧桥写动作直接提示重装）；工具数 19 → 20；测试 167 条。",
+    "0.4.4": "- 秘境结束推事件：`rift.end`（成功/失败/主动退出、层数、本周最高、魂/钥匙变化）和 `rift.weekly_ready`（周常第一次到 25 层、奖励可领）。设置页事件挡位新增「秘境结束/周常奖励可领」，默认 `debounce`，可调 off / piggyback / debounce / flush。\n- 取消「最近 3 秒有键鼠输入就拒绝写动作」：Coo 和你同时操作也能换装、改层、暂停、走剧情、分解、领奖等；只保留同一动作 2 秒节流。特殊玩法里改层/暂停仍会被拒，标题页仍不接受写动作。\n- 图标：保留 v4 的浅紫→浅蓝配色，底部改成闭合 U 形收口，白圈四边完整、不再被瓷砖边裁切（v5-A 候选）。\n- mod 1.8.0；测试 157 条。",
+    "0.4.3": "- `abyss_rift` 补普通秘境面板里没接的功能，工具仍是 19 个：`weekly` 从第 20 层起进周常（一把钥匙，失败即结束）；`weekly_reward type=<部位>` 在本周最高到 25 层后领一件自选部位传奇 + 5 余烬之魂（每周一次）；`buy [count]` 用魂买钥匙（3 魂/把，上限 50）；`autobuy on` 改钥匙用完自动买；`stop_after on` 在自动秘境里设「打完这层再停」，`enter` 也能带 `stopAfter` 一步设置；`rush on` 改全局头铁冲层（主线/秘境/深渊/幽冥都算，开启时如果主线在休整会立刻继续推进）。\n- `abyss_rift read` 补齐：周常本周最高/已领/可领、钥匙碎片、当前层的 stopAfter、深层秘境 46 层起的深渊结晶和本周碎片、传奇秘境起始层 100。\n- 旧版游戏内桥不认识新动作时会直接拒绝，提示先重装 mod 并重启游戏。\n- 标题页/选角页不发写动作：避免游戏还没进存档时白扣钥匙或材料；`resume` 不受影响。\n- Coo 发起的秘境结束、且最近没人操作时，不再弹「秘境 · 结束/继续」结果窗（用游戏自己的 quiet 模式）；奖励和纪录照常。\n- mod 1.7.0；测试 153 条。",
+    "0.4.2": "- `salvage_junk` 不传 `rarityMax` 时，按 `kind` / `duplicates` 自动抬高品质上限：`duplicates=true` → 6（王庭），`kind` 含王庭 → 6、含套装 → 4、含传奇 → 3；都没有仍默认 2（稀有）。显式传 `rarityMax` 时以传入值为准。\n- 真机验收后的热修：避免 `duplicates=true` 直接用默认稀有上限、预览 0 件。只改扩展层，mod 1.6.0 不变。",
+    "0.4.1": "- `abyss_items` 新增按需筛选：`rarityMin`（品质下限）、`kind`（传奇/套装/奇物/王庭/神话/灵器）、`route`（流派，key 或中文名）、`keyword` + `kwMode`（传奇关键词，默认「受益」= 描述里提到但不施加）、`aff`（词条，全部命中）、`only=up`（只看比身上好的）、`summary`（背包体检：品质/种类/流派/保护原因/重复/可换装）。\n- `abyss_bag salvage_junk` 参数化：`rarityMax`（默认 2，最高 6）、`kind`、`type`、`open`（取消王庭/方案/上古/已强化/未萃取传奇/更好的装备六把保护锁）、`duplicates`（只清重复件，每组保留最好的一件）、`dryRun`（预览）、`limit`（默认 60，上限 120）、`untilDone`。锁定/奇物/神话/灵器/信物/蚀刻永远保护；身上装备不进批量候选；镶嵌宝石允许分解并退回。\n- 装备回执补 `legKey` / `setKey` / `route` / `kw{tags,gives,benefit}`；单件详情补流派名和关键词中文名。\n- mod 1.6.0；测试 139 条。",
+    "0.4.0": "- 新增 `abyss_build`：属性 / 天赋 / 巅峰的 read、加点、重置、自动分配开关。重置和花费不设上限，费用写在回执里。\n- 新增 `abyss_odd`：奇物收藏箱 read、从箱子取出、装备、收回、收集散落；奇物只能手动穿。\n- 新增 `abyss_dummy`：木桩 read / start / stop；自动结束时没人操作就不弹游戏结果窗，改为推一条数字摘要事件。\n- 新增 `abyss_torment`：打完终章后的折磨档位 read / set；read 带当前/最高/下一档倍率和解锁条件，解锁下一档要在当前最高档打第 101 层终章首领。\n- `abyss_skill` 默认只展开已装备的技能，并补上技能本身的基础描述；未装备用 `skillId` 查。\n- `abyss_items` 身上装备带一句特效和套装档位，背包只带特效标签；新增 `itemId` 查单件完整词条/特效/换装对比。\n- 启动：Steam 拉起慢时回「启动中」而不是失败；到标题页、自动进入、3 分钟没等到桥都会推事件。\n- mod 1.5.0。",
     "0.3.2": "- 市场标签加「实验性」（`cortico.tags` 里的 `experimental`）：功能和兼容性还会随版本调整。无代码改动。",
-    "0.3.1": "- 图标改成浅紫渐变圆角底：大肥鱼趴在薇拉头顶的抠图放进圆角瓷砖里，纯白底在白色界面里会糊成一片。\n\n- 事件推送挡位可配置：设置页新增「事件推送挡位」组，进度（换层/解锁新层/首领）、阵亡、卡关、掉落传奇/套装、升级各一挡，off（只记 abyss_events）/ piggyback（搭车）/ debounce（合批）/ flush（立即）四挡可选，改完即生效不用重启。剧情、断桥、背包接近满不受挡位控制。",
+    "0.3.1": "- 图标改成浅紫渐变圆角底：大肥鱼趴在薇拉头顶的抠图放进圆角瓷砖里，纯白底在白色界面里会糊成一片。\n- 事件推送挡位可配置：设置页新增「事件推送挡位」组，进度（换层/解锁新层/首领）、阵亡、卡关、掉落传奇/套装、升级各一挡，off（只记 abyss_events）/ piggyback（搭车）/ debounce（合批）/ flush（立即）四挡可选，改完即生效不用重启。剧情、断桥、背包接近满不受挡位控制。",
     "0.3.0": "- 新增 `abyss_claim`：冒险手记领奖，传奇/套装自选要带 `legend`。\n- `abyss_forge` 新增打孔、镶/取宝石、三颗同品质合成。\n- 新增 `abyss_rift`：秘境进入/退出/自动模式；秘境里拒绝主线改层和暂停。\n- 新增 `abyss_bag`：背包/个人仓库分页、单件分解、批量分解普通装备、存取个人仓库、锁定。\n- `abyss_gacha` 新增许愿和心愿列表。\n- 新增 `abyss_camp`：营地 read / 领取已归来的队伍。\n- 通知瘦身：换层、解锁新层、首领出现/击杀只记进 `abyss_events`，不主动唤醒；阵亡照常通知；15 分钟内没解锁新层又连死 3 次推一次「卡关」。\n- 109 条测试；`describe.json` 由 `scripts/gen-describe.mjs` 生成。",
     "0.2.0": "- 正式版 v3.1.4 改用游戏内官方 mod 文件桥（`coo_bridge`），不再依赖调试口。\n- 新增剧情 read/next/choose/skip/defer、启动游戏并继续存档、技能形态/技能栏、扭蛋、强化/附魔。",
     "0.1.0": "- Demo 版首版：状态、装备、换装、改层、暂停。"

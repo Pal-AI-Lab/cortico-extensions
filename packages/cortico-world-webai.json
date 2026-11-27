@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "name": "cortico-world-webai",
+  "version": "0.1.4",
+  "describe": {
+    "tools": [
+      {
+        "name": "webai_ask",
+        "description": "把一个问题交给网页端 AI（DeepSeek / 豆包 / Kimi 网页版），等它答完再原样拿回来。只在自己答不上来、或者用户给的图看不准时用；reason 写清为什么问。图片给本地绝对路径。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "question": {
+              "type": "string",
+              "description": "要问的话，写完整并带上背景，网页端拿不到你们的聊天上下文。"
+            },
+            "reason": {
+              "type": "string",
+              "description": "为什么需要外援：卡在哪、图里哪部分看不懂。"
+            },
+            "site": {
+              "type": "string",
+              "enum": [
+                "deepseek",
+                "doubao",
+                "kimi",
+                "chatgpt",
+                "gemini"
+              ],
+              "description": "用哪个站点，默认按配置里的默认站点。"
+            },
+            "images": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "一起发过去的图片，本地绝对路径，最多 4 张。"
+            }
+          },
+          "required": [
+            "question"
+          ]
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "去网页端 AI 问一句，把答案拿回来。",
+          "en": "Asks a web AI one question and brings the answer back."
+        }
+      },
+      {
+        "name": "webai_sites",
+        "description": "看外援能用哪些站点、哪些已登录、默认问哪个。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {}
+        },
+        "tags": [
+          "read"
+        ],
+        "summary": {
+          "zh": "看外援各站点的登录状态。",
+          "en": "Lists web AI sites and their sign-in state."
+        }
+      }
+    ]
+  },
+  "changelog": {
+    "0.1.4": "发布准备：补 README、CHANGELOG、LICENSE，补 npm 元数据（`license`、`author`、`repository`、`os`、`engines`），去掉 `private`，声明市场标签。",
+    "0.1.3": "- 修面板加载失败：`ctx.ui.section()` 返回的是标题节点，不是 `{ el, body }`，之前按后者 append 导致整个面板挂载抛错。\n- 面板改两段渲染：先用 `state` 把站点画出来，再等 `sites` 回填登录状态，不再空白几十秒。\n- 站点状态并行探测，每次用独立标签页，查完即关。",
+    "0.1.2": "- DeepSeek 改走站点接口：PoW + `/api/v0/chat/completion`，支持多轮承接与带图提问，不再依赖点击页面。\n- 修复 SSE 分片解析：`response/fragments/-1/content` 的正则漏掉负号，导致分片丢字。\n- 答案过滤掉「由 AI 生成，请仔细甄别」这类免责声明。",
+    "0.1.1": "- 发送链路重写：按位置找发送按钮，逐个候选尝试（真鼠标点击 → 页面内派发 → 回车），发送前清空输入框。\n- 登录墙识别：`from_logout=1`、可见对话框、页面尾部文案三路判断。",
+    "0.1.0": "首个可用版本：CDP 驱动 Edge，支持 DeepSeek / 豆包 / Kimi / ChatGPT / Gemini 五个站点，带登录状态检查、面板试问与历史记录。"
+  }
+}

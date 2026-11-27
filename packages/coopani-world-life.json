@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-life",
-  "version": "1.5.0",
+  "version": "1.6.2",
   "describe": {
     "tools": [
       {
@@ -890,6 +890,56 @@
           "zh": "在 Hub v1 查看同城街坊、收发鱼间私信与管理关系。",
           "en": "Check Hub neighbors, read or send direct mail, and manage relations."
         }
+      },
+      {
+        "name": "life_loan",
+        "description": "去芦花塘信用社看一眼信用额度、在贷借款或自己决定要不要借一笔 / 还一笔。有三档微息借款：7天小额应急金(日息0.15%)、14天进修农牧贷(日息0.12%)、30天置业安居贷(日息0.10%)；提前还款只按实际占用天数算微息，不收违约金；最多同时背 2 笔，总额度随住处档位、考证数和累计工龄成长（硬上限 5000 元）。注意：到期自动划扣会留出 80 元吃饭底钱；若仍不够会转逾期并冻结新借、远行旅费额度暂归 0，且此后打工/摆摊进账会自动抽一半先抵债。缺钱买菜饲料或差一点房租/押金/考证报名费时自己算清楚再用，平时宽裕就别硬借。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action"
+          ],
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "status",
+                "borrow",
+                "repay"
+              ],
+              "description": "status 查看信用额度与待还明细；borrow 申请微息借款；repay 主动还一笔或还清。"
+            },
+            "amount": {
+              "type": "integer",
+              "description": "borrow 或 repay 的整数金额（元）；repay 时省略则默认全额还清选中借款（钱不够一次清零时会自动预留 80 元生活底钱把多余部分先还上），显式传 amount 则按指定金额或手上现有现金上限实扣。"
+            },
+            "term_days": {
+              "type": "integer",
+              "enum": [
+                7,
+                14,
+                30
+              ],
+              "description": "borrow 借款期限（天）：7 小额应急(0.15%/天)、14 进修农牧(0.12%/天)、30 置业安居(0.10%/天)，默认 7。"
+            },
+            "purpose": {
+              "type": "string",
+              "description": "borrow 借款用途简述（如「凑老小区搬家押金」「报名考电工证」「买鸡饲料周转」）。"
+            },
+            "loan_id": {
+              "type": "string",
+              "description": "repay 时可选指定哪笔在贷编号（省略时按逾期优先、到期早优先自动冲抵）。"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "查询芦花塘信用社额度、在贷明细，并自主决定借款或还款。",
+          "en": "Check Reedpond Credit Union credit limit and active loans, and decide on your own whether to borrow or repay."
+        }
       }
     ],
     "events": [
@@ -961,6 +1011,22 @@
         "trigger": "debounce"
       },
       {
+        "type": "life.gift_cash",
+        "description": {
+          "zh": "用户从面板给你发来一笔零花钱与留言；怎么花完全由你决定。",
+          "en": "The user sent you pocket money with a short note; how to spend it is up to you."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "life.loan",
+        "description": {
+          "zh": "芦花塘信用社借款到期自动扣还、逾期提醒或结清通知。",
+          "en": "Reedpond Credit Union due-date auto-repayment, overdue reminder, or loan payoff notice."
+        },
+        "trigger": "flush"
+      },
+      {
         "type": "life.handoff",
         "description": {
           "zh": "长对话压缩交接时同步附带的当前位置、五维与现金快照。",
@@ -974,6 +1040,9 @@
     ]
   },
   "changelog": {
+    "1.6.2": "- **兰州街道扩容至 8 条并按加权预算平衡**（`src/bridge.ts`、`test/stage23.test.mjs`、`sight-cf/src/worker.js`）：\n  - 保留张掖路（社交主页 `+15%`）、皋兰路（见识主页 `+15%`），将南滨河路转为体质主场（`fit +15% / energy +5% / clean -10%`），雁滩路调整为精力主场（`energy +15% / food +5% / work -10%`），新增正宁路（饱腹主场 `food +15% / fun +10% / clean -10% / fit -5%`）、庆阳路（工钱主场）、甘南路（娱乐主场）与安宁西路（清爽主场），实现 8 条街 × 8 项属性一对一主场分工，加权净分全部收敛在 `12.0 ~ 14.5` 走廊且无 `work > 0 && energy > 0` 组合。\n- **街道 `fit`（体质）双边倍率接入与防切街套利快照**（`src/bridge.ts`、`src/state.ts`、`src/world.ts`）：\n  - `STREET_MOD_KEYS` 新增 `fit`（体质），`advance()` 中锻炼、体力工作与邻里代管涨体质同步乘 `streetGainFactor(sMods, 'fit')`，日常体质缓慢退化同步乘 `streetDecayFactor(sMods, 'fit')`。\n  - `applyWork()` 在本地居家开工时将当时街道倍率快照写入 `state.activity.workStreetMods`，防止收工前瞬切高薪街套利。\n- **面板缓存三同步与回归验证**（`package.json`、`web/panel-1.6.2.js`、`test/hub-v1.test.mjs`）：\n  - `web/panel-1.6.2.js` 补齐 `fit` 中英文缩写/全称标签并完成版本三同步升级；`stage23.test.mjs` 新增 8 街加权净分守卫、`fit` 双边倍率及开工快照防套利单测。",
+    "1.6.1": "- **城市房价倍率 `rent_mult` 热调控**（`src/state.ts`、`src/world.ts`、`test/hub-v1.test.mjs`）：\n  - 以现有四档基准月租（`450 / 1200 / 2600 / 7800`，押二）为基准新增 `rent_mult` 倍率（区间 `0.3`–`5`，实际月租最低 `50` 元），在启动、刷新城镇信息、心跳热更新与迁城时同步当前月租及未完成的攒房租目标，并接入 `life_move`、面板搬家与 `moveQuotes`。\n- **原 7 项 `_bonus` 城市 Buff 真实接入数值结算**（`src/town-life.ts`、`src/farm.ts`、`src/ranch.ts`、`src/recipes.ts`、`src/world.ts`）：\n  - 产出类：`crop_yield_bonus`、`ranch_yield_bonus`、`fish_yield_bonus` 与 `noodle_craft_bonus`（面食饱腹/娱乐倍率与囤货增产）接入对应农牧收获、挤奶捡蛋与下厨流程。\n  - 心情类：`food_mood_bonus`、`craft_mood_bonus` 与 `writing_mood_bonus` 接入下厨/吃喝、手作、学习、写作/手作打工与日记流程。\n- **16 项 Buff 全量汉化与面板三同步**（`web/panel-1.6.1.js`、`package.json`、`README.md`）：\n  - 补齐 `rent_mult` 与后 5 项职业倍率（`labor_pay_mult`、`social_pay_mult`、`admin_pay_mult`、`driving_pay_mult`、`photo_pay_mult`）的中文标签，并三同步升级面板至 `web/panel-1.6.1.js`。",
+    "1.6.0": "- **芦花塘信用社单机微息借贷闭环**（`src/loan.ts`、`src/state.ts`、`src/world.ts`、`describe.json`、`ENV_PROMPT.md`、`web/panel-1.6.0.js`）：\n  - 新增 `life_loan` 工具（`status` / `borrow` / `repay`，全扩展增至 24 个工具）与三档产品：7 天小额应急金（`0.15%/天`）、14 天进修农牧贷（`0.12%/天`）、30 天置业安居贷（`0.10%/天`）；引入 `interestCarry` 零头结转精确按天算息，小额借款不会虚高扣成至少 1 元/天。\n  - 动态授信随住处基数（`300 / 800 / 1800 / 3000`）+ 持证（每证 `+250`）+ 累计工龄（`min(1200, days×30)`）成长，硬封顶 `5000` 元，最多同时背 `2` 笔；`normLoans()` 截断保留 40 笔时优先剔除最早的已结清记录，绝不切掉仍在背的未结清欠条。\n  - 到期自动划扣保留 `80` 元生活底钱；不够转 `overdue` 并冻结新借、`travelAllowance` 归 0，此后打工与鱼市街卖摊进账自动抽 `50%` 先抵债直至清零解冻；主动 `repay` 省略 `amount` 且不够清零时同样预留 `80` 元生活底钱尽量先还（显式传 `amount` 则尊重指令按手头现金上限实扣）。\n  - 防套利联动：`broadcastLife()` 向 `life-public.json` 写入 `travelAllowance` 时先扣除未还本息；面板保持「芦花塘信用社（只读）」，借还全由她自主决策。\n- **用户现金赠与（「给点零花钱」）**（`src/config.ts`、`src/loan.ts`、`src/world.ts`、`web/panel-1.6.0.js`）：\n  - 新增热配置 `worlds.life.dailyGiftCap`（默认每日软上限 `500` 元，`0` 不限）与面板 `now` 页签可折叠「给点零花钱」快捷栏；只递钱和留言、绝不代花，单独记入 `money.giftedTotal` 与 `life-ledger.jsonl`（`source: 'user_gift'`），不混入自己挣的 `earned`。\n- **农牧场省略 `id` 一键批量照料与傍晚提醒**（`src/farm.ts`、`src/ranch.ts`、`src/world.ts`、`test/stage23.test.mjs`）：\n  - `life_farm(action=\"water\")` 与 `life_ranch(action=\"feed\")` 省略 `plot_id` / `pen_id` 时依次为所有待照料地块/栏舍批量浇水喂食；新增傍晚 `farm:care:pm` 兜底提醒与 `life.day` 白天农牧待办提示；同步三同步升级至 `web/panel-1.6.0.js`。",
     "1.5.0": "- **Coopanion Hub v1.1 双轨接入**（`src/hub-client.ts`、`src/config.ts`、`src/bridge.ts`、`src/world.ts`）：\n  - 新增 `worlds.life.hubUrl` 与 `worlds.life.hubTownId`（均标 `x-hot: true` 支持热更新）；留空 `hubUrl` 时 100% 退回老服 `townUrl` 或纯单机运行。\n  - 新增 `src/hub-client.ts`，实现 `<dataDir>/coopanion-hub-auth.json` 跨扩展共享凭据原子读写、`meet-uid.txt` / `life-town-uid.txt` 历史 UID 只读探测认领与 `409 LEGACY_UID_CLAIMED` 防裂号、Bearer 鉴权、`ETag`/`304` 城邦与目录快照缓存、`Idempotency-Key` 买摊/接委托幂等与精确 `eventIds` 收件箱确认。\n  - 接入多城迁居（`life_move` 支持 `town` 参数及面板 `now.moveTown`）、城邦公告与专属 Buff（如北京 `writing_pay_mult` 实算入日薪）、跨城摊位特产标注与透明快递费账本明细、`/v1/market/orders/settle` 仅入账 `itemSubtotal`、同城邻里代管委托与跨城 `403 ERRAND_TOWN_MISMATCH` 防护。\n  - 新增 `life_mail` 工具（`inbox` / `residents` / `read` / `send` / `relation`）与 `life.social` 主动提醒事件。\n- **全面焕新七页签手账 UI**（`web/panel-1.5.0.js`、`package.json`）：\n  - 升级面板为 `web/panel-1.5.0.js`（并移除旧版 `web/panel-1.4.5.js`），引入渐变顶部卡片、双列响应式网格与七页签交互增强。\n  - 「此刻」支持多城徽标/公告/Buff 展示与一键迁城；「职业工坊」显示当前城邦加成后的预期日薪；「你和它 / 街坊」支持同城街坊与只读鱼间私信收发气泡及标已读；「农牧场与鱼市街」新增全部/本城免邮/特产筛选、跨城运费徽章与自主下架余货/撤回委托；「日志与时间轴」补充跨城订单与私信动态记录。\n- **扩展描述、提示词与集成测试**（`describe.json`、`ENV_PROMPT.md`、`README.md`、`test/hub-v1.test.mjs`）：\n  - 同步更新 23 个工具与 `life.social` 事件声明，新增覆盖 Hub v1.1 核心闭环的本地 mock 集成测试 `test/hub-v1.test.mjs`。",
     "1.4.5": "- **菜园与养殖场面板文案消歧**（`web/panel-1.4.5.js`、`package.json`）：\n  - 原先 `浇水 3/2 ✓今` 把「累计增产门槛 `waterCount/2`」和「每日浇水刷新」挤在一起，跨天后仍会让人误以为每日浇水次数没刷新或超限；现改写为明确区分累计与今日状态：`累计浇 3次(已+1产) · 今日✓ / 今日待浇`（未满 2 次时为 `累计浇 X/2(满2+1产) · 今日✓ / 今日待浇`），养殖栏同步对齐为 `累计喂 X次 · 今日✓ / 今日待喂`，并完成 `1.4.5` 三同步升级。\n- **在家产蛋/产奶、熟货待收与每日浇水/喂食主动提醒**（`src/world.ts`、`describe.json`、`ENV_PROMPT.md`）：\n  - `tick()` 新增 `checkHomeFarmReminders()`：当人在家、醒着且空闲，且鸡/牛有满周期可收蛋奶或菜地/鱼塘有熟货待收时，经 `DeliveryAttempt` 推送 `life.farm` 提醒事件（`delivered` 后按天记 `nagged`，收完对应项立即释放当日额度）；白天至晚间（08:00–22:00）在家精力充足（≥ 10）且未挂今日邻里委托时，还会汇总推送一次当日未浇水作物与未喂食动物提醒（`farm:care`，严格每日至多一次）；\n  - `envPromptVars()` 的 `life.who` 与 `life_status` 返回体同步透出 `待浇水`、`待喂食`、`可收蛋奶` 与 `可起塘出栏` 计数，让常驻上下文、状态查询与主动事件三出口齐备。",
     "1.4.4": "- **修复旅行反哺情绪胶囊不断重复累加**：`src/state.ts` 的 `applySpend()` 原先使用一次性随机流水 `journey:${id}` 作为情绪 `source`，导致跨扩展消费同步反复写入同一句（如连续多顿「在当地吃了顿顺口的好饭」）时无法覆盖旧胶囊、面板「身心与挂念」攒出整串重复项；现改为稳定语义键 `journey:${noteKey || text.slice(0, 30)}`，并在写入前按 `source` 与 `(text, kind)` 双重过滤覆盖旧条。\n- **读档自动合并不损老存档**：新增 `dedupeMoodlets()` 接入 `normalize()`，读档时自动对老存档里因旧版 `journey:sp-*` 攒出来的重复胶囊按同 `(text, kind)` 或非随机 `source` 合并，保留过期时间最晚的那一条，其它情绪完整保留。\n- **面板与缓存三同步**：新增 `test/stage23.test.mjs` 连续旅途吃饭与老存档读档归一化回归用例，面板缓存三同步升级为 `web/panel-1.4.4.js`。",

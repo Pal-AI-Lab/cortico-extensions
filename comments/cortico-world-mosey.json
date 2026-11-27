@@ -2,56 +2,126 @@
   "schema": 1,
   "name": "cortico-world-mosey",
   "discussion": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/619",
-  "total": 64,
+  "total": 72,
   "comments": [
     {
       "id": "DC_kwDOVLPtGM4BMAkp",
       "author": "lanyuQAQ",
       "avatar": "https://avatars.githubusercontent.com/u/361602990?s=64&v=4",
       "body": "大佬，希望B站和抖音功能可以独立启停，未启用平台不要注入提示词和工具",
-      "createdAt": "2026-11-26T14:58:17Z"
+      "createdAt": "2026-11-26T14:58:17Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BMHNo",
+          "author": "liqin1018",
+          "avatar": "https://avatars.githubusercontent.com/u/125418196?s=64&v=4",
+          "body": "好了，你试试好了吗",
+          "createdAt": "2026-11-27T13:38:02Z"
+        },
+        {
+          "id": "DC_kwDOVLPtGM4BMHRs",
+          "author": "lanyuQAQ",
+          "avatar": "https://avatars.githubusercontent.com/u/361602990?s=64&v=4",
+          "body": "OK了，谢谢大佬\r\n",
+          "createdAt": "2026-11-27T13:51:46Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BMAkP",
       "author": "lanyuQAQ",
       "avatar": "https://avatars.githubusercontent.com/u/361602990?s=64&v=4",
       "body": "大佬你好，我遇到一个可复现的 B站重复回复问题。\n\n- Coopanion + cortico-world-mosey 2.13.0版本打开 B站，`douyin=false`，开自主出门（outing）\n\nCoo 已经回复过某条 B站评论后，过一段时间自主出门调用 `stroll action=brief`，brief 又把同一楼的旧评论列进 inbox。Coo 没注意时间，把它当成新消息，又生成了一条重复回复草稿。\n\n1. B站评论区有人回复，Coo 用 `stroll_act action=reply` 回一次。\n2. 等下一次自主出门，触发：\n   [stroll] stroll outing counted ...\n   [stroll] stroll tool { name: 'stroll', action: 'brief' }\n3. brief 里再次出现同一条旧评论。\n4. Coo 再次 `stroll_act action=reply`，生成重复草稿：\n   draft_xxx",
-      "createdAt": "2026-11-26T14:57:13Z"
+      "createdAt": "2026-11-26T14:57:13Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BMHNv",
+          "author": "liqin1018",
+          "avatar": "https://avatars.githubusercontent.com/u/125418196?s=64&v=4",
+          "body": "好了，你试试",
+          "createdAt": "2026-11-27T13:38:15Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BL4iB",
       "author": "hfahfhsi",
       "avatar": "https://avatars.githubusercontent.com/u/134513597?s=64&v=4",
       "body": "我养了两条桌宠鱼，但是每次一起看都是一人一个网页，我一共三个账号，我和两个桌宠一人一个，可不可以让我单独打开网页然后他们两个跟我一起看呢？就是不用他们两个一人开一个网页了，我想我主动控制然后我们三个看一个。希望大佬能开发一下，感谢，十分感谢。",
-      "createdAt": "2026-11-25T14:37:56Z"
+      "createdAt": "2026-11-25T14:37:56Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BMHNw",
+          "author": "liqin1018",
+          "avatar": "https://avatars.githubusercontent.com/u/125418196?s=64&v=4",
+          "body": "好了，你试试",
+          "createdAt": "2026-11-27T13:38:19Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BLviP",
       "author": "mo-wuyo",
       "avatar": "https://avatars.githubusercontent.com/u/239008264?s=64&v=4",
       "body": "老大，怎么楼多了就老逮着同一个人回复啊，前面3、4楼还能回复对人，后面就老是回复之前回复对的人的最后一个人，无论谁给她说话，总是回复同一个人",
-      "createdAt": "2026-11-24T11:10:05Z"
+      "createdAt": "2026-11-24T11:10:05Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BMHN3",
+          "author": "liqin1018",
+          "avatar": "https://avatars.githubusercontent.com/u/125418196?s=64&v=4",
+          "body": "你试试，看看可以不",
+          "createdAt": "2026-11-27T13:38:41Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BLpaQ",
       "author": "alomoi",
       "avatar": "https://avatars.githubusercontent.com/u/38177596?s=64&v=4",
       "body": "大佬，评论审批的30分钟过期是平台那边的限制还是插件限制？要是插件限制的话希望能给到一个设置项，能自己手动调高。30分钟真不太够用，有点事儿一耽误就过期了",
-      "createdAt": "2026-11-23T11:38:23Z"
+      "createdAt": "2026-11-23T11:38:23Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BMHN7",
+          "author": "liqin1018",
+          "avatar": "https://avatars.githubusercontent.com/u/125418196?s=64&v=4",
+          "body": "你试试，看看可以不",
+          "createdAt": "2026-11-27T13:38:48Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BLnW7",
       "author": "1486218914-debug",
       "avatar": "https://avatars.githubusercontent.com/u/360044858?s=64&v=4",
       "body": "大佬，抖音的陌生人消息肥鱼好像不能自己回复，她说网页版陌生人消息不在主列表她回不出去",
-      "createdAt": "2026-11-23T01:37:56Z"
+      "createdAt": "2026-11-23T01:37:56Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BMHOG",
+          "author": "liqin1018",
+          "avatar": "https://avatars.githubusercontent.com/u/125418196?s=64&v=4",
+          "body": "好滴，我弄好了，你看看",
+          "createdAt": "2026-11-27T13:39:32Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BLhFq",
       "author": "alomoi",
       "avatar": "https://avatars.githubusercontent.com/u/38177596?s=64&v=4",
       "body": "大佬，反馈下B站评论审批似乎有问题。目前碰到了两种情况：\n1、肥鱼出去转一圈回来说提了评论，看控制台记录当时给鱼的回执里有单号，但是待审批列表里找不到这条评论，鱼再去查也说提的了评论不见了。\n2、这个是今天遇到的，同样是出去转一圈发了评论，当时在待审批列表里是能看到的，但是因为有其他事没有马上处理。过了一段时间想去审批，打开插件面板发现那条审批不见了。鱼去查也说看不到那个待审批评论了。\n\n两者的共同点是都会有一个“B站评论匿名看不到”的异常提示，不知有无关联性。如果是因为这个原因提交审批都没有成功，能否直接给鱼一个失败的回执，而不是告诉它提交了待审批。",
-      "createdAt": "2026-11-21T14:50:39Z"
+      "createdAt": "2026-11-21T14:50:39Z",
+      "replies": [
+        {
+          "id": "DC_kwDOVLPtGM4BMHOC",
+          "author": "liqin1018",
+          "avatar": "https://avatars.githubusercontent.com/u/125418196?s=64&v=4",
+          "body": "好滴，我弄好了，你看看",
+          "createdAt": "2026-11-27T13:39:24Z"
+        }
+      ]
     },
     {
       "id": "DC_kwDOVLPtGM4BLgqM",
