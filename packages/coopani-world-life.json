@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "coopani-world-life",
-  "version": "1.4.5",
+  "version": "1.5.0",
   "describe": {
     "tools": [
       {
@@ -150,7 +150,7 @@
       },
       {
         "name": "life_move",
-        "description": "搬去本城的另一档住处（城中村 / 老小区 / 新小区 / 别墅区，押两个月房租，老押金不退，钱紧时也可往低处搬自救），或搬到同一座城市的其他街道（换街不收押金，不同街道有各自的街景介绍与属性增益/减益）。tier 和 street 可单传其一，也可同时传。",
+        "description": "搬去本城的另一档住处（城中村 / 老小区 / 新小区 / 别墅区，押两个月房租，老押金不退，钱紧时也可往低处搬自救），搬到同一座城市的其他街道（换街不收押金，不同街道有各自的街景介绍与属性增益/减益），或在接入 Hub v1 多城总服时迁居到其他开放城市（town 参数，迁城免押金并自动切街道与城市风貌加成）。tier、street、town 可单传其一或组合传递。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -168,6 +168,10 @@
             "street": {
               "type": "string",
               "description": "搬去本城的哪条街道，填本城街道名（可选，换街不收押金，享受该街道的属性增益/减益）。"
+            },
+            "town": {
+              "type": "string",
+              "description": "Hub v1 多城模式下迁居到另一座开放城市，填城市 ID 或名称（如 beijing / 北京、lanzhou-reedpond / 兰州）。"
             }
           }
         },
@@ -175,8 +179,8 @@
           "write"
         ],
         "summary": {
-          "zh": "搬家换住处档位或换到同城其他街道。",
-          "en": "Move to another housing tier or another street in town."
+          "zh": "搬家换住处档位、同城换街或 Hub 多城迁居。",
+          "en": "Move housing tier, switch street, or relocate across Hub towns."
         }
       },
       {
@@ -416,14 +420,14 @@
       },
       {
         "name": "life_buy",
-        "description": "去兰州南滨河路早市、张掖路尾货或鱼市街看看今天有什么可买的，也可接下街坊发出的农牧代管委托帮忙干活挣零花钱（不传参数看摊位、邻里委托与街口黑板报，传 16 位委托编号或摊位/菜名到 stall_id 就购买或接单；接邻里代管委托不扣钱、按动植物数量忙活对应分钟后领全额工钱且不占今天正式打工额度；买鲜蔬果品还会收入储物篮供下厨与摆摊）。",
+        "description": "去晨集、尾货摊或鱼市街看看今天有什么可买的，接入 Hub v1 多城总服时还能跨城逛别座城的特产摊位（明算跨城快递费），也可接下同城街坊发出的农牧代管委托帮忙干活挣零花钱（不传参数看摊位、邻里委托与街口黑板报，传委托编号或摊位/菜名到 stall_id 就购买或接单；接邻里代管委托不扣钱且仅限本城、干完领工钱且不占今天正式打工额度；买鲜蔬果品还会收入储物篮供下厨与摆摊）。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "stall_id": {
               "type": "string",
-              "description": "摊位 16 位编号、邻里代管委托 16 位编号（支持写「最短」直接接耗时最短的那份）或早市/尾货/节气菜名；不填则先逛逛看看价。"
+              "description": "摊位编号、邻里代管委托编号（支持写「最短」直接接耗时最短的那份）或早市/尾货/节气菜名；不填则先逛逛看看价。"
             }
           }
         },
@@ -431,13 +435,13 @@
           "write"
         ],
         "summary": {
-          "zh": "在早市、尾货、鱼市街买货或接邻里代管委托挣钱。",
-          "en": "Buy food at markets or accept neighbor farm/ranch errands."
+          "zh": "在早市、尾货、鱼市街跨城买货或接同城邻里代管委托。",
+          "en": "Shop local/cross-town stalls or claim same-town neighbor errands."
         }
       },
       {
         "name": "life_stall",
-        "description": "去兰州鱼市街摆摊卖货（或传空参数查看此刻鱼市街你在架上的摊位与储物篮余量）。价格 1–999、份数 1–99、每人同时最多挂 3 个有效摊位（3 天有效，卖不掉过期亏本）。五大品类各扣真实本钱与精力：鲜蔬农产（produce，耗自产农牧货或早市现批+3元打包）、料理熟食（food，先用已做好成品菜格仅2元打包费，再用储物篮原料仅收3元/份油盐费，无囤货现买原料；单价>25现做需厨师证/烹饪≥10/烤箱/独立厨房）、写作出版（writing，扣纸笔排版底费+印刷装帧费及较多精力；>25需见识≥15/文字≥10/电脑）、手作文创（craft，扣材料包装费；>25需手作≥5/缝纫机）、影像周边（photo，扣冲扫+相纸费；>15需微单/影像≥10）。做新鲜蔬果时可标 fresh_veg: true；摆菜谱里的成品菜时可不填 price 自动采用菜谱参考摊价，自定义定价低于保本价也会附参考价提醒；也可传 effects 自定义给买家回复的属性点数（每 1 元定价 = 2 点预算）。卖出后在 life_deals 自动进账。",
+        "description": "去本城鱼市街摆摊卖货（或传空参数查看此刻你在架上的摊位与储物篮余量；接入 Hub v1 后全城玩家都看得到并能跨城下单）。价格 1–999、份数 1–99、每人同时最多挂 3 个有效摊位（3 天有效，卖不掉过期亏本）。五大品类各扣真实本钱与精力：鲜蔬农产（produce，耗自产农牧货或早市现批+3元打包）、料理熟食（food，先用已做好成品菜格仅2元打包费，再用储物篮原料仅收3元/份油盐费，无囤货现买原料；单价>25现做需厨师证/烹饪≥10/烤箱/独立厨房）、写作出版（writing，扣纸笔排版底费+印刷装帧费及较多精力；>25需见识≥15/文字≥10/电脑）、手作文创（craft，扣材料包装费；>25需手作≥5/缝纫机）、影像周边（photo，扣冲扫+相纸费；>15需微单/影像≥10）。做新鲜蔬果时可标 fresh_veg: true；摆菜谱里的成品菜时可不填 price 自动采用菜谱参考摊价，自定义定价低于保本价也会附参考价提醒；也可传 effects 自定义给买家回复的属性点数（每 1 元定价 = 2 点预算）。卖出后在 life_deals 自动进账。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -518,7 +522,7 @@
           "write"
         ],
         "summary": {
-          "zh": "在兰州鱼市街摆摊或查看自己在架摊位。",
+          "zh": "在鱼市街摆摊或查看自己在架摊位。",
           "en": "Post or inspect your stall at town market."
         }
       },
@@ -545,7 +549,7 @@
       },
       {
         "name": "life_farm",
-        "description": "打理家里阳台/院子的种植槽，或签约城郊菜地种慢熟果蔬（18 种节气作物，4–9 天成熟）：action=status 看槽位、作物进度、储物篮与农牧代管状态；plant 选种子播种（需空槽与种子费，莲藕/冬瓜/稻谷需 ≥2 槽）；water 浇水（每块地每天限 1 次，耗 3 精力，累计浇满 2 次收成 +1 份）；harvest 采摘成熟作物入储物篮（供下厨按菜谱做菜或上鱼市街卖鲜蔬，顺手涨体质）；rent 签约 4 槽城郊菜地（签约费 100 元 + 月租 150 元按天扣）；unrent 退租；hire 雇用农牧帮手（helper_mode=care 日常照料工12元/天浇水喂食收蛋奶，或 full 农牧全托管20元/天并自动收菜起塘；prefer_neighbor 默认 true 优先发鱼市街邻里真鱼代管单¥6–15按量计价且6h无人接自动退回并转自动照料，当日活干完或空场0元免扣）；post_errand 单次发今日鱼市街邻里真鱼代管委托；unhire 解雇帮手；accept_errand 查看或接取鱼市街街坊发出的邻里代管委托挣钱（不填 errand_id 列出在架委托，传入 16 位纯编号或「最短」即可接单，不扣钱、不占今天正式打工额度）。",
+        "description": "打理家里阳台/院子的种植槽，或签约城郊菜地种慢熟果蔬（18 种节气作物，4–9 天成熟）：action=status 看槽位、作物进度、储物篮与农牧代管状态；plant 选种子播种（需空槽与种子费，莲藕/冬瓜/稻谷需 ≥2 槽）；water 浇水（每块地每天限 1 次，耗 3 精力，累计浇满 2 次收成 +1 份）；harvest 采摘成熟作物入储物篮（供下厨按菜谱做菜或上鱼市街卖鲜蔬，顺手涨体质）；rent 签约 4 槽城郊菜地（签约费 100 元 + 月租 150 元按天扣）；unrent 退租；hire 雇用农牧帮手（helper_mode=care 日常照料工12元/天浇水喂食收蛋奶，或 full 农牧全托管20元/天并自动收菜起塘；prefer_neighbor 默认 true 优先发鱼市街邻里真鱼代管单¥6–15按量计价且6h无人接自动退回并转自动照料，当日活干完或空场0元免扣）；post_errand 单次发今日鱼市街邻里真鱼代管委托；unhire 解雇帮手；accept_errand 查看或接取鱼市街街坊发出的邻里代管委托挣钱（不填 errand_id 列出在架委托，传入委托编号（如 `err_...` 或 16 位编号）或「最短」即可接单，不扣钱、不占今天正式打工额度）。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -588,7 +592,7 @@
             },
             "errand_id": {
               "type": "string",
-              "description": "accept_errand 时传 16 位邻里委托编号（或填「最短」自动接耗时最短的那份）；不填则先列出当前鱼市街所有可接邻里委托。"
+              "description": "accept_errand 时传邻里委托编号（如 `err_...` 或 16 位编号，或填「最短」自动接耗时最短的那份）；不填则先列出当前鱼市街所有可接邻里委托。"
             }
           }
         },
@@ -602,7 +606,7 @@
       },
       {
         "name": "life_ranch",
-        "description": "打理自家小院与城郊农牧场的鸡舍、牛棚、鱼塘（大肥鱼本体是鲸鱼不算鱼，可放心养草鱼/鲈鱼收鲜鱼，另可养鸡收蛋收鸡肉、养牛挤奶收牛肉）：action=status 查看鸡/牛/鱼栏位、产蛋产奶倒计时、养成进度与代管状态；buy 放养幼苗（需对应栏位空位，城中村无栏位、老小区自带1鸡位、新小区1鸡+1鱼、别墅区2鸡+2鱼，签约城郊农牧场再加 +2鸡/+2牛/+2鱼）；feed 喂饲料（每天每栏限 1 次，扣精力 3 点与少量饲料费，增产 +1）；collect 收取鲜鸡蛋与鲜牛奶进储物篮；harvest 起塘收鲜鱼（不传 pen_id 自动收熟鱼塘）或指定鸡/牛 pen_id 出栏收土鸡肉/精选牛肉；rent 签约城郊农牧场（签约费 180 元 + 月租 240 元按天扣 8 元）；unrent 退租；hire 雇用农牧帮手（helper_mode=care 日常照料工12元/天，或 full 农牧全托管20元/天；prefer_neighbor 默认 true 优先找鱼市街真鱼代管¥6–15，6h无人接自动退回并转自动照料，当日活干完或空场0元免扣）；post_errand 单次发今日鱼市街邻里真鱼代管委托；unhire 解雇帮手；accept_errand 查看或接取鱼市街街坊发出的邻里代管委托挣钱（不填 errand_id 列出在架委托，传入 16 位纯编号或「最短」即可接单，不扣钱、不占今天正式打工额度）。",
+        "description": "打理自家小院与城郊农牧场的鸡舍、牛棚、鱼塘（大肥鱼本体是鲸鱼不算鱼，可放心养草鱼/鲈鱼收鲜鱼，另可养鸡收蛋收鸡肉、养牛挤奶收牛肉）：action=status 查看鸡/牛/鱼栏位、产蛋产奶倒计时、养成进度与代管状态；buy 放养幼苗（需对应栏位空位，城中村无栏位、老小区自带1鸡位、新小区1鸡+1鱼、别墅区2鸡+2鱼，签约城郊农牧场再加 +2鸡/+2牛/+2鱼）；feed 喂饲料（每天每栏限 1 次，扣精力 3 点与少量饲料费，增产 +1）；collect 收取鲜鸡蛋与鲜牛奶进储物篮；harvest 起塘收鲜鱼（不传 pen_id 自动收熟鱼塘）或指定鸡/牛 pen_id 出栏收土鸡肉/精选牛肉；rent 签约城郊农牧场（签约费 180 元 + 月租 240 元按天扣 8 元）；unrent 退租；hire 雇用农牧帮手（helper_mode=care 日常照料工12元/天，或 full 农牧全托管20元/天；prefer_neighbor 默认 true 优先找鱼市街真鱼代管¥6–15，6h无人接自动退回并转自动照料，当日活干完或空场0元免扣）；post_errand 单次发今日鱼市街邻里真鱼代管委托；unhire 解雇帮手；accept_errand 查看或接取鱼市街街坊发出的邻里代管委托挣钱（不填 errand_id 列出在架委托，传入委托编号（如 `err_...` 或 16 位编号）或「最短」即可接单，不扣钱、不占今天正式打工额度）。",
         "parameters": {
           "type": "object",
           "additionalProperties": false,
@@ -646,7 +650,7 @@
             },
             "errand_id": {
               "type": "string",
-              "description": "accept_errand 时传 16 位邻里委托编号（或填「最短」自动接耗时最短的那份）；不填则先列出当前鱼市街所有可接邻里委托。"
+              "description": "accept_errand 时传邻里委托编号（如 `err_...` 或 16 位编号，或填「最短」自动接耗时最短的那份）；不填则先列出当前鱼市街所有可接邻里委托。"
             }
           }
         },
@@ -834,6 +838,58 @@
           "zh": "查阅或增改四分类素材库及留影策略。",
           "en": "Browse or edit the 4-category reference library and photo policy."
         }
+      },
+      {
+        "name": "life_mail",
+        "description": "接入 Hub v1 多城总服后使用的鱼间信箱与邻里通讯录：action=inbox 查看私信会话列表、未读条数与同城街坊；residents 列出本城近期活跃街坊；read 读出和某位街坊的最近聊天并顺手标记已读；send 给对方发一条私信或明信片（需同城、市场成交过、互接过委托或已建关系，且未被拉黑）；relation 设置街坊关系（acquaintance/friend/blocked）。",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action"
+          ],
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "inbox",
+                "residents",
+                "read",
+                "send",
+                "relation"
+              ],
+              "description": "操作类型：inbox(看信箱和会话)/residents(看本城街坊)/read(读对话并标已读)/send(给街坊写信)/relation(设关系或拉黑)。"
+            },
+            "peer": {
+              "type": "string",
+              "description": "对方鱼名或 petId（send / read / relation 时传入，也可用 conversation_id）。"
+            },
+            "conversation_id": {
+              "type": "string",
+              "description": "可选：已知的会话 id（read / send 时可直接指定）。"
+            },
+            "message": {
+              "type": "string",
+              "description": "send 时要写过去的正文内容（不超过 1000 字）。"
+            },
+            "rel_type": {
+              "type": "string",
+              "enum": [
+                "acquaintance",
+                "friend",
+                "blocked"
+              ],
+              "description": "relation 时设定的关系类型：acquaintance 熟人 / friend 好友 / blocked 拉黑。"
+            }
+          }
+        },
+        "tags": [
+          "write"
+        ],
+        "summary": {
+          "zh": "在 Hub v1 查看同城街坊、收发鱼间私信与管理关系。",
+          "en": "Check Hub neighbors, read or send direct mail, and manage relations."
+        }
       }
     ],
     "events": [
@@ -897,6 +953,14 @@
         "trigger": "debounce"
       },
       {
+        "type": "life.social",
+        "description": {
+          "zh": "Hub v1 鱼间信箱收到邻里发来的新私信短讯。",
+          "en": "Received a new direct message from a neighbor on Coopanion Hub."
+        },
+        "trigger": "debounce"
+      },
+      {
         "type": "life.handoff",
         "description": {
           "zh": "长对话压缩交接时同步附带的当前位置、五维与现金快照。",
@@ -910,6 +974,7 @@
     ]
   },
   "changelog": {
+    "1.5.0": "- **Coopanion Hub v1.1 双轨接入**（`src/hub-client.ts`、`src/config.ts`、`src/bridge.ts`、`src/world.ts`）：\n  - 新增 `worlds.life.hubUrl` 与 `worlds.life.hubTownId`（均标 `x-hot: true` 支持热更新）；留空 `hubUrl` 时 100% 退回老服 `townUrl` 或纯单机运行。\n  - 新增 `src/hub-client.ts`，实现 `<dataDir>/coopanion-hub-auth.json` 跨扩展共享凭据原子读写、`meet-uid.txt` / `life-town-uid.txt` 历史 UID 只读探测认领与 `409 LEGACY_UID_CLAIMED` 防裂号、Bearer 鉴权、`ETag`/`304` 城邦与目录快照缓存、`Idempotency-Key` 买摊/接委托幂等与精确 `eventIds` 收件箱确认。\n  - 接入多城迁居（`life_move` 支持 `town` 参数及面板 `now.moveTown`）、城邦公告与专属 Buff（如北京 `writing_pay_mult` 实算入日薪）、跨城摊位特产标注与透明快递费账本明细、`/v1/market/orders/settle` 仅入账 `itemSubtotal`、同城邻里代管委托与跨城 `403 ERRAND_TOWN_MISMATCH` 防护。\n  - 新增 `life_mail` 工具（`inbox` / `residents` / `read` / `send` / `relation`）与 `life.social` 主动提醒事件。\n- **全面焕新七页签手账 UI**（`web/panel-1.5.0.js`、`package.json`）：\n  - 升级面板为 `web/panel-1.5.0.js`（并移除旧版 `web/panel-1.4.5.js`），引入渐变顶部卡片、双列响应式网格与七页签交互增强。\n  - 「此刻」支持多城徽标/公告/Buff 展示与一键迁城；「职业工坊」显示当前城邦加成后的预期日薪；「你和它 / 街坊」支持同城街坊与只读鱼间私信收发气泡及标已读；「农牧场与鱼市街」新增全部/本城免邮/特产筛选、跨城运费徽章与自主下架余货/撤回委托；「日志与时间轴」补充跨城订单与私信动态记录。\n- **扩展描述、提示词与集成测试**（`describe.json`、`ENV_PROMPT.md`、`README.md`、`test/hub-v1.test.mjs`）：\n  - 同步更新 23 个工具与 `life.social` 事件声明，新增覆盖 Hub v1.1 核心闭环的本地 mock 集成测试 `test/hub-v1.test.mjs`。",
     "1.4.5": "- **菜园与养殖场面板文案消歧**（`web/panel-1.4.5.js`、`package.json`）：\n  - 原先 `浇水 3/2 ✓今` 把「累计增产门槛 `waterCount/2`」和「每日浇水刷新」挤在一起，跨天后仍会让人误以为每日浇水次数没刷新或超限；现改写为明确区分累计与今日状态：`累计浇 3次(已+1产) · 今日✓ / 今日待浇`（未满 2 次时为 `累计浇 X/2(满2+1产) · 今日✓ / 今日待浇`），养殖栏同步对齐为 `累计喂 X次 · 今日✓ / 今日待喂`，并完成 `1.4.5` 三同步升级。\n- **在家产蛋/产奶、熟货待收与每日浇水/喂食主动提醒**（`src/world.ts`、`describe.json`、`ENV_PROMPT.md`）：\n  - `tick()` 新增 `checkHomeFarmReminders()`：当人在家、醒着且空闲，且鸡/牛有满周期可收蛋奶或菜地/鱼塘有熟货待收时，经 `DeliveryAttempt` 推送 `life.farm` 提醒事件（`delivered` 后按天记 `nagged`，收完对应项立即释放当日额度）；白天至晚间（08:00–22:00）在家精力充足（≥ 10）且未挂今日邻里委托时，还会汇总推送一次当日未浇水作物与未喂食动物提醒（`farm:care`，严格每日至多一次）；\n  - `envPromptVars()` 的 `life.who` 与 `life_status` 返回体同步透出 `待浇水`、`待喂食`、`可收蛋奶` 与 `可起塘出栏` 计数，让常驻上下文、状态查询与主动事件三出口齐备。",
     "1.4.4": "- **修复旅行反哺情绪胶囊不断重复累加**：`src/state.ts` 的 `applySpend()` 原先使用一次性随机流水 `journey:${id}` 作为情绪 `source`，导致跨扩展消费同步反复写入同一句（如连续多顿「在当地吃了顿顺口的好饭」）时无法覆盖旧胶囊、面板「身心与挂念」攒出整串重复项；现改为稳定语义键 `journey:${noteKey || text.slice(0, 30)}`，并在写入前按 `source` 与 `(text, kind)` 双重过滤覆盖旧条。\n- **读档自动合并不损老存档**：新增 `dedupeMoodlets()` 接入 `normalize()`，读档时自动对老存档里因旧版 `journey:sp-*` 攒出来的重复胶囊按同 `(text, kind)` 或非随机 `source` 合并，保留过期时间最晚的那一条，其它情绪完整保留。\n- **面板与缓存三同步**：新增 `test/stage23.test.mjs` 连续旅途吃饭与老存档读档归一化回归用例，面板缓存三同步升级为 `web/panel-1.4.4.js`。",
     "1.4.3": "- **修复鱼市街邻里代管委托「把编号当成普通摊货无法下单」根因**（`src/world.ts`、`src/bridge.ts`）：\n  - **接单编号容错匹配**：新增 `normalizeTownText()` / `stripStallIdPrefix()` / `matchTownStall()`，统一兼容裸 16 位 hex 编号、带 `id:` / `ID:` / `委托编号:` 前缀、带引号/外层括号、全角括号 `（...）`、内嵌编号的复合文本、6–15 位短 hex 前缀以及「最短/最快」委托指令，不再因标点或前缀差一个字就匹配失败；\n  - **硬防误落本地早市**：入参带有编号特征、委托关键词或 16 位 hex ID 但鱼市街未命中或暂时连不上时，直接返回可接委托列表或断网提示并声明「没有误买任何普通摊货」，绝再掉进早市菜谱返回「没找着，今天摊上有牛肉面…」；\n  - **委托专属报错文案**：`buyTownStall()` 新增 `isErrand` 标志，遇到 `own stall`、`sold out`、`pair limit`、`not found` 时返回邻里委托专用的提示（如「这是你自己发出去的农牧代管委托，不能自己接自己的单哦」），不再说成「买摊货」。\n- **农牧工具直达接单 + 同名鱼可见性 + 面板展示编号**（`src/world.ts`、`describe.json`、`ENV_PROMPT.md`、`web/panel-1.4.3.js`、`package.json`）：\n  - `life_farm` 与 `life_ranch` 均新增 `action: \"accept_errand\"` 与 `errand_id` 参数（不填先列出按耗时排序的在架委托，填 16 位编号或「最短」即可直接接单），并与 `life_buy` 共用接单执行器；\n  - `updateTownStallsCache()` 改按本机发单 `stallId`（`pendingErrand` / `errandStallIds`）区分是否为自己的委托，并把邻里委托置顶、不受普通摊货 12 条上限截断，解决同名「大肥鱼」互相屏蔽委托的问题；\n  - `web/panel-1.4.3.js` 街坊委托卡片直接显示 16 位纯委托编号并升级 `1.4.3` 三同步。",

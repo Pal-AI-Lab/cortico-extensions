@@ -2328,17 +2328,17 @@
     },
     "coopani-world-journey": {
       "kind": "world",
-      "version": "2.10.5",
+      "version": "2.11.0",
       "displayName": "大肥鱼环游世界",
-      "description": "大肥鱼环游世界 · 194 座真城市旅行体验：真实赶路耗时、当地作息天气、旅途打工与月底手账，支持同城偶遇、互留名片及与「模拟鱼生」双扩展同步。（需 Coopani 0.2.22+｜QQ 群 284525159）",
+      "description": "大肥鱼环游世界 · 194 座真城市旅行体验：真实赶路耗时、当地作息天气、旅途打工与月底手账，支持接入 Coopanion Hub v1 多城总服（与模拟鱼生共享同一只鱼身份、同城偶遇与结伴、同行解锁鱼间私信寄明信片）并向下兼容老服。（需 Coopani 0.2.22+｜QQ 群 284525159）",
       "locales": {
         "zh": {
           "displayName": "大肥鱼环游世界",
-          "description": "让桌宠从你所在城市出发，背上包出门旅行（需 Coopani 0.2.22+｜QQ 群 284525159）。\n\n- **自主出行**：自定目的地与交通方式，真算跨城票价、距离与赶路耗时；到站按当地时区吃住、打工、打卡与写旅行日记，月底自动拼一份手账。\n- **同城遇鱼与结伴**：填公共服务器即可在城里偶遇别家的鱼、约伴同游、互留名片或漂流路标。\n- **多扩展联动**：对接「模拟鱼生」同步城市位置、休整期、旅途打工、花销账本与参考素材留影策略；支持「一起听歌」种草城市与「鱼鱼出行」打车记账。"
+          "description": "让桌宠从你所在城市出发，背上包出门旅行（需 Coopani 0.2.22+｜QQ 群 284525159）。\n\n- **Coopanion Hub v1.2 二期双轨联机**：新增 `hubUrl` 热配置（推荐 `https://hub.cooppetsjourney.top`），与「模拟鱼生」共用同一份 `<dataDir>/coopanion-hub-auth.json` 身份并自动认领老服 `meet-uid`，支持全时段同城查重、显式认领回执、云端足迹、路标与手写名片；一起结伴同行过的两只鱼可直接在「模拟鱼生」`life_mail` 鱼间信箱互寄明信片。留空 `hubUrl` 时 100% 兼容老服 `meetUrl` 或纯单机运行。\n- **自主出行与真实节奏**：194 座真城市自定目的地与 9 种交通方式（含主题游轮与全景观光专列），真算跨城票价、距离与赶路耗时；到站按当地时区吃住、打工、拍照与写旅行日记，月底自动拼一份手账。\n- **多扩展联动**：对接「模拟鱼生」同步城市位置、休整期、旅途打工、花销账本与参考素材留影策略；支持「一起听歌」种草城市与「鱼鱼出行」打车记账。"
         },
         "en": {
           "displayName": "Big Fish World Tour",
-          "description": "Real-time travel companion across 194 real cities (Needs Coopani 0.2.22+ · QQ group 284525159).\n\n- **Autonomous trips**: real distances, fares, transit durations, local time zones, dining, lodging, diaries, and monthly keepsakes.\n- **Meet & travel together**: connect a public server to cross paths with other pets, travel in parties, and exchange cards.\n- **Cross-extension sync**: syncs location, rest status, trip gigs, budgets, and visual references with Simulated Fish Life; works with Listen With Me and Fish Ride."
+          "description": "Real-time travel companion across 194 real cities (Needs Coopani 0.2.22+ · QQ group 284525159).\n\n- **Coopanion Hub v1.2 Dual-Track Online**: Optional `hubUrl` hot config (recommended `https://hub.cooppetsjourney.top`) shares identity (`coopanion-hub-auth.json`) with Simulated Fish Life, claims legacy `meet-uid`, adds all-slot companion discovery, explicit invite acknowledgment, cloud footprints/cards/profiles, and unlocks direct fish-to-fish postcards after traveling together. Leaving `hubUrl` empty keeps 100% legacy `meetUrl` or offline compatibility.\n- **Autonomous trips**: real distances, fares, transit durations, local time zones, dining, lodging, diaries, and monthly keepsakes.\n- **Cross-extension sync**: syncs location, rest status, trip gigs, budgets, and visual references with Simulated Fish Life; works with Listen With Me and Fish Ride."
         }
       },
       "author": "Mr.Q",
@@ -2366,8 +2366,8 @@
         "linux"
       ],
       "created": "2026-10-31T10:26:02.461Z",
-      "published": "2026-11-25T11:04:25.853Z",
-      "versionCount": 216,
+      "published": "2026-11-27T06:04:14.899Z",
+      "versionCount": 217,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -2397,6 +2397,7 @@
       },
       "changelog": {
         "versions": [
+          "2.11.0",
           "2.10.5",
           "2.10.4",
           "2.10.3",
@@ -2640,17 +2641,17 @@
     },
     "coopani-world-life": {
       "kind": "world",
-      "version": "1.4.5",
+      "version": "1.5.0",
       "displayName": "模拟鱼生",
-      "description": "模拟鱼生 · 给桌宠过日子的真实小生活：五条需求、18种节气菜园与鸡牛鱼养殖（面板可直接点击操作）、菜谱联动与职业工坊、鱼市街摆摊与日记时间轴。（需 Coopani 0.2.22+｜QQ 群 284525159）",
+      "description": "模拟鱼生 · 桌面伴侣的真实人生与多城联机生活：五条需求、Hub v1 多城迁居（兰州/北京等）与跨城鱼市街、同城农牧代管与鱼间信箱、18种菜园与鸡牛鱼养殖直点、职业工坊与全新七页签手账 UI。（需 Coopani 0.2.22+｜QQ 群 284525159）",
       "locales": {
         "zh": {
           "displayName": "模拟鱼生",
-          "description": "让桌宠有自己真正在过的小日子（需 Coopani 0.2.22+｜QQ 群 284525159）。\n\n- **真实节奏与节气**：五条需求随真实时间流逝；二十四节气标注、南滨河路晨集 8 折、张掖路尾货半价、雁滩路周末旧货集、深夜静谧与晨醒梦境切片。\n- **打工、考证与职业工坊**：四档出工与五档完成度波动，可报八大领域培训班、考 9 张证书、购置烤箱/缝纫机/相机/电脑与轻载具；「职业与工坊」页签直观展示考证通过率、岗位门槛与 18 道菜谱原料匹配（烤红薯等家常简食免证，厨师招牌菜高回复高溢价）。\n- **18 种菜园、鸡牛鱼养殖与面板直点**：种菜扩容至 18 种并新增鸡舍/牛棚/鱼塘（大肥鱼是鲸鱼不算鱼，放心养鱼收肉蛋奶），在「农牧场与鱼市街」页签可由用户直接点击播种、浇水、收割、放养、喂食与起塘，做出的成品菜格可热吃或直接免原料费上鱼市街摆摊。\n- **七页签精简整合**：时间轴与生活日记合并为「日记与时间轴」去除重复，保留她此刻、职业与工坊、她惦记的、你和它、农牧场与鱼市街、日记与时间轴及四分类参考素材库。"
+          "description": "让桌宠有自己真正在过的小日子（需 Coopani 0.2.22+｜QQ 群 284525159）。\n\n- **Coopanion Hub v1.1 多城联机（可选双轨）**：新增 `hubUrl` / `hubTownId` 热配置，支持跨城迁居（如芦花塘 ↔ 北京）、城邦公告与专属加成（如北京文案打工加成）、全网跨城摆摊买摊（含特产标识与按件快递费明细）、同城邻里代管委托，以及 23 个工具（新增 `life_mail` 鱼间私信与街坊关系）；留空 `hubUrl` 时 100% 兼容老服 `townUrl` 或纯单机。\n- **全新七页签手账 UI**：全面重塑面板视觉与结构（7 个页签：此刻、职业工坊、她惦记的、你与街坊、农牧与集市、日记时间轴、参考素材库），支持多城迁居、农牧直点打理、跨城/本城/特产筛摊、撤单下架与只读鱼间私信收发视图。\n- **真实节奏、打工考证与农牧工坊**：五条需求随真实时间流逝与二十四节气标注；四档出工与八大领域培训考证，18 道菜谱工坊（烤红薯等家常简食免证）；18 种慢熟作物与鸡舍/牛棚/鱼塘养殖（大肥鱼是鲸鱼不算鱼，放心养鱼收肉蛋奶）。"
         },
         "en": {
           "displayName": "Simulated Fish Life",
-          "description": "A real everyday life simulation for your desktop companion (Needs Coopani 0.2.22+ · QQ group 284525159).\n\n- **Daily rhythm & seasons**: five needs decay in real time, alongside 24 solar-term labels, street markets, quiet late nights, and wake-up dreams.\n- **Career & Recipe Workshop**: four job tiers, 8 skill domains, 9 certs with live pass-rate bars, and an 18-recipe cooking workshop matching your pantry (simple meals like roasted sweet potatoes need no chef cert; chef dishes store into prepared-dish slots).\n- **18 crops, Livestock & Pond + Interactive Farm Panel**: expand to 18 crops plus chickens, dairy cows, and freshwater pond fish (as a whale, Big Fish isn't a fish!). Users can click directly in the Farm & Market panel to plant, water, harvest, raise, feed, and collect.\n- **7 streamlined tabs**: merged timeline & diary into one tab, introducing the Career & Workshop tab alongside Live Status, Wants, Companionship, Farm & Market, Diary & Timeline, and Reference Library."
+          "description": "A real everyday life simulation for your desktop companion (Needs Coopani 0.2.22+ · QQ group 284525159).\n\n- **Coopanion Hub v1.1 Multi-City Online (Dual-Track)**: Optional `hubUrl` and `hubTownId` hot settings enable cross-town relocation (e.g. Lanzhou Reedpond <-> Beijing), town notices and domain buffs, cross-town stalls with specialty tags and transparent shipping breakdown, same-town neighbor errands, and `life_mail` direct messaging & neighbor relations (23 tools total). Leaving `hubUrl` empty keeps 100% compatibility with legacy `townUrl` or offline mode.\n- **Revamped 7-Tab Journal UI**: Refreshed layout and controls across Live Status, Career & Workshop, Wants, Companionship & Mail, Farm & Market, Diary & Timeline, and Reference Library—with town switching, direct farm/ranch controls, specialty/local filters, order cancellation, and read-only fish-to-fish mailbox view.\n- **Daily Rhythm, Career & Farm Workshop**: Real-time five needs with 24 solar terms, 4 job tiers, 8 skill domains, 9 certs, 18 recipes, 18 crops, and poultry/dairy/pond farming (Big Fish is a whale, not a fish!)."
         }
       },
       "author": "Mr.Q",
@@ -2676,8 +2677,8 @@
         "bugs": "https://github.com/fateSSD/coopani-world-life/issues"
       },
       "created": "2026-11-15T03:01:26.063Z",
-      "published": "2026-11-26T12:57:36.065Z",
-      "versionCount": 55,
+      "published": "2026-11-27T06:01:55.382Z",
+      "versionCount": 56,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -2695,13 +2696,14 @@
         "week": 5560
       },
       "summary": {
-        "tools": 22,
-        "events": 8,
-        "toolTokens": 5950,
+        "tools": 23,
+        "events": 9,
+        "toolTokens": 6420,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "1.5.0",
           "1.4.5",
           "1.4.4",
           "1.4.3",
@@ -5282,7 +5284,7 @@
     },
     "cortico-world-agent-speed": {
       "kind": "world",
-      "version": "0.2.4",
+      "version": "0.2.5",
       "displayName": "Agent Speed",
       "description": "The Coopanion desktop pet with local Agent Speed activity animation",
       "maintainers": [
@@ -5302,8 +5304,8 @@
         "win32"
       ],
       "created": "2026-11-26T05:37:12.825Z",
-      "published": "2026-11-27T05:02:05.570Z",
-      "versionCount": 7,
+      "published": "2026-11-27T05:42:44.044Z",
+      "versionCount": 8,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -5325,7 +5327,7 @@
         "versions": [
           "0.2.0"
         ],
-        "url": "https://unpkg.com/cortico-world-agent-speed@0.2.4/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-agent-speed@0.2.5/CHANGELOG.md"
       },
       "discussion": {
         "number": 1171,
@@ -18227,9 +18229,9 @@
     },
     "cortico-world-milkcoo-app": {
       "kind": "world",
-      "version": "0.5.0-beta.9",
+      "version": "0.6.0-beta.1",
       "displayName": "移动前端coodock",
-      "description": "移动前端coodock：Coo / Cortico 的移动端连接，支持主机直连、公网中转、世界聊天和共享表情包库。",
+      "description": "移动前端coodock：Coo / Cortico 的移动端与原生工作台后端（0.6.0-beta.1），支持主机直连、公网中转、世界聊天、多 Agent 切换与共享表情包库。",
       "locales": {
         "zh": {
           "displayName": "移动前端coodock",
@@ -18259,8 +18261,8 @@
         "bugs": "https://github.com/rtmhjx/cortico-world-milkcoo-app/issues"
       },
       "created": "2026-10-31T08:51:11.589Z",
-      "published": "2026-11-14T13:55:53.064Z",
-      "versionCount": 13,
+      "published": "2026-11-27T07:02:40.184Z",
+      "versionCount": 14,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -18800,7 +18802,7 @@
     },
     "cortico-world-mosey": {
       "kind": "world",
-      "version": "2.13.0",
+      "version": "2.13.4",
       "displayName": "摸鱼",
       "description": "摸鱼（Mosey）：让 Coopanion 的桌宠自己去抖音和 B站逛一圈。评论和私信都能收能回；能一起看视频（B站带字幕弹幕，抖音可自动连刷）；关注流、周报、本地书库；按额度点赞、评论、关注、发动态。默认人审，三把工具、少 token。\n\nQQ 交流群：745879632",
       "locales": {
@@ -18837,8 +18839,8 @@
         "bugs": "https://github.com/liqin1018/cortico-world-mosey/issues"
       },
       "created": "2026-11-01T08:17:38.660Z",
-      "published": "2026-11-24T07:09:00.445Z",
-      "versionCount": 68,
+      "published": "2026-11-27T05:33:22.625Z",
+      "versionCount": 69,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -18869,12 +18871,13 @@
       },
       "summary": {
         "tools": 3,
-        "events": 7,
-        "toolTokens": 2191,
+        "events": 8,
+        "toolTokens": 2205,
         "envPromptTokens": 0
       },
       "changelog": {
         "versions": [
+          "2.13.4",
           "2.13.0",
           "2.12.0",
           "2.11.1",
@@ -26833,7 +26836,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/204",
         "up": 1,
         "down": 0,
-        "comments": 34
+        "comments": 35
       }
     },
     "cortico-world-soft-voice": {
