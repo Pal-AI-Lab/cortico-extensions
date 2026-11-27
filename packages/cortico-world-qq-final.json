@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "cortico-world-qq-final",
-  "version": "0.6.54",
+  "version": "0.6.56",
   "describe": {
     "tools": [
       {
@@ -472,7 +472,7 @@
       },
       {
         "name": "qq_qzone",
-        "description": "QQ 空间动态系列（用一个 action 选子功能）：post=发一条动态（说说，content 必填，可附图 images / 权限 permission）；delete=删除一条动态（tid）；reply=对一条动态发表评论（NapCat/SnowLuma 仅支持对整个动态评论，tid+content，comment_id 可不填；回复某条评论时在 content 里 @对方昵称 即可）；detail=查看一条动态的详情与全部评论（tid，uin=动态作者的QQ号，来自 feeds 返回）；feeds=查看好友动态列表（num）；status=查看发布器状态（开关/配额/最近动态 tid）。content 必须由你（主模型）显式给出：按\"最近聊天 + 真实看法\"以第一人称写，自然有梗，1-3 句；不要空泛、不要\"我帮你记下了\"这类托管语气。",
+        "description": "QQ 空间动态系列（用一个 action 选子功能）：post=发一条动态（说说，content 必填，可附图 images / 权限 permission）；delete=删除一条动态（tid）；reply=对一条动态发表评论（NapCat/SnowLuma 仅支持对整个动态评论，tid+content，comment_id 可不填；回复某条评论时在 content 里 @对方昵称 即可）；detail=查看一条动态的详情与全部评论（tid，uin=动态作者的QQ号，来自 feeds 返回）；feeds=查看好友动态列表（num）；status=查看发布器状态（开关/配额/最近动态 tid）。空友爱看用 public_capabilities 查询账号入口，public_feeds 浏览推荐，public_detail 阅读动态和首批评论，public_comments 续读评论。用 public_like 点赞、public_upvote 推、public_forward 转发到自己空间。content 必须由你（主模型）显式给出：按\"最近聊天 + 真实看法\"以第一人称写，自然有梗，1-3 句；不要空泛、不要\"我帮你记下了\"这类托管语气。",
         "parameters": {
           "type": "object",
           "properties": {
@@ -484,9 +484,32 @@
                 "reply",
                 "detail",
                 "feeds",
-                "status"
+                "status",
+                "public_capabilities",
+                "public_feeds",
+                "public_detail",
+                "public_comments",
+                "public_like",
+                "public_upvote",
+                "public_forward"
               ],
-              "description": "子功能：post 发动态 / delete 删动态 / reply 回评论 / detail 查动态详情与评论 / feeds 列动态 / status 看状态。"
+              "description": "选择空间动作。public_ 开头的动作用于空友爱看。"
+            },
+            "feed_ref": {
+              "type": "string",
+              "description": "空友爱看动态引用，使用 public_feeds 返回的 feed_ref。查看详情、续读评论、点赞、推、转发均须提供。"
+            },
+            "cursor": {
+              "type": "string",
+              "description": "public_feeds 首次省略，翻页传上次返回的 next_cursor。public_comments 使用同一条动态详情或评论页返回的 next_cursor。"
+            },
+            "enable": {
+              "type": "boolean",
+              "description": "public_like 或 public_upvote 默认 true，传 false 取消对应操作。"
+            },
+            "reason": {
+              "type": "string",
+              "description": "public_forward 转发到自己空间时的可选附言。"
             },
             "content": {
               "type": "string",
@@ -533,8 +556,8 @@
           "read"
         ],
         "summary": {
-          "zh": "QQ 空间动态:发(post)/删(delete)/回评论(reply)/列动态(feeds)/看状态(status)。",
-          "en": "QQ Zone: post / delete / reply to comment / list feeds / show status."
+          "zh": "QQ 空间说说与好友动态。支持浏览空友爱看、看评论、点赞、推和转发到自己空间。",
+          "en": "Manage QQ Zone posts and browse friends’ feeds. Read public recommendations and comments, like, upvote, or repost to your own Zone."
         }
       },
       {
@@ -859,6 +882,8 @@
     ]
   },
   "changelog": {
+    "0.6.56": "- QQ 空间设置新增「允许 AI 浏览空友爱看」开关。默认开启，已有配置升级后沿用原有行为，保存后立即生效。\n- 关闭后，AI 无法浏览推荐、读取推荐评论，也无法对推荐动态点赞、推或转发。正在读取的推荐内容不会交给 AI。普通说说与好友动态仍可使用。",
+    "0.6.55": "- QQ 空间工具新增「空友爱看」。AI 可以浏览推荐、翻页、阅读动态和评论，给选中的动态点赞或「推」，也可以取消对应操作。\n- 支持将原动态转发到机器人自己的 QQ 空间，并添加附言。刷新推荐后仍可操作先前选中的条目，切换账号后旧引用失效。可先查询当前账号的空友爱看入口，具体动作需要协议端支持。",
     "0.6.54": "- 合并转发卡片中的图片可随原发言交给主模型，也可通过辅助视觉生成描述。开启「视频理解」并配置 FFmpeg 后，卡片中的视频也可分段看图，启用 ASR 后可同时读取对应时间段的转写。\n- 支持直接投递、批量接收和主动查收。每张卡片最多处理 6 张图片、2 个视频，附件合计最多 16 MiB。无法读取或超限的媒体会在原位置标注。",
     "0.6.53": "- 「QQ空间」新增「提醒 bot 发说说」开关，默认开启。关闭后立即停止新的自动发帖提醒，仍可手动发布，空间评论沿用现有回复设置。",
     "0.6.52": "- 基于 0.6.51 按功能迁移社区 dsh.11 提案，保留文件库同步、断档补收、长图附件、引用与 @ 位置的已有修复。\n- 新增 batch 接收模式、会话临时接管、按发送者防抖、沉默唤醒与可选投递日志。缓冲随未读箱持久化，成功投递后才确认已读；重启可恢复，失败可重试。合并时完整处理每条消息的图片、文件、视频和转发，投递前重查监听、账号、模式及暂停状态。\n- 新增随机表情池、分类别名、概率附图、单独发表情、尺寸缓存压缩与配置汇总面板；连续标记不再粘连正文，保留转义语法，远端协议端沿用图片传输配置。\n- 正文 @昵称转换成 QQ 号；重名、查无此人或成员接口异常时保留普通文本，避免整条回复发送失败。\n- 新增可选的短句合并、长文本合并转发和按字数发送间隔；保留字节上限与 @/引用，转发不支持时回退普通消息。空消息明确报失败。\n- 接管、防抖、改变拆句的策略默认关闭；关键词沿用 triggerKeywords，兼容读取社区配置 wakeWords。感谢社区 dsh 分支作者提供实现与验证思路。",
