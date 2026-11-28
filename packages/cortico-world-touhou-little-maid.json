@@ -1,0 +1,119 @@
+{
+  "schema": 1,
+  "name": "cortico-world-touhou-little-maid",
+  "version": "0.3.0",
+  "describe": {
+    "tools": [
+      {
+        "name": "tlm_say",
+        "description": "Say one line through the maid in Minecraft (the Touhou Little Maid mod). Call it for every reply to a `tlm.chat` event: the text becomes the maid's chat bubble, and the game is waiting for this call to close its request. The bubble is small — one or two short spoken sentences, no Markdown, no lists, no code blocks, no stage directions. Call it again for another bubble; lines are joined in call order. Never put the reply only in your message body: the body is not sent to the game.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "type": "string",
+              "maxLength": 1000,
+              "description": "The line to show in the maid's chat bubble."
+            }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "tags": [
+          "speak"
+        ],
+        "summary": {
+          "zh": "把一句话交给 Minecraft 里女仆的气泡",
+          "en": "Shows a line in the maid's chat bubble in Minecraft"
+        }
+      },
+      {
+        "name": "tlm_command",
+        "description": "Change what the maid is doing in Minecraft: follow, sit, schedule, work mode, or a skill. This only flips the maid's own mode — she walks, harvests, fights and pathfinds herself, so do not describe her steps and do not try to steer her. Every message you get from this channel carries the maid's current mode and state; read it before switching. Put what you want to say to the owner in `say`: it is spoken after the game confirms the switch, and the game is waiting for this call.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "follow",
+                "sit",
+                "schedule",
+                "work",
+                "skill"
+              ],
+              "description": "follow: start/stop following; sit: sit down/stand up; schedule: day/night/all; work: switch work task; skill: use a skill."
+            },
+            "value": {
+              "type": "string",
+              "description": "follow/sit: \"on\" or \"off\"; schedule: \"day\", \"night\" or \"all\"."
+            },
+            "task_id": {
+              "type": "string",
+              "description": "Only for action=work: the work task id, from the list this game reported."
+            },
+            "entity_id": {
+              "type": "integer",
+              "description": "Only for action=work with an attack task: target entity id from the nearby list in the state brief."
+            },
+            "name": {
+              "type": "string",
+              "description": "Only for action=skill: the skill name from the list this game reported."
+            },
+            "say": {
+              "type": "string",
+              "maxLength": 500,
+              "description": "What to say to the owner after the switch is confirmed, one short spoken line."
+            }
+          },
+          "required": [
+            "action",
+            "say"
+          ]
+        },
+        "tags": [
+          "act",
+          "speak"
+        ],
+        "summary": {
+          "zh": "切换女仆的跟随、坐、日程、工作或技能，行为交给女仆自己跑",
+          "en": "Switches the maid's follow, sit, schedule, work or skill; she does the moving herself"
+        }
+      }
+    ],
+    "events": [
+      {
+        "type": "tlm.chat",
+        "description": {
+          "zh": "主人在游戏里对女仆说了一句话，附带此刻的游戏状态；游戏正等着回复或指令。",
+          "en": "The owner said something to the maid in game, with the current game state; the game is waiting for a reply or a command."
+        },
+        "trigger": "flush"
+      },
+      {
+        "type": "tlm.self",
+        "description": {
+          "zh": "自己刚经女仆说出去的话，只落库不投递。",
+          "en": "A line just spoken through the maid; archived only, never delivered."
+        },
+        "trigger": "piggyback"
+      }
+    ],
+    "prompts": [
+      {
+        "key": "worlds.tlm.envPrompt",
+        "title": "Touhou Little Maid · environment prompt",
+        "role": "envPrompt",
+        "content": "You are talking to your owner through a maid in **Minecraft**, added by the mod **Touhou Little Maid**.\n\nEverything below is about this channel only; your persona, memory and habits do not change.\n\n## What each message contains\n\nA `tlm.chat` event has two parts:\n\n1. `[HH:MM] <owner> (through the maid): …` — the line the owner typed into the maid's chat.\n2. A `—— game state ——` block: dimension, weather, time, the maid's health/schedule/current work/position, how far she is from the owner, nearby living entities (with ids), her inventory and equipment, the owner's health and armour.\n   Sometimes a 480p screenshot of the game is attached — that is the whole screen, not your eyes.\n\n## How to reply\n\n- **Speak**: call `tlm_say`; its `text` is exactly what the bubble shows. One or two short spoken sentences, no Markdown, lists or stage directions.\n- **Make her act**: call `tlm_command` with `action` = `follow`, `sit`, `schedule` (`day` / `night` / `all`), `work`, or `skill`.\n  - For `work`, `task_id` must be one of the ids this channel reported; for an attack task (`attack`, `ranged_attack`, …) you may add `entity_id` from the nearby list.\n  - `say` is required: it is spoken once the game confirms the switch, so one `tlm_command` both acts and answers.\n  - **Read the state before switching**: if she is already on that task, or the conditions are missing (no hoe, no arrows, not her work hours), do not force it.\n- One turn may call `tlm_say` and `tlm_command` together, or only the command (its `say` speaks for you).\n- **Never reply only in your message body**: the body is not sent to the game.\n\n## How she moves\n\nWalking, pathfinding, harvesting, replanting, feeding animals and fighting are all run by the mod's own AI. You only flip modes and sometimes pick a target — do not describe her steps and do not try to steer her. When a switch fails, the game hands you its receipt (missing tool, wrong schedule, target excluded by attack rules); tell the owner honestly.\n\n## Tone\n\nDo not mention tools, events, prompts or ports. You are yourself, borrowing a maid's body.\nThe owner is `{{tlm.speaker}}`; this endpoint listens on port `{{tlm.port}}`."
+      }
+    ]
+  },
+  "changelog": {
+    "0.3.0": "- **输入方式可配**：新配置 `inputMode` —— `state` 只读状态简报、`screen` 优先最近画面（没有才退回去查状态）、`both` 都要（默认）。切到 `screen` 且有新鲜画面时省掉一次查状态往返。\n- **配置分组**：配置页拆成「连接 / 输入 / 指令」三组，字段说明补齐；世界卡片新增「最近画面」徽标（尺寸）。\n- 测试扩到 14 个用例（新增 state 不附图、screen 直进 Coo、screen 无画面回落）。\n- 市场标签：game、external-setup、high-cost、experimental。",
+    "0.2.0": "- **自动读状态**：每条消息先按档位（`off` / `basic` / `full`）并行发 `query_game_context`，把世界、女仆、主人、位置、附近实体、装备、buff 拼成「状态简报」再交给 Coo。\n- **指令透传**：新工具 `tlm_command`，五类动作（follow / sit / schedule / work / skill）翻成车万女仆自己的 `switch_follow_state` / `switch_sit` / `switch_schedule` / `switch_work_task` / `use_skill`；工作 id 与攻击目标来自游戏上报的枚举，非法指令不下发。行为仍由 TLM 的工作/战斗 AI 执行。\n- **回合状态机**：按 `tool_call_id` 把「查状态 → 思考 → 下指令 → 收回执 → 回话」串成跨多次请求的一轮，支持并行查询、多指令、超时与中断。\n- **画面接口**：`POST /v1/vision` 接收游戏侧推来的 PNG，扩展用自带的纯 JS PNG 编解码压到 480p（854×480 框内）并缓存最近一帧；`tlm.chat` 按新鲜度把这一帧作为 blob 附给 Coo。契约见 `docs/vision-protocol.md`。\n- **可选指令开关**：`allowCommands`、`commandTimeoutSeconds`、`visionMaxAgeSeconds` 配置项。\n- 中英环境提示词重写：读状态、说话、下指令的分工；明确「走路和干活是她自己的事」。\n- 测试扩到 11 个端到端用例（状态流、指令流、攻击目标、非法指令、画面压缩、新鲜度、令牌、400）。",
+    "0.1.0": "- 首个版本：`tlm` World，本地 OpenAI 兼容接口（`/v1/chat/completions`、`/v1/models`、`/health`）。\n- 工具 `tlm_say`：把 Coo 的话交回等待中的游戏请求；多次调用按顺序接起来。\n- 事件 `tlm.chat`（external, flush）与 `tlm.self`（只落库）。\n- 兜底：正文增量与 `pet_say` 参数都能捞回来，避免 Coo 忘记调工具时游戏干等。\n- 配置：端口、局域网、访问令牌、模型名、主人称呼、等待上限。\n- 中英两份环境提示词与 World 页文案。"
+  }
+}
