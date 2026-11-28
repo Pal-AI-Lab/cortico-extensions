@@ -1,11 +1,11 @@
 {
   "schema": 1,
   "name": "cortico-world-fish-sing",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "describe": {
     "schema": 1,
     "name": "cortico-world-fish-sing",
-    "version": "0.5.1",
+    "version": "0.6.0",
     "describe": {
       "tools": [
         {
@@ -106,9 +106,25 @@
                 "type": "boolean",
                 "description": "分离后是否额外去混响"
               },
+              "karaoke": {
+                "type": "boolean",
+                "description": "分离后是否额外去原唱伴唱和声（UVR5 Karaoke）"
+              },
               "model": {
                 "type": "string",
                 "description": "临时指定本次演唱使用的音色模型（可先调 fish_sing_status 查看全部可用模型）"
+              },
+              "duetModel": {
+                "type": "string",
+                "description": "双音色真合唱搭档模型（与主模型交替对唱或副歌双声部合唱）"
+              },
+              "duetMode": {
+                "type": "string",
+                "enum": [
+                  "alternate",
+                  "unison"
+                ],
+                "description": "合唱模式（alternate 主歌对唱+副歌真合唱 / unison 全程双声部合唱）"
               },
               "dynamicStyle": {
                 "type": "string",
@@ -125,6 +141,14 @@
               "async": {
                 "type": "boolean",
                 "description": "异步后台准备并自动开唱"
+              },
+              "ignoreRecipe": {
+                "type": "boolean",
+                "description": "是否忽略拿手歌本里的该曲最佳配方"
+              },
+              "lyricQuery": {
+                "type": "string",
+                "description": "可选指定准确歌名与歌手用于精准匹配时间轴歌词"
               }
             },
             "required": [
@@ -199,6 +223,10 @@
               "previewOnly": {
                 "type": "boolean"
               },
+              "autoFix": {
+                "type": "boolean",
+                "description": "一键自动修补声学体检标出的所有破音/越界问题段"
+              },
               "to": {
                 "type": "string"
               }
@@ -208,7 +236,7 @@
         },
         {
           "name": "fish_sing_lyrics",
-          "description": "查看最近一首歌的时间轴歌词表、当前播到第几句以及声学体检报告。",
+          "description": "查看最近一首歌的时间轴歌词表、当前播到第几句以及声学体检报告；支持微调或重置歌词时间轴偏移。",
           "summary": {
             "zh": "歌词与体检",
             "en": "Lyrics timeline and vocal inspection"
@@ -224,6 +252,61 @@
               },
               "limit": {
                 "type": "number"
+              },
+              "refresh": {
+                "type": "boolean"
+              },
+              "query": {
+                "type": "string",
+                "description": "手动指定准确歌名/歌手重新联网匹配歌词"
+              },
+              "offsetSec": {
+                "type": "number",
+                "description": "相对微调歌词偏移秒数（正数延后、负数提前）"
+              },
+              "resetOffset": {
+                "type": "boolean",
+                "description": "重置歌词时间轴偏移为 0"
+              }
+            },
+            "required": []
+          }
+        },
+        {
+          "name": "fish_sing_seek",
+          "description": "从任意一句、副歌或指定秒数直接跳播最近一首唱过的歌。",
+          "summary": {
+            "zh": "跳播指定句或副歌",
+            "en": "Seek playback to a line or chorus"
+          },
+          "tags": [
+            "music"
+          ],
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "line": {
+                "type": "number",
+                "description": "跳到第几句开始播（1 基句号）"
+              },
+              "lyric": {
+                "type": "string",
+                "description": "按歌词关键词跳播"
+              },
+              "section": {
+                "type": "string",
+                "enum": [
+                  "chorus"
+                ],
+                "description": "跳到副歌开头"
+              },
+              "chorusIndex": {
+                "type": "number",
+                "description": "第几段副歌（从 1 开始）"
+              },
+              "sec": {
+                "type": "number",
+                "description": "直接跳到第几秒"
               }
             },
             "required": []
@@ -242,6 +325,67 @@
           "parameters": {
             "type": "object",
             "properties": {},
+            "required": []
+          }
+        },
+        {
+          "name": "fish_sing_queue",
+          "description": "点歌队列与小歌会连唱：一次排多首歌连续唱、边唱边后台预热下一首、切歌、切换循环模式或一键排入拿手歌会。",
+          "summary": {
+            "zh": "点歌队列 / 连唱",
+            "en": "Singing queue and continuous mode"
+          },
+          "tags": [
+            "music"
+          ],
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "action": {
+                "type": "string",
+                "enum": [
+                  "list",
+                  "add",
+                  "next",
+                  "remove",
+                  "clear",
+                  "mode",
+                  "repertoire"
+                ]
+              },
+              "song": {
+                "type": "string"
+              },
+              "songs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "front": {
+                "type": "boolean"
+              },
+              "query": {
+                "type": "string"
+              },
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "sequence",
+                  "loop-one",
+                  "loop-all"
+                ]
+              },
+              "tag": {
+                "type": "string"
+              },
+              "model": {
+                "type": "string"
+              },
+              "pitch": {
+                "type": "string"
+              }
+            },
             "required": []
           }
         },
@@ -276,6 +420,50 @@
               },
               "limit": {
                 "type": "number"
+              }
+            },
+            "required": []
+          }
+        },
+        {
+          "name": "fish_sing_repertoire",
+          "description": "个人拿手歌本与唱法记忆：列出、收藏最佳配方与心得、或按标签挑一首拿手曲开播。",
+          "summary": {
+            "zh": "拿手歌本",
+            "en": "Personal singing repertoire"
+          },
+          "tags": [
+            "music"
+          ],
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "action": {
+                "type": "string",
+                "enum": [
+                  "list",
+                  "save",
+                  "pick",
+                  "remove"
+                ]
+              },
+              "query": {
+                "type": "string"
+              },
+              "tags": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              },
+              "favorite": {
+                "type": "boolean"
+              },
+              "tag": {
+                "type": "string"
+              },
+              "play": {
+                "type": "boolean"
               }
             },
             "required": []
@@ -327,6 +515,7 @@
     }
   },
   "changelog": {
+    "0.6.0": "### 新增\n- **LRC 歌词前奏偏移自动校准 + 任意句/副歌跳播**：\n  - 自动利用分离干声切出的前 3 段真实人声开口位置对齐 LRC 首句（带覆盖率防呆，不被视频片头说话带歪）；支持 `fish_sing_lyrics` 通过 `offsetSec` / `resetOffset` 实时热微调与重置，以及传 `query`（及 `fish_sing.lyricQuery`）手动指定准确歌名重新匹配；\n  - `Player` 支持 `ffplay -ss` 任意秒数起播并同步校准实时进度与提词器，新增 `fish_sing_seek` 工具支持按句号、歌词关键词、副歌或秒数秒跳；试唱面板升级为可点击逐句跳播歌词列表，新增偏移微调条与「指定歌名」重配输入框。\n- **个人曲库记忆与拿手歌本（`fish_sing_repertoire`）**：\n  - 在 `<dataDir>/repertoire.json` 按曲目记录星标拿手曲、情绪标签、唱法心得、定稿作品 ID 与最佳参数配方（含 `model` / 移调 / 音高算法 / 主副歌演绎 / LRC 偏移，不占用常驻提示词）；\n  - 点到歌本里的老歌自动沿用最佳配方（显式传参或 `ignoreRecipe: true` 优先覆盖）；支持「随便唱首拿手的 / 按标签挑歌」0 秒开播定稿录音；作品库新增「⭐ 拿手曲」筛选与一键星标。\n- **点歌队列与后台无缝预热（`fish_sing_queue` · 小歌会连唱模式）**：\n  - 新增点歌队列（支持一次排多首、插队、切歌、移出、清空、`顺序连唱 / 单曲循环 / 列表循环` 以及 `action: \"repertoire\"` 一键排入拿手小歌会）；\n  - 唱第 1 首期间趁 GPU 空闲在后台自动预热第 2 首，唱完瞬间 0 秒无缝切歌并推送报幕事件；试唱面板新增「+ 加入队列」、B 站搜歌「+ 队列」与队列实时状态卡片。\n- **双音色真合唱 & RVC 模型权重一键融合（Fusion）**：\n  - `fish_sing` 新增 `duetModel` 与 `duetMode`：`alternate`（主歌按乐段交替对唱 + 副歌左右立体声双声部真合唱，带 14ms 微延迟与 RMS 响度平衡）与 `unison`（全程双声部合唱），唱完自动恢复默认模型；\n  - 新增 `fuse` 引擎任务与模型面板「🧪 音色融合」工具条：纯 CPU 秒级按比例线性融合两个同规格 `.pth` 模型（严格校验 `sr/f0/version`），并自动零空间硬链接继承主父模型 `.index` 与按比例加权合成 `range.json` 音域统计。\n- **UVR5 去伴唱和声（Karaoke）+ 声学体检一键自动修补**：\n  - 新增可选 `voice.karaoke`（`MelBand RoFormer Karaoke`），剥离原唱垫音/伴唱和声，分离缓存与换声缓存键独立隔离并完全兼容旧缓存；\n  - 新增 `fish_sing_patch({ autoFix: true })` 与试唱面板「🩺 自动修问题句」按钮：自动合并重叠体检风险段，按破音/高音/低音类型自动切 `fcpe` 与调参逐段无缝贴回并开播新版全曲。\n\n### 优化\n- **作品库面板升级**：新增对唱/合唱模型展示（如 `dfy6.pth + dfy4-7.pth [对唱]`）、横向滚动容器 + 右侧 `sticky` 固定操作列、以及分页查询栏（支持 10/20/50/全部 每页切换）。\n- **歌词清洗增强**：自动剥离 B 站标题里的引号长文案与英文副标题，支持多词组合高置信评分，并过滤末尾演职员行（如 `和声编写 : ...`）。",
     "0.5.1": "### 新增\n- **唱中可配置歌词提词推送（`fishsing.lyric`）**：在「播放与发送」新增三项热更新配置：\n  - `play.lyricPushMode`（`smart` 智能仅在进副歌前预告 + 长主歌偶尔兜底，默认推荐 / `interval` 按固定秒数推 / `off` 关）；\n  - `play.lyricPushIntervalSec`（推送间隔秒数，默认 25，smart 模式下设 0 则只推副歌预告）；\n  - `play.lyricLeadSec`（提前预告秒数，默认 3 秒，提前一拍告知下一句与即将进入的副歌区间）。\n  - 提词定时器与播放器生命周期强绑定，自然播完、喊停或切歌时立即销毁，绝不泄漏。\n- **工具层感知全部可用音色模型 + `fish_sing` 临时换模型**：\n  - `fish_sing_status` 现在会直接列出本机所有可用音色模型及音域（不占用常驻环境提示词）；\n  - `fish_sing` 新增可选 `model` 参数，支持临时换其他模型唱整首或单句，唱完自动恢复原默认模型。",
     "0.5.0": "### 重大性能与音质进化\n- **整首换声大幅提速（5~10 分钟 → 约 14 秒）**：定位并关闭导致 8G 显存卡第 2 片雪崩变慢的 `RVC_CUDA_GRAPH` 缓存，恢复常驻引擎连续推理并按片清空缓存；同时新增分离产物缓存（`<dataDir>/cache/sep/`，7 天自动清理），换模型/调参重唱 0 秒复用分离干声与伴奏。\n- **接入 UVR5 内核（`audio-separator` 双档位分离 + 去混响）**：新增快速档（`htdemucs`）与精唱档（BS-RoFormer + 可选 `UVR-DeEcho-DeReverb` 去混响），日常点歌按需切换、训练数据准备支持一键精分净化；未安装 `audio-separator` 时自动平滑回落 `htdemucs`。\n- **8G 显存空闲自动释放（Idle Unload）**：默认空闲 10 分钟自动卸载 GPU 模型归还显存（可配置 `worker.idleUnloadMin`，支持 `POST /unload` 手动释放），训练、数据集与精唱分离前自动腾显存防 OOM，下次点歌约 4~5 秒自动拉回。\n- **F0 孤立八度毛刺抑制 + 可选 `fcpe`**：在 `pipeline.py` 增加轻量孤立飞点纠偏（保留正常颤音与转音），开放 `voice.f0Method`（`rmvpe` / `fcpe`）全链路透传。\n- **混音与副歌和声全面升级**：B 站优先拉取 ≤256kbps 高码率音轨；`mix()` 新增原唱响度自适应对齐、RVC 专属人声润色链（去低噪/压齿音/补暖/伴奏让位/柔和防削波）与干湿分离自然短混响（`voice.reverb: light`）；副歌门控升级为伴奏辅助 + 迟滞双阈值，修复整首叠和声与副歌尾句提前切断问题；双轨厚声升级为 ±12 cents 左右真微失谐宽声场，并新增 `double+third` 组合档位。\n\n### 与桌宠深度配合的新互动流程\n- **声学体检报告 + 副歌时间轴 + 静音边界吸附**：唱后自动分析音域越界/吃力段与 F0 疑似跳变段并生成摘要；单句试唱与局部返工自动吸附换气静音谷底，不再劈在字中间。\n- **多级时间轴歌词表（`fish_sing_lyrics`）**：按「本地 `.lrc` → 网易云公开 LRC → 开源 LRCLIB → B 站公开字幕 → 干声静音切分乐句」多级获取，严格校验歌名相关性与中英文语言防错配，并自动合并主/副歌标签。\n- **局部返工补录（`fish_sing_patch`）**：复用分离缓存与纯净换声干声快照，按句号、歌词关键词、副歌、当前播放句或秒数仅重跑目标区间（2~5 秒），60ms 交叉淡化无缝贴回原位，支持临时换参数或换模型与单句试听预览。\n- **分段换音色 / 自动「主歌柔、副歌亮」**：新增 `voice.dynamicStyle: 'soft-verse-bright-chorus'` 与显式 `segments` 分段换声能力。\n- **异步后台唱播与自然播完回调**：默认开启 `play.asyncSing`，点歌不阻塞聊天，开唱与自然播完自动通过 `pushEvent` 通知桌宠；播放器实时追踪当前秒数与正在唱的句号。\n\n### 控制台面板与开发调试体验\n- **新增正式「试唱 / 点歌」面板**：B 站搜歌、全参数试唱、实时进度、释放显存、歌词体检与局部返工一站式操作。\n- **「安装与运行时」页支持 UVR5 自托管检测与安全一键安装**：新增锁定版本 + `--no-deps` 安装流程，确保分发给其他用户时不覆盖现有 `torch+cu118` 与 `numpy 1.x`。\n- **作品库 / 模型页 / 训练数据页增强**：作品库新增「发 QQ」（同时扩展 `fish_sing_library` 支持 `send`/`to`）与「用当前模型重唱」并显示所用模型；模型页展示 `range.json` 音域统计、按实验筛选与清理中间档；训练数据页新增各素材质检明细与 `f0_analysis_failed` 复查列表、选模三段干声持久化与折叠收纳；统一暗色模式 `<select>` 下拉对比度与单一 CSS 注入。\n- **新增本地脱离桌宠调试宿主（`npm run dev`）**：支持复用桌宠数据或沙箱模式、热重载面板与模拟点歌。\n\n### 修复\n- 修复 `/current` GET/POST 与鉴权不匹配、重启接管训练后收尾参数丢失、HTTP/1.1 Keep-Alive POST 路由未消费请求体导致偶发 501 等问题。\n- 修复「测试通知」按钮未实现、`setup.ts` 缺少 `readd…",
     "0.4.25": "### 数据可信\n- manifest 白名单生成训练集；缓存按样本名检查。\n- 切片逐个 sha256 绑进 `dataset_binding.json`，路径必须在 `slices/` 下，空文件 / 重名 / 缺文件直接报错。\n- 无声切片剔除；F0 分析失败单独标记 `f0_analysis_failed`（需复查，不混进静音）。\n- 修正 FLOAT 音频长度桶估算（`getsize // (3*hop)` → `sf.info().frames // hop`）。\n\n### 训练可靠\n- **从头训练拒绝复用旧实验**；同名实验默认不覆盖，续训必须校验数据集内容指纹与增强参数，并显式控制 G/D 恢复，找不到配对存档就报错、**失败不回退底模**。\n- 子进程无输出时也能取消：停止整个进程树并等待退出。\n- 训练结束后校验最终模型确实生成，否则明确报错（不再\"假成功\"）。\n- 默认与教程统一为 **40～70 轮**基线，修正轮次显示多算一轮的问题。\n\n### 选模与可观测\n- **独立低、中、高音三段干声选模**，关闭检索；试听完成后才自动清理中间档。\n- 音域加权显示桶内抽样估计与每轮采样计划；增强源片及副本权重保持合计不变。",

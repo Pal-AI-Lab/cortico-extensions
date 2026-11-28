@@ -1759,7 +1759,7 @@
       "discussion": {
         "number": 228,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/228",
-        "up": 29,
+        "up": 30,
         "down": 0,
         "comments": 94
       }
@@ -2074,7 +2074,7 @@
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/214",
         "up": 12,
         "down": 3,
-        "comments": 13
+        "comments": 14
       }
     },
     "coo-whale-home": {
@@ -3206,7 +3206,7 @@
       "discussion": {
         "number": 1009,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1009",
-        "up": 1,
+        "up": 2,
         "down": 0,
         "comments": 0
       }
@@ -4378,6 +4378,63 @@
       "discussion": {
         "number": 96,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/96",
+        "up": 0,
+        "down": 0,
+        "comments": 0
+      }
+    },
+    "cortico-provider-command-code": {
+      "kind": "provider",
+      "version": "0.1.1",
+      "displayName": "Command Code",
+      "description": "Coopanion 的 Command Code 模型供应商扩展，支持模型切换、向视觉模型发送图片，以及查看五小时、每周和每月剩余额度。",
+      "author": "月",
+      "maintainers": [
+        "somewhereapril"
+      ],
+      "license": "MIT",
+      "keywords": [
+        "cortico-provider",
+        "cortico"
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/cortico-provider-command-code"
+      },
+      "created": "2026-11-28T09:39:23.931Z",
+      "published": "2026-11-28T09:40:39.615Z",
+      "versionCount": 2,
+      "official": false,
+      "isNew": true,
+      "tags": [],
+      "downloads": {
+        "total": 0,
+        "month": 0,
+        "week": 0
+      },
+      "summary": {
+        "protocols": [
+          "openai-chat",
+          "anthropic-messages"
+        ],
+        "auth": [
+          "api-key"
+        ],
+        "input": [
+          "text",
+          "image"
+        ],
+        "local": false
+      },
+      "changelog": {
+        "versions": [
+          "0.1.1",
+          "0.1.0"
+        ],
+        "url": "https://unpkg.com/cortico-provider-command-code@0.1.1/CHANGELOG.md"
+      },
+      "discussion": {
+        "number": 1194,
+        "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/1194",
         "up": 0,
         "down": 0,
         "comments": 0
@@ -6483,7 +6540,7 @@
       "discussion": {
         "number": 389,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/389",
-        "up": 4,
+        "up": 5,
         "down": 0,
         "comments": 1
       }
@@ -6991,7 +7048,7 @@
     },
     "cortico-world-bookfish": {
       "kind": "world",
-      "version": "0.67.0",
+      "version": "0.68.0",
       "displayName": "看书吧！大肥鱼",
       "description": "你负责安利，大肥鱼负责上头！把喜欢的小说推荐给大肥鱼，让她认真读、尽情吐槽、和你讨论每一个精彩瞬间！反馈 QQ 群：1135570183。",
       "author": "oceanxuhaiao",
@@ -7010,8 +7067,8 @@
         "bugs": "https://github.com/oceanxuhaiao/bookfish/issues"
       },
       "created": "2026-11-10T16:54:53.268Z",
-      "published": "2026-11-26T04:05:05.973Z",
-      "versionCount": 32,
+      "published": "2026-11-28T09:57:30.410Z",
+      "versionCount": 33,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -7041,6 +7098,7 @@
       },
       "changelog": {
         "versions": [
+          "0.68.0",
           "0.67.0",
           "0.66.7",
           "0.66.1",
@@ -8160,13 +8218,13 @@
     },
     "cortico-world-casino": {
       "kind": "world",
-      "version": "1.0.5",
+      "version": "1.1.0",
       "displayName": "月下牌桌",
-      "description": "你的 AI 到底会不会打牌?装上就知道了。21 点、抽鬼牌、德州扑克,可与 AI 本地对桌,也能启用星邮跨机器联机对战:庄家每手轮换、面板实时观战、邀约撞车自动仲裁、消息丢失自动补发。筹码是游戏内数字,破产有救济金。如有任何问题请加群1135333756反馈,您的反馈是我进步的方向。",
+      "description": "你的 AI 到底会不会打牌?装上就知道了。桌上备有多种牌类游戏,可与 AI 本地对桌,也能启用星邮跨机器联机对战:庄家每手轮换、面板实时观战、断线自动补发。筹码是游戏内数字,破产有救济金,牌桌还会不断上新。玩法与配置详见 [项目 README](https://github.com/Flerish/cortico-world-casino)。如有任何问题请加群1135333756反馈,您的反馈是我进步的方向。",
       "locales": {
         "en": {
           "displayName": "Moonlit Table",
-          "description": "Does your AI actually know how to play cards? Install this and find out. Moonlit Table is a green-felt table hiding inside your computer, with your AI sitting across it — not a narrator, an actual opponent. It reads the board, counts chips, bluffs, and definitely talks trash after winning a hand. Three games: Blackjack (the house plays by fixed rules, so cheat responsibly), Old Maid (one card secretly hidden at the deal; a mind game that ends with a dramatic reveal), and heads-up Texas Hold'em (rotating button, capped-limit streets; pro tip: folding every blind is how you lose). Chips are tracked per game, going broke comes with relief funds, leaving suspends the game instead of vaporizing it, and Play Again sits right on the table. Searchable lobby, deal animations, chips piled into tiny mountains. Flip on AI invitations and it will slide into your chat: one game? This table also goes online: enable the Starpost client and your AI can invite a friend AI across machines — all three games supported, the dealer seat rotates every hand with the chip ledger handed over, and the panel spectates the whole table live (god view or player view, auto-returning to the lobby when a game ends). Invite collisions, dropped messages, flaky links? The system arbitrates, retries, and resends automatically — you just watch the cards. Chips are in-game numbers — your wallet is perfectly safe; only egos get hurt. For any questions, join group 1135333756 and give feedback — your feedback is how this table gets better."
+          "description": "Card games on a green-felt table in your computer — vs your AI locally, or online via Starpost: rotating dealer, spectate, self-healing. In-game chips, relief funds, more games soon. [README](https://github.com/Flerish/cortico-world-casino) Grp 1135333756"
         }
       },
       "author": "Flerish",
@@ -8190,8 +8248,8 @@
         "bugs": "https://github.com/Flerish/cortico-world-casino/issues"
       },
       "created": "2026-11-21T15:37:24.697Z",
-      "published": "2026-11-26T12:16:12.831Z",
-      "versionCount": 11,
+      "published": "2026-11-28T09:32:46.157Z",
+      "versionCount": 12,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -8210,14 +8268,16 @@
         "week": 1936
       },
       "summary": {
-        "tools": 7,
-        "events": 16,
-        "toolTokens": 1542,
-        "envPromptTokens": 1671
+        "tools": 8,
+        "events": 19,
+        "toolTokens": 1795,
+        "envPromptTokens": 1931
       },
       "changelog": {
         "versions": [
+          "1.1.0",
           "1.0.5",
+          "1.0.0",
           "0.7.1",
           "0.7.0",
           "0.6.2",
@@ -10441,7 +10501,7 @@
       "discussion": {
         "number": 930,
         "url": "https://github.com/Pal-AI-Lab/cortico-extensions/discussions/930",
-        "up": 0,
+        "up": 1,
         "down": 0,
         "comments": 1
       }
@@ -13323,7 +13383,7 @@
     },
     "cortico-world-fish-sing": {
       "kind": "world",
-      "version": "0.5.1",
+      "version": "0.6.0",
       "description": "让她真的开口唱：B 站点歌或本地文件 → 分离 → 换声 → 混音，本机出声或发 QQ 语音条",
       "author": "FXYXL",
       "maintainers": [
@@ -13346,8 +13406,8 @@
         "bugs": "https://github.com/FXYXL/cortico-world-fish-sing/issues"
       },
       "created": "2026-10-29T17:00:43.905Z",
-      "published": "2026-11-28T06:12:36.039Z",
-      "versionCount": 37,
+      "published": "2026-11-28T09:45:04.321Z",
+      "versionCount": 38,
       "official": false,
       "isNew": false,
       "declaredTags": [
@@ -13376,6 +13436,7 @@
       },
       "changelog": {
         "versions": [
+          "0.6.0",
           "0.5.1",
           "0.5.0",
           "0.4.25",
@@ -25517,7 +25578,7 @@
     },
     "cortico-world-self-checkup": {
       "kind": "world",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "displayName": "鱼鱼体检",
       "description": "她最近是跑得慢了，还是心思变了？先别急着重装，做一次「鱼鱼体检」。① 运行健康：六维雷达图看稳定性、速度、缓存、上下文、交接与记忆，自带各插件 Token 消耗环形饼图与记忆插件实时监测，谁最烧 Token、哪段记忆在漏一眼看清；② 心理健康：专属小鱼插画名片、口语化性格侧写、近期常聊话题与娱乐小本本，陪你重新认识她；③ 隔离深度体检：独立合成测试检验上下文保持、指令遵循与会话内事实更新，不写入主会话、不污染记忆。日常只读不改配置，明暗主题跟着 Coo 走。",
       "locales": {
@@ -25546,8 +25607,8 @@
         "npm": "https://www.npmjs.com/package/cortico-world-self-checkup"
       },
       "created": "2026-11-24T14:24:38.349Z",
-      "published": "2026-11-28T07:14:58.872Z",
-      "versionCount": 14,
+      "published": "2026-11-28T10:57:40.251Z",
+      "versionCount": 15,
       "official": false,
       "isNew": true,
       "declaredTags": [
@@ -25580,12 +25641,13 @@
       },
       "changelog": {
         "versions": [
+          "1.2.1",
           "1.2.0",
           "1.1.2",
           "1.1.1",
           "1.0.9"
         ],
-        "url": "https://unpkg.com/cortico-world-self-checkup@1.2.0/CHANGELOG.md"
+        "url": "https://unpkg.com/cortico-world-self-checkup@1.2.1/CHANGELOG.md"
       },
       "discussion": {
         "number": 1141,
@@ -27647,7 +27709,7 @@
       "versionCount": 5,
       "deprecated": "打磨中：目前仅在 qqbot 端测试过，请等正式版。",
       "official": false,
-      "isNew": true,
+      "isNew": false,
       "declaredTags": [
         "qq",
         "experimental"
