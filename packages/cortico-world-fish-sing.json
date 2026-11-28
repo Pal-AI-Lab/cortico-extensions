@@ -1,11 +1,11 @@
 {
   "schema": 1,
   "name": "cortico-world-fish-sing",
-  "version": "0.4.25",
+  "version": "0.5.0",
   "describe": {
     "schema": 1,
     "name": "cortico-world-fish-sing",
-    "version": "0.4.25",
+    "version": "0.5.0",
     "describe": {
       "tools": [
         {
@@ -39,8 +39,11 @@
                 "description": "带伴奏 / 清唱"
               },
               "pitch": {
-                "type": "number",
-                "description": "移调半音"
+                "type": [
+                  "number",
+                  "string"
+                ],
+                "description": "移调半音，或传 auto 按模型音域自动推荐"
               },
               "indexRate": {
                 "type": "number",
@@ -49,6 +52,10 @@
               "protect": {
                 "type": "number",
                 "description": "气声保护 0~0.5"
+              },
+              "rmsMixRate": {
+                "type": "number",
+                "description": "音量跟随原唱程度 0~1（0=完全跟随，1=不跟随）"
               },
               "start": {
                 "type": "number",
@@ -78,11 +85,143 @@
                   "pubdate"
                 ],
                 "description": "B 站排序"
+              },
+              "f0Method": {
+                "type": "string",
+                "enum": [
+                  "rmvpe",
+                  "fcpe"
+                ],
+                "description": "音高提取算法（rmvpe / fcpe）"
+              },
+              "separator": {
+                "type": "string",
+                "enum": [
+                  "htdemucs",
+                  "roformer"
+                ],
+                "description": "人声分离档位（htdemucs 快速 / roformer UVR5精唱）"
+              },
+              "dereverb": {
+                "type": "boolean",
+                "description": "分离后是否额外去混响"
+              },
+              "dynamicStyle": {
+                "type": "string",
+                "enum": [
+                  "off",
+                  "soft-verse-bright-chorus"
+                ],
+                "description": "主副歌动态演绎（主歌柔、副歌亮）"
+              },
+              "segments": {
+                "type": "array",
+                "description": "显式分段换音色/参数"
+              },
+              "async": {
+                "type": "boolean",
+                "description": "异步后台准备并自动开唱"
               }
             },
             "required": [
               "song"
             ]
+          }
+        },
+        {
+          "name": "fish_sing_patch",
+          "description": "局部返工重唱/补录：只针对某一句、副歌或某几秒换参数或模型重跑，自动吸附静音边界无缝贴回原位。",
+          "summary": {
+            "zh": "局部返工补录",
+            "en": "Patch and re-sing a line or section"
+          },
+          "tags": [
+            "music",
+            "voice"
+          ],
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "lines": {
+                "type": "string",
+                "description": "句号或范围，如 7 或 7-9"
+              },
+              "lyric": {
+                "type": "string",
+                "description": "歌词关键词"
+              },
+              "section": {
+                "type": "string",
+                "enum": [
+                  "chorus"
+                ]
+              },
+              "chorusIndex": {
+                "type": "number"
+              },
+              "atCurrent": {
+                "type": "boolean",
+                "description": "自动取当前正在唱的那一句"
+              },
+              "start": {
+                "type": "number"
+              },
+              "end": {
+                "type": "number"
+              },
+              "pitch": {
+                "type": "number"
+              },
+              "indexRate": {
+                "type": "number"
+              },
+              "protect": {
+                "type": "number"
+              },
+              "rmsMixRate": {
+                "type": "number"
+              },
+              "f0Method": {
+                "type": "string",
+                "enum": [
+                  "rmvpe",
+                  "fcpe"
+                ]
+              },
+              "model": {
+                "type": "string"
+              },
+              "previewOnly": {
+                "type": "boolean"
+              },
+              "to": {
+                "type": "string"
+              }
+            },
+            "required": []
+          }
+        },
+        {
+          "name": "fish_sing_lyrics",
+          "description": "查看最近一首歌的时间轴歌词表、当前播到第几句以及声学体检报告。",
+          "summary": {
+            "zh": "歌词与体检",
+            "en": "Lyrics timeline and vocal inspection"
+          },
+          "tags": [
+            "music"
+          ],
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "fromLine": {
+                "type": "number"
+              },
+              "limit": {
+                "type": "number"
+              }
+            },
+            "required": []
           }
         },
         {
@@ -119,11 +258,16 @@
                 "enum": [
                   "list",
                   "play",
+                  "send",
                   "delete"
                 ]
               },
               "query": {
                 "type": "string"
+              },
+              "to": {
+                "type": "string",
+                "description": "发到 QQ 的目标：group:<群号> 或 private:<QQ号>（配合 send 或 play 使用）"
               },
               "limit": {
                 "type": "number"
@@ -149,7 +293,20 @@
           }
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "type": "fishsing.started",
+          "description": "异步点歌准备完成并开始播放（含声学体检与歌词时间轴提示）"
+        },
+        {
+          "type": "fishsing.ended",
+          "description": "歌曲自然播放结束，可自然接话询问是否再来或返工"
+        },
+        {
+          "type": "fishsing.error",
+          "description": "异步点歌失败或需要挑选候选"
+        }
+      ],
       "prompts": [
         {
           "key": "fish-sing.envPrompt",
@@ -161,6 +318,7 @@
     }
   },
   "changelog": {
+    "0.5.0": "### 重大性能与音质进化\n- **整首换声大幅提速（5~10 分钟 → 约 14 秒）**：定位并关闭导致 8G 显存卡第 2 片雪崩变慢的 `RVC_CUDA_GRAPH` 缓存，恢复常驻引擎连续推理并按片清空缓存；同时新增分离产物缓存（`<dataDir>/cache/sep/`，7 天自动清理），换模型/调参重唱 0 秒复用分离干声与伴奏。\n- **接入 UVR5 内核（`audio-separator` 双档位分离 + 去混响）**：新增快速档（`htdemucs`）与精唱档（BS-RoFormer + 可选 `UVR-DeEcho-DeReverb` 去混响），日常点歌按需切换、训练数据准备支持一键精分净化；未安装 `audio-separator` 时自动平滑回落 `htdemucs`。\n- **8G 显存空闲自动释放（Idle Unload）**：默认空闲 10 分钟自动卸载 GPU 模型归还显存（可配置 `worker.idleUnloadMin`，支持 `POST /unload` 手动释放），训练、数据集与精唱分离前自动腾显存防 OOM，下次点歌约 4~5 秒自动拉回。\n- **F0 孤立八度毛刺抑制 + 可选 `fcpe`**：在 `pipeline.py` 增加轻量孤立飞点纠偏（保留正常颤音与转音），开放 `voice.f0Method`（`rmvpe` / `fcpe`）全链路透传。\n- **混音与副歌和声全面升级**：B 站优先拉取 ≤256kbps 高码率音轨；`mix()` 新增原唱响度自适应对齐、RVC 专属人声润色链（去低噪/压齿音/补暖/伴奏让位/柔和防削波）与干湿分离自然短混响（`voice.reverb: light`）；副歌门控升级为伴奏辅助 + 迟滞双阈值，修复整首叠和声与副歌尾句提前切断问题；双轨厚声升级为 ±12 cents 左右真微失谐宽声场，并新增 `double+third` 组合档位。\n\n### 与桌宠深度配合的新互动流程\n- **声学体检报告 + 副歌时间轴 + 静音边界吸附**：唱后自动分析音域越界/吃力段与 F0 疑似跳变段并生成摘要；单句试唱与局部返工自动吸附换气静音谷底，不再劈在字中间。\n- **多级时间轴歌词表（`fish_sing_lyrics`）**：按「本地 `.lrc` → 网易云公开 LRC → 开源 LRCLIB → B 站公开字幕 → 干声静音切分乐句」多级获取，严格校验歌名相关性与中英文语言防错配，并自动合并主/副歌标签。\n- **局部返工补录（`fish_sing_patch`）**：复用分离缓存与纯净换声干声快照，按句号、歌词关键词、副歌、当前播放句或秒数仅重跑目标区间（2~5 秒），60ms 交叉淡化无缝贴回原位，支持临时换参数或换模型与单句试听预览。\n- **分段换音色 / 自动「主歌柔、副歌亮」**：新增 `voice.dynamicStyle: 'soft-verse-bright-chorus'` 与显式 `segments` 分段换声能力。\n- **异步后台唱播与自然播完回调**：默认开启 `play.asyncSing`，点歌不阻塞聊天，开唱与自然播完自动通过 `pushEvent` 通知桌宠；播放器实时追踪当前秒数与正在唱的句号。\n\n### 控制台面板与开发调试体验\n- **新增正式「试唱 / 点歌」面板**：B 站搜歌、全参数试唱、实时进度、释放显存、歌词体检与局部返工一站式操作。\n- **「安装与运行时」页支持 UVR5 自托管检测与安全一键安装**：新增锁定版本 + `--no-deps` 安装流程，确保分发给其他用户时不覆盖现有 `torch+cu118` 与 `numpy 1.x`。\n- **作品库 / 模型页 / 训练数据页增强**：作品库新增「发 QQ」（同时扩展 `fish_sing_library` 支持 `send`/`to`）与「用当前模型重唱」并显示所用模型；模型页展示 `range.json` 音域统计、按实验筛选与清理中间档；训练数据页新增各素材质检明细与 `f0_analysis_failed` 复查列表、选模三段干声持久化与折叠收纳；统一暗色模式 `<select>` 下拉对比度与单一 CSS 注入。\n- **新增本地脱离桌宠调试宿主（`npm run dev`）**：支持复用桌宠数据或沙箱模式、热重载面板与模拟点歌。\n\n### 修复\n- 修复 `/current` GET/POST 与鉴权不匹配、重启接管训练后收尾参数丢失、HTTP/1.1 Keep-Alive POST 路由未消费请求体导致偶发 501 等问题。\n- 修复「测试通知」按钮未实现、`setup.ts` 缺少 `readd…",
     "0.4.25": "### 数据可信\n- manifest 白名单生成训练集；缓存按样本名检查。\n- 切片逐个 sha256 绑进 `dataset_binding.json`，路径必须在 `slices/` 下，空文件 / 重名 / 缺文件直接报错。\n- 无声切片剔除；F0 分析失败单独标记 `f0_analysis_failed`（需复查，不混进静音）。\n- 修正 FLOAT 音频长度桶估算（`getsize // (3*hop)` → `sf.info().frames // hop`）。\n\n### 训练可靠\n- **从头训练拒绝复用旧实验**；同名实验默认不覆盖，续训必须校验数据集内容指纹与增强参数，并显式控制 G/D 恢复，找不到配对存档就报错、**失败不回退底模**。\n- 子进程无输出时也能取消：停止整个进程树并等待退出。\n- 训练结束后校验最终模型确实生成，否则明确报错（不再\"假成功\"）。\n- 默认与教程统一为 **40～70 轮**基线，修正轮次显示多算一轮的问题。\n\n### 选模与可观测\n- **独立低、中、高音三段干声选模**，关闭检索；试听完成后才自动清理中间档。\n- 音域加权显示桶内抽样估计与每轮采样计划；增强源片及副本权重保持合计不变。",
     "0.4.24": "### 修复\n- **她嘴里那句「还缺 2 个模型权重、现在唱不了」**：环境提示词的装机判断也在数全部权重文件，把可选的出厂模型 dfy2 算成了必需。结果她能唱（用 dfy7）却按提示词说自己唱不了，直接拒绝唱歌。现在只数必需组件（hubert / rmvpe / 两个底模），并且把这段判断抽成 `missingRequiredCount()` 一处实现——面板、环境提示词、自检三处共用，避免再漏。\n\n### 新增\n- **和声堆叠（可配置）**：同一音色再唱 1~2 条叠上去，副歌立刻有\"后面有人在唱\"的厚度——唱片里的主唱都这么干，单轨再干净也薄。\n  - 配置「换声」组新增三项：**和声堆叠**（off / 三度 / 三度+五度）、**和声音量**（默认 0.22）、**和声范围**（只叠副歌 / 整首）\n  - 实现：和声轨用同一模型按 +3 / +7 半音各转一遍，110Hz 高通、三度偏左五度偏右、按主轨响度做门限（默认只出现在唱得响的段落，避免整段叠显电子味）\n  - 代价：每多一条和声，转换时间大约翻倍（默认关闭，不用的人不受影响）",
     "0.4.23": "### 修复\n- **混音被当成干声、跳过分离直接进训练集**：`looks_dry()` 原来拿**整个路径**匹配「人声 / vocal」，用户把素材放在「大肥鱼伴奏+人声-某某」这种目录里时，整包都被判成干声。实测案例：`…\\带伴奏\\whale family｜团子大家族.aac` 其实是完整混音（伴奏/人声 = 1.21），却显示「已是干声，跳过分离」。现在只看**文件名**，并且「伴奏 / instrumental / karaoke」这类词优先判为混音。\n\n### 新增\n- **干声双重校验**：文件名说是干声时，再取中段 8 秒做一次快分离，算「伴奏 / 人声」能量比——大于 0.5 就纠正为混音并说明原因。宁可多花几秒，也不让混音悄悄污染训练集。嫌慢可设环境变量 `FISHSING_SKIP_DRY_CHECK=1` 关掉。",
